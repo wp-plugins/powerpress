@@ -236,7 +236,14 @@ function powerpress_rss2_head()
 	if( $powerpress_itunes_explicit )
 		echo "\t".'<itunes:explicit>' . $powerpress_itunes_explicit . '</itunes:explicit>'.PHP_EOL;
 	if( $Feed['itunes_image'] )
+	{
 		echo "\t".'<itunes:image href="' . $Feed['itunes_image'] . '" />'.PHP_EOL;
+	}
+	else
+	{
+		echo "\t".'<itunes:image href="' . powerpress_get_root_url() . 'itunes_default.jpg" />'.PHP_EOL;
+	}
+	
 	if( $Feed['itunes_talent_name'] && $Feed['email'] )
 	{
 		echo "\t".'<itunes:owner>'.PHP_EOL;
@@ -257,6 +264,14 @@ function powerpress_rss2_head()
 		echo"\t". '<image>' .PHP_EOL;
 		echo "\t\t".'<title>' . htmlentities(get_bloginfo('name'), ENT_NOQUOTES, 'UTF-8') . '</title>'.PHP_EOL;
 		echo "\t\t".'<url>' . $Feed['rss2_image'] . '</url>'.PHP_EOL;
+		echo "\t\t".'<link>'. get_bloginfo('url') . '</link>' . PHP_EOL;
+		echo "\t".'</image>' . PHP_EOL;
+	}
+	else // Use the default image
+	{
+		echo"\t". '<image>' .PHP_EOL;
+		echo "\t\t".'<title>' . htmlentities(get_bloginfo('name'), ENT_NOQUOTES, 'UTF-8') . '</title>'.PHP_EOL;
+		echo "\t\t".'<url>' . powerpress_get_root_url() . 'rss_default.jpg</url>'.PHP_EOL;
 		echo "\t\t".'<link>'. get_bloginfo('url') . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}
@@ -437,7 +452,7 @@ add_action('rss2_item', 'powerpress_rss2_item');
 
 function powerpress_filter_rss_enclosure($content)
 {
-	// Add the redirect url here...
+	// Add the redirect url if there is one...
 	$RedirectURL = powerpress_get_redirect_url();
 	if( $RedirectURL )
 		$content = str_replace('http://', $RedirectURL, $content);
@@ -446,6 +461,19 @@ function powerpress_filter_rss_enclosure($content)
 
 add_filter('rss_enclosure', 'powerpress_filter_rss_enclosure');
 
+function powerpress_do_podcast_feed()
+{
+	global $wp_query;
+	$wp_query->get_posts();
+	load_template(ABSPATH . 'wp-rss2.php');
+}
+
+function powerpress_init()
+{
+	add_feed('podcast', 'powerpress_do_podcast_feed');
+}
+
+add_action('init', 'powerpress_init');
 
 /*
 Helper functions:

@@ -490,6 +490,9 @@ function powerpress_admin_page()
 		if( $PodpressData )
 		{
 			$FeedSettings['itunes_image'] = $PodpressData['iTunes']['image'];
+			if( strstr($FeedSettings['itunes_image'], 'powered_by_podpress') )
+				$FeedSettings['itunes_image'] = ''; // We're not using podpress anymore
+			
 			$FeedSettings['itunes_summary'] = $PodpressData['iTunes']['summary'];
 			$FeedSettings['itunes_talent_name'] = $PodpressData['iTunes']['author'];
 			$FeedSettings['itunes_subtitle'] = $PodpressData['iTunes']['subtitle'];
@@ -517,7 +520,8 @@ function powerpress_admin_page()
 		$RSSImage = get_option('rss_image');
 		if( $RSSImage )
 			$FeedSettings['rss2_image'] = $RSSImage;
-			
+		if( strstr($FeedSettings['rss2_image'], 'powered_by_podpress') )
+			$FeedSettings['rss2_image'] = ''; // We're not using podpress anymore
 		$AdminEmail = get_option('admin_email');
 		if( $AdminEmail )
 			$FeedSettings['email'] = $AdminEmail;
