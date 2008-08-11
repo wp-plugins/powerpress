@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.1.1
+Version: 0.2.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-08-05 - v0.2.0: First beta release of Blubrry Powerpress plugin.
 	2008-08-05 - v0.1.2: Fixed minor bugs, trimming empty hour values in duration.
 	2008-08-04 - v0.1.1: Fixed minor bugs, PHP_EOL define, check if function exists for older versions of wordpress and more.
 	2008-08-04 - v0.1.0: Tentative initial release of Blubrry Powerpress plugin.
@@ -212,10 +213,12 @@ function powerpress_rss2_head()
 	
 	// We made it this far, lets write stuff to the feed!
 	$powerpress_feed = true; // Okay, lets continue...
-	
-	while( list($key,$value) = each($Feed) )
-		$Feed[$key] = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
-	reset($Feed);
+	if( $Feed )
+	{
+		while( list($key,$value) = each($Feed) )
+			$Feed[$key] = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
+		reset($Feed);
+	}
 	
 	echo '<!-- podcast_generator="Blubrry Powerpress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
 	
@@ -474,6 +477,23 @@ function powerpress_init()
 }
 
 add_action('init', 'powerpress_init');
+
+
+function powerpress_posts_join($join) {
+    if ( is_feed() && get_query_var('feed') == 'podcast' ) {
+			global $wpdb;
+				// Future feature: only display posts that have enclosures...
+        // $query->set('cat','-20,-21,-22');
+				//$join .= " LEFT JOIN {$wpdb->postmeta} ";
+				//$join .= " ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'enclosure' ";
+				// $wpdb->postmeta
+    }
+    return $join;
+}
+
+add_filter('posts_join', 'powerpress_posts_join' );
+
+//add_filter('pre_get_posts','my_cat_exclude');
 
 /*
 Helper functions:
