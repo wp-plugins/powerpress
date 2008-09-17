@@ -136,7 +136,7 @@ function powerpress_edit_post($post_ID) {
 		if( strpos($MediaURL, 'http://') !== 0 ) // If the url entered does not start with a http://
 		{
 			$Settings = get_option('powerpress_general');
-			$MediaURL = @$Settings['default_url'] . $MediaURL;
+			$MediaURL = rtrim(@$Settings['default_url'], '/') .'/'. $MediaURL;
 		}
 		
 		$FileSize = '';
@@ -438,7 +438,7 @@ function powerpress_admin_page()
 				$General['default_url'] .= '/'; // Add the trailing slash, donno it's not there...
 			
 			// Insert the blubrry redirect
-			if( isset($PodpressData['statBluBrryProgramKeyword']) )
+			if( isset($PodpressData['statBluBrryProgramKeyword']) && strlen($PodpressData['statBluBrryProgramKeyword']) > 2 )
 			{
 				$General['redirect1'] = 'http://media.blubrry.com/'.$PodpressData['statBluBrryProgramKeyword'].'/';
 			}
@@ -673,7 +673,11 @@ while( list($value,$desc) = each($linkoptions) )
 </td>
 </tr>
 </table>
-
+<p>
+	Looking for a better Audio Player? Check out the <a href="http://wpaudioplayer.com" target="_blank" title="WP Audio Player 2.0">WP Audio Player 2.0</a>. 
+	The WP Audio Player 2.0 options include
+	theme colors, initial volume, player width and more.
+</p>
 <br />
 <h2><?php _e("Media Statistics"); ?></h2>
 <p style="margin-bottom: 0;">Configure 3rd party statistics services to measure your media. (optional)</p>

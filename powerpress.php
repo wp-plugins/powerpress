@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.2.0
+Version: 0.2.1
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-09-17 - v0.2.1: Fixed itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
 	2008-08-05 - v0.2.0: First beta release of Blubrry Powerpress plugin.
 	2008-08-05 - v0.1.2: Fixed minor bugs, trimming empty hour values in duration.
 	2008-08-04 - v0.1.1: Fixed minor bugs, PHP_EOL define, check if function exists for older versions of wordpress and more.
@@ -31,7 +32,9 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.1.1' );
+define('POWERPRESS_VERSION', '0.2.1' );
+//define('POWERPRESS_ITEM_SUMMARY', true); // Uncomment to include itunes:summary within feed items.
+// Please place define above in your wp-config.php.
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_PLUGIN_PATH') )
@@ -66,7 +69,7 @@ function powerpress_content($content)
 			if( !$EnclosureURL )
 				return $content;
 			if( strpos($EnclosureURL, 'http://' ) !== 0 )
-				$EnclosureURL = $Powerpress['default_url'] . $EnclosureURL;
+				$EnclosureURL = rtrim($Powerpress['default_url'], '/') .'/'. $EnclosureURL;
 		}
 	}
 	else
@@ -189,7 +192,7 @@ function powerpress_rss2_head()
 		return; // This is definitely not our kind of feed
 	
 	$GeneralSettings = get_option('powerpress_general');
-	$powerpress_default_url = $GeneralSettings['default_url'];
+	$powerpress_default_url = rtrim($GeneralSettings['default_url'], '/') .'/';
 	$powerpress_process_podpress = $GeneralSettings['process_podpress'];
 	
 	$Feed = get_option('powerpress_feed');
@@ -436,9 +439,18 @@ function powerpress_rss2_item()
 		echo "\t\t<itunes:keywords>" . implode(",", $tags) . '</itunes:keywords>'.PHP_EOL;
 	}
 	
-	$content_no_html = strip_tags($post->post_content);
+	// Strip and format the wordpress way, but don't apply any other filters for these itunes tags
+	$content_no_html = strip_shortcodes( $post->post_content ); 
+	$content_no_html = str_replace(']]>', ']]&gt;', $content_no_html);
+	$content_no_html = strip_tags($content_no_html);
 	
-	echo "\t\t<itunes:subtitle>". powerpress_smart_trim($content_no_html, 250, true) .'</itunes:subtitle>'.PHP_EOL;
+	$excerpt_no_html = strip_tags($post->post_excerpt);
+	
+	if( $excerpt_no_html )
+		echo "\t\t<itunes:subtitle>". powerpress_smart_trim($excerpt_no_html, 250, true) .'</itunes:subtitle>'.PHP_EOL;
+	else	
+		echo "\t\t<itunes:subtitle>". powerpress_smart_trim($content_no_html, 250, true) .'</itunes:subtitle>'.PHP_EOL;
+		
 	if( defined('POWERPRESS_ITEM_SUMMARY') )
 		echo "\t\t<itunes:summary>". powerpress_smart_trim($content_no_html, 4000) .'</itunes:summary>'.PHP_EOL;
 	if( $powerpress_itunes_talent_name )
@@ -611,10 +623,11 @@ function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = fa
 {
 	if( strlen($value) > $char_limit )
 	{
-		$new_value = substr($new_value, 0, $char_limit);
+		$new_value = substr($value, 0, $char_limit);
 		// Look back at most 50 characters...
 		$eos = strrpos($new_value, '.');
 		$eol = strrpos($new_value, "\n");
+
 		// If the end of line is longer than the end of sentence and we're not loosing too much of our string...
 		if( $eol > $eos && $eol > (strlen($new_value)-50) )
 			$return = substr($new_value, 0, $eol);
@@ -622,7 +635,8 @@ function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = fa
 		else if( $eos > $eol && $eos > (strlen($new_value)-50) )
 			$return = substr($new_value, 0, $eos);
 		else // Otherwise, just add some dots to the end
-			$return = substr($new_value, 0, -3).'...';
+			$return = substr($new_value, 0, $char_limit).'...';
+		//	$return = $new_value;
 	}
 	else
 	{
