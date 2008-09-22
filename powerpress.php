@@ -440,7 +440,9 @@ function powerpress_rss2_item()
 	}
 	
 	// Strip and format the wordpress way, but don't apply any other filters for these itunes tags
-	$content_no_html = strip_shortcodes( $post->post_content ); 
+	$content_no_html = $post->post_content;
+	if( function_exists('strip_shortcodes') )
+		$content_no_html = strip_shortcodes( $content_no_html ); 
 	$content_no_html = str_replace(']]>', ']]&gt;', $content_no_html);
 	$content_no_html = strip_tags($content_no_html);
 	
