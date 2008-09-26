@@ -749,6 +749,16 @@ while( list($value,$desc) = each($applyoptions) )
 <tr valign="top">
 <th scope="row">
 
+<?php _e("Important Feeds"); ?></th> 
+<td>
+<p>Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+<p>Special Podcast only Feed: <a href="<?php echo get_feed_link('podcast'); ?>" title="Podcast Feed" target="_blank"><?php echo get_feed_link('podcast'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link('podcast')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+
 <?php _e("iTunes Summary"); ?></th>
 <td>
 <p>Your summary may not contain HTML and cannot exceed 4,000 characters in length.</p>

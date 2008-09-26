@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.2.1
+Version: 0.3.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-09-24 - v0.3.0: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
 	2008-09-17 - v0.2.1: Fixed itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
 	2008-08-05 - v0.2.0: First beta release of Blubrry Powerpress plugin.
 	2008-08-05 - v0.1.2: Fixed minor bugs, trimming empty hour values in duration.
@@ -32,7 +33,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.2.1' );
+define('POWERPRESS_VERSION', '0.3' );
 //define('POWERPRESS_ITEM_SUMMARY', true); // Uncomment to include itunes:summary within feed items.
 // Please place define above in your wp-config.php.
 
@@ -94,9 +95,9 @@ function powerpress_content($content)
 	if( $Powerpress['display_player'] == 0 )
 		return $content;
 		
-	// Create the redirect URL
-	$EnclosureURL = 'http://' .str_replace('http://', '', $Powerpress['redirect1'] . $Powerpress['redirect2'] . $Powerpress['redirect3'] . $EnclosureURL );
-
+	// Add redirects to Media URL
+	$EnclosureURL = powerpress_add_redirect_url($EnclosureURL, $Powerpress);
+	
 	// Build links for player
 	$player_links = '';
 	switch( $Powerpress['player_function'] )
@@ -469,10 +470,19 @@ add_action('rss2_item', 'powerpress_rss2_item');
 
 function powerpress_filter_rss_enclosure($content)
 {
-	// Add the redirect url if there is one...
-	$RedirectURL = powerpress_get_redirect_url();
-	if( $RedirectURL )
-		$content = str_replace('http://', $RedirectURL, $content);
+	$match_count = preg_match('/\surl="([^"]*)"/', $content, $matches);
+	if( count($matches) != 2)
+		return $content;
+		
+	// Original Media URL
+	$OrigURL = $matches[1];
+	
+	// Modified Media URL
+	$ModifiedURL = powerpress_add_redirect_url($OrigURL);
+	
+	// Replace the original url with the modified one...
+	if( $OrigURL != $ModifiedURL )
+		return str_replace($OrigURL, $ModifiedURL, $content);
 	return $content;
 }
 
@@ -493,21 +503,30 @@ function powerpress_init()
 add_action('init', 'powerpress_init');
 
 
-function powerpress_posts_join($join) {
-    if ( is_feed() && get_query_var('feed') == 'podcast' ) {
-			global $wpdb;
-				// Future feature: only display posts that have enclosures...
-        // $query->set('cat','-20,-21,-22');
-				//$join .= " LEFT JOIN {$wpdb->postmeta} ";
-				//$join .= " ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'enclosure' ";
-				// $wpdb->postmeta
-    }
-    return $join;
+function powerpress_posts_join($join)
+{
+	if( is_feed() && get_query_var('feed') == 'podcast' )
+	{
+		global $wpdb;
+		$join .= " INNER JOIN {$wpdb->postmeta} ";
+		$join .= " ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id ";
+	}
+  return $join;
 }
 
 add_filter('posts_join', 'powerpress_posts_join' );
 
-//add_filter('pre_get_posts','my_cat_exclude');
+function powerpress_posts_where($where)
+{
+	if( is_feed() && get_query_var('feed') == 'podcast' )
+	{
+		global $wpdb;
+		$where .= " AND {$wpdb->postmeta}.meta_key = 'enclosure' ";
+	}
+	return $where;
+}
+
+add_filter('posts_where', 'powerpress_posts_where' );
 
 /*
 Helper functions:
@@ -650,15 +669,29 @@ function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = fa
 	return $return;
 }
 
-function powerpress_get_redirect_url()
+function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 {
-	global $powerpress_redirect_url;
-	if( !isset($powerpress_redirect_url) )
+	$NewURL = $MediaURL;
+	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
 	{
-		$Powerpress = get_option('powerpress_general');
-		$powerpress_redirect_url = 'http://' .str_replace('http://', '', $Powerpress['redirect1'] . $Powerpress['redirect2'] . $Powerpress['redirect3'] );
+		global $powerpress_general_settings;
+		if( !$powerpress_general_settings )
+			$powerpress_general_settings = get_option('powerpress_general');
+		$GeneralSettings = $powerpress_general_settings;
 	}
-	return $powerpress_redirect_url;
+	
+	for( $x = 3; $x > 0; $x-- )
+	{
+		$key = sprintf('redirect%d', $x);
+		if( $GeneralSettings[ $key ] )
+		{
+			$RedirectClean = str_replace('http://', '', $GeneralSettings[ $key ]);
+			if( !strstr($NewURL, $RedirectClean) )
+				$NewURL = 'http://'. $RedirectClean . str_replace('http://', '', $NewURL);
+		}
+	}
+
+	return $NewURL;
 }
 /*
 End Helper Functions
