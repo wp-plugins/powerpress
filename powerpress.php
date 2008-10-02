@@ -7,6 +7,7 @@ Version: 0.3.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-10-02 - v0.3.1: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
 	2008-09-24 - v0.3.0: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
 	2008-09-17 - v0.2.1: Fixed itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
 	2008-08-05 - v0.2.0: First beta release of Blubrry Powerpress plugin.
@@ -33,9 +34,20 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.3' );
-//define('POWERPRESS_ITEM_SUMMARY', true); // Uncomment to include itunes:summary within feed items.
+define('POWERPRESS_VERSION', '0.3.1' );
+
+// Include the <itunes:summary> tag in each rss <item> tag.
+//define('POWERPRESS_ITEM_SUMMARY', true); // Note, this is not necessary, itunes will use the description value if not present
 // Please place define above in your wp-config.php.
+
+// include <itunes:new-feed-url> tag in Main RSS feed:
+//define('POWERPRESS_NEW_FEED_URL', 'http://www.your-site.com/path/to/feed/');
+
+// include <itunes:new-feed-url> tag in Podcast specific RSS feed:
+//define('POWERPRESS_NEW_FEED_URL_PODCAST', 'http://www.your-site.com/path/to/podcast/feed/');
+
+// Display Powerpress player only for previously created Podpress episodes.
+// define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_PLUGIN_PATH') )
@@ -90,6 +102,12 @@ function powerpress_content($content)
 		$Powerpress['player_function'] = 1;
 	if( !isset($Powerpress['podcast_link']) )
 		$Powerpress['podcast_link'] = 1;
+		
+	if( defined('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES') )
+	{
+		if( !isset($podPressMedia) )
+			return $content;
+	}
 		
 	// The blog owner doesn't want anything displayed, so don't bother wasting anymore CPU cycles
 	if( $Powerpress['display_player'] == 0 )
@@ -226,9 +244,12 @@ function powerpress_rss2_head()
 	
 	echo '<!-- podcast_generator="Blubrry Powerpress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
 	
-	if( defined('POWERPRESS_NEW_FEED_URL') )
-		echo "\t<itunes:new-feed-url>".POWERPRESS_NEW_FEED_URL.'</itunes:new-feed-url>'.PHP_EOL;
-	
+	// add the itunes:new-feed-url tag to feed
+	if( defined('POWERPRESS_NEW_FEED_URL') && ($feed == 'feed' || $feed == 'rss2') )
+		echo "\t<itunes:new-feed-url>". constant('POWERPRESS_NEW_FEED_URL') .'</itunes:new-feed-url>'.PHP_EOL;
+	else if( defined('POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) )
+		echo "\t<itunes:new-feed-url>". constant( 'POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) .'</itunes:new-feed-url>'.PHP_EOL;
+		
 	if( $Feed['itunes_summary'] )
 		echo "\t".'<itunes:summary>'. htmlentities( $Feed['itunes_summary'], ENT_NOQUOTES, 'UTF-8') .'</itunes:summary>'.PHP_EOL;
 	else
@@ -261,9 +282,9 @@ function powerpress_rss2_head()
 	if( $Feed['copyright'] )
 		echo "\t".'<copyright>'. str_replace( array('&copy;', '(c)', '(C)'), '&#xA9;', htmlentities($Feed['copyright'], ENT_NOQUOTES, 'UTF-8')) . '</copyright>'.PHP_EOL;
 	if( $Feed['itunes_subtitle'] )
-		echo "\t".'<itunes:subtitle>' . htmlentities($Feed['itunes_subtitle'], ENT_NOQUOTES, 'UTF-8') . '</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle']) . '</itunes:subtitle>'.PHP_EOL;
 	if( $Feed['itunes_keywords'] )
-		echo "\t".'<itunes:keywords>' . htmlentities($Feed['itunes_keywords'], ENT_NOQUOTES, 'UTF-8') . '</itunes:keywords>'.PHP_EOL;
+		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords']) . '</itunes:keywords>'.PHP_EOL;
 	if( $Feed['itunes_talent_name'] && $Feed['email'] )
 		echo "\t".'<managingEditor>'. $Feed['email'] .' ('. htmlentities($Feed['itunes_talent_name'], ENT_NOQUOTES, 'UTF-8') .')</managingEditor>'.PHP_EOL;
 	if( $Feed['rss2_image'] )
@@ -437,7 +458,7 @@ function powerpress_rss2_item()
 		for($c = 0; $c < count($tagobject) && $c < 12; $c++) // iTunes only accepts up to 12 keywords
 			$tags[] = htmlentities($tagobject[$c]->name, ENT_NOQUOTES, 'UTF-8');
 		
-		echo "\t\t<itunes:keywords>" . implode(",", $tags) . '</itunes:keywords>'.PHP_EOL;
+		echo "\t\t<itunes:keywords>" . powerpress_format_itunes_value(implode(",", $tags)) . '</itunes:keywords>'.PHP_EOL;
 	}
 	
 	// Strip and format the wordpress way, but don't apply any other filters for these itunes tags
@@ -450,12 +471,12 @@ function powerpress_rss2_item()
 	$excerpt_no_html = strip_tags($post->post_excerpt);
 	
 	if( $excerpt_no_html )
-		echo "\t\t<itunes:subtitle>". powerpress_smart_trim($excerpt_no_html, 250, true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($excerpt_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 	else	
-		echo "\t\t<itunes:subtitle>". powerpress_smart_trim($content_no_html, 250, true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 		
 	if( defined('POWERPRESS_ITEM_SUMMARY') )
-		echo "\t\t<itunes:summary>". powerpress_smart_trim($content_no_html, 4000) .'</itunes:summary>'.PHP_EOL;
+		echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000)) .'</itunes:summary>'.PHP_EOL;
 	if( $powerpress_itunes_talent_name )
 		echo "\t\t<itunes:author>" . $powerpress_itunes_talent_name . '</itunes:author>'.PHP_EOL;
 	
@@ -638,6 +659,18 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 function powerpress_get_root_url()
 {
 	return get_bloginfo('url') . POWERPRESS_PLUGIN_PATH;
+}
+
+function powerpress_format_itunes_value($value)
+{
+	$value = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
+	$value = str_replace('&quot;', '', $value);
+	$value = str_replace('&amp;', '', $value);
+	$value = str_replace('&lt;', '', $value);
+	$value = str_replace('&gt;', '', $value);
+	$value = str_replace('&nbsp;', '', $value);
+	$value = str_replace('&', '', $value); // Last attempt to fix, just remove the &
+	return $result;
 }
 
 function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = false)

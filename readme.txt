@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.6.2
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 
 Add podcasting support to your blog.
 
@@ -58,6 +58,9 @@ Fixed bugs: itunes:subtitle bug, itunes:summary is now enabled by default, add e
 
 0.3.0 released on 09/24/2008
 New features: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
+
+0.3.1 released on 10/02/2008
+Fixed bug and added enhancements: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
 
 == Feedback == 
 http://www.blubrry.com/powerpress/
