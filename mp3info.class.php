@@ -80,7 +80,17 @@
 		Start the download and get the headers, handles the redirect if there are any
 		*/
 		function Download($url, $RedirectCount = 0)
-		{	
+		{
+			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
+			{
+				$this->SetError('Server must either have php.ini allow_url_fopen enabled or PHP CURL library loaded in order to continue.');
+				return false;
+			}
+			
+			if( !ini_get( 'allow_url_fopen' ) )
+				return $this->DownloadAlt($url);
+			
+			// The following code relies on fopen_url capability.
 			if( $RedirectCount > $this->m_RedirectLimit )
 			{
 				$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .'.' );
@@ -188,6 +198,79 @@
 				}
 			}
 			$this->SetError('Unable to connect to host '.$urlParts['host'].'.');
+			return false;
+		}
+		
+		/*
+		Alternative method (curl) for downloading portion of a media file
+		*/
+		function DownloadAlt($url)
+		{
+			$curl = curl_init();
+			// First, get the content-length...
+			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'HEAD'); // HTTP request 
+			curl_setopt($curl, CURLOPT_NOBODY, true );
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+			$Headers = curl_exec($curl);
+			$ContentLength = curl_getinfo($curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			
+			if( $HttpCode != 200 )
+			{
+				switch( $HttpCode )
+				{
+					case 301:
+					case 302:
+					case 307: {
+						$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .'.' );
+					}; break;
+					default: {
+						$this->SetError( 'HTTP error '. $HttpCode .'.' );
+					}; break;
+				}
+				return false;
+			}
+			
+			// Next get the first chunk of the file...
+			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'); // HTTP request 
+			curl_setopt($curl, CURLOPT_NOBODY, false );
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+			curl_setopt($curl, CURLOPT_RANGE, "0-{$this->m_DownloadBytesLimit}");
+			$Content = curl_exec($curl);
+			curl_close($curl);
+			
+			if( $Content )
+			{
+				global $TempFile;
+				if( function_exists('get_temp_dir') ) // If wordpress function is available, lets use it
+					$TempFile = tempnam(get_temp_dir(), 'wp_powerpress');
+				else // otherwise use the default path
+					$TempFile = tempnam('/tmp', 'wp_powerpress');
+				
+				if( $TempFile === false )
+				{
+					$this->SetError('Unable to save media information to temporary directory.');
+					return false;
+				}
+				
+				$fp = fopen( $TempFile, 'w' );
+				fwrite($fp, $Content);
+				fclose($fp);
+				
+				if( $ContentLength )
+					$this->m_ContentLength = $ContentLength;
+				return $TempFile;
+			}
+			
+			$this->SetError('Unable to download media.');
 			return false;
 		}
 		

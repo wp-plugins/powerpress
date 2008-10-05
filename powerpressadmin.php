@@ -962,23 +962,19 @@ while( list($value,$desc) = each($explicit) )
 								'https://www.itunes.com/podcast?id=',
 								'http://www.itunes.com/podcast?id='),
 			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $iTunes_url);
-				
-		$fp = fopen($ping_url, 'rb');
-		if( $fp )
-		{
-			$tempdata = '';
-			while( !feof($fp) )
-				$tempdata .= fread($fp, 8192);
-			fclose($fp);
-			if( stristr($tempdata, 'No Podcast Found') )
-				return array('error'=>true, 'content'=>'No Podcast Found from iTunes ping request');
+		
+		$tempdata = wp_remote_fopen($ping_url);
+		
+		if( $tempdata == false )
+			return array('error'=>true, 'content'=>'Unable to connect to iTunes ping server.');
+		
+		if( stristr($tempdata, 'No Podcast Found') )
+			return array('error'=>true, 'content'=>'No Podcast Found from iTunes ping request');
 			
-			// Parse the data into something readable
-			$results = trim( str_replace('Podcast Ping Received', '', strip_tags($tempdata) ) );
-			list($null, $FeedURL, $null, $null, $null, $PodcastID) = split("\n", $results );
-			
-			return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
-		}
-		return array('error'=>true, 'content'=>'Unable to connect to iTunes ping server.');
+		// Parse the data into something readable
+		$results = trim( str_replace('Podcast Ping Received', '', strip_tags($tempdata) ) );
+		list($null, $FeedURL, $null, $null, $null, $PodcastID) = split("\n", $results );
+		
+		return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
 	}
 ?>

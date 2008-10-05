@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.3.0
+Version: 0.3.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-10-05 - v0.3.2: Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
 	2008-10-02 - v0.3.1: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
 	2008-09-24 - v0.3.0: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
 	2008-09-17 - v0.2.1: Fixed itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
