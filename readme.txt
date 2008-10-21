@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.6.2
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 
 Add podcasting support to your blog.
 
@@ -63,10 +63,10 @@ New features: Added important feeds list in feed settings, logic to prevent stat
 Fixed bug and added enhancements: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
 
 0.3.2 released on 10/05/2008
-Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
+Added alternative logic for those who host their blogs on servers with allow _ url _ fopen turned off.
 
 0.4.0 released on 10/21/2008
-Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime formatted media. Image may be customized by adding a define('POWERPRESS_PLAY_IMAGE', 'URL to image') to wp config file.
+Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime formatted media. Image may be customized by adding a define('POWERPRESS _ PLAY _ IMAGE', 'URL to image') to wp config file.
 
 == Feedback == 
 http://www.blubrry.com/powerpress/
