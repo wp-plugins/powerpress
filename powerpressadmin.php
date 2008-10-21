@@ -646,13 +646,16 @@ while( list($value,$desc) = each($displayoptions) )
 <?php _e("Player Function"); ?></th>
 <td><select name="General[player_function]">
 <?php
-$playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', 0=>'Disable');
+$playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', 4=>'On Page Link', 5=>'On Page Link & New Window', 0=>'Disable');
 
 while( list($value,$desc) = each($playeroptions) )
 	echo "\t<option value=\"$value\"". ($General['player_function']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 ?>
 </select>
+<p style="margin-top: 0;">
+	Note: "On Page Link" is a link to "play on page", the player is not displayed until link is clicked.
+</p>
 </td>
 </tr>
 

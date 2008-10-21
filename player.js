@@ -23,6 +23,7 @@ function jsMediaPlayer(FlashSrc) {
 	this.m_player_wnd = false;
 	this.m_one_player_only = false;
 	this.m_media_url = false;
+	this.m_play_image = false;
 	
 	
 	this.FlashSrc=function(Src) {
@@ -43,6 +44,10 @@ function jsMediaPlayer(FlashSrc) {
 	
 	this.OnePlayerOnly=function(Setting) {
 		this.m_one_player_only = Setting;
+	}
+	
+	this.PlayImage=function(URL) {
+		this.m_play_image = URL;
 	}
 	
 	this.PlayInPage = function() {
@@ -74,6 +79,14 @@ function jsMediaPlayer(FlashSrc) {
 			case 'mp4':
 			case 'qt':
 			case 'mov': {
+				
+				if( this.m_play_image && this.PlayInPage.arguments.length > 2 && this.PlayInPage.arguments[2] )
+				{
+					// Display the player image here...
+					//alert('sweet');
+					document.getElementById( this.m_player_div ).innerHTML = '<a href="#" onclick="'+ this.PlayInPage.arguments[2] +'.PlayInPage(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
+					return false;
+				}
 				
 				var contentType = 'video/mpeg'; // Default content type
 				if( ext == 'm4v' )

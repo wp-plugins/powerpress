@@ -7,6 +7,7 @@ Version: 0.3.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-10-21 - v0.4.0: Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime media.
 	2008-10-05 - v0.3.2: Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
 	2008-10-02 - v0.3.1: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
 	2008-09-24 - v0.3.0: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
@@ -50,11 +51,16 @@ define('POWERPRESS_VERSION', '0.3.1' );
 // Display Powerpress player only for previously created Podpress episodes.
 // define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
 
+// Display custom play image for quicktime media. Applies to on page player only.
+// define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
+
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_PLUGIN_PATH') )
 	define('POWERPRESS_PLUGIN_PATH', '/wp-content/plugins/powerpress/');
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
 	define('POWERPRESS_LINK_SEPARATOR', '|');
+if( !defined('POWERPRESS_PLAY_IMAGE') )
+	define('POWERPRESS_PLAY_IMAGE', 'play_default.jpg');
 if( !defined('PHP_EOL') )
 	define('PHP_EOL', "\n"); // We need this variable defined for new lines.
 
@@ -122,14 +128,19 @@ function powerpress_content($content)
 	switch( $Powerpress['player_function'] )
 	{
 		case 1: { // On page and new window
-			//$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play in page</a>".PHP_EOL;
-			//$player_links .= " ".POWERPRESS_LINK_SEPARATOR." ";
 			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
 		}; break;
 		case 2: { // Play in page only
-			//$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play in page</a>".PHP_EOL;
 		}; break;
 		case 3: { //Play in new window only
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
+		}; break;
+		case 4: { // Play on page link only
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play on page</a>".PHP_EOL;
+		}; break;
+		case 5: { //Play on page link and new window
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play on page</a>".PHP_EOL;
+			$player_links .= ' '. POWERPRESS_LINK_SEPARATOR .' ';
 			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
 		}; break;
 	}//end switch	
@@ -146,8 +157,12 @@ function powerpress_content($content)
 	{
 		$new_content .= '<div class="powerpress_player" id="powerpress_player_'. $post->ID .'"></div>'.PHP_EOL;
 		$new_content .= '<script type="text/javascript">'.PHP_EOL;
-		$new_content .= "bpPlayer.PlayInPage('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
+		$new_content .= "bpPlayer.PlayInPage('$EnclosureURL', 'powerpress_player_{$post->ID}', 'bpPlayer');\n";
 		$new_content .= '</script>'.PHP_EOL;
+	}
+	else if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
+	{
+		$new_content .= '<div class="powerpress_player" id="powerpress_player_'. $post->ID .'"></div>'.PHP_EOL;
 	}
 	if( $player_links )
 		$new_content .= '<p class="powerpress_links">Podcast: ' . $player_links . '</p>'.PHP_EOL;
@@ -170,11 +185,25 @@ add_action('the_content', 'powerpress_content');
 
 function powerpress_header()
 {
+	// Powerpress settings:
+	$Powerpress = get_option('powerpress_general');
+	
 	$PowerpressPluginURL = powerpress_get_root_url();
 ?>
 <script type="text/javascript" src="<?php echo $PowerpressPluginURL; ?>player.js"></script>
 <script type="text/javascript">
 var bpPlayer = new jsMediaPlayer('<?php echo $PowerpressPluginURL; ?>FlowPlayerClassic.swf');
+<?php
+if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
+{
+	echo 'bpPlayer.OnePlayerOnly(true);'.PHP_EOL;
+	echo 'bpPlayer.AutoPlay(true);'.PHP_EOL;
+}
+$player_image_url = POWERPRESS_PLAY_IMAGE;
+if( strstr($player_image_url, 'http://') !== $player_image_url )
+	$player_image_url = powerpress_get_root_url().$player_image_url;
+echo 'bpPlayer.PlayImage(\''.$player_image_url.'\');'.PHP_EOL;
+?>
 </script>
 <style type="text/css">
 .powerpress_player_old {
