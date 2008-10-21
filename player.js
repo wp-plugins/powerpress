@@ -82,8 +82,7 @@ function jsMediaPlayer(FlashSrc) {
 				
 				if( this.m_play_image && this.PlayInPage.arguments.length > 2 && this.PlayInPage.arguments[2] )
 				{
-					// Display the player image here...
-					//alert('sweet');
+					this.m_auto_play = true;
 					document.getElementById( this.m_player_div ).innerHTML = '<a href="#" onclick="'+ this.PlayInPage.arguments[2] +'.PlayInPage(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
 					return false;
 				}
