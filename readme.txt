@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
-Tested up to: 2.6.2
-Stable tag: 0.4.0
+Tested up to: 2.6.3
+Stable tag: 0.4.1
 
 Add podcasting support to your blog.
 
@@ -68,7 +68,7 @@ Added alternative logic for those who host their blogs on servers with allow _ u
 0.4.0 released on 10/21/2008
 Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime formatted media. Image may be customized by adding a define('POWERPRESS _ PLAY _ IMAGE', 'URL to image') to wp config file.
 
-0.4.1 released on 10/21/2008
+0.4.1 released on 10/24/2008
 Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
 
 == Feedback == 
