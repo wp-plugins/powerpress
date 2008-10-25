@@ -7,7 +7,7 @@ Version: 0.4.1
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
-	2008-10-21 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
+	2008-10-24 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
 	2008-10-21 - v0.4.0: Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime media.
 	2008-10-05 - v0.3.2: Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
 	2008-10-02 - v0.3.1: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
