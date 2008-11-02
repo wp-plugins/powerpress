@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.6.3
-Stable tag: 0.4.1
+Stable tag: 0.4.2
 
 Add podcasting support to your blog.
 
@@ -70,6 +70,9 @@ Added two new play options adding 'play on page' links with and without play in 
 
 0.4.1 released on 10/24/2008
 Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
+
+0.4.2 released on 11/02/2008
+Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 
 == Feedback == 
 http://www.blubrry.com/powerpress/

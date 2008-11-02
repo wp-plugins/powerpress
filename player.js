@@ -8,6 +8,7 @@
  * Released under Aoache 2 license:
  * http://www.apache.org/licenses/LICENSE-2.0
  *
+ * version 1.0.3 - 11/02/2008 - Added option for playing quicktime files in an intermediate fashion with an image to click to play.
  * version 1.0.2 - 07/26/2008 - Fixed pop up player bug caused by v 1.0.1
  * version 1.0.1 - 07/28/2008 - fixed flow player looping playback, flash player no longer loops.
  * version 1.0.0 - 07/26/2008 - initial release
@@ -83,7 +84,8 @@ function jsMediaPlayer(FlashSrc) {
 				if( this.m_play_image && this.PlayInPage.arguments.length > 2 && this.PlayInPage.arguments[2] )
 				{
 					this.m_auto_play = true;
-					document.getElementById( this.m_player_div ).innerHTML = '<a href="#" onclick="'+ this.PlayInPage.arguments[2] +'.PlayInPage(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
+					document.getElementById( this.m_player_div ).innerHTML = '<a href="'+ this.m_media_url +'" onclick="return '+ this.PlayInPage.arguments[2] +'.PlayInPage(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
+					this.m_player_div = false; // Let tis player be used again on the page
 					return false;
 				}
 				

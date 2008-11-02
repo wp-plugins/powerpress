@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.4.1
+Version: 0.4.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-10-24 - v0.4.2: Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 	2008-10-24 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
 	2008-10-21 - v0.4.0: Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime media.
 	2008-10-05 - v0.3.2: Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
@@ -37,7 +38,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.3.1' );
+define('POWERPRESS_VERSION', '0.4.2' );
 
 // Include the <itunes:summary> tag in each rss <item> tag.
 //define('POWERPRESS_ITEM_SUMMARY', true); // Note, this is not necessary, itunes will use the description value if not present
@@ -312,9 +313,9 @@ function powerpress_rss2_head()
 	}
 	if( $Feed['copyright'] )
 		echo "\t".'<copyright>'. str_replace( array('&copy;', '(c)', '(C)'), '&#xA9;', htmlentities($Feed['copyright'], ENT_NOQUOTES, 'UTF-8')) . '</copyright>'.PHP_EOL;
-	if( $Feed['itunes_subtitle'] )
+	if( trim($Feed['itunes_subtitle']) )
 		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle']) . '</itunes:subtitle>'.PHP_EOL;
-	if( $Feed['itunes_keywords'] )
+	if( trim($Feed['itunes_keywords']) )
 		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords']) . '</itunes:keywords>'.PHP_EOL;
 	if( $Feed['itunes_talent_name'] && $Feed['email'] )
 		echo "\t".'<managingEditor>'. $Feed['email'] .' ('. htmlentities($Feed['itunes_talent_name'], ENT_NOQUOTES, 'UTF-8') .')</managingEditor>'.PHP_EOL;
@@ -701,7 +702,7 @@ function powerpress_format_itunes_value($value)
 	$value = str_replace('&gt;', '', $value);
 	$value = str_replace('&nbsp;', '', $value);
 	$value = str_replace('&', '', $value); // Last attempt to fix, just remove the &
-	return $result;
+	return $value;
 }
 
 function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = false)
