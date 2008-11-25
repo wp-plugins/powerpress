@@ -1,5 +1,5 @@
 /** 
- * jsMediaPlayer 1.0 for Blubrry Powerpress
+ * jsMediaPlayer 1.1 for Blubrry Powerpress
  * 
  * http://www.blubrry.com/powepress/
  *
@@ -8,16 +8,72 @@
  * Released under Aoache 2 license:
  * http://www.apache.org/licenses/LICENSE-2.0
  *
+ * versoin 1.1.0 - 11/25/20008 - Major re-write, object now stored in this include file, auto play is no longer a member variable and is determined by function call.
  * version 1.0.3 - 11/02/2008 - Added option for playing quicktime files in an intermediate fashion with an image to click to play.
  * version 1.0.2 - 07/26/2008 - Fixed pop up player bug caused by v 1.0.1
  * version 1.0.1 - 07/28/2008 - fixed flow player looping playback, flash player no longer loops.
  * version 1.0.0 - 07/26/2008 - initial release
  */
 
+var g_bpPlayer = false;
+
+/**
+	Initialize function for javascript based player
+	
+	@PluginURL - where plugin files are located
+	@QuicktimeImage - image displayed in place of quicktime media types
+	@OnlyOnePlayer - pass 'true' if only one player should appear in the current page.
+*/
+function powerpress_player_init(PluginURL, QuicktimeImage)
+{
+	if( g_bpPlayer == false )
+		g_bpPlayer = new jsMediaPlayer(PluginURL +'FlowPlayerClassic.swf');
+	g_bpPlayer.PlayImage(QuicktimeImage);
+	if( powerpress_player_init.arguments.length > 2 )
+		g_bpPlayer.OnePlayerOnly(powerpress_player_init.arguments[2]);
+}
+
+/**
+	play media in page function
+	
+	@MediaURL - complete url to media file
+	@PlayerDiv - Destiniation div id for player
+	@AutoPlay - Automatically start playing media file
+*/
+function powerpress_play_page()
+{
+	if( !g_bpPlayer )
+		return true; // Let the link handle itself
+	
+	var media_url = powerpress_play_page.arguments[0];
+	var player_div = powerpress_play_page.arguments[1];
+	var auto_play = false;
+	if( powerpress_play_page.arguments.length > 2 && powerpress_play_page.arguments[2] )
+		auto_play = true;
+	
+	return g_bpPlayer.PlayInPage(media_url, player_div, auto_play);
+}
+
+/**
+	play media in new window function
+	
+	@MediaURL - complete url to media file
+	@AutoPlay - Automatically start playing media file
+*/
+function powerpress_play_window()
+{
+	if( !g_bpPlayer )
+		return true; // Let the link handle itself
+	
+	var media_url = powerpress_play_window.arguments[0];
+	var auto_play = true; // Always auto play new window plays
+	
+	return g_bpPlayer.PlayNewWindow(media_url);
+}
+
 function jsMediaPlayer(FlashSrc) {
 	// Member variables
 	this.m_flash_src = FlashSrc;
-	this.m_auto_play = false;
 	this.m_width = 320;
 	this.m_height = 240;
 	this.m_player_div = false;
@@ -29,10 +85,6 @@ function jsMediaPlayer(FlashSrc) {
 	
 	this.FlashSrc=function(Src) {
 		this.m_flash_src = Src;
-	}
-	
-	this.AutoPlay=function(Setting) {
-		this.m_auto_play = Setting;
 	}
 	
 	this.SetWidth=function(Width) {
@@ -68,6 +120,9 @@ function jsMediaPlayer(FlashSrc) {
 		// Set the proeprties:
 		this.m_media_url = this.PlayInPage.arguments[0];
 		this.m_player_div = this.PlayInPage.arguments[1];
+		var auto_play = false;
+		if( this.PlayInPage.arguments.length > 2 && this.PlayInPage.arguments[2] )
+			auto_play = true;
 		
 		var ext = this._getExt(this.m_media_url);
 		switch( ext )
@@ -81,11 +136,10 @@ function jsMediaPlayer(FlashSrc) {
 			case 'qt':
 			case 'mov': {
 				
-				if( this.m_play_image && this.PlayInPage.arguments.length > 2 && this.PlayInPage.arguments[2] )
+				if( this.m_play_image && auto_play == false )
 				{
-					this.m_auto_play = true;
-					document.getElementById( this.m_player_div ).innerHTML = '<a href="'+ this.m_media_url +'" onclick="return '+ this.PlayInPage.arguments[2] +'.PlayInPage(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
-					this.m_player_div = false; // Let tis player be used again on the page
+					document.getElementById( this.m_player_div ).innerHTML = '<a href="'+ this.m_media_url +'" onclick="return powerpress_play_page(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\',\'true\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
+					this.m_player_div = false; // Let this player be used again on the page
 					return false;
 				}
 				
@@ -99,24 +153,24 @@ function jsMediaPlayer(FlashSrc) {
 				else if( ext == 'qt' || ext == 'mov' )
 					contentType = 'video/quicktime';
 
-				document.getElementById( this.m_player_div ).innerHTML = this._getQuickTime(contentType);
+				document.getElementById( this.m_player_div ).innerHTML = this._getQuickTime(contentType, auto_play);
 			}; break;
 			case 'wma':
 			case 'wmv':
 			case 'asf': {
-				document.getElementById( this.m_player_div ).innerHTML = this._getWinPlayer();
+				document.getElementById( this.m_player_div ).innerHTML = this._getWinPlayer(auto_play);
 			}; break;
 			case 'rm': {
-				document.getElementById( this.m_player_div ).innerHTML = this._getRealPlayer();
+				document.getElementById( this.m_player_div ).innerHTML = this._getRealPlayer(auto_play);
 			}
 			case 'swf': {
-				document.getElementById( this.m_player_div ).innerHTML = this._getFlash();
+				document.getElementById( this.m_player_div ).innerHTML = this._getFlash(auto_play);
 			}
 			case 'flv': {
-				this._doFlowPlayer();
+				this._doFlowPlayer(0, auto_play);
 			}; break;
 			case 'mp3': {
-				this._doFlowPlayer(24);
+				this._doFlowPlayer(24, auto_play);
 				
 			}; break;
 			default: {
@@ -191,18 +245,18 @@ function jsMediaPlayer(FlashSrc) {
 					else if( ext == 'qt' || ext == 'mov' )
 						contentType = 'video/quicktime';
 					
-					Html += this._getQuickTime(contentType);
+					Html += this._getQuickTime(contentType, true);
 				}; break;
 				case 'wma':
 				case 'wmv':
 				case 'asf': {
-					Html += this._getWinPlayer();
+					Html += this._getWinPlayer(true);
 				}; break;
 				case 'rm': {
-					Html += this._getRealPlayer();
+					Html += this._getRealPlayer(true);
 				}; break;
 				case 'swf': {
-					Html += this._getFlash();
+					Html += this._getFlash(true);
 				}; break;
 			}
 		}
@@ -230,13 +284,16 @@ function jsMediaPlayer(FlashSrc) {
 	this._doFlowPlayer = function() {
 		
 		var height = this.m_height;
-		if( this._doFlowPlayer.arguments.length > 0 )
+		var auto_play = false;
+		if( this._doFlowPlayer.arguments.length > 0 && this._doFlowPlayer.arguments[0] > 0 )
 			height = this._doFlowPlayer.arguments[0];
+		if( this._doFlowPlayer.arguments.length > 1 )
+			auto_play = this._doFlowPlayer.arguments[1];
 			
 		flashembed(
 				this.m_player_div,
 				{src: this.m_flash_src, width: this.m_width, height: height },
-				{config: { autoPlay: this.m_auto_play?true:false, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: this.m_media_url, loop: false, autoRewind: true } }
+				{config: { autoPlay: auto_play?true:false, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: this.m_media_url, loop: false, autoRewind: true } }
 			);
 	
 		return false;
@@ -248,7 +305,7 @@ function jsMediaPlayer(FlashSrc) {
 		if( this._getFlowPlayer.arguments.length > 1 )
 			height = this._getFlowPlayer.arguments[1];
 		
-		var auto_play = this.m_auto_play;
+		var auto_play = false;
 		if( this._getFlowPlayer.arguments.length > 2 )
 			auto_play = this._getFlowPlayer.arguments[2];
 			
@@ -256,43 +313,52 @@ function jsMediaPlayer(FlashSrc) {
 		Html += "flashembed(\n";
 		Html += "		'"+ destDiv +"', \n";
 		Html += "		{src: '"+ this.m_flash_src +"', width: "+ this.m_width +", height: "+ height +"}, \n";
-		Html += "		{config: { autoPlay: "+ (auto_play?'true':'false') +", autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '"+ this.m_media_url +"', loop: false, autoRewind: true } } \n";
+		Html += "		{config: { autoPlay: "+ (auto_play?'true':'false') +", duration: 633, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '"+ this.m_media_url +"', loop: false, autoRewind: true } } \n";
 		Html += "	); \n";
 		return Html;
 	}
 	
 	this._getFlash = function() {
-	
+		var auto_play = false;
+		if( this._getFlash.arguments.length > 0 )
+			auto_play = this._getFlash.arguments[0];
+			
 		var Html = '';
-		Html += '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"'+ (this.m_auto_play?'':' play="false"') +' width="'+ this.m_width +'" height="'+ this.m_height +'" menu="true">\n';
+		Html += '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"'+ (auto_play?'':' play="false"') +' width="'+ this.m_width +'" height="'+ this.m_height +'" menu="true">\n';
 		Html += '	<param name="movie" value="'+ this.m_media_url +'" />\n';
 		Html += '	<param name="quality" value="high" />\n';
 		Html += '	<param name="menu" value="true" />\n';
 		Html += '	<param name="scale" value="noorder" />\n';
 		Html += '	<param name="quality" value="high" />\n';
-		Html += '	<embed src="'+ this.m_media_url +'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"'+ (this.m_auto_play?'':' play="false"') +' width="'+ this.m_width +'" height="'+ this.m_height +'" menu="true"></embed>';
+		Html += '	<embed src="'+ this.m_media_url +'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"'+ (auto_play?'':' play="false"') +' width="'+ this.m_width +'" height="'+ this.m_height +'" menu="true"></embed>';
 		Html += '</object>\n';
 		return Html;
 	}
 	
 	this._getRealPlayer = function() {
-		
+		var auto_play = false;
+		if( this._getRealPlayer.arguments.length > 0 )
+			auto_play = this._getRealPlayer.arguments[0];
+			
 		var Html = '';
 		Html += '<object id="realplayer" classid="clsid:cfcdaa03-8be4-11cf-b84b-0020afbbccfa" width="'+ this.m_width +'" height="'+ this.m_height +'">\n';
 		Html += '	<param name="src" value="'+ this.m_media_url +'" />\n';
-		Html += '	<param name="autostart" value="'+ (this.m_auto_play?'true':'false') +'" />\n';
+		Html += '	<param name="autostart" value="'+ (auto_play?'true':'false') +'" />\n';
 		Html += '	<param name="controls" value="imagewindow,controlpanel" />\n';
-		Html += '	<embed src="'+ this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" autostart="'+(this.m_auto_play?'true':'false')+'" controls="imagewindow,controlpanel" type="audio/x-pn-realaudio-plugin"></embed>';
+		Html += '	<embed src="'+ this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" autostart="'+(auto_play?'true':'false')+'" controls="imagewindow,controlpanel" type="audio/x-pn-realaudio-plugin"></embed>';
 		Html += '</object>\n';
 		return Html;
 	}
 	
 	this._getWinPlayer = function() {
-		
+		var auto_play = false;
+		if( this._getWinPlayer.arguments.length > 0 )
+			auto_play = this._getWinPlayer.arguments[0];
+			
 		var Html = '';
 		Html += '<object id="winplayer" classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="'+ this.m_width +'" height="'+ this.m_height +'" standby="Media is loading..." type="application/x-oleobject">\n';
 		Html += '	<param name="url" value="'+ this.m_media_url +'" />\n';
-		Html += '	<param name="AutoStart" value="'+ (this.m_auto_play?'true':'false') +'" />\n';
+		Html += '	<param name="AutoStart" value="'+ (auto_play?'true':'false') +'" />\n';
 		Html += '	<param name="AutoSize" value="true" />\n';
 		Html += '	<param name="AllowChangeDisplaySize" value="true" />\n';
 		Html += '	<param name="standby" value="Media is loading..." />\n';
@@ -302,7 +368,7 @@ function jsMediaPlayer(FlashSrc) {
 		Html += '	<param name="ShowCaptioning" value="false" />\n';
 		Html += '	<param name="ShowDisplay" value="false" />\n';
 		Html += '	<param name="ShowStatusBar" value="false" />\n';
-		Html += '	<embed type="application/x-mplayer2" src="'+ this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" scale="aspect" AutoStart="'+ (this.m_auto_play?'true':'false') +'" ShowDisplay="0" ShowStatusBar="0" AutoSize="1" AnimationAtStart="1" AllowChangeDisplaySize="1" ShowControls="1"></embed>\n';
+		Html += '	<embed type="application/x-mplayer2" src="'+ this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" scale="aspect" AutoStart="'+ (auto_play?'true':'false') +'" ShowDisplay="0" ShowStatusBar="0" AutoSize="1" AnimationAtStart="1" AllowChangeDisplaySize="1" ShowControls="1"></embed>\n';
 		Html += '</object>\n';
 		return Html;
 	}
@@ -310,19 +376,22 @@ function jsMediaPlayer(FlashSrc) {
 	this._getQuickTime = function() {
 		
 		var contentType = 'video/mpeg';
+		var auto_play = false;
 		if( this._getQuickTime.arguments.length > 0 )
 			contentType = this._getQuickTime.arguments[0];
-				
+		if( this._getQuickTime.arguments.length > 1 )
+			auto_play = this._getQuickTime.arguments[1];
+			
 		var Html = '';
 		Html += '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="'+ this.m_width +'" height="'+ this.m_height +'" codebase="http://www.apple.com/qtactivex/qtplugin.cab">\n';
 		Html += '	<param name="src" value="'+ this.m_media_url +'" />\n';
 		Html += '	<param name="href" value="'+ this.m_media_url +'" />\n';
 		Html += '	<param name="scale" value="aspect" />\n';
 		Html += '	<param name="controller" value="true" />\n';
-		Html += '	<param name="autoplay" value="'+ (this.m_auto_play?'true':'false') +'" />\n';
+		Html += '	<param name="autoplay" value="'+ (auto_play?'true':'false') +'" />\n';
 		Html += '	<param name="bgcolor" value="000000" />\n';
 		Html += '	<param name="pluginspage" value="http://www.apple.com/quicktime/download/" />\n';
-		Html += '	<embed src="'+ this.m_media_url +'" type="'+ contentType +'" width="'+ this.m_width +'" height="'+ this.m_height +'" scale="aspect" cache="true" bgcolor="000000" autoplay="'+ (this.m_auto_play?'true':'false') +'" controller="true" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+		Html += '	<embed src="'+ this.m_media_url +'" type="'+ contentType +'" width="'+ this.m_width +'" height="'+ this.m_height +'" scale="aspect" cache="true" bgcolor="000000" autoplay="'+ (auto_play?'true':'false') +'" controller="true" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
 		Html += '</object>\n';
 		return Html;
 	}

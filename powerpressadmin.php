@@ -286,8 +286,8 @@ function powerpress_admin_head()
 		echo ' text-align: center;'.PHP_EOL;
 		echo ' border-width: 1px;'.PHP_EOL;
 		echo ' border-style: solid;'.PHP_EOL;
-		echo ' border-color: #c69;'.PHP_EOL;
-		echo ' background-color: #ffeff7;'.PHP_EOL;
+		//echo ' border-color: #c69;'.PHP_EOL;
+		//echo ' background-color: #ffeff7;'.PHP_EOL;
 		echo ' font-weight: bold;'.PHP_EOL;
 		echo '}'.PHP_EOL;
 		echo '</style>'.PHP_EOL;
@@ -302,7 +302,7 @@ function powerpress_admin_page()
 	
 	$VersionDiff = version_compare($wp_version, 2.5);
 	if( $VersionDiff < 0 )
-		echo '<div class="powerpress-error">Blubrry Powerpress requires Wordpress version 2.5 or greater.</div>';
+		echo '<div class="error powerpress-error">Blubrry Powerpress requires Wordpress version 2.5 or greater.</div>';
 	
 	
 	$UploadArray = wp_upload_dir();
@@ -347,7 +347,7 @@ function powerpress_admin_page()
 			}
 			else
 			{
-				echo '<div class="powerpress-error">Invalid iTunes image:  ' . htmlspecialchars($_FILES['itunes_image_file']['name'])  . '</div>';
+				echo '<div class="error powerpress-error">Invalid iTunes image:  ' . htmlspecialchars($_FILES['itunes_image_file']['name'])  . '</div>';
 			}
 		}
 		
@@ -373,7 +373,7 @@ function powerpress_admin_page()
 			}
 			else
 			{
-				echo '<div class="powerpress-error">Invalid RSS image: ' . htmlspecialchars($_FILES['rss2_image_file']['name'])  . '</div>';
+				echo '<div class="error powerpress-error">Invalid RSS image: ' . htmlspecialchars($_FILES['rss2_image_file']['name'])  . '</div>';
 			}
 		}
 		
@@ -405,7 +405,7 @@ function powerpress_admin_page()
 			}
 			else
 			{
-				echo '<div class="powerpress-error">' . htmlspecialchars($PingResults['content'])  . '</div>';
+				echo '<div class="error powerpress-error">' . htmlspecialchars($PingResults['content'])  . '</div>';
 			}
 		}
 
@@ -611,12 +611,23 @@ while( list($value,$desc) = each($options) )
 ?>
 </select>  (Notify iTunes when you publish a new episode.)
 <p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> Test iTunes Ping (recommended)</p>
+<?php if( $General['itunes_url'] ) {
+
+		$ping_url = str_replace(
+			array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'https://www.itunes.com/podcast?id=',
+								'http://www.itunes.com/podcast?id='),
+			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $General['itunes_url']);
+?>
+<p>You may also ping iTunes by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Ping iTunes in New Window">Ping iTunes in New Window</a></p>
+<?php } ?>
 </td>
 </tr>
 
 </table>
 <?php if( $OpenSSLSupport == false ) { ?>
-<div class="powerpress-error">Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module.</div>
+<div class="error powerpress-error">Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module.</div>
 <?php } ?>
 <br />
 
@@ -666,7 +677,7 @@ while( list($value,$desc) = each($playeroptions) )
 <td>
 <select name="General[podcast_link]">
 <?php
-$linkoptions = array(1=>"Display", 0=>"Disable");
+$linkoptions = array(1=>"Display", 2=>"Display with file size", 3=>"Display with file size and duration", 0=>"Disable");
 
 while( list($value,$desc) = each($linkoptions) )
 	echo "\t<option value=\"$value\"". ($General['podcast_link']==$value?' selected':''). ">$desc</option>\n";

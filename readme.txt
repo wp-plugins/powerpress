@@ -74,5 +74,8 @@ Fixed auto-play bug found in last update, only affected quicktime files with the
 0.4.2 released on 11/02/2008
 Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 
+0.5.0 released on 11/25/2008
+Removed optional define 'POWERPRESS_PLUGIN_PATH', define no longer necessary. Added itunes:author and itunes:subtitle to header portion of podcast feeds. No longer removing quotes or extra spaces from itunes summary. Player auto-play bug fixed when quicktime files mixed with mp3s. Added new option to ping iTunes in a new browser window.
+
 == Feedback == 
 http://www.blubrry.com/powerpress/

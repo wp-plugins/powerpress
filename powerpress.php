@@ -41,8 +41,10 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 define('POWERPRESS_VERSION', '0.4.2' );
 
 // Include the <itunes:summary> tag in each rss <item> tag.
-//define('POWERPRESS_ITEM_SUMMARY', true); // Note, this is not necessary, itunes will use the description value if not present
+//define('POWERPRESS_ITEM_SUMMARY', false); // Note, since this itunes field is not necessary, you can add this define set to 'false' if you like.
 // Please place define above in your wp-config.php.
+if( !defined('POWERPRESS_ITEM_SUMMARY') )
+	define('POWERPRESS_ITEM_SUMMARY', true); // By default,we will include the itunes:summary tag
 
 // include <itunes:new-feed-url> tag in Main RSS feed:
 //define('POWERPRESS_NEW_FEED_URL', 'http://www.your-site.com/path/to/feed/');
@@ -57,12 +59,10 @@ define('POWERPRESS_VERSION', '0.4.2' );
 // define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
-if( !defined('POWERPRESS_PLUGIN_PATH') )
-	define('POWERPRESS_PLUGIN_PATH', '/wp-content/plugins/powerpress/');
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
 	define('POWERPRESS_LINK_SEPARATOR', '|');
 if( !defined('POWERPRESS_PLAY_IMAGE') )
-	define('POWERPRESS_PLAY_IMAGE', 'play_default.jpg');
+	define('POWERPRESS_PLAY_IMAGE', 'play_video_default.jpg');
 if( !defined('PHP_EOL') )
 	define('PHP_EOL', "\n"); // We need this variable defined for new lines.
 
@@ -87,7 +87,11 @@ function powerpress_content($content)
 			//$Settings = get_option('powerpress_general');
 			$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
 			if( $podPressMedia )
+			{
 				$EnclosureURL = $podPressMedia[0]['URI'];
+				$EnclosureSize = $podPressMedia[0]['size'];
+				$EnclosureType = '';
+			}
 			if( !$EnclosureURL )
 				return $content;
 			if( strpos($EnclosureURL, 'http://' ) !== 0 )
@@ -130,20 +134,20 @@ function powerpress_content($content)
 	switch( $Powerpress['player_function'] )
 	{
 		case 1: { // On page and new window
-			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return powerpress_play_window(this.href);\">Play in new window</a>".PHP_EOL;
 		}; break;
 		case 2: { // Play in page only
 		}; break;
 		case 3: { //Play in new window only
-			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return powerpress_play_window(this.href);\">Play in new window</a>".PHP_EOL;
 		}; break;
 		case 4: { // Play on page link only
-			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play on page</a>".PHP_EOL;
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return powerpress_play_page(this.href, 'powerpress_player_{$post->ID}','true');\">Play on page</a>".PHP_EOL;
 		}; break;
 		case 5: { //Play on page link and new window
-			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return bpPlayer.PlayInPage(this.href, 'powerpress_player_{$post->ID}');\">Play on page</a>".PHP_EOL;
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play on page\" onclick=\"return powerpress_play_page(this.href, 'powerpress_player_{$post->ID}','true');\">Play on page</a>".PHP_EOL;
 			$player_links .= ' '. POWERPRESS_LINK_SEPARATOR .' ';
-			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return bpPlayer.PlayNewWindow(this.href);\">Play in new window</a>".PHP_EOL;
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Play in new window\" onclick=\"return powerpress_play_window(this.href);\">Play in new window</a>".PHP_EOL;
 		}; break;
 	}//end switch	
 	
@@ -153,13 +157,29 @@ function powerpress_content($content)
 			$player_links .= ' '. POWERPRESS_LINK_SEPARATOR .' ';
 		$player_links .= "<a href=\"$EnclosureURL\" title=\"Download\">Download</a>".PHP_EOL;
 	}
+	else if( $Powerpress['podcast_link'] == 2 )
+	{
+		if( $player_links )
+			$player_links .= ' '. POWERPRESS_LINK_SEPARATOR .' ';
+		$player_links .= "<a href=\"$EnclosureURL\" title=\"Download\">Download</a> (".powerpress_byte_size($EnclosureSize).") ".PHP_EOL;
+	}
+	else if( $Powerpress['podcast_link'] == 3 )
+	{
+		$duration = get_post_meta($post->ID, 'itunes:duration', true);
+		if( $player_links )
+			$player_links .= ' '. POWERPRESS_LINK_SEPARATOR .' ';
+		if( $duration && ltrim($duration, '0:') != '' )
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Download\">Download</a> (duration: " . ltrim($duration, '0:') ." &#8212; ".powerpress_byte_size($EnclosureSize).")".PHP_EOL;
+		else
+			$player_links .= "<a href=\"$EnclosureURL\" title=\"Download\">Download</a> (".powerpress_byte_size($EnclosureSize).")".PHP_EOL;
+	}
 	
 	$new_content = '';
 	if( $Powerpress['player_function'] == 1 || $Powerpress['player_function'] == 2 ) // We have some kind of on-line player
 	{
 		$new_content .= '<div class="powerpress_player" id="powerpress_player_'. $post->ID .'"></div>'.PHP_EOL;
 		$new_content .= '<script type="text/javascript">'.PHP_EOL;
-		$new_content .= "bpPlayer.PlayInPage('$EnclosureURL', 'powerpress_player_{$post->ID}', 'bpPlayer');\n";
+		$new_content .= "powerpress_play_page('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
 		$new_content .= '</script>'.PHP_EOL;
 	}
 	else if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
@@ -194,17 +214,15 @@ function powerpress_header()
 ?>
 <script type="text/javascript" src="<?php echo $PowerpressPluginURL; ?>player.js"></script>
 <script type="text/javascript">
-var bpPlayer = new jsMediaPlayer('<?php echo $PowerpressPluginURL; ?>FlowPlayerClassic.swf');
 <?php
-if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
-{
-	echo 'bpPlayer.OnePlayerOnly(true);'.PHP_EOL;
-	echo 'bpPlayer.AutoPlay(true);'.PHP_EOL;
-}
 $player_image_url = POWERPRESS_PLAY_IMAGE;
 if( strstr($player_image_url, 'http://') !== $player_image_url )
 	$player_image_url = powerpress_get_root_url().$player_image_url;
-echo 'bpPlayer.PlayImage(\''.$player_image_url.'\');'.PHP_EOL;
+
+if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 ) // Links would imply only one player in the page
+	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\',true);'.PHP_EOL;
+else
+	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\');'.PHP_EOL;
 ?>
 </script>
 <style type="text/css">
@@ -281,7 +299,7 @@ function powerpress_rss2_head()
 		echo "\t<itunes:new-feed-url>". constant('POWERPRESS_NEW_FEED_URL') .'</itunes:new-feed-url>'.PHP_EOL;
 	else if( defined('POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) )
 		echo "\t<itunes:new-feed-url>". constant( 'POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) .'</itunes:new-feed-url>'.PHP_EOL;
-		
+	
 	if( $Feed['itunes_summary'] )
 		echo "\t".'<itunes:summary>'. htmlentities( $Feed['itunes_summary'], ENT_NOQUOTES, 'UTF-8') .'</itunes:summary>'.PHP_EOL;
 	else
@@ -292,6 +310,8 @@ function powerpress_rss2_head()
 	
 	$powerpress_itunes_explicit = $explicit[$Feed['itunes_explicit']];
 	$powerpress_itunes_talent_name = $Feed['itunes_talent_name'];
+	if( $powerpress_itunes_talent_name )
+		echo "\t\t<itunes:author>" . $powerpress_itunes_talent_name . '</itunes:author>'.PHP_EOL;
 	
 	if( $powerpress_itunes_explicit )
 		echo "\t".'<itunes:explicit>' . $powerpress_itunes_explicit . '</itunes:explicit>'.PHP_EOL;
@@ -690,17 +710,18 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 
 function powerpress_get_root_url()
 {
-	return get_bloginfo('url') . POWERPRESS_PLUGIN_PATH;
+	$powerpress_dirname = basename( dirname(__FILE__) );
+	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
 function powerpress_format_itunes_value($value)
 {
 	$value = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
-	$value = str_replace('&quot;', '', $value);
+	//$value = str_replace('&quot;', '', $value);
 	$value = str_replace('&amp;', '', $value);
 	$value = str_replace('&lt;', '', $value);
 	$value = str_replace('&gt;', '', $value);
-	$value = str_replace('&nbsp;', '', $value);
+	//$value = str_replace('&nbsp;', '', $value);
 	$value = str_replace('&', '', $value); // Last attempt to fix, just remove the &
 	return $value;
 }
@@ -757,6 +778,33 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 	}
 
 	return $NewURL;
+}
+
+/*
+Code contributed from upekshapriya on the Blubrry Forums
+*/
+function powerpress_byte_size($ppbytes) 
+{
+	$ppsize = $ppbytes / 1024;
+	if($ppsize < 1024)
+	{
+		$ppsize = number_format($ppsize, 1);
+		$ppsize .= 'KB';
+	} 
+	else 
+	{
+		if($ppsize / 1024 < 1024) 
+		{
+			$ppsize = number_format($ppsize / 1024, 1);
+			$ppsize .= 'MB';
+		}
+		else if ($ppsize / 1024 / 1024 < 1024)   
+		{
+		$ppsize = number_format($ppsize / 1024 / 1024, 1);
+		$ppsize .= 'GB';
+		} 
+	}
+	return $ppsize;
 }
 /*
 End Helper Functions
