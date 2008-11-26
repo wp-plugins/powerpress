@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.4.2
+Version: 0.5.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-11-26 - v0.5.0: Added options to report media duration and file size next to download links, new Media URL check performed when adding episode to new post and fixed a number of bugs including the player auto play bug caused by version v0.4.2.
 	2008-10-24 - v0.4.2: Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 	2008-10-24 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
 	2008-10-21 - v0.4.0: Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime media.
@@ -38,13 +39,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.4.2' );
-
-// Include the <itunes:summary> tag in each rss <item> tag.
-//define('POWERPRESS_ITEM_SUMMARY', false); // Note, since this itunes field is not necessary, you can add this define set to 'false' if you like.
-// Please place define above in your wp-config.php.
-if( !defined('POWERPRESS_ITEM_SUMMARY') )
-	define('POWERPRESS_ITEM_SUMMARY', true); // By default,we will include the itunes:summary tag
+define('POWERPRESS_VERSION', '0.5.0' );
 
 // include <itunes:new-feed-url> tag in Main RSS feed:
 //define('POWERPRESS_NEW_FEED_URL', 'http://www.your-site.com/path/to/feed/');
@@ -527,8 +522,8 @@ function powerpress_rss2_item()
 	else	
 		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 		
-	if( defined('POWERPRESS_ITEM_SUMMARY') )
-		echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000)) .'</itunes:summary>'.PHP_EOL;
+	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000)) .'</itunes:summary>'.PHP_EOL;
+	
 	if( $powerpress_itunes_talent_name )
 		echo "\t\t<itunes:author>" . $powerpress_itunes_talent_name . '</itunes:author>'.PHP_EOL;
 	
@@ -594,7 +589,17 @@ function powerpress_posts_where($where)
 	if( is_feed() && get_query_var('feed') == 'podcast' )
 	{
 		global $wpdb;
-		$where .= " AND {$wpdb->postmeta}.meta_key = 'enclosure' ";
+		$where .= " AND (";
+		$where .= " {$wpdb->postmeta}.meta_key = 'enclosure' ";
+		
+		// Powerpress settings:
+		$Powerpress = get_option('powerpress_general');
+	
+		// Include Podpress data if exists...
+		if( $Powerpress['process_podpress'] )
+			$where .= " OR {$wpdb->postmeta}.meta_key = 'podPressMedia' ";
+			
+		$where .=") ";
 	}
 	return $where;
 }

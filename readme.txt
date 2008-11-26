@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
-Tested up to: 2.6.3
-Stable tag: 0.4.2
+Tested up to: 2.6.5
+Stable tag: 0.5.0
 
 Add podcasting support to your blog.
 
@@ -27,6 +27,10 @@ Features:
 For the latest information visit the website.
 
 http://www.blubrry.com/powerpress/
+
+Documentation available on the blubrry help site.
+
+http://help.blubrry.com/blubrry-powerpress/
 
 == Frequently Asked Questions ==
 
@@ -74,8 +78,11 @@ Fixed auto-play bug found in last update, only affected quicktime files with the
 0.4.2 released on 11/02/2008
 Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 
-0.5.0 released on 11/25/2008
-Removed optional define 'POWERPRESS_PLUGIN_PATH', define no longer necessary. Added itunes:author and itunes:subtitle to header portion of podcast feeds. No longer removing quotes or extra spaces from itunes summary. Player auto-play bug fixed when quicktime files mixed with mp3s. Added new option to ping iTunes in a new browser window.
+0.5.0 released on 11/26/2008
+Added options to report media duration and file size next to download links. Removed optional defines POWERPRESS _ PLUGIN _ PATH and POWERPRESS _ ITEM _ SUMMARY, defines no longer necessary. Added itunes:author and itunes:subtitle to header portion of podcast feeds and itunes:summary to post items. No longer removing quotes or extra spaces from itunes summary. Player auto-play bug fixed when quicktime files mixed with mp3s. Added new option to ping iTunes in a new browser window. Verify flash player check added, Wordpress auto plugin update will corrupt the flash player. This bug is fixed in Wordpress 2.7 beta 2 and newer. Media URL now displays a warning if the value contains characters which may cause problems.
 
 == Feedback == 
 http://www.blubrry.com/powerpress/
+
+== Support == 
+http://help.blubrry.com/blubrry-powerpress/

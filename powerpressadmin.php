@@ -58,7 +58,39 @@ function powerpress_meta_box($object, $box)
 #powerpress_podcast_box .powerpress_row_content {
 	margin-left: 120px;
 }
+#powerpress_podcast_box  .error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	font-size: 12px;
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+	font-weight: bold;
+}
 </style>
+<script language="javascript">
+function powerpress_check_url(url)
+{
+	var validChars = ':0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/-_.';
+
+	for( var x = 0; x < url.length; x++ )
+	{
+		if( validChars.indexOf( url.charAt(x) ) == -1 )
+		{
+			document.getElementById('powerpress_warning').innerHTML = 'Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only.';
+			document.getElementById('powerpress_warning').style.display = 'block';
+			return;
+		}
+	
+		if( x == 5 )
+			validChars = validChars.substring(1); // remove the colon, should no longer appear in URLs
+	}
+
+	document.getElementById('powerpress_warning').style.display = 'none';
+}
+
+</script>
 <div id="powerpress_podcast_box"<?php if( $EnclosureURL ) echo ' style="display:none;"'; ?>>
 <?php
 	if( $EnclosureURL )
@@ -75,10 +107,11 @@ function powerpress_meta_box($object, $box)
 	}
 ?>
 	<div id="powerpress_podcast_edit">
+		<div class="error" id="powerpress_warning" style="display:none;">None</div>
 		<div class="powerpress_row">
 			<label for "Powerpress[url]">Media URL</label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_url" name="Powerpress[url]" value="<?php echo $EnclosureURL; ?>" style="width: 70%; font-size: 90%;" />
+				<input id="powerpress_url" name="Powerpress[url]" value="<?php echo $EnclosureURL; ?>" onblur="powerpress_check_url(this.value)" style="width: 70%; font-size: 90%;" />
 			</div>
 		</div>
 		<div class="powerpress_row">
@@ -299,6 +332,15 @@ add_action('admin_head', 'powerpress_admin_head');
 function powerpress_admin_page()
 {
 	global $wp_version;
+	
+	if( isset($_POST['CheckSWF']) )
+	{
+		$md5 = md5_file( dirname(__FILE__).'/FlowPlayerClassic.swf' );
+		if( $md5 == '051ed574774436e228e5dafd97d0f5f0' )
+			echo '<div class="updated powerpress-notice">Flash player verified successfully.</div>';
+		else
+			echo '<div class="error powerpress-error">FlowPlayerClassic.swf is corrupt, please re-upload.</div>';
+	}
 	
 	$VersionDiff = version_compare($wp_version, 2.5);
 	if( $VersionDiff < 0 )
@@ -667,6 +709,7 @@ while( list($value,$desc) = each($playeroptions) )
 <p style="margin-top: 0;">
 	Note: "On Page Link" is a link to "play on page", the player is not displayed until link is clicked.
 </p>
+<p><input name="CheckSWF" type="checkbox" value="1" /> Verify flash player</p>
 </td>
 </tr>
 
@@ -948,6 +991,7 @@ while( list($value,$desc) = each($explicit) )
 </table>
 <p style="font-size: 85%; text-align: center;">
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry Powerpress" target="_blank">Blubrry Powerpress</a> <?php echo POWERPRESS_VERSION; ?>
+	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank">Documentation</a>
 </p>
 <p class="submit">
 <input type="submit" name="Submit" value="<?php _e('Save Changes' ) ?>" />
