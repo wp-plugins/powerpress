@@ -1,8 +1,10 @@
 <?php
 
 function powerpress_admin_menu() {
-	if( function_exists('add_meta_box') ) // Otherwise we're using a version of wordpress that is not supported.
+	if( function_exists('add_meta_box') ) { // Otherwise we're using a version of wordpress that is not supported.
 		add_meta_box('id', 'Podcast Episode', 'powerpress_meta_box', 'post', 'normal');
+		add_meta_box('id', 'Podcast Episode', 'powerpress_meta_box', 'page', 'normal');
+	}
 	add_options_page('Blubrry Powerpress Settings', 'Blubrry Powerpress', 8, 'powerpress/powerpress.php', 'powerpress_admin_page');
 }
 

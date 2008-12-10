@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.6.5
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 
 Add podcasting support to your blog.
 
@@ -14,11 +14,11 @@ The Blubrry Powerpress interface allows you to easily add/modify/remove podcast 
 
 Features:
 
-* Easily add/modify/remove podcast episodes from blog posts
+* Easily add/modify/remove podcast episodes from blog posts and pages
 * Integrated media player
 * iTunes RSS tags
 * iTunes album/cover art
-* upload new iTunes/RSS cover art
+* Upload new iTunes/RSS cover art
 * Ping iTunes
 * Media size detection
 * Duration detection (mp3 only)
@@ -80,6 +80,9 @@ Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and s
 
 0.5.0 released on 11/26/2008
 Added options to report media duration and file size next to download links. Removed optional defines POWERPRESS _ PLUGIN _ PATH and POWERPRESS _ ITEM _ SUMMARY, defines no longer necessary. Added itunes:author and itunes:subtitle to header portion of podcast feeds and itunes:summary to post items. No longer removing quotes or extra spaces from itunes summary. Player auto-play bug fixed when quicktime files mixed with mp3s. Added new option to ping iTunes in a new browser window. Verify flash player check added, Wordpress auto plugin update will corrupt the flash player. This bug is fixed in Wordpress 2.7 beta 2 and newer. Media URL now displays a warning if the value contains characters which may cause problems.
+
+0.5.1 released on 12/10/2008
+Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
 
 == Feedback == 
 http://www.blubrry.com/powerpress/

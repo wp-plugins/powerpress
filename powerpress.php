@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.5.0
+Version: 0.5.1
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
 	2008-11-26 - v0.5.0: Added options to report media duration and file size next to download links, new Media URL check performed when adding episode to new post and fixed a number of bugs including the player auto play bug caused by version v0.4.2.
 	2008-10-24 - v0.4.2: Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
 	2008-10-24 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
@@ -39,7 +40,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.5.0' );
+define('POWERPRESS_VERSION', '0.5.1' );
 
 // include <itunes:new-feed-url> tag in Main RSS feed:
 //define('POWERPRESS_NEW_FEED_URL', 'http://www.your-site.com/path/to/feed/');
@@ -296,9 +297,9 @@ function powerpress_rss2_head()
 		echo "\t<itunes:new-feed-url>". constant( 'POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) .'</itunes:new-feed-url>'.PHP_EOL;
 	
 	if( $Feed['itunes_summary'] )
-		echo "\t".'<itunes:summary>'. htmlentities( $Feed['itunes_summary'], ENT_NOQUOTES, 'UTF-8') .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'] ) .'</itunes:summary>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:summary>'.  htmlentities( get_bloginfo('description'), ENT_NOQUOTES, 'UTF-8') .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description') ) .'</itunes:summary>'.PHP_EOL;
 	
 	// explicit options:
 	$explicit = array("no", "yes", "clean");
@@ -503,7 +504,7 @@ function powerpress_rss2_item()
 	{
 		$tags = array();
 		for($c = 0; $c < count($tagobject) && $c < 12; $c++) // iTunes only accepts up to 12 keywords
-			$tags[] = htmlentities($tagobject[$c]->name, ENT_NOQUOTES, 'UTF-8');
+			$tags[] = $tagobject[$c]->name;
 		
 		echo "\t\t<itunes:keywords>" . powerpress_format_itunes_value(implode(",", $tags)) . '</itunes:keywords>'.PHP_EOL;
 	}
@@ -522,7 +523,7 @@ function powerpress_rss2_item()
 	else	
 		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 		
-	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000)) .'</itunes:summary>'.PHP_EOL;
+	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
 	
 	if( $powerpress_itunes_talent_name )
 		echo "\t\t<itunes:author>" . $powerpress_itunes_talent_name . '</itunes:author>'.PHP_EOL;
@@ -719,7 +720,7 @@ function powerpress_get_root_url()
 	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
-function powerpress_format_itunes_value($value)
+function powerpress_format_itunes_value($value, $char_limit = 255)
 {
 	$value = htmlentities($value, ENT_NOQUOTES, 'UTF-8');
 	//$value = str_replace('&quot;', '', $value);
@@ -728,6 +729,8 @@ function powerpress_format_itunes_value($value)
 	$value = str_replace('&gt;', '', $value);
 	//$value = str_replace('&nbsp;', '', $value);
 	$value = str_replace('&', '', $value); // Last attempt to fix, just remove the &
+	if( strlen($value) > $char_limit )
+		return substr($value, 0, $char_limit);
 	return $value;
 }
 
