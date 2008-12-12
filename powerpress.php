@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.5.1
+Version: 0.5.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
 	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
 	2008-11-26 - v0.5.0: Added options to report media duration and file size next to download links, new Media URL check performed when adding episode to new post and fixed a number of bugs including the player auto play bug caused by version v0.4.2.
 	2008-10-24 - v0.4.2: Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
@@ -297,9 +298,9 @@ function powerpress_rss2_head()
 		echo "\t<itunes:new-feed-url>". constant( 'POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) .'</itunes:new-feed-url>'.PHP_EOL;
 	
 	if( $Feed['itunes_summary'] )
-		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'] ) .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'], 4000 ) .'</itunes:summary>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description') ) .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description'), 4000 ) .'</itunes:summary>'.PHP_EOL;
 	
 	// explicit options:
 	$explicit = array("no", "yes", "clean");
