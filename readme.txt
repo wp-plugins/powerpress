@@ -84,8 +84,17 @@ Added options to report media duration and file size next to download links. Rem
 0.5.1 released on 12/10/2008
 Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
 
+0.5.2 released on 12/14/2008
+Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
+
+0.6.0 released on 12/17/2008
+Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration, and added iTunes New Feed URL option.
+
 == Feedback == 
 http://www.blubrry.com/powerpress/
 
 == Support == 
 http://help.blubrry.com/blubrry-powerpress/
+
+== Twitter == 
+http://twitter.com/blubrry

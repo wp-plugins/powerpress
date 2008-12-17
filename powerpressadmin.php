@@ -17,6 +17,11 @@ function powerpress_meta_box($object, $box)
 	$DurationSS = '';
 	$EnclosureURL = '';
 	$EnclosureLength = '';
+	$GeneralSettings = get_option('powerpress_general');
+	if( !isset($GeneralSettings['set_size']) )
+		$GeneralSettings['set_size'] = 0;
+	if( !isset($GeneralSettings['set_duration']) )
+		$GeneralSettings['set_duration'] = 0;
 	
 	if( $object->ID )
 	{
@@ -120,10 +125,10 @@ function powerpress_check_url(url)
 			<label for "size">File Size</label>
 			<div class="powerpress_row_content">
 				<div style="margin-bottom: 4px;">
-					<input id="powerpress_set_size" name="Powerpress[set_size]" value="0" type="radio" checked /> Auto detect file size
+					<input id="powerpress_set_size" name="Powerpress[set_size]" value="0" type="radio" <?php echo ($GeneralSettings['set_size']==0?'checked':''); ?> /> Auto detect file size
 				</div>
 				<div>
-					<input id="powerpress_set_size" name="Powerpress[set_size]" value="1" type="radio" /> Specify: 
+					<input id="powerpress_set_size" name="Powerpress[set_size]" value="1" type="radio" <?php echo ($GeneralSettings['set_size']==1?'checked':''); ?> /> Specify: 
 					<input id="powerpress_size" name="Powerpress[size]" value="<?php echo $EnclosureLength; ?>" style="width: 110px; font-size: 90%;" /> in bytes
 				</div>
 			</div>
@@ -132,16 +137,16 @@ function powerpress_check_url(url)
 			<label for "size">Duration</label>
 			<div class="powerpress_row_content">
 				<div style="margin-bottom: 4px;">
-					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="0" type="radio" checked /> Auto detect duration (mp3's only)
+					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="0" type="radio" <?php echo ($GeneralSettings['set_duration']==0?'checked':''); ?> /> Auto detect duration (mp3's only)
 				</div>
 				<div style="margin-bottom: 4px;">
-					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="1" type="radio" /> Specify: 
+					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> /> Specify: 
 					<input id="powerpress_duration_hh" name="Powerpress[duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" /><strong>:</strong> 
 					<input id="powerpress_duration_mm" name="Powerpress[duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" /><strong>:</strong> 
 					<input id="powerpress_duration_ss" name="Powerpress[duration_ss]" maxlength="2" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" /> HH:MM:SS
 				</div>
 				<div>
-					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="-1" type="radio" /> Not specified
+					<input id="powerpress_set_duration" name="Powerpress[set_duration]" value="-1" type="radio" <?php echo ($GeneralSettings['set_duration']==-1?'checked':''); ?> /> Not specified
 				</div>
 			</div>
 		</div>
@@ -293,39 +298,55 @@ function powerpress_admin_head()
 {
 	if( strstr($_GET['page'], 'powerpress.php' ) )
 	{
-		echo '<script type="text/javascript">'.PHP_EOL;
-		echo 'function powerpress_show_field(id, show){'.PHP_EOL;
-		echo '	if( document.getElementById(id).nodeName == "SPAN" )'.PHP_EOL;
-		echo '	 document.getElementById(id).style.display = (show?"inline":"none");'.PHP_EOL;
-		echo ' else'.PHP_EOL;
-		echo '	 document.getElementById(id).style.display = (show?"block":"none");'.PHP_EOL;
-		echo '}'.PHP_EOL;
-		echo '</script>'.PHP_EOL;
-		
-		echo '<style type="text/css">'.PHP_EOL;
-		echo '.powerpress-notice {'.PHP_EOL;
-		echo ' margin-top: 10px;'.PHP_EOL;
-		echo ' margin-bottom: 10px;'.PHP_EOL;
-		echo ' line-height: 29px;'.PHP_EOL;
-		echo ' font-size: 12px;'.PHP_EOL;
-		echo ' text-align: center;'.PHP_EOL;
-		echo ' border-width: 1px;'.PHP_EOL;
-		echo ' border-style: solid;'.PHP_EOL;
-		echo ' font-weight: bold;'.PHP_EOL;
-		echo '}'.PHP_EOL;
-		echo '.powerpress-error {'.PHP_EOL;
-		echo ' margin-top: 10px;'.PHP_EOL;
-		echo ' margin-bottom: 10px;'.PHP_EOL;
-		echo ' line-height: 29px;'.PHP_EOL;
-		echo ' font-size: 12px;'.PHP_EOL;
-		echo ' text-align: center;'.PHP_EOL;
-		echo ' border-width: 1px;'.PHP_EOL;
-		echo ' border-style: solid;'.PHP_EOL;
-		//echo ' border-color: #c69;'.PHP_EOL;
-		//echo ' background-color: #ffeff7;'.PHP_EOL;
-		echo ' font-weight: bold;'.PHP_EOL;
-		echo '}'.PHP_EOL;
-		echo '</style>'.PHP_EOL;
+?>
+<script type="text/javascript">
+function powerpress_show_field(id, show) {
+	if( document.getElementById(id).nodeName == "SPAN" )
+	 document.getElementById(id).style.display = (show?"inline":"none");
+ else
+	 document.getElementById(id).style.display = (show?"block":"none");
+}
+function powerpress_new_feed_url_prompt() {
+	var Msg = 'WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.\n\nDO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.\n\nAre you sure you want to continue?';
+	if( confirm(Msg) ) {
+		powerpress_show_field('new_feed_url_step_1', false);
+		powerpress_show_field('new_feed_url_step_2', true);
+	}
+	return false;
+}
+</script>
+<style type="text/css">
+.powerpress-notice {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 29px;
+	font-size: 12px;
+	border-width: 1px;
+	border-style: solid;
+	font-weight: bold;
+}
+.powerpress-error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 29px;
+	font-size: 12px;
+	border-width: 1px;
+	border-style: solid;
+	font-weight: bold;
+}
+#powerpress_settings {
+	background-image:url(http://images.blubrry.com/powerpress/blubrry.png);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+}
+.bpp_input_sm {
+	width: 120px;
+}
+.bpp_input_med {
+	width: 250px;
+}
+</style>
+<?php
 	}
 }
 
@@ -391,7 +412,7 @@ function powerpress_admin_page()
 			}
 			else
 			{
-				echo '<div class="error powerpress-error">Invalid iTunes image:  ' . htmlspecialchars($_FILES['itunes_image_file']['name'])  . '</div>';
+				echo '<div class="error powerpress-error">Invalid iTunes image ' . htmlspecialchars($_FILES['itunes_image_file']['name'])  . '</div>';
 			}
 		}
 		
@@ -580,12 +601,8 @@ function powerpress_admin_page()
 	reset($FeedSettings);
 	
 	// Now display the options editing screen
-
-	echo '<div class="wrap">';
-
-  // Start the form
 ?>
-		
+<div class="wrap" id="powerpress_settings">
 
 <form enctype="multipart/form-data" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 
@@ -611,7 +628,7 @@ You may leave blank if you always enter the complete URL to your media when crea
 
 <?php _e("Podpress Episodes"); ?></th> 
 <td>
-<select name="General[process_podpress]">
+<select name="General[process_podpress]" class="bpp_input_med">
 <?php
 $options = array(0=>'Ignore', 1=>'Include in Posts and Feeds');
 
@@ -620,6 +637,41 @@ while( list($value,$desc) = each($options) )
 	
 ?>
 </select>  (includes podcast episodes previously created in Podpress)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+
+<?php _e("File Size Default"); ?></th> 
+<td>
+		<select name="General[set_size]" class="bpp_input_med">
+<?php
+$options = array(0=>'Auto detect file size', 1=>'User specify');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['set_size']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select> (specify default file size option when creating a new episode)
+</td>
+</tr>
+	
+	
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Duration Default"); ?></th> 
+<td>
+		<select name="General[set_duration]" class="bpp_input_med">
+<?php
+$options = array(0=>'Auto detect duration (mp3\'s only)', 1=>'User specify', -1=>'Not specified (not recommended)');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['set_duration']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select> (specify default duration option when creating a new episode)
 </td>
 </tr>
 
@@ -642,7 +694,7 @@ Once your podcast is listed on iTunes, enter your one click subscription URL abo
 
 <?php _e("Ping iTunes"); ?></th> 
 <td>
-<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?>>
+<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
 <?php
 $options = array(0=>'No ', 1=>'Yes ');
 
@@ -684,7 +736,7 @@ while( list($value,$desc) = each($options) )
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e("Display Player"); ?></th> 
-<td><select name="General[display_player]">
+<td><select name="General[display_player]"  class="bpp_input_sm">
 <?php
 $displayoptions = array(1=>"Below Post", 2=>"Above Post", 0=>"None");
 
@@ -699,7 +751,7 @@ while( list($value,$desc) = each($displayoptions) )
 <tr valign="top">
 <th scope="row">
 <?php _e("Player Function"); ?></th>
-<td><select name="General[player_function]">
+<td><select name="General[player_function]" class="bpp_input_med">
 <?php
 $playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', 4=>'On Page Link', 5=>'On Page Link & New Window', 0=>'Disable');
 
@@ -720,7 +772,7 @@ while( list($value,$desc) = each($playeroptions) )
 
 <?php _e("Download Link"); ?></th> 
 <td>
-<select name="General[podcast_link]">
+<select name="General[podcast_link]" class="bpp_input_med">
 <?php
 $linkoptions = array(1=>"Display", 2=>"Display with file size", 3=>"Display with file size and duration", 0=>"Disable");
 
@@ -790,7 +842,7 @@ while( list($value,$desc) = each($linkoptions) )
 
 <?php _e("Apply Settings To"); ?></th> 
 <td>
-<select name="Feed[apply_to]">
+<select name="Feed[apply_to]" class="bpp_input_med">
 <?php
 $applyoptions = array(1=>'All RSS2 Feeds', 2=>'Main RSS2 Feed only', 0=>'Disable (settings below ignored)');
 
@@ -812,8 +864,41 @@ while( list($value,$desc) = each($applyoptions) )
 <td>
 <p>Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
 <p>Special Podcast only Feed: <a href="<?php echo get_feed_link('podcast'); ?>" title="Podcast Feed" target="_blank"><?php echo get_feed_link('podcast'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link('podcast')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+
 </td>
 </tr>
+
+	<tr valign="top">
+	<th scope="row" >
+
+<?php _e("iTunes New Feed URL"); ?></th> 
+	<td>
+		<div id="new_feed_url_step_1" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'none':'block'); ?>;">
+			 <p><a href="#" onclick="return powerpress_new_feed_url_prompt();">Click here</a> if you need to change the Feed URL for iTunes subscribers.</p>
+		</div>
+		<div id="new_feed_url_step_2" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'block':'none'); ?>;">
+			<p><strong>WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.</strong></p>
+			<p><strong>DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.</strong></p>
+			<p>
+				Apple recommends you maintain the &lt;itunes:new-feed-url&gt; tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.
+			</p>
+			<p>
+				Example URL: <?php echo get_feed_link('podcast'); ?>
+			</p>
+			<p style="margin-bottom: 0;">
+				<label style="width: 25%; float:left; display:block; font-weight: bold;">Main RSS2 Feed</label>
+				<input type="text" name="Feed[itunes_new_feed_url]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
+			</p>
+			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
+			<p style="margin-bottom: 0;">
+				<label style="width: 25%; float:left; display:block; font-weight: bold;">Podcast Feed</label>
+				<input type="text" name="Feed[itunes_new_feed_url_podcast]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url_podcast']; ?>" maxlength="250" />
+			</p>
+			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
+			<p>More information regarding the iTunes New Feed URL is available at <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank">Apple.com</a></p>
+		</div>
+	</td>
+	</tr>
 
 <tr valign="top">
 <th scope="row">
@@ -840,7 +925,7 @@ while( list($value,$desc) = each($applyoptions) )
 <?php _e("iTunes Program Keywords"); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[itunes_keywords]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_keywords']; ?>" maxlength="250" />
+<input type="text" name="Feed[itunes_keywords]" style="width: 60%;"  value="<?php echo $FeedSettings['itunes_keywords']; ?>" maxlength="250" />
 <p>Enter up to 12 keywords separated by commas.</p>
 </td>
 </tr>
@@ -850,7 +935,7 @@ while( list($value,$desc) = each($applyoptions) )
 <?php _e("iTunes Category 1"); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_1]">
+<select name="Feed[itunes_cat_1]" style="width: 60%;">
 <?php
 $linkoptions = array("On page", "Disable");
 
@@ -872,7 +957,7 @@ reset($Categories);
 <?php _e("iTunes Category 2"); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_2]">
+<select name="Feed[itunes_cat_2]" style="width: 60%;">
 <?php
 $linkoptions = array("On page", "Disable");
 
@@ -893,7 +978,7 @@ reset($Categories);
 <?php _e("iTunes Category 3"); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_3]">
+<select name="Feed[itunes_cat_3]" style="width: 60%;">
 <?php
 $linkoptions = array("On page", "Disable");
 
@@ -913,7 +998,7 @@ reset($Categories);
 <?php _e("iTunes Explicit"); ?> 
 </th>
 <td>
-<select name="Feed[itunes_explicit]">
+<select name="Feed[itunes_explicit]" class="bpp_input_med">
 <?php
 $explicit = array(0=>"no - display nothing", 1=>"yes - explicit content", 2=>"clean - no explicit content");
 
@@ -993,15 +1078,14 @@ while( list($value,$desc) = each($explicit) )
 </table>
 <p style="font-size: 85%; text-align: center;">
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry Powerpress" target="_blank">Blubrry Powerpress</a> <?php echo POWERPRESS_VERSION; ?>
-	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank">Documentation</a>
+	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="Blubrry Powerpress Documentation">Documentation</a> | <a href="http://twitter.com/blubrry" target="_blank" title="Blubrry on Twitter">Twitter</a>
 </p>
 <p class="submit">
-<input type="submit" name="Submit" value="<?php _e('Save Changes' ) ?>" />
+<input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes' ) ?>" />
 </p>
 
 </form>
 </div>
-<hr />
 
 <?php 
 	}

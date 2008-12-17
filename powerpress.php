@@ -3,10 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.5.2
+Version: 0.6.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
 	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
 	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
 	2008-11-26 - v0.5.0: Added options to report media duration and file size next to download links, new Media URL check performed when adding episode to new post and fixed a number of bugs including the player auto play bug caused by version v0.4.2.
@@ -41,13 +42,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.5.1' );
-
-// include <itunes:new-feed-url> tag in Main RSS feed:
-//define('POWERPRESS_NEW_FEED_URL', 'http://www.your-site.com/path/to/feed/');
-
-// include <itunes:new-feed-url> tag in Podcast specific RSS feed:
-//define('POWERPRESS_NEW_FEED_URL_PODCAST', 'http://www.your-site.com/path/to/podcast/feed/');
+define('POWERPRESS_VERSION', '0.6.0' );
 
 // Display Powerpress player only for previously created Podpress episodes.
 // define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
@@ -292,10 +287,10 @@ function powerpress_rss2_head()
 	echo '<!-- podcast_generator="Blubrry Powerpress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
 	
 	// add the itunes:new-feed-url tag to feed
-	if( defined('POWERPRESS_NEW_FEED_URL') && ($feed == 'feed' || $feed == 'rss2') )
-		echo "\t<itunes:new-feed-url>". constant('POWERPRESS_NEW_FEED_URL') .'</itunes:new-feed-url>'.PHP_EOL;
-	else if( defined('POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) )
-		echo "\t<itunes:new-feed-url>". constant( 'POWERPRESS_NEW_FEED_URL_'.strtoupper($feed) ) .'</itunes:new-feed-url>'.PHP_EOL;
+	if( trim($Feed['itunes_new_feed_url']) && ($feed == 'feed' || $feed == 'rss2') )
+		echo "\t<itunes:new-feed-url>". $Feed['itunes_new_feed_url'] .'</itunes:new-feed-url>'.PHP_EOL;
+	else if( trim($Feed['itunes_new_feed_url_podcast']) && $feed == 'podcast' )
+		echo "\t<itunes:new-feed-url>". $Feed['itunes_new_feed_url_podcast'] .'</itunes:new-feed-url>'.PHP_EOL;
 	
 	if( $Feed['itunes_summary'] )
 		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'], 4000 ) .'</itunes:summary>'.PHP_EOL;
@@ -562,7 +557,7 @@ function powerpress_do_podcast_feed()
 {
 	global $wp_query;
 	$wp_query->get_posts();
-	load_template(ABSPATH . 'wp-rss2.php');
+	load_template(ABSPATH . WPINC. '/feed-rss2.php');
 }
 
 function powerpress_init()
