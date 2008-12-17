@@ -1078,7 +1078,7 @@ while( list($value,$desc) = each($explicit) )
 </table>
 <p style="font-size: 85%; text-align: center;">
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry Powerpress" target="_blank">Blubrry Powerpress</a> <?php echo POWERPRESS_VERSION; ?>
-	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="Blubrry Powerpress Documentation">Documentation</a> | <a href="http://twitter.com/blubrry" target="_blank" title="Blubrry on Twitter">Twitter</a>
+	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="Blubrry Powerpress Documentation">Documentation</a> | <a href="http://twitter.com/blubrry" target="_blank" title="Follow Blubrry on Twitter">Follow Blubrry on Twitter</a>
 </p>
 <p class="submit">
 <input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes' ) ?>" />
