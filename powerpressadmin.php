@@ -1018,7 +1018,7 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo $FeedSettings['itunes_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;">preview</a>
 
-<p>Put the URL to the iTunes image above. e.g. http://mysite.com/images/itunes.jpg<br /><br />iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.</p>
+<p>Place the URL to the iTunes image above. e.g. http://mysite.com/images/itunes.jpg<br /><br />iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.</p>
 
 <?php if( $SupportUploads ) { ?>
 <p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> Upload new image: </p>
@@ -1037,7 +1037,7 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo $FeedSettings['rss2_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;">preview</a>
 
-<p>Put the URL to the RSS image above. e.g. http://mysite.com/images/rss.jpg</p>
+<p>Place the URL to the RSS image above. e.g. http://mysite.com/images/rss.jpg</p>
 <p>RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.</p>
 
 <?php if( $SupportUploads ) { ?>
