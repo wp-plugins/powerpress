@@ -1,5 +1,5 @@
 /** 
- * jsMediaPlayer 1.1 for Blubrry Powerpress
+ * jsMediaPlayer 1.1.1 for Blubrry Powerpress
  * 
  * http://www.blubrry.com/powepress/
  *
@@ -8,6 +8,7 @@
  * Released under Aoache 2 license:
  * http://www.apache.org/licenses/LICENSE-2.0
  *
+ * versoin 1.1.1 - 12/22/20008 - Minor change to support Windows Media in Firefox. Includes link to preferred Firefox Windows Media Player plugin.
  * versoin 1.1.0 - 11/25/20008 - Major re-write, object now stored in this include file, auto play is no longer a member variable and is determined by function call.
  * version 1.0.3 - 11/02/2008 - Added option for playing quicktime files in an intermediate fashion with an image to click to play.
  * version 1.0.2 - 07/26/2008 - Fixed pop up player bug caused by v 1.0.1
@@ -158,7 +159,18 @@ function jsMediaPlayer(FlashSrc) {
 			case 'wma':
 			case 'wmv':
 			case 'asf': {
-				document.getElementById( this.m_player_div ).innerHTML = this._getWinPlayer(auto_play);
+			
+				if( navigator.userAgent.indexOf("Firefox") !=-1 && this.m_play_image && auto_play == false )
+				{
+					document.getElementById( this.m_player_div ).innerHTML = '<a href="'+ this.m_media_url +'" onclick="return powerpress_play_page(\''+ this.m_media_url +'\', \''+ this.m_player_div +'\',\'true\');" title="Play on page"><img src="'+ this.m_play_image +'" alt="Play on page" /></a>';
+					this.m_player_div = false; // Let this player be used again on the page
+					return false;
+				}
+				
+				if( navigator.userAgent.indexOf("Firefox") !=-1 ) // Firefox:
+					document.getElementById( this.m_player_div ).innerHTML = this._getWinPlayerFirefox(auto_play);
+				else
+					document.getElementById( this.m_player_div ).innerHTML = this._getWinPlayer(auto_play);
 			}; break;
 			case 'rm': {
 				document.getElementById( this.m_player_div ).innerHTML = this._getRealPlayer(auto_play);
@@ -195,7 +207,7 @@ function jsMediaPlayer(FlashSrc) {
 		// Get the media file and extension
 		this.m_media_url = this.PlayNewWindow.arguments[0];
 		var ext = this._getExt(this.m_media_url);
-		
+
 		// Calculate the window height
 		height = this.m_height;
 		if( ext == 'mp3' )
@@ -222,6 +234,7 @@ function jsMediaPlayer(FlashSrc) {
 		}
 		Html += '</head>';
 		Html += '<body>';
+		
 		Html += '<div id="player" style="margin-top: 20px; margin-left: 10px;">';
 		if( ext != 'mp3' && ext != 'flv' && ext != 'mp4' )
 		{
@@ -250,7 +263,16 @@ function jsMediaPlayer(FlashSrc) {
 				case 'wma':
 				case 'wmv':
 				case 'asf': {
-					Html += this._getWinPlayer(true);
+				
+					if( navigator.userAgent.indexOf("Firefox") !=-1 ) // Firefox:
+					{
+						Html += '<style>body { font-family: Arial, Helvetica, Sans-Serif; font-size: 90%;}</style>';
+						Html += this._getWinPlayerFirefox(true);
+					}
+					else
+					{
+						Html += this._getWinPlayer(true);
+					}
 				}; break;
 				case 'rm': {
 					Html += this._getRealPlayer(true);
@@ -370,6 +392,30 @@ function jsMediaPlayer(FlashSrc) {
 		Html += '	<param name="ShowStatusBar" value="false" />\n';
 		Html += '	<embed type="application/x-mplayer2" src="'+ this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" scale="aspect" AutoStart="'+ (auto_play?'true':'false') +'" ShowDisplay="0" ShowStatusBar="0" AutoSize="1" AnimationAtStart="1" AllowChangeDisplaySize="1" ShowControls="1"></embed>\n';
 		Html += '</object>\n';
+		return Html;
+	}
+	
+	this._getWinPlayerFirefox = function() {
+		var auto_play = false;
+		if( this._getWinPlayerFirefox.arguments.length > 0 )
+			auto_play = this._getWinPlayerFirefox.arguments[0];
+
+		var Html = '';
+		Html += '<object id="winplayer" data="' + this.m_media_url +'" width="'+ this.m_width +'" height="'+ this.m_height +'" type="application/x-ms-wmp">\n';
+		Html += '	<param name="url" value="'+ this.m_media_url +'" />\n';
+		Html += '	<param name="AutoStart" value="'+ (auto_play?'true':'false') +'" />\n';
+		Html += '	<param name="AutoSize" value="true" />\n';
+		Html += '	<param name="AllowChangeDisplaySize" value="true" />\n';
+		Html += '	<param name="standby" value="Media is loading..." />\n';
+		Html += '	<param name="AnimationAtStart" value="true" />\n';
+		Html += '	<param name="scale" value="aspect" />\n';
+		Html += '	<param name="ShowControls" value="true" />\n';
+		Html += '	<param name="ShowCaptioning" value="false" />\n';
+		Html += '	<param name="ShowDisplay" value="false" />\n';
+		Html += '	<param name="ShowStatusBar" value="false" />\n';
+		Html += '</object>\n';
+		Html += '<p style="font-size: 85%;margin-top:0;">Best viewed with <a href="http://support.mozilla.com/en-US/kb/Using+the+Windows+Media+Player+plugin+with+Firefox#Installing_the_plugin" target="_blank">';
+		Html += 'Windows Media Player plugin for Firefox</a></p>\n';
 		return Html;
 	}
 	
