@@ -7,7 +7,7 @@ Version: 0.6.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
-	2008-12-23 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, and a number of other syntactical changes.
+	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with excerpts posts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
 	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
 	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
 	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
@@ -65,6 +65,19 @@ function powerpress_content($content)
 	
 	if( is_feed() )
 		return $content; // We don't want to do anything to the feed
+		
+	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
+	// Important to note, get_the_excerpt will be called before the_content is called, so we add a simple little hack
+	global $g_powerpress_excerpt_post_id;
+	if( current_filter() == 'get_the_excerpt' )
+	{
+		$g_powerpress_excerpt_post_id = $post->ID;
+		return $content; // We don't want to do anything to this content yet...
+	}
+	else if( current_filter() == 'the_content' && $g_powerpress_excerpt_post_id == $post->ID )
+	{
+		return $content; // We don't want to do anything to this excerpt content in this call either...
+	}
 	
 	// Powerpress settings:
 	$Powerpress = get_option('powerpress_general');
@@ -196,7 +209,9 @@ function powerpress_content($content)
 	}
 }//end function
 
+add_action('get_the_excerpt', 'powerpress_content', 1);
 add_action('the_content', 'powerpress_content');
+add_action('the_excerpt', 'powerpress_content');
 
 function powerpress_header()
 {
