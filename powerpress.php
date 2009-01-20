@@ -7,7 +7,7 @@ Version: 0.6.0
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
-	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with excerpts posts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
+	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with themes using excerpts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
 	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
 	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
 	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
@@ -25,8 +25,9 @@ Change Log:
 	2008-08-04 - v0.1.0: Tentative initial release of Blubrry Powerpress plugin.
 
 Contributors:
-	Angelo Mandato, CIO RawVoice - Plugin founder and architect, mp3info class and javascript media player
-	Pat McSweeny, Developer for RawVoice - powerpress.php and powperpressoptions.php
+	Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
+	Pat McSweeny, Developer for RawVoice - Developed initial version (v0.1.0) of plugin
+	Jerry Stephens, Way of the Geek (http://wayofthegeek.org/) - Contributed initial code fix for excerpt bug resolved in v0.6.1
 	
 Credits:
 	getID3(), License: GPL 2.0+ by James Heinrich <info [at] getid3.org> http://www.getid3.org
@@ -35,7 +36,7 @@ Credits:
 	flashembed(), License: MIT by Tero Piirainen (tipiirai [at] gmail.com)
 		Note: code found at bottom of player.js
 	
-Copyright 2008 RawVoice Inc. (http://www.rawvoice.com)
+Copyright 2008-2009 RawVoice Inc. (http://www.rawvoice.com)
 
 License: Apache License version 2.0 (http://www.apache.org/licenses/)
 
@@ -43,7 +44,7 @@ License: Apache License version 2.0 (http://www.apache.org/licenses/)
 	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
 */
 
-define('POWERPRESS_VERSION', '0.6.0' );
+define('POWERPRESS_VERSION', '0.6.1' );
 
 // Display Powerpress player only for previously created Podpress episodes.
 // define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);

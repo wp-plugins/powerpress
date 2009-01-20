@@ -35,7 +35,7 @@ http://help.blubrry.com/blubrry-powerpress/
 == Frequently Asked Questions ==
 
  = Why doesn't Blubrry Powerpress support multiple enclosures? =
- Blubrry Powerpress does not support multiple enclosures in one blog post. This is because each podcatcher handles multiple enclosures differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistancy and combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and [FeedValidator.org'a recommendation](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry Powerpress does not support them.
+ Blubrry Powerpress does not support multiple enclosures in one blog post. This is because each podcatching application handles multiple enclosures differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry Powerpress does not support them.
 
  = Why doesn't Blubrry Powerpress include media statistics? =
  Blubrry Powerpress does not include media statistics. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
@@ -90,11 +90,21 @@ Fixed bug with the feed channel itunes:summary being limited to 255 characters, 
 0.6.0 released on 12/17/2008
 Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration, and added iTunes New Feed URL option.
 
+0.6.1 released on 01/20/2009
+Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with themes using excerpts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
+
+
+== Contributors ==
+ Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
+ Pat McSweeny, Developer for RawVoice - Developed initial version (v0.1.0) of plugin
+ Jerry Stephens, Way of the Geek (http://wayofthegeek.org/) - Contributed initial code fix for excerpt bug resolved in v0.6.1
+
+
 == Feedback == 
-http://www.blubrry.com/powerpress/
+ http://www.blubrry.com/powerpress/
 
 == Support == 
-http://help.blubrry.com/blubrry-powerpress/
+ http://help.blubrry.com/blubrry-powerpress/
 
 == Twitter == 
-http://twitter.com/blubrry
+ http://twitter.com/blubrry
