@@ -95,9 +95,11 @@ Player now handles Windows Media (wmv) in Firefox, offering link to preferred Fi
 
 
 == Contributors ==
- Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
- Pat McSweeny, Developer for RawVoice - Developed initial version (v0.1.0) of plugin
- Jerry Stephens, Way of the Geek (http://wayofthegeek.org/) - Contributed initial code fix for excerpt bug resolved in v0.6.1
+Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
+
+Pat McSweeny, Developer for [RawVoice](http://www.rawvoice.com) - Developed initial version (v0.1.0) of plugin
+
+Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1
 
 
 == Feedback == 
