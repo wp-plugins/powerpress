@@ -7,6 +7,7 @@ Version: 0.6.1
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
+	2009-01-25 - v0.6.2: Added option to reset rewrite rules when settings saved to fix problem with podcast feed returning 404, logic added to prevent FeedSmith plugin from redirecting podcast feed, and added support for the Kimili Flash Embed plugin
 	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with themes using excerpts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
 	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
 	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
@@ -38,13 +39,12 @@ Credits:
 	
 Copyright 2008-2009 RawVoice Inc. (http://www.rawvoice.com)
 
-License: Apache License version 2.0 (http://www.apache.org/licenses/)
+License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 
-	This project uses source that is GPL licensed that, for the sake of this plugin,
-	is interpreted as GPL version 3.0 for compatibility with Apache 2.0 license.
+	This project uses source that is GPL licensed.
 */
 
-define('POWERPRESS_VERSION', '0.6.1' );
+define('POWERPRESS_VERSION', '0.6.2' );
 
 // Display Powerpress player only for previously created Podpress episodes.
 // define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
@@ -589,6 +589,24 @@ function powerpress_do_podcast_feed()
 	load_template(ABSPATH . WPINC. '/feed-rss2.php');
 }
 
+function powerpress_template_redirect()
+{
+	if( is_feed() && 'podcast' == get_query_var('feed') )
+	{
+		remove_action('template_redirect', 'ol_feed_redirect'); // Remove this action
+		$Feed = get_option('powerpress_feed');
+		if( trim(@$Feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) )
+		{
+			if (function_exists('status_header')) status_header( 302 );
+			header("Location: " . trim($Feed['feed_redirect_url']));
+			header("HTTP/1.1 302 Temporary Redirect");
+			exit();
+		}
+	}
+}
+
+add_action('template_redirect', 'powerpress_template_redirect', 0);
+
 function powerpress_init()
 {
 	add_feed('podcast', 'powerpress_do_podcast_feed');
@@ -747,6 +765,10 @@ function powerpress_get_root_url()
 
 function powerpress_format_itunes_value($value, $char_limit = 255, $specialchars = true)
 {
+	// Code added to solve issue with KimiliFlashEmbed plugin
+	// 99.9% of the time this code will not be necessary
+	$value = preg_replace("/[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?\]/s", '', $value);
+	
 	if( strlen($value) > $char_limit )
 		return wp_specialchars(substr($value, 0, $char_limit));
 	return wp_specialchars($value);

@@ -354,7 +354,7 @@ add_action('admin_head', 'powerpress_admin_head');
 
 function powerpress_admin_page()
 {
-	global $wp_version;
+	global $wp_version, $wp_rewrite;
 	
 	if( isset($_POST['CheckSWF']) )
 	{
@@ -453,6 +453,9 @@ function powerpress_admin_page()
 		// Update the settings in the database:
 		update_option( 'powerpress_general',  $General);
 		update_option( 'powerpress_feed', $Feed );
+		
+		// Anytime settings are saved lets flush the rewrite rules
+		$wp_rewrite->flush_rules();
 					
 ?>
 <div class="updated powerpress-notice"><?php _e('Blubrry Powerpress settings saved.'); ?></div>
