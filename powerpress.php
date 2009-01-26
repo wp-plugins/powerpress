@@ -571,6 +571,14 @@ function powerpress_filter_rss_enclosure($content)
 	// Original Media URL
 	$OrigURL = $matches[1];
 	
+	if( substr($OrigURL, 0, 5) != 'http:' && substr($OrigURL, 0, 6) != 'https:' )
+		return; // The URL value is invalid
+		
+	global $post, $powerpress_rss_enclosure_post_id;
+	if( @$powerpress_rss_enclosure_post_id == $post->ID )
+		return; // we've already included one enclosure, lets not allow anymore
+	$powerpress_rss_enclosure_post_id = $post->ID;
+	
 	// Modified Media URL
 	$ModifiedURL = powerpress_add_redirect_url($OrigURL);
 	
@@ -641,14 +649,28 @@ function powerpress_posts_where($where)
 	
 		// Include Podpress data if exists...
 		if( $Powerpress['process_podpress'] )
+		{
 			$where .= " OR {$wpdb->postmeta}.meta_key = 'podPressMedia' ";
-			
+		}
 		$where .=") ";
 	}
 	return $where;
 }
 
 add_filter('posts_where', 'powerpress_posts_where' );
+
+// Add the groupby needed for enclosures only
+function powerpress_posts_groupby($groupby)
+{	
+	if( is_feed() && get_query_var('feed') == 'podcast' )
+	{
+		global $wpdb;
+		$groupby = " {$wpdb->posts}.ID ";
+	}
+	return $groupby;
+}
+
+add_filter('posts_groupby', 'powerpress_posts_groupby');
 
 /*
 Helper functions:
@@ -767,7 +789,7 @@ function powerpress_format_itunes_value($value, $char_limit = 255, $specialchars
 {
 	// Code added to solve issue with KimiliFlashEmbed plugin
 	// 99.9% of the time this code will not be necessary
-	$value = preg_replace("/[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?\]/s", '', $value);
+	$value = preg_replace("/\[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?\]/s", '', $value);
 	
 	if( strlen($value) > $char_limit )
 		return wp_specialchars(substr($value, 0, $char_limit));
@@ -805,6 +827,9 @@ function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = fa
 
 function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 {
+	if( preg_match('/^http\:/i', $MediaURL) === false )
+		return $MediaURL; // If the user is hosting media not via http (e.g. https or ftp) then we can't handle the redirect
+		
 	$NewURL = $MediaURL;
 	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
 	{
