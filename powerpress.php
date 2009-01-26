@@ -3,11 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.6.1
+Version: 0.6.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
-	2009-01-25 - v0.6.2: Added option to reset rewrite rules when settings saved to fix problem with podcast feed returning 404, logic added to prevent FeedSmith plugin from redirecting podcast feed, and added support for the Kimili Flash Embed plugin
+	2009-01-26 - v0.6.2: Added option to reset rewrite rules when settings saved to fix problem with podcast feed returning 404, logic added to prevent FeedSmith plugin from redirecting podcast feed, and added support for the Kimili Flash Embed plugin
 	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with themes using excerpts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
 	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
 	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
