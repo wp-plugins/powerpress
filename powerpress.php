@@ -67,6 +67,9 @@ function powerpress_content($content)
 	if( is_feed() )
 		return $content; // We don't want to do anything to the feed
 		
+	if( post_password_required($post) )
+		return $content;
+		
 	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
 	// Important to note, get_the_excerpt will be called before the_content is called, so we add a simple little hack
 	global $g_powerpress_excerpt_post_id;
@@ -478,6 +481,10 @@ function powerpress_rss2_item()
 {
 	global $powerpress_feed, $powerpress_itunes_explicit, $powerpress_itunes_talent_name, $powerpress_default_url, $powerpress_process_podpress, $post;
 	$duration = false;
+	
+	if( post_password_required($post) )
+		return $content;
+		
 	// are we processing a feed that powerpress should handle
 	if( $powerpress_feed == false )
 		return;
