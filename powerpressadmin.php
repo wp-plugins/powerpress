@@ -745,9 +745,10 @@ $displayoptions = array(1=>"Below Post", 2=>"Above Post", 0=>"None");
 
 while( list($value,$desc) = each($displayoptions) )
 	echo "\t<option value=\"$value\"". ($General['display_player']==$value?' selected':''). ">$desc</option>\n";
-	
+
 ?>
 </select>
+<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if($General['display_player_excerpt']) echo 'checked '; ?>/> Display player in <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="Explanation of an excerpt in Wordpress" target="_blank">excerpts</a>  (e.g. search results)</p>
 </td>
 </tr>
 
@@ -766,7 +767,15 @@ while( list($value,$desc) = each($playeroptions) )
 <p style="margin-top: 0;">
 	Note: "On Page Link" is a link to "play on page", the player is not displayed until link is clicked.
 </p>
+<?php
+		global $wp_version;
+		if( version_compare($wp_version, '2.7') < 0 ) // Wordpress before version 2.7
+		{
+?>
 <p><input name="CheckSWF" type="checkbox" value="1" /> Verify flash player</p>
+<?php
+		}
+?>
 </td>
 </tr>
 
@@ -898,7 +907,7 @@ while( list($value,$desc) = each($applyoptions) )
 				<input type="text" name="Feed[itunes_new_feed_url_podcast]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url_podcast']; ?>" maxlength="250" />
 			</p>
 			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
-			<p>More information regarding the iTunes New Feed URL is available at <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank">Apple.com</a></p>
+			<p>More information regarding the iTunes New Feed URL is available <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank" title="Apple iTunes Podcasting Specificiations">here</a>.</p>
 		</div>
 	</td>
 	</tr>
@@ -1092,6 +1101,14 @@ while( list($value,$desc) = each($explicit) )
 
 <?php 
 	}
+	
+	function powerpress_shutdown()
+	{
+		global $wpdb;
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = '_encloseme' ");
+	}
+	
+	add_action('shutdown','powerpress_shutdown'); // disable the auto enclosure process
 	
 	/*
 	// Helper functions:

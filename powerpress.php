@@ -46,11 +46,22 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 
 define('POWERPRESS_VERSION', '0.6.2' );
 
+/////////////////////////////////////////////////////
+// The following define options should be placed in your
+// wp-config.php file so the setting is not disrupted when
+// you upgrade the plugin.
+/////////////////////////////////////////////////////
+
+// Load players in the footer of the page, improves page load times but requires wp_footer() function to be included in WP Theme.
+//define('POWERPRESS_USE_FOOTER', true);
+// You can also define the delay.
+//define('POWERPRESS_USE_FOOTER_DELAY', 500); // Milliseconds delay should occur, e.g. 500 is 1/2 of a second, 2000 is 2 seconds.
+
 // Display Powerpress player only for previously created Podpress episodes.
-// define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
+//define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
 
 // Display custom play image for quicktime media. Applies to on page player only.
-// define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
+//define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
@@ -86,6 +97,11 @@ function powerpress_content($content)
 	// Powerpress settings:
 	$Powerpress = get_option('powerpress_general');
 	
+	if( current_filter() == 'the_excerpt' && !$Powerpress['display_player_excerpt'] )
+	{
+		return $content; // We didn't want to modify this since the user didn't enable it for excerpts
+	}
+	
 	// Get the enclosure data
 	$enclosureData = get_post_meta($post->ID, 'enclosure', true);
 	
@@ -98,9 +114,19 @@ function powerpress_content($content)
 			$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
 			if( $podPressMedia )
 			{
-				$EnclosureURL = $podPressMedia[0]['URI'];
-				$EnclosureSize = $podPressMedia[0]['size'];
-				$EnclosureType = '';
+				if( !is_array($podPressMedia) )
+				{
+					// Sometimes the stored data gets messed up, we can fix it here:
+					$podPressMedia = powerpress_repair_serialize($podPressMedia);
+					$podPressMedia = @unserialize($podPressMedia);
+				}
+				
+				if( is_array($podPressMedia) )
+				{
+					$EnclosureURL = $podPressMedia[0]['URI'];
+					$EnclosureSize = $podPressMedia[0]['size'];
+					$EnclosureType = '';
+				}
 			}
 			if( !$EnclosureURL )
 				return $content;
@@ -188,9 +214,17 @@ function powerpress_content($content)
 	if( $Powerpress['player_function'] == 1 || $Powerpress['player_function'] == 2 ) // We have some kind of on-line player
 	{
 		$new_content .= '<div class="powerpress_player" id="powerpress_player_'. $post->ID .'"></div>'.PHP_EOL;
-		$new_content .= '<script type="text/javascript">'.PHP_EOL;
-		$new_content .= "powerpress_play_page('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
-		$new_content .= '</script>'.PHP_EOL;
+		if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER ) // $g_powerpress_footer['player_js']
+		{
+			global $g_powerpress_footer;
+			$g_powerpress_footer['player_js'] .= "powerpress_play_page('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
+		}
+		else
+		{
+			$new_content .= '<script type="text/javascript">'.PHP_EOL;
+			$new_content .= "powerpress_play_page('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
+			$new_content .= '</script>'.PHP_EOL;
+		}
 	}
 	else if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
 	{
@@ -498,6 +532,13 @@ function powerpress_rss2_item()
 		{
 			//$Settings = get_option('powerpress_general');
 			$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
+			if( !is_array($podPressMedia) )
+			{
+				// Sometimes the stored data gets messed up, we can fix it here:
+				$podPressMedia = powerpress_repair_serialize($podPressMedia);
+				$podPressMedia = @unserialize($podPressMedia);
+			}
+			
 			if( $podPressMedia )
 			{
 				$EnclosureURL = $podPressMedia[0]['URI'];
@@ -678,6 +719,36 @@ function powerpress_posts_groupby($groupby)
 }
 
 add_filter('posts_groupby', 'powerpress_posts_groupby');
+
+
+function powerpress_wp_footer()
+{
+	global $g_powerpress_footer;
+	
+	if( is_array($g_powerpress_footer) )
+	{
+		if( isset($g_powerpress_footer['player_js']) )
+		{
+			echo '<script type="text/javascript">'.PHP_EOL;
+			if( defined('POWERPRESS_USE_FOOTER_DELAY') && POWERPRESS_USE_FOOTER_DELAY && is_numeric(POWERPRESS_USE_FOOTER_DELAY) )
+			{
+				echo 'function powerpress_onload() {'.PHP_EOL;
+				echo $g_powerpress_footer['player_js'];
+				echo '}'.PHP_EOL;
+				echo "setTimeout('powerpress_onload()', ".POWERPRESS_USE_FOOTER_DELAY.");\n";
+			}
+			else
+			{
+				echo $g_powerpress_footer['player_js'];
+			}
+			echo '</script>'.PHP_EOL;
+		}
+	}
+}
+
+if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER ) // $g_powerpress_footer['player_js']
+	add_action('wp_footer', 'powerpress_wp_footer');
+
 
 /*
 Helper functions:
@@ -885,6 +956,19 @@ function powerpress_byte_size($ppbytes)
 		} 
 	}
 	return $ppsize;
+}
+
+// For grabbing data from Podpress data stored serialized, the strings for some values can sometimes get corrupted, so we fix it...
+function powerpress_repair_serialize($string)
+{
+	if( @unserialize($string) )
+		return $string; // Nothing to repair...
+	return preg_replace_callback('/(s:(\d+):"([^"]*)")/', 
+			create_function(
+					'$matches',
+					'if( strlen($matches[3]) == $matches[2] ) return $matches[0]; return sprintf(\'s:%d:"%s"\', strlen($matches[3]), $matches[3]);'
+			), 
+			$string);
 }
 /*
 End Helper Functions
