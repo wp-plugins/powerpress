@@ -62,8 +62,11 @@ function powerpress_content($content)
 	if( is_feed() )
 		return $content; // We don't want to do anything to the feed
 		
-	if( post_password_required($post) )
-		return $content;
+	if( function_exists('post_password_required') )
+	{
+		if( post_password_required($post) )
+			return $content;
+	}
 		
 	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
 	// Important to note, get_the_excerpt will be called before the_content is called, so we add a simple little hack
@@ -500,9 +503,12 @@ function powerpress_rss2_item()
 	global $powerpress_feed, $powerpress_itunes_explicit, $powerpress_itunes_talent_name, $powerpress_default_url, $powerpress_process_podpress, $post;
 	$duration = false;
 	
-	if( post_password_required($post) )
-		return $content;
-		
+	if( function_exists('post_password_required') )
+	{
+		if( post_password_required($post) )
+			return $content;
+	}
+	
 	// are we processing a feed that powerpress should handle
 	if( $powerpress_feed == false )
 		return;
@@ -579,8 +585,11 @@ function powerpress_rss2_item()
 		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($excerpt_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 	else	
 		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
-		
-	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
+	
+	//if( defined('POWERPRESS_SMART_ITUNES_SUMMARY') && POWERPRESS_SMART_ITUNES_SUMMARY )
+		echo "\t\t<itunes:summary>". powerpress_itunes_summary($post->post_content) .'</itunes:summary>'.PHP_EOL;
+	//else
+	//	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
 	
 	if( $powerpress_itunes_talent_name )
 		echo "\t\t<itunes:author>" . wp_specialchars($powerpress_itunes_talent_name) . '</itunes:author>'.PHP_EOL;
@@ -737,6 +746,46 @@ if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER ) // $g_powerpress
 /*
 Helper functions:
 */
+
+function powerpress_itunes_summary($html)
+{
+	// Do some smart conversion of the post html to readable text without HTML.
+	
+	// First, convert: <a href="link"...>label</a>
+	// to: label (link)
+	$html = preg_replace_callback('/(\<a[^\>]*href="([^"]*)"[^\>]*>([^\<]*)<\/a\>)/i', 
+				create_function(
+					'$matches',
+					'return "{$matches[3]} ({$matches[2]})";'
+			), 
+				$html);
+	
+	// Second, convert: <img src="link" title="title" />
+	// to: if no title (image: link) or (image title: link)
+	$html = preg_replace_callback('/(\<img[^\>]*src="([^"]*)"[^\>]*[^\>]*\>)/i', 
+				create_function(
+					'$matches',
+					'return "({$matches[2]})";'
+			), 
+				$html);
+	
+	// Third, convert <ul><li> to <li>* 
+	// TODO:
+	
+	// Last, and the hardest, convert <ol><li> to numbers, this will be the hardest
+	// TODO:
+	
+	// For now make them bullet points...
+	$html = str_replace('<li>', '<li>* ', $html);
+	
+	// Now do all the other regular conversions...
+	if( function_exists('strip_shortcodes') )
+		$html = strip_shortcodes( $html ); 
+	$html = str_replace(']]>', ']]&gt;', $html);
+	$content_no_html = strip_tags($html);
+
+	return powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000);
+}
 
 function powerpress_itunes_categories($PrefixSubCategories = false)
 {

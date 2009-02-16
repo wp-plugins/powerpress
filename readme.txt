@@ -50,7 +50,8 @@ http://help.blubrry.com/blubrry-powerpress/
 		
 == Screenshots ==
 1. Add podcast episode, found within the edit post screen
-2. Cross section of Blubrry Powerpress settings page.
+2. Cross section of Blubrry Powerpress settings page (Feed settings).
+3. Cross section of Blubrry Powerpress settings page (Basic settings).
 
 == Changelog ==
 
@@ -98,6 +99,10 @@ Added option to reset rewrite rules when settings saved to fix problem with podc
 
 0.6.3 released on 02/16/2009
 Added new options to load all javascript for players in the wp_footer() function. Options are available as defines to add to the wp-config.php and are documented near the top of the powerpress.php. Added option in settings to display player in excerpts. Added code to repair corrupted Podpress data for displaying previously created podpress episodes. Note: Podpress data corruption was originally caused by previous versions of Podpress. Added code to prevent Wordpress from auto adding enclosures created from links to media found in the blog post.
+
+0.6.4 released on 02/18/2009
+Added enhanced processing of the <itunes:description> values, links and images are now hotlinked in the posts. Fixed bug where post_password_required() function does not exist. 
+
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
