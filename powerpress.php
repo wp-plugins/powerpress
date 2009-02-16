@@ -851,7 +851,10 @@ function powerpress_format_itunes_value($value, $char_limit = 255, $specialchars
 {
 	// Code added to solve issue with KimiliFlashEmbed plugin
 	// 99.9% of the time this code will not be necessary
-	$value = preg_replace("/\[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?\]/s", '', $value);
+	$value = preg_replace("/\[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?(\]|$)/s", '', $value);
+	if( DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
+		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
+	$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
 	
 	if( strlen($value) > $char_limit )
 		return wp_specialchars(substr($value, 0, $char_limit));
