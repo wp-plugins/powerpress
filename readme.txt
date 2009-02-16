@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
-Tested up to: 2.7
-Stable tag: 0.6.2
+Tested up to: 2.7.1
+Stable tag: 0.6.3
 
 Add podcasting support to your blog.
 
@@ -96,6 +96,8 @@ Player now handles Windows Media (wmv) in Firefox, offering link to preferred Fi
 0.6.2 released on 01/26/2009
 Added option to reset rewrite rules when settings saved to fix problem with podcast feed returning 404, logic added to prevent FeedSmith plugin from redirecting podcast feed, and added support for the Kimili Flash Embed plugin
 
+0.6.3 released on 02/16/2009
+Added new options to load all javascript for players in the wp_footer() function. Options are available as defines to add to the wp-config.php and are documented near the top of the powerpress.php. Added option in settings to display player in excerpts. Added code to repair corrupted Podpress data for displaying previously created podpress episodes. Note: Podpress data corruption was originally caused by previous versions of Podpress. Added code to prevent Wordpress from auto adding enclosures created from links to media found in the blog post.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer

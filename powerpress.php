@@ -3,27 +3,11 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.6.2
+Version: 0.6.3
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
-	2009-01-26 - v0.6.2: Added option to reset rewrite rules when settings saved to fix problem with podcast feed returning 404, logic added to prevent FeedSmith plugin from redirecting podcast feed, and added support for the Kimili Flash Embed plugin
-	2009-01-20 - v0.6.1: Player now handles Windows Media (wmv) in Firefox, offering link to preferred Firefox plugin, now using the wp_specialchars() function for adding entities to feed values, fix problem with themes using excerpts not displaying the player correctly (Thanks @wayofthegeek for your help), and a number of other syntactical changes.
-	2008-12-17 - v0.6.0: Fixed bug with podcast feed in Wordpress 2.7, added defaults for file size and duration and added iTunes New Feed URL option.
-	2008-12-14 - v0.5.2: Fixed bug with the feed channel itunes:summary being limited to 255 characters, the limit is now set to 4,000.
-	2008-12-10 - v0.5.1: Added podcast to pages option (Thanks @Frumph), added code to make sure the itunes:subtitle, keywords and summary feed tags never exceed their size limits.
-	2008-11-26 - v0.5.0: Added options to report media duration and file size next to download links, new Media URL check performed when adding episode to new post and fixed a number of bugs including the player auto play bug caused by version v0.4.2.
-	2008-10-24 - v0.4.2: Fixed quicktime in-page player bug, fixed bug which caused itunes keywords and subtitle to be blank and incremented version number.
-	2008-10-24 - v0.4.1: Fixed auto-play bug found in last update, only affected quicktime files with the play on page option.
-	2008-10-21 - v0.4.0: Added two new play options adding 'play on page' links with and without play in new window links and now use a customizable play image for quicktime media.
-	2008-10-05 - v0.3.2: Added alternative logic for those who host their blogs on servers with allow_url_fopen turned off.
-	2008-10-02 - v0.3.1: iTunes subtitle, keywords and summary values now properly escape html special characters such as &nbsp; added define for adding itunes:new-feed-url tag, added define to display player for legacy Podpress episodes only.
-	2008-09-24 - v0.3.0: Added important feeds list in feed settings, logic to prevent stats redirect duplication and added podcast only feed.
-	2008-09-17 - v0.2.1: Fixed itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
-	2008-08-05 - v0.2.0: First beta release of Blubrry Powerpress plugin.
-	2008-08-05 - v0.1.2: Fixed minor bugs, trimming empty hour values in duration.
-	2008-08-04 - v0.1.1: Fixed minor bugs, PHP_EOL define, check if function exists for older versions of wordpress and more.
-	2008-08-04 - v0.1.0: Tentative initial release of Blubrry Powerpress plugin.
+	Please see readme.txt for detailed change log.
 
 Contributors:
 	Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
@@ -44,7 +28,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 	This project uses source that is GPL licensed.
 */
 
-define('POWERPRESS_VERSION', '0.6.2' );
+define('POWERPRESS_VERSION', '0.6.3' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
