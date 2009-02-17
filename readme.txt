@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.7.1
-Stable tag: 0.6.3
+Stable tag: 0.6.4
 
 Add podcasting support to your blog.
 
@@ -100,8 +100,8 @@ Added option to reset rewrite rules when settings saved to fix problem with podc
 0.6.3 released on 02/16/2009
 Added new options to load all javascript for players in the wp_footer() function. Options are available as defines to add to the wp-config.php and are documented near the top of the powerpress.php. Added option in settings to display player in excerpts. Added code to repair corrupted Podpress data for displaying previously created podpress episodes. Note: Podpress data corruption was originally caused by previous versions of Podpress. Added code to prevent Wordpress from auto adding enclosures created from links to media found in the blog post.
 
-0.6.4 released on 02/18/2009
-Added enhanced processing of the <itunes:description> values, links and images are now hotlinked in the posts. Fixed bug where post_password_required() function does not exist. 
+0.6.4 released on 02/16/2009
+Fixed bug where post_password_required() function does not exist, bug only affects users using Wordpress blogs older than version 2.7.
 
 
 == Contributors ==

@@ -3,7 +3,7 @@
 Plugin Name: Blubrry Powerpress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.6.3
+Version: 0.6.4
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -43,6 +43,9 @@ define('POWERPRESS_VERSION', '0.6.3' );
 
 // Display Powerpress player only for previously created Podpress episodes.
 //define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
+
+// Enhance the itunes:summary for each post by converting web links and imges into direct hotlinks.
+//define('POWERPRESS_SMART_ITUNES_SUMMARY', true);
 
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
@@ -586,10 +589,10 @@ function powerpress_rss2_item()
 	else	
 		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
 	
-	//if( defined('POWERPRESS_SMART_ITUNES_SUMMARY') && POWERPRESS_SMART_ITUNES_SUMMARY )
+	if( defined('POWERPRESS_SMART_ITUNES_SUMMARY') && POWERPRESS_SMART_ITUNES_SUMMARY )
 		echo "\t\t<itunes:summary>". powerpress_itunes_summary($post->post_content) .'</itunes:summary>'.PHP_EOL;
-	//else
-	//	echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
+	else
+		echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
 	
 	if( $powerpress_itunes_talent_name )
 		echo "\t\t<itunes:author>" . wp_specialchars($powerpress_itunes_talent_name) . '</itunes:author>'.PHP_EOL;
