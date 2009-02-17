@@ -906,7 +906,10 @@ function powerpress_format_itunes_value($value, $char_limit = 255, $specialchars
 	$value = preg_replace("/\[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?(\]|$)/s", '', $value);
 	if( DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
 		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
-	$value = html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
+	if(version_compare("5", phpversion(), ">"))
+		$value = str_replace('&nbsp;', ' ', $value); // Best we can do for PHP4
+	else
+		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
 	
 	if( strlen($value) > $char_limit )
 		return wp_specialchars(substr($value, 0, $char_limit));
