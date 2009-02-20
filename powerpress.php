@@ -28,7 +28,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 	This project uses source that is GPL licensed.
 */
 
-define('POWERPRESS_VERSION', '0.6.3' );
+define('POWERPRESS_VERSION', '0.6.5' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
