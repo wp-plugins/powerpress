@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.7.1
-Stable tag: 0.6.4
+Stable tag: 0.6.5
 
 Add podcasting support to your blog.
 
@@ -103,6 +103,8 @@ Added new options to load all javascript for players in the wp_footer() function
 0.6.4 released on 02/16/2009
 Fixed bug where post_password_required() function does not exist, bug only affects users using Wordpress blogs older than version 2.7.
 
+0.6.5 released on 02/20/2009
+Fixed warning from being printed when v0.6.3/v0.6.4 used with PHP4. Bug only affected users using PHP4.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
