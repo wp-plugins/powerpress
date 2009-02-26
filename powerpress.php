@@ -28,7 +28,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 	This project uses source that is GPL licensed.
 */
 
-define('POWERPRESS_VERSION', '0.6.5' );
+define('POWERPRESS_VERSION', '0.6.6' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -39,7 +39,15 @@ define('POWERPRESS_VERSION', '0.6.5' );
 // Load players in the footer of the page, improves page load times but requires wp_footer() function to be included in WP Theme.
 //define('POWERPRESS_USE_FOOTER', true);
 // You can also define the delay.
-//define('POWERPRESS_USE_FOOTER_DELAY', 500); // Milliseconds delay should occur, e.g. 500 is 1/2 of a second, 2000 is 2 seconds.
+//define('POWERPRESS_USE_FOOTER_DELAY', 300); // Milliseconds delay should occur, e.g. 500 is 1/2 of a second, 2000 is 2 seconds.
+
+// Set whether players should be loaded using the page onload event
+if( !defined('POWERPRESS_USE_ONLOAD') ) // Add define('POWERPRESS_USE_ONLOAD', false); to your wp-config.php to turn this feature off
+	define('POWERPRESS_USE_ONLOAD', true);
+	
+// define how much of a delay should exist when media players are loaded
+if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
+	define('POWERPRESS_USE_ONLOAD_DELAY', 500); 
 
 // Display Powerpress player only for previously created Podpress episodes.
 //define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
@@ -204,7 +212,21 @@ function powerpress_content($content)
 	if( $Powerpress['player_function'] == 1 || $Powerpress['player_function'] == 2 ) // We have some kind of on-line player
 	{
 		$new_content .= '<div class="powerpress_player" id="powerpress_player_'. $post->ID .'"></div>'.PHP_EOL;
-		if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER ) // $g_powerpress_footer['player_js']
+		if( defined('POWERPRESS_USE_ONLOAD') && POWERPRESS_USE_ONLOAD )
+		{
+			if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER )
+			{
+				global $g_powerpress_footer;
+				$g_powerpress_footer['player_js'] .= "powerpress_queue_player('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
+			}
+			else
+			{
+				$new_content .= '<script type="text/javascript">'.PHP_EOL;
+				$new_content .= "powerpress_queue_player('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
+				$new_content .= '</script>'.PHP_EOL;
+			}
+		}
+		else if( defined('POWERPRESS_USE_FOOTER') && POWERPRESS_USE_FOOTER ) // $g_powerpress_footer['player_js']
 		{
 			global $g_powerpress_footer;
 			$g_powerpress_footer['player_js'] .= "powerpress_play_page('$EnclosureURL', 'powerpress_player_{$post->ID}');\n";
@@ -259,6 +281,12 @@ if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 )
 	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\',true);'.PHP_EOL;
 else
 	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\');'.PHP_EOL;
+	
+if( defined('POWERPRESS_USE_ONLOAD') && POWERPRESS_USE_ONLOAD )
+{
+	echo 'powerpress_addLoadEvent(powerpress_onload);'.PHP_EOL;
+	echo "var g_bpLoadDelay = ".POWERPRESS_USE_ONLOAD_DELAY.";\n";
+}
 ?>
 </script>
 <style type="text/css">
@@ -726,12 +754,12 @@ function powerpress_wp_footer()
 		if( isset($g_powerpress_footer['player_js']) )
 		{
 			echo '<script type="text/javascript">'.PHP_EOL;
-			if( defined('POWERPRESS_USE_FOOTER_DELAY') && POWERPRESS_USE_FOOTER_DELAY && is_numeric(POWERPRESS_USE_FOOTER_DELAY) )
+			if( POWERPRESS_USE_ONLOAD == false && defined('POWERPRESS_USE_FOOTER_DELAY') && POWERPRESS_USE_FOOTER_DELAY && is_numeric(POWERPRESS_USE_FOOTER_DELAY) )
 			{
-				echo 'function powerpress_onload() {'.PHP_EOL;
+				echo 'function powerpress_onload_delay() {'.PHP_EOL;
 				echo $g_powerpress_footer['player_js'];
 				echo '}'.PHP_EOL;
-				echo "setTimeout('powerpress_onload()', ".POWERPRESS_USE_FOOTER_DELAY.");\n";
+				echo "setTimeout('powerpress_onload_delay()', ".POWERPRESS_USE_FOOTER_DELAY.");\n";
 			}
 			else
 			{

@@ -484,6 +484,51 @@ function jsMediaPlayer(FlashSrc) {
 	}
 }
 
+
+function powerpress_onload()
+{
+	if( g_bpLoadDelay )
+		setTimeout('powerpress_load_delay()', g_bpLoadDelay);
+	else
+		powerpress_load_delay();
+}
+
+function powerpress_load_delay()
+{
+	for( var x = 0; x < g_pbPlayerArray.length; x++ )
+		powerpress_play_page( g_pbPlayerArray[x][0], g_pbPlayerArray[x][1] );
+}
+
+var g_pbPlayerArray = new Array();
+function powerpress_queue_player(media, div )
+{
+	//alert('test');
+	var pos = g_pbPlayerArray.length;
+	g_pbPlayerArray[pos] = new Array();
+	g_pbPlayerArray[pos][0] = media;
+	g_pbPlayerArray[pos][1] = div;
+}
+
+function powerpress_addLoadEvent(func)
+{
+  var oldonload = window.onload; 
+	if (typeof window.onload != 'function')
+	{ 
+		window.onload = func; 
+	}
+	else
+	{ 
+		window.onload = function()
+		{ 
+			if (oldonload)
+			{
+				oldonload(); 
+			} 
+			func(); 
+		} 
+	} 
+}
+
 /** 
  * flashembed 0.31. Adobe Flash embedding script
  * 

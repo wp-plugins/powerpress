@@ -738,7 +738,7 @@ while( list($value,$desc) = each($options) )
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php _e("Display Player"); ?></th> 
+<th scope="row"><?php _e("Media Presentation"); ?></th> 
 <td><select name="General[display_player]"  class="bpp_input_sm">
 <?php
 $displayoptions = array(1=>"Below Post", 2=>"Above Post", 0=>"None");
@@ -747,8 +747,8 @@ while( list($value,$desc) = each($displayoptions) )
 	echo "\t<option value=\"$value\"". ($General['display_player']==$value?' selected':''). ">$desc</option>\n";
 
 ?>
-</select>
-<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if($General['display_player_excerpt']) echo 'checked '; ?>/> Display player in <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="Explanation of an excerpt in Wordpress" target="_blank">excerpts</a>  (e.g. search results)</p>
+</select> (where player and/or links will be displayed)
+<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if($General['display_player_excerpt']) echo 'checked '; ?>/> Display player / links in <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="Explanation of an excerpt in Wordpress" target="_blank">excerpts</a>  (e.g. search results)</p>
 </td>
 </tr>
 
