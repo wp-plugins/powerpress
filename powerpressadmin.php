@@ -854,9 +854,9 @@ while( list($value,$desc) = each($linkoptions) )
 
 <?php _e("Apply Settings To"); ?></th> 
 <td>
-<select name="Feed[apply_to]" class="bpp_input_med">
+<select name="Feed[apply_to]" class="bpp_input_large"  style="width: 60%;">
 <?php
-$applyoptions = array(1=>'All RSS2 Feeds', 2=>'Main RSS2 Feed only', 0=>'Disable (settings below ignored)');
+$applyoptions = array(1=>'All RSS2 Feeds (category / tag specific podcast feeds)', 2=>'Main RSS2 Feed only', 0=>'Disable (settings below ignored)');
 
 while( list($value,$desc) = each($applyoptions) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['apply_to']==$value?' selected':''). ">$desc</option>\n";

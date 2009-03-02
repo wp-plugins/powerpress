@@ -22,6 +22,8 @@ Features:
 * Ping iTunes
 * Media size detection
 * Duration detection (mp3 only)
+* Category Podcast Feeds (Category Casting)
+* Tag/Keyword Podcast Feeds (Tag Casting)
 * 3rd party statistics integration
 
 For the latest information visit the website.
