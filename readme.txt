@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
 Tested up to: 2.7.1
-Stable tag: 0.6.5
+Stable tag: 0.7.0
 
 Add podcasting support to your blog.
 
@@ -15,16 +15,23 @@ The Blubrry Powerpress interface allows you to easily add/modify/remove podcast 
 Features:
 
 * Easily add/modify/remove podcast episodes from blog posts and pages
-* Integrated media player
+* Integrated audio/video media player
+* Podcast Only Feed
+* Custom Podcast Feeds (no limit)
 * iTunes RSS tags
+* Enhanced iTunes summaries from blog posts option
 * iTunes album/cover art
 * Upload new iTunes/RSS cover art
 * Ping iTunes
 * Media size detection
 * Duration detection (mp3 only)
+* 3rd party statistics integration
+* Import PodPress settings and media episodes
 * Category Podcast Feeds (Category Casting)
 * Tag/Keyword Podcast Feeds (Tag Casting)
-* 3rd party statistics integration
+* Hosted Feed Support (FeedBurner.com)
+* User Role Management (Control which users on blog can Podcast)
+
 
 For the latest information visit the website.
 
@@ -107,6 +114,10 @@ Fixed bug where post_password_required() function does not exist, bug only affec
 
 0.6.5 released on 02/20/2009
 Fixed warning from being printed when v0.6.3/v0.6.4 used with PHP4. Bug only affected users using PHP4.
+
+0.7.0 released on 03/10/2009
+Bugs: Improved flash player loading on pages with multiple podcast episodes, Detecting file size when specifying duration bug fixed. Fixed bug where duration would sometimes save minutes over 60 rather than rolling over one hour.
+Features: Added new Simple and Advanced Modes. Advance mode adds 5 new pages (Basic, Appearance, Feed Settings, Custom Feeds and Tools). Can now set the width of the audio player as well as the width and height of the video player. New language added to the Feed Settings page to better explain the apply settings to setting which is now renamed "Enhance Feeds" setting. Added new Enhance iTunes Summary from Blog Posts option, which intelligently takes web links and links to images in your regular blog post into a readable and clickable format for the iTunes summary. Custom feeds including the default podcast feed include additional options such as setting the number of most recent posts in the feed, customizing the feed title, description and landing web link, as well as full support for redirecting feed to a hosted feed service such as FeedBurner.com. The new Custom Feeds section allows user to create an endless number of podcast specific feeds either for separating long and sort formats and/or media types such as ogg, wma and mp3. New Tools section allows users to re-import PodPress settings (typically imported automatically upon first install), Import PodPress episodes with a detailed table of media files with options to specify which media files go to which feeds. Tools page also includes an option to add Edit Podcast Capability for User Role Management. Added Nonces support to all edit and delete transactions to admin pages.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer

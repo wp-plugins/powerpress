@@ -8,6 +8,7 @@
  * Released under Aoache 2 license:
  * http://www.apache.org/licenses/LICENSE-2.0
  *
+ * versoin 1.1.2 - 03/04/2009 - Added options to set the width for audio, width and height for video.
  * versoin 1.1.1 - 12/22/20008 - Minor change to support Windows Media in Firefox. Includes link to preferred Firefox Windows Media Player plugin.
  * versoin 1.1.0 - 11/25/20008 - Major re-write, object now stored in this include file, auto play is no longer a member variable and is determined by function call.
  * version 1.0.3 - 11/02/2008 - Added option for playing quicktime files in an intermediate fashion with an image to click to play.
@@ -32,6 +33,26 @@ function powerpress_player_init(PluginURL, QuicktimeImage)
 	g_bpPlayer.PlayImage(QuicktimeImage);
 	if( powerpress_player_init.arguments.length > 2 )
 		g_bpPlayer.OnePlayerOnly(powerpress_player_init.arguments[2]);
+}
+
+/**
+	Initialize function for javascript based player
+	
+	@Width - width of player
+	@Height - height of player
+	@WidthAudio - width of player (mp3 audio only)
+*/
+function powerpress_player_size(Width, Height, WidthAudio)
+{
+	if( g_bpPlayer )
+	{
+		if( Width >= 100 )
+			g_bpPlayer.SetWidth(Width);
+		if( Height >= 24 )
+			g_bpPlayer.SetHeight(Height);
+		if( WidthAudio >= 100 )
+			g_bpPlayer.SetWidthAudio(WidthAudio);
+	}
 }
 
 /**
@@ -77,6 +98,7 @@ function jsMediaPlayer(FlashSrc) {
 	this.m_flash_src = FlashSrc;
 	this.m_width = 320;
 	this.m_height = 240;
+	this.m_widthAudio = 320;
 	this.m_player_div = false;
 	this.m_player_wnd = false;
 	this.m_one_player_only = false;
@@ -94,6 +116,10 @@ function jsMediaPlayer(FlashSrc) {
 	
 	this.SetHeight=function(Height) {
 		this.m_height = Height;
+	}
+	
+	this.SetWidthAudio=function(Width) {
+		this.m_widthAudio = Width;
 	}
 	
 	this.OnePlayerOnly=function(Setting) {
@@ -306,15 +332,18 @@ function jsMediaPlayer(FlashSrc) {
 	this._doFlowPlayer = function() {
 		
 		var height = this.m_height;
+		var width = this.m_width;
 		var auto_play = false;
 		if( this._doFlowPlayer.arguments.length > 0 && this._doFlowPlayer.arguments[0] > 0 )
 			height = this._doFlowPlayer.arguments[0];
 		if( this._doFlowPlayer.arguments.length > 1 )
 			auto_play = this._doFlowPlayer.arguments[1];
+		if( height == 24 )
+			width = this.m_widthAudio;
 			
 		flashembed(
 				this.m_player_div,
-				{src: this.m_flash_src, width: this.m_width, height: height },
+				{src: this.m_flash_src, width: width, height: height },
 				{config: { autoPlay: auto_play?true:false, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: this.m_media_url, loop: false, autoRewind: true } }
 			);
 	
@@ -326,6 +355,10 @@ function jsMediaPlayer(FlashSrc) {
 		var height = this.m_height;
 		if( this._getFlowPlayer.arguments.length > 1 )
 			height = this._getFlowPlayer.arguments[1];
+			
+		var width = this.m_width;
+		if( height == 24 ) // Player height
+			width = this.m_widthAudio;
 		
 		var auto_play = false;
 		if( this._getFlowPlayer.arguments.length > 2 )
@@ -334,7 +367,7 @@ function jsMediaPlayer(FlashSrc) {
 		var Html = '';
 		Html += "flashembed(\n";
 		Html += "		'"+ destDiv +"', \n";
-		Html += "		{src: '"+ this.m_flash_src +"', width: "+ this.m_width +", height: "+ height +"}, \n";
+		Html += "		{src: '"+ this.m_flash_src +"', width: "+ width +", height: "+ height +"}, \n";
 		Html += "		{config: { autoPlay: "+ (auto_play?'true':'false') +", duration: 633, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '"+ this.m_media_url +"', loop: false, autoRewind: true } } \n";
 		Html += "	); \n";
 		return Html;
