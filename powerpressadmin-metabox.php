@@ -80,11 +80,15 @@ function powerpress_meta_box($object, $box)
 	<div id="powerpress_podcast_edit_<?php echo $FeedSlug; ?>">
 		<div class="error below-h2" id="powerpress_warning_<?php echo $FeedSlug; ?>" style="display:none;">None</div>
 		<div class="powerpress_row">
-			<label for "Powerpress[url]">Media URL</label>
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][url]">Media URL</label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_url_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" onblur="powerpress_check_url(this.value,'powerpress_warning_<?php echo $FeedSlug; ?>')" style="width: 70%; font-size: 90%;" />
 			</div>
 		</div>
+<?php
+	if( $GeneralSettings['episode_box_mode'] != 1 )
+	{
+?>
 		<div class="powerpress_row">
 			<label for "size">File Size</label>
 			<div class="powerpress_row_content">
@@ -101,10 +105,10 @@ function powerpress_meta_box($object, $box)
 			<label for "size">Duration</label>
 			<div class="powerpress_row_content">
 				<div style="margin-bottom: 4px;">
-					<input id="powerpress_set_duration" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="0" type="radio" <?php echo ($GeneralSettings['set_duration']==0?'checked':''); ?> /> Auto detect duration (mp3's only)
+					<input id="powerpress_set_duration_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="0" type="radio" <?php echo ($GeneralSettings['set_duration']==0?'checked':''); ?> /> Auto detect duration (mp3's only)
 				</div>
 				<div style="margin-bottom: 4px;">
-					<input id="powerpress_set_duration" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> /> Specify: 
+					<input id="powerpress_set_duration_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> /> Specify: 
 					<input id="powerpress_duration_hh" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" /><strong>:</strong> 
 					<input id="powerpress_duration_mm" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" /><strong>:</strong> 
 					<input id="powerpress_duration_ss" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" /> HH:MM:SS
@@ -114,6 +118,16 @@ function powerpress_meta_box($object, $box)
 				</div>
 			</div>
 		</div>
+<?php
+	}
+	else
+	{
+?>
+<input id="powerpress_set_size_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_size]" value="0" type="hidden" />
+<input id="powerpress_set_duration_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="0" type="hidden" />
+<?php
+	}
+?>
 	</div>
 </div>
 <?php

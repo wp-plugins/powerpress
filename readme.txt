@@ -1,4 +1,4 @@
-=== Blubrry Powerpress Podcasting plugin ===
+=== Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
@@ -8,9 +8,9 @@ Stable tag: 0.6.5
 Add podcasting support to your blog.
 
 == Description ==
-The Blubrry Powerpress Podcast Plugin has all of the essential features needed to provide podcasting support in a Wordpress blog.
+The Blubrry PowerPress Podcast Plugin has all of the essential features needed to provide podcasting support in a Wordpress blog.
 
-The Blubrry Powerpress interface allows you to easily add/modify/remove podcast episodes from blog posts and includes a simple on-line media player, iTunes compatibile RSS feed tags, ability to upload cover art images, ping iTunes, detect media size, detect time duration (mp3's only) and add 3rd party media statistics.
+The Blubrry PowerPress interface allows you to easily add/modify/remove podcast episodes from blog posts and includes a simple on-line media player, iTunes compatibile RSS feed tags, ability to upload cover art images, ping iTunes, detect media size, detect time duration (mp3's only) and add 3rd party media statistics.
 
 Features:
 
@@ -43,29 +43,29 @@ http://help.blubrry.com/blubrry-powerpress/
 
 == Frequently Asked Questions ==
 
- = Why doesn't Blubrry Powerpress support multiple enclosures? =
- Blubrry Powerpress does not support multiple enclosures in one blog post. This is because each podcatching application handles multiple enclosures differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry Powerpress does not support them.
+ = Why doesn't Blubrry PowerPress support multiple enclosures? =
+ Blubrry PowerPress does not support multiple enclosures in one blog post. This is because each podcatching application handles multiple enclosures differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry PowerPress does not support them.
 
- = Why doesn't Blubrry Powerpress include media statistics? =
- Blubrry Powerpress does not include media statistics. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ = Why doesn't Blubrry PowerPress include media statistics? =
+ Blubrry PowerPress does not include media statistics. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
 
  = Looking for a better Audio Player? =
  Check out the <a href="http://wpaudioplayer.com" target="_blank" title="WP Audio Player 2.0">WP Audio Player 2.0</a>. The WP Audio Player 2.0 options include theme colors, initial volume, player width and more.
 	
 == Installation ==
 1. Copy the entire directory from the downloaded zip file into the /wp-content/plugins/ folder.
-2. Activate the "Blubrry Powerpress" plugin in the Plugin Management page.
-3. Configure your Blubrry Powerpress by going to the **Settings** > **Blubrry Powerpress** page.
+2. Activate the "Blubrry PowerPress" plugin in the Plugin Management page.
+3. Configure your Blubrry PowerPress by going to the **Settings** > **Blubrry PowerPress** page.
 		
 == Screenshots ==
 1. Add podcast episode, found within the edit post screen
-2. Cross section of Blubrry Powerpress settings page (Feed settings).
-3. Cross section of Blubrry Powerpress settings page (Basic settings).
+2. Cross section of Blubrry PowerPress settings page (Feed settings).
+3. Cross section of Blubrry PowerPress settings page (Basic settings).
 
 == Changelog ==
 
 0.2 released on 08/11/2008
-Initial release of Blubrry Powerpress
+Initial release of Blubrry PowerPress
 
 0.2.1 released on 09/17/2008
 Fixed bugs: itunes:subtitle bug, itunes:summary is now enabled by default, add ending trailing slash to media url if missing, and copy blubrry keyword from podpress fix.
@@ -116,8 +116,11 @@ Fixed bug where post_password_required() function does not exist, bug only affec
 Fixed warning from being printed when v0.6.3/v0.6.4 used with PHP4. Bug only affected users using PHP4.
 
 0.7.0 released on 03/10/2009
+Beta release only intended for a handfull of beta testers. For full list of changes, please refer to version 0.7.1
+
+0.7.1 released on 03/10/2009
 Bugs: Improved flash player loading on pages with multiple podcast episodes, Detecting file size when specifying duration bug fixed. Fixed bug where duration would sometimes save minutes over 60 rather than rolling over one hour.
-Features: Added new Simple and Advanced Modes. Advance mode adds 5 new pages (Basic, Appearance, Feed Settings, Custom Feeds and Tools). Can now set the width of the audio player as well as the width and height of the video player. New language added to the Feed Settings page to better explain the apply settings to setting which is now renamed "Enhance Feeds" setting. Added new Enhance iTunes Summary from Blog Posts option, which intelligently takes web links and links to images in your regular blog post into a readable and clickable format for the iTunes summary. Custom feeds including the default podcast feed include additional options such as setting the number of most recent posts in the feed, customizing the feed title, description and landing web link, as well as full support for redirecting feed to a hosted feed service such as FeedBurner.com. The new Custom Feeds section allows user to create an endless number of podcast specific feeds either for separating long and sort formats and/or media types such as ogg, wma and mp3. New Tools section allows users to re-import PodPress settings (typically imported automatically upon first install), Import PodPress episodes with a detailed table of media files with options to specify which media files go to which feeds. Tools page also includes an option to add Edit Podcast Capability for User Role Management. Added Nonces support to all edit and delete transactions to admin pages.
+Features: Added new Simple and Advanced Modes. Advance mode adds 5 new pages (Basic, Appearance, Feed Settings, Custom Feeds and Tools). New Edit Post settings section added which allows user to toggle between a simple and normal edit episode boxes. The simple mode displays only the Media URL field. Users can now set the width of the audio player as well as the width and height of the video player. New language added to the Feed Settings page to better explain the apply settings to setting which is now renamed "Enhance Feeds" setting. Added new Enhance iTunes Summary from Blog Posts option, which intelligently takes web links and links to images in your regular blog post into a readable and clickable format for the iTunes summary. Custom feeds including the default podcast feed include additional options such as setting the number of most recent posts in the feed, customizing the feed title, description and landing web link, as well as full support for redirecting feed to a hosted feed service such as FeedBurner.com. The new Custom Feeds section allows user to create an endless number of podcast specific feeds either for separating long and sort formats and/or media types such as ogg, wma and mp3. New Tools section allows users to re-import PodPress settings (typically imported automatically upon first install), Import PodPress episodes with a detailed table of media files with options to specify which media files go to which feeds. Tools page also includes an option to add Edit Podcast Capability for User Role Management. Added Nonces support to all edit and delete transactions to admin pages.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer

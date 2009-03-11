@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Blubrry Powerpress
+Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
-Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry Powerpress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
+Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
 Version: 0.6.5
 Author: Blubrry
 Author URI: http://www.blubrry.com/
@@ -29,7 +29,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 */
 
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '0.7.0' );
+define('POWERPRESS_VERSION', '0.7.1' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -37,7 +37,7 @@ define('POWERPRESS_VERSION', '0.7.0' );
 // you upgrade the plugin.
 /////////////////////////////////////////////////////
 
-// Set specific play and download labels for your installation of Powerpress
+// Set specific play and download labels for your installation of PowerPress
 if( !defined('POWERPRESS_LINKS_TEXT') )
 	define('POWERPRESS_LINKS_TEXT', __('Podcast') );
 if( !defined('POWERPRESS_DURATION_TEXT') )
@@ -64,11 +64,14 @@ if( !defined('POWERPRESS_USE_ONLOAD') ) // Add define('POWERPRESS_USE_ONLOAD', f
 if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
 	define('POWERPRESS_USE_ONLOAD_DELAY', 500); 
 
-// Display Powerpress player only for previously created Podpress episodes.
+// Display PowerPress player only for previously created Podpress episodes.
 //define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
 
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
+
+if( !defined('POWWERPRESS_CONTENT_ACTION_PRIORITY') )
+	define('POWWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
@@ -108,7 +111,7 @@ function powerpress_content($content)
 		return $content; // We don't want to do anything to this excerpt content in this call either...
 	}
 	
-	// Powerpress settings:
+	// PowerPress settings:
 	$Powerpress = get_option('powerpress_general');
 	
 	if( current_filter() == 'the_excerpt' && !$Powerpress['display_player_excerpt'] )
@@ -284,15 +287,15 @@ function powerpress_content($content)
 	return $content;
 }//end function
 
-add_action('get_the_excerpt', 'powerpress_content', 1);
-add_action('the_content', 'powerpress_content');
-add_action('the_excerpt', 'powerpress_content');
+add_filter('get_the_excerpt', 'powerpress_content', (POWWERPRESS_CONTENT_ACTION_PRIORITY - 1) );
+add_filter('the_content', 'powerpress_content', POWWERPRESS_CONTENT_ACTION_PRIORITY);
+add_filter('the_excerpt', 'powerpress_content', POWWERPRESS_CONTENT_ACTION_PRIORITY);
 
 function powerpress_header()
 {
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) )
 		return;
-	// Powerpress settings:
+	// PowerPress settings:
 	$Powerpress = get_option('powerpress_general');
 	
 	$PowerpressPluginURL = powerpress_get_root_url();
@@ -356,7 +359,7 @@ function powerpress_rss2_head()
 		$Feed = get_option('powerpress_feed');
 	
 	// We made it this far, lets write stuff to the feed!
-	echo '<!-- podcast_generator="Blubrry Powerpress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
+	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
 	
 	// add the itunes:new-feed-url tag to feed
 	if( powerpress_is_custom_podcast_feed() )
@@ -899,7 +902,7 @@ function powerpress_is_podcast_feed()
 	return true;
 }
 
-// Returns true if the feed is a custom feed added by Powerpress
+// Returns true if the feed is a custom feed added by PowerPress
 function powerpress_is_custom_podcast_feed()
 {
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) )

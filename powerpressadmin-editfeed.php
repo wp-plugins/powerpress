@@ -86,7 +86,7 @@ while( list($value,$desc) = each($applyoptions) )
 </select>
 <p>Select 'All RSS Feeds' to include podcast episodes in all feeds such as category and tag feeds.</p>
 <p>Select 'Main RSS2 Feed only' to include podcast episodes only in your primary RSS2 feed.</p>
-<p>Select 'Disable' to prevent Blubrry Powerpress from adding podcast episodes to any feeds.</p>
+<p>Select 'Disable' to prevent Blubrry PowerPress from adding podcast episodes to any feeds.</p>
 <?php */ ?>
 </td>
 </tr>

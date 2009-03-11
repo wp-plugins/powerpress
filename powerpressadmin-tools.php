@@ -5,24 +5,24 @@
 	{
 		$General = get_option('powerpress_general');
 ?>
-<h2><?php echo __("Powerpress Tools"); ?></h2>
+<h2><?php echo __("PowerPress Tools"); ?></h2>
 
-<p style="margin-bottom: 0;">Useful utilities and tools for Powerpress.</p>
+<p style="margin-bottom: 0;">Useful utilities and tools for PowerPress.</p>
 
 
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __("Import Settings"); ?></th> 
 <td>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=podpress_settings", 'powerpress-podpress-settings'); ?>" onclick="return confirm('Import PodPress settings, are you sure?\n\nExisting settings will be overwritten.');">Import PodPress Settings</a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podpress-settings", 'powerpress-podpress-settings'); ?>" onclick="return confirm('Import PodPress settings, are you sure?\n\nExisting settings will be overwritten.');">Import PodPress Settings</a></strong></p>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row"><?php echo __("Import Episodes"); ?></th> 
 <td>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=podpress_epiosdes"); ?>">Import PodPress Episodes</a></strong></p>
-	<p>Import PodPress created episodes to Powerpress specific podcast feeds.</p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podpress-epiosdes"); ?>">Import PodPress Episodes</a></strong></p>
+	<p>Import PodPress created episodes to PowerPress specific podcast feeds.</p>
 </td>
 </tr>
 
@@ -34,7 +34,7 @@
 	if( $General['use_caps'] )
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=remove_caps", 'powerpress-remove-caps'); ?>"><?php _e('Remove Edit Podcast Capability for User Role Management'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-caps", 'powerpress-remove-caps'); ?>"><?php _e('Remove Edit Podcast Capability for User Role Management'); ?></a></strong></p>
 	<p>
 	Removing Edit Podcast capability will allow anyone who can edit posts the ability to create and edit podcast episodes.
 	</p>
@@ -46,7 +46,7 @@
 	else
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=add_caps", 'powerpress-add-caps'); ?>"><?php _e('Add Edit Podcast Capability for User Role Management'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-caps", 'powerpress-add-caps'); ?>"><?php _e('Add Edit Podcast Capability for User Role Management'); ?></a></strong></p>
 	<p>
 	Currently anyone who can edit posts on this blog may also edit podcast episodes.
 	</p>

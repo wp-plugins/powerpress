@@ -1,5 +1,5 @@
 /** 
- * jsMediaPlayer 1.1.1 for Blubrry Powerpress
+ * jsMediaPlayer 1.1.1 for Blubrry PowerPress
  * 
  * http://www.blubrry.com/powepress/
  *

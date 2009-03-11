@@ -21,7 +21,6 @@
 		$query .= "WHERE pm.meta_key = 'podPressMedia' ";
 		$query .= "GROUP BY p.ID ";
 		$query .= "ORDER BY p.post_date DESC ";
-		//echo $query;
 		
 		$results_data = $wpdb->get_results($query, ARRAY_A);
 		if( $results_data )
@@ -33,7 +32,7 @@
 				$podpress_data = unserialize($row['meta_value']);
 				if( !$podpress_data )
 				{
-					$podpress_data_serialized = powerpress_repair_serialize($return['meta_value']);
+					$podpress_data_serialized = powerpress_repair_serialize($row['meta_value']);
 					$podpress_data = @unserialize($podpress_data_serialized);
 				}
 				
@@ -73,9 +72,24 @@
 					$enclosure_data = get_post_meta($row['ID'], 'enclosure', true);
 					if( $enclosure_data )
 					{
+						$Included = false;
+						list($EnclosureURL,$null) = split("\n", $enclosure_data);
 						$return[ $row['ID'] ]['enclosure'] = $enclosure_data;
-						if( $return['feeds_required'] < (count( $clean_data )+1) )
+						
+						while( list($episode_index_temp,$episode_data_temp) = each($clean_data) )
+						{
+							if( $EnclosureURL == $episode_data_temp['url'] )
+							{
+								$Included = true;
+								break; // We found the media already.
+							}
+						}
+						reset($clean_data);
+						
+						if( $Included == false && $return['feeds_required'] < (count( $clean_data )+1) )
+						{
 							$return['feeds_required'] = count( $clean_data )+1; // We can't remove this enclosure
+						}
 					}
 					
 					// Check for additional itunes data in the database..
@@ -137,7 +151,7 @@
 				{
 					$EpisodeData = $PodPressData[ $post_id ]['podpress_data'][ $podpress_index ];
 					
-					if( $EpisodeData['size'] == '' ) // Get the content length
+					if( $EpisodeData['size'] == '' || $EpisodeData['size'] == 'UNKNOWN' ) // Get the content length
 					{
 						$headers = wp_get_http_headers($EpisodeData['url']);
 						if( $headers && $headers['content-length'] )
@@ -194,10 +208,13 @@
 		
 		$data['feed-podcast'] = 'Feed: (podcast)';
 		
-		while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
+		if( is_array($Settings['custom_feeds']) )
 		{
-			if( $feed_slug != 'podcast' )
-				$data['feed-'.$feed_slug] = 'Feed: ('.$feed_slug.')';
+			while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
+			{
+				if( $feed_slug != 'podcast' )
+					$data['feed-'.$feed_slug] = 'Feed: ('.$feed_slug.')';
+			}
 		}
 		$data['exclude'] = 'No Import';
 		
@@ -210,6 +227,9 @@
 	{
 		$results = powerpress_get_podpress_episodes();
 		$Settings = powerpress_get_settings('powerpress_general', false);
+		if( !isset($Settings['custom_feeds']['podcast']) )
+			$Settings['custom_feeds']['podcast'] = 'Podcast Feed (default)';
+			
 		$AllowImport = false;
 		$AllowCleanup = true;
 		
@@ -293,7 +313,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 	else
 	{
 ?>
-<input type="hidden" name="action" value="importpodpress" />
+<input type="hidden" name="action" value="powerpress-importpodpress" />
 <p>Select the media file under each feed for each episode you wish to import.</p>
 <table class="widefat fixed" cellspacing="0">
 	<thead>
@@ -311,6 +331,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 <?php
 	
 	$StrandedEpisodes = 0;
+	$ImportableEpisodes = 0;
 	
 	$count = 0;
 	while( list($post_id, $import_data) = each($results	) )
@@ -323,49 +344,52 @@ function check_radio_selection(obj, PostID, FileIndex)
 		
 		$CurrentEnclosures = array();
 		
-		while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
+		if( is_array($Settings['custom_feeds']) )
 		{
-			if( $feed_slug == 'podcast' )
-				$enclosure_data = get_post_meta($post_id, 'enclosure', true);
-			else
-				$enclosure_data = get_post_meta($post_id, '_'. $feed_slug .':enclosure', true);
-			if( !$enclosure_data )
-				continue;
-				
-			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $enclosure_data);
-			if( $EnclosureURL )
+			while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
 			{
-				$CurrentEnclosures[ $feed_slug ] = array();
-				$CurrentEnclosures[ $feed_slug ]['url'] = trim($EnclosureURL);
-				$CurrentEnclosures[ $feed_slug ]['imported'] = false;
-			}
-			
-			$found = false;
-			while( list($episode_index,$episode_data) = each($import_data['podpress_data']) )
-			{
-				if( $episode_data['url'] == $CurrentEnclosures[ $feed_slug ]['url'] )
+				if( $feed_slug == 'podcast' )
+					$enclosure_data = get_post_meta($post_id, 'enclosure', true);
+				else
+					$enclosure_data = get_post_meta($post_id, '_'. $feed_slug .':enclosure', true);
+				if( !$enclosure_data )
+					continue;
+					
+				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $enclosure_data);
+				if( $EnclosureURL )
 				{
-					$import_data['podpress_data'][$episode_index]['imported'] = true;
+					$CurrentEnclosures[ $feed_slug ] = array();
+					$CurrentEnclosures[ $feed_slug ]['url'] = trim($EnclosureURL);
+					$CurrentEnclosures[ $feed_slug ]['imported'] = false;
+				}
+				
+				$found = false;
+				while( list($episode_index,$episode_data) = each($import_data['podpress_data']) )
+				{
+					if( $episode_data['url'] == $CurrentEnclosures[ $feed_slug ]['url'] )
+					{
+						$import_data['podpress_data'][$episode_index]['imported'] = true;
+						$CurrentEnclosures[ $feed_slug ]['imported'] = true;
+						$found  = true;
+						break;
+					}
+				}
+				reset($import_data['podpress_data']);
+				if( $found == false )
+				{
+					// Add it to the media file list, prepend it...
+					$not_podpress_data = array();
+					$not_podpress_data['url'] = $CurrentEnclosures[ $feed_slug ]['url'];
+					$not_podpress_data['imported'] = true;
+					$not_podpress_data['not_podpress'] = true;
+					
+					array_push($import_data['podpress_data'], $not_podpress_data);
 					$CurrentEnclosures[ $feed_slug ]['imported'] = true;
-					$found  = true;
-					break;
+					$CurrentEnclosures[ $feed_slug ]['present'] = true;
 				}
 			}
-			reset($import_data['podpress_data']);
-			if( $found == false )
-			{
-				// Add it to the media file list, prepend it...
-				$not_podpress_data = array();
-				$not_podpress_data['url'] = $CurrentEnclosures[ $feed_slug ]['url'];
-				$not_podpress_data['imported'] = true;
-				$not_podpress_data['not_podpress'] = true;
-				
-				array_push($import_data['podpress_data'], $not_podpress_data);
-				$CurrentEnclosures[ $feed_slug ]['imported'] = true;
-				$CurrentEnclosures[ $feed_slug ]['present'] = true;
-			}
+			reset($Settings['custom_feeds']);
 		}
-		reset($Settings['custom_feeds']);
 		
 		if( $feed_slug == 'podcast' )
 			$feed_title = 'Podcast Feed (default)';
@@ -534,7 +558,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 		
 		if( $AllowImport )
 		{
-			if( count($results) > 1 )
+			if( count($results) > 1 && $StrandedEpisodes > 0 )
 			{
 ?>
 <p class="submit">

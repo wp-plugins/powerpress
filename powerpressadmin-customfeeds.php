@@ -83,7 +83,7 @@ function powerpress_admin_customfeeds()
 		foreach($columns as $column_name=>$column_display_name) {
 			$class = "class=\"column-$column_name\"";
 			
-			$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=edit&amp;feed_slug=') . $feed_slug;
+			$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
 			
 			$url = get_feed_link($feed_slug);
 			$short_url = str_replace('http://', '', $url);
@@ -107,7 +107,7 @@ function powerpress_admin_customfeeds()
 					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=delete&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';
@@ -155,7 +155,7 @@ function powerpress_admin_customfeeds()
 <div class="form-wrap">
 <h3><?php _e('Add Podcast Feed'); ?></h3>
 <div id="ajax-response"></div>
-<input type="hidden" name="action" value="addfeed" />
+<input type="hidden" name="action" value="powerpress-addfeed" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
 	//wp_nonce_field('powerpress-add-feed');
