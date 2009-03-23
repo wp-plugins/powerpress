@@ -49,8 +49,6 @@ if( !defined('POWERPRESS_PLAY_ON_PAGE_TEXT') )
 if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
 	define('POWERPRESS_DOWNLOAD_TEXT', __('Download') );	
 
-
-
 // Load players in the footer of the page, improves page load times but requires wp_footer() function to be included in WP Theme.
 //define('POWERPRESS_USE_FOOTER', true);
 // You can also define the delay.
@@ -58,7 +56,7 @@ if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
 
 // Set whether players should be loaded using the page onload event
 if( !defined('POWERPRESS_USE_ONLOAD') ) // Add define('POWERPRESS_USE_ONLOAD', false); to your wp-config.php to turn this feature off
-	define('POWERPRESS_USE_ONLOAD', true);
+	define('POWERPRESS_USE_ONLOAD', false);
 	
 // define how much of a delay should exist when media players are loaded
 if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
@@ -744,7 +742,7 @@ function powerpress_filter_rss_enclosure($content)
 
 add_filter('rss_enclosure', 'powerpress_filter_rss_enclosure');
 
-function powerpress_bloginfo_rss($content, $field)
+function powerpress_bloginfo_rss($content, $field = '')
 {
 	if( powerpress_is_custom_podcast_feed() )
 	{

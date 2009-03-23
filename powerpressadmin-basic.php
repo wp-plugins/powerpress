@@ -78,7 +78,7 @@ while( list($value,$desc) = each($options) )
 <p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
 Once your podcast is listed on iTunes, enter your one-click subscription URL above.
 </p>
-<p>e.g. http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
+<p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
 </td>
 </tr>
 
@@ -108,6 +108,8 @@ while( list($value,$desc) = each($options) )
 		$ping_url = str_replace(
 			array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
 								'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
 								'https://www.itunes.com/podcast?id=',
 								'http://www.itunes.com/podcast?id='),
 			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $General['itunes_url']);

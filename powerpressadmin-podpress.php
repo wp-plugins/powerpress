@@ -19,6 +19,7 @@
 		$query .= "FROM {$wpdb->posts} AS p ";
 		$query .= "INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id ";
 		$query .= "WHERE pm.meta_key = 'podPressMedia' ";
+		$query .= "AND p.post_type != 'revision' ";
 		$query .= "GROUP BY p.ID ";
 		$query .= "ORDER BY p.post_date DESC ";
 		
@@ -237,7 +238,7 @@
 		{
 			if( $results['feeds_required'] > count($Settings['custom_feeds']) )
 			{
-				powerpress_page_message_add_error( sprintf(__('You will need %d Custom Podcast Feeds to continue.'), $results['feeds_required']) );
+				powerpress_page_message_add_error( sprintf(__('We found blog posts that have %d media files. You will need to create %d more Custom Feed%s in order to continue.'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
 				powerpress_page_message_print();
 			}
 			else
@@ -566,6 +567,14 @@ function check_radio_selection(obj, PostID, FileIndex)
 </p>
 <?php
 			}
+			else
+			{
+?>
+<p class="submit">
+<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('There are no PodPress episodes found to import.');" />
+</p>
+<?php
+			}
 			
 			if( $AllowCleanup )
 			{
@@ -589,6 +598,33 @@ function check_radio_selection(obj, PostID, FileIndex)
 </p>
 <?php
 			}
+		}
+		else
+		{
+?>
+<div class="error powerpress-error">
+	We found blog posts that have <?php echo $results['feeds_required']; ?> media files.
+	
+	You will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue.
+</div>
+<p>
+	Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post).
+	This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download
+	the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories
+	either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that
+	<a href="http://www.reallysimplesyndication.com/2004/12/21" target="_blank">Dave Winer does not recommend multiple enclosures</a>
+	and the
+	<a href="http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html" target="_blank">FeedValidator.org recommendation against it</a>
+	is why Blubrry PowerPress does not support them.
+</p>
+<p>
+	As a alternative, PowerPress allows you to create additional <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>">Custom Podcast Feeds</a> to associate additional media files in a blog post to specific feeds.
+</p>
+<p class="submit">
+<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('We found blog posts that have <?php echo $results['feeds_required']; ?> media files.\n\nYou will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue. ');" />
+</p>
+
+<?php
 		}
 ?>
 	<!-- start footer -->
