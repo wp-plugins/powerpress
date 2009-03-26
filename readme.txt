@@ -2,7 +2,7 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
-Tested up to: 2.7.1
+Tested up to: 2.7.2
 Stable tag: 0.7.1
 
 Add podcasting support to your blog.
@@ -66,8 +66,8 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
-0.7.2 released on 3/23/2009
-Re-orered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some ussers, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own.
+0.7.2 released on 3/26/2009
+Re-orered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some ussers, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own, added additional fix for FeedSmith when permalinks is not enabled, fixed bug where feed settings were not being applied to podcast feed in simple mode under some situations, fixed bug with enhance podcast only and main site feed only setting, fixed bug with pinging iTunes with CURL missing SSL certificates, and fixed itunes ping for latest itunes.apple.com one click subscribe links.
 
 0.7.1 released on 03/11/2009
 Bugs: Improved flash player loading on pages with multiple podcast episodes, Detecting file size when specifying duration bug fixed. Fixed bug where duration would sometimes save minutes over 60 rather than rolling over one hour.
