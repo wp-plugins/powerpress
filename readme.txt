@@ -67,7 +67,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 0.7.2 released on 3/23/2009
-Re-orered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some ussers, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds,
+Re-orered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some ussers, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own.
 
 0.7.1 released on 03/11/2009
 Bugs: Improved flash player loading on pages with multiple podcast episodes, Detecting file size when specifying duration bug fixed. Fixed bug where duration would sometimes save minutes over 60 rather than rolling over one hour.
@@ -126,6 +126,7 @@ Fixed bugs: itunes:subtitle bug, itunes:summary is now enabled by default, add e
 
 0.2 released on 08/11/2008
 Initial release of Blubrry PowerPress
+
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer

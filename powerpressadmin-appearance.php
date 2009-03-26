@@ -5,6 +5,7 @@ function powerpressadmin_appearance()
 {
 	$General = powerpress_get_settings('powerpress_general');
 ?>
+<input type="hidden" name="action" value="powerpress-save-appearance" />
 <h2><?php echo __("Appearance Settings"); ?></h2>
 
 <p style="margin-bottom: 0;">Configure how your media will be found on your blog.</p>

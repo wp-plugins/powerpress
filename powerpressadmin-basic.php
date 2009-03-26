@@ -5,6 +5,7 @@ function powerpress_admin_basic()
 	$General = powerpress_get_settings('powerpress_general');
 	$AdvancedMode = $General['advanced_mode'];
 ?>
+<input type="hidden" name="action" value="powerpress-save-basic" />
 <h2><?php echo __("Basic Settings"); ?></h2>
 
 <table class="form-table">

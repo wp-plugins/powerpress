@@ -35,10 +35,12 @@ function powerpress_admin_editfeed($feed_slug=false)
 ?>
 <h2><?php echo $FeedTitle; ?></h2>
 <?php if( $feed_slug ) { ?>
+<input type="hidden" name="action" value="powerpress-save-customfeed" />
 <p style="margin-bottom: 0;">
 	<?php _e('Configure your custom podcast feed.'); ?>
 </p>
 <?php } else { ?>
+<input type="hidden" name="action" value="powerpress-save-feedsettings" />
 <p style="margin-bottom: 0;">
 	<?php _e('Configure your feeds to support podcasting.'); ?>
 </p>

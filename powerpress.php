@@ -62,9 +62,6 @@ if( !defined('POWERPRESS_USE_ONLOAD') ) // Add define('POWERPRESS_USE_ONLOAD', f
 if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
 	define('POWERPRESS_USE_ONLOAD_DELAY', 500); 
 
-// Display PowerPress player only for previously created Podpress episodes.
-//define('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES', true);
-
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
@@ -173,12 +170,6 @@ function powerpress_content($content)
 		$Powerpress['player_function'] = 1;
 	if( !isset($Powerpress['podcast_link']) )
 		$Powerpress['podcast_link'] = 1;
-		
-	if( defined('POWERPRESS_USE_PLAYER_FOR_PODPRESS_EPISODES') )
-	{
-		if( !isset($podPressMedia) )
-			return $content;
-	}
 		
 	// The blog owner doesn't want anything displayed, so don't bother wasting anymore CPU cycles
 	if( $Powerpress['display_player'] == 0 )
@@ -296,28 +287,30 @@ function powerpress_header()
 	// PowerPress settings:
 	$Powerpress = get_option('powerpress_general');
 	
-	$PowerpressPluginURL = powerpress_get_root_url();
+	if( $Powerpress['player_function'] ) // Don't include the player in the header if it is not needed...
+	{
+		$PowerpressPluginURL = powerpress_get_root_url();
 ?>
 <script type="text/javascript" src="<?php echo $PowerpressPluginURL; ?>player.js"></script>
 <script type="text/javascript">
 <?php
-$player_image_url = POWERPRESS_PLAY_IMAGE;
-if( strstr($player_image_url, 'http://') !== $player_image_url )
-	$player_image_url = powerpress_get_root_url().$player_image_url;
+		$player_image_url = POWERPRESS_PLAY_IMAGE;
+		if( strstr($player_image_url, 'http://') !== $player_image_url )
+			$player_image_url = powerpress_get_root_url().$player_image_url;
 
-if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 ) // Links would imply only one player in the page
-	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\',true);'.PHP_EOL;
-else
-	echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\');'.PHP_EOL;
-	
-if( isset($Powerpress['player_width']) && isset($Powerpress['player_height']) && isset($Powerpress['player_width_audio']) )
-	echo 'powerpress_player_size('. (int)trim($Powerpress['player_width']) .','.  (int)trim($Powerpress['player_height']) .','.  (int)trim($Powerpress['player_width_audio']) .');'.PHP_EOL;
-	
-if( defined('POWERPRESS_USE_ONLOAD') && POWERPRESS_USE_ONLOAD )
-{
-	echo 'powerpress_addLoadEvent(powerpress_onload);'.PHP_EOL;
-	echo "var g_bpLoadDelay = ".POWERPRESS_USE_ONLOAD_DELAY.";\n";
-}
+		if( $Powerpress['player_function'] == 4 || $Powerpress['player_function'] == 5 ) // Links would imply only one player in the page
+			echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\',true);'.PHP_EOL;
+		else
+			echo 'powerpress_player_init(\''. $PowerpressPluginURL .'\',\''. $player_image_url .'\');'.PHP_EOL;
+			
+		if( isset($Powerpress['player_width']) && isset($Powerpress['player_height']) && isset($Powerpress['player_width_audio']) )
+			echo 'powerpress_player_size('. (int)trim($Powerpress['player_width']) .','.  (int)trim($Powerpress['player_height']) .','.  (int)trim($Powerpress['player_width_audio']) .');'.PHP_EOL;
+			
+		if( defined('POWERPRESS_USE_ONLOAD') && POWERPRESS_USE_ONLOAD )
+		{
+			echo 'powerpress_addLoadEvent(powerpress_onload);'.PHP_EOL;
+			echo "var g_bpLoadDelay = ".POWERPRESS_USE_ONLOAD_DELAY.";\n";
+		}
 ?>
 </script>
 <style type="text/css">
@@ -327,6 +320,7 @@ if( defined('POWERPRESS_USE_ONLOAD') && POWERPRESS_USE_ONLOAD )
 }
 </style>
 <?php
+	}
 }
 
 add_action('wp_head', 'powerpress_header');
@@ -349,12 +343,16 @@ function powerpress_rss2_head()
 	if( !powerpress_is_podcast_feed() )
 		return; // Not a feed we manage
 	
-	$feed = get_query_var( 'feed' );
+	$feed_slug = get_query_var( 'feed' );
 	
+	$Feed = get_option('powerpress_feed');
 	if( powerpress_is_custom_podcast_feed() )
-		$Feed = get_option('powerpress_feed_'.$feed);
-	else
-		$Feed = get_option('powerpress_feed');
+	{
+		$CustomFeed = get_option('powerpress_feed_'.$feed_slug);
+		if( $CustomFeed )
+			$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
+	}
+		
 	
 	// We made it this far, lets write stuff to the feed!
 	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
@@ -365,7 +363,7 @@ function powerpress_rss2_head()
 		if( trim($Feed['itunes_new_feed_url']) )
 			echo "\t<itunes:new-feed-url>". trim($Feed['itunes_new_feed_url']) .'</itunes:new-feed-url>'.PHP_EOL;
 	}
-	else if( trim($Feed['itunes_new_feed_url']) && ($feed == 'feed' || $feed == 'rss2') ) // If it is the default feed (We don't wnat to apply this to category or tag feeds
+	else if( trim($Feed['itunes_new_feed_url']) && ($feed_slug == 'feed' || $feed_slug == 'rss2') ) // If it is the default feed (We don't wnat to apply this to category or tag feeds
 	{
 		echo "\t<itunes:new-feed-url>". $Feed['itunes_new_feed_url'] .'</itunes:new-feed-url>'.PHP_EOL;
 	}
@@ -838,7 +836,11 @@ function powerpress_load_general_feed_settings()
 			
 			if( isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && isset($GeneralSettings['custom_feeds'][ $feed_slug ] ))
 			{
-				$Feed = get_option('powerpress_feed_'.$feed_slug);
+				$Feed = get_option('powerpress_feed'); // Get overall feed settings
+				$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
+				if( $FeedCustom )
+					$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $Feed);
+				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
 				$powerpress_feed['feed-slug'] = $feed_slug;
@@ -1257,6 +1259,18 @@ function powerpress_byte_size($ppbytes)
 	return $ppsize;
 }
 
+// Merges settings where $S
+function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings)
+{
+	while( list($key,$value) = each($CustomFeedSettings) )
+	{
+		if( $value === '' && $FeedSettings[$key] != $value )
+			$CustomFeedSettings[$key] = $FeedSettings[$key];
+	}
+	
+	return $CustomFeedSettings;
+}
+
 function powerpress_readable_duration($duration, $include_hour=false)
 {
 	$seconds = 0;
@@ -1270,12 +1284,12 @@ function powerpress_readable_duration($duration, $include_hour=false)
 	
 	$hours = 0;
 	$minutes = 0;
-	if( $seconds > (60*60) )
+	if( $seconds >= (60*60) )
 	{
 		$hours = floor( $seconds /(60*60) );
 		$seconds -= (60*60*$hours);
 	}
-	if( $seconds > (60) )
+	if( $seconds >= (60) )
 	{
 		$minutes = floor( $seconds /(60) );
 		$seconds -= (60*$minutes);

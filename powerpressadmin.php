@@ -132,6 +132,12 @@ function powerpress_admin_init()
 		// Update the settings in the database:
 		if( $General )
 		{
+			if( $_POST['action'] == 'powerpress-save-appearance' )
+			{
+				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
+					$General['display_player_excerpt'] = 0; // Set it to zero.
+			}
+			
 			// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...
 			$General = powerpress_stripslashes($General);
 			powerpress_save_settings($General);
@@ -149,10 +155,22 @@ function powerpress_admin_init()
 		$wp_rewrite->flush_rules();
 		
 		// Settings saved successfully
-		if( $FeedSlug )
-			powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.') );
-		else
-			powerpress_page_message_add_notice( __('Blubrry PowerPress feed settings saved.') );
+		switch( $_POST['action'] )
+		{
+			case 'powerpress-save-appearance': {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Appearance settings saved.') );
+			}; break;
+			case 'powerpress-save-customfeed': {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.') );
+			}; break;
+			case 'powerpress-save-feedsettings': {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Feed settings saved.') );
+			}; break;
+			case 'powerpress-save-basic':
+			default: {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.') );
+			}; break;
+		}
 		
 		if( @$_POST['TestiTunesPing'] == 1 )
 		{
