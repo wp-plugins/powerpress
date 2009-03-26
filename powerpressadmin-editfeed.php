@@ -322,6 +322,7 @@ while( list($value,$desc) = each($explicit) )
 
 <p>Place the URL to the iTunes image above. e.g. http://mysite.com/images/itunes.jpg<br /><br />iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.</p>
 
+<p>Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory. Please contact <a href="http://www.apple.com/support/itunes/">iTunes Support</a> if you are having issues with your image changes not appearing in iTunes.</p>
 <?php if( $SupportUploads ) { ?>
 <p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> Upload new image </p>
 <div style="display:none" id="itunes_image_upload">

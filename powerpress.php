@@ -375,8 +375,8 @@ function powerpress_rss2_head()
 	else
 		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description'), 4000 ) .'</itunes:summary>'.PHP_EOL;
 	
-	if( $powerpress_feed['talent_name'] )
-		echo "\t\t<itunes:author>" . wp_specialchars($powerpress_feed['talent_name']) . '</itunes:author>'.PHP_EOL;
+	if( $powerpress_feed['itunes_talent_name'] )
+		echo "\t\t<itunes:author>" . wp_specialchars($powerpress_feed['itunes_talent_name']) . '</itunes:author>'.PHP_EOL;
 	
 	if( $powerpress_feed['explicit'] )
 		echo "\t".'<itunes:explicit>' . $powerpress_feed['explicit'] . '</itunes:explicit>'.PHP_EOL;
@@ -396,10 +396,10 @@ function powerpress_rss2_head()
 	if( $Feed['email'] )
 	{
 		echo "\t".'<itunes:owner>'.PHP_EOL;
-		echo "\t\t".'<itunes:name>' . wp_specialchars($powerpress_feed['talent_name']) . '</itunes:name>'.PHP_EOL;
+		echo "\t\t".'<itunes:name>' . wp_specialchars($powerpress_feed['itunes_talent_name']) . '</itunes:name>'.PHP_EOL;
 		echo "\t\t".'<itunes:email>' . wp_specialchars($Feed['email']) . '</itunes:email>'.PHP_EOL;
 		echo "\t".'</itunes:owner>'.PHP_EOL;
-		echo "\t".'<managingEditor>'. wp_specialchars($Feed['email'] .' ('. $powerpress_feed['talent_name'] .')') .'</managingEditor>'.PHP_EOL;
+		echo "\t".'<managingEditor>'. wp_specialchars($Feed['email'] .' ('. $powerpress_feed['itunes_talent_name'] .')') .'</managingEditor>'.PHP_EOL;
 	}
 	
 	if( $Feed['copyright'] )
@@ -608,7 +608,7 @@ function powerpress_rss2_item()
 	$EnclosureURL = trim($EnclosureURL);
 	$EnclosureType = trim($EnclosureType);
 	$EnclosureSize = trim($EnclosureSize);
-	$author = $powerpress_feed['talent_name'];
+	$author = $powerpress_feed['itunes_talent_name'];
 	$explicit = $powerpress_feed['explicit'];
 	$summary = false;
 	$subtitle = false;
@@ -846,10 +846,10 @@ function powerpress_load_general_feed_settings()
 				$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
 				$explicit = array("no", "yes", "clean");
 				$powerpress_feed['explicit'] = $explicit[$Feed['itunes_explicit']];
-				if( $Feed['talent_name'] )
-					$powerpress_feed['talent_name'] = $Feed['talent_name'];
+				if( $Feed['itunes_talent_name'] )
+					$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
 				else
-					$powerpress_feed['talent_name'] = get_bloginfo_rss('name');
+					$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
 				$powerpress_feed['enhance_itunes_summary'] = @$Feed['enhance_itunes_summary'];
 				$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
 			}
@@ -865,17 +865,17 @@ function powerpress_load_general_feed_settings()
 							break; // This is not just an RSS2 feed...
 					case 1: // All other feeds
 					{
-						$powerpress_feed = array();
+						$powerpress_feed = array(); // Only store what's needed for each feed item
 						$powerpress_feed['is_custom'] = false; // ($feed_slug == 'podcast'?true:false);
 						$powerpress_feed['feed-slug'] = $feed_slug;
 						$powerpress_feed['process_podpress'] = $GeneralSettings['process_podpress']; // We don't touch podpress data for custom feeds
 						$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
 						$explicit = array("no", "yes", "clean");
 						$powerpress_feed['explicit'] = $explicit[$Feed['itunes_explicit']];
-						if( $Feed['talent_name'] )
-							$powerpress_feed['talent_name'] = $Feed['talent_name'];
+						if( $Feed['itunes_talent_name'] )
+							$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
 						else
-							$powerpress_feed['talent_name'] = get_bloginfo_rss('name');
+							$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
 						$powerpress_feed['enhance_itunes_summary'] = @$Feed['enhance_itunes_summary'];
 						$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
 					}; break;
