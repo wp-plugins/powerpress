@@ -815,10 +815,28 @@ function powerpress_init()
 			if( $feed_slug != 'podcast' )
 				add_feed($feed_slug, 'powerpress_do_podcast_feed');
 		}
+		
+		// FeedSmith support...
+		if( isset($_GET['feed']) )
+		{
+			switch($_GET['feed'])
+			{
+				case '':
+				case 'feed':
+				case 'atom':
+				case 'rss':
+				case 'comments-rss2':
+				case 'rss2': break; // Let FeedSmith redirect these feeds if it wants
+				default: { // Otherwise lets remove FeedSmith
+					if( has_action('init', 'ol_check_url') !== false )
+						remove_action('init', 'ol_check_url');
+				}
+			}
+		}
 	}
 }
 
-add_action('init', 'powerpress_init');
+add_action('init', 'powerpress_init', 9);
 
 // Load the general feed settings for feeds handled by powerpress
 function powerpress_load_general_feed_settings()
@@ -830,6 +848,9 @@ function powerpress_load_general_feed_settings()
 		
 		// Get the powerpress settings
 		$GeneralSettings = get_option('powerpress_general');
+		if( !isset($GeneralSettings['custom_feeds']['podcast']) )
+			$GeneralSettings['custom_feeds']['podcast'] = 'Podcast Feed'; // Fixes scenario where the user never configured the custom default podcast feed.
+		
 		if( $GeneralSettings )
 		{
 			$feed_slug = get_query_var('feed');
@@ -859,12 +880,26 @@ function powerpress_load_general_feed_settings()
 			{
 				// One last check, we may still want to manage this feed, it's just not a custom feed...
 				$Feed = get_option('powerpress_feed');
+				$wp = $GLOBALS['wp_query'];
 				// First, determine if powerpress should even be rewriting this feed...
 				switch( $Feed['apply_to'] )
 				{
 					case 2: // RSS2 feed only
-						if( $feed_slug != 'podcast' && isset($GLOBALS['wp_query']->query_vars) && count($GLOBALS['wp_query']->query_vars) > 1 )
-							break; // This is not just an RSS2 feed...
+					{
+						if( $feed_slug != 'feed' && $feed_slug != 'rss2')
+							break; // We're only adding podcasts to the rss2 feed in this situation
+						
+						if( $wp->query_vars['category_name'] != '' ) // don't touch the category feeds...
+							break;
+						
+						if( $wp->query_vars['tag'] != '' ) // don't touch the tag feeds...
+							break;
+							
+						if( $wp->query_vars['withcomments'] ) // don't touch the comments feeds...
+							break;	
+						
+						// Okay we must be working with the normal rss2 feed...
+					} // important: no break here!
 					case 1: // All other feeds
 					{
 						$powerpress_feed = array(); // Only store what's needed for each feed item

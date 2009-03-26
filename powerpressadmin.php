@@ -177,7 +177,7 @@ function powerpress_admin_init()
 			$PingResults = powerpress_ping_itunes($General['itunes_url']);
 			if( @$PingResults['success'] )
 			{
-				powerpress_page_message_add_notice( 'iTunes Ping Successful. Podcast Feed URL:'. $PingResults['feed_url'] );
+				powerpress_page_message_add_notice( 'iTunes Ping Successful. Podcast Feed URL: '. $PingResults['feed_url'] );
 			}
 			else
 			{
@@ -933,19 +933,18 @@ add_action('shutdown','powerpress_shutdown'); // disable the auto enclosure proc
 */
 function powerpress_ping_itunes($iTunes_url)
 {
-	if( strpos($iTunes_url, 'phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=' ) === false )
+	// Pull the iTunes FEEDID from the URL...
+	if( !preg_match('/id=(\d+)/', $iTunes_url, $matches) )
 		return array('error'=>true, 'content'=>'iTunes URL required to ping iTunes.');
+	
+	$FEEDID = $matches[1];
 	
 	// convert: https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=
 	// to: https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=
-	$ping_url = str_replace(
-		array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-							'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-							'https://www.itunes.com/podcast?id=',
-							'http://www.itunes.com/podcast?id='),
-		'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $iTunes_url);
+	$ping_url = sprintf('https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=%d', $FEEDID );
 	
-	$tempdata = wp_remote_fopen($ping_url);
+	//$tempdata = wp_remote_fopen($ping_url);
+	$tempdata = powerpress_remote_fopen($ping_url);
 	
 	if( $tempdata == false )
 		return array('error'=>true, 'content'=>'Unable to connect to iTunes ping server.');
@@ -958,6 +957,36 @@ function powerpress_ping_itunes($iTunes_url)
 	list($null, $FeedURL, $null, $null, $null, $PodcastID) = split("\n", $results );
 	
 	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
+}
+
+function powerpress_remote_fopen($url)
+{
+	if( function_exists( 'curl_init' ) )
+	{
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow location redirection
+		curl_setopt($curl, CURLOPT_MAXREDIRS, 5); // Location redirection limit
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2 ); // Connect time out
+		curl_setopt($curl, CURLOPT_TIMEOUT, 5); // The maximum number of seconds to execute.
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+		if( strtolower(substr($url, 0, 5)) == 'https' )
+		{
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		}
+		$content = curl_exec($curl);
+		$error = curl_errno($curl);
+		curl_close($curl);
+		if( $error )
+			return false;
+		return $content;
+	}
+	
+	// Use the bullt-in remote_fopen...
+	return wp_remote_fopen($url);
 }
 
 // Import podpress settings

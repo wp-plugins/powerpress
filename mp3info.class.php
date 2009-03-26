@@ -87,8 +87,8 @@
 				return false;
 			}
 			
-			if( !ini_get( 'allow_url_fopen' ) )
-				return $this->DownloadAlt($url);
+			if( ini_get( 'curl_init' ) )
+				return $this->DownloadCurl($url);
 			
 			// The following code relies on fopen_url capability.
 			if( $RedirectCount > $this->m_RedirectLimit )
@@ -204,10 +204,11 @@
 		/*
 		Alternative method (curl) for downloading portion of a media file
 		*/
-		function DownloadAlt($url)
+		function DownloadCurl($url)
 		{
 			$curl = curl_init();
 			// First, get the content-length...
+			curl_setopt($cUrl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 			curl_setopt($curl, CURLOPT_URL, $url);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
@@ -250,6 +251,7 @@
 			$fp = fopen($TempFile, 'w+b');
 				// Next get the first chunk of the file...
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
+				curl_setopt($cUrl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 				curl_setopt($curl, CURLOPT_URL, $url);
 				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
@@ -258,7 +260,7 @@
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
 				curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit-1) )); 
+				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit-1) ));
 				//curl_setopt($curl, CURLINFO_HEADER_OUT, true); // For debugging
 				// Do the download
 				$success = curl_exec($curl);
