@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss
 Requires at least: 2.5.0
-Tested up to: 2.7.2
-Stable tag: 0.7.1
+Tested up to: 2.7.1
+Stable tag: 0.7.2
 
 Add podcasting support to your blog.
 
