@@ -65,8 +65,8 @@ if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONL
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
-if( !defined('POWWERPRESS_CONTENT_ACTION_PRIORITY') )
-	define('POWWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
+if( !defined('POWERPRESS_CONTENT_ACTION_PRIORITY') )
+	define('POWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
@@ -276,9 +276,9 @@ function powerpress_content($content)
 	return $content;
 }//end function
 
-add_filter('get_the_excerpt', 'powerpress_content', (POWWERPRESS_CONTENT_ACTION_PRIORITY - 1) );
-add_filter('the_content', 'powerpress_content', POWWERPRESS_CONTENT_ACTION_PRIORITY);
-add_filter('the_excerpt', 'powerpress_content', POWWERPRESS_CONTENT_ACTION_PRIORITY);
+add_filter('get_the_excerpt', 'powerpress_content', (POWERPRESS_CONTENT_ACTION_PRIORITY - 1) );
+add_filter('the_content', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
+add_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
 
 function powerpress_header()
 {
