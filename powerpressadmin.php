@@ -45,9 +45,9 @@ function powerpress_admin_init()
 		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.') );
 	
 	global $wp_version;
-	$VersionDiff = version_compare($wp_version, 2.5);
+	$VersionDiff = version_compare($wp_version, 2.6);
 	if( $VersionDiff < 0 )
-		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.5 or greater.') );
+		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.') );
 	
 	// Save settings here
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
@@ -959,9 +959,9 @@ function powerpress_ping_itunes($iTunes_url)
 	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
 }
 
-function powerpress_remote_fopen($url)
+function powerpress_remote_fopen($url, $basic_auth = false)
 {
-	if( function_exists( 'curl_init' ) )
+	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -977,12 +977,42 @@ function powerpress_remote_fopen($url)
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		}
+		if( $basic_auth )
+		{
+			curl_setopt( $curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$basic_auth) );
+		}
+		
 		$content = curl_exec($curl);
 		$error = curl_errno($curl);
 		curl_close($curl);
 		if( $error )
 			return false;
 		return $content;
+	}
+	
+	global $wp_version;
+	if( version_compare('2.7', $wp_version, '<=') ) // Lets us specify the user agent and set the basic auth string...
+	{
+		$options = array();
+		$options['timeout'] = 10;
+		$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
+		if( $basicauth )
+			$options['headers'][] = 'Authorization: Basic '.$basic_auth;
+		
+		$response = wp_remote_get( $uri, $options );
+
+		if ( is_wp_error( $response ) )
+			return false;
+
+		return $response['body'];
+	}
+	
+	if( $basic_auth )
+	{
+		$UserPassDecoded = base64_decode($basic_auth);
+		list($User, $Pass) = split(':', $UserPassDecoded, 2);
+		$url_prefix = sprintf('http://%s:%s@', str_replace('@', '$', $User), $Pass);
+		$url = $url_prefix . substr($url, 7);
 	}
 	
 	// Use the bullt-in remote_fopen...

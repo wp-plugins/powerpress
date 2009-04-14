@@ -62,6 +62,9 @@ if( !defined('POWERPRESS_USE_ONLOAD') ) // Add define('POWERPRESS_USE_ONLOAD', f
 if( !defined('POWERPRESS_USE_ONLOAD_DELAY') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
 	define('POWERPRESS_USE_ONLOAD_DELAY', 500); 
 
+if( !defined('POWERPRESS_BLUBRRY_API_URL') )  // Add define('POWERPRESS_USE_ONLOAD_DELAY', 1000); to your wp-config.php to set a full 1 second delay.
+	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
+	
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
