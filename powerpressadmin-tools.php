@@ -21,8 +21,13 @@
 <tr valign="top">
 <th scope="row"><?php echo __("Import Episodes"); ?></th> 
 <td>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podpress-epiosdes"); ?>">Import PodPress Episodes</a></strong></p>
-	<p>Import PodPress created episodes to PowerPress specific podcast feeds.</p>
+	
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podpress-epiosdes"); ?>">Import PodPress Episodes</a></strong> </p>
+	<p>Import PodPress created episodes to PowerPress specific podcast feed(s).</p>
+	
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-mt-epiosdes"); ?>">Import Movable Type/Blogger Episodes</a></strong> (media linked in blog posts)</p>
+	<p>Import Movable Type/Blogger podcast episodes to PowerPress specific podcast feed(s).</p>
+	
 </td>
 </tr>
 

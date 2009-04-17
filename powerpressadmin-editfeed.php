@@ -11,6 +11,8 @@ function powerpress_admin_editfeed($feed_slug=false)
 		$SupportUploads = true;
 		
 	$General = powerpress_get_settings('powerpress_general');
+	
+	
 	if( $feed_slug )
 	{
 		$FeedSettings = powerpress_get_settings('powerpress_feed_'.$feed_slug);
@@ -19,10 +21,12 @@ function powerpress_admin_editfeed($feed_slug=false)
 			$FeedSettings = array();
 			$FeedSettings['title'] = $General['custom_feeds'][$feed_slug];
 		}
+		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
 	}
 	else
 	{
 		$FeedSettings = powerpress_get_settings('powerpress_feed');
+		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
 	}
 		
 	$FeedTitle = __('Feed Settings');
@@ -220,7 +224,9 @@ else
 <input type="text" name="Feed[itunes_subtitle]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_subtitle']; ?>" maxlength="250" />
 </td>
 </tr>
-<?php } // End AdvancedMode ?>
+<?php } else { // End AdvancedMode ?>
+<input type="hidden" name="Feed[enhance_itunes_summary]" value="<?php echo ($FeedSettings['enhance_itunes_summary']?'1':'0'); ?>" />
+<?php } ?>
 
 <tr valign="top">
 <th scope="row">

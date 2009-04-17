@@ -233,6 +233,14 @@ function powerpress_admin_init()
 				
 				$_GET['action'] = 'powerpress-podpress-epiosdes';
 			}; break;
+			case 'powerpress-importmt': {
+				check_admin_referer('powerpress-import-mt');
+				
+				require_once( dirname(__FILE__) . '/powerpressadmin-mt.php');
+				powerpressadmin_mt_do_import();
+				
+				$_GET['action'] = 'powerpress-mt-epiosdes';
+			}; break;
 			case 'deletepodpressdata': {
 				check_admin_referer('powerpress-delete-podpress-data');
 				
@@ -502,7 +510,8 @@ function powerpress_edit_post($post_ID, $post)
 					$FileType = wp_check_filetype($UrlParts['path']);
 					if( $FileType )
 						$ContentType = $FileType['type'];
-					
+					else
+						$ContentType = 'application/binary';
 					/*
 					$FileParts = pathinfo($UrlParts['path']);
 					if( $FileParts )
@@ -884,6 +893,12 @@ function powerpress_admin_page_tools()
 			powerpress_admin_podpress();
 			powerpress_admin_page_footer(false);
 		}; break;
+		case 'powerpress-mt-epiosdes': {
+			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-import-mt');
+			require_once( dirname(__FILE__).'/powerpressadmin-mt.php');
+			powerpress_admin_mt();
+			powerpress_admin_page_footer(false);
+		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php');
 			require_once( dirname(__FILE__).'/powerpressadmin-tools.php');
@@ -1128,6 +1143,7 @@ function powerpress_admin_import_podpress_settings()
 	return true;
 }
 
+
 function powerpress_admin_episodes_per_feed($feed_slug)
 {
 	$field = 'enclosure';
@@ -1144,4 +1160,39 @@ function powerpress_admin_episodes_per_feed($feed_slug)
 	}
 	return 0;
 }
+
+// Set the default settings basedon the section user is in.
+function powerpress_default_settings($Settings, $Section='basic')
+{
+	// Set the default settings if the setting does not exist...
+	switch($Section)
+	{
+		case 'basic': {
+			// Nothing needs to be pre-set in the basic settings area
+		}; break;
+		case 'editfeed': {
+			if( !isset($Settings['apply_to']) )
+				$Settings['apply_to'] = 1; // Make sure settings are applied to all feeds by default
+			//if( !isset($Settings['enhance_itunes_summary']) )
+			//	$Settings['enhance_itunes_summary'] = 1;
+		}; // Let this fall through to the custom feed settings
+		case 'editfeed_custom': {
+			if( !isset($Settings['enhance_itunes_summary']) )
+				$Settings['enhance_itunes_summary'] = 1;
+		}; break;
+		case 'appearance': {
+			if( !isset($Settings['display_player']) )
+				$Settings['display_player'] = 1;
+			if( !isset($Settings['player_function']) )
+				$Settings['player_function'] = 1;
+			if( !isset($Settings['podcast_link']) )
+				$Settings['podcast_link'] = 1;
+			if( !isset($Settings['display_player_excerpt']) )
+					$Settings['display_player_excerpt'] = 0;
+		}; break;
+	}
+	
+	return $Settings;
+}
+
 ?>

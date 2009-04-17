@@ -4,6 +4,7 @@
 function powerpressadmin_appearance()
 {
 	$General = powerpress_get_settings('powerpress_general');
+	$General = powerpress_default_settings($General, 'appearance');
 ?>
 <input type="hidden" name="action" value="powerpress-save-appearance" />
 <h2><?php echo __("Appearance Settings"); ?></h2>

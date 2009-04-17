@@ -4,6 +4,7 @@ function powerpress_admin_basic()
 {
 	$General = powerpress_get_settings('powerpress_general');
 	$AdvancedMode = $General['advanced_mode'];
+	$General = powerpress_default_settings($General, 'basic');
 ?>
 <input type="hidden" name="action" value="powerpress-save-basic" />
 <h2><?php echo __("Basic Settings"); ?></h2>
@@ -136,13 +137,13 @@ while( list($value,$desc) = each($options) )
 <td>
 
 	<ul>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='block';" /> Normal Mode</label> (default)</li>
+		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='block';" /> Normal</label> (default)</li>
 		<li>
 			<ul>
 				<li>Episode entry box includes Media URL, File Size and Duration fields.</li>
 			</ul>
 		</li>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='none';" /> Simple Mode</label></li>
+		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='none';" /> Simple</label></li>
 		<li>
 			<ul>
 				<li>Episode entry box includes Media URL field only. File Size and Duration will be auto detected.</li>

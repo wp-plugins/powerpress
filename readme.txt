@@ -27,12 +27,14 @@ Features:
 * Duration detection (mp3 only)
 * 3rd party statistics integration
 * Import PodPress settings and media episodes
+* Import Blogger/Movable Type media episodes
 * Category Podcast Feeds (Category Casting)
 * Tag/Keyword Podcast Feeds (Tag Casting)
 * Hosted Feed Support (FeedBurner.com)
 * User Role Management (Control which users on blog can Podcast)
 
-
+File Types detected: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v,  mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent
+ 
 For the latest information visit the website.
 
 http://www.blubrry.com/powerpress/
@@ -67,7 +69,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 0.7.3 released on 4/2/2009 (est)
-Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented Requires at least to 2.6.0
+Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type.
 
 0.7.2 released on 3/26/2009
 Re-ordered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some users, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own, added additional fix for FeedSmith when permalinks is not enabled, fixed bug where feed settings were not being applied to podcast feed in simple mode under some situations, fixed bug with enhance podcast only and main site feed only setting, fixed bug with pinging iTunes with CURL missing SSL certificates, and fixed itunes ping for latest itunes.apple.com one click subscribe links.
