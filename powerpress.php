@@ -355,6 +355,9 @@ function powerpress_rss2_head()
 		if( $CustomFeed )
 			$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
 	}
+	
+	if( !isset($Feed['url']) || trim($Feed['url']) == '' )
+		$Feed['url'] = get_bloginfo('url');
 		
 	
 	// We made it this far, lets write stuff to the feed!
@@ -423,7 +426,7 @@ function powerpress_rss2_head()
 		echo"\t". '<image>' .PHP_EOL;
 		echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
 		echo "\t\t".'<url>' . wp_specialchars($Feed['rss2_image']) . '</url>'.PHP_EOL;
-		echo "\t\t".'<link>'. get_bloginfo('url') . '</link>' . PHP_EOL;
+		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}
 	else // Use the default image
@@ -431,7 +434,7 @@ function powerpress_rss2_head()
 		echo"\t". '<image>' .PHP_EOL;
 		echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
 		echo "\t\t".'<url>' . powerpress_get_root_url() . 'rss_default.jpg</url>'.PHP_EOL;
-		echo "\t\t".'<link>'. get_bloginfo('url') . '</link>' . PHP_EOL;
+		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}
 	
@@ -696,7 +699,7 @@ function powerpress_rss2_item()
 	if( $explicit )
 		echo "\t\t<itunes:explicit>" . $explicit . '</itunes:explicit>'.PHP_EOL;
 	
-	if( $duration && preg_match('/^(\d{1,2}:){0,2}\d{1,2}$/i', $duration) ) // Include duration if it is valid
+	if( $duration && preg_match('/^(\d{1,2}:){0,2}\d{1,2}$/i', ltrim($duration, '0:') ) ) // Include duration if it is valid
 		echo "\t\t<itunes:duration>" . ltrim($duration, '0:') . '</itunes:duration>'.PHP_EOL;
 		
 	if( $block && $block == 'yes' )

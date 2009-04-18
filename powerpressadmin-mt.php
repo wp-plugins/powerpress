@@ -91,7 +91,6 @@
 			case 'avi':
 			case 'wmv':
 			case 'flv':
-			case 'swf':
 			case 'mov':
 			case 'qt':
 			case 'divx':
@@ -180,9 +179,13 @@
 					$EpisodeData['duration'] = false;
 					if( $EpisodeData['type'] == 'audio/mpeg' && $DetectDuration )
 					{
-						$Mp3Data = $Mp3Info->GetMp3Info($MediaURL);
+						$Mp3Data = $Mp3Info->GetMp3Info($EpisodeData['url']);
+						
 						if( $Mp3Data )
-							$EpisodeData['duration'] = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+						{
+							$Duration = $Mp3Data['playtime_string'];
+							$EpisodeData['duration'] = powerpress_readable_duration($Duration, true); // Fix so it looks better when viewed for editing
+						}
 					}
 					
 					$EnclosureData = $EpisodeData['url'] . "\n" . $EpisodeData['size'] . "\n". $EpisodeData['type'];
