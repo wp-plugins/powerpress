@@ -982,7 +982,8 @@ function powerpress_remote_fopen($url, $basic_auth = false)
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow location redirection
+		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow location redirection
 		curl_setopt($curl, CURLOPT_MAXREDIRS, 5); // Location redirection limit
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2 ); // Connect time out
 		curl_setopt($curl, CURLOPT_TIMEOUT, 5); // The maximum number of seconds to execute.

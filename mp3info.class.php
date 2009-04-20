@@ -214,7 +214,8 @@
 			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'HEAD'); // HTTP request 
 			curl_setopt($curl, CURLOPT_NOBODY, true );
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
 			$Headers = curl_exec($curl);
 			
@@ -257,7 +258,8 @@
 				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'); // HTTP request 
 				curl_setopt($curl, CURLOPT_NOBODY, false );
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+				if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
 				curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit-1) ));
