@@ -6,6 +6,24 @@ function powerpress_admin_basic()
 	$AdvancedMode = $General['advanced_mode'];
 	$General = powerpress_default_settings($General, 'basic');
 ?>
+<script type="text/javascript">
+function CheckRedirect(obj)
+{
+	if( obj.value )
+	{
+		if( obj.value.indexOf('rawvoice') == -1 && obj.value.indexOf('techpodcasts') == -1 && 
+			obj.value.indexOf('blubrry') == -1 && obj.value.indexOf('podtrac') == -1 )
+		{
+			if( !confirm('The redirect entered is not recongized as a supported statistics redirect service.\n\nAre you sure you wish to continue with this redirect url?') )
+			{
+				obj.value = '';
+				return false;
+			}
+		}
+	}
+	return true;
+}
+</script>
 <input type="hidden" name="action" value="powerpress-save-basic" />
 <h2><?php echo __("Basic Settings"); ?></h2>
 
@@ -209,7 +227,7 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	<?php _e("Redirect URL 1"); ?> 
 	</th>
 	<td>
-	<input type="text" style="width: 60%;" name="General[redirect1]" value="<?php echo $General['redirect1']; ?>" maxlength="250" /> 
+	<input type="text" style="width: 60%;" name="General[redirect1]" value="<?php echo $General['redirect1']; ?>" onChange="return CheckRedirect(this);" maxlength="250" /> 
 	<!-- <div style="margin-left: 2px;margin-top: 0;">Enter your issued Blubrry Statistics Redirect URL above.</div> -->
 	</td>
 	</tr>
@@ -228,7 +246,7 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	<?php _e("Redirect URL 2"); ?> 
 	</th>
 	<td>
-	<input type="text"  style="width: 60%;" name="General[redirect2]" value="<?php echo $General['redirect2']; ?>" maxlength="250" />
+	<input type="text"  style="width: 60%;" name="General[redirect2]" value="<?php echo $General['redirect2']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
 	</td>
 	</tr>
 	</table>
@@ -246,7 +264,7 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	<?php _e("Redirect URL 3"); ?> 
 	</th>
 	<td>
-	<input type="text" style="width: 60%;" name="General[redirect3]" value="<?php echo $General['redirect3']; ?>" maxlength="250" />
+	<input type="text" style="width: 60%;" name="General[redirect3]" value="<?php echo $General['redirect3']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
 	</td>
 	</tr>
 	</table>

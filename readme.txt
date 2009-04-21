@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats 
 Requires at least: 2.6.0
 Tested up to: 2.7.1
-Stable tag: 0.7.2
+Stable tag: 0.7.3
 
 Add podcasting support to your blog.
 
@@ -68,8 +68,8 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
-0.7.3 released on 4/2/2009 (est)
-Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type, fix bug where channel link matches image link, no longer including empty duration values in feeds, fixed bug with curl-setopt function printing a PHP warning in some situations, 
+0.7.3 released on 4/21/2009
+Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type, fix bug where channel link matches image link, no longer including empty duration values in feeds, fixed bug with curl-setopt function printing a PHP warning in some situations, added warning when user enters an unknown media redirect url.
 
 0.7.2 released on 3/26/2009
 Re-ordered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some users, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own, added additional fix for FeedSmith when permalinks is not enabled, fixed bug where feed settings were not being applied to podcast feed in simple mode under some situations, fixed bug with enhance podcast only and main site feed only setting, fixed bug with pinging iTunes with CURL missing SSL certificates, and fixed itunes ping for latest itunes.apple.com one click subscribe links.
