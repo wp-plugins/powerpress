@@ -348,12 +348,11 @@ function powerpress_rss2_head()
 	
 	$feed_slug = get_query_var( 'feed' );
 	
-	$Feed = get_option('powerpress_feed');
-	if( powerpress_is_custom_podcast_feed() )
+	$Feed = get_option('powerpress_feed'); // Get the main feed settings
+	if( powerpress_is_custom_podcast_feed() ) // If we're handling a custom podcast feed...
 	{
-		$CustomFeed = get_option('powerpress_feed_'.$feed_slug);
-		if( $CustomFeed )
-			$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
+		$CustomFeed = get_option('powerpress_feed_'.$feed_slug); // Get the custom podcast feed settings saved in the database
+		$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
 	}
 	
 	if( !isset($Feed['url']) || trim($Feed['url']) == '' )
@@ -865,8 +864,7 @@ function powerpress_load_general_feed_settings()
 			{
 				$Feed = get_option('powerpress_feed'); // Get overall feed settings
 				$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
-				if( $FeedCustom )
-					$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $Feed);
+				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $Feed);
 				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
@@ -1380,16 +1378,23 @@ function powerpress_byte_size($ppbytes)
 	return $ppsize;
 }
 
-// Merges settings where $S
+// Merges settings from feed settings page to empty custom feed settings
 function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings)
 {
+	// Remove settings from main $FeedSettings that should not be copied to custom feed.
+	unset($FeedSettings['itunes_new_feed_url']);
+	unset($FeedSettings['apply_to']);
+ 
+	if( !$CustomFeedSettings )
+		return $FeedSettings; // If the $CustomFeedSettings is false
+ 
 	while( list($key,$value) = each($CustomFeedSettings) )
 	{
-		if( $value === '' && $FeedSettings[$key] != $value )
-			$CustomFeedSettings[$key] = $FeedSettings[$key];
+		if( $value !== '' || !isset($FeedSettings[$key]) )
+			$FeedSettings[$key] = $value;
 	}
 	
-	return $CustomFeedSettings;
+	return $FeedSettings;
 }
 
 function powerpress_readable_duration($duration, $include_hour=false)
