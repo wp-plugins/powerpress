@@ -51,24 +51,23 @@ function powerpress_dashboard_stats_content()
 {
 	$content = false;
 	$StatsCached = get_option('powerpress_stats');
-	if( false && !$StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
+	if( $StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
 		$content = $StatsCached['content'];
 	
 	if( !$content )
 	{
 		$Settings = get_option('powerpress_general');
-		$UserPass = $Powerpress['blubrry_userpass'];
-		$Keyword = $Powerpress['blubrry_keyword'];
+		$UserPass = $Settings['blubrry_auth'];
+		$Keyword = $Settings['blubrry_program_keyword'];
 		
-		$UserPass = base64_encode('amandato@gmail.com:testit');
-		$Keyword = 'compiled_weekly2';
 		if( !$UserPass )
 		{
 			$content = 'Error: No User name or password specified.';
 		}
 		else
 		{
-			$api_url = sprintf('%s/stats/%s/summary.html?year=2008&month=7&nobody=1', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Keyword);
+			$api_url = sprintf('%s/stats/%s/summary.html?nobody=1', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Keyword);
+
 			$content = powerpress_remote_fopen($api_url, $UserPass);
 			if( $content )
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content) );
@@ -76,6 +75,9 @@ function powerpress_dashboard_stats_content()
 				$content = 'Error: An error occurred authenticating user.';
 		}
 	}
+?>
+<div id="">
+<?php
 //$content = http_get('http://api.blubrry.local/stats/compiled_weekly2/summary.html?year=2008&month=7', 'amandato@gmail.com', 'testit');
 
 //$decoded = my_json_decode($content['data'], true);
@@ -83,8 +85,10 @@ function powerpress_dashboard_stats_content()
 	echo $content;
 	//echo 'Podcast Statistics go here.';
 ?>
-<div id="blubrry_stats_media_show">
-	<a href="javascript:void()" onclick="javascript:document.getElementById('blubrry_stats_media').style.display='block';document.getElementById('blubrry_stats_media_show').style.display='none';return false;">more</a>
+	<div id="blubrry_stats_media_show">
+		<!-- <a href="javascript:void()" onclick="javascript:document.getElementById('blubrry_stats_media').style.display='block';document.getElementById('blubrry_stats_media_show').style.display='none';return false;">more</a>-->
+		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&KeepThis=true&TB_iframe=true" title="Blubrry Media statistics" class="thickbox">more</a>
+	</div>
 </div>
 <?php
 }

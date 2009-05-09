@@ -1,0 +1,66 @@
+/* jquery.css */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+
+/*	background-color: #D2E9FF; */
+}
+img {
+	border: 0;
+}
+#accountinfo label, h1, h2, h3, h4, h5, a {
+		color: #3D517E;
+}
+input[type="button"],
+input[type="submit"] {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	font-size: 14px !important;
+	line-height: 16px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	border-color:#99ADC2;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-khtml-box-sizing: content-box;
+	box-sizing: content-box;
+	background-color: #E8F4FF;
+	color: #003366;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-right: 8px;
+	padding-bottom: 2px;
+	padding-left: 8px;
+}
+
+ul.media {
+	
+}
+ul.media li {
+	list-style-type: none;	
+}
+ul.media li a {
+	font-weight: bold;
+}
+
+#accountinfo {
+
+}
+#accountinfo p {
+	font-size: 90%;
+}
+#accountinfo label {
+	float: left;
+	width: 240px;
+	margin-right: 10px;
+	display: block;
+	font-weight: bold;
+}
+#accountinfo input[type=text], #accountinfo input[type=password] {
+	width: 240px;
+}
+

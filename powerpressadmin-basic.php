@@ -214,6 +214,30 @@ while( list($value,$desc) = each($options) )
 ?>
 </div>
 
+<?php
+	
+	$ModeDesc = 'None';
+	if( $General['blubrry_auth'] )
+		$ModeDesc = 'Media Statistics Only';
+	if( $General['blubrry_hosting'] )
+		$ModeDesc = 'Media Statistics and Hosting';
+		
+?>
+<h2><?php _e("Blubrry Services Integration"); ?></h2>
+<p>
+	Adds <a href="http://www.blubrry.com/podcast_statistics/" title="Blubrry Media Statistics" target="_blank">Blubrry Media Statistics</a> to your blog's <a href="<?php echo admin_url(); ?>" title="WordPress Dashboard">dashboard</a> plus 
+	features for <a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" title="Blubrry Media Hosting" target="_blank">Blubrry Media Hosting</a> users to quickly select and publish uploaded media.
+</p>
+<table class="form-table">
+	<tr valign="top">
+	<th scope="row">
+	<?php _e("Blubrry Services"); ?> 
+	</th>
+	<td>
+		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-account&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
+	</td>
+	</tr>
+</table>
 
 <h2><?php _e("Media Statistics"); ?></h2>
 <p>
@@ -269,7 +293,11 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	</tr>
 	</table>
 </div>
-
+<style type="text/css">
+#TB_window {
+	border: solid 1px #3D517E;
+}
+</style>
 <input type="hidden" id="hide_free_stats" name="General[hide_free_stats]" value="<?php echo $General['hide_free_stats']; ?>" />
 
 <div id="blubrry_stats_box" style="<?php if( $General['hide_free_stats'] == 1 ) echo 'display:none;'; ?>">

@@ -49,6 +49,8 @@ function powerpress_admin_init()
 	if( $VersionDiff < 0 )
 		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.') );
 	
+	add_thickbox(); // we use the thckbox for some settings
+	
 	// Save settings here
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
 	{
@@ -335,6 +337,9 @@ function powerpress_admin_init()
 			}; break;
 		}
 	}
+	
+	if( function_exists('powerpress_admin_jquery_init') )
+		powerpress_admin_jquery_init();
 }
 
 add_action('init', 'powerpress_admin_init');
@@ -492,7 +497,7 @@ function powerpress_edit_post($post_ID, $post)
 				
 				// Initialize the important variables:
 				$MediaURL = $Powerpress['url'];
-				if( strpos($MediaURL, 'http://') !== 0 ) // If the url entered does not start with a http://
+				if( strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 				{
 					$Settings = get_option('powerpress_general');
 					$MediaURL = rtrim(@$Settings['default_url'], '/') .'/'. $MediaURL;
@@ -536,38 +541,46 @@ function powerpress_edit_post($post_ID, $post)
 				
 				if( $Powerpress['set_size'] == 0 || $Powerpress['set_duration'] == 0 )
 				{
-					// Lets use the mp3info class:
-					require_once('mp3info.class.php');
-					
-					$Mp3Info = new Mp3Info();
-					if( $Powerpress['set_duration'] == 0 && $ContentType == 'audio/mpeg' )
+					if( $Powerpress['hosting'] == 1 )
 					{
-						$Mp3Data = $Mp3Info->GetMp3Info($MediaURL);
-						if( $Mp3Data )
-						{
-							if( @$Powerpress['set_size'] == 0 )
-								$FileSize = $Mp3Info->GetContentLength();
-							$Duration = $Mp3Data['playtime_string'];
-							if( substr_count($Duration, ':' ) == 0 )
-							{
-								if( $Duration < 60 )
-									$Duration = '00:00:'.$Duration;
-							}
-							else if( substr_count($Duration, ':' ) == 1 )
-							{
-								$Duration = '00:'.$Duration;
-							}
-							$Duration = powerpress_readable_duration($Duration, true); // Fix so it looks better when viewed for editing
-						}
+						// TODO: Get meta info via API
+						
 					}
-					
-					// Just get the file size
-					if( $Powerpress['set_size'] == 0 && $FileSize == '' )
+					else
 					{
-						$headers = wp_get_http_headers($MediaURL);
-						if( $headers && $headers['content-length'] )
+						// Lets use the mp3info class:
+						require_once('mp3info.class.php');
+						
+						$Mp3Info = new Mp3Info();
+						if( $Powerpress['set_duration'] == 0 && $ContentType == 'audio/mpeg' )
 						{
-							$FileSize = (int) $headers['content-length'];
+							$Mp3Data = $Mp3Info->GetMp3Info($MediaURL);
+							if( $Mp3Data )
+							{
+								if( @$Powerpress['set_size'] == 0 )
+									$FileSize = $Mp3Info->GetContentLength();
+								$Duration = $Mp3Data['playtime_string'];
+								if( substr_count($Duration, ':' ) == 0 )
+								{
+									if( $Duration < 60 )
+										$Duration = '00:00:'.$Duration;
+								}
+								else if( substr_count($Duration, ':' ) == 1 )
+								{
+									$Duration = '00:'.$Duration;
+								}
+								$Duration = powerpress_readable_duration($Duration, true); // Fix so it looks better when viewed for editing
+							}
+						}
+						
+						// Just get the file size
+						if( $Powerpress['set_size'] == 0 && $FileSize == '' )
+						{
+							$headers = wp_get_http_headers($MediaURL);
+							if( $headers && $headers['content-length'] )
+							{
+								$FileSize = (int) $headers['content-length'];
+							}
 						}
 					}
 				}
@@ -575,6 +588,8 @@ function powerpress_edit_post($post_ID, $post)
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
 				$ToSerialize = array();
 				// iTunes duration
+				if( $Powerpress['hosting'] )
+					$ToSerialize['hosting'] = 1;
 				if( $Duration )
 					$ToSerialize['duration'] = $Duration; // regular expression '/^(\d{1,2}\:)?\d{1,2}\:\d\d$/i' (examples: 1:23, 12:34, 1:23:45, 12:34:56)
 				// iTunes Subtitle (FUTURE USE)
@@ -974,7 +989,7 @@ function powerpress_ping_itunes($iTunes_url)
 	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
 }
 
-function powerpress_remote_fopen($url, $basic_auth = false)
+function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array() )
 {
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
@@ -993,9 +1008,25 @@ function powerpress_remote_fopen($url, $basic_auth = false)
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		}
+		// HTTP Authentication
 		if( $basic_auth )
 		{
 			curl_setopt( $curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$basic_auth) );
+		}
+		// HTTP Post:
+		if( count($post_args) > 0 )
+		{
+			$post_query = '';
+			while( list($name,$value) = each($post_args) )
+			{
+				if( $post_query != '' )
+					$post_query .= '&';
+				$post_query .= $name;
+				$post_query .= '=';
+				$post_query .= urlencode($value);
+			}
+			curl_setopt($curl, CURLOPT_POST, 1);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $post_query);
 		}
 		
 		$content = curl_exec($curl);
@@ -1014,13 +1045,66 @@ function powerpress_remote_fopen($url, $basic_auth = false)
 		$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
 		if( $basicauth )
 			$options['headers'][] = 'Authorization: Basic '.$basic_auth;
+		if( count($post_args) > 0 )
+		{
+			$options['body'] = $post_args;
+			$response = wp_remote_post( $uri, $options );
+		}
+		else
+		{
+			$response = wp_remote_get( $uri, $options );
+		}
 		
-		$response = wp_remote_get( $uri, $options );
-
 		if ( is_wp_error( $response ) )
 			return false;
 
 		return $response['body'];
+	}
+
+	if( count($post_args) > 0 )
+	{
+		if( !function_exists('fsockopen') )
+			return false; // This was our last attempt, we failed...
+			
+		$post_query = '';
+		while( list($name,$value) = each($post_args) )
+		{
+			if( $post_query != '' )
+				$post_query .= '&';
+			$post_query .= $name;
+			$post_query .= '=';
+			$post_query .= urlencode($value);
+		}
+		$url_parts = parse_url($url);
+		$host = $url_parts['host'];
+		$port = ($url_parts['scheme']=='https'?443:80);
+		if( isset($url_parts['port']) )
+			$port = $url_parts['port'];
+
+		$http_request  = "POST /updated-batch/ HTTP/1.0\r\n";
+		$http_request .= "Host: $host\r\n";
+		if( $basic_auth )
+			$http_request .= 'Authorization: Basic '. $basic_auth ."\r\n";
+		$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
+		$http_request .= 'Content-Length: ' . strlen($post_query) . "\r\n";
+		$http_request .= 'User-Agent: Blubrry PowerPress/'.POWERPRESS_VERSION. "\r\n";
+		$http_request .= "\r\n";
+		$http_request .= $post_query;
+
+		$response = '';
+		$fp = @fsockopen($host, $port, $errno, $errstr, 5);
+		if( $fp )
+		{
+			fwrite($fp, $http_request);
+			while ( !feof($fs) )
+				$response .= fgets($fs, 1160); // One TCP-IP packet
+			fclose($fs);
+		}
+		
+		$response = explode("\r\n\r\n", $response, 2);
+		if( count($response) > 1 )
+			return $response[1];
+		return false;
 	}
 	
 	if( $basic_auth )
@@ -1033,6 +1117,16 @@ function powerpress_remote_fopen($url, $basic_auth = false)
 	
 	// Use the bullt-in remote_fopen...
 	return wp_remote_fopen($url);
+}
+
+function powerpress_json_decode($value)
+{
+	if( function_exists('json_decode') )
+		return json_decode($value, true);
+	
+	require_once( dirname(__FILE__).'/3rdparty/JSON.php');
+	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+	return $json->decode($value);
 }
 
 // Import podpress settings
@@ -1195,5 +1289,9 @@ function powerpress_default_settings($Settings, $Section='basic')
 	
 	return $Settings;
 }
+
+require_once('powerpressadmin-jquery.php');
+// Only include the dashboard when appropriate.
+require_once('powerpressadmin-dashboard.php');
 
 ?>

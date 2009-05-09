@@ -29,7 +29,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 */
 
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '0.7.3' );
+define('POWERPRESS_VERSION', '0.8.0' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -374,9 +374,9 @@ function powerpress_rss2_head()
 	}
 	
 	if( $Feed['itunes_summary'] )
-		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'], 4000 ) .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'. powerpress_format_itunes_value( $Feed['itunes_summary'], 'summary' ) .'</itunes:summary>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description'), 4000 ) .'</itunes:summary>'.PHP_EOL;
+		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'summary' ) .'</itunes:summary>'.PHP_EOL;
 	
 	if( $powerpress_feed['itunes_talent_name'] )
 		echo "\t\t<itunes:author>" . wp_specialchars($powerpress_feed['itunes_talent_name']) . '</itunes:author>'.PHP_EOL;
@@ -413,12 +413,12 @@ function powerpress_rss2_head()
 	}
 	
 	if( trim($Feed['itunes_subtitle']) )
-		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle']) . '</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle', true) . '</itunes:subtitle>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description') ) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( trim($Feed['itunes_keywords']) )
-		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords']) . '</itunes:keywords>'.PHP_EOL;
+		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords'], 'keywords') . '</itunes:keywords>'.PHP_EOL;
 		
 	if( $Feed['rss2_image'] )
 	{
@@ -667,30 +667,29 @@ function powerpress_rss2_item()
 	}
 	
 	if( $keywords )
-		echo "\t\t<itunes:keywords>" . powerpress_format_itunes_value($keywords) . '</itunes:keywords>'.PHP_EOL;
+		echo "\t\t<itunes:keywords>" . powerpress_format_itunes_value($keywords, 'keywords') . '</itunes:keywords>'.PHP_EOL;
 	
 	// Strip and format the wordpress way, but don't apply any other filters for these itunes tags
 	$content_no_html = $post->post_content;
-	if( function_exists('strip_shortcodes') )
-		$content_no_html = strip_shortcodes( $content_no_html ); 
+	$content_no_html = strip_shortcodes( $content_no_html ); 
 	$content_no_html = str_replace(']]>', ']]&gt;', $content_no_html);
 	$content_no_html = strip_tags($content_no_html);
 	
 	$excerpt_no_html = strip_tags($post->post_excerpt);
 	
 	if( $subtitle )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($subtitle, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
 	else if( $excerpt_no_html )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($excerpt_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
 	else	
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 250, true)) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( !isset($powerpress_feed['enhance_itunes_summary']) || $powerpress_feed['enhance_itunes_summary'] )
 		echo "\t\t<itunes:summary>". powerpress_itunes_summary($post->post_content) .'</itunes:summary>'.PHP_EOL;
 	else if( $summary )
-		echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($summary, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
+		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($summary, 'summary') .'</itunes:summary>'.PHP_EOL;
 	else
-		echo "\t\t<itunes:summary>". powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000) .'</itunes:summary>'.PHP_EOL;
+		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($content_no_html, 'summary') .'</itunes:summary>'.PHP_EOL;
 	
 	if( $author )
 		echo "\t\t<itunes:author>" . wp_specialchars($author) . '</itunes:author>'.PHP_EOL;
@@ -1160,12 +1159,11 @@ function powerpress_itunes_summary($html)
 	$html = str_replace('<li>', '<li>* ', $html);
 	
 	// Now do all the other regular conversions...
-	if( function_exists('strip_shortcodes') )
-		$html = strip_shortcodes( $html ); 
+	$html = strip_shortcodes( $html ); 
 	$html = str_replace(']]>', ']]&gt;', $html);
 	$content_no_html = strip_tags($html);
 
-	return powerpress_format_itunes_value(powerpress_smart_trim($content_no_html, 4000), 4000);
+	return powerpress_format_itunes_value($content_no_html, 'summary');
 }
 
 function powerpress_itunes_categories($PrefixSubCategories = false)
@@ -1277,21 +1275,73 @@ function powerpress_get_root_url()
 	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
-function powerpress_format_itunes_value($value, $char_limit = 255, $specialchars = true)
+function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = false)
 {
-	// Code added to solve issue with KimiliFlashEmbed plugin
-	// 99.9% of the time this code will not be necessary
-	$value = preg_replace("/\[(kml_(flash|swf)embed)\b(.*?)(?:(\/))?(\]|$)/s", '', $value);
 	if( DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
 		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
+	
+	// Code added to solve issue with KimiliFlashEmbed plugin and also remove the shortcode for the WP Audio Player
+	// 99.9% of the time this code will not be necessary
+	$value = preg_replace("/\[(kml_(flash|swf)embed|audio\:)\b(.*?)(?:(\/))?(\]|$)/isu", '', $value);
+	
 	if(version_compare("5", phpversion(), ">"))
-		$value = str_replace('&nbsp;', ' ', $value); // Best we can do for PHP4
+		$value = preg_replace( '/&nbsp;/ui' , ' ', $value); // Best we can do for PHP4
 	else
 		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
 	
-	if( strlen($value) > $char_limit )
-		return wp_specialchars(substr($value, 0, $char_limit));
-	return wp_specialchars($value);
+	if( $remove_new_lines )
+		$value = preg_replace( array("/\r\n\r\n/u", "/\n/u", "/\r/u", "/\t/u") , array(' - ',' ', '', '  '), $value);
+	
+	return wp_specialchars( powerpress_trim_itunes_value($value, $tag) );
+}
+
+function powerpress_trim_itunes_value($value, $tag = 'summary')
+{
+	$length = (function_exists('mb_strlen')?mb_strlen($value):strlen($value) );
+	$trim_at = false;
+	switch($tag)
+	{
+		case 'summary': {
+			// 4000 character limit
+			if( $length > 4000 )
+				$trim_at = 4000;
+		}; break;
+		case 'subtitle':
+		case 'keywords':
+		case 'author':
+		case 'name':
+		default: {
+			// 255 character limit
+			if( $length > 255 )
+				$trim_at = 255;
+		};
+	}
+	
+	if( $trim_at )
+	{
+		// Start trimming
+		$value = (function_exists('mb_substr')?mb_substr($value, 0, $trim_at):substr($value, 0, $trim_at) );
+		$clean_break = false;
+		if( preg_match('/(.*[,\n.\?!])[^,\n.\?!]/isu', $value, $matches) ) // pattern modifiers: case (i)nsensitive, entire (s)tring and (u)nicode
+		{
+			if( isset( $matches[1]) )
+			{
+				$detected_eof_pos = (function_exists('mb_strlen')?mb_strlen($matches[1]):strlen($matches[1]) );
+				// Look back at most 50 characters...
+				if( $detected_eof_pos > 3950 || ($detected_eof_pos > 205 && $detected_eof_pos < 255 ) )
+				{
+					$value = $matches[1];
+					$clean_break = true;
+				}
+				// Otherwise we want to continue with the same value we started with...
+			}
+		}
+		
+		if( $clean_break == false && $tag = 'subtitle' ) // Subtitle we want to add a ... at the end
+			$value = (function_exists('mb_substr')?mb_substr($value, 0, 252):substr($value, 0, 252) ). '...';
+	}
+	
+	return $value;
 }
 
 function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = false)
