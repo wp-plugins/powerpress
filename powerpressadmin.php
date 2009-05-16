@@ -344,6 +344,24 @@ function powerpress_admin_init()
 
 add_action('init', 'powerpress_admin_init');
 
+function powerpress_admin_notices()
+{
+	$errors = get_option('powerpress_errors');
+	if( $errors )
+	{
+		delete_option('powerpress_errors');
+		
+		while( list($null, $error) = each($errors) )
+		{
+?>
+<div class="updated"><p><strong><?php echo $error; ?></strong></p></div>
+<?php
+		}
+	}
+}
+
+add_action( 'admin_notices', 'powerpress_admin_notices' );
+
 function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_general' )
 {
 	// Save general settings
@@ -543,8 +561,22 @@ function powerpress_edit_post($post_ID, $post)
 				{
 					if( $Powerpress['hosting'] == 1 )
 					{
-						// TODO: Get meta info via API
-						
+						if( @$Powerpress['set_size'] == 0 || @$Powerpress['set_duration'] == 0 )
+						{
+							$Settings = get_option('powerpress_general');
+							
+							// Get meta info via API
+							$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $Powerpress['url'] );
+							$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+							if( $content )
+							{
+								$MediaInfo = powerpress_json_decode($content);
+								if( @$Powerpress['set_size'] == 0 )
+									$FileSize = $MediaInfo['length'];
+								if( @$Powerpress['set_duration'] == 0 )
+									$Duration = $Duration = powerpress_readable_duration($MediaInfo['duration'], true);
+							}
+						}
 					}
 					else
 					{
@@ -651,17 +683,29 @@ function powerpress_edit_post($post_ID, $post)
 	// If we're moving from draft to published, maybe we should ping iTunes?
 	if($_POST['prev_status'] == 'draft' && $_POST['publish'] == 'Publish' )
 	{
+		//mail('cio@rawvoice.com', 'WordPress Publish Post', print_r($_POST, true) );
+		$Settings = get_option('powerpress_general');
+		
 		// Next double check we're looking at a podcast episode...
 		$Enclosure = get_post_meta($post_ID, 'enclosure', true);
 		if( $Enclosure )
 		{
-			$Settings = get_option('powerpress_general');
 			if( $Settings['ping_itunes'] && $Settings['itunes_url'] )
 			{
 				$PingResults = powerpress_ping_itunes($Settings['itunes_url']);
 				//mail( 'email@host.com', 'Ping iTunes Results', implode("\n", $PingResults) ); // Let me know how the ping went.
 			}
 		}
+		
+		if( $Settings['blubrry_hosting'] )
+		powerpress_process_hosting($post_ID); // Call anytime blog post is in the published state
+	}
+	else if( $_POST['post_status'] == 'publish' )
+	{
+		$Settings = get_option('powerpress_general');
+		
+		if( $Settings['blubrry_hosting'] )
+			powerpress_process_hosting($post_ID); // Call anytime blog post is in the published state
 	}
 		
 	// And we're done!
@@ -1117,6 +1161,97 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	
 	// Use the bullt-in remote_fopen...
 	return wp_remote_fopen($url);
+}
+
+// Process any episodes for the specified post that have been marked for hosting and that do not have full URLs...
+function powerpress_process_hosting($post_ID)
+{
+	$errors = array();
+	$Settings = get_option('powerpress_general');
+	$CustomFeeds = array('podcast'=>'podcast');
+	if( is_array($Settings['custom_feeds']) )
+		$CustomFeeds = $Settings['custom_feeds'];
+
+	while( list($feed_slug,$null) = each($CustomFeeds) )
+	{
+		$field = 'enclosure';
+		if( $feed_slug != 'podcast' )
+			$field = '_'.$feed_slug.':enclosure';
+		$EnclosureData = get_post_meta($post_ID, $field, true);
+		
+		if( $EnclosureData )
+		{
+			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $EnclosureData);
+			$EnclosureURL = trim($EnclosureURL);
+			$EnclosureType = trim($EnclosureType);
+			$EnclosureSize = trim($EnclosureSize);
+			$EpisodeData = unserialize($Serialized);
+			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
+			{
+				$error = false;
+				// First we need to get media information...
+				$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
+				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+				$results =  powerpress_json_decode($json_data);
+					
+				if( is_array($results) && !isset($results['error']) )
+				{
+					if( isset($results['duration']) && $results['duration'] )
+						$EpisodeData['duration'] = $results['duration'];
+					if( isset($results['content-type']) && $results['content-type'] )
+						$EnclosureType = $results['content-type'];
+					if( isset($results['length']) && $results['length'] )
+						$EnclosureSize = $results['length'];
+				}
+				else if( isset($results['error']) )
+				{
+					$error = 'Blubrry Hosting Error (media info): '. $results['error'];
+				}
+				else
+				{
+					$error = 'Blubrry Hosting Error: An error occurred obtaining media information from '. $EnclosureURL .'.';
+				}
+				
+				if( $error == false )
+				{
+					$api_url = sprintf('%s/media/%s/%s?format=json&publish=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
+					$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+					$results =  powerpress_json_decode($json_data);
+					
+					if( is_array($results) && !isset($results['error']) )
+					{
+						$EnclosureURL = $results['media_url'];
+						$EnclosureData = $EnclosureURL . "\n" . $EnclosureSize . "\n". $EnclosureType . "\n" . serialize($EpisodeData);	
+						update_post_meta($post_ID, $field, $EnclosureData);
+					}
+					else if( isset($results['error']) )
+					{
+						$error = 'Blubrry Hosting Error (publish): '. $results['error'];
+						
+					}
+					else
+					{
+						$error = 'Blubrry Hosting Error (publish): An error occurred publishing media '. $EnclosureURL .'.';
+					}
+				}
+				
+				if( $error )
+				{
+					$errors[] = $error;
+					// TODO Need to print an eerror message at the top of the screen
+					//mail('cio@rawvoice.com', 'Publishing From WordPress', print_r( array('file'=>$EnclosureURL, 'episode_data'=>$EpisodeData, 'error'=>$g_powerpress_error), true) );
+				}
+				// Make the API call here to publish media file...
+				//
+			}
+		}
+	}
+	
+	if( count($errors) > 0 )
+	{
+		add_option('powerpress_errors', $errors);
+	}
+	
 }
 
 function powerpress_json_decode($value)

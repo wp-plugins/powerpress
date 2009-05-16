@@ -358,10 +358,13 @@ function powerpress_rss2_head()
 	if( !isset($Feed['url']) || trim($Feed['url']) == '' )
 		$Feed['url'] = get_bloginfo('url');
 		
-	
+	$General = get_option('powerpress_general');
 	// We made it this far, lets write stuff to the feed!
-	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
-	
+	if( $General['advanced_mode'] == 0 )
+		echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" mode="simple" -->'.PHP_EOL;
+	else
+		echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" mode="advanced" -->'.PHP_EOL;
+		
 	// add the itunes:new-feed-url tag to feed
 	if( powerpress_is_custom_podcast_feed() )
 	{
@@ -688,6 +691,8 @@ function powerpress_rss2_item()
 		echo "\t\t<itunes:summary>". powerpress_itunes_summary($post->post_content) .'</itunes:summary>'.PHP_EOL;
 	else if( $summary )
 		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($summary, 'summary') .'</itunes:summary>'.PHP_EOL;
+	else if( $excerpt_no_html )
+		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($excerpt_no_html, 'summary') .'</itunes:summary>'.PHP_EOL;
 	else
 		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($content_no_html, 'summary') .'</itunes:summary>'.PHP_EOL;
 	

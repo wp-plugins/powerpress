@@ -37,7 +37,8 @@ function powerpress_admin_jquery_init()
 
 			$api_url = sprintf('%s/media/%s/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
 			$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
-			$files =  powerpress_json_decode($json_data);
+			$results =  powerpress_json_decode($json_data);
+			print_r($files);
 				
 			$FeedSlug = $_GET['podcast-feed'];
 			powerpress_admin_jquery_header('Browsing Media');
@@ -49,8 +50,14 @@ function powerpress_admin_jquery_init()
 		</p>
 		<ul class="media">
 <?php
-
-			while( list($index,$data) = each($files) )
+		
+		if( isset($results['error']) )
+		{
+			echo $results['error'];
+		}
+		else
+		{
+			while( list($index,$data) = each($results) )
 			{
 ?>	
 			
@@ -60,6 +67,7 @@ function powerpress_admin_jquery_init()
 			</li>
 <?php
 			}
+		}
 ?>
 	</ul>
 	
@@ -92,6 +100,10 @@ function powerpress_admin_jquery_init()
 			}
 			
 			powerpress_save_settings($Settings);
+			
+			// Clear cached statistics
+			delete_option('powerpress_stats');
+			
 			$Successful = true;
 			if( $Successful )
 			{
