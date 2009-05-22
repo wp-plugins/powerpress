@@ -1,4 +1,107 @@
 <?php
+
+function powerpress_languages()
+{
+	// List copied from PodPress:
+	$langs = array();
+	$langs['af'] = 'Afrikaans';
+	$langs['sq'] = 'Albanian';
+	$langs['eu'] = 'Basque';
+	$langs['be'] = 'Belarusian';
+	$langs['bg'] = 'Bulgarian';
+	$langs['ca'] = 'Catalan';
+	$langs['zh-cn'] = 'Chinese (Simplified)';
+	$langs['zh-tw'] = 'Chinese (Traditional)';
+	$langs['hr'] = 'Croatian';
+	$langs['cs'] = 'Czech';
+	$langs['da'] = 'Danish';
+	$langs['nl'] = 'Dutch';
+	$langs['nl-be'] = 'Dutch (Belgium)';
+	$langs['nl-nl'] = 'Dutch (Netherlands)';
+	$langs['en'] = 'English';
+	$langs['en-au'] = 'English (Australia)';
+	$langs['en-bz'] = 'English (Belize)';
+	$langs['en-ca'] = 'English (Canada)';
+	$langs['en-ie'] = 'English (Ireland)';
+	$langs['en-jm'] = 'English (Jamaica)';
+	$langs['en-nz'] = 'English (New Zealand)';
+	$langs['en-ph'] = 'English (Phillipines)';
+	$langs['en-za'] = 'English (South Africa)';
+	$langs['en-tt'] = 'English (Trinidad)';
+	$langs['en-gb'] = 'English (United Kingdom)';
+	$langs['en-us'] = 'English (United States)';
+	$langs['en-zw'] = 'English (Zimbabwe)';
+	$langs['et'] = 'Estonian';
+	$langs['fo'] = 'Faeroese';
+	$langs['fi'] = 'Finnish';
+	$langs['fr'] = 'French';
+	$langs['fr-be'] = 'French (Belgium)';
+	$langs['fr-ca'] = 'French (Canada)';
+	$langs['fr-fr'] = 'French (France)';
+	$langs['fr-lu'] = 'French (Luxembourg)';
+	$langs['fr-mc'] = 'French (Monaco)';
+	$langs['fr-ch'] = 'French (Switzerland)';
+	$langs['gl'] = 'Galician';
+	$langs['gd'] = 'Gaelic';
+	$langs['de'] = 'German';
+	$langs['de-at'] = 'German (Austria)';
+	$langs['de-de'] = 'German (Germany)';
+	$langs['de-li'] = 'German (Liechtenstein)';
+	$langs['de-lu'] = 'German (Luxembourg)';
+	$langs['de-ch'] = 'German (Switzerland)';
+	$langs['el'] = 'Greek';
+	$langs['haw'] = 'Hawaiian';
+	$langs['hu'] = 'Hungarian';
+	$langs['is'] = 'Icelandic';
+	$langs['in'] = 'Indonesian';
+	$langs['ga'] = 'Irish';
+	$langs['it'] = 'Italian';
+	$langs['it-it'] = 'Italian (Italy)';
+	$langs['it-ch'] = 'Italian (Switzerland)';
+	$langs['ja'] = 'Japanese';
+	$langs['ko'] = 'Korean';
+	$langs['mk'] = 'Macedonian';
+	$langs['no'] = 'Norwegian';
+	$langs['pl'] = 'Polish';
+	$langs['pt'] = 'Portuguese';
+	$langs['pt-br'] = 'Portuguese (Brazil)';
+	$langs['pt-pt'] = 'Portuguese (Portugal)';
+	$langs['ro'] = 'Romanian';
+	$langs['ro-mo'] = 'Romanian (Moldova)';
+	$langs['ro-ro'] = 'Romanian (Romania)';
+	$langs['ru'] = 'Russian';
+	$langs['ru-mo'] = 'Russian (Moldova)';
+	$langs['ru-ru'] = 'Russian (Russia)';
+	$langs['sr'] = 'Serbian';
+	$langs['sk'] = 'Slovak';
+	$langs['sl'] = 'Slovenian';
+	$langs['es'] = 'Spanish';
+	$langs['es-ar'] = 'Spanish (Argentina)';
+	$langs['es-bo'] = 'Spanish (Bolivia)';
+	$langs['es-cl'] = 'Spanish (Chile)';
+	$langs['es-co'] = 'Spanish (Colombia)';
+	$langs['es-cr'] = 'Spanish (Costa Rica)';
+	$langs['es-do'] = 'Spanish (Dominican Republic)';
+	$langs['es-ec'] = 'Spanish (Ecuador)';
+	$langs['es-sv'] = 'Spanish (El Salvador)';
+	$langs['es-gt'] = 'Spanish (Guatemala)';
+	$langs['es-hn'] = 'Spanish (Honduras)';
+	$langs['es-mx'] = 'Spanish (Mexico)';
+	$langs['es-ni'] = 'Spanish (Nicaragua)';
+	$langs['es-pa'] = 'Spanish (Panama)';
+	$langs['es-py'] = 'Spanish (Paraguay)';
+	$langs['es-pe'] = 'Spanish (Peru)';
+	$langs['es-pr'] = 'Spanish (Puerto Rico)';
+	$langs['es-es'] = 'Spanish (Spain)';
+	$langs['es-uy'] = 'Spanish (Uruguay)';
+	$langs['es-ve'] = 'Spanish (Venezuela)';
+	$langs['sv'] = 'Swedish';
+	$langs['sv-fi'] = 'Swedish (Finland)';
+	$langs['sv-se'] = 'Swedish (Sweden)';
+	$langs['tr'] = 'Turkish';
+	$langs['uk'] = 'Ukranian';
+	return $langs;
+}
 // powerpressadmin_editfeed.php
 function powerpress_admin_editfeed($feed_slug=false)
 {
@@ -101,11 +204,38 @@ while( list($value,$desc) = each($applyoptions) )
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Important Feeds"); ?></th> 
+<?php _e("Main Site Feed"); ?></th> 
 <td>
-<p style="margin-top: 5px;">Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
-<p>Special Podcast only Feed: <a href="<?php echo get_feed_link('podcast'); ?>" title="Podcast Feed" target="_blank"><?php echo get_feed_link('podcast'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link('podcast')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+	<p style="margin-top: 5px; margin-bottom: 0;">Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+</td>
+</tr>
 
+
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Custom Podcast Feeds"); ?></th> 
+<td>
+<?php
+	
+	$General = get_option('powerpress_general');
+	$Feeds = array('podcast'=>'Special Podcast only Feed');
+	if( isset($General['custom_feeds']['podcast']) )
+		$Feeds = $General['custom_feeds'];
+	else if( is_array($General['custom_feeds']) )
+		$Feeds += $General['custom_feeds'];
+		
+	while( list($feed_slug, $feed_title) = each($Feeds) )
+	{
+		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
+?>
+<p><?php echo $feed_title; ?>: <a href="<?php echo get_feed_link($feed_slug); ?>" title="<?php echo $feed_title; ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a>
+| <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" title="Validate Feed" target="_blank">validate</a>
+	<?php if( $AdvancedMode ) { ?>
+	| <a href="<?php echo $edit_link; ?>" title="Edit Feed">edit</a>
+	<?php } ?>
+</p>
+<?php } ?>
 </td>
 </tr>
 <?php } else { // Else if( $feed_slug)  ?>
@@ -146,14 +276,7 @@ while( list($value,$desc) = each($applyoptions) )
 </td>
 </tr>
 
-<tr valign="top">
-<th scope="row">
-<?php _e("Show the most recent"); ?>
-</th>
-<td>
-<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" />  episodes (leave blank to use blog default: <?php form_option('posts_per_rss'); ?>)
-</td>
-</tr>
+
 
 <tr valign="top">
 <th scope="row">
@@ -174,6 +297,18 @@ else
 </tr>
 
 <?php } // End $feed_slug ?>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("Show the most recent"); ?>
+</th>
+<td>
+<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" />  episodes / posts per feed (leave blank to use blog default: <?php form_option('posts_per_rss'); ?>)
+<?php if( !$feed_slug ) { ?>
+<p style="margin-top: 5px; margin-bottomd: 0;">Note: Setting above applies only to custom podcast feeds</p>
+<?php } ?>
+</td>
+</tr>
 
 <?php if( $AdvancedMode ) { ?>
 	<tr valign="top">
@@ -361,6 +496,35 @@ while( list($value,$desc) = each($explicit) )
 </tr>
 
 <?php if( $AdvancedMode ) { ?>
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Feed Language"); ?></th>
+<td>
+<?php
+	
+
+
+?>
+<select name="Feed[rss_language]" class="bpp_input_med">
+<?php
+$Languages = powerpress_languages();
+
+echo '<option value="">Blog Default Language</option>';
+while( list($value,$desc) = each($Languages) )
+	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+?>
+</select>
+<?php
+	$rss_language = get_option('rss_language');
+if( isset($Languages[ $rss_language ]) )
+{
+?>
+ Blog Default: <?php echo $Languages[ $rss_language ]; ?>
+ <?php } ?>
+</td>
+</tr>
+
 <tr valign="top">
 <th scope="row">
 <?php _e("Talent Name"); ?> <br />

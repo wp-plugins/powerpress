@@ -783,6 +783,26 @@ function powerpress_bloginfo_rss($content, $field = '')
 add_filter('get_bloginfo_rss', 'powerpress_bloginfo_rss', 10, 2);
 
 
+function powerpress_rss_language($value)
+{
+	if( powerpress_is_custom_podcast_feed() )
+	{
+		$feed_slug = get_query_var('feed');
+		
+		if( $feed_slug != 'podcast' )
+			$Feed = get_option('powerpress_feed');
+		else
+			$Feed = get_option('powerpress_feed_'. $feed_slug);
+		
+		if( $Feed && isset($Feed['rss_language']) && $Feed['rss_language'] != '' )
+			$value = $Feed['rss_language'];
+	}
+	return $value;
+}
+
+add_filter('option_rss_language', 'powerpress_rss_language');
+
+
 function powerpress_do_podcast_feed($for_comments=false)
 {
 	global $wp_query;
@@ -1293,6 +1313,7 @@ function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = 
 		$value = preg_replace( '/&nbsp;/ui' , ' ', $value); // Best we can do for PHP4
 	else
 		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
+	$value = preg_replace( '/&amp;/ui' , '&', $value); // Best we can do for PHP4. precaution in case it didn't get removed from function above.
 	
 	if( $remove_new_lines )
 		$value = preg_replace( array("/\r\n\r\n/u", "/\n/u", "/\r/u", "/\t/u") , array(' - ',' ', '', '  '), $value);

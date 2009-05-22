@@ -31,6 +31,18 @@
 </td>
 </tr>
 
+<!--  ping_sites -->
+<tr valign="top">
+<th scope="row"><?php echo __("Add Update Services"); ?></th> 
+<td>
+	
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-ping-sites"); ?>">Add Update Services / Ping Sites</a></strong> (notify podcast directories when you publish new episodes)</p>
+	<p>Add Update Services / Ping Sites geared towards podcasting.</p>
+	
+</td>
+</tr>
+
+
 <!-- use_caps -->
 <tr valign="top">
 <th scope="row"><?php echo __("User Capabilities"); ?></th> 
