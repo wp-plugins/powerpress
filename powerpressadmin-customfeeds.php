@@ -19,9 +19,12 @@ function powerpress_admin_customfeeds()
 	
 ?>
 <h2><?php echo __("Custom Podcast Feeds"); ?></h2>
-<p style="">
+<p>
 	Custom podcast feeds allow you to associate multiple media files and/or formats to one blog post. Note that additional custom feeds
 	will not appear in the online player or in download links.
+</p>
+<p>
+	If you are looking to organize episodes by topic, please use <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php'); ?>" title="Category Podcast Feeds">Category Podcast Feeds</a>.
 </p>
 
 <style type="text/css">

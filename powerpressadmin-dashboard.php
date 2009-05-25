@@ -62,7 +62,8 @@ function powerpress_dashboard_stats_content()
 		
 		if( !$UserPass )
 		{
-			$content = 'Error: No User name or password specified.';
+			$content = '<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable services.</p>
+<p>Our podcast-hosting integrated PowerPress makes podcast publishing simple. Check out the video on our exciting three-step publishing system!</p>';
 		}
 		else
 		{
@@ -84,11 +85,14 @@ function powerpress_dashboard_stats_content()
 //print_r( $content ); 
 	echo $content;
 	//echo 'Podcast Statistics go here.';
+	
+	if( $UserPass )
+	{
 ?>
 	<div id="blubrry_stats_media_show">
-		<!-- <a href="javascript:void()" onclick="javascript:document.getElementById('blubrry_stats_media').style.display='block';document.getElementById('blubrry_stats_media_show').style.display='none';return false;">more</a>-->
 		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&KeepThis=true&TB_iframe=true" title="Blubrry Media statistics" class="thickbox">more</a>
 	</div>
+<?php } ?>
 </div>
 <?php
 }

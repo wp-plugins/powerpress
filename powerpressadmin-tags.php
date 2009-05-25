@@ -80,12 +80,12 @@ items {
 	powerpressadmin_tag_option('tag_artist', $General['tag_artist'], 'Artist Tag', 'Use Feed Talent Name' );
 	powerpressadmin_tag_option('tag_album', $General['tag_album'], 'Album Tag', 'Use blog title: '.  get_bloginfo('name') .'' );
 	powerpressadmin_tag_option('tag_genre', $General['tag_genre'], 'Genre Tag', 'Use genre \'Podcast\'' );
-	powerpressadmin_tag_option('tag_year', $General['tag_year'], 'Year Tag', 'Use year of blog post' );
-	powerpressadmin_tag_option('tag_comment', $General['tag_comment'], 'Comment Tag', 'Use iTunes subtitle' );
+	powerpressadmin_tag_option('tag_year', $General['tag_year'], 'Year Tag', 'Use current year' );
+	//powerpressadmin_tag_option('tag_comment', $General['tag_comment'], 'Comment Tag', 'Use iTunes subtitle' ); // too compilcated at this point
 	powerpressadmin_tag_option('tag_track', $General['tag_track'], 'Track Tag', 'Do not specify track number' );
 	powerpressadmin_tag_option('tag_composer', $General['tag_composer'], 'Composer Tag', 'Use Feed Talent Name' );
 	powerpressadmin_tag_option('tag_copyright', $General['tag_copyright'], 'Copyright Tag', 'Use &copy; Talent Name' );
-	powerpressadmin_tag_option('tag_url_file', $General['tag_url_file'], 'URL Tag', 'Use main blog URL: '.  get_bloginfo('url') .'' );
+	powerpressadmin_tag_option('tag_url', $General['tag_url'], 'URL Tag', 'Use main blog URL: '.  get_bloginfo('url') .'' );
 	powerpressadmin_tag_option('tag_coverart', $General['tag_coverart'], 'Coverart Tag', '' );
 	
 ?>
@@ -107,10 +107,6 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 		}; break;
 		case 'tag_track': {
 			$track = true;
-		}; break;
-		case 'tag_url_filed': {
-			$other = false;
-			$file = true;
 		}; break;
 		case 'tag_coverart': {
 			$other = false;

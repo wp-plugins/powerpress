@@ -63,6 +63,7 @@ function powerpress_admin_init()
 		$Feed = $_POST['Feed'];
     $General = $_POST['General'];
 		$FeedSlug = (isset($_POST['feed_slug'])?$_POST['feed_slug']:false);
+		$Category = (isset($_POST['cat'])?$_POST['cat']:false);
 		
 		// New iTunes image
 		if( @$_POST['itunes_image_checkbox'] == 1 )
@@ -118,6 +119,33 @@ function powerpress_admin_init()
 			}
 		}
 		
+		// New RSS2 image
+		if( @$_POST['coverart_image_checkbox'] == 1 )
+		{
+			$filename = str_replace(" ", "_", basename($_FILES['coverart_image_file']['name']) );
+			$temp = $_FILES['coverart_image_file']['tmp_name'];
+			
+			if( file_exists($upload_path . $filename ) )
+			{
+				$filenameParts = pathinfo($filename);
+				do {
+					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+				} while( file_exists($upload_path . $filename ) );
+			}
+			
+			if( getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+			{
+				move_uploaded_file($temp, $upload_path . $filename);
+				$_POST['TagValues']['tag_coverart'] = $urlImages . $filename;
+			}
+			else
+			{
+				powerpress_page_message_add_error( 'Invalid Coverat image: ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
+			}
+		}
+			
+		
 		// Check to see if we need to update the feed title
 		if( $FeedSlug )
 		{
@@ -140,6 +168,55 @@ function powerpress_admin_init()
 					$General['display_player_excerpt'] = 0; // Set it to zero.
 			}
 			
+			if( $_POST['action'] == 'powerpress-save-tags' )
+			{
+				if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
+					$General['write_tags'] = 0; // Set it to zero.
+					
+				$TagValues = $_POST['TagValues'];
+				// Set all the tag values...
+				while( list($key,$value) = each($General) )
+				{
+					if( substr($key, 0, 4) == 'tag_' )
+					{
+						if( $value )
+							$General[$key] = $TagValues[$key];
+						else
+							$General[$key] = '';
+					}
+				}
+				
+				if( $TagValues['tag_coverart'] != '' )
+				{
+					$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
+					if( $GeneralSettingsTemp['blubrry_hosting'] )
+					{
+						// Lets try to cache the image onto Blubrry's Server...
+						$api_url = sprintf('%s/media/%s/coverart.json?url=%s', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $GeneralSettingsTemp['blubrry_program_keyword'], urlencode($TagValues['tag_coverart']) );
+						$json_data = powerpress_remote_fopen($api_url, $GeneralSettingsTemp['blubrry_auth']);
+						$results =  powerpress_json_decode($json_data);
+							
+						if( is_array($results) && !isset($results['error']) )
+						{
+							// Good!
+						}
+						else if( isset($results['error']) )
+						{
+							$error = 'Blubrry Hosting Error (updating coverart): '. $results['error'];
+						}
+						else
+						{
+							$error = 'An error occurred updating the coverart with your Blubrry Services Account.';
+						}
+						
+					}
+					else
+					{
+						powerpress_page_message_add_error( 'Coverart Image was not uploaded to your Blubrry Services Account. It will <u>NOT</u> be added to your mp3s.' );
+					}
+				}
+			}
+			
 			// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...
 			$General = powerpress_stripslashes($General);
 			powerpress_save_settings($General);
@@ -150,7 +227,10 @@ function powerpress_admin_init()
 			if( !isset($Feed['enhance_itunes_summary']) )
 				$Feed['enhance_itunes_summary'] = false;
 			$Feed = powerpress_stripslashes($Feed);
-			powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
+			if( $Category )
+				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
+			else
+				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
 		}
 		
 		// Anytime settings are saved lets flush the rewrite rules
@@ -165,8 +245,25 @@ function powerpress_admin_init()
 			case 'powerpress-save-customfeed': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.') );
 			}; break;
+			
 			case 'powerpress-save-feedsettings': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress Feed settings saved.') );
+			}; break;
+			case 'powerpress-save-categoryfeedsettings': {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.') );
+			}; break;
+			case 'powerpress-save-tags': {
+				$General = get_option('powerpress_general');
+				if( !@$General['blubrry_hosting'] )
+					powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.') );
+				else
+					powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.') );
+			}; break;
+			case 'powerpress-save-mode': {
+				if( $General['advanced_mode'] == 1 )
+					powerpress_page_message_add_notice( __('You are now in Advanced Mode.') );
+				else
+					powerpress_page_message_add_notice( __('You are now in Simple Mode.') );
 			}; break;
 			case 'powerpress-save-basic':
 			default: {
@@ -227,6 +324,48 @@ function powerpress_admin_init()
 					$_GET['feed_slug'] = $key;
 				}
 			}; break;
+			case 'powerpress-addcategoryfeed': {
+				check_admin_referer('powerpress-add-category-feed');
+				$cat_ID = $_POST['cat'];
+				$Settings = get_option('powerpress_general');
+				/*
+				$key = sanitize_title($_POST['feed_slug']);
+				$value = $_POST['feed_name'];
+				$value = powerpress_stripslashes($value);
+				*/
+				
+				$category = get_category($cat_ID);
+				/*
+				if( isset($Settings['custom_feeds'][ $key ]) && @$_POST['overwrite'] != 1 )
+				{
+					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
+				} else */
+				if( $category == false )
+				{
+					powerpress_page_message_add_error( __('Error obtaining category information.') );
+				}
+				else
+				{
+					if( !in_array($cat_ID, @$Settings['custom_cat_feeds']) )
+					{
+						$Settings['custom_cat_feeds'][] = $cat_ID;
+						powerpress_save_settings($Settings);
+					}
+				
+					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.') );
+					
+					$_GET['action'] = 'powerpress-editcategoryfeed';
+					$_GET['cat'] = $cat_ID;
+				}
+			}; break;
+			case 'powerpress-ping-sites': {
+				check_admin_referer('powerpress-ping-sites');
+				
+				require_once( dirname(__FILE__) . '/powerpressadmin-ping-sites.php');
+				powerpressadmin_ping_sites_process();
+				
+				$_GET['action'] = 'powerpress-ping-sites';
+			}; break;
 			case 'powerpress-importpodpress': {
 				check_admin_referer('powerpress-import-podpress');
 				
@@ -248,6 +387,12 @@ function powerpress_admin_init()
 				
 				require_once( dirname(__FILE__) . '/powerpressadmin-podpress.php');
 				powerpressadmin_podpress_delete_data();
+				
+			}; break;
+			case 'powerpress-save-mode': {
+				
+				if( !isset($_POST['General']['advanced_mode']) )
+					powerpress_page_message_add_notice( __('You must select a Mode to continue.') );
 				
 			}; break;
 		}
@@ -295,6 +440,21 @@ function powerpress_admin_init()
 					powerpress_page_message_add_notice( 'Feed deleted successfully.' );
 				}
 			}; break;
+			case 'powerpress-delete-category-feed': {
+				$cat_ID = $_GET['cat'];
+				check_admin_referer('powerpress-delete-category-feed-'.$cat_ID);
+				
+				$Settings = get_option('powerpress_general');
+				$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
+				if( $key !== false )
+				{
+					unset( $Settings['custom_cat_feeds'][$key] );
+					powerpress_save_settings($Settings); // Delete the feed from the general settings
+				}
+				delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
+				
+				powerpress_page_message_add_notice( 'Removed podcast settings for category feed successfully.' );
+			}; break;
 			case 'powerpress-podpress-settings': {
 				check_admin_referer('powerpress-podpress-settings');
 				
@@ -337,6 +497,7 @@ function powerpress_admin_init()
 			}; break;
 		}
 	}
+	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
 		powerpress_admin_jquery_init();
@@ -468,8 +629,11 @@ function powerpress_admin_menu()
 			add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Basic Settings'), __('Basic Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Appearance Settings'), __('Appearance'), 1, 'powerpress/powerpressadmin_appearance.php', 'powerpress_admin_page_appearance' );
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Feed Settings'), __('Feed Settings'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 		}
 		else
@@ -615,6 +779,12 @@ function powerpress_edit_post($post_ID, $post)
 							}
 						}
 					}
+				}
+				
+				if( $ContentType == 'audio/mpg' )
+				{
+					$Results = powerpress_write_tags($MediaURL, $post->post_title);
+					
 				}
 				
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
@@ -900,7 +1070,7 @@ function powerpress_admin_page_basic()
 	powerpress_admin_page_header();
 	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
 	powerpress_admin_basic();
-	powerpress_admin_page_footer(true, true);
+	powerpress_admin_page_footer(true);
 }
 
 // Admin page, advanced mode: appearance settings
@@ -918,6 +1088,15 @@ function powerpress_admin_page_feedsettings()
 	powerpress_admin_page_header('powerpress/powerpressadmin_feedsettings.php');
 	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
 	powerpress_admin_editfeed();
+	powerpress_admin_page_footer();
+}
+
+// Admin page, advanced mode: feed settings
+function powerpress_admin_page_tags()
+{
+	powerpress_admin_page_header('powerpress/powerpressadmin_tags.php');
+	require_once( dirname(__FILE__).'/powerpressadmin-tags.php');
+	powerpress_admin_tags();
 	powerpress_admin_page_footer();
 }
 
@@ -941,6 +1120,26 @@ function powerpress_admin_page_customfeeds()
 	}
 }
 
+// Category feeds
+function powerpress_admin_page_categoryfeeds()
+{
+	switch( @$_GET['action'] )
+	{
+		case 'powerpress-editcategoryfeed' : {
+			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php');
+			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+			powerpress_admin_editfeed(false, $_GET['cat']);
+			powerpress_admin_page_footer();
+		}; break;
+		default: {
+			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php', 'powerpress-add-categoryfeed');
+			require_once( dirname(__FILE__).'/powerpressadmin-categoryfeeds.php');
+			powerpress_admin_categoryfeeds();
+			powerpress_admin_page_footer(false);
+		};
+	}
+}
+
 // Admin page, advanced mode: tools
 function powerpress_admin_page_tools()
 {
@@ -956,6 +1155,12 @@ function powerpress_admin_page_tools()
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-import-mt');
 			require_once( dirname(__FILE__).'/powerpressadmin-mt.php');
 			powerpress_admin_mt();
+			powerpress_admin_page_footer(false);
+		}; break;
+		case 'powerpress-ping-sites': {
+			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-ping-sites');
+			require_once( dirname(__FILE__).'/powerpressadmin-ping-sites.php');
+			powerpress_admin_ping_sites();
 			powerpress_admin_page_footer(false);
 		}; break;
 		default: {
@@ -984,14 +1189,27 @@ function powerpress_podpress_episodes_exist()
 function powerpress_admin_page()
 {
 	powerpress_admin_page_header();
+	
+	$Settings = get_option('powerpress_general');
+	//print_r($Settings);
+	//exit;
+	if( !isset($Settings['advanced_mode']) )
+	{
+		require_once( dirname(__FILE__).'/powerpressadmin-mode.php');
+		powerpress_admin_mode();
+		powerpress_admin_page_footer(false);
+	}
+	else
+	{
+		// Simple mode:
+		require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+		powerpress_admin_basic();
 
-	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
-	powerpress_admin_basic();
+		require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+		powerpress_admin_editfeed();
 
-	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-	powerpress_admin_editfeed();
-
-	powerpress_admin_page_footer(true, true);
+		powerpress_admin_page_footer(true);
+	}
 }
 	
 function powerpress_shutdown()
@@ -1033,7 +1251,7 @@ function powerpress_ping_itunes($iTunes_url)
 	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
 }
 
-function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array() )
+function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 10 )
 {
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
@@ -1045,7 +1263,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow location redirection
 		curl_setopt($curl, CURLOPT_MAXREDIRS, 5); // Location redirection limit
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2 ); // Connect time out
-		curl_setopt($curl, CURLOPT_TIMEOUT, 5); // The maximum number of seconds to execute.
+		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout); // The maximum number of seconds to execute.
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 		if( strtolower(substr($url, 0, 5)) == 'https' )
 		{
@@ -1085,7 +1303,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	if( version_compare('2.7', $wp_version, '<=') ) // Lets us specify the user agent and set the basic auth string...
 	{
 		$options = array();
-		$options['timeout'] = 10;
+		$options['timeout'] = $timeout;
 		$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
 		if( $basicauth )
 			$options['headers'][] = 'Authorization: Basic '.$basic_auth;
@@ -1209,13 +1427,16 @@ function powerpress_process_hosting($post_ID)
 				}
 				else
 				{
-					$error = 'Blubrry Hosting Error: An error occurred obtaining media information from '. $EnclosureURL .'.';
+					$error = 'Blubrry Hosting Error: An error occurred obtaining media information from <em>'. $EnclosureURL .'</em>. ';
+					$error = 'Blubrry Hosting Error (publish): An error occurred publishing media '. $EnclosureURL .'.';
+					$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
+					$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
 				}
 				
 				if( $error == false )
 				{
 					$api_url = sprintf('%s/media/%s/%s?format=json&publish=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
-					$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+					$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], array(), 60*30); // give this up to 30 minutes, though 3 seocnds to 20 seconds is all one should need.
 					$results =  powerpress_json_decode($json_data);
 					
 					if( is_array($results) && !isset($results['error']) )
@@ -1231,7 +1452,10 @@ function powerpress_process_hosting($post_ID)
 					}
 					else
 					{
-						$error = 'Blubrry Hosting Error (publish): An error occurred publishing media '. $EnclosureURL .'.';
+						$rand_id = rand(100,2000);
+						$error = 'Blubrry Hosting Error (publish): An error occurred publishing media <em>'. $EnclosureURL .'</em>. ';
+						$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
+						$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
 					}
 				}
 				
@@ -1423,6 +1647,67 @@ function powerpress_default_settings($Settings, $Section='basic')
 	}
 	
 	return $Settings;
+}
+
+function powerpress_write_tags($file, $post_title)
+{
+	// Use the Blubrry API to write ID3 tags. to the media...
+	
+	$Settings = get_option('powerpress_general');
+	
+	$PostArgs = array();
+	$Fields = array('title','artist','album','genre','year','track','composer','copyright','url');
+	while( list($null,$field) = each($Fields) )
+	{
+		if( @$Settings[ 'tag_'.$field ] != '' )
+		{
+			$PostArgs[ $field ] = $Settings[ 'tag_'.$field ];
+			if( $field == 'track' )
+				powerpress_save_settings(array('tag_track'=>$NewNumber), 'powerpress_general');
+		}
+		else
+		{
+			switch($field)
+			{
+				case 'title': {
+					$PostArgs['title'] = $post_title;
+				}; break;
+				case 'album': {
+					$PostArgs['album'] = get_bloginfo('name');
+				}; break;
+				case 'genre': {
+					$PostArgs['genre'] = 'Podcast';
+				}; break;
+				case 'year': {
+					$PostArgs['year'] = date('Y');
+				}; break;
+				case 'artist':
+				case 'composer': {
+					if( @$Settings['itunes_talent_name'] )
+						$PostArgs[ $field ] = $Settings['itunes_talent_name'];
+				}; break;
+				case 'copyright': {
+					if( @$Settings['itunes_talent_name'] )
+						$PostArgs['copyright'] = '(c) '.$Settings['itunes_talent_name'];
+				}; break;
+				case 'url': {
+					$PostArgs['url'] = get_bloginfo('url');
+				}; break;
+			}
+		}
+	}
+							
+	// Get meta info via API
+	$api_url = sprintf('%s/media/%s/%s?format=json&id3=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $file );
+	$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], $PostArgs );
+	if( $content )
+	{
+		$Results = powerpress_json_decode($content);
+		if( $Results && is_array($Results) )
+			return $Results;
+	}
+	
+	return array('error'=>'Error occurred writing MP3 ID3 Tags.');
 }
 
 require_once('powerpressadmin-jquery.php');

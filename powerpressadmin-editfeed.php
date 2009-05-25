@@ -103,7 +103,7 @@ function powerpress_languages()
 	return $langs;
 }
 // powerpressadmin_editfeed.php
-function powerpress_admin_editfeed($feed_slug=false)
+function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 {
 	$UploadArray = wp_upload_dir();
 	$upload_path =  rtrim( substr($UploadArray['path'], 0, 0 - strlen($UploadArray['subdir']) ), '\\/').'/powerpress/';
@@ -126,6 +126,11 @@ function powerpress_admin_editfeed($feed_slug=false)
 		}
 		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
 	}
+	else if( $cat_ID )
+	{
+		$FeedSettings = powerpress_get_settings('powerpress_cat_feed_'.$cat_ID);
+		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
+	}
 	else
 	{
 		$FeedSettings = powerpress_get_settings('powerpress_feed');
@@ -138,6 +143,13 @@ function powerpress_admin_editfeed($feed_slug=false)
 		$FeedTitle = sprintf( '%s: %s', $FeedTitle, $General['custom_feeds'][$feed_slug]) ;
 		echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
 	}
+	else if( $cat_ID )
+	{
+		$category = get_category_to_edit($cat_ID);
+		$FeedTitle = sprintf( 'Category %s: %s', $FeedTitle, $category->name) ;
+		echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
+	}
+	
 	$AdvancedMode = $General['advanced_mode'];
 ?>
 <h2><?php echo $FeedTitle; ?></h2>
@@ -146,6 +158,11 @@ function powerpress_admin_editfeed($feed_slug=false)
 <p style="margin-bottom: 0;">
 	<?php _e('Configure your custom podcast feed.'); ?>
 </p>
+<?php } else if( $cat_ID ) { ?>
+<input type="hidden" name="action" value="powerpress-save-categoryfeedsettings" />
+<p style="margin-bottom: 0;">
+	<?php _e('Configure your category feed to support podcasting.'); ?>
+</p>
 <?php } else { ?>
 <input type="hidden" name="action" value="powerpress-save-feedsettings" />
 <p style="margin-bottom: 0;">
@@ -153,7 +170,7 @@ function powerpress_admin_editfeed($feed_slug=false)
 </p>
 <?php } ?>
 <table class="form-table">
-<?php if( !$feed_slug ) { ?>
+<?php if( !$feed_slug && !$cat_ID ) { ?>
 <?php if( $AdvancedMode ) { ?>
 <tr valign="top">
 <th scope="row">
@@ -245,16 +262,26 @@ while( list($value,$desc) = each($applyoptions) )
 <?php _e("Feed URL"); ?> <br />
 </th>
 <td>
+<?php if( $cat_ID ) { ?>
+<p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_category_feed_link($cat_ID)); ?>" target="_blank"><?php _e('validate'); ?></a></p>
+<?php } else { ?>
 <p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php _e('validate'); ?></a></p>
+<?php } ?>
 </td>
 </tr>
+
 
 <tr valign="top">
 <th scope="row">
 <?php _e("Feed Title"); ?>
 </th>
 <td>
-<input type="text" name="Feed[title]"style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" /> (leave blank to use blog title)
+<input type="text" name="Feed[title]"style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" /> 
+<?php if( $cat_ID ) { ?>
+(leave blank to use category title)
+<?php } else { ?>
+(leave blank to use blog title)
+<?php } ?>
 </td>
 </tr>
 <tr valign="top">
@@ -262,7 +289,12 @@ while( list($value,$desc) = each($applyoptions) )
 <?php _e("Feed Description"); ?>
 </th>
 <td>
-<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo $FeedSettings['description']; ?>" maxlength="1000" />  (leave blank to use blog description)
+<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo $FeedSettings['description']; ?>" maxlength="1000" /> 
+<?php if( $cat_ID ) { ?>
+(leave blank to use category description)
+<?php } else { ?>
+(leave blank to use blog description)
+<?php } ?>
 </td>
 </tr>
 
@@ -272,10 +304,13 @@ while( list($value,$desc) = each($applyoptions) )
 </th>
 <td>
 <input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />  (optional)
+<?php if( $cat_ID ) { ?>
 <p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
+<?php } else { ?>
+<p>Leave blank to use category page: <?php echo get_category_link($cat_ID); ?></p>
+<?php } ?>
 </td>
 </tr>
-
 
 
 <tr valign="top">
@@ -285,8 +320,12 @@ while( list($value,$desc) = each($applyoptions) )
 <td>
 <input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo $FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (leave blank to use current feed)
 <p>Use this option to redirect this feed to a hosted feed service such as <a href="http://www.feedburner.com/" target="_blank">FeedBurner</a>.</p>
-<?php 
-$link = get_feed_link($feed_slug);
+<?php
+if( $cat_ID )
+	$link = get_category_feed_link($cat_ID);
+else
+	$link = get_feed_link($feed_slug);
+	
 if( strstr($link, '?') )
 	$link .= "&redirect=no";
 else
@@ -304,7 +343,7 @@ else
 </th>
 <td>
 <input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" />  episodes / posts per feed (leave blank to use blog default: <?php form_option('posts_per_rss'); ?>)
-<?php if( !$feed_slug ) { ?>
+<?php if( !$feed_slug && !$cat_ID ) { ?>
 <p style="margin-top: 5px; margin-bottomd: 0;">Note: Setting above applies only to custom podcast feeds</p>
 <?php } ?>
 </td>
@@ -347,7 +386,10 @@ else
 <p style="margin-top: 5px;">Your summary may not contain HTML and cannot exceed 4,000 characters in length.</p>
 
 <textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Enhance iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)</div>
+<?php if ( version_compare( '5', phpversion(), '>=' ) ) { ?>
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Enhance iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
+<?php } ?>
+</div>
 </td>
 </tr>
 
