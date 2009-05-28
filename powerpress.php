@@ -927,7 +927,7 @@ function powerpress_load_general_feed_settings()
 		
 		if( $GeneralSettings )
 		{
-			if( is_category() && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
+			if( is_category() && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
 			{
 				$cat_ID = get_query_var('cat');
 				$Feed = get_option('powerpress_feed'); // Get overall feed settings

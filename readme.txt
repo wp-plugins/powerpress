@@ -72,9 +72,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+0.8.1 est released on 5/30/2009
+Fixed bug with line 930 warning in podcast feeds.
+
 0.8.0 released on 5/28/2009
 Fixed bug with merging custom feed settings with regular feed settings, fixed bug where exerpt not used as itunes summary, added new error reporting when editing posts/pages and integrated Blubrry Services (optional), Added multi-language support to the custom podcast feeds. Added better listing of custom feeds on the main feed settings page. Add new feature under Tools section for adding Update Services / Ping sites relevant to podcasting. Added new select mode screen for new installations. Added podcast category feeds. Added statistics view to WordPress Dashboard. Write mp3 ID3 edit screen added for Blubrry Hosting users.
-
 
 0.7.3 released on 4/21/2009
 Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type, fix bug where channel link matches image link, no longer including empty duration values in feeds, fixed bug with curl-setopt function printing a PHP warning in some situations, added warning when user enters an unknown media redirect url.
