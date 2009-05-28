@@ -62,8 +62,8 @@ function powerpress_dashboard_stats_content()
 		
 		if( !$UserPass )
 		{
-			$content = '<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable services.</p>
-<p>Our podcast-hosting integrated PowerPress makes podcast publishing simple. Check out the video on our exciting three-step publishing system!</p>';
+			$content = '<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable <a href="http://www.blubrry.com/powerpress_services/" target="_blank">services</a>.</p>
+<p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting</a> integrated PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>';
 		}
 		else
 		{

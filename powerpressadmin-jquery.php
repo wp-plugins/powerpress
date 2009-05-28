@@ -64,10 +64,13 @@ function powerpress_admin_jquery_init()
 			
 			if( $Settings['blubrry_auth'] == '' )
 			{
+				powerpress_admin_jquery_header('Select Media');
 ?>
-<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable services.</p>
-<p>Our podcast-hosting integrated PowerPress makes podcast publishing simple. Check out the video on our exciting three-step publishing system!</p>
+<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable <a href="http://www.blubrry.com/powerpress_services/" target="_blank">services</a>.</p>
+<p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting integrated</a> PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>
 <?php
+				powerpress_admin_jquery_footer();
+				exit;
 			break;
 			}
 
@@ -77,7 +80,7 @@ function powerpress_admin_jquery_init()
 			// print_r($files);
 				
 			$FeedSlug = $_GET['podcast-feed'];
-			powerpress_admin_jquery_header('Browsing Media');
+			powerpress_admin_jquery_header('Select Media');
 ?>
 
 <!--		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
