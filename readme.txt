@@ -72,6 +72,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+0.8.2 released on 5/2?/2009
+Fixed conflict with Twitter Updater bug when user is using PHP4 (Not a bug for PHP5 users).
+
 0.8.1 released on 5/28/2009
 Fixed bug with line 930 printing warning in podcast feeds.
 

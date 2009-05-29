@@ -346,6 +346,9 @@ function powerpress_admin_init()
 				}
 				else
 				{
+					if( !is_array($Settings['custom_cat_feeds']) )
+						$Settings['custom_cat_feeds'] = array();
+					
 					if( !in_array($cat_ID, @$Settings['custom_cat_feeds']) )
 					{
 						$Settings['custom_cat_feeds'][] = $cat_ID;
@@ -1482,8 +1485,8 @@ function powerpress_json_decode($value)
 {
 	if( function_exists('json_decode') )
 		return json_decode($value, true);
-	
-	require_once( dirname(__FILE__).'/3rdparty/JSON.php');
+	if( !class_exists('Services_JSON') )
+		require_once( dirname(__FILE__).'/3rdparty/JSON.php');
 	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 	return $json->decode($value);
 }
