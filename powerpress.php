@@ -29,7 +29,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 */
 
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '0.8.0' );
+define('POWERPRESS_VERSION', '0.8.2' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your

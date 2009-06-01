@@ -305,9 +305,9 @@ while( list($value,$desc) = each($applyoptions) )
 <td>
 <input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />  (optional)
 <?php if( $cat_ID ) { ?>
-<p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
-<?php } else { ?>
 <p>Leave blank to use category page: <?php echo get_category_link($cat_ID); ?></p>
+<?php } else { ?>
+<p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
 <?php } ?>
 </td>
 </tr>

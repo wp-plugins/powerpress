@@ -49,6 +49,12 @@ function powerpress_dashboard_head()
 
 function powerpress_dashboard_stats_content()
 {
+	$Settings = get_option('powerpress_general');
+	
+	// If using user capabilities...
+	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+		return;
+		
 	$content = false;
 	$StatsCached = get_option('powerpress_stats');
 	if( $StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
@@ -56,7 +62,6 @@ function powerpress_dashboard_stats_content()
 	
 	if( !$content )
 	{
-		$Settings = get_option('powerpress_general');
 		$UserPass = $Settings['blubrry_auth'];
 		$Keyword = $Settings['blubrry_program_keyword'];
 		
@@ -101,8 +106,11 @@ function powerpress_dashboard_stats_content()
 function powerpress_dashboard_setup()
 {
 	$Settings = get_option('powerpress_general');
-	$Settings['blubrry_stats'] = true;
-	if( $Settings && $Settings['blubrry_stats'] == true )
+	
+	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+		return;
+		
+	if( $Settings )
 	{
 		wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics' ), 'powerpress_dashboard_stats_content' );
 	}

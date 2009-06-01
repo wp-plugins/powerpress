@@ -9,7 +9,8 @@ function powerpress_page_message_add_error($msg)
 function powerpress_page_message_add_notice($msg)
 {
 	global $g_powerpress_page_message;
-	$g_powerpress_page_message .= '<div class="updated fade powerpress-notice">'. $msg . '</div>';
+	// Always pre-pend, since jQuery will re-order with first as last.
+	$g_powerpress_page_message = '<div class="updated fade powerpress-notice">'. $msg . '</div>' . $g_powerpress_page_message;
 }
 
 
@@ -477,10 +478,13 @@ function powerpress_admin_init()
 					$role = get_role($user);
 					if( !$role->has_cap('edit_podcast') )
 						$role->add_cap('edit_podcast');
+					if( $user == 'administrator' && !$role->has_cap('view_podcast_stats') )
+						$role->add_cap('view_podcast_stats');
 				}
+				
 				$General = array('use_caps'=>true);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Edit Podcast Capability added successfully.') );
+				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities added to WordPress Blog.') );
 				
 			}; break;
 			case 'powerpress-remove-caps': {
@@ -492,10 +496,19 @@ function powerpress_admin_init()
 					$role = get_role($user);
 					if( $role->has_cap('edit_podcast') )
 						$role->remove_cap('edit_podcast');
+					if( $role->has_cap('view_podcast_stats') )
+						$role->remove_cap('view_podcast_stats');
 				}
 				$General = array('use_caps'=>false);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Edit Podcast Capability removed successfully.') );
+				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog') );
+				
+			}; break;
+			case 'powerpress-clear-update_plugins': {
+				check_admin_referer('powerpress-clear-update_plugins');
+				
+				delete_option('update_plugins');
+				powerpress_page_message_add_notice( __('Plugins Update Cache cleared successfully. You may now to go the <a href="'. admin_url() .'plugins.php" title="Manage Plugins">Manage Plugins</a> page to see the latest plugin versions.') );
 				
 			}; break;
 		}
