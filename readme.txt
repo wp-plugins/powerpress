@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats 
 Requires at least: 2.6.0
 Tested up to: 2.7.1
-Stable tag: 0.8.1
+Stable tag: 0.8.2
 
 Add podcasting support to your blog.
 
