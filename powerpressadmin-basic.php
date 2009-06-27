@@ -221,6 +221,9 @@ while( list($value,$desc) = each($options) )
 		$ModeDesc = 'Media Statistics Only';
 	if( $General['blubrry_hosting'] )
 		$ModeDesc = 'Media Statistics and Hosting';
+	$StatsInDashboard = true;
+	if( isset($General['disable_dashboard_widget']) && $General['disable_dashboard_widget'] == 1 )
+		$StatsInDashboard = false;
 		
 ?>
 <h2><?php _e("Blubrry Services Integration"); ?></h2>
@@ -237,6 +240,16 @@ while( list($value,$desc) = each($options) )
 		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-account&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
 	</td>
 	</tr>
+	
+	<tr valign="top">
+	<th scope="row">
+	<?php _e("Dashboard Integration"); ?> 
+	</th>
+	<td>
+		<p style="margin-top: 5px;"><input name="StatsInDashboard" type="checkbox" value="1"<?php if( $StatsInDashboard == true ) echo ' checked'; ?> /> Display Statistics in WordPress Dashboard</p>
+	</td>
+	</tr>
+	
 </table>
 
 <h2><?php _e("Media Statistics"); ?></h2>

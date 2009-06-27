@@ -51,6 +51,9 @@ function powerpress_dashboard_stats_content()
 {
 	$Settings = get_option('powerpress_general');
 	
+	if( isset($Settings['disable_dashboard_widget']) && $Settings['disable_dashboard_widget'] == 1 )
+		return; // Lets not do anythign to the dashboard for PowerPress Statistics
+	
 	// If using user capabilities...
 	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
 		return;
@@ -107,6 +110,9 @@ function powerpress_dashboard_setup()
 {
 	$Settings = get_option('powerpress_general');
 	
+	if( isset($Settings['disable_dashboard_widget']) && $Settings['disable_dashboard_widget'] == 1 )
+		return; // Lets not do anythign to the dashboard for PowerPress Statistics
+		
 	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
 		return;
 		

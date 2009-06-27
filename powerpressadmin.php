@@ -169,6 +169,13 @@ function powerpress_admin_init()
 					$General['display_player_excerpt'] = 0; // Set it to zero.
 			}
 			
+			if( $_POST['action'] == 'powerpress-save-basic' )
+			{
+				$General['disable_dashboard_widget'] = 0;
+				if( !isset($_POST['StatsInDashboard'] ) )
+					$General['disable_dashboard_widget'] = 1;
+			}
+			
 			if( $_POST['action'] == 'powerpress-save-tags' )
 			{
 				if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
@@ -797,12 +804,6 @@ function powerpress_edit_post($post_ID, $post)
 					}
 				}
 				
-				if( $ContentType == 'audio/mpg' )
-				{
-					$Results = powerpress_write_tags($MediaURL, $post->post_title);
-					
-				}
-				
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
 				$ToSerialize = array();
 				// iTunes duration
@@ -884,14 +885,14 @@ function powerpress_edit_post($post_ID, $post)
 		}
 		
 		if( $Settings['blubrry_hosting'] )
-		powerpress_process_hosting($post_ID); // Call anytime blog post is in the published state
+			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
 	else if( $_POST['post_status'] == 'publish' )
 	{
 		$Settings = get_option('powerpress_general');
 		
 		if( $Settings['blubrry_hosting'] )
-			powerpress_process_hosting($post_ID); // Call anytime blog post is in the published state
+			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
 		
 	// And we're done!
@@ -1398,7 +1399,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 }
 
 // Process any episodes for the specified post that have been marked for hosting and that do not have full URLs...
-function powerpress_process_hosting($post_ID)
+function powerpress_process_hosting($post_ID, $post_title)
 {
 	$errors = array();
 	$Settings = get_option('powerpress_general');
@@ -1424,10 +1425,17 @@ function powerpress_process_hosting($post_ID)
 			{
 				$error = false;
 				// First we need to get media information...
-				$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
-				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
-				$results =  powerpress_json_decode($json_data);
-					
+				
+				// If we are working with an Mp3, we can write id3 tags and get the info returned...
+				if( ($EnclosureType == 'audio/mpg' || $EnclosureType == 'audio/mpeg') && @$Settings['write_tags'] )
+				{
+					$results = powerpress_write_tags($EnclosureURL, $post_title);
+				}
+				else
+				{
+					$results = powerpress_get_media_info($EnclosureURL);
+				}
+				
 				if( is_array($results) && !isset($results['error']) )
 				{
 					if( isset($results['duration']) && $results['duration'] )
@@ -1458,6 +1466,7 @@ function powerpress_process_hosting($post_ID)
 					if( is_array($results) && !isset($results['error']) )
 					{
 						$EnclosureURL = $results['media_url'];
+						unset($EpisodeData['hosting']); // we need to remove the flag since we're now using the correct FULL url
 						$EnclosureData = $EnclosureURL . "\n" . $EnclosureSize . "\n". $EnclosureType . "\n" . serialize($EpisodeData);	
 						update_post_meta($post_ID, $field, $EnclosureData);
 					}
@@ -1714,7 +1723,8 @@ function powerpress_write_tags($file, $post_title)
 	}
 							
 	// Get meta info via API
-	$api_url = sprintf('%s/media/%s/%s?format=json&id3=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $file );
+	$api_url = sprintf('%s/media/%s/%s?format=json&id3=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($file) );
+	
 	$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], $PostArgs );
 	if( $content )
 	{
@@ -1724,6 +1734,22 @@ function powerpress_write_tags($file, $post_title)
 	}
 	
 	return array('error'=>'Error occurred writing MP3 ID3 Tags.');
+}
+
+function powerpress_get_media_info($file)
+{
+	$Settings = get_option('powerpress_general');
+	
+	$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($file) );
+	$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+	if( $content )
+	{
+		$Results = powerpress_json_decode($content);
+		if( $Results && is_array($Results) )
+			return $Results;
+	}
+	
+	return array('error'=>'Error occurred obtaining media information.');
 }
 
 require_once('powerpressadmin-jquery.php');

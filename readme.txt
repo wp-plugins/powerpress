@@ -72,6 +72,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+0.8.3 released on 6/27/2009
+Fixed bug with feed redirect URL setting for custom feeds, added option to disable the dashboard statistics widget, fixed 2 bugs with Blubrry hosting integration: media URL field no longer read-only after publishing and ID3 write tags bug fixed.
+
 0.8.2 released on 5/31/2009
 Fixed conflict with Twitter Updater bug when user is using PHP4 (Not a bug for PHP5 users) and fixed error on line 310 in the edit Feed settings page. Option added under tools to clear the Update Plugins Cache in WordPress. Added new user capabilities for viewing podcast statistics, for blog users who may have dashboard access but shouldn't have access to the podcast statistics.
 

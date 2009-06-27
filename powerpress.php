@@ -976,6 +976,8 @@ function powerpress_load_general_feed_settings()
 				else
 					$powerpress_feed['enhance_itunes_summary'] = @$Feed['enhance_itunes_summary'];
 				$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
+				if( $Feed['feed_redirect_url'] != '' )
+					$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
 			}
 			else
 			{
