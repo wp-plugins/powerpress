@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics and iTunes integration.
-Version: 0.8.2
+Version: 0.8.3
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -29,7 +29,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 */
 
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '0.8.2' );
+define('POWERPRESS_VERSION', '0.8.3' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
