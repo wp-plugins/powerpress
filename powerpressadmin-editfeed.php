@@ -315,7 +315,7 @@ while( list($value,$desc) = each($applyoptions) )
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Redirect Feed URL"); ?>
+<?php _e("FeedBurner Feed URL"); ?>
 </th>
 <td>
 <input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo $FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (leave blank to use current feed)
