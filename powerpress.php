@@ -1174,6 +1174,10 @@ function powerpress_check_filetype($file)
 			return 'audio/mpeg';
 		case 'm4a':
 			return 'audio/x-m4a';
+		case 'm4b': // Audio book format
+			return 'audio/m4b';
+		case 'm4r': // iPhone ringtone format
+			return 'audio/m4r';
 		case 'ogg':
 			return 'audio/ogg';
 		case 'wma':
@@ -1603,6 +1607,38 @@ function powerpress_repair_serialize($string)
 					'if( strlen($matches[3]) == $matches[2] ) return $matches[0]; return sprintf(\'s:%d:"%s"\', strlen($matches[3]), $matches[3]);'
 			), 
 			$string);
+}
+
+function powerpress_get_enclosure($post_id, $feed_slug = 'podcast')
+{
+	$Data = powerpress_get_enclosure_data($post_id, $feed_slug);
+	if( $Data )
+		return $Data['url'];
+	return false;
+}
+
+function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
+{
+	if( $feed_slug == 'podcast' || $feed_slug == '' )
+		$MetaData = get_post_meta($post_id, 'enclosure', true);
+	else
+		$MetaData = get_post_meta($post_id, '_'. $feed_slug .':enclosure', true);
+	
+	if( !$MetaData )
+		return false;
+	
+	$Data = array();
+	$Data['duration'] = 0;
+	list($Data['url'], $Data['size'], $Data['type'], $Serialized) = split("\n", $MetaData);
+	$Data['url'] = powerpress_add_redirect_url( trim($Data['url']) );
+	if( $Serialized )
+	{
+		$ExtraData = unserialize($Serialized);
+		if( isset($ExtraData['duration']) )
+			$Data['duration'] = $ExtraData['duration'];
+	}
+	
+	return $Data;
 }
 /*
 End Helper Functions

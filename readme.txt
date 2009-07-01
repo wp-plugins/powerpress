@@ -72,6 +72,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+0.8.4 released on 7/1/2009
+Added powerpress_get_enclosure_data() and powerpress_get_enclosure() courtesy functionis for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, 
+
 0.8.3 released on 6/27/2009
 Fixed bug with feed redirect URL setting for custom feeds, added option to disable the dashboard statistics widget, fixed 2 bugs with Blubrry hosting integration: media URL field no longer read-only after publishing and ID3 write tags bug fixed.
 

@@ -83,7 +83,7 @@ function powerpress_meta_box($object, $box)
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][url]">Media URL</label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_url_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" onblur="powerpress_check_url(this.value,'powerpress_warning_<?php echo $FeedSlug; ?>')" style="width: 70%; font-size: 90%;" />
-				<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true" title="Select Media File" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/folder.png" alt="Browse Media Files" /></a>
+				<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true" title="Select Media File" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="Browse Media Files" /></a>
 				<input type="hidden" id="powerpress_hosting_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][hosting]" value="0" />
 			</div>
 		</div>
