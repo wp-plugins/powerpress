@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.2
-Stable tag: 0.8.3
+Stable tag: 0.9.0
 
 Add podcasting support to your blog.
 
@@ -83,8 +83,13 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 0.9.0 released on 7/20/2009
 Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion. 
+
 Completely revamped the on page and new window players, removed the "play in page" options as they were a source of confusion for some users, Added code to support poorly written themes that capture post content incorrectly, 
+
 New powerpress shortcode added, enter [powerpress] within your post and the player will be inserted at that location, player. New embed option added to episode entry box, displayed just above the built-in player. New option to remove the player on a per episode basis. New optional episode entry fields for iTunes Keywords, iTunes Subtitle and iTunes Summary. 
+
+Added courtesy functions `the_powerpress_content()` and `get_the_powerpress_content()` for theme developers to use for special themes. Example usage: `<?php if( function_exists('the_powerpress_content') ) the_powerpress_content(); ?>`
+
 Bugs: Fixed bug with `require_once()` calls on some servers displaying a fatal error, fixed scheduled posts bug with WordPress 2.8+.
 
 0.8.3 released on 6/27/2009
