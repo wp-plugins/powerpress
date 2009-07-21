@@ -572,9 +572,14 @@ if( isset($Languages[ $rss_language ]) )
 <?php _e("Talent Name"); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" />
+<input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
+<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ($FeedSettings['itunes_author_post']?'checked ':''); ?>/> Use blog post author's name for individual episodes.
+
 </td>
 </tr>
+
+
+
 <?php } // End AdvancedMode ?>
 
 <tr valign="top">

@@ -42,7 +42,7 @@ function powerpress_admin_init()
 	}
 
 	// Check for other podcasting plugin
-	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) )
+	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.') );
 	
 	global $wp_version;
@@ -174,6 +174,17 @@ function powerpress_admin_init()
 				$General['disable_dashboard_widget'] = 0;
 				if( !isset($_POST['StatsInDashboard'] ) )
 					$General['disable_dashboard_widget'] = 1;
+					
+				if( !isset($General['episode_box_embed'] ) )
+					$General['episode_box_embed'] = 0;
+				if( !isset($General['episode_box_no_player'] ) )
+					$General['episode_box_no_player'] = 0;
+				if( !isset($General['episode_box_keywords'] ) )
+					$General['episode_box_keywords'] = 0;
+				if( !isset($General['episode_box_subtitle'] ) )
+					$General['episode_box_subtitle'] = 0;
+				if( !isset($General['episode_box_summary'] ) )
+					$General['episode_box_summary'] = 0;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
@@ -234,6 +245,9 @@ function powerpress_admin_init()
 		{
 			if( !isset($Feed['enhance_itunes_summary']) )
 				$Feed['enhance_itunes_summary'] = false;
+			if( !isset($Feed['itunes_author_post']) )
+				$Feed['itunes_author_post'] = false;	
+			
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
 				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
@@ -524,6 +538,9 @@ function powerpress_admin_init()
 	
 	if( function_exists('powerpress_admin_jquery_init') )
 		powerpress_admin_jquery_init();
+		
+	if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
+		powerpress_admin_players_init();
 }
 
 add_action('init', 'powerpress_admin_init');
@@ -609,7 +626,7 @@ function powerpress_admin_menu()
 {
 	$Powerpress = get_option('powerpress_general');
 	
-	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) )
+	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 	{
 		// CRAP
 	}
@@ -652,6 +669,9 @@ function powerpress_admin_menu()
 			add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Basic Settings'), __('Basic Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Appearance Settings'), __('Appearance'), 1, 'powerpress/powerpressadmin_appearance.php', 'powerpress_admin_page_appearance' );
+				if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
+					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Flash Player'), __('Flash Player'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+					
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
@@ -711,6 +731,7 @@ function powerpress_edit_post($post_ID, $post)
 				$FileSize = '';
 				$ContentType = '';
 				$Duration = false;
+				$Embed = false;
 
 				// Get the content type based on the file extension, first we have to remove query string if it exists
 				$UrlParts = parse_url($Powerpress['url']);
@@ -768,7 +789,7 @@ function powerpress_edit_post($post_ID, $post)
 					else
 					{
 						// Lets use the mp3info class:
-						require_once('mp3info.class.php');
+						require_once(dirname(__FILE__).'/mp3info.class.php');
 						
 						$Mp3Info = new Mp3Info();
 						if( $Powerpress['set_duration'] == 0 && $ContentType == 'audio/mpeg' )
@@ -813,25 +834,27 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['duration'] = $Duration; // regular expression '/^(\d{1,2}\:)?\d{1,2}\:\d\d$/i' (examples: 1:23, 12:34, 1:23:45, 12:34:56)
 				// iTunes Subtitle (FUTURE USE)
 				if( isset($Powerpress['subtitle']) && trim($Powerpress['subtitle']) != '' ) 
-					$ToSerialize['subtitle'] = $Powerpress['subtitle'];
+					$ToSerialize['subtitle'] = stripslashes($Powerpress['subtitle']);
 				// iTunes Summary (FUTURE USE)
 				if( isset($Powerpress['summary']) && trim($Powerpress['summary']) != '' ) 
-					$ToSerialize['summary'] = $Powerpress['summary'];
+					$ToSerialize['summary'] = stripslashes($Powerpress['summary']);
 				// iTunes keywords (FUTURE USE)
 				if( isset($Powerpress['keywords']) && trim($Powerpress['keywords']) != '' ) 
-					$ToSerialize['keywords'] = $Powerpress['keywords'];
+					$ToSerialize['keywords'] = stripslashes($Powerpress['keywords']);
 				// iTunes Author (FUTURE USE)
 				if( isset($Powerpress['author']) && trim($Powerpress['author']) != '' ) 
-					$ToSerialize['author'] = $Powerpress['author'];
+					$ToSerialize['author'] = stripslashes($Powerpress['author']);
 				// iTunes Explicit (FUTURE USE)
 				if( isset($Powerpress['explicit']) && trim($Powerpress['explicit']) != '' ) 
 					$ToSerialize['explicit'] = $Powerpress['explicit'];
 				// iTunes Block (FUTURE USE)
 				if( isset($Powerpress['block']) && (trim($Powerpress['block']) == 'yes' || trim($Powerpress['block']) == 'no') ) 
 					$ToSerialize['block'] = ($Powerpress['block']=='yes'?'yes':'');
-				// Player Embed (FUTURE USE)
-				if( isset($Powerpress['player_embed']) && trim($Powerpress['player_embed']) != '' )
-					$ToSerialize['player_embed'] = $Powerpress['player_embed'];
+				// Player Embed
+				if( isset($Powerpress['embed']) && trim($Powerpress['embed']) != '' )
+					$ToSerialize['embed'] = stripslashes($Powerpress['embed']); // we have to strip slahes if they are present befure we serialize the data
+				if( isset($Powerpress['no_player']) && $Powerpress['no_player'] )
+					$ToSerialize['no_player'] = 1;
 				if( $Powerpress['set_duration'] == -1 )
 					unset($ToSerialize['duration']);
 				if( count($ToSerialize) > 0 ) // Lets add the serialized data
@@ -1074,7 +1097,9 @@ function powerpress_admin_page_footer($SaveButton=true)
 <?php } ?>
 <p style="font-size: 85%; text-align: center; padding-bottom: 25px;">
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank">Blubrry PowerPress</a> <?php echo POWERPRESS_VERSION; ?>
-	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="Blubrry PowerPress Documentation">Documentation</a> | <a href="http://twitter.com/blubrry" target="_blank" title="Follow Blubrry on Twitter">Follow Blubrry on Twitter</a>
+	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="Blubrry PowerPress Documentation">Documentation</a> |
+	<a href="http://forum.blubrry.com/" target="_blank" title="Blubrry Forum">Forum</a> |
+	<a href="http://twitter.com/blubrry" target="_blank" title="Follow Blubrry on Twitter">Follow Blubrry on Twitter</a>
 </p>
 </form>
 </div>
@@ -1087,6 +1112,15 @@ function powerpress_admin_page_basic()
 	powerpress_admin_page_header();
 	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
 	powerpress_admin_basic();
+	powerpress_admin_page_footer(true);
+}
+
+// Admin page, advanced mode: basic settings
+function powerpress_admin_page_players()
+{
+	powerpress_admin_page_header();
+	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+	powerpress_admin_players();
 	powerpress_admin_page_footer(true);
 }
 
@@ -1228,15 +1262,7 @@ function powerpress_admin_page()
 		powerpress_admin_page_footer(true);
 	}
 }
-	
-function powerpress_shutdown()
-{
-	global $wpdb;
-	$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = '_encloseme' ");
-}
 
-add_action('shutdown','powerpress_shutdown'); // disable the auto enclosure process
-	
 /*
 // Helper functions:
 */
@@ -1668,6 +1694,12 @@ function powerpress_default_settings($Settings, $Section='basic')
 				$Settings['podcast_link'] = 1;
 			if( !isset($Settings['display_player_excerpt']) )
 					$Settings['display_player_excerpt'] = 0;
+			// Play in page obsolete, switching here:
+			if( $Settings['player_function'] == 5 )
+				$Settings['player_function'] = 1;
+			else if( $Settings['player_function'] == 4 )
+				$Settings['player_function'] = 2;
+			
 		}; break;
 	}
 	
@@ -1752,8 +1784,11 @@ function powerpress_get_media_info($file)
 	return array('error'=>'Error occurred obtaining media information.');
 }
 
-require_once('powerpressadmin-jquery.php');
+require_once( dirname(__FILE__).'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.
-require_once('powerpressadmin-dashboard.php');
+require_once(dirname(__FILE__).'/powerpressadmin-dashboard.php');
+if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
+	require_once(dirname(__FILE__).'/powerpressadmin-player.php');
+
 
 ?>

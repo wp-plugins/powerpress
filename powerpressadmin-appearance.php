@@ -30,19 +30,16 @@ while( list($value,$desc) = each($displayoptions) )
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Player Function"); ?></th>
+<?php _e("Display Media Player"); ?></th>
 <td><select name="General[player_function]" class="bpp_input_med">
 <?php
-$playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', 4=>'On Page Link', 5=>'On Page Link & New Window', 0=>'Disable');
+$playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', /* 4=>'On Page Link', 5=>'On Page Link & New Window', */ 0=>'Disable');
 
 while( list($value,$desc) = each($playeroptions) )
 	echo "\t<option value=\"$value\"". ($General['player_function']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 ?>
 </select>
-<p style="margin-top: 0;">
-	Note: "On Page Link" is a link to "play on page", the player is not displayed until link is clicked.
-</p>
 <?php
 		global $wp_version;
 		if( version_compare($wp_version, '2.7') < 0 ) // Wordpress before version 2.7
@@ -71,7 +68,44 @@ while( list($value,$desc) = each($linkoptions) )
 </select>
 </td>
 </tr>
+</table>
 
+
+<h2><?php echo __("Play in New Window Settings"); ?></h2>
+
+<p style="margin-bottom: 0;">Configure the width and height of the new window.</p>
+
+
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Width"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
+Width of new window (leave blank for 320 default)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Height"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_height']; ?>" maxlength="4" />
+Height of new window (leave blank for 240 default)
+</td>
+</tr>
+</table>
+
+
+<h2><?php echo __("Default Player Settings"); ?></h2>
+
+<p style="margin-bottom: 0;">Configure the width and height of the default media player.</p>
+
+
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __("Player Width"); ?>

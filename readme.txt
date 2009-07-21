@@ -1,8 +1,8 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcast, podcasting, itunes, enclosure, zune, iphone, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats 
+Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
-Tested up to: 2.8.1
+Tested up to: 2.8.2
 Stable tag: 0.8.3
 
 Add podcasting support to your blog.
@@ -16,9 +16,11 @@ Features:
 
 * Easily add/modify/remove podcast episodes from blog posts and pages
 * Integrated audio/video media player
+* Embed player within blog posts with [powerpress] shortcode
+* Supports embeds from sites such as YouTube, Viddler and Blip.tv
 * Podcast Only Feed
 * Custom Podcast Feeds (no limit)
-* Category Podcast Feeds
+* Category Podcast Feeds (Category Casting)
 * Integrated Media Hosting via Blubrry Services
 * Integrated Media Statistics via Blubrry Services
 * Mp3 ID3 Tagging via Blubrry Services
@@ -32,7 +34,6 @@ Features:
 * 3rd party statistics integration
 * Import PodPress settings and media episodes
 * Import Blogger/Movable Type media episodes
-* Category Podcast Feeds (Category Casting)
 * Tag/Keyword Podcast Feeds (Tag Casting)
 * Hosted Feed Support (FeedBurner.com)
 * User Role Management (Control which users on blog can Podcast)
@@ -54,11 +55,19 @@ Blubrry PowerPress does not allow you to include multiple media files for one fe
 
 As a alternative, PowerPress allows you to create additional Custom Podcast Feeds to associate additional media files in a blog post to specific feeds. 
 
- = Why doesn't Blubrry PowerPress include media statistics? =
- Blubrry PowerPress does not include media statistics. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ = Why doesn't Blubrry PowerPress include media statistics built-in? =
+ Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ 
+ As of Blubrry PowerPress version 0.8, you may now access your Blubrry Statistics from within your WordPress dashboard.
+ 
+ = How do you insert the player within a blog post? =
+ As of PowerPress 0.9, you can insert the media player within yoru blog posts by using the WordPress shortcode feature. The shortcode for PowerPress is [powerpress] (all lowercase)
 
- = Looking for a better Audio Player? =
- Check out the <a href="http://wpaudioplayer.com" target="_blank" title="WP Audio Player 2.0">WP Audio Player 2.0</a>. The WP Audio Player 2.0 options include theme colors, initial volume, player width and more.
+ You may use the shortcode to add a player to other media files (non episode files) by specifying the media url in the shortcode: [powerpress url="http://example.com/path/to/media.mp3"]
+	
+ For advanced users with multiple podcast feeds, you may insert the player for a specific feed by specifying the feed slug in the shortcode: [powerpress feed="podcast"]
+ 
+ If you want to specify a cover image, add an image attribute which points to the specific image url: [powerpress image="http://example.com/path/to/cover_image.jpg"] *Experimental*
 	
 == Installation ==
 1. Copy the entire directory from the downloaded zip file into the /wp-content/plugins/ folder.
@@ -72,8 +81,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
-0.8.4 released on 7/1/2009
-Added powerpress_get_enclosure_data() and powerpress_get_enclosure() courtesy functionis for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion, 
+0.9.0 released on 7/20/2009
+Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion. 
+Completely revamped the on page and new window players, removed the "play in page" options as they were a source of confusion for some users, Added code to support poorly written themes that capture post content incorrectly, 
+New powerpress shortcode added, enter [powerpress] within your post and the player will be inserted at that location, player. New embed option added to episode entry box, displayed just above the built-in player. New option to remove the player on a per episode basis. New optional episode entry fields for iTunes Keywords, iTunes Subtitle and iTunes Summary. 
+Bugs: Fixed bug with `require_once()` calls on some servers displaying a fatal error, fixed scheduled posts bug with WordPress 2.8+.
 
 0.8.3 released on 6/27/2009
 Fixed bug with feed redirect URL setting for custom feeds, added option to disable the dashboard statistics widget, fixed 2 bugs with Blubrry hosting integration: media URL field no longer read-only after publishing and ID3 write tags bug fixed.

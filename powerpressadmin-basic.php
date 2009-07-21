@@ -5,6 +5,18 @@ function powerpress_admin_basic()
 	$General = powerpress_get_settings('powerpress_general');
 	$AdvancedMode = $General['advanced_mode'];
 	$General = powerpress_default_settings($General, 'basic');
+	
+	// Default setings for advanced mode:
+	if( $General['episode_box_mode'] != 2 )
+	{
+		$General['episode_box_embed'] = 1;
+		$General['episode_box_no_player'] = 1;
+		$General['episode_box_keywords'] = 0;
+		$General['episode_box_subtitle'] = 0;
+		$General['episode_box_summary'] = 0;
+	}
+		
+		
 ?>
 <script type="text/javascript">
 function CheckRedirect(obj)
@@ -23,6 +35,16 @@ function CheckRedirect(obj)
 	}
 	return true;
 }
+function SelectEntryBox(mode)
+{
+	document.getElementById('episode_entry_settings').style.display= (mode==1?'none':'block');
+	document.getElementById('episode_box_embed').disabled = (mode!=2);
+	document.getElementById('episode_box_no_player').disabled = (mode!=2);
+	document.getElementById('episode_box_keywords').disabled = (mode!=2);
+	document.getElementById('episode_box_subtitle').disabled = (mode!=2);
+	document.getElementById('episode_box_summary').disabled = (mode!=2);
+}
+
 </script>
 <input type="hidden" name="action" value="powerpress-save-basic" />
 <h2><?php echo __("Basic Settings"); ?></h2>
@@ -155,16 +177,34 @@ while( list($value,$desc) = each($options) )
 <td>
 
 	<ul>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='block';" /> Normal</label> (default)</li>
+		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="SelectEntryBox(1);" /> Simple</label></li>
+		<li>
+			<ul>
+				<li>Episode entry box includes Media URL field only. File Size and Duration will be auto detected.</li>
+			</ul>
+		</li>
+		
+		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="SelectEntryBox(0);" /> Normal</label> (default)</li>
 		<li>
 			<ul>
 				<li>Episode entry box includes Media URL, File Size and Duration fields.</li>
 			</ul>
 		</li>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="javascript:document.getElementById('episode_entry_settings').style.display='none';" /> Simple</label></li>
+		
+				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> Advanced</label></li>
 		<li>
 			<ul>
-				<li>Episode entry box includes Media URL field only. File Size and Duration will be auto detected.</li>
+				<li>Episode entry box includes Media URL, File Size and Duration plus:
+					<p style="margin-top: 15px;"><input id="episode_box_embed" name="General[episode_box_embed]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> Embed Field (enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_no_player" name="General[episode_box_no_player]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option (disable player on a per episode basis)</p>
+					
+					<p style="margin-top: 15px;"><input id="episode_box_keywords" name="General[episode_box_keywords]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field</p>
+					<p style="margin-top: 15px;"><input id="episode_box_subtitle" name="General[episode_box_subtitle]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field</p>
+					<p style="margin-top: 15px;"><input id="episode_box_summary" name="General[episode_box_summary]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field</p>
+					<em>NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing.
+					It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.</em><br />
+					<em><strong>USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.</strong></em>
+				</li>
 			</ul>
 		</li>
 	</ul>
@@ -213,6 +253,7 @@ while( list($value,$desc) = each($options) )
 	}
 ?>
 </div>
+
 
 <?php
 	
@@ -265,7 +306,6 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	</th>
 	<td>
 	<input type="text" style="width: 60%;" name="General[redirect1]" value="<?php echo $General['redirect1']; ?>" onChange="return CheckRedirect(this);" maxlength="250" /> 
-	<!-- <div style="margin-left: 2px;margin-top: 0;">Enter your issued Blubrry Statistics Redirect URL above.</div> -->
 	</td>
 	</tr>
 	</table>
