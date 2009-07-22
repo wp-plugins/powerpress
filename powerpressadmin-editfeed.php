@@ -312,6 +312,83 @@ while( list($value,$desc) = each($applyoptions) )
 </td>
 </tr>
 
+<?php
+
+	if( $General['ping_itunes'] && $feed_slug != 'podcast' )
+	{
+?>
+<tr valign="top">
+<th scope="row">
+<?php _e("iTunes URL"); ?>
+</th>
+<td>
+<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
+<p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
+Once your podcast is listed on iTunes, enter your one-click subscription URL above.
+</p>
+<p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
+
+<p><input name="TestiTunesPing" type="checkbox" value="1" /> Test iTunes Ping (recommended)</p>
+<?php if( $FeedSettings['itunes_url'] ) {
+
+		$ping_url = str_replace(
+			array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
+								'https://www.itunes.com/podcast?id=',
+								'http://www.itunes.com/podcast?id='),
+			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $FeedSettings['itunes_url']);
+?>
+<p>You may also ping iTunes by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Ping iTunes in New Window">Ping iTunes in New Window</a></p>
+
+<?php
+		if( preg_match('/id=(\d+)/', $FeedSettings['itunes_url'], $matches) )
+		{
+			$FEEDID = $matches[1];
+			$Logging = get_option('powerpress_log');
+			
+			if( isset($Logging['itunes_ping_'. $FEEDID ]) )
+			{
+				$PingLog = $Logging['itunes_ping_'. $FEEDID ];
+?>
+		<h3>Latest iTunes Ping Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
+		<div style="font-size: 85%; margin-left: 20px;">
+			<p>
+				<?php echo sprintf( __('iTunes pinged on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
+<?php
+					if( $PingLog['post_id'] )
+					{
+						$post = get_post($PingLog['post_id']);
+						if( $post )
+							echo __(' for post: ') . htmlspecialchars($post->post_title); 
+					}
+?>
+			</p>
+<?php if( $PingLog['success'] ) { ?>
+			<p>Feed pulled by iTunes: <?php echo $PingLog['feed_url']; ?>
+			</p>
+			<?php
+				
+			?>
+<?php } else { ?>
+			<p>Error: <?php echo htmlspecialchars($PingLog['content']); ?></p>
+<?php } ?>
+		</div>
+<?php
+			}
+		}
+?>
+
+<?php } ?>
+
+</td>
+</tr>
+<?php
+	}
+?>
+
+
 
 <tr valign="top">
 <th scope="row">

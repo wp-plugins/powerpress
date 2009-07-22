@@ -68,6 +68,18 @@ while( list($value,$desc) = each($linkoptions) )
 </select>
 </td>
 </tr>
+
+<tr valign="top">
+<th scope="row" style="background-image: url(/wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
+
+<div style="margin-left: 24px;"><?php _e("Hybrid Themes"); ?></div></th>
+<td>
+<p style="margin-top: 5px;">
+	The Hybrid Theme system will fail to display the player and links when the Hybrid Theme Setting "Use the excerpt on single posts for your meta description?" is checked. To fix,
+	either uncheck the option or use the <a href="http://wordpress.org/extend/plugins/hybrid-bugfix/" target="_blank">Hybrid Theme Bugfix plugin</a>.
+</p>
+</td>
+</tr>
 </table>
 
 

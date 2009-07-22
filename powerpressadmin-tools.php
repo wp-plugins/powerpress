@@ -91,7 +91,18 @@
 	</p>
 </td>
 </tr>
-	
+
+<!--
+<tr valign="top">
+<th scope="row">Plugin Translation</th> 
+<td>
+	<p style="margin-top: 5px;">
+	Coming soon.
+	</p>
+</td>
+</tr>
+-->
+
 </table>
 <?php  
 	

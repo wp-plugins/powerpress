@@ -81,6 +81,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+0.9.1 released on 7/22/2009
+Added new define for wp-config.php `POWERPRESS_ENABLE_HTTPS_MEDIA` for allowing https:// media links. iTunes ping logic updated to support scheduled posts as well as category and custom podcast feeds. iTunes URL setting added to category and custom podcast feeds settings page. Latest iTunes ping status now displayed below iTunes URL setting. `in_the_loop()` check added to 0.9.0 removed which broke some themes.
+
 0.9.0 released on 7/20/2009
 Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion. 
 

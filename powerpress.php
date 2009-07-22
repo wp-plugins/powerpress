@@ -57,8 +57,8 @@ if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 
 if( !defined('POWERPRESS_CONTENT_ACTION_PRIORITY') )
 	define('POWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
-	
-//define('POWERPRESS_IN_THE_LOOP_CHECK', true); // Add this define if you are using a theme such as the Hybrid Theme that improperly calls the_content() and the_excerpt() filters incorrectly.
+
+//define('POWERPRESS_ENABLE_HTTPS_MEDIA', true); // Add this define to your wp-config.php if you wnat to allow media URLs that begin with https://
 
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
@@ -73,10 +73,6 @@ $powerpress_feed = NULL; // DO NOT CHANGE
 function powerpress_content($content)
 {
 	global $post, $g_powerpress_excerpt_post_id;
-	
-	// For those poorly written themes that call in_the_loop only functions such as the_content() and the_excerpt() outside of the loop, such as in the wp_head action.
-	if( in_the_loop() == false )
-		return $content;
 	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return;
@@ -187,7 +183,8 @@ function powerpress_content($content)
 				}
 				if( !$EnclosureURL )
 					continue;
-				if( strpos($EnclosureURL, 'http://' ) !== 0 )
+				
+				if( strpos($EnclosureURL, 'http://' ) !== 0 && strpos($EnclosureURL, 'https://' ) !== 0 )
 					$EnclosureURL = rtrim($GeneralSettings['default_url'], '/') .'/'. $EnclosureURL;
 					
 				// Add redirects to Media URL
@@ -597,7 +594,7 @@ function powerpress_rss2_item()
 			if( $podPressMedia )
 			{
 				$EnclosureURL = $podPressMedia[0]['URI'];
-				if( strpos($EnclosureURL, 'http://' ) !== 0 )
+				if( strpos($EnclosureURL, 'http://' ) !== 0 && strpos($EnclosureURL, 'https://' ) !== 0 )
 					$EnclosureURL = $powerpress_feed['default_url'] . $EnclosureURL;
 				$EnclosureSize = $podPressMedia[0]['size'];
 				$duration = $podPressMedia[0]['duration'];
@@ -606,7 +603,7 @@ function powerpress_rss2_item()
 				if( $UrlParts['path'] )
 				{
 					// using functions that already exist in Wordpress when possible:
-					$FileType = wp_check_filetype($UrlParts['path']);
+					$FileType = powerpress_check_filetype($UrlParts['path']);
 					if( $FileType )
 						$EnclosureType = $FileType['type'];
 				}
@@ -885,6 +882,9 @@ function powerpress_init()
 {
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return false; // Another podcasting plugin is enabled...
+	
+	// Translation support loaded:
+	load_plugin_textdomain('powerpress', false, dirname(plugin_basename(__FILE__)));
 		
 	if( isset($_GET['powerpress_pinw']) )
 		powerpress_do_pinw($_GET['powerpress_pinw']);
@@ -1154,6 +1154,21 @@ function powerpress_do_all_pings()
 remove_action('do_pings', 'do_all_pings');
 add_action('do_pings', 'powerpress_do_all_pings');
 
+function powerpress_future_to_publish($post)
+{
+	// Perform iTunes ping here if configured...
+	if( !is_admin() )
+	{ // If the future_to_publish is fired by a web visitor, we need to include the administration code so the iTunes ping goes as planned.
+		$Settings = get_option('powerpress_general');
+		if( isset($Settings['ping_itunes']) && $Settings['ping_itunes'] )
+		{
+			require_once(dirname(__FILE__).'/powerpressadmin.php');
+		}
+	}
+}
+
+add_action('future_to_publish', 'powerpress_future_to_publish');
+
 function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 {
 	global $g_powerpress_player_id;
@@ -1339,10 +1354,6 @@ add_filter('powerpress_player', 'powerpress_player_filter', 10, 3);
 function powerpress_shortcode_handler( $attributes, $content = null )
 {
 	global $post, $g_powerpress_player_added;
-	
-	// For those poorly written themes that call in_the_loop only functions such as the_content() and the_excerpt() outside of the loop, such as in the wp_head action.
-	if( in_the_loop() == false )
-		return '';
 	
 	// We can't add flash players to feeds
 	if( is_feed() )
