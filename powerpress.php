@@ -1438,11 +1438,17 @@ function powerpress_do_pinw($pinw)
 <?php
 
 	if( !$EpisdoeData )
+	{
 		echo '<p>Unable to retrieve media information.</p>';
+	}
 	else if( isset($EpisdoeData['embed']) && $EpisdoeData['embed'] )
+	{
 		echo $EpisdoeData['embed'];
-	if( !isset($EpisdoeData['no_player']) )
+	}
+	else //  if( !isset($EpisdoeData['no_player']) ) // Even if there is no player set, if the play in new window option is enabled then it should play here...
+	{
 		echo apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'autoplay'=>true) );
+	}
 	
 ?>
 </body>
