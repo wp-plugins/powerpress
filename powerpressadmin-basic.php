@@ -43,6 +43,7 @@ function SelectEntryBox(mode)
 	document.getElementById('episode_box_keywords').disabled = (mode!=2);
 	document.getElementById('episode_box_subtitle').disabled = (mode!=2);
 	document.getElementById('episode_box_summary').disabled = (mode!=2);
+	document.getElementById('episode_box_mode_adv').style.display = (mode==2?'block':'none');
 }
 
 </script>
@@ -231,19 +232,26 @@ while( list($value,$desc) = each($options) )
 			</ul>
 		</li>
 		
-				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> Advanced</label></li>
+				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> Custom</label></li>
 		<li>
 			<ul>
-				<li>Episode entry box includes Media URL, File Size and Duration plus:
-					<p style="margin-top: 15px;"><input id="episode_box_embed" name="General[episode_box_embed]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> Embed Field (enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_no_player" name="General[episode_box_no_player]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option (disable player on a per episode basis)</p>
+				<li>Episode entry box includes Media URL, File Size and Duration fields, plus:
+				<div id="episode_box_mode_adv" style="display: <?php echo ($General['episode_box_mode'] == 2?'block':'none'); ?>;">
+					<p style="margin-top: 15px;"><input id="episode_box_embed" name="General[episode_box_embed]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> Embed Field
+						(Enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_no_player" name="General[episode_box_no_player]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option
+						(Disable player on a per episode basis)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_keywords" name="General[episode_box_keywords]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field</p>
-					<p style="margin-top: 15px;"><input id="episode_box_subtitle" name="General[episode_box_subtitle]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field</p>
-					<p style="margin-top: 15px;"><input id="episode_box_summary" name="General[episode_box_summary]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field</p>
+					<p style="margin-top: 15px;"><input id="episode_box_keywords" name="General[episode_box_keywords]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field
+						(Leave blank to use your blog post tags)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_subtitle" name="General[episode_box_subtitle]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field
+						(Leave blank to use the first 250 characters of your blog post)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_summary" name="General[episode_box_summary]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field
+						(Leave blank to use your blog post)</p>
 					<em>NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing.
 					It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.</em><br />
 					<em><strong>USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.</strong></em>
+				</div>
 				</li>
 			</ul>
 		</li>

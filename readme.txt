@@ -10,10 +10,13 @@ Add podcasting support to your blog.
 == Description ==
 The Blubrry PowerPress Podcast Plugin has all of the essential features needed to provide podcasting support in a Wordpress blog.
 
+For users who feel the plugin is too complicated, we've included a Simple Mode. Simple Mode only includes the essential features to your blog to support podcasting.
+
 The Blubrry PowerPress interface allows you to easily add/modify/remove podcast episodes from blog posts and includes a simple on-line media player, iTunes compatibile RSS feed tags, ability to upload cover art images, ping iTunes, detect media size, detect time duration (mp3's only) and add 3rd party media statistics.
 
 Features:
 
+* Simple Mode (displays only the essential features in one settings page)
 * Easily add/modify/remove podcast episodes from blog posts and pages
 * Integrated audio/video media player
 * Embed player within blog posts with [powerpress] shortcode
@@ -28,7 +31,7 @@ Features:
 * Enhanced iTunes summaries from blog posts option
 * iTunes album/cover art
 * Upload new iTunes/RSS cover art
-* Ping iTunes
+* Ping iTunes (with logging)
 * Media size detection
 * Duration detection (mp3 only)
 * 3rd party statistics integration
@@ -76,13 +79,14 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 		
 == Screenshots ==
 1. Add podcast episode, found within the edit post screen
-2. Cross section of Blubrry PowerPress settings page (Feed settings).
-3. Cross section of Blubrry PowerPress settings page (Basic settings).
+2. Cross section of Blubrry PowerPress Feed settings page (Advanced Mode)
+3. Cross section of Blubrry PowerPress Basic settings page (Simple Mode)
+4. Cross section of blog post with built-in flash player and download links
 
 == Changelog ==
 
 0.9.1 released on 7/22/2009
-Added new define for wp-config.php `POWERPRESS_ENABLE_HTTPS_MEDIA` for allowing https:// media links. iTunes ping logic updated to support scheduled posts as well as category and custom podcast feeds. iTunes URL setting added to category and custom podcast feeds settings page. Latest iTunes ping status now displayed below iTunes URL setting. `in_the_loop()` check added to 0.9.0 removed which broke some themes.
+Added new define for wp-config.php `POWERPRESS_ENABLE_HTTPS_MEDIA` for allowing https:// media links. iTunes ping logic updated to support scheduled posts as well as category and custom podcast feeds. iTunes URL setting added to category and custom podcast feeds settings page. Latest iTunes ping status now displayed below iTunes URL setting. `in_the_loop()` check added to 0.9.0 removed which broke some themes. Screenshots updated.
 
 0.9.0 released on 7/20/2009
 Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion. 
