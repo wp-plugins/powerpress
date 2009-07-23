@@ -88,8 +88,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
  = 0.9.2 =
  released on 07/23/2009
  * Fixed logic error for new window player, now only displays embed or player, not both.
- * Fixed content type bug introduced in version 0.9.1.
- * Updated readme.txt to use the recommended Changelog format
+ * Fixed content-type detection bug introduced in version 0.9.1.
+ * Added code to auto-correct the content-type in the feeds if it is invalid.
+ * Updated readme.txt to use the recommended Changelog format.
  
 	= 0.9.1 =
 	released on 7/22/2009
