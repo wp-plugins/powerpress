@@ -625,6 +625,11 @@ function powerpress_rss2_item()
 	$EnclosureURL = trim($EnclosureURL);
 	$EnclosureType = trim($EnclosureType);
 	$EnclosureSize = trim($EnclosureSize);
+	
+	// Check that the content type is a valid one...
+	if( strstr($EnclosureType, '/') == false )
+		$EnclosureType = powerpress_get_contenttype($EnclosureURL);
+		
 	$author = (isset($powerpress_feed['itunes_author_post'])?get_the_author() :$powerpress_feed['itunes_talent_name']);
 	$explicit = $powerpress_feed['explicit'];
 	$summary = false;
@@ -753,6 +758,14 @@ function powerpress_filter_rss_enclosure($content)
 	
 	// Modified Media URL
 	$ModifiedURL = powerpress_add_redirect_url($OrigURL);
+	
+	// Check that the content type is a valid one...
+	$match_count = preg_match('/\stype="([^"]*)"/', $content, $matches);
+	if( count($matches) > 1 && strstr($matches[1], '/') == false )
+	{
+		$ContentType = powerpress_get_contenttype($ModifiedURL);
+		$content = str_replace("type=\"{$matches[1]}\"", "type=\"$ContentType\"", $content);
+	}
 	
 	// Replace the original url with the modified one...
 	if( $OrigURL != $ModifiedURL )
@@ -1944,6 +1957,10 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 			$Data['no_player'] = 1;
 	}
 	
+	// Check that the content type is a valid one...
+	if( strstr($Data['type'], '/') == false )
+		$Data['type'] = powerpress_get_contenttype($Data['url']);
+		
 	return $Data;
 }
 /*
