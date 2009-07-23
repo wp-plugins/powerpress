@@ -52,9 +52,9 @@
 							$clean_data[ $episode_index ]['size'] = $episode_data['size'];
 							if( trim($episode_data['duration']) && $episode_data['duration'] != 'UNKNOWN' )
 								$clean_data[ $episode_index ]['duration'] = powerpress_readable_duration($episode_data['duration'], true);
-							$FileType = powerpress_check_filetype( $episode_data['URI'] );
-							if( $FileType )
-								$clean_data[ $episode_index ]['type'] = $FileType['type'];
+							$ContentType = powerpress_get_contenttype( $episode_data['URI'] );
+							if( $ContentType )
+								$clean_data[ $episode_index ]['type'] = $ContentType;
 						}
 					}
 					

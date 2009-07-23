@@ -751,9 +751,9 @@ function powerpress_edit_post($post_ID, $post)
 				if( $UrlParts['path'] )
 				{
 					// using functions that already exist in Wordpress when possible:
-					$FileType = powerpress_check_filetype($UrlParts['path']);
+					$FileType = powerpress_get_contenttype($UrlParts['path']);
 					if( $FileType )
-						$ContentType = $FileType['type'];
+						$ContentType = $FileType;
 					else
 						$ContentType = 'application/binary';
 				}

@@ -175,7 +175,7 @@
 					else
 						$EpisodeData['size'] = 0;
 						
-					$EpisodeData['type'] = powerpress_check_filetype($EpisodeData['url']);
+					$EpisodeData['type'] = powerpress_get_contenttype($EpisodeData['url']);
 					$EpisodeData['duration'] = false;
 					if( $EpisodeData['type'] == 'audio/mpeg' && $DetectDuration )
 					{

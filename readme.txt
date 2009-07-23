@@ -1,4 +1,4 @@
-=== Blubrry PowerPress Podcasting plugin ===
+=== Podcasting - Blubrry PowerPress Podcast plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
@@ -41,7 +41,7 @@ Features:
 * Hosted Feed Support (FeedBurner.com)
 * User Role Management (Control which users on blog can Podcast)
 
-File Types detected: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v,  mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent
+File Types detected: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v,  mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r 
  
 For the latest information visit the website.
 
@@ -86,23 +86,34 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
  = 0.9.2 =
- released on 07/2x/2009
+ released on 07/23/2009
  * Fixed logic error for new window player, now only displays embed or player, not both.
- * 
+ * Fixed content type bug introduced in version 0.9.1.
+ * Updated readme.txt to use the recommended Changelog format
+ 
+	= 0.9.1 =
+	released on 7/22/2009
+  * Added new define for wp-config.php `POWERPRESS_ENABLE_HTTPS_MEDIA` for allowing https:// media links.
+	* iTunes ping logic updated to support scheduled posts as well as category and custom podcast feeds.
+	* iTunes URL setting added to category and custom podcast feeds settings page.
+	* Latest iTunes ping status now displayed below iTunes URL setting. `in_the_loop()` check added to 0.9.0 removed which broke some themes.
+	* Screenshots updated.
 
-0.9.1 released on 7/22/2009
-Added new define for wp-config.php `POWERPRESS_ENABLE_HTTPS_MEDIA` for allowing https:// media links. iTunes ping logic updated to support scheduled posts as well as category and custom podcast feeds. iTunes URL setting added to category and custom podcast feeds settings page. Latest iTunes ping status now displayed below iTunes URL setting. `in_the_loop()` check added to 0.9.0 removed which broke some themes. Screenshots updated.
-
-0.9.0 released on 7/20/2009
-Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data, changed the icon used for selecting blubrry hosted media, added m4b and m4r to list of detected audio formats, relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion. 
-
-Completely revamped the on page and new window players, removed the "play in page" options as they were a source of confusion for some users, Added code to support poorly written themes that capture post content incorrectly, 
-
-New powerpress shortcode added, enter [powerpress] within your post and the player will be inserted at that location, player. New embed option added to episode entry box, displayed just above the built-in player. New option to remove the player on a per episode basis. New optional episode entry fields for iTunes Keywords, iTunes Subtitle and iTunes Summary. 
-
-Added courtesy functions `the_powerpress_content()` and `get_the_powerpress_content()` for theme developers to use for special themes. Example usage: `<?php if( function_exists('the_powerpress_content') ) the_powerpress_content(); ?>`
-
-Bugs: Fixed bug with `require_once()` calls on some servers displaying a fatal error, fixed scheduled posts bug with WordPress 2.8+.
+ = 0.9.0 =
+ released on 7/20/2009
+ * Added `powerpress_get_enclosure_data()` and `powerpress_get_enclosure()` courtesy functions for theme developers to obtain enclosure data
+ * changed the icon used for selecting blubrry hosted media
+ * added m4b and m4r to list of detected audio formats
+ * relabled Redirect Feed URL to FeedBurner Feed URL to clear up confusion.
+ * Completely revamped the on page and new window players, removed the "play in page" options as they were a source of confusion for some users
+ * Added code to support poorly written themes that capture post content incorrectly, 
+ * New powerpress shortcode added, enter [powerpress] within your post and the player will be inserted at that location, player.
+ * New embed option added to episode entry box, displayed just above the built-in player.
+ * New option to remove the player on a per episode basis.
+ * New optional episode entry fields for iTunes Keywords, iTunes Subtitle and iTunes Summary. 
+ * Added courtesy functions `the_powerpress_content()` and `get_the_powerpress_content()` for theme developers to use for special themes. Example usage: `<?php if( function_exists('the_powerpress_content') ) the_powerpress_content(); ?>`
+ * Fixed bug with `require_once()` calls on some servers displaying a fatal error.
+ * Fixed scheduled posts bug with WordPress 2.8+.
 
 0.8.3 released on 6/27/2009
 Fixed bug with feed redirect URL setting for custom feeds, added option to disable the dashboard statistics widget, fixed 2 bugs with Blubrry hosting integration: media URL field no longer read-only after publishing and ID3 write tags bug fixed.

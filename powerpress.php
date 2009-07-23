@@ -603,9 +603,9 @@ function powerpress_rss2_item()
 				if( $UrlParts['path'] )
 				{
 					// using functions that already exist in Wordpress when possible:
-					$FileType = powerpress_check_filetype($UrlParts['path']);
-					if( $FileType )
-						$EnclosureType = $FileType['type'];
+					$ContentType = powerpress_get_contenttype($UrlParts['path']);
+					if( $ContentType )
+						$EnclosureType = $ContentType;
 				}
 				
 				if( $EnclosureType && $EnclosureSize && $EnclosureURL )
@@ -1197,7 +1197,7 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 		$player_height = $Settings['player_height'];
 	
 	// Used with some types
-	$content_type = powerpress_check_filetype($media_url);
+	//$content_type = powerpress_get_contenttype($media_url);
 	
 	$parts = pathinfo($media_url);
 	switch( strtolower($parts['extension']) )
@@ -1457,8 +1457,8 @@ function powerpress_do_pinw($pinw)
 	exit;
 }
 
-// Add types that are missing from the default wp_check_filetype function
-function powerpress_check_filetype($file)
+// Adds content types that are missing from the default wp_check_filetype function
+function powerpress_get_contenttype($file)
 {
 	$parts = pathinfo($file);
 	switch( strtolower($parts['extension']) )
@@ -1539,7 +1539,10 @@ function powerpress_check_filetype($file)
 	}
 	
 	// Last case let wordpress detect it:
-	return wp_check_filetype($file);
+	$FileType = wp_check_filetype($file);
+	if( $FileType && isset($FileType['type']) )
+		return $FileType['type'];
+	return '';
 }
 
 function powerpress_itunes_summary($html)
