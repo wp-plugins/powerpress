@@ -59,7 +59,7 @@ Blubrry PowerPress does not allow you to include multiple media files for one fe
 As a alternative, PowerPress allows you to create additional Custom Podcast Feeds to associate additional media files in a blog post to specific feeds. 
 
  = Why doesn't Blubrry PowerPress include media statistics built-in? =
- Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise lightweight Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
  
  As of Blubrry PowerPress version 0.8, you may now access your Blubrry Statistics from within your WordPress dashboard.
  
