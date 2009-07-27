@@ -212,7 +212,7 @@ function powerpress_content($content)
 				if( $EpisodeData && isset($EpisodeData['embed']) )
 					$new_content .=  $EpisodeData['embed'];
 				if( !isset($EpisodeData['no_player']) )
-					$new_content .= apply_filters('powerpress_player', '', $EnclosureURL, array('feed'=>$feed_slug) );
+					$new_content .= apply_filters('powerpress_player', '', $EnclosureURL, array('feed'=>$feed_slug, 'type'=>$EpisdoeData['type']) );
 			}
 		}
 		
@@ -1213,6 +1213,11 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 	//$content_type = powerpress_get_contenttype($media_url);
 	
 	$parts = pathinfo($media_url);
+	// Hack to use the audio/mp3 content type to set extension to mp3, some folks use tinyurl.com to mp3 files which remove the file extension...
+	// This hack only covers mp3s.
+	if( isset($EpisdoeData['type']) && $EpisdoeData['type'] == 'audio/mpeg' && $parts['extension'] != 'mp3' )
+		$parts['extension'] = 'mp3';
+	
 	switch( strtolower($parts['extension']) )
 	{
 		// Flash Player:
@@ -1386,8 +1391,9 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 	if( $url )
 	{
 		$url = powerpress_add_redirect_url($url);
+		$content_type = '';
 		// Handle the URL differently...
-		$return = apply_filters('powerpress_player', '', $url, array('image'=>$image) );
+		$return = apply_filters('powerpress_player', '', $url, array('image'=>$image, 'type'=>$content_type) );
 	}
 	else if( $feed )
 	{
@@ -1395,7 +1401,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( isset($EpisdoeData['embed']) && $EpisdoeData['embed'] )
 			$return = $EpisdoeData['embed'];
 		if( !isset($EpisdoeData['no_player']) )
-			$return = apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed, 'image'=>$image) );
+			$return = apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
 	}
 	else
 	{
@@ -1410,7 +1416,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				$return .= $EpisdoeData['embed'];
 			
 			if( !isset($EpisdoeData['no_player']) )
-				$return .= apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'image'=>$image) );
+				$return .= apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
 		}
 	}
 	
@@ -1460,7 +1466,7 @@ function powerpress_do_pinw($pinw)
 	}
 	else //  if( !isset($EpisdoeData['no_player']) ) // Even if there is no player set, if the play in new window option is enabled then it should play here...
 	{
-		echo apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'autoplay'=>true) );
+		echo apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'autoplay'=>true, 'type'=>$EpisdoeData['type']) );
 	}
 	
 ?>

@@ -1043,12 +1043,21 @@ function powerpress_check_url(url)
 	if( !defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
 	{
 ?>
-	if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
-	{
-		document.getElementById(DestDiv).innerHTML = 'Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.';
-		document.getElementById(DestDiv).style.display = 'block';
-		return;
-	}
+    if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
+    {
+        document.getElementById(DestDiv).innerHTML = 'PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.';
+        document.getElementById(DestDiv).style.display = 'block';
+        return;
+    }
+<?php
+	} else if( POWERPRESS_ENABLE_HTTPS_MEDIA === 'warning' ) {
+?>
+    if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
+    {
+        document.getElementById(DestDiv).innerHTML = 'Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.';
+        document.getElementById(DestDiv).style.display = 'block';
+        return;
+    }
 <?php
 	}
 ?>
@@ -1109,8 +1118,8 @@ function powerpress_admin_page_basic()
 // Admin page, advanced mode: basic settings
 function powerpress_admin_page_players()
 {
-	powerpress_admin_page_header();
-	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+	powerpress_admin_page_header('powerpress/powerpressadmin_player.php');
+	require_once( dirname(__FILE__).'/powerpressadmin-player.php');
 	powerpress_admin_players();
 	powerpress_admin_page_footer(true);
 }
