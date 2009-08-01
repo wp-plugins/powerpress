@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.2
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 
 Add podcasting support to your blog.
 
@@ -86,9 +86,10 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 = 0.9.3 =
-* Released on 7/30/2009
+* Released on 7/31/2009
 * Added option for wp-config.php `define('POWERPRESS_ENABLE_HTTPS_MEDIA', 'warning');` to allow https:// links but still display a warning message.
 * Finalized code for new powerpress_player filter. Filter will be used in the up coming 1.0 release of Blubrry PowerPress.
+* Fixed bug with setting specific language in a custom podcast feed.
 
 = 0.9.2 =
 * Released on 07/23/2009
