@@ -850,7 +850,7 @@ function powerpress_rss_language($value)
 		
 		if( $cat_ID )
 			$Feed = get_option('powerpress_cat_feed_'. $cat_ID);
-		else if( $feed_slug != 'podcast' )
+		else if( $feed_slug == 'podcast' )
 			$Feed = get_option('powerpress_feed');
 		else
 			$Feed = get_option('powerpress_feed_'. $feed_slug);
