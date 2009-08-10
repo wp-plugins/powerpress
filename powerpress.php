@@ -1205,7 +1205,7 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 	$player_width = 320;
 	$player_height = 240;
 	if( isset($Settings['player_width']) && $Settings['player_width'] )
-		$player_width = 340;
+		$player_width = $Settings['player_width'];
 	if( isset($Settings['player_height']) && $Settings['player_height'] )
 		$player_height = $Settings['player_height'];
 	
@@ -1229,11 +1229,11 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			if( $cover_image == '' )
 				$player_height = 24;
 				
-		case 'flv': {
-			
 			// Check if we are using a custom flash player...
 			if( isset($Settings['player']) && $Settings['player'] != 'default' ) // If we are using some other flash player than the default flash player
 				return $content;
+				
+		case 'flv': {
 			
 			// Okay we are supposed to use FlowPlayerClassic...
 			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'"></div>'.PHP_EOL;

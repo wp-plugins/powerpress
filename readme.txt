@@ -85,6 +85,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+= 0.9.4 =
+* Released on 8/10/2009
+* Fixed bug with setting width of video player.
+* Added logic to always use the FlowPlayerClassic.swf player for flv video files.
+
 = 0.9.3 =
 * Released on 7/31/2009
 * Added option for wp-config.php `define('POWERPRESS_ENABLE_HTTPS_MEDIA', 'warning');` to allow https:// links but still display a warning message.
