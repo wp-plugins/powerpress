@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
-Tested up to: 2.8.3
-Stable tag: 0.9.4
+Tested up to: 2.8.4
+Stable tag: 0.9.5
 
 Add podcasting support to your blog.
 
@@ -84,6 +84,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 4. Cross section of blog post with built-in flash player and download links
 
 == Changelog ==
+
+= 0.9.5 =
+* Released on 8/15/2009
+* Redirect logic enhanced to track in page plays for users using the Blubrry/RawVoice/TechPodcasts statistics redirect system.
+* Fixed bug where `more` link would occasionally disappear in the Blubrry PowerPress Statistics Dashboard widget.
 
 = 0.9.4 =
 * Released on 8/10/2009

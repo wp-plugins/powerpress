@@ -59,15 +59,14 @@ function powerpress_dashboard_stats_content()
 		return;
 		
 	$content = false;
+	$UserPass = $Settings['blubrry_auth'];
+	$Keyword = $Settings['blubrry_program_keyword'];
 	$StatsCached = get_option('powerpress_stats');
 	if( $StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
 		$content = $StatsCached['content'];
 	
 	if( !$content )
 	{
-		$UserPass = $Settings['blubrry_auth'];
-		$Keyword = $Settings['blubrry_program_keyword'];
-		
 		if( !$UserPass )
 		{
 			$content = '<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable <a href="http://www.blubrry.com/powerpress_services/" target="_blank">services</a>.</p>
@@ -85,7 +84,7 @@ function powerpress_dashboard_stats_content()
 		}
 	}
 ?>
-<div id="">
+<div>
 <?php
 //$content = http_get('http://api.blubrry.local/stats/compiled_weekly2/summary.html?year=2008&month=7', 'amandato@gmail.com', 'testit');
 

@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 0.9.4
+Version: 0.9.5
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -29,7 +29,7 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 */
 
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '0.9.4' );
+define('POWERPRESS_VERSION', '0.9.5' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -212,7 +212,7 @@ function powerpress_content($content)
 				if( $EpisodeData && isset($EpisodeData['embed']) )
 					$new_content .=  $EpisodeData['embed'];
 				if( !isset($EpisodeData['no_player']) )
-					$new_content .= apply_filters('powerpress_player', '', $EnclosureURL, array('feed'=>$feed_slug, 'type'=>$EpisdoeData['type']) );
+					$new_content .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EnclosureURL, 'p'), array('feed'=>$feed_slug, 'type'=>$EpisdoeData['type']) );
 			}
 		}
 		
@@ -1393,7 +1393,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		$url = powerpress_add_redirect_url($url);
 		$content_type = '';
 		// Handle the URL differently...
-		$return = apply_filters('powerpress_player', '', $url, array('image'=>$image, 'type'=>$content_type) );
+		$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($url, 'p'), array('image'=>$image, 'type'=>$content_type) );
 	}
 	else if( $feed )
 	{
@@ -1401,7 +1401,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( isset($EpisdoeData['embed']) && $EpisdoeData['embed'] )
 			$return = $EpisdoeData['embed'];
 		if( !isset($EpisdoeData['no_player']) )
-			$return = apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
+			$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisdoeData['url'], 'p'), array('feed'=>$feed, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
 	}
 	else
 	{
@@ -1416,7 +1416,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				$return .= $EpisdoeData['embed'];
 			
 			if( !isset($EpisdoeData['no_player']) )
-				$return .= apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
+				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisdoeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisdoeData['type']) );
 		}
 	}
 	
@@ -1466,7 +1466,7 @@ function powerpress_do_pinw($pinw)
 	}
 	else //  if( !isset($EpisdoeData['no_player']) ) // Even if there is no player set, if the play in new window option is enabled then it should play here...
 	{
-		echo apply_filters('powerpress_player', '', $EpisdoeData['url'], array('feed'=>$feed_slug, 'autoplay'=>true, 'type'=>$EpisdoeData['type']) );
+		echo apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisdoeData['url'], 'p'), array('feed'=>$feed_slug, 'autoplay'=>true, 'type'=>$EpisdoeData['type']) );
 	}
 	
 ?>
@@ -1837,6 +1837,11 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 	}
 
 	return $NewURL;
+}
+
+function powerpress_add_flag_to_redirect_url($MediaURL, $Flag)
+{
+	return preg_replace('/(media\.(blubrry|techpodcasts|rawvoice|podcasternews)\.com\/[A-Za-z0-9-_]+\/)/i', '$1'."$Flag/", $MediaURL);
 }
 
 /*
