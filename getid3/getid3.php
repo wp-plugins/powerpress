@@ -151,7 +151,7 @@ class getID3
 
 
 	// public: analyze file - replaces GetAllFileInfo() and GetTagOnly()
-	function analyze($filename, $filesize=false) {
+	function analyze($filename, $filesize=false, $orig_filename='file.mp3') {
 
 		if (!empty($this->startup_error)) {
 			return $this->error($this->startup_error);
@@ -293,7 +293,7 @@ class getID3
 		$formattest = fread($fp, 32774);
 
 		// determine format
-		$determined_format = $this->GetFileFormat($formattest, $filename);
+		$determined_format = $this->GetFileFormat($formattest, $orig_filename);
 
 		// unable to determine file format
 		if (!$determined_format) {

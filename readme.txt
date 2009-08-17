@@ -85,6 +85,10 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+= 0.9.6 =
+* Released on 8/??/2009
+* Fixed a bug in the getid3 library where it would occasionally not detect the media duration.
+
 = 0.9.5 =
 * Released on 8/15/2009
 * Redirect logic enhanced to track in page plays for users using the Blubrry/RawVoice/TechPodcasts statistics redirect system.
