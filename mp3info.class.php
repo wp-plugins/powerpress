@@ -7,7 +7,8 @@
 	
 	class Mp3Info {
 		//var $m_DownloadBytesLimit = 1638400; // 200K (200*1024*8) bytes file
-		var $m_DownloadBytesLimit = 204800; // 25K (25*1024*8) bytes file
+		//var $m_DownloadBytesLimit = 204800; // 25K (25*1024*8) bytes file
+		var $m_DownloadBytesLimit = 327680; // 40K (40*1024*8) bytes file
 		var $m_RedirectLimit = 5; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress/1.0';
 		var $m_error = '';
@@ -262,7 +263,7 @@
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
 				curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit-1) ));
+				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit - 1) ));
 				//curl_setopt($curl, CURLINFO_HEADER_OUT, true); // For debugging
 				// Do the download
 				$success = curl_exec($curl);
@@ -346,9 +347,9 @@
 	
 	/*
 	// Example usage:
-	
 	$Mp3Info = new Mp3Info();
-	if( $Data = $Mp3Info->GetMp3Info('http://www.podcampohio.com/podpress_trac/web/177/0/TS-107667.mp3') )
+	$file = 'http://www.podcampohio.com/podpress_trac/web/177/0/TS-107667.mp3';
+	if( $Data = $Mp3Info->GetMp3Info($file) )
 	{
 		echo 'Success: ';
 		echo print_r( $Data );
@@ -363,6 +364,5 @@
 		exit;
 	}
 	*/
-	
 	
 ?>
