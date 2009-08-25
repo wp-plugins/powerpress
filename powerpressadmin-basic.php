@@ -63,6 +63,11 @@ function SelectEntryBox(mode)
 	{
 ?>
 	<p style="margin-top: 5px;">Simple Mode (<strong><a href="#" onclick="return powerpress_changemode(1);">Switch to Advanced Mode</a></strong>)</p>
+	<?php if( count($General['custom_feeds']) > 0 || count($General['custom_cat_feeds']) > 0 ) { ?>
+	<p>
+		NOTE: You have custom feed settings configured while in Advancede Mode which have presidence over the Feed Settings below.
+	</p>
+	<?php } ?>
 <?php
 	}
 	else
@@ -243,11 +248,14 @@ while( list($value,$desc) = each($options) )
 						(Disable player on a per episode basis)</p>
 					
 					<p style="margin-top: 15px;"><input id="episode_box_keywords" name="General[episode_box_keywords]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field
-						(Leave blank to use your blog post tags)</p>
+						(Leave unchecked to use your blog post tags)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_subtitle" name="General[episode_box_subtitle]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field
-						(Leave blank to use the first 250 characters of your blog post)</p>
+						(Leave unchecked to use the first 250 characters of your blog post)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_summary" name="General[episode_box_summary]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field
-						(Leave blank to use your blog post)</p>
+						(Leave unchecked to use your blog post)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_explicit" name="General[episode_box_explicit]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_explicit'] ) echo ' checked'; ?> /> iTunes Explicit Field
+						(Leave unchecked to use your feed's explicit setting)</p>	
+					
 					<em>NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing.
 					It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.</em><br />
 					<em><strong>USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.</strong></em>

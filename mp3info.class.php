@@ -88,7 +88,7 @@
 				return false;
 			}
 			
-			if( ini_get( 'curl_init' ) )
+			if( function_exists( 'curl_init' ) )
 				return $this->DownloadCurl($url);
 			
 			// The following code relies on fopen_url capability.
@@ -123,6 +123,7 @@
 				$RedirectURL = false;
 				$ContentLength = false;
 				$ContentType = false;
+				$ReturnCode = 0;
 				// Loop through the headers
 				while( !feof($fp) )
 				{
@@ -138,7 +139,16 @@
 					$key = trim($key);
 					$value = trim($value);
 					
-					if( stristr($line, '301 Moved Permanently') || stristr($line, '302 Found') || stristr($line, '307 Temporary Redirect') )
+					if( preg_match('/^HTTPS?\/\d\.\d (\d{3})(.*)/i', $line, $matches) )
+					{
+						$ReturnCode = $matches[1];
+						if( $ReturnCode < 200 || $ReturnCode > 250 )
+						{
+							$this->SetError('HTTP '.$ReturnCode.$matches[2]);
+							return false;
+						}
+					}
+					else if( stristr($line, '301 Moved Permanently') || stristr($line, '302 Found') || stristr($line, '307 Temporary Redirect') )
 					{
 						$Redirect = true; // We are dealing with a redirect, lets handle it
 					}
@@ -215,6 +225,7 @@
 			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'HEAD'); // HTTP request 
 			curl_setopt($curl, CURLOPT_NOBODY, true );
+			curl_setopt($curl, CURLOPT_FAILONERROR, true);
 			if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
@@ -222,8 +233,10 @@
 			
 			$ContentLength = curl_getinfo($curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			$ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
+			$ErrorMsg = curl_error($curl);
 			
-			if( $HttpCode != 200 )
+			if( $HttpCode < 200 || $HttpCode > 250 )
 			{
 				switch( $HttpCode )
 				{
@@ -233,9 +246,15 @@
 						$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .'.' );
 					}; break;
 					default: {
-						$this->SetError( 'HTTP error '. $HttpCode .'.' );
+						$this->SetError( curl_error($curl) );
 					}; break;
 				}
+				return false;
+			}
+			
+			if( stristr($ContentType, 'text') )
+			{
+				$this->SetError( 'Invalid content type returned.' );
 				return false;
 			}
 			

@@ -432,15 +432,16 @@ function powerpress_admin_init()
 		{
 			case 'powerpress-delete-feed': {
 				$delete_slug = $_GET['feed_slug'];
+				$force_deletion = @$_GET['force'];
 				check_admin_referer('powerpress-delete-feed-'.$delete_slug);
 				
 				$Episodes = powerpress_admin_episodes_per_feed($delete_slug);
 				
-				if( $delete_slug == 'podcast' )
+				if( $delete_slug == 'podcast' && $force_deletion == false )
 				{
 					powerpress_page_message_add_error( __('Cannot delete default podcast feed.') );
 				}
-				else if( $Episodes > 0 )
+				else if( $Episodes > 0 && $force_deletion == false )
 				{
 					powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).'), $Episodes) );
 				}
@@ -744,18 +745,22 @@ function powerpress_edit_post($post_ID, $post)
 				$FileSize = '';
 				$ContentType = '';
 				$Duration = false;
-				$Embed = false;
+				if( $Powerpress['set_duration'] == 0 )
+					$Duration = ''; // allow the duration to be detected
 
 				// Get the content type based on the file extension, first we have to remove query string if it exists
 				$UrlParts = parse_url($Powerpress['url']);
 				if( $UrlParts['path'] )
 				{
-					// using functions that already exist in Wordpress when possible:
-					$FileType = powerpress_get_contenttype($UrlParts['path']);
-					if( $FileType )
-						$ContentType = $FileType;
-					else
-						$ContentType = 'application/binary';
+					// using functions that already exist in WordPress when possible:
+					$ContentType = powerpress_get_contenttype($UrlParts['path']);
+				}
+
+				if( !$ContentType )
+				{
+					$error = __('Error') ." [{$Powerpress['url']}]: " .__('Unable to determine content type of media (e.g. audio/mpeg). Verify file extension is correct and try again.');
+					powerpress_add_error($error);
+					continue;
 				}
 
 				//Set the duration specified by the user
@@ -776,60 +781,51 @@ function powerpress_edit_post($post_ID, $post)
 					{
 						if( @$Powerpress['set_size'] == 0 || @$Powerpress['set_duration'] == 0 )
 						{
-							$Settings = get_option('powerpress_general');
-							
-							// Get meta info via API
-							$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $Powerpress['url'] );
-							$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
-							if( $content )
+							$MediaInfo = powerpress_get_media_info($Powerpress['url']);
+							if( !isset($MediaInfo['error']) )
 							{
-								$MediaInfo = powerpress_json_decode($content);
 								if( @$Powerpress['set_size'] == 0 )
 									$FileSize = $MediaInfo['length'];
 								if( @$Powerpress['set_duration'] == 0 )
-									$Duration = $Duration = powerpress_readable_duration($MediaInfo['duration'], true);
+									$Duration = powerpress_readable_duration($MediaInfo['duration'], true);
+							}
+							else
+							{
+								$error = __('Error') ." ({$Powerpress['url']}): {$MediaInfo['error']}";
+								powerpress_add_error($error);
+								continue;
 							}
 						}
 					}
 					else
 					{
-						// Lets use the mp3info class:
-						require_once(dirname(__FILE__).'/mp3info.class.php');
-						
-						$Mp3Info = new Mp3Info();
-						if( $Powerpress['set_duration'] == 0 && $ContentType == 'audio/mpeg' )
+						$MediaInfo = powerpress_get_media_info_local($MediaURL, $ContentType, 0, $Duration);
+						if( isset($MediaInfo['error']) )
 						{
-							$Mp3Data = $Mp3Info->GetMp3Info($MediaURL);
-							if( $Mp3Data )
-							{
-								if( @$Powerpress['set_size'] == 0 )
-									$FileSize = $Mp3Info->GetContentLength();
-								$Duration = $Mp3Data['playtime_string'];
-								if( substr_count($Duration, ':' ) == 0 )
-								{
-									if( $Duration < 60 )
-										$Duration = '00:00:'.$Duration;
-								}
-								else if( substr_count($Duration, ':' ) == 1 )
-								{
-									$Duration = '00:'.$Duration;
-								}
-								$Duration = powerpress_readable_duration($Duration, true); // Fix so it looks better when viewed for editing
-							}
+							$error = __('Error') ." ({$MediaURL}): {$MediaInfo['error']}";
+							powerpress_add_error($error);
+							continue;
 						}
-						
-						// Just get the file size
-						if( $Powerpress['set_size'] == 0 && $FileSize == '' )
-						{
-							$headers = wp_get_http_headers($MediaURL);
-							if( $headers && $headers['content-length'] )
+						else if( empty($MediaInfo['length']) )
 							{
-								$FileSize = (int) $headers['content-length'];
-							}
+							$error = __('Error') ." ({$MediaURL}): ". __('Unable to obtain size of media.');
+							powerpress_add_error($error);
+							continue;
+								}
+						else
+								{
+							// Detect the duration
+							if( $Powerpress['set_duration'] == 0 && $MediaInfo['duration'] )
+								$Duration = powerpress_readable_duration($MediaInfo['duration'], true); // Fix so it looks better when viewed for editing
+						
+							// Detect the file size
+							if( $Powerpress['set_size'] == 0 && $MediaInfo['length'] > 0 )
+								$FileSize = $MediaInfo['length'];
 						}
 					}
 				}
 				
+				// If we made if this far, we have the content type and file size...
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
 				$ToSerialize = array();
 				// iTunes duration
@@ -879,6 +875,7 @@ function powerpress_edit_post($post_ID, $post)
 		} // Loop through posted episodes...
 	}
 	
+	/* DO WE NEED THIS LOGIC HERE? */
 	if( $post->post_status == 'publish' || $post->post_status == 'private' )
 	{
 		$Settings = get_option('powerpress_general');
@@ -895,6 +892,10 @@ add_action('edit_post', 'powerpress_edit_post', 10, 2);
 // Do the iTunes pinging here...
 function powerpress_publish_post($post_id)
 {
+	// Delete scheduled _encloseme requests...
+	global $wpdb;
+	$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = '_encloseme' ");
+	
 	powerpress_do_ping_itunes($post_id);
 }
 
@@ -1417,7 +1418,10 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		$error = curl_errno($curl);
 		curl_close($curl);
 		if( $error )
+		{
+			global $g_powerpress_remote_error;
 			return false;
+		}
 		return $content;
 	}
 	
@@ -1553,6 +1557,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 				else if( isset($results['error']) )
 				{
 					$error = 'Blubrry Hosting Error (media info): '. $results['error'];
+					powerpress_add_error($error);
 				}
 				else
 				{
@@ -1560,6 +1565,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 					$error = 'Blubrry Hosting Error (publish): An error occurred publishing media '. $EnclosureURL .'.';
 					$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
 					$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
+					powerpress_add_error($error);
 				}
 				
 				if( $error == false )
@@ -1578,7 +1584,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 					else if( isset($results['error']) )
 					{
 						$error = 'Blubrry Hosting Error (publish): '. $results['error'];
-						
+						powerpress_add_error($error);
 					}
 					else
 					{
@@ -1586,26 +1592,12 @@ function powerpress_process_hosting($post_ID, $post_title)
 						$error = 'Blubrry Hosting Error (publish): An error occurred publishing media <em>'. $EnclosureURL .'</em>. ';
 						$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
 						$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
+						powerpress_add_error($error);
 					}
 				}
-				
-				if( $error )
-				{
-					$errors[] = $error;
-					// TODO Need to print an eerror message at the top of the screen
-					//mail('cio@rawvoice.com', 'Publishing From WordPress', print_r( array('file'=>$EnclosureURL, 'episode_data'=>$EpisodeData, 'error'=>$g_powerpress_error), true) );
-				}
-				// Make the API call here to publish media file...
-				//
 			}
 		}
 	}
-	
-	if( count($errors) > 0 )
-	{
-		add_option('powerpress_errors', $errors);
-	}
-	
 }
 
 function powerpress_json_decode($value)
@@ -1862,6 +1854,116 @@ function powerpress_get_media_info($file)
 	
 	return array('error'=>'Error occurred obtaining media information.');
 }
+
+// Call this function when there is no enclosure currently detected for the post but users set the option to auto-add first media file linked within post option is checked.
+function powerpress_do_enclose( $content, $post_ID )
+{
+	$ltrs = '\w';
+	$gunk = '/#~:.?+=&%@!\-';
+	$punc = '.:?\-';
+	$any = $ltrs . $gunk . $punc;
+
+	preg_match_all( "{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
+	
+	$enclosure = false;
+	foreach ( (array) $post_links_temp[0] as $link_test ) {
+		$test = parse_url( $link_test );
+		// Wordpress also acecpts query strings, which doesn't matter to us what's more important is taht the request ends with a file extension.
+		// get the file extension at the end of the request:
+		if( preg_match('/\.([a-z0-9]{2,7})$/i', $link_test, $matches) )
+		{
+			// see if the file extension is one of the supported media types...
+			$content_type = powerpress_get_contenttype('test.'.$matches[1], false); // we want to strictly use the content types known for media, so pass false for second argument
+			if( $content_type )
+			{
+				$enclosure = $link_test;
+				$MediaInfo = powerpress_get_media_info_local($link_test, $content_type);
+				if( !isset($MediaInfo['error']) && !empty($MediaInfo['length']) )
+				{
+					// Insert enclosure here:
+					$EnclosureData = $link_test . "\n" . $MediaInfo['length'] . "\n". $content_type;
+					if( !empty($MediaInfo['duration']) )
+						$EnclosureData .= "\n".serialize( array('duration'=>$MediaInfo['duration']) );
+					add_post_meta($post_ID, 'enclosure', $EnclosureData, true);
+					break; // We don't wnat to insert anymore enclosures, this was it!
+				}
+			}
+		}
+	}
+}
+
+function powerpress_get_media_info_local($media_file, $content_type='', $file_size=0, $duration='')
+{
+	$error_msg = '';
+	if( $content_type == '' )
+		$content_type = powerpress_get_contenttype($media_file);
+	
+	if( $content_type == '' )
+		return array('error'=>'Unable to detect content type.');
+	
+	if( $content_type == 'audio/mpeg' && $duration === '' ) // if duration has a value or is set to false then we don't want to try to obtain it here...
+	{
+		// Lets use the mp3info class:
+		require_once(dirname(__FILE__).'/mp3info.class.php');
+		$Mp3Info = new Mp3Info();
+		$Mp3Data = $Mp3Info->GetMp3Info($media_file);
+		if( $Mp3Data )
+		{
+			if( $file_size == 0 )
+				$file_size = $Mp3Info->GetContentLength();
+				
+			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+		}
+		else
+		{
+			if( $Mp3Info->GetError() )
+				return array('error'=>$Mp3Info->GetError() );
+			else
+				return array('error'=>'Error occurred obtaining media information.');
+		}
+	}
+	
+	if( $content_type != '' && $file_size == 0 )
+	{
+		$response = wp_remote_head( $media_file );
+		if ( is_wp_error( $response ) )
+		{
+			return array('error'=>$response->get_error_message() );
+		}
+		
+		if( isset($response['response']['code']) && $response['response']['code'] < 200 || $response['response']['code'] > 290 )
+		{
+			return array('error'=>trim('Error, HTTP '.$response['response']['code']) );
+		}
+
+		$headers = wp_remote_retrieve_headers( $response );
+		
+		if( $headers && strstr($headers['content-type'], 'text') )
+		{
+			return array('error'=>'Invalid content type returned from server.' );
+		}
+		
+		//$headers = wp_get_http_headers($media_file);
+		if( $headers && $headers['content-length'] )
+			$file_size = (int) $headers['content-length'];
+	}
+	
+	if( $file_size == 0 )
+		return array('error'=>'Error occurred obtaining media file size.' );
+	
+	return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration);
+}
+
+function powerpress_add_error($error)
+{
+	$Errors = get_option('powerpress_errors');
+	if( !is_array($Errors) )
+		$Errors = array();
+	$Errors[] = $error;
+	update_option('powerpress_errors',  $Errors);
+}
+	
+
 
 require_once( dirname(__FILE__).'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.

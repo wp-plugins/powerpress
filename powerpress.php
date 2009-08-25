@@ -650,11 +650,15 @@ function powerpress_rss2_item()
 				$subtitle = $EpisodeData['subtitle'];
 			if( isset( $EpisodeData['keywords'] ) )
 				$keywords = $EpisodeData['keywords'];
+			if( isset( $EpisodeData['explicit'] ) )
+			{
+				$explicit_array = array("no", "yes", "clean");
+				$explicit = $explicit_array[$EpisodeData['explicit']];
+			}
+			
 			// Code for future use:
 			if( isset( $EpisodeData['author'] ) )
 				$author = $EpisodeData['author'];
-			if( isset( $EpisodeData['explicit'] ) )
-				$explicit = $EpisodeData['explicit'];
 			if( isset( $EpisodeData['block'] ) )
 				$block = $EpisodeData['block'];
 		}
@@ -845,18 +849,10 @@ function powerpress_rss_language($value)
 {
 	if( powerpress_is_custom_podcast_feed() )
 	{
-		$feed_slug = get_query_var('feed');
-		$cat_ID = get_query_var('cat');
-		
-		if( $cat_ID )
-			$Feed = get_option('powerpress_cat_feed_'. $cat_ID);
-		else if( $feed_slug == 'podcast' )
-			$Feed = get_option('powerpress_feed');
-		else
-			$Feed = get_option('powerpress_feed_'. $feed_slug);
-		
-		if( $Feed && isset($Feed['rss_language']) && $Feed['rss_language'] != '' )
-			$value = $Feed['rss_language'];
+		global $powerpress_feed;
+		return print_r($powerpress_feed, true);
+		if( $powerpress_feed && isset($powerpress_feed['rss_language']) && $powerpress_feed['rss_language'] != '' )
+			$value = $powerpress_feed['rss_language'];
 	}
 	return $value;
 }
@@ -938,8 +934,10 @@ add_action('init', 'powerpress_init', 9);
 // Load the general feed settings for feeds handled by powerpress
 function powerpress_load_general_feed_settings()
 {
+	global $wp_query;
 	global $powerpress_feed;
-	if( $powerpress_feed !== false )
+	
+	if( $powerpress_feed !== false ) // If it is not false (either NULL or an array) then we already looked these settings up
 	{
 		$powerpress_feed = false;
 		
@@ -950,21 +948,24 @@ function powerpress_load_general_feed_settings()
 		
 		if( $GeneralSettings )
 		{
+			$FeedSettingsBasic = get_option('powerpress_feed'); // Get overall feed settings
+				
+			// If we're in advanced mode and we're dealing with a category feed we're extending, lets work with it...
 			if( is_category() && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
 			{
 				$cat_ID = get_query_var('cat');
-				$Feed = get_option('powerpress_feed'); // Get overall feed settings
 				$FeedCustom = get_option('powerpress_cat_feed_'.$cat_ID); // Get custom feed specific settings
-				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $Feed);
+				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
 				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
 				$powerpress_feed['itunes_custom'] = ($GeneralSettings['episode_box_mode'] == 2);
 				$powerpress_feed['category'] = $cat_ID;
-				$powerpress_feed['process_podpress'] = true; // Category feeds could originate from Podpress
+				$powerpress_feed['process_podpress'] = $GeneralSettings['process_podpress']; // Category feeds could originate from Podpress
+				$powerpress_feed['rss_language'] = ''; // default, let WordPress set the language
 				$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
-				$explicit = array("no", "yes", "clean");
-				$powerpress_feed['explicit'] = $explicit[$Feed['itunes_explicit']];
+				$explicit_array = array("no", "yes", "clean");
+				$powerpress_feed['explicit'] = $explicit_array[$Feed['itunes_explicit']];
 				if( $Feed['itunes_talent_name'] )
 					$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
 				else
@@ -975,6 +976,8 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
 				if( $Feed['itunes_author_post'] == true )
 					$powerpress_feed['itunes_author_post'] = true;
+				if( $Feed['rss_language'] != '' )
+					$powerpress_feed['rss_language'] = $Feed['rss_language'];
 				return;
 			}
 			
@@ -982,15 +985,15 @@ function powerpress_load_general_feed_settings()
 			
 			if( isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && isset($GeneralSettings['custom_feeds'][ $feed_slug ] ))
 			{
-				$Feed = get_option('powerpress_feed'); // Get overall feed settings
 				$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
-				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $Feed);
+				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
 				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
 				$powerpress_feed['itunes_custom'] = ($GeneralSettings['episode_box_mode'] == 2);
 				$powerpress_feed['feed-slug'] = $feed_slug;
-				$powerpress_feed['process_podpress'] = false; // We don't touch podpress data for custom feeds
+				$powerpress_feed['process_podpress'] = ($feed_slug=='podcast'? $GeneralSettings['process_podpress']: false); // We don't touch podpress data for custom feeds
+				$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
 				$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
 				$explicit = array("no", "yes", "clean");
 				$powerpress_feed['explicit'] = $explicit[$Feed['itunes_explicit']];
@@ -1005,53 +1008,55 @@ function powerpress_load_general_feed_settings()
 				$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
 				if( $Feed['feed_redirect_url'] != '' )
 					$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
+				if( $Feed['rss_language'] != '' )
+					$powerpress_feed['rss_language'] = $Feed['rss_language'];
+				return;
 			}
-			else
+			
+			// We fell this far,we must be in simple mode or the user never saved customized their custom feed settings
+			switch( $FeedSettingsBasic['apply_to'] )
 			{
-				// One last check, we may still want to manage this feed, it's just not a custom feed...
-				$Feed = get_option('powerpress_feed');
-				$wp = $GLOBALS['wp_query'];
-				// First, determine if powerpress should even be rewriting this feed...
-				switch( $Feed['apply_to'] )
+				case 0: // enhance only the podcast feed added by PowerPress, with the logic above this code should never be reached but it is added for readability.
 				{
-					case 2: // RSS2 feed only
-					{
-						if( $feed_slug != 'feed' && $feed_slug != 'rss2')
-							break; // We're only adding podcasts to the rss2 feed in this situation
+					if( $feed_slug != 'podcast' )
+						break;
+				} // important: no break here!
+				case 2: // RSS2 Main feed and podcast feed added by PowerPress only
+				{
+					if( $feed_slug != 'feed' && $feed_slug != 'rss2' && $feed_slug != 'podcast' )
+						break; // We're only adding podcasts to the rss2 feed in this situation
+					
+					if( $wp_query->is_category ) // don't touch the category feeds...
+						break;
+					
+					if( $wp_query->is_tag ) // don't touch the tag feeds...
+						break;
 						
-						if( $wp->query_vars['category_name'] != '' ) // don't touch the category feeds...
-							break;
-						
-						if( $wp->query_vars['tag'] != '' ) // don't touch the tag feeds...
-							break;
-							
-						if( $wp->query_vars['withcomments'] ) // don't touch the comments feeds...
-							break;	
-						
-						// Okay we must be working with the normal rss2 feed...
-					} // important: no break here!
-					case 1: // All other feeds
-					{
-						$powerpress_feed = array(); // Only store what's needed for each feed item
-						$powerpress_feed['is_custom'] = false; // ($feed_slug == 'podcast'?true:false);
-						$powerpress_feed['itunes_custom'] = ($GeneralSettings['episode_box_mode'] == 2);
-						$powerpress_feed['feed-slug'] = $feed_slug;
-						$powerpress_feed['process_podpress'] = $GeneralSettings['process_podpress']; // We don't touch podpress data for custom feeds
-						$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
-						$explicit = array("no", "yes", "clean");
-						$powerpress_feed['explicit'] = $explicit[$Feed['itunes_explicit']];
-						if( $Feed['itunes_talent_name'] )
-							$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
-						else
-							$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-						if( version_compare( '5', phpversion(), '>=' ) )
-							$powerpress_feed['enhance_itunes_summary'] = 0;
-						else
-							$powerpress_feed['enhance_itunes_summary'] = @$Feed['enhance_itunes_summary'];
-						$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
-					}; break;
-					// All other cases we let fall through
-				}
+					if( $wp_query->is_comment_feed ) // don't touch the comments feeds...
+						break;	
+				} // important: no break here!
+				case 1: // All feeds
+				{
+					$powerpress_feed = array(); // Only store what's needed for each feed item
+					$powerpress_feed['is_custom'] = false; // ($feed_slug == 'podcast'?true:false);
+					$powerpress_feed['itunes_custom'] = ($GeneralSettings['episode_box_mode'] == 2);
+					$powerpress_feed['feed-slug'] = $feed_slug;
+					$powerpress_feed['process_podpress'] = $GeneralSettings['process_podpress']; // We don't touch podpress data for custom feeds
+					$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
+					$explicit = array("no", "yes", "clean");
+					$powerpress_feed['explicit'] = $explicit[$FeedSettingsBasic['itunes_explicit']];
+					if( $FeedSettingsBasic['itunes_talent_name'] )
+						$powerpress_feed['itunes_talent_name'] = $FeedSettingsBasic['itunes_talent_name'];
+					else
+						$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
+					if( version_compare( '5', phpversion(), '>=' ) )
+						$powerpress_feed['enhance_itunes_summary'] = 0;
+					else
+						$powerpress_feed['enhance_itunes_summary'] = @$FeedSettingsBasic['enhance_itunes_summary'];
+					$powerpress_feed['posts_per_rss'] = $FeedSettingsBasic['posts_per_rss'];
+					$powerpress_feed['rss_language'] = ''; // Cannot set the language setting in simple mode
+				}; break;
+				// All other cases we let fall through
 			}
 		}
 	}
@@ -1162,10 +1167,11 @@ function powerpress_do_all_pings()
 	
 	// Now call the WordPress do_all_pings()...
 	do_all_pings();
+	remove_action('do_pings', 'do_all_pings');
 }
 
 remove_action('do_pings', 'do_all_pings');
-add_action('do_pings', 'powerpress_do_all_pings');
+add_action('do_pings', 'powerpress_do_all_pings', 1, 1);
 
 function powerpress_future_to_publish($post)
 {
@@ -1477,7 +1483,7 @@ function powerpress_do_pinw($pinw)
 }
 
 // Adds content types that are missing from the default wp_check_filetype function
-function powerpress_get_contenttype($file)
+function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 {
 	$parts = pathinfo($file);
 	switch( strtolower($parts['extension']) )
@@ -1558,9 +1564,12 @@ function powerpress_get_contenttype($file)
 	}
 	
 	// Last case let wordpress detect it:
-	$FileType = wp_check_filetype($file);
-	if( $FileType && isset($FileType['type']) )
-		return $FileType['type'];
+	if( $use_wp_check_filetype )
+	{
+		$FileType = wp_check_filetype($file);
+		if( $FileType && isset($FileType['type']) )
+			return $FileType['type'];
+	}
 	return '';
 }
 

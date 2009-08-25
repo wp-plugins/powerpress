@@ -88,6 +88,19 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 = 0.9.6 =
 * Released on 8/??/2009
 * Fixed a bug in the getid3 library where it would occasionally not detect the media duration.
+* For detecting mp3 duration, increased the amount of the file downloaded from 25k to 40k for users who have a lot of tags in their mp3 files.
+* Added note when in simple mode if there are advanced mode settings that take precedence.
+* Added option to Episode Entry Box Custom Mode to select Explicit setting on a per episode basis.
+* Added option to auto add podcast episode when media link found within blog post (default is off)
+* Fixed bug with language setting not getting applied to the PowerPress custom podcast feed.
+* Stream lined code for loading PowerPress general and feed settings.
+* Added more agressive code to prevent WordPress from deleting enclosures when scheduling blog posts.
+* Display error when PowerPress cannot detect media file content type.
+* Display error when PowerPress cannot detect media file size and duration information.
+* Display error when PowerPress encounters an error with Blubrry Services.
+* Consolidated duplicate code for detecting media information.
+* MORE TO COME
+
 
 = 0.9.5 =
 * Released on 8/15/2009

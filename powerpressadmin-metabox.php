@@ -15,6 +15,7 @@ function powerpress_meta_box($object, $box)
 	$iTunesKeywords = '';
 	$iTunesSubtitle = '';
 	$iTunesSummary = '';
+	$iTunesExplicit = '';
 	$NoPlayer = false;
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['set_size']) )
@@ -48,6 +49,8 @@ function powerpress_meta_box($object, $box)
 				$iTunesSummary = $ExtraData['summary'];
 			if( $ExtraData && isset($ExtraData['no_player']) )
 				$NoPlayer = $ExtraData['no_player'];
+			if( $ExtraData && isset($ExtraData['explicit']) )	
+				$iTunesExplicit = $ExtraData['explicit'];
 		}
 		
 		
@@ -217,6 +220,26 @@ function powerpress_meta_box($object, $box)
 				<em>Your summary may not contain HTML and cannot exceed 4,000 characters in length.
 				Leave blank to use your blog post.</em>
 			</div>
+		</div>
+<?php
+		}
+		
+		if( $GeneralSettings['episode_box_explicit'] )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][summary]">iTunes Explicit</label>
+			<div class="powerpress_row_content">
+				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][explicit]" style="width: 200px;">
+<?php
+$explicit_array = array(''=>'Use feed\'s explicit setting', 0=>"no - display nothing", 1=>"yes - explicit content", 2=>"clean - no explicit content");
+
+while( list($value,$desc) = each($explicit_array) )
+	echo "\t<option value=\"$value\"". ($iTunesExplicit==$value?' selected':''). ">$desc</option>\n";
+
+?>
+					</select>
+			</div>	
 		</div>
 <?php
 		}
