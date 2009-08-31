@@ -87,7 +87,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 = 0.9.7 =
 * Released on 8/31/2009
-* Fixed array_unshift(), bug created in 0.9.6 release.
+* Fixed array_unshift() for users in simple mode, bug created in 0.9.6 release.
 * Fixed link to change from simple/advanced modes, bug created in 0.9.6 release.
 * Fixed bug with changing Blubrry Services account email address.
 
