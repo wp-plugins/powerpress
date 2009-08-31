@@ -889,11 +889,9 @@ function powerpress_edit_post($post_ID, $post)
 		} // Loop through posted episodes...
 	}
 	
-	// Anytime the post is marked published or private we need to make sure we're making the media available for hosting
-	if( $post->post_status == 'publish' || $post->post_status == 'private' )
+	// Anytime the post is marked published, private or scheduled for the future we need to make sure we're making the media available for hosting
+	if( $post->post_status == 'publish' || $post->post_status == 'private' || $post->post_status == 'future' )
 	{
-		//var_dump($post);
-		//exit;
 		if( $GeneralSettings['blubrry_hosting'] )
 			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
