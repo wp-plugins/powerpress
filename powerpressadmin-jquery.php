@@ -249,6 +249,7 @@ function SelectMedia(File)
 						{
 							$Error = 'Please select your podcast program to continue.';
 							$Step = 2;
+							$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
 						}
 					}
 					else

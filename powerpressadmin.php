@@ -934,7 +934,7 @@ function powerpress_admin_head()
 		$page_name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
 			
 	// Powerpress page
-	if( strstr($page_name, 'powerpress' ) )
+	if( strstr($_GET['page'], 'powerpress' ) !== false )
 	{
 ?>
 <script type="text/javascript">
@@ -1103,7 +1103,7 @@ function powerpress_check_url(url)
 	else
 	{
 		// Print this line for debugging when loooking for other pages to include header data for
-		//echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
+		echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
 	}
 }
 
