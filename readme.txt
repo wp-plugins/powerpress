@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.4
-Stable tag: 0.9.5
+Stable tag: 0.9.6
 
 Add podcasting support to your blog.
 
@@ -86,20 +86,20 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 = 0.9.6 =
-* Released on 8/??/2009
+* Released on 8/31/2009
+* Added Auto Add Media option, auto adds first/last media link found in post content. (default is off)
+* Added option in Appearance settings to disable player per custom podcast feed basis.
+* Added option to Episode Entry Box Custom Mode to select iTunes Explicit setting on a per episode basis.
+* Added note when in simple mode if there are advanced mode settings that take precedence.
+* Fixed bug with language setting not getting applied to the default PowerPress custom podcast feed in some cases.
 * Fixed a bug in the getid3 library where it would occasionally not detect the media duration.
 * Detecting mp3 duration change, increased the amount of the file downloaded from 25k to 40k for users who have a lot of tags in their mp3 files.
-* Added note when in simple mode if there are advanced mode settings that take precedence.
-* Added option to Episode Entry Box Custom Mode to select Explicit setting on a per episode basis.
-* Added option to auto add podcast episode when media link found within blog post (default is off)
-* Fixed bug with language setting not getting applied to the PowerPress custom podcast feed.
+* Consolidated duplicate code for detecting media information.
+* Display error message when PowerPress cannot detect media file content type.
+* Display error message when PowerPress cannot detect media file size and duration information.
+* Display error message when PowerPress encounters an error with Blubrry Services.
 * Stream lined code for loading PowerPress general and feed settings.
 * Added more agressive code to prevent WordPress from deleting enclosures when scheduling blog posts.
-* Display error when PowerPress cannot detect media file content type.
-* Display error when PowerPress cannot detect media file size and duration information.
-* Display error when PowerPress encounters an error with Blubrry Services.
-* Consolidated duplicate code for detecting media information.
-* Auto Add Media links found in post content option added.
 * Improved the look of the AJAX windows for selecting media/configuring services.
 * Fixed bug where 'more' link for statistics would fail if user was not a blog admin.
 * Added code to admin_head() function so css/js only included on appropriate pages (Thanks @Frumph!).
@@ -107,7 +107,6 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Blubrry Media Hosting list of uploaded media screen enhanced with new in-page media upload option and monthly quota information.
 * Fixed bug with Podcast Category feed links to FeedValidator (thanks Darcy Fiander).
 * Fixed bug with Podcast Category feed title not matching the feed image title FeedValidator (thanks Darcy Fiander).
-* Added option in Appearance settings to disable player per custom podcast feed episode.
 * Fixed Windows Media embed issue with Firefox 3.x+ and re-added note to use the Firefox Windows Media addon.
 
 
