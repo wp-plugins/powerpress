@@ -379,20 +379,16 @@ while( list($value,$desc) = each($Programs) )
 						$RedirectURL = $results['url'];
 				}
 			}
-			else
-			{
-				$Error = 'suck';
-			}
 			
 			if( $Error == false && $RedirectURL )
 			{
-				//header("Location: $RedirectURL");
-				//exit;
+				header("Location: $RedirectURL");
+				exit;
 				$Error = '<a href="'.$RedirectURL.'&amp;nocookie=true&amp;ReturnURL='. urlencode( admin_url() . '?action=powerpress-jquery-upload-complete') .'">Session initialized, click here to upload.</a>';
 			}
 			else if( $Error == false )
 			{
-				$Error = __('Unable to obtain upload session???.');
+				$Error = __('Unable to obtain upload session.');
 			}
 			
 			powerpress_admin_jquery_header('Uploader');
