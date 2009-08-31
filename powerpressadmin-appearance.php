@@ -76,11 +76,11 @@ while( list($value,$desc) = each($playeroptions) )
 		while( list($podcast_slug, $podcast_title) = each($Players) )
 		{
 	?>
-	<p><input name="DisablePlayer[<?php echo $podcast_slug; ?>]" type="checkbox" value="1" <?php if( isset($General['disable_player'][$podcast_slug]) ) echo 'checked '; ?>/> <?php echo htmlspecialchars($podcast_title); ?> episodes</p>
+	<p><input name="DisablePlayer[<?php echo $podcast_slug; ?>]" type="checkbox" value="1" <?php if( isset($General['disable_player'][$podcast_slug]) ) echo 'checked '; ?>/> <?php echo htmlspecialchars($podcast_title); ?> <?php echo __('feed episodes'); ?></p>
 	<?php
 		}
 	?>
-	<p>Check the custom podcasts above that you do not want in-page players for.</p>
+	<p>Check the custom podcast feeds above that you do not want in-page players for.</p>
 </td>
 </tr>
 <?php
