@@ -127,7 +127,7 @@ function powerpress_admin_categoryfeeds()
 				
 					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
-							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed') . '</a></span>';
+							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed') . '</a></span>';
 						echo '</div>';
 					echo "</td>";
 					

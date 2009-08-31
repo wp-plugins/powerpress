@@ -26,6 +26,11 @@ function powerpress_admin_init()
 {
 	global $wp_rewrite;
 	
+	add_thickbox(); // we use the thckbox for some settings
+	
+	if( function_exists('powerpress_admin_jquery_init') )
+		powerpress_admin_jquery_init();
+	
 	if( !current_user_can('manage_options') )
 	{
 		powerpress_page_message_add_error( __('You do not have sufficient permission to manage options.') );
@@ -49,8 +54,7 @@ function powerpress_admin_init()
 	$VersionDiff = version_compare($wp_version, 2.6);
 	if( $VersionDiff < 0 )
 		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.') );
-	
-	add_thickbox(); // we use the thckbox for some settings
+
 	
 	// Save settings here
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
@@ -145,6 +149,13 @@ function powerpress_admin_init()
 				powerpress_page_message_add_error( 'Invalid Coverat image: ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
 			}
 		}
+		
+		if( isset($_POST['UpdateDisablePlayer']) )
+		{
+			$General['disable_player'] = array();
+			if( isset($_POST['DisablePlayer']) )
+				$General['disable_player'] = $_POST['DisablePlayer'];
+		}
 			
 		
 		// Check to see if we need to update the feed title
@@ -185,6 +196,8 @@ function powerpress_admin_init()
 					$General['episode_box_subtitle'] = 0;
 				if( !isset($General['episode_box_summary'] ) )
 					$General['episode_box_summary'] = 0;
+				if( !isset($General['episode_box_explicit'] ) )
+					$General['episode_box_explicit'] = 0;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
@@ -537,10 +550,6 @@ function powerpress_admin_init()
 			}; break;
 		}
 	}
-	
-	
-	if( function_exists('powerpress_admin_jquery_init') )
-		powerpress_admin_jquery_init();
 		
 	if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
 		powerpress_admin_players_init();
@@ -700,6 +709,13 @@ function powerpress_edit_post($post_ID, $post)
 	if ( !current_user_can('edit_post', $post_ID) )
 		return $postID;
 		
+	$GeneralSettings = get_option('powerpress_general');
+	
+	if( isset($GeneralSettings['auto_enclose']) && $GeneralSettings['auto_enclose'] )
+	{
+		powerpress_do_enclose($post->post_content, $post_ID, ($GeneralSettings['auto_enclose']==2) );
+	}
+		
 	$Episodes = $_POST['Powerpress'];
 	
 	if( $Episodes )
@@ -729,16 +745,14 @@ function powerpress_edit_post($post_ID, $post)
 				{
 					if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
 					{
-						$Settings = get_option('powerpress_general');
-						$MediaURL = rtrim(@$Settings['default_url'], '/') .'/'. $MediaURL;
+						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $MediaURL;
 					}
 				}
 				else
 				{
 					if( strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 					{
-						$Settings = get_option('powerpress_general');
-						$MediaURL = rtrim(@$Settings['default_url'], '/') .'/'. $MediaURL;
+						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $MediaURL;
 					}
 				}
 				
@@ -875,12 +889,12 @@ function powerpress_edit_post($post_ID, $post)
 		} // Loop through posted episodes...
 	}
 	
-	/* DO WE NEED THIS LOGIC HERE? */
+	// Anytime the post is marked published or private we need to make sure we're making the media available for hosting
 	if( $post->post_status == 'publish' || $post->post_status == 'private' )
 	{
-		$Settings = get_option('powerpress_general');
-		
-		if( $Settings['blubrry_hosting'] )
+		//var_dump($post);
+		//exit;
+		if( $GeneralSettings['blubrry_hosting'] )
 			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
 		
@@ -896,7 +910,17 @@ function powerpress_publish_post($post_id)
 	global $wpdb;
 	$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = '_encloseme' ");
 	
-	powerpress_do_ping_itunes($post_id);
+	$GeneralSettings = get_option('powerpress_general');
+	if( isset($GeneralSettings['auto_enclose']) && $GeneralSettings['auto_enclose'] )
+	{
+		$post = &get_post($post_id);
+		powerpress_do_enclose($post->post_content, $post_id, ($GeneralSettings['auto_enclose']==2) );
+	}
+	
+	if( isset($GeneralSettings['ping_itunes']) && $GeneralSettings['ping_itunes'] )
+	{
+		powerpress_do_ping_itunes($post_id);
+	}
 }
 
 add_action('publish_post', 'powerpress_publish_post');
@@ -904,7 +928,15 @@ add_action('publish_post', 'powerpress_publish_post');
 // Admin page, html meta header
 function powerpress_admin_head()
 {
-	if( strstr($_GET['page'], 'powerpress' ) )
+	global $parent_file, $hook_suffix;
+	$page_name = '';
+	if ( isset($parent_file) && !empty($parent_file) )
+		$page_name = substr($parent_file, 0, -4);
+	else
+		$page_name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
+			
+	// Powerpress page
+	if( strstr($page_name, 'powerpress' ) )
 	{
 ?>
 <script type="text/javascript">
@@ -983,7 +1015,7 @@ function powerpress_changemode(Mode)
 </style>
 <?php
 	}
-	else
+	else if( $page_name == 'edit' || $page_name == 'edit-pages' ) // || $page_name == '' ) // we don't know the page, we better include our CSS just in case
 	{
 ?>
 <style type="text/css">
@@ -1019,6 +1051,7 @@ function powerpress_changemode(Mode)
 }
 </style>
 <script language="javascript">
+
 function powerpress_check_url(url)
 {
 	var DestDiv = 'powerpress_warning';
@@ -1068,6 +1101,11 @@ function powerpress_check_url(url)
 
 </script>
 <?php
+	}
+	else
+	{
+		// Print this line for debugging when loooking for other pages to include header data for
+		//echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
 	}
 }
 
@@ -1512,10 +1550,12 @@ function powerpress_process_hosting($post_ID, $post_title)
 {
 	$errors = array();
 	$Settings = get_option('powerpress_general');
-	$CustomFeeds = array('podcast'=>'podcast');
+	$CustomFeeds = array();
 	if( is_array($Settings['custom_feeds']) )
 		$CustomFeeds = $Settings['custom_feeds'];
-
+	if( !isset($CustomFeeds['podcast']) )
+		$CustomFeeds['podcast'] = 'podcast';
+	
 	while( list($feed_slug,$null) = each($CustomFeeds) )
 	{
 		$field = 'enclosure';
@@ -1532,6 +1572,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 			$EpisodeData = unserialize($Serialized);
 			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
 			{
+				
 				$error = false;
 				// First we need to get media information...
 				
@@ -1570,6 +1611,8 @@ function powerpress_process_hosting($post_ID, $post_title)
 				
 				if( $error == false )
 				{
+					// Extend the max execution time here
+					set_time_limit(60*20); // give it 10 minutes just in case
 					$api_url = sprintf('%s/media/%s/%s?format=json&publish=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
 					$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], array(), 60*30); // give this up to 30 minutes, though 3 seocnds to 20 seconds is all one should need.
 					$results =  powerpress_json_decode($json_data);
@@ -1856,7 +1899,7 @@ function powerpress_get_media_info($file)
 }
 
 // Call this function when there is no enclosure currently detected for the post but users set the option to auto-add first media file linked within post option is checked.
-function powerpress_do_enclose( $content, $post_ID )
+function powerpress_do_enclose( $content, $post_ID, $use_last_media_link = false )
 {
 	$ltrs = '\w';
 	$gunk = '/#~:.?+=&%@!\-';
@@ -1864,6 +1907,9 @@ function powerpress_do_enclose( $content, $post_ID )
 	$any = $ltrs . $gunk . $punc;
 
 	preg_match_all( "{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
+	
+	if( $use_last_media_link )
+		$post_links_temp[0] = array_reverse($post_links_temp[0]);
 	
 	$enclosure = false;
 	foreach ( (array) $post_links_temp[0] as $link_test ) {

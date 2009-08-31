@@ -303,6 +303,25 @@ while( list($value,$desc) = each($options) )
 		</select> (specify default duration option when creating a new episode)
 </td>
 </tr>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("Auto Add Media"); ?></th> 
+<td>
+		<select name="General[auto_enclose]" class="bpp_input_med">
+<?php
+$options = array(0=>'Disabled (default)', 1=>'First media link found in post content', 2=>'Last media link found in post content');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['auto_enclose']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select>
+		<p>When enabled, the first or last media link found in the post content is automatically added as your podcast episode.</p>
+		<p style="margin-bottom: 0;"><em>NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.</em></p>
+</td>
+</tr>
+
 </table>
 <br />
 <?php

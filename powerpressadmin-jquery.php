@@ -34,8 +34,11 @@ function powerpress_add_blubrry_redirect($program_keyword)
 
 function powerpress_admin_jquery_init()
 {
-	$Error = false;
 	$Settings = false; // Important, never remove this
+	$Settings = get_option('powerpress_general');
+	
+	$Error = false;
+
 	$Programs = false;
 	$Step = 1;
 	
@@ -47,6 +50,10 @@ function powerpress_admin_jquery_init()
 	{
 		case 'powerpress-jquery-stats': {
 		
+			// Make sure users have permission to access this
+			if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+				return;
+				
 			$StatsCached = get_option('powerpress_stats');
 			
 			powerpress_admin_jquery_header('Blubrry Media Statistics');
@@ -58,9 +65,6 @@ function powerpress_admin_jquery_init()
 			exit;
 		}; break;
 		case 'powerpress-jquery-media': {
-			
-			$Settings = get_option('powerpress_general');
-			
 			
 			if( $Settings['blubrry_auth'] == '' )
 			{
@@ -74,7 +78,7 @@ function powerpress_admin_jquery_init()
 			break;
 			}
 
-			$api_url = sprintf('%s/media/%s/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
+			$api_url = sprintf('%s/media/%s/index.json?quota=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
 			$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
 			$results =  powerpress_json_decode($json_data);
 			// print_r($files);
@@ -82,17 +86,27 @@ function powerpress_admin_jquery_init()
 			$FeedSlug = $_GET['podcast-feed'];
 			powerpress_admin_jquery_header('Select Media');
 ?>
+<script language="JavaScript" type="text/javascript">
 
-<!--		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
-		<h2>Select Media</h2> -->
-		<p>
-			Select from media files uploaded to blubrry.com:
-		</p>
+function SelectMedia(File)
+{
+	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value=File;
+	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1';
+	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true';
+	self.parent.tb_remove();
+}
+</script>
+		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
+		<div id="media-header">
+			<h2>Select Media</h2>
+			<div class="media-upload-link"><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-upload&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
+			<p>Select from media files uploaded to blubrry.com:</p>
+		</div>
 <!--		<ul class="media"> -->
 	<div id="media-items-container">
 		<div id="media-items">
 <?php
-		
+		$QuotaData = false;
 		if( isset($results['error']) )
 		{
 			echo $results['error'];
@@ -101,6 +115,11 @@ function powerpress_admin_jquery_init()
 		{
 			while( list($index,$data) = each($results) )
 			{
+				if( $index === 'quota' )
+				{
+					$QuotaData = $data;
+					continue;
+				}
 				// old way:
 			/*
 ?>	
@@ -127,6 +146,17 @@ function powerpress_admin_jquery_init()
 ?>
 		</div>
 	</div>
+	<div id="media-footer">
+		<div class="media-upload-link"><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-upload&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
+		<?php
+		if( $QuotaData ) { 
+			$NextDate = strtotime( $QuotaData['published']['next_date']);
+		?>
+			<p>You have uploaded <em><?php echo powerpress_byte_size($QuotaData['unpublished']['available']); ?></em> of your <em><?php echo powerpress_byte_size($QuotaData['unpublished']['total']); ?></em> limit</p>
+			<p>You are hosting <em><?php echo powerpress_byte_size($QuotaData['published']['available']); ?></em> of your <em><?php echo powerpress_byte_size($QuotaData['published']['total']); ?></em>/month limit.</p>
+			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em>.</p>
+		<?php } ?>
+	</div>
 <!--	</ul> -->
 	
 <?php	
@@ -138,9 +168,9 @@ function powerpress_admin_jquery_init()
 			check_admin_referer('powerpress-jquery-account');
 			
 			$Password = $_POST['Password'];
-			$Settings = $_POST['Settings'];
+			$SaveSettings = $_POST['Settings'];
 			$Password = powerpress_stripslashes($Password);
-			$General = powerpress_stripslashes($Settings);
+			$General = powerpress_stripslashes($SaveSettings);
 			
 			$Save = false;
 			$Close = false;
@@ -154,10 +184,10 @@ function powerpress_admin_jquery_init()
 			
 			if( $_POST['Remove'] )
 			{
-				$Settings['blubrry_username'] = '';
-				$Settings['blubrry_auth'] = '';
-				$Settings['blubrry_program_keyword'] = '';
-				$Settings['blubrry_hosting'] = 0;
+				$SaveSettings['blubrry_username'] = '';
+				$SaveSettings['blubrry_auth'] = '';
+				$SaveSettings['blubrry_program_keyword'] = '';
+				$SaveSettings['blubrry_hosting'] = 0;
 				$Close = true;
 				$Save = true;
 			}
@@ -169,8 +199,8 @@ function powerpress_admin_jquery_init()
 				//	$Settings['blubrry_program_keyword'] = ''; // Reset the program keyword stored
 					
 					// Anytime we change the password we need to test it...
-				$auth = base64_encode( $Settings['blubrry_username'] . ':' . $Password );
-				if( $Settings['blubrry_hosting'] == 0 )
+				$auth = base64_encode( $SaveSettings['blubrry_username'] . ':' . $Password );
+				if( $SaveSettings['blubrry_hosting'] == 0 )
 					$api_url = sprintf('%s/stats/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
 				else
 					$api_url = sprintf('%s/media/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
@@ -195,22 +225,22 @@ function powerpress_admin_jquery_init()
 					
 					if( count($Programs) > 0 )
 					{
-						$Settings['blubrry_auth'] = $auth;
+						$SaveSettings['blubrry_auth'] = $auth;
 						
-						if( $Settings['blubrry_program_keyword'] != '' )
+						if( $SaveSettings['blubrry_program_keyword'] != '' )
 						{
-							powerpress_add_blubrry_redirect($Settings['blubrry_program_keyword']);
+							powerpress_add_blubrry_redirect($SaveSettings['blubrry_program_keyword']);
 							$Save = true;
 							$Close = true;
 						}
-						else if( isset($Settings['blubrry_program_keyword']) )
+						else if( isset($SaveSettings['blubrry_program_keyword']) )
 						{
 							$Error = 'You must select a program to continue.';
 						}
 						else if( count($Programs) == 1 )
 						{
 							list($keyword, $title) = each($Programs);
-							$Settings['blubrry_program_keyword'] = $keyword;
+							$SaveSettings['blubrry_program_keyword'] = $keyword;
 							powerpress_add_blubrry_redirect($keyword);
 							$Close = true;
 							$Save = true;
@@ -229,7 +259,7 @@ function powerpress_admin_jquery_init()
 			}
 			
 			if( $Save )
-				powerpress_save_settings($Settings);
+				powerpress_save_settings($SaveSettings);
 			
 			// Clear cached statistics
 			delete_option('powerpress_stats');
@@ -278,12 +308,12 @@ function powerpress_admin_jquery_init()
 	<h2>Blubrry Services Integration</h2>
 <?php if( $Step == 1 ) { ?>
 	<p>
-		<label>Blubrry User Name</label>
-		<input type="text" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
+		<label for="blubrry_username">Blubrry User Name</label>
+		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
 	</p>
 	<p id="password_row">
-		<label>Blubrry Password</label>
-		<input type="password" name="Password" value="" />
+		<label for="password_password">Blubrry Password</label>
+		<input type="password" id="password_password" name="Password" value="" />
 	</p>
 	<p><strong>Select Blubrry Services</strong></p>
 	<p style="margin-left: 20px; margin-bottom: 0px;margin-top: 0px;">
@@ -318,38 +348,130 @@ while( list($value,$desc) = each($Programs) )
 			powerpress_admin_jquery_footer();
 			exit;
 		}; break;
+		case 'powerpress-jquery-upload': {
+			
+			$RedirectURL = false;
+			$Error = false;
+			if( $Settings['blubrry_hosting'] == 0 )
+			{
+				$Error = __('This feature is available to Blubrry Hosting users only.');
+			}
+			
+			if( $Error == false )
+			{
+				$api_url = sprintf('%s/media/%s/upload_session.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
+				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
+				$results =  powerpress_json_decode($json_data);
+				// We need to obtain an upload session for this user...
+				if( isset($results['error']) )
+				{
+					$Error = $results['error'];
+					if( strstr($Error, 'currently not available') )
+						$Error = 'Unable to find podcasts for this account.';
+				}
+				else if( !is_array($results) )
+				{
+					$Error = $json_data;
+				}
+				else
+				{
+					if( isset($results['url']) && !empty($results['url']) )
+						$RedirectURL = $results['url'];
+				}
+			}
+			else
+			{
+				$Error = 'suck';
+			}
+			
+			if( $Error == false && $RedirectURL )
+			{
+				//header("Location: $RedirectURL");
+				//exit;
+				$Error = '<a href="'.$RedirectURL.'&amp;nocookie=true&amp;ReturnURL='. urlencode( admin_url() . '?action=powerpress-jquery-upload-complete') .'">Session initialized, click here to upload.</a>';
+			}
+			else if( $Error == false )
+			{
+				$Error = __('Unable to obtain upload session???.');
+			}
+			
+			powerpress_admin_jquery_header('Uploader');
+			echo '<h2>Coming Soon</h2>';
+			echo '<p>';
+			echo $Error;
+			echo '</p>';
+			echo '<p><a href="#" onclick="self.parent.tb_remove();">close</a></p>';
+			powerpress_admin_jquery_footer();
+			exit;
+		}; break;
+		case 'powerpress-jquery-upload-complete': {
+			$File = $_GET['File'];
+			$Message = $_GET['Message'];
+			
+			powerpress_admin_jquery_header('Upload Complete');
+			echo '<h2>Coming Soon</h2>';
+			echo '<p>File: ';
+			echo $File;
+			echo ' - ';
+			echo $Message;
+			echo '</p>';
+			echo '<p><a href="#" onclick="self.parent.tb_remove();">close</a></p>';
+			
+			if( $Message == '' )
+			{
+?>
+<script language="JavaScript" type="text/javascript">
+<?php if( $File != '' ) { ?>
+self.parent.SelectMedia('<?php echo $File ; ?>'); <?php } ?>
+self.parent.tb_remove();
+</script>
+<?php
+			}
+			powerpress_admin_jquery_footer();
+			exit;
+		}; break;
 	}
 	
 }
 
 function powerpress_admin_jquery_header($title, $other = false)
 {
+	add_thickbox(); // we use the thckbox for some settings
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
-<!-- <link rel="stylesheet" href="wp-admin.css" type="text/css" media="screen" /> -->
-<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/jquery.css" type="text/css" media="screen" />
 <?php
+
 
 wp_admin_css( 'css/global' );
 wp_admin_css();
-wp_admin_css( 'css/colors' );
-wp_admin_css( 'css/ie' );
+wp_enqueue_script('utils');
+
+do_action('admin_print_styles');
+do_action('admin_print_scripts');
+do_action('admin_head');
+
+echo '<!-- done adding extra stuff -->';
 
 ?>
+<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/jquery.css" type="text/css" media="screen" />
 <?php if( $other ) echo $other; ?>
 </head>
 <body>
+<div id="container">
 <?php
 }
 
 
 function powerpress_admin_jquery_footer()
 {
+	do_action('admin_print_footer_scripts');
+	
 ?>
+</div><!-- end container -->
 </body>
 </html>
 <?php

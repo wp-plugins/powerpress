@@ -88,7 +88,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 = 0.9.6 =
 * Released on 8/??/2009
 * Fixed a bug in the getid3 library where it would occasionally not detect the media duration.
-* For detecting mp3 duration, increased the amount of the file downloaded from 25k to 40k for users who have a lot of tags in their mp3 files.
+* Detecting mp3 duration change, increased the amount of the file downloaded from 25k to 40k for users who have a lot of tags in their mp3 files.
 * Added note when in simple mode if there are advanced mode settings that take precedence.
 * Added option to Episode Entry Box Custom Mode to select Explicit setting on a per episode basis.
 * Added option to auto add podcast episode when media link found within blog post (default is off)
@@ -99,7 +99,16 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Display error when PowerPress cannot detect media file size and duration information.
 * Display error when PowerPress encounters an error with Blubrry Services.
 * Consolidated duplicate code for detecting media information.
-* MORE TO COME
+* Auto Add Media links found in post content option added.
+* Improved the look of the AJAX windows for selecting media/configuring services.
+* Fixed bug where 'more' link for statistics would fail if user was not a blog admin.
+* Added code to admin_head() function so css/js only included on appropriate pages (Thanks @Frumph!).
+* Made Default Podcast Episode first media player listed when displaying multiple players on page.
+* Blubrry Media Hosting list of uploaded media screen enhanced with new in-page media upload option and monthly quota information.
+* Fixed bug with Podcast Category feed links to FeedValidator (thanks Darcy Fiander).
+* Fixed bug with Podcast Category feed title not matching the feed image title FeedValidator (thanks Darcy Fiander).
+* Added option in Appearance settings to disable player per custom podcast feed episode.
+* Fixed Windows Media embed issue with Firefox 3.x+ and re-added note to use the Firefox Windows Media addon.
 
 
 = 0.9.5 =
@@ -232,6 +241,8 @@ Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, archit
 Pat McSweeny, Developer for [RawVoice](http://www.rawvoice.com) - Developed initial version (v0.1.0) of plugin
 
 Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1
+
+Darcy Fiander, Rooty Radio (http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
 
 
 == Feedback == 

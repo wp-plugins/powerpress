@@ -1,9 +1,6 @@
 /* jquery.css */
-body {
-	font-family: Arial, Helvetica, sans-serif;
 
-/*	background-color: #D2E9FF; */
-}
+
 img {
 	border: 0;
 }
@@ -37,6 +34,11 @@ input[type="submit"] {
 	padding-left: 8px;
 }
 
+/* Fix what WordPress breaks for Thickbox: */
+html,
+body {
+	height: auto;
+}
 ul.media {
 	
 }
@@ -46,7 +48,9 @@ ul.media li {
 ul.media li a {
 	font-weight: bold;
 }
-
+#container {
+	margin: 0px 15px;
+}
 #accountinfo {
 
 }
@@ -77,21 +81,23 @@ ul.media li a {
 }
 
 #media-items-container {
-	margin: 10px;
+	margin: 0;
 }
 #media-items {
 	border-bottom-color: #dfdfdf;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	min-height: 36px;
+	min-height: 26px;
 	width: 100%;
+	padding-top: 0px;
+	margin-top: 0px;
 }
 .media-item {
 	
 	border-top-color: #dfdfdf;
 	border-top-width: 1px;
 	border-top-style: solid;
-	min-height: 36px;
+	min-height: 26px;
 	width: 100%;
 	
 	border-left-color: #dfdfdf;
@@ -102,7 +108,7 @@ ul.media li a {
 	border-right-style: solid;
 	position: relative;
 	
-	padding-top: 15px;
+	padding-top: 5px;
 	
 }
 .media-item .media-name {
@@ -110,7 +116,25 @@ ul.media li a {
 }
 .media-item-links {
 	position: absolute;
-	top: 15px;
+	top: 5px;
 	right: 10px;
 	text-align: right;
+}
+#media-header {
+	position: relative;
+	margin: 0 0 5px 0;
+}
+#media-footer {
+	position: relative;
+	margin: 5px 0 0 0;
+	height: 12px;
+}
+#media-header p, #media-footer p {
+	margin: 8px 0;
+}
+.media-upload-link {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0;
 }

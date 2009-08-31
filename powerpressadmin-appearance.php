@@ -5,6 +5,19 @@ function powerpressadmin_appearance()
 {
 	$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'appearance');
+	
+	
+	$Players = array('podcast'=>'Default Podcast (podcast)');
+	if( isset($General['custom_feeds']) )
+	{
+		while( list($podcast_slug, $podcast_title) = each($General['custom_feeds']) )
+		{
+			if( $podcast_slug == 'podcast' )
+				continue;
+			$Players[$podcast_slug] = sprintf('%s (%s)', $podcast_title, $podcast_slug);
+		}
+	}
+	
 ?>
 <input type="hidden" name="action" value="powerpress-save-appearance" />
 <h2><?php echo __("Appearance Settings"); ?></h2>
@@ -51,6 +64,28 @@ while( list($value,$desc) = each($playeroptions) )
 ?>
 </td>
 </tr>
+<?php
+	if( count($Players) > 1 )
+	{
+?>
+<tr valign="top">
+<th scope="row"><?php echo __("Disable Player for"); ?></th> 
+<td>
+	<input type="hidden" name="UpdateDisablePlayer" value="1" />
+	<?php
+		while( list($podcast_slug, $podcast_title) = each($Players) )
+		{
+	?>
+	<p><input name="DisablePlayer[<?php echo $podcast_slug; ?>]" type="checkbox" value="1" <?php if( isset($General['disable_player'][$podcast_slug]) ) echo 'checked '; ?>/> <?php echo htmlspecialchars($podcast_title); ?> episodes</p>
+	<?php
+		}
+	?>
+	<p>Check the custom podcasts above that you do not want in-page players for.</p>
+</td>
+</tr>
+<?php
+	}
+?>
 
 <tr valign="top">
 <th scope="row">

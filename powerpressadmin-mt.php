@@ -298,7 +298,7 @@
 		powerpressadmin_mt_import_print_log();
 		
 ?>
-<style>
+<style type="text/css">
 .column-exclude {
 	width: 80px;
 }

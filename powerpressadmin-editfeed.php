@@ -263,7 +263,7 @@ while( list($value,$desc) = each($applyoptions) )
 </th>
 <td>
 <?php if( $cat_ID ) { ?>
-<p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_category_feed_link($cat_ID)); ?>" target="_blank"><?php _e('validate'); ?></a></p>
+<p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode( str_replace('&amp;', '&', get_category_feed_link($cat_ID))); ?>" target="_blank"><?php _e('validate'); ?></a></p>
 <?php } else { ?>
 <p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php _e('validate'); ?></a></p>
 <?php } ?>
