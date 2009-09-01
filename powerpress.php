@@ -171,8 +171,9 @@ function powerpress_content($content)
 		{
 			if( $GeneralSettings['process_podpress'] && $feed_slug == 'podcast' )
 			{
-				//$Settings = get_option('powerpress_general');
-				$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
+				//$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
+				$podPressMedia = powerpress_get_post_meta($post->ID, 'podPressMedia');
+				
 				if( $podPressMedia )
 				{
 					if( !is_array($podPressMedia) )
@@ -596,8 +597,9 @@ function powerpress_rss2_item()
 		$EnclosureURL = '';
 		if( $powerpress_feed['process_podpress'] )
 		{
-			//$Settings = get_option('powerpress_general');
-			$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
+			//$podPressMedia = get_post_meta($post->ID, 'podPressMedia', true);
+			$podPressMedia = powerpress_get_post_meta($post->ID, 'podPressMedia');
+			
 			if( !is_array($podPressMedia) )
 			{
 				// Sometimes the stored data gets messed up, we can fix it here:
@@ -1971,12 +1973,51 @@ function powerpress_repair_serialize($string)
 {
 	if( @unserialize($string) )
 		return $string; // Nothing to repair...
-	return preg_replace_callback('/(s:(\d+):"([^"]*)")/', 
+	$string = preg_replace_callback('/(s:(\d+):"([^"]*)")/', 
 			create_function(
 					'$matches',
 					'if( strlen($matches[3]) == $matches[2] ) return $matches[0]; return sprintf(\'s:%d:"%s"\', strlen($matches[3]), $matches[3]);'
 			), 
 			$string);
+	
+	if( substr($string, 0, 2) == 's:' ) // Sometimes the serialized data is double serialized, so we need to re-serialize the outside string
+	{
+		$string = preg_replace_callback('/(s:(\d+):"(.*)";)$/', 
+			create_function(
+					'$matches',
+					'if( strlen($matches[3]) == $matches[2] ) return $matches[0]; return sprintf(\'s:%d:"%s";\', strlen($matches[3]), $matches[3]);'
+			), 
+			$string);
+	}
+	
+	return $string;
+}
+
+/*
+	powerpress_get_post_meta()
+	Safe function to retrieve corrupted PodPress data from the database
+	@post_id - post id to retrieve post meta for
+	@key - key to retrieve post meta for
+*/
+function powerpress_get_post_meta($post_id, $key)
+{
+	$pp_meta_cache = wp_cache_get($post_id, 'post_meta');
+	if ( !$pp_meta_cache ) {
+		update_postmeta_cache($post_id);
+		$pp_meta_cache = wp_cache_get($post_id, 'post_meta');
+	}
+	
+	$meta = false;
+	if ( isset($pp_meta_cache[$key]) )
+		$meta = $pp_meta_cache[$key][0];
+	
+	if ( is_serialized( $meta ) ) // Logic used up but not including WordPress 2.8, new logic doesn't make sure if unserialized failed or not
+	{
+		if ( false !== ( $gm = @unserialize( $meta ) ) )
+			return $meta;
+	}
+	
+	return $meta;
 }
 
 function powerpress_get_enclosure($post_id, $feed_slug = 'podcast')

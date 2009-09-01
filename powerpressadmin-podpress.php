@@ -1,7 +1,7 @@
 <?php
 // powerpressadmin-podpress.php
 	
-	function powerpress_get_podpress_episodes()
+	function powerpress_get_podpress_episodes($hide_errors=true)
 	{
 		global $wpdb;
 		
@@ -33,12 +33,32 @@
 				$podpress_data = unserialize($row['meta_value']);
 				if( !$podpress_data )
 				{
-					$podpress_data_serialized = powerpress_repair_serialize($row['meta_value']);
+					$podpress_data_serialized = powerpress_repair_serialize( $row['meta_value'] );
 					$podpress_data = @unserialize($podpress_data_serialized);
+					if( !is_array($podpress_data) && is_string($podpress_data) )
+					{
+						$podpress_data_two = @unserialize($podpress_data);
+						if( !is_array($podpress_data_two)  )
+						{
+							$podpress_data_serialized = powerpress_repair_serialize($podpress_data);
+							$podpress_data_two = @unserialize($podPressMedia);
+						}
+						
+						if( is_array($podpress_data_two)  )
+							$podpress_data = $podpress_data_two;
+					}
 				}
 				
 				if( $podpress_data )
 				{
+					if( !is_array($podpress_data) )
+					{
+						// display a warning here...
+						if( $hide_errors == false )
+							powerpress_page_message_add_error( sprintf('Error decoding PodPress data for post "%s"', $row['post_title']) );
+						continue;
+					}
+					
 					$clean_data = array();
 					while( list($episode_index,$episode_data) = each($podpress_data) )
 					{
@@ -63,7 +83,9 @@
 					
 					
 					if( $return['feeds_required'] < count( $clean_data ) )
+					{
 						$return['feeds_required'] = count( $clean_data );
+					}
 					$return[ $row['ID'] ] = array();
 					$return[ $row['ID'] ]['podpress_data'] = $clean_data;
 					$return[ $row['ID'] ]['post_title'] = $row['post_title'];
@@ -79,10 +101,14 @@
 						
 						while( list($episode_index_temp,$episode_data_temp) = each($clean_data) )
 						{
-							if( $EnclosureURL == $episode_data_temp['url'] )
+							if( trim($EnclosureURL) == trim($episode_data_temp['url']) )
 							{
 								$Included = true;
 								break; // We found the media already.
+							}
+							else if( trim($episode_data_temp['url']) == '' )
+							{
+								unset($clean_data[$episode_index_temp]); // Empty URL, lets remove it so we don't accidently use it
 							}
 						}
 						reset($clean_data);
@@ -142,7 +168,7 @@
 	function powerpressadmin_podpress_do_import()
 	{
 		$Import = $_POST['Import'];
-		$PodPressData = powerpress_get_podpress_episodes();
+		$PodPressData = powerpress_get_podpress_episodes(true);
 		
 		while( list($post_id, $podpress_episode_feeds) = each($Import) )
 		{
@@ -226,7 +252,7 @@
 	
 	function powerpress_admin_podpress()
 	{
-		$results = powerpress_get_podpress_episodes();
+		$results = powerpress_get_podpress_episodes(false);
 		$Settings = powerpress_get_settings('powerpress_general', false);
 		if( !isset($Settings['custom_feeds']['podcast']) )
 			$Settings['custom_feeds']['podcast'] = 'Podcast Feed (default)';
@@ -239,13 +265,14 @@
 			if( $results['feeds_required'] > count($Settings['custom_feeds']) )
 			{
 				powerpress_page_message_add_error( sprintf(__('We found blog posts that have %d media files. You will need to create %d more Custom Feed%s in order to continue.'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
-				powerpress_page_message_print();
 			}
 			else
 			{
 				$AllowImport = true;
 			}
 		}
+		
+		powerpress_page_message_print();
 		
 		powerpressadmin_podpress_import_print_log();
 		

@@ -66,11 +66,29 @@ function powerpress_admin_jquery_init()
 		}; break;
 		case 'powerpress-jquery-media': {
 			
-			if( $Settings['blubrry_auth'] == '' )
+			if( !current_user_can('manage_options') )
+			{
+				powerpress_page_message_add_error( __('You do not have sufficient permission to manage options.') );
+				return;
+			}
+	
+			if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 			{
 				powerpress_admin_jquery_header('Select Media');
 ?>
 <p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable <a href="http://www.blubrry.com/powerpress_services/" target="_blank">services</a>.</p>
+<p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting integrated</a> PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>
+<?php
+				powerpress_admin_jquery_footer();
+				exit;
+			break;
+			}
+			
+			if( !isset($Settings['blubrry_hosting']) || $Settings['blubrry_hosting'] == 0 )
+			{
+				powerpress_admin_jquery_header('Select Media');
+?>
+<p>Wait a sec! This feature is only available to Blubrry Podcast paid hosting members.</p>
 <p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting integrated</a> PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>
 <?php
 				powerpress_admin_jquery_footer();
@@ -120,24 +138,14 @@ function SelectMedia(File)
 					$QuotaData = $data;
 					continue;
 				}
-				// old way:
-			/*
-?>	
-			
-			<li>
-				<a href="#" onclick="self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value='<?php echo $data['name']; ?>'; self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1'; self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true'; self.parent.tb_remove(); return false;"><?php echo $data['name']; ?></a>
-				<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
-			</li>
-<?php
-				*/
-				// new way:
+
 ?>
 <div class="media-item">
 	<strong class="media-name"><?php echo $data['name']; ?></strong>
 	<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
 
 	<div class="media-item-links">
-		<a href="#" onclick="self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value='<?php echo $data['name']; ?>'; self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1'; self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true'; self.parent.tb_remove(); return false;">Select</a>
+		<a href="#" onclick="SelectMedia'<?php echo $data['name']; ?>'); return false;">Select</a>
 	</div> 
 </div>
 <?php				
@@ -157,7 +165,6 @@ function SelectMedia(File)
 			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em>.</p>
 		<?php } ?>
 	</div>
-<!--	</ul> -->
 	
 <?php	
 			powerpress_admin_jquery_footer();

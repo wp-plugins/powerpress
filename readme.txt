@@ -86,15 +86,19 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 = 0.9.8 =
-* Released on 9/??/2009
+* Released on 9/01/2009
 * Fixed bug with publishing a new post with media file warnintg messages for curl_setopt() function
-
+* Fixed bug for PodPress data that is wrongly serialized in database. WP 2.8+ get_meta_data() function was returning false rather than the damanaged serialized string.
+* PodPress Import improved, some cases PodPress data in the database is double serialized, new code resolves this complexity with help with bug fix above.
+* Select Media screen, better message printed to user when they are not a media hosting customer.
+* 
 
 = 0.9.7 =
 * Released on 8/31/2009
 * Fixed array_unshift() for users in simple mode, bug created in 0.9.6 release.
 * Fixed link to change from simple/advanced modes, bug created in 0.9.6 release.
 * Fixed bug with changing Blubrry Services account email address.
+
 
 = 0.9.6 =
 * Released on 8/31/2009
