@@ -1103,7 +1103,7 @@ function powerpress_check_url(url)
 	else
 	{
 		// Print this line for debugging when loooking for other pages to include header data for
-		echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
+		//echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
 	}
 }
 
