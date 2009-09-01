@@ -85,6 +85,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+= 0.9.8 =
+* Released on 9/??/2009
+* Fixed bug with publishing a new post with media file warnintg messages for curl_setopt() function
+
+
 = 0.9.7 =
 * Released on 8/31/2009
 * Fixed array_unshift() for users in simple mode, bug created in 0.9.6 release.

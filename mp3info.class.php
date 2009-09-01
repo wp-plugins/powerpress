@@ -219,7 +219,7 @@
 		{
 			$curl = curl_init();
 			// First, get the content-length...
-			curl_setopt($cUrl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+			curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 			curl_setopt($curl, CURLOPT_URL, $url);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
@@ -272,7 +272,7 @@
 			$fp = fopen($TempFile, 'w+b');
 				// Next get the first chunk of the file...
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
-				curl_setopt($cUrl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+				curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 				curl_setopt($curl, CURLOPT_URL, $url);
 				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output

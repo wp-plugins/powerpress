@@ -100,11 +100,12 @@ function powerpress_content($content)
 	
 	// PowerPress settings:
 	$GeneralSettings = get_option('powerpress_general');
+	if( !isset($GeneralSettings['custom_feeds']) )
+    $GeneralSettings['custom_feeds'] = array();
+	
 	// Lets make the default feed the top most feed listed:
 	if( isset($GeneralSettings['custom_feeds']['podcast']) )
 		unset($GeneralSettings['custom_feeds']['podcast']);
-	else
-		$GeneralSettings['custom_feeds'] = array();
 	array_unshift($GeneralSettings['custom_feeds'], array('podcast'=>'Podcast Feed') ); // Fixes scenario where the user never configured the custom default podcast feed.
 	
 	if( !isset($GeneralSettings['display_player']) )
