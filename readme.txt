@@ -91,7 +91,8 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Fixed bug for PodPress data that is wrongly serialized in database. WP 2.8+ get_meta_data() function was returning false rather than the damanaged serialized string.
 * PodPress Import improved, some cases PodPress data in the database is double serialized, new code resolves this complexity with help with bug fix above.
 * Select Media screen, better message printed to user when they are not a media hosting customer.
-* 
+* Fixed bug with RSS language tag for Custom Podcast Category feeds.
+
 
 = 0.9.7 =
 * Released on 8/31/2009

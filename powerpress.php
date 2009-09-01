@@ -866,7 +866,6 @@ function powerpress_rss_language($value)
 	if( powerpress_is_custom_podcast_feed() )
 	{
 		global $powerpress_feed;
-		return print_r($powerpress_feed, true);
 		if( $powerpress_feed && isset($powerpress_feed['rss_language']) && $powerpress_feed['rss_language'] != '' )
 			$value = $powerpress_feed['rss_language'];
 	}
