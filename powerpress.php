@@ -107,18 +107,15 @@ function powerpress_content($content)
 	if( !isset($GeneralSettings['custom_feeds']) )
     $GeneralSettings['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
 	
-	// If we have multiple, re-order so the default podcast episode is the top most...
-	if( count($GeneralSettings['custom_feeds']) > 1 )
+	// Re-order so the default podcast episode is the top most...
+	$Temp = $GeneralSettings['custom_feeds'];
+	$GeneralSettings['custom_feeds'] = array();
+	$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+	while( list($feed_slug, $feed_title) = each($Temp) )
 	{
-		$Temp = $GeneralSettings['custom_feeds'];
-		$GeneralSettings['custom_feeds'] = array();
-		$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
-		while( list($feed_slug, $feed_title) = each($Temp) )
-		{
-			if( $feed_slug == 'podcast' )
-				continue;
-			$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
-		}
+		if( $feed_slug == 'podcast' )
+			continue;
+		$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
 	}
 	
 	if( !isset($GeneralSettings['display_player']) )
