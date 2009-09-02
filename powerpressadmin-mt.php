@@ -1,6 +1,9 @@
 <?php
 // powerpressadmin-mt.php
 	
+if( !function_exists('add_action') )
+	die("access denied.");
+	
 	function powerpress_get_mt_episodes()
 	{
 		global $wpdb;

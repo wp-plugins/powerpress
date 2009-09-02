@@ -28,6 +28,10 @@ License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 	This project uses source that is GPL licensed.
 */
 
+
+if( !function_exists('add_action') )
+	die("access denied.");
+	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
 define('POWERPRESS_VERSION', '0.9.7' );
 

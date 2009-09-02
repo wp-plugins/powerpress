@@ -1,5 +1,8 @@
 <?php
 
+if( !function_exists('add_action') )
+	die("access denied.");
+	
 function powerpress_languages()
 {
 	// List copied from PodPress:

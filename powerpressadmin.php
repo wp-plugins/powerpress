@@ -1,5 +1,8 @@
 <?php
 
+if( !function_exists('add_action') )
+	die("access denied.");
+	
 function powerpress_page_message_add_error($msg)
 {
 	global $g_powerpress_page_message;
@@ -1410,7 +1413,7 @@ function powerpress_ping_itunes_log($Data, $post_id = 0)
 	}
 }
 
-function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 10 )
+function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 10, $custom_request = false )
 {
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
@@ -1424,6 +1427,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2 ); // Connect time out
 		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout); // The maximum number of seconds to execute.
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		if( strtolower(substr($url, 0, 5)) == 'https' )
 		{
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
@@ -1448,6 +1452,10 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 			}
 			curl_setopt($curl, CURLOPT_POST, 1);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $post_query);
+		}
+		else if( $custom_request )
+		{
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $custom_request);
 		}
 		
 		$content = curl_exec($curl);

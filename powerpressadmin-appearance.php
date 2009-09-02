@@ -1,5 +1,5 @@
 <?php
-// powerpressadmin-presentation.php
+// powerpressadmin-appearance.php
 
 function powerpressadmin_appearance()
 {

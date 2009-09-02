@@ -1,5 +1,7 @@
 <?php
 
+if( !function_exists('add_action') )
+	die("access denied.");
 	
 function powerpress_admin_customfeeds_columns($data=array())
 {

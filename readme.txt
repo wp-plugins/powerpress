@@ -88,13 +88,15 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 = 0.9.8 =
 * Released on 9/02/2009
 * When we release 1.0 of PowerPress, new features will be added separately so bugs intrudced by new features do not effect the existing plugin.
-* Fixed bug introduced in 0.9.6,caused by the array_unshift() function. Its behavior was not consistent and has been removed. Bug caused a chain reaction of bugs, its fix resolves the following: Play in new Window error: Unable to retrieve media information, Episodes randomly not appearing in post pages, Previous PodPress created episodes no longer appearing.
+* Fixed bug introduced in 0.9.6, caused by the array_unshift() function. Its behavior was not consistent and has been removed. Bug caused a chain reaction of bugs, its fix resolves the following: Play in new Window error: Unable to retrieve media information, Episodes randomly not appearing in post pages, Previous PodPress created episodes no longer appearing.
 * Fixed bug with publishing a new post with media file warning messages for curl_setopt() function
 * Fixed bug for PodPress data that is wrongly serialized in database. WP 2.8+ get_meta_data() function was returning false rather than the damaged serialized string.
 * PodPress Import improved, some cases PodPress data in the database is double serialized, new code resolves this complexity with help with bug fix above.
 * Select Media screen, better message printed to user when they are not a media hosting customer.
 * Fixed bug with RSS language tag for Custom Podcast Category feeds.
 * Cleaned up code for jQuery/Thickbox screens.
+* Added extra security checks and additional Nonces checks to ajax methods added by PowerPress.
+* Added option for Blubrry Services users to be able to delete uploaded media
 
 
 = 0.9.7 =

@@ -354,7 +354,7 @@ while( list($value,$desc) = each($options) )
 	<?php _e("Blubrry Services"); ?> 
 	</th>
 	<td>
-		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-account&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
+		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url("admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
 	</td>
 	</tr>
 	

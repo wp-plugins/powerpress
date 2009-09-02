@@ -45,7 +45,8 @@ function powerpress_admin_jquery_init()
 	$action = (isset($_GET['action'])?$_GET['action']: (isset($_POST['action'])?$_POST['action']:false) );
 	if( !$action )
 		return;
-		
+	
+	$DeleteFile = false;
 	switch($action)
 	{
 		case 'powerpress-jquery-stats': {
@@ -62,6 +63,14 @@ function powerpress_admin_jquery_init()
 				powerpress_admin_jquery_footer();
 				exit;
 			}
+			else if( !current_user_can('edit_posts') )
+			{
+				powerpress_admin_jquery_header('Blubrry Media Statistics');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to view media statistics.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
 				
 			$StatsCached = get_option('powerpress_stats');
 			
@@ -73,9 +82,24 @@ function powerpress_admin_jquery_init()
 			powerpress_admin_jquery_footer();
 			exit;
 		}; break;
+		case 'powerpress-jquery-media-delete': {
+			
+			if( !current_user_can('edit_posts') )
+			{
+				powerpress_admin_jquery_header('Uploader');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
+			check_admin_referer('powerpress-jquery-media-delete');
+			$DeleteFile = $_GET['delete'];
+			
+		}; // No break here, let this fall thru..
 		case 'powerpress-jquery-media': {
 			
-			if( !current_user_can('manage_options') )
+			if( !current_user_can('edit_posts') )
 			{
 				powerpress_admin_jquery_header( __('Select Media') );
 ?>
@@ -103,6 +127,21 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 				powerpress_admin_jquery_footer();
 				exit;
 			}
+			
+			$Msg = false;
+			if( $DeleteFile )
+			{
+				$api_url = sprintf('%s/media/%s/%s?format=json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $DeleteFile );
+				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], array(), 10, 'DELETE');
+				$results =  powerpress_json_decode($json_data);
+				
+				if( isset($results['text']) )
+					$Msg = $results['text'];
+				else if( isset($results['error']) )
+					$Msg = $results['error'];
+				else
+					$Msg = __('An unknown error occurred deleting media file.');
+			}
 
 			$api_url = sprintf('%s/media/%s/index.json?quota=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
 			$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
@@ -128,7 +167,11 @@ function DeleteMedia(File)
 		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 		<div id="media-header">
 			<h2><?php echo __('Select Media'); ?></h2>
-			<div class="media-upload-link"><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-upload&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
+			<?php
+				if( $Msg )
+				echo '<p>'. $Msg . '</p>';
+			?>
+			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
 			<p>Select from media files uploaded to blubrry.com:</p>
 		</div>
 	<div id="media-items-container">
@@ -154,7 +197,8 @@ function DeleteMedia(File)
 	<strong class="media-name"><?php echo $data['name']; ?></strong>
 	<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
 	<div class="media-item-links">
-		<a href="#" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | 
+		<?php if (function_exists('curl_init')) { ?>
+		<a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-media-delete", 'powerpress-jquery-media-delete'); ?>&amp;podcast-feed=<?php echo $FeedSlug; ?>&amp;delete=<?php echo urlencode($data['name']); ?>" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | <?php } ?>
 		<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;">Select</a>
 	</div> 
 </div>
@@ -165,7 +209,7 @@ function DeleteMedia(File)
 		</div>
 	</div>
 	<div id="media-footer">
-		<div class="media-upload-link"><a href="<?php echo admin_url(); ?>?action=powerpress-jquery-upload&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
+		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
 		<?php
 		if( $QuotaData ) { 
 			$NextDate = strtotime( $QuotaData['published']['next_date']);
@@ -182,6 +226,15 @@ function DeleteMedia(File)
 			exit;
 		}; break;
 		case 'powerpress-jquery-account-save': {
+		
+			if( !current_user_can('manage_options') )
+			{
+				powerpress_admin_jquery_header('Blubrry Services Integration');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
 			
 			check_admin_referer('powerpress-jquery-account');
 			
@@ -301,6 +354,17 @@ function DeleteMedia(File)
 		} // no break here, let the next case catch it...
 		case 'powerpress-jquery-account':
 		{
+			if( !current_user_can('manage_options') )
+			{
+				powerpress_admin_jquery_header('Blubrry Services Integration');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
+			check_admin_referer('powerpress-jquery-account');
+			
 			if( !$Settings )
 				$Settings = get_option('powerpress_general');
 			
@@ -364,6 +428,17 @@ while( list($value,$desc) = each($Programs) )
 		}; break;
 		case 'powerpress-jquery-upload': {
 			
+			if( !current_user_can('edit_posts') )
+			{
+				powerpress_admin_jquery_header('Uploader');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
+			check_admin_referer('powerpress-jquery-upload');
+			
 			$RedirectURL = false;
 			$Error = false;
 			if( $Settings['blubrry_hosting'] == 0 )
@@ -422,6 +497,16 @@ while( list($value,$desc) = each($Programs) )
 			exit;
 		}; break;
 		case 'powerpress-jquery-upload-complete': {
+		
+			if( !current_user_can('edit_posts') )
+			{
+				powerpress_admin_jquery_header('Uploader');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
 			$File = $_GET['File'];
 			$Message = $_GET['Message'];
 			
@@ -502,7 +587,6 @@ function powerpress_admin_jquery_footer($jquery = false)
 </html>
 <?php
 }
-	
 
 
 ?>

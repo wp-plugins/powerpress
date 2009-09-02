@@ -1,5 +1,8 @@
 <?php
 // powerpressadmin-podpress.php
+
+if( !function_exists('add_action') )
+	die("access denied.");
 	
 	function powerpress_get_podpress_episodes($hide_errors=true)
 	{
