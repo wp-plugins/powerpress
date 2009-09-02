@@ -43,6 +43,7 @@ function SelectEntryBox(mode)
 	document.getElementById('episode_box_keywords').disabled = (mode!=2);
 	document.getElementById('episode_box_subtitle').disabled = (mode!=2);
 	document.getElementById('episode_box_summary').disabled = (mode!=2);
+	document.getElementById('episode_box_explicit').disabled = (mode!=2);
 	document.getElementById('episode_box_mode_adv').style.display = (mode==2?'block':'none');
 }
 

@@ -120,6 +120,10 @@ function SelectMedia(File)
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true';
 	self.parent.tb_remove();
 }
+function DeleteMedia(File)
+{
+	return confirm('Delete '+File+', are you sure?');
+}
 </script>
 		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 		<div id="media-header">
@@ -150,7 +154,8 @@ function SelectMedia(File)
 	<strong class="media-name"><?php echo $data['name']; ?></strong>
 	<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
 	<div class="media-item-links">
-		<a href="#" onclick="SelectMedia'<?php echo $data['name']; ?>'); return false;">Select</a>
+		<a href="#" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | 
+		<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;">Select</a>
 	</div> 
 </div>
 <?php				
@@ -169,6 +174,7 @@ function SelectMedia(File)
 			<p>You are hosting <em><?php echo powerpress_byte_size($QuotaData['published']['available']); ?></em> of your <em><?php echo powerpress_byte_size($QuotaData['published']['total']); ?></em>/month limit.</p>
 			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em>.</p>
 		<?php } ?>
+		<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
 	</div>
 	
 <?php	

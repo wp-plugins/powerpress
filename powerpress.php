@@ -101,12 +101,21 @@ function powerpress_content($content)
 	// PowerPress settings:
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['custom_feeds']) )
-    $GeneralSettings['custom_feeds'] = array();
+    $GeneralSettings['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
 	
-	// Lets make the default feed the top most feed listed:
-	if( isset($GeneralSettings['custom_feeds']['podcast']) )
-		unset($GeneralSettings['custom_feeds']['podcast']);
-	array_unshift($GeneralSettings['custom_feeds'], array('podcast'=>'Podcast Feed') ); // Fixes scenario where the user never configured the custom default podcast feed.
+	// If we have multiple, re-order so the default podcast episode is the top most...
+	if( count($GeneralSettings['custom_feeds']) > 1 )
+	{
+		$Temp = $GeneralSettings['custom_feeds'];
+		$GeneralSettings['custom_feeds'] = array();
+		$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+		while( list($feed_slug, $feed_title) = each($Temp) )
+		{
+			if( $feed_slug == 'podcast' )
+				continue;
+			$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
+		}
+	}
 	
 	if( !isset($GeneralSettings['display_player']) )
 			$GeneralSettings['display_player'] = 1;
@@ -152,9 +161,7 @@ function powerpress_content($content)
 		}
 	}
 	
-	
-	
-	// TODO: START LOOP HERE TO DISPLAY EACH MEDIA TYPE
+	// LOOP HERE TO DISPLAY EACH MEDIA TYPE
 	$new_content = '';
 	while( list($feed_slug,$feed_title) = each($GeneralSettings['custom_feeds']) )
 	{

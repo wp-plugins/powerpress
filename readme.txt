@@ -86,12 +86,15 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 = 0.9.8 =
-* Released on 9/01/2009
-* Fixed bug with publishing a new post with media file warnintg messages for curl_setopt() function
-* Fixed bug for PodPress data that is wrongly serialized in database. WP 2.8+ get_meta_data() function was returning false rather than the damanaged serialized string.
+* Released on 9/02/2009
+* When we release 1.0 of PowerPress, new features will be added separately so bugs intrudced by new features do not effect the existing plugin.
+* Fixed bug introduced in 0.9.6,caused by the array_unshift() function. Its behavior was not consistent and has been removed. Bug caused a chain reaction of bugs, its fix resolves the following: Play in new Window error: Unable to retrieve media information, Episodes randomly not appearing in post pages, Previous PodPress created episodes no longer appearing.
+* Fixed bug with publishing a new post with media file warning messages for curl_setopt() function
+* Fixed bug for PodPress data that is wrongly serialized in database. WP 2.8+ get_meta_data() function was returning false rather than the damaged serialized string.
 * PodPress Import improved, some cases PodPress data in the database is double serialized, new code resolves this complexity with help with bug fix above.
 * Select Media screen, better message printed to user when they are not a media hosting customer.
 * Fixed bug with RSS language tag for Custom Podcast Category feeds.
+* Cleaned up code for jQuery/Thickbox screens.
 
 
 = 0.9.7 =
@@ -115,7 +118,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Display error message when PowerPress cannot detect media file size and duration information.
 * Display error message when PowerPress encounters an error with Blubrry Services.
 * Stream lined code for loading PowerPress general and feed settings.
-* Added more agressive code to prevent WordPress from deleting enclosures when scheduling blog posts.
+* Added more aggressive code to prevent WordPress from deleting enclosures when scheduling blog posts.
 * Improved the look of the AJAX windows for selecting media/configuring services.
 * Fixed bug where 'more' link for statistics would fail if user was not a blog admin.
 * Added code to admin_head() function so css/js only included on appropriate pages (Thanks @Frumph!).
