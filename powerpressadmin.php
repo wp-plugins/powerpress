@@ -1990,14 +1990,10 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 
 		$headers = wp_remote_retrieve_headers( $response );
 		
-		if( $headers && strstr($headers['content-type'], 'text') )
-		{
-			return array('error'=>'Invalid content type returned from server.' );
-		}
-		
-		//$headers = wp_get_http_headers($media_file);
 		if( $headers && $headers['content-length'] )
 			$file_size = (int) $headers['content-length'];
+		else
+			return array('error'=>'Unable to obtain file size of media file.' );
 	}
 	
 	if( $file_size == 0 )

@@ -85,6 +85,10 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+= 0.9.9 =
+* No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.
+
+
 = 0.9.8 =
 * Released on 9/02/2009
 * When we release 1.0 of PowerPress, new features will be added separately so bugs introduced by new features do not effect the existing plugin.

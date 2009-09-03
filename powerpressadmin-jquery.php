@@ -214,9 +214,9 @@ function DeleteMedia(File)
 		if( $QuotaData ) { 
 			$NextDate = strtotime( $QuotaData['published']['next_date']);
 		?>
-			<p>You have uploaded <em><?php echo powerpress_byte_size($QuotaData['unpublished']['available']); ?></em> of your <em><?php echo powerpress_byte_size($QuotaData['unpublished']['total']); ?></em> limit</p>
-			<p>You are hosting <em><?php echo powerpress_byte_size($QuotaData['published']['available']); ?></em> of your <em><?php echo powerpress_byte_size($QuotaData['published']['total']); ?></em>/month limit.</p>
-			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em>.</p>
+			<p>You have uploaded <em><?php echo powerpress_byte_size($QuotaData['unpublished']['used']); ?></em>  (<em><?php echo powerpress_byte_size($QuotaData['unpublished']['available']); ?></em> available) of your <em><?php echo powerpress_byte_size($QuotaData['unpublished']['total']); ?></em> limit</p>
+			<p>You are hosting <em><?php echo powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']); ?></em> (<em><?php echo powerpress_byte_size($QuotaData['published']['available']); ?></em> available) of your <em><?php echo powerpress_byte_size($QuotaData['published']['total']); ?></em>/month limit.</p>
+			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['next_available']); ?></em> (<em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em> available).</p>
 		<?php } ?>
 		<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
 	</div>
@@ -477,6 +477,8 @@ while( list($value,$desc) = each($Programs) )
 			
 			if( $Error == false && $RedirectURL )
 			{
+				$RedirectURL .= '&ReturnURL=';
+				$RedirectURL .= urlencode( admin_url("admin.php?action=powerpress-jquery-upload-complete") );
 				header("Location: $RedirectURL");
 				exit;
 			}
