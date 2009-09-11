@@ -49,13 +49,41 @@ function powerpress_admin_customfeeds()
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('powerpressadmin_customfeeds'); ?>
+<?php 
+	if( function_exists('print_column_headers') )
+	{
+		print_column_headers('powerpressadmin_customfeeds');
+	}
+	else // WordPress 2.6 or older
+	{
+	?>
+	<th scope="col" id="name" class="manage-column column-name" style="">Name</th>
+	<th scope="col" id="feed-slug" class="manage-column column-feed-slug" style="">Slug</th>
+	<th scope="col" id="episode-count" class="manage-column column-episode-count" style="">Episodes</th>
+	<th scope="col" id="url" class="manage-column column-url" style="">URL</th>
+	<?php
+	}
+?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('powerpressadmin_customfeeds', false); ?>
+<?php 
+	if( function_exists('print_column_headers') )
+	{
+		print_column_headers('powerpressadmin_customfeeds', false);
+	}
+	else // WordPress 2.6 or older
+	{
+	?>
+	<th scope="col" class="manage-column column-name" style="">Name</th>
+	<th scope="col" class="manage-column column-feed-slug" style="">Slug</th>
+	<th scope="col" class="manage-column column-episode-count" style="">Episodes</th>
+	<th scope="col" class="manage-column column-url" style="">URL</th>
+	<?php
+	}
+?>
 	</tr>
 	</tfoot>
 	<tbody>

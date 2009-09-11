@@ -253,6 +253,18 @@ if( !function_exists('add_action') )
 	
 	add_filter('manage_powerpressadmin_importpodpress_columns', 'powerpressadmin_importpodpress_columns');
 	
+	function powerpressadmin_importpodpress_columns_print($include_ids=true)
+	{
+		$Columns = powerpressadmin_importpodpress_columns();
+		while( list($key,$title) = each($Columns) )
+		{
+			if( $include_ids )
+				echo  '<th scope="col" id="'. $key .'" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
+			else
+				echo  '<th scope="col" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
+		}
+	}
+	
 	function powerpress_admin_podpress()
 	{
 		$results = powerpress_get_podpress_episodes(false);
@@ -349,13 +361,31 @@ function check_radio_selection(obj, PostID, FileIndex)
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('powerpressadmin_importpodpress'); ?>
+<?php 
+	if( function_exists('print_column_headers') )
+	{
+		print_column_headers('powerpressadmin_importpodpress');
+	}
+	else // WordPress 2.6 or older
+	{
+		powerpressadmin_importpodpress_columns_print();
+	}
+?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('powerpressadmin_importpodpress', false); ?>
+<?php 
+	if( function_exists('print_column_headers') )
+	{
+		print_column_headers('powerpressadmin_importpodpress', false);
+	}
+	else // WordPress 2.6 or older
+	{
+		powerpressadmin_importpodpress_columns_print(false);
+	}
+?>
 	</tr>
 	</tfoot>
 	<tbody>

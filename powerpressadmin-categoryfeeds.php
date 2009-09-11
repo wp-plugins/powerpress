@@ -50,13 +50,39 @@ function powerpress_admin_categoryfeeds()
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('powerpressadmin_categoryfeeds'); ?>
+<?php 
+	if( function_exists('') )
+	{
+		print_column_headers('powerpressadmin_categoryfeeds');
+	}
+	else
+	{
+	?>
+	<th scope="col" id="name" class="manage-column column-name" style="">Category Name</th>
+	<th scope="col" id="feed-slug" class="manage-column column-feed-slug" style="">Slug</th>
+	<th scope="col" id="url" class="manage-column column-url" style="">Feed URL</th>
+	<?php
+	}
+?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('powerpressadmin_categoryfeeds', false); ?>
+<?php 
+	if( function_exists('print_column_headers') )
+	{
+		print_column_headers('powerpressadmin_categoryfeeds', false);
+	}
+	else // WordPress 2.6 or older
+	{
+	?>
+	<th scope="col" class="manage-column column-name" style="">Category Name</th>
+	<th scope="col" class="manage-column column-feed-slug" style="">Slug</th>
+	<th scope="col" class="manage-column column-url" style="">Feed URL</th>
+	<?php
+	}
+?>
 	</tr>
 	</tfoot>
 	<tbody>
