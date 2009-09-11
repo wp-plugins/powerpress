@@ -191,10 +191,11 @@ function powerpress_content($content)
 						$podPressMedia = @unserialize($podPressMedia);
 					}
 					
-					if( is_array($podPressMedia) )
+					if( is_array($podPressMedia) && isset($podPressMedia[0]) && isset($podPressMedia[0]['URI']) )
 					{
 						$EnclosureURL = $podPressMedia[0]['URI'];
-						$EnclosureSize = $podPressMedia[0]['size'];
+						if( isset($podPressMedia[0]['size']) )
+							$EnclosureSize = $podPressMedia[0]['size'];
 						$EnclosureType = '';
 					}
 				}
@@ -615,13 +616,15 @@ function powerpress_rss2_item()
 				$podPressMedia = @unserialize($podPressMedia);
 			}
 			
-			if( $podPressMedia )
+			if( $podPressMedia && isset($podPressMedia[0]) && isset($podPressMedia[0]['URI']) )
 			{
 				$EnclosureURL = $podPressMedia[0]['URI'];
 				if( strpos($EnclosureURL, 'http://' ) !== 0 && strpos($EnclosureURL, 'https://' ) !== 0 )
 					$EnclosureURL = $powerpress_feed['default_url'] . $EnclosureURL;
-				$EnclosureSize = $podPressMedia[0]['size'];
-				$duration = $podPressMedia[0]['duration'];
+				if( isset($podPressMedia[0]['size']) )
+					$EnclosureSize = $podPressMedia[0]['size'];
+				if( isset($podPressMedia[0]['duration']) )
+					$duration = $podPressMedia[0]['duration'];
 				$EnclosureType = false;
 				$UrlParts = parse_url($EnclosureURL);
 				if( $UrlParts['path'] )
@@ -1269,7 +1272,7 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			$content .= '<script type="text/javascript">'.PHP_EOL;
 			$content .= "pp_flashembed(\n";
 			$content .= "	'powerpress_player_{$g_powerpress_player_id}',\n";
-			$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: {$player_width}, height: {$player_height} },\n";
+			$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: {$player_width}, height: {$player_height}, wmode: 'transparent' },\n";
 			if( $cover_image ) // 
 				$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
 			else

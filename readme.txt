@@ -87,7 +87,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 = 0.9.9 =
 * No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.
-
+* Made Category Feed Settings, Custom Feed Settings, Movabyle Type and PodPress import screens WordPress 2.6 compatible.
+* Added wmode: 'transparent' setting to Flash player so pop-up HTML divs can display over top of the flash player.
+* Added extra check to prevent page errors when displaying old PodPress data in blog pages.
 
 = 0.9.8 =
 * Released on 9/02/2009
