@@ -271,6 +271,18 @@ function powerpress_admin_init()
 				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
 		}
 		
+		if( isset($_POST['EpisodeBoxBGColor']) )
+		{
+			$GeneralSettingsTemp = get_option('powerpress_general');
+			$SaveEpisdoeBoxBGColor['episode_box_background_color'] = array();
+			if( isset($GeneralSettingsTemp['episode_box_background_color']) )
+				$SaveEpisdoeBoxBGColor['episode_box_background_color'] = $GeneralSettingsTemp['episode_box_background_color']; //  copy previous settings
+			
+			list($feed_slug_temp, $background_color) = each($_POST['EpisodeBoxBGColor']);
+			$SaveEpisdoeBoxBGColor['episode_box_background_color'][ $feed_slug_temp ] = $background_color;
+			powerpress_save_settings($SaveEpisdoeBoxBGColor);
+		}
+		
 		// Anytime settings are saved lets flush the rewrite rules
 		$wp_rewrite->flush_rules();
 		

@@ -681,6 +681,37 @@ if( isset($Languages[ $rss_language ]) )
 </td>
 </tr>
 <?php } // End AdvancedMode ?>
+<?php if( $feed_slug ) { ?>
+<tr valign="top">
+<th scope="row">
+<?php _e("Episode Box Background Color"); ?>
+</th>
+<td>
+<input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
+<style type="text/css">
+.powerpress_color_box {
+	float: left;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin: 4px 1px;
+	border: 1px solid #666666;
+	
+}
+</style>
+<div style="background-color: #FF99CC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCCCC'; jQuery('#episode_background_color').css({'background-color' :'#FF99CC' });"></div>
+<div style="background-color: #FADCB3;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCC99'; jQuery('#episode_background_color').css({'background-color' :'#FADCB3' });"></div>
+<div style="background-color: #FFFF99;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFF99' });"></div>
+<div style="background-color: #CCFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#99FF99'; jQuery('#episode_background_color').css({'background-color' :'#CCFFCC' });"></div>
+<div style="background-color: #CCFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#CCFFFF'; jQuery('#episode_background_color').css({'background-color' :'#CCFFFF' });"></div>
+<div style="background-color: #C2D1F0;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#CCCCFF'; jQuery('#episode_background_color').css({'background-color' :'#C2D1F0' });"></div>
+<div style="background-color: #E1C7E1;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCCFF'; jQuery('#episode_background_color').css({'background-color' :'#E1C7E1' });"></div>
+ &nbsp; (leave blank for default)
+
+<div class="clear"></div>
+</td>
+</tr>
+<?php } // end customm feeds ?>
 </table>
 <?php
 	}
