@@ -88,7 +88,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 = 0.9.9 =
 * No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.
 * Added Media URL redirect warning when redirects exceed 5, previously this was an error.
-* Better detection used when server does not support HTTP URL connections, display message when `allow_url_fopen` setting is disabled and cURL library not available.
+* Better detection used when server does not support HTTP URL connections, we now display a message when `allow_url_fopen` setting is disabled and cURL library not available.
 * Blubrry Services Integration, added message when authentication failed and display error when web server does not support Blubrry services.
 * Made Category Feed Settings, Custom Feed Settings, Movabyle Type and PodPress import screens WordPress 2.6 compatible.
 * Added wmode: 'transparent' setting to Flash player so pop-up HTML divs can display over top of the flash player.
