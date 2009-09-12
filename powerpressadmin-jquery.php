@@ -164,7 +164,6 @@ function DeleteMedia(File)
 	return confirm('Delete '+File+', are you sure?');
 }
 </script>
-		<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 		<div id="media-header">
 			<h2><?php echo __('Select Media'); ?></h2>
 			<?php
@@ -270,58 +269,65 @@ function DeleteMedia(File)
 				else
 					$api_url = sprintf('%s/media/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
 				$json_data = powerpress_remote_fopen($api_url, $auth);
-				$results =  powerpress_json_decode($json_data);
-				
-				if( isset($results['error']) )
+				if( $json_data )
 				{
-					$Error = $results['error'];
-					if( strstr($Error, 'currently not available') )
-						$Error = 'Unable to find podcasts for this account.';
-				}
-				else if( !is_array($results) )
-				{
-					$Error = $json_data;
-				}
-				else
-				{
-					// Get all the programs for this user...
-					while( list($null,$row) = each($results) )
-						$Programs[ $row['program_keyword'] ] = $row['program_title'];
+					$results =  powerpress_json_decode($json_data);
 					
-					if( count($Programs) > 0 )
+					if( isset($results['error']) )
 					{
-						$SaveSettings['blubrry_auth'] = $auth;
-						
-						if( $SaveSettings['blubrry_program_keyword'] != '' )
-						{
-							powerpress_add_blubrry_redirect($SaveSettings['blubrry_program_keyword']);
-							$Save = true;
-							$Close = true;
-						}
-						else if( isset($SaveSettings['blubrry_program_keyword']) )
-						{
-							$Error = 'You must select a program to continue.';
-						}
-						else if( count($Programs) == 1 )
-						{
-							list($keyword, $title) = each($Programs);
-							$SaveSettings['blubrry_program_keyword'] = $keyword;
-							powerpress_add_blubrry_redirect($keyword);
-							$Close = true;
-							$Save = true;
-						}
-						else
-						{
-							$Error = 'Please select your podcast program to continue.';
-							$Step = 2;
-							$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
-							$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
-						}
+						$Error = $results['error'];
+						if( strstr($Error, 'currently not available') )
+							$Error = 'Unable to find podcasts for this account.';
+					}
+					else if( !is_array($results) )
+					{
+						$Error = $json_data;
 					}
 					else
 					{
-						$Error = 'No podcasts for this account are listed on blubrry.com.';
+						// Get all the programs for this user...
+						while( list($null,$row) = each($results) )
+							$Programs[ $row['program_keyword'] ] = $row['program_title'];
+						
+						if( count($Programs) > 0 )
+						{
+							$SaveSettings['blubrry_auth'] = $auth;
+							
+							if( $SaveSettings['blubrry_program_keyword'] != '' )
+							{
+								powerpress_add_blubrry_redirect($SaveSettings['blubrry_program_keyword']);
+								$Save = true;
+								$Close = true;
+							}
+							else if( isset($SaveSettings['blubrry_program_keyword']) )
+							{
+								$Error = 'You must select a program to continue.';
+							}
+							else if( count($Programs) == 1 )
+							{
+								list($keyword, $title) = each($Programs);
+								$SaveSettings['blubrry_program_keyword'] = $keyword;
+								powerpress_add_blubrry_redirect($keyword);
+								$Close = true;
+								$Save = true;
+							}
+							else
+							{
+								$Error = 'Please select your podcast program to continue.';
+								$Step = 2;
+								$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
+								$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
+							}
+						}
+						else
+						{
+							$Error = 'No podcasts for this account are listed on blubrry.com.';
+						}
 					}
+				}
+				else
+				{
+					$Error = 'Authentication failed.';
 				}
 			}
 			
@@ -363,6 +369,15 @@ function DeleteMedia(File)
 				exit;
 			}
 			
+			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
+			{
+				powerpress_admin_jquery_header('Blubrry Services Integration');
+				powerpress_page_message_add_notice( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
 			check_admin_referer('powerpress-jquery-account');
 			
 			if( !$Settings )
@@ -378,7 +393,6 @@ function DeleteMedia(File)
 			powerpress_admin_jquery_header('Blubrry Services Integration');
 			powerpress_page_message_print();	
 ?>
-<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 <form action="<?php echo admin_url(); ?>" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field('powerpress-jquery-account'); ?>
 <input type="hidden" name="action" value="powerpress-jquery-account-save" />
@@ -574,6 +588,7 @@ echo '<!-- done adding extra stuff -->';
 </head>
 <body>
 <div id="container">
+<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 <?php
 }
 

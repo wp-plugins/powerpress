@@ -65,10 +65,10 @@ ul.media li a {
 	font-weight: bold;
 }
 #accountinfo input[type=text], #accountinfo input[type=password] {
-	width: 240px;
+	width: 220px;
 }
 #accountinfo select {
-	width: 242px;
+	width: 222px;
 }
 .powerpress-notice {
 	border: 1px solid #FFCC00;

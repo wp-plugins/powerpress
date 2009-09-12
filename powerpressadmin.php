@@ -1492,6 +1492,10 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 
 		return $response['body'];
 	}
+	
+	// No sense going any further, we're not allowed to open remote URLs on this server
+	if( !ini_get( 'allow_url_fopen' ) )
+		return false;
 
 	if( count($post_args) > 0 )
 	{
@@ -1961,6 +1965,14 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		$Mp3Data = $Mp3Info->GetMp3Info($media_file);
 		if( $Mp3Data )
 		{
+			if( $Mp3Info->GetRedirectCount() > 5 )
+			{
+				// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
+				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() )
+					.' [<a href="http://help.blubrry.com/frequently-asked-questions/media-url-faq/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
+					);
+			}
+			
 			if( $file_size == 0 )
 				$file_size = $Mp3Info->GetContentLength();
 				

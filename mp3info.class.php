@@ -9,7 +9,7 @@
 		//var $m_DownloadBytesLimit = 1638400; // 200K (200*1024*8) bytes file
 		//var $m_DownloadBytesLimit = 204800; // 25K (25*1024*8) bytes file
 		var $m_DownloadBytesLimit = 327680; // 40K (40*1024*8) bytes file
-		var $m_RedirectLimit = 5; // Number of times to do the 302 redirect
+		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress/1.0';
 		var $m_error = '';
 		var $m_ContentLength = false;
@@ -84,7 +84,7 @@
 		{
 			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
 			{
-				$this->SetError('Server must either have php.ini allow_url_fopen enabled or PHP CURL library loaded in order to continue.');
+				$this->SetError( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.') );
 				return false;
 			}
 			
@@ -235,6 +235,7 @@
 			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			$ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 			$ErrorMsg = curl_error($curl);
+			$this->m_RedirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
 			
 			if( $HttpCode < 200 || $HttpCode > 250 )
 			{
