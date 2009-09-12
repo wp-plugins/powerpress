@@ -468,8 +468,8 @@ else
 <textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
 <?php if ( version_compare( '5', phpversion(), '>=' ) ) { ?>
 <div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Enhance iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
-<?php } ?>
 </div>
+<?php } ?>
 </td>
 </tr>
 
@@ -653,7 +653,7 @@ if( isset($Languages[ $rss_language ]) )
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
-<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ($FeedSettings['itunes_author_post']?'checked ':''); ?>/> Use blog post author's name for individual episodes.
+<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ($FeedSettings['itunes_author_post']?'checked ':''); ?>/> Use blog post author's name for individual episodes.</div>
 
 </td>
 </tr>
@@ -688,24 +688,14 @@ if( isset($Languages[ $rss_language ]) )
 </th>
 <td>
 <input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
-<style type="text/css">
-.powerpress_color_box {
-	float: left;
-	width: 16px;
-	height: 16px;
-	cursor: pointer;
-	margin: 4px 1px;
-	border: 1px solid #666666;
-	
-}
-</style>
-<div style="background-color: #FF99CC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCCCC'; jQuery('#episode_background_color').css({'background-color' :'#FF99CC' });"></div>
-<div style="background-color: #FADCB3;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCC99'; jQuery('#episode_background_color').css({'background-color' :'#FADCB3' });"></div>
-<div style="background-color: #FFFF99;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFF99' });"></div>
-<div style="background-color: #CCFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#99FF99'; jQuery('#episode_background_color').css({'background-color' :'#CCFFCC' });"></div>
-<div style="background-color: #CCFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#CCFFFF'; jQuery('#episode_background_color').css({'background-color' :'#CCFFFF' });"></div>
-<div style="background-color: #C2D1F0;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#CCCCFF'; jQuery('#episode_background_color').css({'background-color' :'#C2D1F0' });"></div>
-<div style="background-color: #E1C7E1;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFCCFF'; jQuery('#episode_background_color').css({'background-color' :'#E1C7E1' });"></div>
+<div style="background-color: #FFDFEF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFDFEF'; jQuery('#episode_background_color').css({'background-color' :'#FFDFEF' });"></div>
+<div style="background-color: #FBECD8;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FBECD8'; jQuery('#episode_background_color').css({'background-color' :'#FBECD8' });"></div>
+<div style="background-color: #FFFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFFCC' });"></div>
+<div style="background-color: #DFFFDF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#DFFFDF'; jQuery('#episode_background_color').css({'background-color' :'#DFFFDF' });"></div>
+
+<div style="background-color: #EBFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBFFFF'; jQuery('#episode_background_color').css({'background-color' :'#EBFFFF' });"></div>
+<div style="background-color: #D9E0EF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#D9E0EF'; jQuery('#episode_background_color').css({'background-color' :'#D9E0EF' });"></div>
+<div style="background-color: #EBE0EB;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBE0EB'; jQuery('#episode_background_color').css({'background-color' :'#EBE0EB' });"></div>
  &nbsp; (leave blank for default)
 
 <div class="clear"></div>

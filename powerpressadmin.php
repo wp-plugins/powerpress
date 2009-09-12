@@ -1025,6 +1025,15 @@ function powerpress_changemode(Mode)
 .bpp_input_med {
 	width: 250px;
 }
+.powerpress_color_box {
+	float: left;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin: 4px 1px;
+	border: 1px solid #666666;
+	
+}
 </style>
 <?php
 	}
