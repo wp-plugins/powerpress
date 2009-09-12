@@ -85,6 +85,11 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
+== 0.9.10 ==
+* Released on X/X/2009
+* Fixed code that detects media information when encountering redirects. Bug only affected users who did not have cURL configured in PHP.
+
+
 = 0.9.9 =
 * Released on 9/12/2009
 * No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.

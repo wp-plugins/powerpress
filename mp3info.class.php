@@ -102,6 +102,14 @@
 			$this->m_RedirectCount = $RedirectCount;
 			
 			$urlParts = parse_url($url);
+			if( !isset( $urlParts['host']) )
+			{
+				if( empty($url) )
+					$this->SetError( 'Unable to obtain host name from URL.' );
+				else
+					$this->SetError( 'Unable to obtain  host name from the URL: '.$url );
+				return false;
+			}
 			if( !isset( $urlParts['path']) )
 				$urlParts['path'] = '/';
 			if( !isset( $urlParts['port']) )
@@ -124,6 +132,7 @@
 				$ContentLength = false;
 				$ContentType = false;
 				$ReturnCode = 0;
+				$headers = '';
 				// Loop through the headers
 				while( !feof($fp) )
 				{
@@ -133,24 +142,26 @@
 					if ($line == "\r\n")
 						break; // Okay we're ending the headers, now onto the content
 					
+					$headers .= $line;
 					$line = rtrim($line); // Clean out the new line characters
 
 					list($key, $value) = explode(':', $line, 2);
 					$key = trim($key);
 					$value = trim($value);
 					
-					if( preg_match('/^HTTPS?\/\d\.\d (\d{3})(.*)/i', $line, $matches) )
+					if( stristr($line, '301 Moved Permanently') || stristr($line, '302 Found') || stristr($line, '307 Temporary Redirect') )
+					{
+						$Redirect = true; // We are dealing with a redirect, lets handle it
+					}
+					else if( preg_match('/^HTTPS?\/\d\.\d (\d{3})(.*)/i', $line, $matches) )
 					{
 						$ReturnCode = $matches[1];
-						if( $ReturnCode < 200 || $ReturnCode > 250 )
+						if( $ReturnCode < 200 || $ReturnCode > 206 )
 						{
+							fclose($fp);
 							$this->SetError('HTTP '.$ReturnCode.$matches[2]);
 							return false;
 						}
-					}
-					else if( stristr($line, '301 Moved Permanently') || stristr($line, '302 Found') || stristr($line, '307 Temporary Redirect') )
-					{
-						$Redirect = true; // We are dealing with a redirect, lets handle it
 					}
 					else
 					{
