@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.4
-Stable tag: 0.9.8
+Stable tag: 0.9.9
 
 Add podcasting support to your blog.
 
@@ -86,6 +86,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == Changelog ==
 
 = 0.9.9 =
+* Released on 9/12/2009
 * No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.
 * Added Media URL redirect warning when redirects exceed 5, previously this was an error.
 * Better detection used when server does not support HTTP URL connections, we now display a message when `allow_url_fopen` setting is disabled and cURL library not available.
