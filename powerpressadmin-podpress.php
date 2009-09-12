@@ -221,7 +221,13 @@ if( !function_exists('add_action') )
 	{
 		global $g_podpress_import_log, $g_podpress_import_count;
 		if( !$g_podpress_import_log )
+		{
+			echo '<div style="" class="updated powerpress-notice">';
+			echo '<p>If you are unsure about importing your PodPress data, try the option under Basic Settings titled \'PodPress Episodes\' and set to \'Include in posts and feeds\'.</p>';
+			echo '<p>Once you feel comfortable with PowerPress, you can use this screen to import your PodPress data.</p>';
+			echo '</div>';
 			return;
+		}
 		echo '<div style="" class="updated powerpress-notice">';
 		echo '<h3 style="margin-top: 2px; margin-bottom: 2px;">PodPress Import Log</h3>';
 		echo $g_podpress_import_log;
