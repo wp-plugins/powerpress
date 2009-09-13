@@ -180,6 +180,8 @@
 		$message .= 'WordPress Version: ' . $wp_version . "\n";
 		if( !empty($wpmu_version) )
 				$message .= 'WordPress MU Version: ' . $wpmu_version . "\n";
+		$message .= 'Operating System: ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
+			 
 		
 		// Crutial PowerPress Settings
 		$message .= "\n";
