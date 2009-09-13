@@ -92,6 +92,17 @@
 </td>
 </tr>
 
+
+<tr valign="top">
+<th scope="row"><?php echo __("Diagnostics"); ?></th> 
+<td>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-diagnostics"); ?>"><?php _e('Diagnose Your PowerPress Installation'); ?></a></strong></p>
+	<p>
+	The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.
+	</p>
+</td>
+</tr>
+
 <!--
 <tr valign="top">
 <th scope="row">Plugin Translation</th> 

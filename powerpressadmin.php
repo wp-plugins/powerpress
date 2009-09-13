@@ -63,9 +63,15 @@ function powerpress_admin_init()
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
 	{
 		check_admin_referer('powerpress-edit');
+		
+		$upload_path = false;
+		$upload_url = false;
 		$UploadArray = wp_upload_dir();
-		$upload_path =  rtrim( substr($UploadArray['path'], 0, 0 - strlen($UploadArray['subdir']) ), '\\/').'/powerpress/';
-		$urlImages = rtrim( substr($UploadArray['url'], 0, 0 - strlen($UploadArray['subdir']) ), '/').'/powerpress/';
+		if( false === $UploadArray['error'] )
+		{
+			$upload_path =  $UploadArray['basedir'].'/powerpress/';
+			$upload_url =  $UploadArray['baseurl'].'/powerpress/';
+		}
 	
 		// Save the posted value in the database
 		$Feed = $_POST['Feed'];
@@ -93,7 +99,7 @@ function powerpress_admin_init()
 			if( $ImageData && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] ) // Just check that it is an image, the correct image type and that the image is square
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
-				$Feed['itunes_image'] = $urlImages . $filename;
+				$Feed['itunes_image'] = $upload_url . $filename;
 			}
 			else
 			{
@@ -119,7 +125,7 @@ function powerpress_admin_init()
 			if( getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
-				$Feed['rss2_image'] = $urlImages . $filename;
+				$Feed['rss2_image'] = $upload_url . $filename;
 			}
 			else
 			{
@@ -127,7 +133,7 @@ function powerpress_admin_init()
 			}
 		}
 		
-		// New RSS2 image
+		// New mp3 coverart image
 		if( @$_POST['coverart_image_checkbox'] == 1 )
 		{
 			$filename = str_replace(" ", "_", basename($_FILES['coverart_image_file']['name']) );
@@ -145,7 +151,7 @@ function powerpress_admin_init()
 			if( getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
-				$_POST['TagValues']['tag_coverart'] = $urlImages . $filename;
+				$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
 			}
 			else
 			{
@@ -1134,22 +1140,26 @@ function powerpress_check_url(url)
 add_action('admin_head', 'powerpress_admin_head');
 
 // Admin page, header
-function powerpress_admin_page_header($page=false, $nonce_field = 'powerpress-edit')
+function powerpress_admin_page_header($page=false, $nonce_field = 'powerpress-edit', $simple_mode=false)
 {
 	if( !$page )
 		$page = 'powerpress/powerpressadmin_basic.php';
 ?>
 <div class="wrap" id="powerpress_settings">
-<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('admin.php?page='.$page) ?>">
 <?php
 	if( $nonce_field )
+	{
+?>
+<form enctype="multipart/form-data" method="post" action="<?php echo admin_url( ($simple_mode?'options-general':'admin') .'.php?page='.$page) ?>">
+<?php
 		wp_nonce_field($nonce_field);
+	}
 	
 	powerpress_page_message_print();
 }
 
 // Admin page, footer
-function powerpress_admin_page_footer($SaveButton=true)
+function powerpress_admin_page_footer($SaveButton=true, $form=true)
 {
 	if( $SaveButton ) { ?>
 <p class="submit">
@@ -1162,7 +1172,8 @@ function powerpress_admin_page_footer($SaveButton=true)
 	<a href="http://forum.blubrry.com/" target="_blank" title="Blubrry Forum">Forum</a> |
 	<a href="http://twitter.com/blubrry" target="_blank" title="Follow Blubrry on Twitter">Follow Blubrry on Twitter</a>
 </p>
-</form>
+<?php if( $form ) { ?>
+</form><?php } ?>
 </div>
 <?php 
 }
@@ -1275,11 +1286,17 @@ function powerpress_admin_page_tools()
 			powerpress_admin_ping_sites();
 			powerpress_admin_page_footer(false);
 		}; break;
+		case 'powerpress-diagnostics': {
+			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', false);
+			require_once( dirname(__FILE__).'/powerpressadmin-diagnostics.php');
+			powerpressadmin_diagnostics();
+			powerpress_admin_page_footer(false, false);
+		}; break;
 		default: {
-			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php');
+			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', false);
 			require_once( dirname(__FILE__).'/powerpressadmin-tools.php');
 			powerpress_admin_tools();
-			powerpress_admin_page_footer(false);
+			powerpress_admin_page_footer(false, false);
 		};
 	}
 }
@@ -1300,27 +1317,39 @@ function powerpress_podpress_episodes_exist()
 // Admin page, simple mode
 function powerpress_admin_page()
 {
-	powerpress_admin_page_header();
+	
 	
 	$Settings = get_option('powerpress_general');
-	//print_r($Settings);
-	//exit;
+	
 	if( !isset($Settings['advanced_mode']) )
 	{
+		powerpress_admin_page_header(false,  'powerpress-edit', true);
 		require_once( dirname(__FILE__).'/powerpressadmin-mode.php');
 		powerpress_admin_mode();
 		powerpress_admin_page_footer(false);
 	}
 	else
 	{
-		// Simple mode:
-		require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
-		powerpress_admin_basic();
+		if( $_GET['action'] == 'powerpress-diagnostics' )
+		{
+			powerpress_admin_page_header(false, false);
+			require_once( dirname(__FILE__).'/powerpressadmin-diagnostics.php');
+			powerpressadmin_diagnostics();
+			powerpress_admin_page_footer(false, false);
+		}
+		else
+		{
+			// Simple mode:
+			powerpress_admin_page_header(false,  'powerpress-edit', true);
+			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+			powerpress_admin_basic();
 
-		require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-		powerpress_admin_editfeed();
-
-		powerpress_admin_page_footer(true);
+			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+			powerpress_admin_editfeed();
+			
+			powerpress_admin_basic_diagnostics();
+			powerpress_admin_page_footer(true);
+		}
 	}
 }
 

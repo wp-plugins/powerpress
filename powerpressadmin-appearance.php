@@ -105,7 +105,7 @@ while( list($value,$desc) = each($linkoptions) )
 </tr>
 
 <tr valign="top">
-<th scope="row" style="background-image: url(/wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
+<th scope="row" style="background-image: url(../wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
 
 <div style="margin-left: 24px;"><?php _e("Hybrid Themes"); ?></div></th>
 <td>

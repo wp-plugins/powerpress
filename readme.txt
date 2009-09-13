@@ -88,7 +88,9 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 == 0.9.10 ==
 * Released on X/X/2009
 * Fixed code that detects media information when encountering redirects. Bug only affected users who did not have cURL configured in PHP.
-
+* Updated code for obtaining the uploads directory.
+* Added new Diagnostics page, diagnostics test checks if blog can obtain media information from media URLs, if you can ping iTunes, if you can upload podcast artwork and system information. Option also included to email the results to a specific address.
+* New Diagnostics page accessible via PowerPress > Tools > Diagnostics.
 
 = 0.9.9 =
 * Released on 9/12/2009

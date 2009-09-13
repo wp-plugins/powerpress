@@ -108,14 +108,17 @@ function powerpress_languages()
 // powerpressadmin_editfeed.php
 function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 {
+	$SupportUploads = false;
 	$UploadArray = wp_upload_dir();
-	$upload_path =  rtrim( substr($UploadArray['path'], 0, 0 - strlen($UploadArray['subdir']) ), '\\/').'/powerpress/';
-	
-	if( !file_exists($upload_path) )
-		$SupportUploads = @mkdir($upload_path, 0777);
-	else
-		$SupportUploads = true;
+	if( false === $UploadArray['error'] )
+	{
+		$upload_path =  $UploadArray['basedir'].'/powerpress/';
 		
+		if( !file_exists($upload_path) )
+			$SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
+		else
+			$SupportUploads = true;
+	}
 	$General = powerpress_get_settings('powerpress_general');
 	
 	
@@ -247,7 +250,7 @@ while( list($value,$desc) = each($applyoptions) )
 		
 	while( list($feed_slug, $feed_title) = each($Feeds) )
 	{
-		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
+		$edit_link = admin_url(  ($AdvancedMode?'admin':'options-general') .'.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
 ?>
 <p><?php echo $feed_title; ?>: <a href="<?php echo get_feed_link($feed_slug); ?>" title="<?php echo $feed_title; ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a>
 | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" title="Validate Feed" target="_blank">validate</a>

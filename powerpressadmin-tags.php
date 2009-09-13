@@ -134,13 +134,17 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 	if( $file )
 	{
 		$FeedSettings = get_option('powerpress_feed');
+		$SupportUploads = false;
 		$UploadArray = wp_upload_dir();
-		$upload_path =  rtrim( substr($UploadArray['path'], 0, 0 - strlen($UploadArray['subdir']) ), '\\/').'/powerpress/';
-		
-		if( !file_exists($upload_path) )
-			$SupportUploads = @mkdir($upload_path, 0777);
-		else
-			$SupportUploads = true;
+		if( false === $UploadArray['error'] )
+		{
+			$upload_path =  $UploadArray['basedir'].'/powerpress/';
+			
+			if( !file_exists($upload_path) )
+				$SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
+			else
+				$SupportUploads = true;
+		}
 ?>
 <input type="radio" name="General[<?php echo $tag; ?>]" value="0" <?php if( $value == '' ) echo 'checked'; ?> />
 Do not add a coverart image.<br />

@@ -354,7 +354,7 @@ while( list($value,$desc) = each($options) )
 	<?php _e("Blubrry Services"); ?> 
 	</th>
 	<td>
-		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url("admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
+		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( ($AdvancedMode?'admin':'options-general') .".php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
 	</td>
 	</tr>
 	
@@ -472,4 +472,23 @@ Enter your Redirect URL issued by your media statistics service provider below.
 
 <?php
 }
+
+function powerpress_admin_basic_diagnostics()
+{
+?>
+<h2><?php echo __('Tools'); ?></h2>
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __("Diagnostics"); ?></th> 
+<td>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . ($AdvancedMode?'admin':'options-general') .'.php?page=powerpress/powerpressadmin_basic.php&amp;action=powerpress-diagnostics'; ?>"><?php _e('Diagnose Your PowerPress Installation'); ?></a></strong></p>
+	<p>
+	<?php echo __('The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.'); ?>
+	</p>
+</td>
+</tr>
+</table>
+<?php
+}
+
 ?>
