@@ -263,7 +263,8 @@
 			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			$ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 			$ErrorMsg = curl_error($curl);
-			$this->m_RedirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
+			if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+				$this->m_RedirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
 			
 			if( $HttpCode < 200 || $HttpCode > 250 )
 			{
