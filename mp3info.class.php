@@ -94,7 +94,7 @@
 			// The following code relies on fopen_url capability.
 			if( $RedirectCount > $this->m_RedirectLimit )
 			{
-				$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .'.' );
+				$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (fopen).' );
 				return false;
 			}
 			
@@ -226,8 +226,19 @@
 		/*
 		Alternative method (curl) for downloading portion of a media file
 		*/
-		function DownloadCurl($url)
+		function DownloadCurl($url, $RedirectCount = 0)
 		{
+			// In case we are dealing with a restriction with a server that does not allow cURL to do redirects itself...
+			if ( ini_get('safe_mode') || ini_get('open_basedir') )
+			{
+				if( $RedirectCount > $this->m_RedirectLimit )
+				{
+					$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL in safe mode).' );
+					return false;
+				}
+				$this->m_RedirectCount = $RedirectCount;
+			}
+			
 			$curl = curl_init();
 			// First, get the content-length...
 			curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
@@ -238,10 +249,16 @@
 			curl_setopt($curl, CURLOPT_NOBODY, true );
 			curl_setopt($curl, CURLOPT_FAILONERROR, true);
 			if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+			{
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+				curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+			}
+			else
+			{
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+				curl_setopt($curl, CURLOPT_MAXREDIRS, 0 ); // We will attempt to handle redirects ourself
+			}
 			$Headers = curl_exec($curl);
-			
 			$ContentLength = curl_getinfo($curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			$ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
@@ -255,7 +272,21 @@
 					case 301:
 					case 302:
 					case 307: {
-						$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .'.' );
+						if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+						{
+							$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL).' );
+						}
+						else
+						{
+							$redirect_url = false;
+							if( preg_match('/^location:(.*)$/im', $Headers, $matches) )
+								$redirect_url = trim($matches[1]);
+							
+							if( $redirect_url )
+								return $this->DownloadCurl($redirect_url, $RedirectCount +1);
+							else
+								$this->SetError( sprintf(__('Unable to obtain HTTP %d redirect URL.'), $HttpCode) );
+						}
 					}; break;
 					default: {
 						$this->SetError( curl_error($curl) );

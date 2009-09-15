@@ -103,7 +103,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Added wmode: 'transparent' setting to Flash player so pop-up HTML divs can display over top of the flash player.
 * Added extra check to prevent page errors when displaying old PodPress data in blog pages.
 * Added note in PodPress Import screen: If you are unsure about importing your PodPress data, try the option under Basic Settings titled 'PodPress Episodes' and set to 'Include in posts and feeds'.
-
+* Added logic that detects if `safe_mode` / `open_basedir` are on, to handle redirects directly rather than in the cURL library.
 
 = 0.9.8 =
 * Released on 9/02/2009
