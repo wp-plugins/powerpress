@@ -571,9 +571,6 @@ function powerpress_admin_init()
 			}; break;
 		}
 	}
-		
-	if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
-		powerpress_admin_players_init();
 }
 
 add_action('init', 'powerpress_admin_init');
@@ -702,13 +699,9 @@ function powerpress_admin_menu()
 			add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Basic Settings'), __('Basic Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Appearance Settings'), __('Appearance'), 1, 'powerpress/powerpressadmin_appearance.php', 'powerpress_admin_page_appearance' );
-				if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
-					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Flash Player'), __('Flash Player'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
-					
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-				
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 		}
@@ -2078,8 +2071,5 @@ function powerpress_add_error($error)
 require_once( dirname(__FILE__).'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.
 require_once(dirname(__FILE__).'/powerpressadmin-dashboard.php');
-if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
-	require_once(dirname(__FILE__).'/powerpressadmin-player.php');
-
 
 ?>

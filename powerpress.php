@@ -1249,6 +1249,9 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 	// This hack only covers mp3s.
 	if( isset($EpisdoeData['type']) && $EpisdoeData['type'] == 'audio/mpeg' && $parts['extension'] != 'mp3' )
 		$parts['extension'] = 'mp3';
+		
+	if( !defined('POWERPRESS_PLAYER') )
+		$Settings['player'] = 'default'; // Use the defaul player in case the POWERPRESS_PLAYER is not defined
 	
 	switch( strtolower($parts['extension']) )
 	{
