@@ -9,20 +9,36 @@
 		// First, see if the user has cURL and/or allow_url_fopen enabled...
 		$powerpress_diags['detecting_media'] = array();
 		$powerpress_diags['detecting_media']['success'] = true;
-		$powerpress_diags['detecting_media']['allow_url_fopen'] = (ini_get( 'allow_url_fopen' ) != false);
-		$powerpress_diags['detecting_media']['curl'] = function_exists( 'curl_init' );
+		$powerpress_diags['detecting_media']['warning'] = false;
+		$powerpress_diags['detecting_media']['allow_url_fopen'] = (ini_get( 'allow_url_fopen' ) != false); // fopen
+		$powerpress_diags['detecting_media']['curl'] = function_exists( 'curl_init' ); // cURL
+		$powerpress_diags['detecting_media']['message2'] = ''; // if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 		
 		// Testing:
 		//$powerpress_diags['detecting_media']['allow_url_fopen'] = false;
 		//$powerpress_diags['detecting_media']['curl'] = false;
 		
-		if( $powerpress_diags['detecting_media']['curl'] && $powerpress_diags['detecting_media']['allow_url_fopen'] )
-		{
-			$powerpress_diags['detecting_media']['message'] = 'Your web server supports the PHP cURL library and is configured with the php.ini setting \'allow_url_fopen\' enabled';
-		}
-		else if( $powerpress_diags['detecting_media']['curl'] )
+		if( $powerpress_diags['detecting_media']['curl'] )
 		{
 			$powerpress_diags['detecting_media']['message'] = 'Your web server supports the PHP cURL library.';
+			if( $powerpress_diags['detecting_media']['allow_url_fopen'] )
+				$powerpress_diags['detecting_media']['message'] .= ' '. 'Your web server is also configured with the php.ini setting \'allow_url_fopen\' enabled, but the cURL library takes precedence.';
+			
+			if( ini_get('safe_mode') && ini_get('open_basedir') )
+			{
+				$powerpress_diags['detecting_media']['warning'] = true;
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: Both php.ini settings \'safe_mode\' and \'open_basedir\' will prevent the cURL library from following redirects in URLs.');
+			}
+			else if( ini_get('safe_mode') )
+			{
+				$powerpress_diags['detecting_media']['warning'] = true;
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'safe_mode\' will prevent the cURL library from following redirects in URLs.');
+			}
+			else if( ini_get('open_basedir') )
+			{
+				$powerpress_diags['detecting_media']['warning'] = true;
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'open_basedir\' will prevent the cURL library from following redirects in URLs.');
+			}
 		}
 		else if( $powerpress_diags['detecting_media']['allow_url_fopen'] )
 		{
@@ -41,9 +57,8 @@
 		$powerpress_diags['pinging_itunes']['curl_ssl'] = false;
 		if( function_exists('curl_version') )
 		{
-			$version = curl_version();
-			if( in_array('https', $version['protocols']) )
-				$powerpress_diags['pinging_itunes']['curl_ssl'] = true;
+			$curl_info = curl_version();
+			$powerpress_diags['pinging_itunes']['curl_ssl'] = ($curl_info['features'] & CURL_VERSION_SSL );
 		}
 		
 		// testing:
@@ -55,7 +70,16 @@
 			$powerpress_diags['pinging_itunes']['success'] = false;
 			$powerpress_diags['pinging_itunes']['message'] = __('The problem with \'Detecting Media Information\' above needs to be resolved for this test to continue.');
 		}
-		else if( ($powerpress_diags['pinging_itunes']['curl_ssl'] && $powerpress_diags['detecting_media']['curl']) || ($powerpress_diags['pinging_itunes']['openssl'] && $powerpress_diags['detecting_media']['allow_url_fopen']) )
+		else if( $powerpress_diags['detecting_media']['curl'] && $powerpress_diags['pinging_itunes']['curl_ssl'] )
+		{
+			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.');
+		}
+		else if( $powerpress_diags['detecting_media']['curl'] )
+		{
+			$powerpress_diags['pinging_itunes']['success'] = false;
+			$powerpress_diags['pinging_itunes']['message'] = __('Your web server\'s cURL library does not support secure HTTPS connections.');
+		}
+		else if( $powerpress_diags['pinging_itunes']['openssl'] && $powerpress_diags['detecting_media']['allow_url_fopen'] )
 		{
 			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.');
 		}
@@ -75,6 +99,9 @@
 		$powerpress_diags['uploading_artwork']['message'] = '';
 		
 		// Testing:
+		//$UploadArray['error'] = 'WordPres broke';
+		//$powerpress_diags['uploading_artwork']['file_uploads'] = false;
+		//$UploadArray['error'] = true;
 		
 		if( $powerpress_diags['uploading_artwork']['file_uploads'] == false )
 		{
@@ -104,7 +131,10 @@
 		}
 		else
 		{
-			$powerpress_diags['uploading_artwork']['message'] = $uploads['error'];
+			if( strlen($UploadArray['error']) > 2 )
+				$powerpress_diags['uploading_artwork']['message'] = $UploadArray['error'];
+			else
+				$powerpress_diags['uploading_artwork']['message'] = __('An error occurred obtaining the uploads directory from WordPress.');
 		}
 		
 		// Fourth, see if we have enough memory and we're running an appropriate version of PHP
@@ -113,6 +143,21 @@
 		$powerpress_diags['system_info']['success'] = true;
 		$powerpress_diags['system_info']['php_version'] = phpversion();
 		$powerpress_diags['system_info']['memory_limit'] = (int) ini_get('memory_limit');
+		
+		// testing:
+		//$powerpress_diags['system_info']['memory_limit'] = -1;
+		//$powerpress_diags['system_info']['memory_limit'] = 0;
+		//$powerpress_diags['system_info']['memory_limit'] = 16;
+		
+		if( $powerpress_diags['system_info']['memory_limit'] == 0 )
+		{
+			if( version_compare($powerpress_diags['system_info']['php_version'], '5.2') > 0 )
+				$powerpress_diags['system_info']['memory_limit'] = 128;
+			else if( version_compare($powerpress_diags['system_info']['php_version'], '5.2') == 0 )
+				$powerpress_diags['system_info']['memory_limit'] = 16;
+			else
+				$powerpress_diags['system_info']['memory_limit'] = 8;
+		}
 		$powerpress_diags['system_info']['memory_used'] = 0;
 		
 		if( version_compare($powerpress_diags['system_info']['php_version'], '5.2') > -1 )
@@ -128,13 +173,17 @@
 			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) will work, but PHP 5.2 or newer is recommended.'), $powerpress_diags['system_info']['php_version'] );
 		}
 		
-		// testing:
-		//$powerpress_diags['system_info']['memory_limit'] = 16;
-		
 		$used = 0;
 		$total = $powerpress_diags['system_info']['memory_limit'];
 		
-		if( function_exists('memory_get_peak_usage') )
+		if( $total == -1 )
+		{
+			$powerpress_diags['system_info']['message2'] = __('Your scripts have no limit to the amount of memory they can use.');
+			$used = (function_exists('memory_get_peak_usage')? memory_get_peak_usage() : ( function_exists('memory_get_usage') ? memory_get_usage() : 0 ) );
+			if( $used )
+				$powerpress_diags['system_info']['memory_used'] = round($used / 1024 / 1024, 2);
+		}
+		else if( function_exists('memory_get_peak_usage') )
 		{
 			$used = round(memory_get_peak_usage() / 1024 / 1024, 2);
 			$powerpress_diags['system_info']['memory_used'] = $used;
@@ -153,9 +202,10 @@
 			$powerpress_diags['system_info']['message2'] = sprintf(__('Your scripts have a total of %dM.'), $total );
 		}
 		
-		if( ($used + 4) > $total )
+		if( $total > 0 && ($used + 4) > $total )
 		{
 			$powerpress_diags['system_info']['warning'] = true;
+			$powerpress_diags['system_info']['message2'] = __('Warning: ') . $powerpress_diags['system_info']['message2'];
 			$powerpress_diags['system_info']['message2'] .= ' ';
 			$powerpress_diags['system_info']['message2'] .= sprintf(__('We recommend that you have at least %dM (4M more that what is currently used) or more memory to accomodate all of your installed plugins.'), ceil($used)+4 );
 		}
@@ -180,8 +230,9 @@
 		$message .= 'WordPress Version: ' . $wp_version . "\n";
 		if( !empty($wpmu_version) )
 				$message .= 'WordPress MU Version: ' . $wpmu_version . "\n";
-		$message .= 'Operating System: ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
-			 
+		$message .= 'System: '. $_SERVER['SERVER_SOFTWARE'] . "\n";
+		$message .= 'Safe node: '. ( ini_get('safe_mode')?'true':'false') ."\n";
+		$message .= 'Open basedir: '. ini_get('open_basedir') ."\n";
 		
 		// Crutial PowerPress Settings
 		$message .= "\n";
@@ -194,9 +245,11 @@
 		$message .= "\n";
 		$message .= "Detecting Media Information...\n";
 		$message .= "\tsuccess: ". ($powerpress_diags['detecting_media']['success']?'true':'false') ."\n";
+		$message .= "\twarning: ". ($powerpress_diags['detecting_media']['warning']?'true':'false') ."\n";
 		$message .= "\tallow_url_fopen: ". ($powerpress_diags['detecting_media']['allow_url_fopen']?'true':'false') ."\n";
 		$message .= "\tcurl: ". ($powerpress_diags['detecting_media']['curl']?'true':'false') ."\n";
 		$message .= "\tmessage: ". $powerpress_diags['detecting_media']['message'] ."\n";
+		$message .= "\tmessage 2: ". $powerpress_diags['detecting_media']['message2'] ."\n";
 		
 		// Pinging iTunes
 		$message .= "\n";
@@ -254,7 +307,7 @@
 		$img = 'yes.png';
 		$color = '#458045';
 		$text = __('Success');
-		if( $success == false ) // Failed takes presidence over warning
+		if( $success == false ) // Failed takes precedence over warning
 		{
 			$img = 'no.png';
 			$color = '#CC0000';
@@ -296,10 +349,12 @@
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-	<?php powerpressadmin_diagnostics_status($powerpress_diags['detecting_media']['success']); ?>
+	<?php powerpressadmin_diagnostics_status($powerpress_diags['detecting_media']['success'],$powerpress_diags['detecting_media']['warning']); ?>
 </th> 
 <td>
 	<p><?php echo htmlspecialchars($powerpress_diags['detecting_media']['message']); ?></p>
+<?php if( $powerpress_diags['detecting_media']['message2'] ) { ?>
+	<p><?php echo htmlspecialchars($powerpress_diags['detecting_media']['message2']); ?></p><?php } ?>
 <?php if( $powerpress_diags['detecting_media']['success'] ) { ?>
 	<p><?php echo __('If you are still having problems detecting media information, check with your web hosting provider if there is a firewall blocking your server.'); ?></p>
 <?php } else { ?>
