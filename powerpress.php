@@ -930,7 +930,10 @@ function powerpress_init()
 	
 	// If we are to process podpress data..
 	if( isset($GeneralSettings['process_podpress']) && $GeneralSettings['process_podpress'] )
+	{
 		powerpress_podpress_redirect_check();
+		add_shortcode('display_podcast', 'powerpress_shortcode_handler');
+	}
 			
 	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
 	{

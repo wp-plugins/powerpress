@@ -92,6 +92,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Added new Diagnostics page, diagnostics test checks if blog can obtain media information from media URLs, if you can ping iTunes, if you can upload podcast artwork and system information. Option also included to email the results to a specific address.
 * New Diagnostics page accessible via PowerPress > Tools > Diagnostics.
 * When 'PodPress Episodes' setting enabled, we now process downloads with podpress_trac in the URL. This fixes issue for some users who have old podpress media links in their blog posts after PodPress is disabled.
+* When 'PodPress Episodes' setting enabled, we now inserting the player for the PodPress [display_podcast] shortcode.
 
 
 = 0.9.9 =
