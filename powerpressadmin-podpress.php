@@ -642,6 +642,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 <?php
 			}
 			
+			/*
 			if( $AllowCleanup )
 			{
 ?>
@@ -664,6 +665,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 </p>
 <?php
 			}
+			*/
 		}
 		else
 		{

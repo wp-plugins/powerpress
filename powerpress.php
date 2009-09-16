@@ -927,6 +927,11 @@ function powerpress_init()
 	add_feed('podcast', 'powerpress_do_podcast_feed');
 	
 	$GeneralSettings = get_option('powerpress_general');
+	
+	// If we are to process podpress data..
+	if( isset($GeneralSettings['process_podpress']) && $GeneralSettings['process_podpress'] )
+		powerpress_podpress_redirect_check();
+			
 	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
 	{
 		while( list($feed_slug,$feed_title) = each($GeneralSettings['custom_feeds']) )
@@ -1480,6 +1485,61 @@ add_shortcode('powerpress', 'powerpress_shortcode_handler');
 /*
 Helper functions:
 */
+
+function powerpress_podpress_redirect_check()
+{
+	if( preg_match('/podpress_trac\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)$/', $_SERVER['REQUEST_URI'], $matches) )
+	{
+		$post_id = $matches[2];
+		$mediaNum = $matches[3];
+		//$filename = $matches[4];
+		//$method = $matches[1];
+		
+		if( is_numeric($post_id) && is_numeric($mediaNum))
+		{
+			$podPressMedia = powerpress_get_post_meta($post_id, 'podPressMedia');
+			if( !is_array($podPressMedia) )
+			{
+				// Sometimes the stored data gets messed up, we can fix it here:
+				$podPressMedia = powerpress_repair_serialize($podPressMedia);
+				$podPressMedia = @unserialize($podPressMedia);
+			}
+			
+			if( $podPressMedia && isset($podPressMedia[$mediaNum]) && isset($podPressMedia[$mediaNum]['URI']) )
+			{
+				$EnclosureURL = $podPressMedia[$mediaNum]['URI'];
+				if( strpos($EnclosureURL, 'http://' ) !== 0 && strpos($EnclosureURL, 'https://' ) !== 0 )
+				{
+					$media_url = '';
+					$PodpressSettings = get_option('podPress_config');
+					if( $PodpressSettings && isset($PodpressSettings['mediaWebPath']) )
+					{
+						$media_url = rtrim($PodpressSettings['mediaWebPath'], '/') . '/'; // Make sure the URL has a trailing slash
+					}
+					else
+					{
+						$Settings = get_option('powerpress_general');
+						if( isset($Settings['default_url']) )
+							$media_url = rtrim($Settings['default_url'], '/') . '/'; // Make sure the URL has a trailing slash
+					}
+					$EnclosureURL = $media_url . $EnclosureURL;
+				}
+				
+				if( strpos($EnclosureURL, 'http://' ) !== 0 && strpos($EnclosureURL, 'https://' ) !== 0 )
+				{
+					die('Error occurred obtaining the URL for the requested media file.');
+					exit;
+				}
+				
+				$EnclosureURL = str_replace(' ', '%20', $EnclosureURL);
+				header('Location: '.$EnclosureURL, true, 302);
+				header('Content-Length: 0');
+				exit;
+			}
+			// Let the WordPress 404 page load as normal
+		}
+	}
+}
 
 function the_powerpress_content()
 {
