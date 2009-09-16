@@ -85,7 +85,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 
 == Changelog ==
 
-== 0.9.10 ==
+= 0.9.10 =
 * Released on 9/16/2009
 * Fixed code that detects media information when encountering redirects. Bug only affected users who did not have cURL configured in PHP.
 * Updated code for obtaining the uploads directory.
@@ -107,6 +107,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * Added extra check to prevent page errors when displaying old PodPress data in blog pages.
 * Added note in PodPress Import screen: If you are unsure about importing your PodPress data, try the option under Basic Settings titled 'PodPress Episodes' and set to 'Include in posts and feeds'.
 * Added logic that detects if `safe_mode` / `open_basedir` are on, to handle redirects directly rather than in the cURL library.
+
 
 = 0.9.8 =
 * Released on 9/02/2009
