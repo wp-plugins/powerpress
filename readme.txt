@@ -93,6 +93,8 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * New Diagnostics page accessible via PowerPress > Tools > Diagnostics.
 * When 'PodPress Episodes' setting enabled, we now process downloads with podpress_trac in the URL. This fixes issue for some users who have old podpress media links in their blog posts after PodPress is disabled.
 * When 'PodPress Episodes' setting enabled, we now insert a player for the PodPress [display_podcast] shortcode.
+* To eliminate confusion, the Mp3 Tags settings page does not appear unless you've configured Blubrry Services with hosting.
+* New define added `POWERPRESS_DO_ENCLOSE_FIX`, when defined true in the wp-config.php, PowerPress will add the Media URL to your podcast episides as a comment in your post content to prevent WordPress do_enclose() function from deleting them later. Learn more about bug here: [http://core.trac.wordpress.org/ticket/10511](http://core.trac.wordpress.org/ticket/10511)
 
 
 = 0.9.9 =

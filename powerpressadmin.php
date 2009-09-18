@@ -230,7 +230,7 @@ function powerpress_admin_init()
 				if( $TagValues['tag_coverart'] != '' )
 				{
 					$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
-					if( $GeneralSettingsTemp['blubrry_hosting'] )
+					if( isset($GeneralSettingsTemp['blubrry_hosting']) && $GeneralSettingsTemp['blubrry_hosting'] )
 					{
 						// Lets try to cache the image onto Blubrry's Server...
 						$api_url = sprintf('%s/media/%s/coverart.json?url=%s', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $GeneralSettingsTemp['blubrry_program_keyword'], urlencode($TagValues['tag_coverart']) );
@@ -702,7 +702,8 @@ function powerpress_admin_menu()
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
+				if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
+					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 		}
 		else
@@ -906,7 +907,7 @@ function powerpress_edit_post($post_ID, $post)
 	// Anytime the post is marked published, private or scheduled for the future we need to make sure we're making the media available for hosting
 	if( $post->post_status == 'publish' || $post->post_status == 'private' || $post->post_status == 'future' )
 	{
-		if( $GeneralSettings['blubrry_hosting'] )
+		if( isset($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting'] )
 			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
 		
@@ -914,6 +915,47 @@ function powerpress_edit_post($post_ID, $post)
 }
 
 add_action('edit_post', 'powerpress_edit_post', 10, 2);
+
+if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
+{
+	function powerpress_insert_post_data($data, $postarr)
+	{
+		// If we added or modified a podcast episode, then we need to re-add/remove the embedded hidden link...
+		if( isset($_POST['Powerpress']['podcast']) && $postarr['post_type'] == 'post' )
+		{
+			// First, remove the previous comment if one exists in the post body.
+			$data['post_content'] = preg_replace('/\<!--.*added by PowerPress.*-->/im', '', $data['post_content']);
+			
+			$Powerpress = $_POST['Powerpress']['podcast'];
+			if( @$Powerpress['remove_podcast'] == 1 )
+			{
+				// Do nothing
+			}
+			else if( @$Powerpress['change_podcast'] == 1 || @$Powerpress['new_podcast'] == 1 )
+			{
+				$MediaURL = $Powerpress['url'];
+				if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
+				{
+					// Only glitch here is if the media url had an error, and if that's the case then there are other issues the user needs to worry about.
+					$GeneralSettings = get_option('powerpress_general');
+					if( $GeneralSettings && isset($GeneralSettings['default_url']) )
+						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
+				}
+					
+				$data['post_content'] .= "<!-- DO NOT DELETE href=\"$MediaURL\" added by PowerPress to fix WordPress 2.8+ bug -->";
+			}
+			else
+			{
+				$EncloseData = powerpress_get_enclosure_data($postarr['ID']);
+				if( $EncloseData && $EncloseData['url'] )
+					$data['post_content'] .= "<!-- DO NOT DELETE href=\"{$EncloseData['url']}\" added by PowerPress to fix WordPress 2.8+ bug -->";
+			}
+		}
+		
+		return $data;
+	}
+	add_filter('wp_insert_post_data', 'powerpress_insert_post_data',1,2);
+}
 
 // Do the iTunes pinging here...
 function powerpress_publish_post($post_id)
