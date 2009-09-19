@@ -334,7 +334,7 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 </p>
 <p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
 
-<p><input name="TestiTunesPing" type="checkbox" value="1" /> Test iTunes Ping (recommended)</p>
+<p><input name="TestiTunesPing" type="checkbox" value="1" /> Test Update iTunes Listing (recommended)</p>
 <?php if( $FeedSettings['itunes_url'] ) {
 
 		$ping_url = str_replace(
@@ -346,7 +346,7 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 								'http://www.itunes.com/podcast?id='),
 			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $FeedSettings['itunes_url']);
 ?>
-<p>You may also ping iTunes by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Ping iTunes in New Window">Ping iTunes in New Window</a></p>
+<p>You may also update your iTunes listing by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Update iTunes Listing in New Window">Update iTunes Listing in New Window</a></p>
 
 <?php
 		if( preg_match('/id=(\d+)/', $FeedSettings['itunes_url'], $matches) )
@@ -358,10 +358,10 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 			{
 				$PingLog = $Logging['itunes_ping_'. $FEEDID ];
 ?>
-		<h3>Latest iTunes Ping Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
+		<h3>Latest Update iTunes Listing Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
 		<div style="font-size: 85%; margin-left: 20px;">
 			<p>
-				<?php echo sprintf( __('iTunes pinged on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
+				<?php echo sprintf( __('iTunes notified on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
 <?php
 					if( $PingLog['post_id'] )
 					{
@@ -470,7 +470,7 @@ else
 
 <textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
 <?php if ( version_compare( '5', phpversion(), '>=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Enhance iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Optimize iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
 </div>
 <?php } ?>
 </td>

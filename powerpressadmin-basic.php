@@ -137,7 +137,7 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Ping iTunes"); ?></th> 
+<?php _e("Update iTunes Listing"); ?></th> 
 <td>
 <select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
 <?php
@@ -150,8 +150,8 @@ while( list($value,$desc) = each($options) )
 	echo "\t<option value=\"$value\"". ($General['ping_itunes']==$value?' selected':''). ">$desc</option>\n";
 	
 ?>
-</select>  (Notify iTunes when you publish a new episode.)
-<p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> Test iTunes Ping (recommended)</p>
+</select>  Notify (ping) iTunes when you publish a new episode.
+<p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> Test Update iTunes Listing (recommended)</p>
 <?php if( $General['itunes_url'] ) {
 
 		$ping_url = str_replace(
@@ -163,7 +163,7 @@ while( list($value,$desc) = each($options) )
 								'http://www.itunes.com/podcast?id='),
 			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $General['itunes_url']);
 ?>
-<p>You may also ping iTunes by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Ping iTunes in New Window">Ping iTunes in New Window</a></p>
+<p>You may also update your iTunes listing by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Ping iTunes in New Window">Ping iTunes in New Window</a></p>
 
 <?php
 		if( preg_match('/id=(\d+)/', $General['itunes_url'], $matches) )
@@ -175,10 +175,10 @@ while( list($value,$desc) = each($options) )
 			{
 				$PingLog = $Logging['itunes_ping_'. $FEEDID ];
 ?>
-		<h3>Latest iTunes Ping Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
+		<h3>Latest Update iTunes Listing Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
 		<div style="font-size: 85%; margin-left: 20px;">
 			<p>
-				<?php echo sprintf( __('iTunes pinged on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
+				<?php echo sprintf( __('iTunes notified on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
 <?php
 					if( $PingLog['post_id'] )
 					{
