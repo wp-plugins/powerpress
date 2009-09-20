@@ -1,6 +1,6 @@
 === Podcasting - Blubrry PowerPress Podcast plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcast, podcasting, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
+Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.4
 Stable tag: 0.9.9
@@ -8,7 +8,7 @@ Stable tag: 0.9.9
 Add podcasting support to your blog.
 
 == Description ==
-The Blubrry PowerPress Podcast Plugin has all of the essential features needed to provide podcasting support in a Wordpress blog.
+Blubrry PowerPress podcasting plugin adds all of the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress goes above and beyond with full iTunes support, Update iTunes listing feature, web audio/video media players and more!
 
 For users who feel the plugin is too complicated, we've included a Simple Mode. Simple Mode only includes the essential features to your blog to support podcasting.
 
@@ -53,18 +53,18 @@ http://help.blubrry.com/blubrry-powerpress/
 
 == Frequently Asked Questions ==
 
- = Why doesn't Blubrry PowerPress support multiple enclosures? =
+ = Why doesn't Blubrry PowerPress support multiple enclosures in one feed item/post? =
 Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post). This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry PowerPress does not support them.
 
-As a alternative, PowerPress allows you to create additional Custom Podcast Feeds to associate additional media files in a blog post to specific feeds. 
+As a alternative, PowerPress allows you to create additional Custom Podcast Feeds to associate any magnitude of media format and/or length in a blog post to specific custom feeds. For example, you can create one blog post associated to separate video and audio podcast feeds saving you time from entering your show notes twice. 
 
  = Why doesn't Blubrry PowerPress include media statistics built-in? =
- Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient Wordpress podcasting plugin. We recommend you use your media hosting's statistics and you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient WordPress podcasting plugin. We recommend using your media hosting's web statistics to give you basic download numbers and, if you are seeking more grandular measurements such as client and geographical information for each episode, you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
  
  As of Blubrry PowerPress version 0.8, you may now access your Blubrry Statistics from within your WordPress dashboard.
  
  = How do you insert the player within a blog post? =
- As of PowerPress 0.9, you can insert the media player within yoru blog posts by using the WordPress shortcode feature. The shortcode for PowerPress is [powerpress] (all lowercase)
+You can insert the media player within yoru blog posts by using the WordPress shortcode feature. The shortcode for PowerPress is [powerpress] (all lowercase)
 
  You may use the shortcode to add a player to other media files (non episode files) by specifying the media url in the shortcode: [powerpress url="http://example.com/path/to/media.mp3"]
 	
@@ -96,6 +96,10 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
 * To eliminate confusion, the Mp3 Tags settings page does not appear unless you've configured Blubrry Services with hosting.
 * New define added `POWERPRESS_DO_ENCLOSE_FIX`, when defined true in the wp-config.php, PowerPress will add the Media URL to your podcast episides as a comment in your post content to prevent WordPress do_enclose() function from deleting them later. Learn more about bug here: [http://core.trac.wordpress.org/ticket/10511](http://core.trac.wordpress.org/ticket/10511)
 * Changed language from "Pinging iTunes" to "Update iTunes Listing" to clear up confusion what the feature does.
+* Shortocde [powerpress] now includes download and play in new window links.
+* Simplified logic for pulling PodPress stored episode data.
+* Updated some grammar and setting labels so they are easier to understand.
+* Fixed bug with the "Use blog post author's name for individual episodes setting".
 
 
 = 0.9.9 =

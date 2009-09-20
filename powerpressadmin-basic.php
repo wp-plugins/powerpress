@@ -214,8 +214,8 @@ while( list($value,$desc) = each($options) )
 <?php } // End if !$OpenSSLSupport ?>
 
 
-<h2><?php _e("Edit Post Settings"); ?></h2>
-<p style="margin-bottom: 0;">Configure how the Podcast Episode entry boxes function when editing blog posts.</p>
+<h2><?php _e("Podcast Entry Box Options"); ?></h2>
+<p style="margin-bottom: 0;">Configure how the Podcast Episode entry box functions when editing blog posts and pages.</p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
