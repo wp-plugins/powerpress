@@ -585,7 +585,7 @@ function powerpress_admin_notices()
 		while( list($null, $error) = each($errors) )
 		{
 ?>
-<div class="updated"><p><strong><?php echo $error; ?></strong></p></div>
+<div class="updated"><p style="line-height: 125%;"><strong><?php echo $error; ?></strong></p></div>
 <?php
 		}
 	}
