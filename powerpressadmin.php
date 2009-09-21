@@ -1507,8 +1507,16 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+		{
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // Follow location redirection
-		curl_setopt($curl, CURLOPT_MAXREDIRS, 5); // Location redirection limit
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 12); // Location redirection limit
+		}
+		else
+		{
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 0 );
+		}
+
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2 ); // Connect time out
 		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout); // The maximum number of seconds to execute.
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
@@ -2054,7 +2062,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
 				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() )
-					.' [<a href="http://help.blubrry.com/frequently-asked-questions/media-url-faq/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
+					.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
 					);
 			}
 			
@@ -2062,6 +2070,13 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 				$file_size = $Mp3Info->GetContentLength();
 				
 			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+			
+			if( count( $Mp3Info->GetWarnings() ) > 0 )
+			{
+				$Warnings = $Mp3Info->GetWarnings();
+				while( list($null, $warning) = each($Warnings) )
+					powerpress_add_error(  sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
+			}
 		}
 		else
 		{

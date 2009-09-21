@@ -100,6 +100,7 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * Simplified logic for pulling PodPress stored episode data.
 * Updated some grammar and setting labels so they are easier to understand.
 * Fixed bug with the "Use blog post author's name for individual episodes setting".
+* Added Sample Rate and Channel Mode warnings, a warning is now printed if sample rate is not 22Khz or 44Khz and Channel mode is not stereo or joint stereo.
 
 
 = 0.9.9 =

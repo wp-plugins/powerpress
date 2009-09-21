@@ -12,6 +12,7 @@
 		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress/1.0';
 		var $m_error = '';
+		var $m_warnings = array();
 		var $m_ContentLength = false;
 		var $m_RedirectCount = 0;
 
@@ -59,6 +60,16 @@
 		function SetError($msg)
 		{
 			$this->m_error = $msg;
+		}
+		
+		function GetWarnings()
+		{
+			return $this->m_warnings;
+		}
+		
+		function AddWarning($msg)
+		{
+			$this->m_warnings[] = $msg;
 		}
 		
 		/*
@@ -323,8 +334,15 @@
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'); // HTTP request 
 				curl_setopt($curl, CURLOPT_NOBODY, false );
 				if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+				{
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-				curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+					curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+				}
+				else
+				{
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+					curl_setopt($curl, CURLOPT_MAXREDIRS, 0 );
+				}
 				curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit - 1) ));
 				//curl_setopt($curl, CURLINFO_HEADER_OUT, true); // For debugging
@@ -393,7 +411,7 @@
 			if( $FileInfo )
 			{
 				// Remove extra data that is not necessary for us to return...
-				unset($FileInfo['mpeg']);
+				//unset($FileInfo['mpeg']);
 				unset($FileInfo['audio']);
 				if( isset($FileInfo['id3v2']) )
 					unset($FileInfo['id3v2']);
@@ -401,6 +419,23 @@
 					unset($FileInfo['id3v1']);
 					
 				$FileInfo['playtime_seconds'] = round($FileInfo['playtime_seconds']);
+				
+				if( isset($FileInfo['mpeg']['audio']) && $FileInfo['mpeg']['audio'] )
+				{
+					$Audio = $FileInfo['mpeg']['audio'];
+					if( $Audio['sample_rate'] != 22050 && $Audio['sample_rate'] != 44100 )
+					{
+						// Add warning here
+						$this->AddWarning( sprintf(__('Sample Rate %dKhz may cause playback issues, we recommend 22Khz or 44Khz for maximum player compatibility.'), $Audio['sample_rate']/1000  ) );
+					}
+					
+					if( stristr($Audio['channelmode'], 'stereo' ) === false )
+					{
+						// Add warning here
+						$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.'), trim($Audio['channelmode']) ) );
+					}
+				}
+				
 				return $FileInfo;
 			}
 			
