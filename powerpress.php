@@ -1714,6 +1714,8 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 {
 	$length = (function_exists('mb_strlen')?mb_strlen($value):strlen($value) );
 	$trim_at = false;
+	$remove_new_lines = false;
+	
 	switch($tag)
 	{
 		case 'summary': {
@@ -1726,6 +1728,7 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 		case 'author':
 		case 'name':
 		default: {
+			$remove_new_lines = true;
 			// 255 character limit
 			if( $length > 255 )
 				$trim_at = 255;
@@ -1755,6 +1758,9 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 		if( $clean_break == false && $tag = 'subtitle' ) // Subtitle we want to add a ... at the end
 			$value = (function_exists('mb_substr')?mb_substr($value, 0, 252):substr($value, 0, 252) ). '...';
 	}
+	
+	if( $remove_new_lines )
+		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t"), array(' - ',' ', '', '  '), $value );
 	
 	return $value;
 }

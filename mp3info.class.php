@@ -9,17 +9,22 @@
 		//var $m_DownloadBytesLimit = 1638400; // 200K (200*1024*8) bytes file
 		//var $m_DownloadBytesLimit = 204800; // 25K (25*1024*8) bytes file
 		var $m_DownloadBytesLimit = 327680; // 40K (40*1024*8) bytes file
+		//var $m_DownloadBytesLimit = 409600; // 50K (50*1024*8) bytes file
 		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
-		var $m_UserAgent = 'Blubrry PowerPress/1.0';
+		var $m_UserAgent = 'Blubrry PowerPress';
 		var $m_error = '';
 		var $m_warnings = array();
 		var $m_ContentLength = false;
 		var $m_RedirectCount = 0;
+		Var $m_file_size_only = false;
+		
+		var $m_data = '';
 
 		// Constructor
 		function Mp3Info()
 		{
 			// Empty for now
+			$this->m_UserAgent = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
 		}
 		
 		/*
@@ -132,10 +137,10 @@
 			if ($fp)
 			{
 				// Create and send the request headers
-				$RequestHeaders = 'GET '.$urlParts['path'].(isset($urlParts['query']) ? '?'.@$urlParts['query'] : '')." HTTP/1.0\r\n";
+				$RequestHeaders = ($this->m_file_size_only?'HEAD ':'GET ').$urlParts['path'].(isset($urlParts['query']) ? '?'.@$urlParts['query'] : '')." HTTP/1.0\r\n";
 				$RequestHeaders .= 'Host: '.$urlParts['host'].($urlParts['port'] != 80 ? ':'.$urlParts['port'] : '')."\r\n";
 				$RequestHeaders .= "Connection: Close\r\n";
-				$RequestHeaders .= "User-Agent: {this->m_UserAgent}\r\n";
+				$RequestHeaders .= "User-Agent: {$this->m_UserAgent}\r\n";
 				fwrite($fp, $RequestHeaders."\r\n");
 				
 				$Redirect = false;
@@ -209,7 +214,21 @@
 				}
 				else // Otherwise, lets set the data and return true for part two
 				{
-					global $TempFile;
+					if( $this->m_file_size_only )
+					{
+						if( $ContentLength )
+						{
+							$this->m_ContentLength = $ContentLength;
+							return true;
+						}
+						else
+						{
+							$this->SetError('Unable to obtain media size from web server.');
+							return false;
+						}
+					}
+						
+					//global $TempFile;
 					if( function_exists('get_temp_dir') ) // If wordpress function is available, lets use it
 						$TempFile = tempnam(get_temp_dir(), 'wp_powerpress');
 					else // otherwise use the default path
@@ -252,7 +271,7 @@
 			
 			$curl = curl_init();
 			// First, get the content-length...
-			curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+			curl_setopt($curl, CURLOPT_USERAGENT, $this->m_UserAgent );
 			curl_setopt($curl, CURLOPT_URL, $url);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_HEADER, true); // header will be at output
@@ -295,21 +314,43 @@
 								$redirect_url = trim($matches[1]);
 							
 							if( $redirect_url )
+							{
+								curl_close($curl);
 								return $this->DownloadCurl($redirect_url, $RedirectCount +1);
+							}
 							else
+							{
 								$this->SetError( sprintf(__('Unable to obtain HTTP %d redirect URL.'), $HttpCode) );
+							}
 						}
 					}; break;
 					default: {
 						$this->SetError( curl_error($curl) );
 					}; break;
 				}
+				curl_close($curl);
 				return false;
 			}
 			
+			/*
 			if( stristr($ContentType, 'text') )
 			{
 				$this->SetError( 'Invalid content type returned.' );
+				return false;
+			}
+			*/
+			
+			$FinalURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+			curl_close($curl); // Close the first CURL connection
+			
+			if( $this->m_file_size_only )
+			{
+				if( $ContentLength )
+				{
+					$this->m_ContentLength = $ContentLength;
+					return true;
+				}
+				$this->SetError('Unable to obtain media size from server.');
 				return false;
 			}
 			
@@ -323,13 +364,16 @@
 				$this->SetError('Unable to create temporary file for checking media information.');
 				return false;
 			}
-				
+			
 			$fp = fopen($TempFile, 'w+b');
 				// Next get the first chunk of the file...
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
-				curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
+				
+			$curl = curl_init();
+				curl_setopt($curl, CURLOPT_URL, $FinalURL);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, false); // Don't set this as it is knwon to cause errors with the function callback.
+				curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
+				curl_setopt($curl, CURLOPT_USERAGENT, $this->m_UserAgent);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
-				curl_setopt($curl, CURLOPT_URL, $url);
 				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'); // HTTP request 
 				curl_setopt($curl, CURLOPT_NOBODY, false );
@@ -341,62 +385,96 @@
 				else
 				{
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
-					curl_setopt($curl, CURLOPT_MAXREDIRS, 0 );
+					curl_setopt($curl, CURLOPT_MAXREDIRS, 0 ); // We will attempt to handle redirects ourself
 				}
 				curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-				curl_setopt($curl, CURLOPT_HTTPHEADER,array('Range: bytes=0-'.($this->m_DownloadBytesLimit - 1) ));
-				//curl_setopt($curl, CURLINFO_HEADER_OUT, true); // For debugging
-				// Do the download
-				$success = curl_exec($curl);
-			fclose($fp);
-			
-			//$headers_sent = curl_getinfo($curl, CURLINFO_HEADER_OUT); // For debugging
-			//var_dump($headers_sent); // For debugging
-			
-			// Make sure the file is only so big so we don't have memory allocation errors
-			$filesize = filesize($TempFile);
-			if( $filesize > $this->m_DownloadBytesLimit ) // The web server did not support the Range: request
+				
+				// First lets try a range request
+				curl_setopt($curl, CURLOPT_RANGE, '0-'.($this->m_DownloadBytesLimit - 1) );
+				// curl_setopt($curl, CURLOPT_HTTPHEADER, array('Range: bytes=0-'.($this->m_DownloadBytesLimit - 1) ));
+			$success = curl_exec($curl);
+				
+			if( !$success && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 406 )
 			{
-				$fp = fopen($TempFile, 'w+');
-				ftruncate($fp, $this->m_DownloadBytesLimit);
-				fclose($fp);
+				curl_close($curl);
+				$curl = curl_init();
+				//curl_setopt($curl, CURLOPT_URL, $url);
+				curl_setopt($curl, CURLOPT_URL, $FinalURL);
+				curl_setopt($curl, CURLOPT_USERAGENT, $this->m_UserAgent);
+				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
+				curl_setopt($curl, CURLOPT_NOBODY, false );
+				curl_setopt($curl, CURLOPT_WRITEFUNCTION, array($this, 'remoteread_curl_writefunc') );
+				if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+				{
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+					curl_setopt($curl, CURLOPT_MAXREDIRS, $this->m_RedirectLimit);
+				}
+				else
+				{
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+					curl_setopt($curl, CURLOPT_MAXREDIRS, 0 ); // We will attempt to handle redirects ourself
+				}
+				
+				$success = curl_exec($curl);
+				if( ($success || curl_errno($curl) == 23) && $this->m_data != '' )
+				{
+					fwrite($fp , $this->m_data);
+					$this->m_data = ''; // Free up this memory by setting the value to a blank string
+					$success = true; // Actually this was a success
+				}
+				else if( $success && $this->m_data == '' )
+				{
+					$this->SetError('Unable to download media.');
+					$success = false;
+				}
 			}
+		
+			if( !$success )
+			{
+				if( curl_errno($curl) )
+					$this->SetError('Retrieving file info: '.  curl_error($curl) );
+				else if( $this->GetError() == '' )
+					$this->SetError('Unable to download media.');
+			}
+			curl_close($curl);
+			fclose($fp);
 			
 			if( $success )
 			{
-				curl_close($curl);
-				
 				if( $ContentLength )
 					$this->m_ContentLength = $ContentLength;
 				return $TempFile;
 			}
-			else
-			{
-				if( curl_errno($curl) )
-					$this->SetError(curl_error($curl) .' ('.curl_errno($curl).')');
-				else
-					$this->SetError('Unable to download media.');
-			}
 			
-			curl_close($curl);
+			@unlink($TempFile);
 			return false;
 		}
 		
 		/*
 		Get the MP3 information
 		*/
-		function GetMp3Info($File)
+		function GetMp3Info($File, $file_size_only = false)
 		{
+			$this->m_file_size_only = $file_size_only;
 			$DeleteFile = false;
 			if( strtolower( substr($File, 0, 7) ) == 'http://' )
 			{
 				$LocalFile = $this->Download($File);
 				if( $LocalFile === false )
 					return false;
+					
+				if( $file_size_only )
+					return true;
+					
 				$DeleteFile = true;
 			}
 			else
 			{
+				if( $file_size_only )
+				{
+					$this->m_ContentLength = filesize($File);
+					return true;
+				}
 				$LocalFile = $File;
 			}
 			
@@ -440,6 +518,16 @@
 			}
 			
 			return false;
+		}
+		
+		function remoteread_curl_writefunc($curl, $data)
+		{
+			$this->m_data .= $data;
+			if( strlen($this->m_data) > $this->m_DownloadBytesLimit )
+			{
+				return 0; // stop the download here...
+			}
+			return strlen($data);
 		}
 	};
 	
