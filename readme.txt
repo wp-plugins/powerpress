@@ -85,10 +85,16 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 
 == Changelog ==
 
+= 1.0 =
+* Released on TBD
+* Media detection for all types of media now uses the same code which is more reliable than the code found in WordPress core.
+
+
 = 0.9.11 =
 * Released on 9/??/2009
 * Fixed minor bugs with mp3 media detection: proper user agent set, logic added to deal with LibSyn 406 error, and media detection script can now be used for detecting file size for other media types.
 * Improved iTunes subtitle so value is contained within one line.
+
 
 = 0.9.10 =
 * Released on 9/21/2009

@@ -2049,7 +2049,49 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	
 	if( $content_type == '' )
 		return array('error'=>'Unable to detect content type.');
+		
+	$get_duration_info = ($content_type == 'audio/mpeg' && $duration === '');
+	// Lets use the mp3info class:
+	require_once(dirname(__FILE__).'/mp3info.class.php');
+	$Mp3Info = new Mp3Info();
+	$Mp3Data = $Mp3Info->GetMp3Info($media_file, !$get_duration_info);
+	if( $Mp3Data )
+	{
+		if( $Mp3Info->GetRedirectCount() > 5 )
+		{
+			// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
+			powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() )
+				.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
+				);
+		}
+		
+		if( $file_size == 0 )
+			$file_size = $Mp3Info->GetContentLength();
+		
+		if( $get_duration_info )
+			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+		
+		if( count( $Mp3Info->GetWarnings() ) > 0 )
+		{
+			$Warnings = $Mp3Info->GetWarnings();
+			while( list($null, $warning) = each($Warnings) )
+				powerpress_add_error(  sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
+		}
+	}
+	else
+	{
+		if( $Mp3Info->GetError() )
+			return array('error'=>$Mp3Info->GetError() );
+		else
+			return array('error'=>'Error occurred obtaining media information.');
+	}
 	
+	if( $file_size == 0 )
+		return array('error'=>'Error occurred obtaining media file size.' );
+	
+	return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration);
+		
+	// OLD CODE FOLLOWS:
 	if( $content_type == 'audio/mpeg' && $duration === '' ) // if duration has a value or is set to false then we don't want to try to obtain it here...
 	{
 		// Lets use the mp3info class:
