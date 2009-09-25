@@ -89,6 +89,8 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * Released on 9/??/2009
 * Fixed minor bugs with mp3 media detection: proper user agent set, logic added to deal with LibSyn 406 error, and media detection script can now be used for detecting file size for other media types.
 * Improved iTunes subtitle so value is contained within one line.
+* Fixed bug with mv4 video displaying incorrectly in PowerPress player.
+
 
 = 0.9.10 =
 * Released on 9/21/2009
