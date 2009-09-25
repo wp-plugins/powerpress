@@ -571,6 +571,14 @@ function powerpress_admin_init()
 			}; break;
 		}
 	}
+	
+	$GeneralSettings = get_option('powerpress_general');
+	if( @$GeneralSettings['player_options'] )
+	{
+		// Make sure we include the player-options
+		require_once( dirname(__FILE__).'/powerpressadmin-player.php');
+		powerpress_admin_players_init();
+	}
 }
 
 add_action('init', 'powerpress_admin_init');
@@ -699,6 +707,9 @@ function powerpress_admin_menu()
 			add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Basic Settings'), __('Basic Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Appearance Settings'), __('Appearance'), 1, 'powerpress/powerpressadmin_appearance.php', 'powerpress_admin_page_appearance' );
+				if( @$Powerpress['player_options'] )
+					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Player Options'), __('Player Options'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+				
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
@@ -1227,7 +1238,7 @@ function powerpress_admin_page_players()
 {
 	powerpress_admin_page_header('powerpress/powerpressadmin_player.php');
 	require_once( dirname(__FILE__).'/powerpressadmin-player.php');
-	powerpress_admin_players();
+	powerpress_admin_page_player();
 	powerpress_admin_page_footer(true);
 }
 

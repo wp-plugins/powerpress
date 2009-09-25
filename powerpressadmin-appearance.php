@@ -184,12 +184,21 @@ Width of Audio mp3 player (leave blank for 320 default)
 </tr>
 
 </table>
+
+<?php if( !@$General['player_options'] ) { ?>
+<h2><?php echo __("Enable Player Options"); ?></h2>
 <p>
-	Looking for a better Audio Player? Check out the <a href="http://wpaudioplayer.com" target="_blank" title="WP Audio Player 2.0">WP Audio Player 2.0</a>. 
-	The WP Audio Player 2.0 options include
-	theme colors, initial volume, player width and more.
+	<input name="General[player_options]" type="checkbox" value="1" /> 
+	<?php echo __('Check this option if you would like to further customize your web player used in your blog pages.'); ?>
 </p>
-<br />
+<?php } else { ?>
+<h2><?php echo __("Disable Player Options"); ?></h2>
+<p>
+	<input name="General[player_options]" type="checkbox" value="0" /> 
+	<?php echo __('Check this option if you would like to use the default player packaged with Blubrry PowerPress.'); ?>
+</p>
+<?php } ?>
+
 <?php  
 } // End powerpress_admin_appearance()
 

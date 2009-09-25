@@ -783,7 +783,10 @@ function powerpress_init()
 	
 	if( isset($_GET['powerpress_pinw']) )
 		powerpress_do_pinw($_GET['powerpress_pinw'], @$GeneralSettings['process_podpress']);
-		
+	
+	if( @$GeneralSettings['player_options'] )
+		require_once( dirname(__FILE__).'/powerpress-player.php');
+	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return false; // Another podcasting plugin is enabled...
 	
