@@ -88,6 +88,7 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 = 1.0 =
 * Released on TBD
 * Media detection for all types of media now uses the same code which is more reliable than the code found in WordPress core.
+* Added new page: Player Options. Pick from 5 different web players with a variety of customization options.
 
 
 = 0.9.11 =
