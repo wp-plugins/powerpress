@@ -6,10 +6,10 @@
 	// for efficienccy
 	
 	class Mp3Info {
-		//var $m_DownloadBytesLimit = 1638400; // 200K (200*1024*8) bytes file
-		//var $m_DownloadBytesLimit = 204800; // 25K (25*1024*8) bytes file
-		var $m_DownloadBytesLimit = 327680; // 40K (40*1024*8) bytes file
-		//var $m_DownloadBytesLimit = 409600; // 50K (50*1024*8) bytes file
+		//var $m_DownloadBytesLimit = 1638400; // 1600K (1600*1024) bytes file
+		//var $m_DownloadBytesLimit = 204800; // 200K (200*1024) bytes file
+		var $m_DownloadBytesLimit = 327680; // 320K (320*1024) bytes file
+		//var $m_DownloadBytesLimit = 409600; // 400K (400*1024) bytes file
 		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress';
 		var $m_error = '';
