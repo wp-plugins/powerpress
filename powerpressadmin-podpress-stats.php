@@ -6,10 +6,12 @@ function powerpress_admin_podpress_stats()
 	<h2><?php echo __("PodPress Stats"); ?></h2>
 	<table class="widefat">
 	<thead><tr>
-		<th>File</th><th colspan="2">Feed</th><th colspan="2">Web</th><th colspan="2">Play</th><th>Total</td>
+		<th><?php echo __("File"); ?></th><th colspan="2"><?php echo __("Feed");?></th><th colspan="2"><?php echo __("Web");?></th>
+		<th colspan="2"><?php echo __("Play");?></th><th><?php echo __("Total");?></td>
 	</tr></thead>
 	<tfoot><tr>
-		<th>File</th><th colspan="2">Feed</th><th colspan="2">Web</th><th colspan="2">Play</th><th>Total</td>
+		<th><?php echo __("File"); ?></th><th colspan="2"><?php echo __("Feed");?></th><th colspan="2"><?php echo __("Web");?></th>
+		<th colspan="2"><?php echo __("Play");?></th><th><?php echo __("Total");?></td>
 	</tr></tfoot>
 	<tbody>
 	<?php
