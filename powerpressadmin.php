@@ -713,6 +713,10 @@ function powerpress_admin_menu()
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				if(  POWERPRESS_PODPRESS_STATS == true)
+					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
+				
+				
 				if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
 					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
@@ -1258,6 +1262,15 @@ function powerpress_admin_page_feedsettings()
 	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
 	powerpress_admin_editfeed();
 	powerpress_admin_page_footer();
+}
+
+// Admin page, advanced mode: feed settings
+function powerpress_admin_page_podpress_stats()
+{
+	powerpress_admin_page_header('powerpress/powerpressadmin_podpress-stats.php');
+	require_once( dirname(__FILE__).'/powerpressadmin-podpress-stats.php');
+	powerpress_admin_podpress_stats();
+	powerpress_admin_page_footer(false);
 }
 
 // Admin page, advanced mode: feed settings
