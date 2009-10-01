@@ -713,7 +713,7 @@ function powerpress_admin_menu()
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-				if(  POWERPRESS_PODPRESS_STATS == true)
+				if( @$Powerpress['podpress_stats'] )
 					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 				
 				
@@ -1367,6 +1367,27 @@ function powerpress_podpress_episodes_exist()
 	$query .= "FROM {$wpdb->postmeta} ";
 	$query .= "WHERE meta_key = 'podPressMedia' ";
 	$query .= "LIMIT 0, 1";
+	$results = $wpdb->get_results($query, ARRAY_A);
+	if( count($results) )
+		return true;
+	return false;
+}
+
+function powerpress_podpress_stats_exist()
+{
+	global $wpdb;
+	// First, see if the table exists...
+	$query = "SHOW TABLES LIKE '{$wpdb->prefix}podpress_statcounts'";
+	$wpdb->hide_errors();
+	$results = $wpdb->get_results($query, ARRAY_A);
+	$wpdb->show_errors();
+	if( count($results) == 0 )
+		return false;
+	
+	// Now see if a record exists...
+	$query = "SELECT `media` ";
+	$query .= "FROM {$wpdb->prefix}podpress_statcounts ";
+	$query .= "LIMIT 1";
 	$results = $wpdb->get_results($query, ARRAY_A);
 	if( count($results) )
 		return true;

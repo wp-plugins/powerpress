@@ -115,6 +115,24 @@ while( list($value,$desc) = each($options) )
 </select>  (includes podcast episodes previously created in PodPress)
 </td>
 </tr>
+	<?php if( @$General['podpress_stats'] || powerpress_podpress_stats_exist() ) { ?>
+	<tr valign="top">
+	<th scope="row">
+
+	<?php _e("PodPress Stats Archive"); ?></th> 
+	<td>
+	<select name="General[podpress_stats]" class="bpp_input_sm">
+	<?php
+	$options = array(0=>'Hide', 1=>'Display');
+
+	while( list($value,$desc) = each($options) )
+		echo "\t<option value=\"$value\"". ($General['podpress_stats']==$value?' selected':''). ">$desc</option>\n";
+		
+	?>
+	</select>  (display archive of old PodPress statistics)
+	</td>
+	</tr>
+	<?php } ?>
 <?php } ?>
 
 <?php if( $AdvancedMode ) { ?>
