@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
 Requires at least: 2.6.0
 Tested up to: 2.8.4
-Stable tag: 0.9.10
+Stable tag: 0.9.11
 
 Add podcasting support to your blog.
 
@@ -86,7 +86,7 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 == Changelog ==
 
 = 0.9.11 =
-* Released on 9/??/2009
+* Released on 10/01/2009
 * We are working on PowerPress version 1.0, if you'd like to beta test, please email Angelo (cio [at] rawvoice.com).
 * Fixed minor bugs with mp3 media detection: proper user agent set, logic added to deal with LibSyn 406 error, and media detection script can now be used for detecting file size for other media types.
 * Improved iTunes subtitle so value is contained within one line.
