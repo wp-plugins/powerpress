@@ -1,23 +1,6 @@
 <?php
 /*
-Plugin Name: Blubrry PowerPress Player Options
-Plugin URI: http://www.blubrry.com/powerpress_player/
-Description: <a href="http://www.blubrry.com/powerpress_player/" target="_blank">Blubrry PowerPress Player Options</a> adds multiple players with options to your installation of Blubrry PowerPress.
-Version: 1.0.0
-Author: Blubrry
-Author URI: http://www.blubrry.com/
-Change Log:
-	Please see readme.txt for detailed change log.
-
-Contributors:
-	Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
-	Jerry Stephens, Way of the Geek (http://wayofthegeek.org/) - Wrote initial version of this plugin, thanks Jerry!
-	
-Copyright 2008-2009 RawVoice Inc. (http://www.rawvoice.com)
-
-License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
-
-	This project uses source that is GPL licensed.
+PowerPress player options
 */
 
 // Let PowerPress know that the powerpress_player filter event will be handeled
