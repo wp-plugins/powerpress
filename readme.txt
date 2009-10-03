@@ -72,6 +72,10 @@ You can insert the media player within yoru blog posts by using the WordPress sh
  
  If you want to specify a cover image, add an image attribute which points to the specific image url: [powerpress image="http://example.com/path/to/cover_image.jpg"] *Experimental*
 	
+ = Why can't you upload large media files? =
+ File uploads are tricky to handle because there are so many web hosting variations with different upload size limits. We recommend using an FTP application to upload large media files. FTP is much more efficient than web based uploads and is typically provided by nearly all web hosting providers.
+
+
 == Installation ==
 1. Copy the entire directory from the downloaded zip file into the /wp-content/plugins/ folder.
 2. Activate the "Blubrry PowerPress" plugin in the Plugin Management page.
@@ -90,6 +94,7 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * Media detection for all types of media now uses the same code which is more reliable than the code found in WordPress core.
 * Added new page: Player Options. Pick from 5 different web players with a variety of customization options.
 * New PodPress Stats Archive view added (option available in the Basic Settings page)
+* New option that that tries to fix issues with themes that strip the player from posts and pages. Confirmed fix works with Hybird based themes.
 
 = 0.9.11 =
 * Released on 10/01/2009

@@ -93,6 +93,18 @@ function powerpress_content($content)
 			return $content;
 	}
 	
+	// PowerPress settings:
+	$GeneralSettings = get_option('powerpress_general');
+	
+	if( @$GeneralSettings['player_aggressive'] )
+	{
+		if( strstr($content, '<!--powerpress_player-->') !== false )
+			return $content; // The players were already added to the content
+		
+		if( $g_powerpress_excerpt_post_id > 0 )
+			$g_powerpress_excerpt_post_id = 0; // Hack, set this to zero so it always goes past...
+	}
+	
 	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
 	// Important to note, get_the_excerpt will be called before the_content is called, so we add a simple little hack
 	if( current_filter() == 'get_the_excerpt' )
@@ -105,8 +117,7 @@ function powerpress_content($content)
 		return $content; // We don't want to do anything to this excerpt content in this call either...
 	}
 	
-	// PowerPress settings:
-	$GeneralSettings = get_option('powerpress_general');
+	
 	if( !isset($GeneralSettings['custom_feeds']) )
     $GeneralSettings['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
 	
@@ -204,10 +215,10 @@ function powerpress_content($content)
 	switch( $GeneralSettings['display_player'] )
 	{
 		case 1: { // Below posts
-			return $content.$new_content;
+			return $content.$new_content.(@$GeneralSettings['player_aggressive']?'<!--powerpress_player-->':'');
 		}; break;
 		case 2: { // Above posts
-			return $new_content.$content;
+			return (@$GeneralSettings['player_aggressive']?'<!--powerpress_player-->':'').$new_content.$content;
 		}; break;
 	}
 	return $content;

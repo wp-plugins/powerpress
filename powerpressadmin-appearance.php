@@ -107,11 +107,19 @@ while( list($value,$desc) = each($linkoptions) )
 <tr valign="top">
 <th scope="row" style="background-image: url(../wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
 
-<div style="margin-left: 24px;"><?php _e("Hybrid Themes"); ?></div></th>
+<div style="margin-left: 24px;"><?php _e("Having Theme Issues?"); ?></div></th>
 <td>
+	<select name="General[player_aggressive]" class="bpp_input_med">
+<?php
+$linkoptions = array(0=>"No, everything is working great", 1=>"Yes, please try to fix");
+
+while( list($value,$desc) = each($linkoptions) )
+	echo "\t<option value=\"$value\"". ($General['player_aggressive']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+</select>
 <p style="margin-top: 5px;">
-	The Hybrid Theme system will fail to display the player and links when the Hybrid Theme Setting "Use the excerpt on single posts for your meta description?" is checked. To fix,
-	either uncheck the option or use the <a href="http://wordpress.org/extend/plugins/hybrid-bugfix/" target="_blank">Hybrid Theme Bugfix plugin</a>.
+	Use this option if you are having problems with the players not appearing in your pages.
 </p>
 </td>
 </tr>
