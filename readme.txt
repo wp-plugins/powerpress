@@ -91,10 +91,14 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 
 = 1.0 =
 * Released on TBD
+* Added 4 new mp3 flash players: 1 Pixel Out Player, Mp3 Player Maxi, Simple Flash MP3 Player and AudioPlay player.
+* Added PodPress Stats Archive view (option available in Settings > Basic page).
+* Added check media option next to Media URL box to check entered URL and detect file size/duration information.
+* Added password protected feed option for Custom Channel feeds (option enabled under Tools page).
 * Media detection for all types of media now uses the same code which is more reliable than the code found in WordPress core.
-* Added new page: Player Options. Pick from 5 different web players with a variety of customization options.
-* New PodPress Stats Archive view added (option available in the Basic Settings page)
-* New option that that tries to fix issues with themes that strip the player from posts and pages. Confirmed fix works with Hybird based themes.
+* New option that may fix issues with themes that strip the player from posts and pages. Confirmed fix works with Hybird based themes.
+* Relabeled Custom Feeds to Custom Channels to clear up confusion.
+
 
 = 0.9.11 =
 * Released on 10/01/2009

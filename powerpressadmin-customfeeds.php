@@ -20,9 +20,9 @@ function powerpress_admin_customfeeds()
 	
 	
 ?>
-<h2><?php echo __("Custom Podcast Feeds"); ?></h2>
+<h2><?php echo __("Custom Podcast Channels"); ?></h2>
 <p>
-	Custom podcast feeds allow you to associate multiple media files and/or formats to one blog post.
+	Custom podcast Channels allow you to associate multiple media files and/or formats to one blog post.
 </p>
 <p>
 	If you are looking to organize episodes by topic, please use <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php'); ?>" title="Category Podcast Feeds">Category Podcast Feeds</a>.
@@ -105,7 +105,7 @@ function powerpress_admin_customfeeds()
 		$columns = powerpress_admin_customfeeds_columns();
 		$hidden = array();
 		if( $feed_slug == 'podcast' )
-			$feed_title = 'Podcast Feed (default)';
+			$feed_title = 'Podcast Feed';
 		$feed_title = wp_specialchars($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
@@ -136,7 +136,7 @@ function powerpress_admin_customfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' (default channel)':'').'<br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
@@ -185,7 +185,7 @@ function powerpress_admin_customfeeds()
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
-<h3><?php _e('Add Podcast Feed'); ?></h3>
+<h3><?php _e('Add Podcast Channel'); ?></h3>
 <div id="ajax-response"></div>
 <input type="hidden" name="action" value="powerpress-addfeed" />
 <?php
@@ -205,7 +205,7 @@ function powerpress_admin_customfeeds()
     <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Podcast Feed'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Podcast Channel'); ?>" /></p>
 
 </div>
 </div>
@@ -216,16 +216,16 @@ function powerpress_admin_customfeeds()
 
 <h3>Example Usage</h3>
 <p>
-	Example 1: You want to distribute both an mp3 and an ogg version of your podcast. Use the default podcast feed for your mp3
-	media and create a custom feed for your ogg media.
+	Example 1: You want to distribute both an mp3 and an ogg version of your podcast. Use the default podcast channel for your mp3
+	media and create a custom channel for your ogg media.
 </p>
 <p>
-	Example 2: You have a video podcast with multiple file formats. Use the default podcast feed for the main media that you
-	want to appear on your blog (e.g. m4v). Create additional feeds for the remaining formats (e.g. wmv, mov, mpeg).
+	Example 2: You have a video podcast with multiple file formats. Use the default podcast channel for the main media that you
+	want to appear on your blog (e.g. m4v). Create additional channels for the remaining formats (e.g. wmv, mov, mpeg).
 </p>
 <p>
-	Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default feed for
-	your 20 minute summary episodes and create a new custom feed for your full length episodes.
+	Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for
+	your 20 minute summary episodes and create a new custom channels for your full length episodes.
 </p>
 
 <?php

@@ -761,6 +761,23 @@ add_filter('option_rss_language', 'powerpress_rss_language');
 function powerpress_do_podcast_feed($for_comments=false)
 {
 	global $wp_query;
+	
+	$GeneralSettings = get_option('powerpress_general');
+	if( isset($GeneralSettings['feed_caps']) && $GeneralSettings['feed_caps'] )
+	{
+		$feed_slug = get_query_var('feed');
+		
+		if( $feed_slug != 'podcast' )
+		{
+			$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
+			if( @$FeedSettings['user_cap'] )
+			{
+				require_once( dirname(__FILE__).'/powerpress-feed-auth.php');
+				powerpress_feed_auth( $feed_slug );
+			}
+		}
+	}
+	
 	$wp_query->get_posts();
 	do_feed_rss2($for_comments);
 }

@@ -105,6 +105,27 @@ function powerpress_languages()
 	$langs['uk'] = 'Ukranian';
 	return $langs;
 }
+
+function powerpress_admin_capabilities()
+{
+	global $wp_roles;
+	
+	$capnames = array();
+	// Get Role List
+	foreach($wp_roles->role_objects as $key => $role) {
+		foreach($role->capabilities as $cap => $grant) {
+			$capnames[$cap] = ucwords( str_replace('_', ' ',  $cap) );
+		}
+	}
+
+	$capnames = array_unique($capnames);
+	$remove_keys = array('level_0', 'level_1', 'level_2', 'level_3', 'level_4', 'level_5', 'level_6', 'level_7', 'level_8', 'level_9', 'level_10');
+	while( list($null,$key) = each($remove_keys) )
+		unset($capnames[ $key ]);
+	asort($capnames);
+	return $capnames;
+}
+
 // powerpressadmin_editfeed.php
 function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 {
@@ -320,6 +341,7 @@ while( list($value,$desc) = each($applyoptions) )
 
 <?php
 
+	// TODO: This is a bug, user should be able to ping a specific feed without pinging the main feed.
 	if( $General['ping_itunes'] && $feed_slug != 'podcast' )
 	{
 ?>
@@ -662,6 +684,35 @@ if( isset($Languages[ $rss_language ]) )
 </tr>
 
 
+<!-- password protected feed option -->
+<?php 
+		if( @$General['feed_caps'] && $feed_slug && $feed_slug != 'podcast' )
+		{
+?>
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Password Protect Feed"); ?></th>
+<td>
+	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectFeed" value="1" <?php echo ($FeedSettings['user_cap']?'checked ':''); ?>/> Require user to be signed-in to access feed.</p>
+<?php ?>
+	<div style="margin-left: 20px;">User must have 
+<select name="Feed[user_cap]" class="bpp_input_med">
+<?php
+			$caps = powerpress_admin_capabilities();
+			if( !isset($FeedSettings['user_cap']) || $FeedSettings['user_cap'] == '' )
+				$FeedSettings['user_cap'] = 'premium_content';
+			
+			echo '<option value="">None</option>';
+			while( list($value,$desc) = each($caps) )
+				echo "\t<option value=\"$value\"". ($FeedSettings['user_cap']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+?>
+</select> capability.</div>
+</td>
+</tr>
+<?php
+		}
+?>
 
 <?php } // End AdvancedMode ?>
 

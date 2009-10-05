@@ -265,6 +265,8 @@ function powerpress_admin_init()
 		
 		if( $Feed )
 		{
+			if( !isset($_POST['ProtectFeed']) && isset($Feed['user_cap']) )
+				$Feed['user_cap'] = false;
 			if( !isset($Feed['enhance_itunes_summary']) )
 				$Feed['enhance_itunes_summary'] = false;
 			if( !isset($Feed['itunes_author_post']) )
@@ -562,6 +564,49 @@ function powerpress_admin_init()
 				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog') );
 				
 			}; break;
+			case 'powerpress-add-feed-caps': {
+				check_admin_referer('powerpress-add-feed-caps');
+				
+				$ps_role = get_role('premium_subscriber');
+				if(!$ps_role)
+				{
+					add_role('premium_subscriber', 'Premium Subscriber', $caps);
+					$ps_role = get_role('premium_subscriber');
+					$ps_role->add_cap('read');
+					$ps_role->add_cap('premium_content');
+				}
+				
+				$users = array('administrator','editor', 'author'); // , 'contributor', 'subscriber');
+				while( list($null,$user) = each($users) )
+				{
+					$role = get_role($user);
+					if( !$role->has_cap('premium_content') )
+						$role->add_cap('premium_content');
+				}
+				
+				$General = array('feed_caps'=>true);
+				powerpress_save_settings($General);
+				powerpress_page_message_add_notice( __('Password Protection Option for Custom Channel Feeds added to WordPress Blog.') );
+				
+			}; break;
+			case 'powerpress-remove-feed-caps': {
+				check_admin_referer('powerpress-remove-feed-caps');
+				
+				$users = array('administrator','editor', 'author', 'contributor', 'subscriber', 'premium_subscriber');
+				while( list($null,$user) = each($users) )
+				{
+					$role = get_role($user);
+					if( $role->has_cap('premium_content') )
+						$role->remove_cap('premium_content');
+				}
+				
+				remove_role('premium_subscriber');
+				
+				$General = array('feed_caps'=>false);
+				powerpress_save_settings($General);
+				powerpress_page_message_add_notice( __('Password Protection Option for Custom Channel Feeds removed from WordPress Blog') );
+				
+			}; break;
 			case 'powerpress-clear-update_plugins': {
 				check_admin_referer('powerpress-clear-update_plugins');
 				
@@ -711,7 +756,7 @@ function powerpress_admin_menu()
 					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Player Options'), __('Player Options'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 				
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Feeds'), __('Custom Feeds'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Custom Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 				if( @$Powerpress['podpress_stats'] )
 					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
@@ -1122,10 +1167,24 @@ function powerpress_changemode(Mode)
 	margin-bottom: 10px;
 	padding: 5px;
 	font-size: 12px;
-	text-align: center;
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
+	/*
+	text-align: center;
+	 */
+}
+.powerpress_podcast_box  .updated {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	font-size: 12px;
+	border-width: 1px;
+	border-style: solid;
+	font-weight: bold;
+	/*
+	text-align: center;
+	 */
 }
 </style>
 <script language="javascript">
@@ -1136,15 +1195,18 @@ function powerpress_check_url(url)
 	if( powerpress_check_url.arguments.length > 1 )
 		DestDiv = powerpress_check_url.arguments[1];
 	
+	jQuery( '#'+DestDiv ).addClass("error");
+	jQuery( '#'+DestDiv ).removeClass("updated");
+			
 	var validChars = ':0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/-_.';
 
 	for( var x = 0; x < url.length; x++ )
 	{
 		if( validChars.indexOf( url.charAt(x) ) == -1 )
 		{
-			document.getElementById(DestDiv).innerHTML = 'Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only.';
-			document.getElementById(DestDiv).style.display = 'block';
-			return;
+			jQuery( '#'+DestDiv ).text('Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only.');
+			jQuery( '#'+DestDiv ).css('display', 'block');
+			return false;
 		}
 	
 		if( x == 5 )
@@ -1157,24 +1219,105 @@ function powerpress_check_url(url)
 ?>
     if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
     {
-        document.getElementById(DestDiv).innerHTML = 'PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.';
-        document.getElementById(DestDiv).style.display = 'block';
-        return;
+        jQuery( '#'+DestDiv ).html('PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.');
+				jQuery( '#'+DestDiv ).css('display', 'block');
+        return false;
     }
 <?php
 	} else if( POWERPRESS_ENABLE_HTTPS_MEDIA === 'warning' ) {
 ?>
     if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
     {
-        document.getElementById(DestDiv).innerHTML = 'Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.';
-        document.getElementById(DestDiv).style.display = 'block';
-        return;
+        jQuery( '#'+DestDiv ).html('Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.');
+        jQuery( '#'+DestDiv ).css('display', 'block');
+        return false;
     }
 <?php
 	}
 ?>
 
-	document.getElementById(DestDiv).style.display = 'none';
+	jQuery( '#'+DestDiv ).css('display', 'none');
+	return true;
+}
+
+function powerpress_get_media_info(FeedSlug)
+{
+	if( jQuery('#powerpress_check_'+FeedSlug).attr("src") != "<?php echo admin_url(); ?>images/yes.png" )
+		return; // Another process is already running
+	
+	jQuery( '#powerpress_warning_'+FeedSlug ).text('');
+	jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'none');
+	jQuery( '#powerpress_warning_'+FeedSlug ).addClass("error");
+	jQuery( '#powerpress_warning_'+FeedSlug ).removeClass("updated");
+	
+	var Value = jQuery('#powerpress_url_'+FeedSlug).val();
+	if( Value )
+	{
+		if( powerpress_check_url(Value, 'powerpress_warning_'+FeedSlug ) )
+		{
+			jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/loading.gif");
+			jQuery.ajax( {
+				type: 'POST',
+				url: '<?php echo admin_url(); ?>admin-ajax.php', 
+				data: { action: 'powerpress_media_info', media_url : Value, feed_slug : encodeURIComponent(FeedSlug) },
+				timeout: (30 * 1000),
+				success: function(response) {
+					
+					var Parts = response.split("\n", 5);
+					var FeedSlug = Parts[0];
+					
+					jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/yes.png");
+					
+					if( Parts[1] == 'OK' )
+					{
+						jQuery('#powerpress_set_size_1_'+FeedSlug).attr('checked', true);
+						jQuery('#powerpress_size_'+FeedSlug).val( Parts[2] );
+						if( Parts[3] )
+						{
+							jQuery('#powerpress_set_duration_1_'+FeedSlug).attr('checked', true);
+							var Duration = Parts[3].split(':');
+							jQuery('#powerpress_duration_hh_'+FeedSlug).val( Duration[0] );
+							jQuery('#powerpress_duration_mm_'+FeedSlug).val( Duration[1] );
+							jQuery('#powerpress_duration_ss_'+FeedSlug).val( Duration[2] );
+						}
+						else if( jQuery('#powerpress_set_duration_0_'+FeedSlug).attr('checked') )
+						{
+							jQuery('#powerpress_set_duration_2_'+FeedSlug).attr('checked', true);
+							jQuery('#powerpress_duration_hh_'+FeedSlug).val( '' );
+							jQuery('#powerpress_duration_mm_'+FeedSlug).val( '' );
+							jQuery('#powerpress_duration_ss_'+FeedSlug).val( '' );
+						}
+						
+						if( Parts.length > 4 && Parts[4] != '' )
+						{
+							jQuery( '#powerpress_warning_'+FeedSlug ).html( Parts[4] );
+							jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
+							jQuery( '#powerpress_warning_'+FeedSlug ).addClass("updated");
+							jQuery( '#powerpress_warning_'+FeedSlug ).removeClass("error");
+						}
+					}
+					else
+					{
+						var Parts = response.split("\n", 2);
+						if( Parts[1] )
+							jQuery( '#powerpress_warning_'+FeedSlug ).html( Parts[1] );
+						else
+							jQuery( '#powerpress_warning_'+FeedSlug ).text( 'Unknown error occurred while checking Media URL.' );
+						jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
+					}
+				},
+				error: function(objAJAXRequest, strError) {
+						
+					jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/yes.png");
+					if( strError == 'timeout' )
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( 'Operation timed out.' );
+					else
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( 'Unknown error occurred.' );
+					jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
+				}
+			});
+		}
+	}
 }
 
 </script>
@@ -1188,6 +1331,40 @@ function powerpress_check_url(url)
 }
 
 add_action('admin_head', 'powerpress_admin_head');
+
+
+function powerpress_media_info_ajax()
+{
+	$feed_slug = $_POST['feed_slug'];
+	$media_url = $_POST['media_url'];
+	$size = 0;
+	$duration = '';
+	$status = 'OK';
+	
+	// Get media info here...
+	$MediaInfo = powerpress_get_media_info_local($media_url, '', 0, '', true);
+	
+	if( !isset($MediaInfo['error']) && !empty($MediaInfo['length']) )
+	{
+		echo "$feed_slug\n";
+		echo "OK\n";
+		echo "{$MediaInfo['length']}\n";
+		echo "{$MediaInfo['duration']}\n";
+		if( isset($MediaInfo['warnings']) )
+			echo $MediaInfo['warnings'];
+		exit;
+	}
+	
+	echo "$feed_slug\n";
+	if( $MediaInfo['error'] )
+		echo $MediaInfo['error'];
+	else
+		echo 'Unknown error occurred looking up media information.';
+	exit;
+}
+ 
+add_action('wp_ajax_powerpress_media_info', 'powerpress_media_info_ajax');
+
 
 // Admin page, header
 function powerpress_admin_page_header($page=false, $nonce_field = 'powerpress-edit', $simple_mode=false)
@@ -2086,9 +2263,10 @@ function powerpress_do_enclose( $content, $post_ID, $use_last_media_link = false
 	}
 }
 
-function powerpress_get_media_info_local($media_file, $content_type='', $file_size=0, $duration='')
+function powerpress_get_media_info_local($media_file, $content_type='', $file_size=0, $duration='', $return_warnings=false)
 {
 	$error_msg = '';
+	$warning_msg = '';
 	if( $content_type == '' )
 		$content_type = powerpress_get_contenttype($media_file);
 	
@@ -2105,9 +2283,12 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( $Mp3Info->GetRedirectCount() > 5 )
 		{
 			// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
-			powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() )
-				.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
-				);
+			$warning = sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() );
+			$warning .=	' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
+			if( $return_warnings )
+				$warning_msg .= $warning;
+			else
+				powerpress_add_error( $warning );
 		}
 		
 		if( $file_size == 0 )
@@ -2120,7 +2301,13 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		{
 			$Warnings = $Mp3Info->GetWarnings();
 			while( list($null, $warning) = each($Warnings) )
-				powerpress_add_error(  sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
+			{
+				$warning = sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
+				if( $return_warnings )
+					$warning_msg .= $warning;
+				else
+					powerpress_add_error( $warning );
+			}
 		}
 	}
 	else
@@ -2134,6 +2321,8 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	if( $file_size == 0 )
 		return array('error'=>'Error occurred obtaining media file size.' );
 	
+	if( $return_warnings && $warning_msg != '' )
+		return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration, 'warnings'=>$warning_msg);
 	return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration);
 		
 	// OLD CODE FOLLOWS:
