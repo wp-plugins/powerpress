@@ -1170,9 +1170,7 @@ function powerpress_changemode(Mode)
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
-	/*
 	text-align: center;
-	 */
 }
 .powerpress_podcast_box  .updated {
 	margin-top: 10px;
@@ -1182,9 +1180,7 @@ function powerpress_changemode(Mode)
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
-	/*
 	text-align: center;
-	 */
 }
 </style>
 <script language="javascript">
