@@ -99,6 +99,8 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * New option that may fix issues with themes that strip the player from posts and pages. Confirmed fix works with Hybird based themes.
 * Relabeled Custom Podcast Feeds to Custom Channels to clear up confusion.
 * Reorganized settings pages with tabbed sections.
+* Added new 'E-Book PDF' label for download links of PDF files.
+* Added new CSS class to download links in the form of powerpress_links_EXTENSION, where EXTENSION is replaced with the media file extension in lower case. e.g. powerpress_links_mp3. Learn more: [PowerPress Advanced Tweaks](http://help.blubrry.com/blubrry-powerpress/advanced-tweaks/)
 
 
 = 0.9.11 =

@@ -1159,6 +1159,11 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 	
 	switch( strtolower($parts['extension']) )
 	{
+		// PDFs:
+		case 'pdf': {
+			return $content; // We don't add a player for PDFs!
+		}; break;
+		
 		// Flash Player:
 		case 'mp3':
 			
@@ -2091,7 +2096,8 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 		return '';
 		
 	$GeneralSettings = get_option('powerpress_general');
-		
+	$is_pdf = (strtolower( substr($EpisodeData['url'], -3) ) == 'pdf' );
+	
 	// Build links for player
 	$player_links = '';
 	switch( $GeneralSettings['player_function'] )
@@ -2099,10 +2105,12 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 		case 1: // Play on page and new window
 		case 3: // Play in new window only
 		case 5: { // Play in page and new window
-			if( $post_id )
+			if( $is_pdf )
+				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". __('Open in New Window') ."\">". __('Open in New Window') ."</a>".PHP_EOL;
+			else if( $post_id )
 				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."\" onclick=\"return powerpress_pinw('{$post_id}-{$feed_slug}');\">". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."</a>".PHP_EOL;
 			else
-				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."\" onclick=\"return powerpress_pinw('{$post_id}-{$feed_slug}');\">". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."</a>".PHP_EOL;
+				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."\">". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."</a>".PHP_EOL;
 		}; break;
 		case 2:
 		case 4:{ // Play in/on page only
@@ -2133,10 +2141,17 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 	
 	if( $player_links )
 	{
-		if( $feed_slug != 'podcast' )
-			return '<p class="powerpress_links">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .' ('. htmlspecialchars($feed_slug) .'): '. $player_links . '</p>'.PHP_EOL;
+		$extension = 'unknown';
+		$parts = pathinfo($EpisodeData['url']);
+		if( $parts && isset($parts['extension']) )
+			$extension  = strtolower($parts['extension']);
+		
+		if( $is_pdf )
+			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. __('E-Book PDF') . ( $feed_slug=='pdf'||$feed_slug=='podcast'?'':" ($feed_slug)") .': '. $player_links . '</p>'.PHP_EOL;
+		else if( $feed_slug != 'podcast' )
+			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .' ('. htmlspecialchars($feed_slug) .'): '. $player_links . '</p>'.PHP_EOL;
 		else
-			return '<p class="powerpress_links">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .': '. $player_links . '</p>'.PHP_EOL;
+			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .': '. $player_links . '</p>'.PHP_EOL;
 	}
 	return '';
 }
@@ -2147,9 +2162,5 @@ End Helper Functions
 // Are we in the admin?
 if( is_admin() )
 	require_once(dirname(__FILE__).'/powerpressadmin.php');
-	
-	
-if( defined('POWERPRESS_PLAYERS') && POWERPRESS_PLAYERS )
-	require_once(dirname(__FILE__).'/player.php');
 		
 ?>

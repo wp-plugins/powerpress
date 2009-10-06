@@ -115,7 +115,7 @@ function SelectEntryBox(mode)
 		</div>
 		<div>
 			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> <strong>Podcast Channels</strong> - 
-			Manage multiple podcast channels in each blog post.
+			Manage multiple media files and/or formats to one blog post.
 		</div>
 		<div>
 			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> <strong>Category Casting</strong> - 
@@ -337,9 +337,9 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false)
 <?php
 	if( $FeedSettings ) {
 ?>
-<input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
+<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
 <?php } else { ?>
-<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
+<input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
 <?php } ?>
 <p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
 
@@ -363,18 +363,19 @@ iTunes will send an email to your <em>iTunes Email</em> entered below when your 
 	if( $FeedSettings )
 	{
 ?>
-<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
-<?php } else { ?>
 <select name="Feed[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
+<?php } else { ?>
+<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
 <?php
 	}
 $options = array(0=>'No ', 1=>'Yes ');
 
+$ping_itunes = ($FeedSettings?$FeedSettings['ping_itunes']:$General['ping_itunes']);
 if( $OpenSSLSupport == false )
 	$value = 0;
 	
 while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['ping_itunes']==$value?' selected':''). ">$desc</option>\n";
+	echo "\t<option value=\"$value\"". ($ping_itunes==$value?' selected':''). ">$desc</option>\n";
 	
 ?>
 </select>  Notify (ping) iTunes when you publish a new episode.

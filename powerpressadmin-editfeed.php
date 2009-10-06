@@ -640,11 +640,11 @@ function powerpressadmin_edit_basics_feed($General, $feed_slug)
 {
 ?>
 
-<h3>Episode Entry Options</h3>
+<h3>Episode Entry Box</h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php _e("Episode Box Background Color"); ?>
+<?php _e("Background Color"); ?>
 </th>
 <td>
 <input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
@@ -658,7 +658,7 @@ function powerpressadmin_edit_basics_feed($General, $feed_slug)
 <div style="background-color: #EBE0EB;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBE0EB'; jQuery('#episode_background_color').css({'background-color' :'#EBE0EB' });"></div>
  &nbsp; (leave blank for default)
 
-<div class="clear"></div>
+<p class="clear">Use a distinctive background color for this podcast channel's episode box.</p>
 </td>
 </tr>
 </table>

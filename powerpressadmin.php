@@ -101,7 +101,7 @@ function powerpress_admin_init()
 			}
 			
 			// Check the image...
-			$ImageData = getimagesize($temp);
+			$ImageData = @getimagesize($temp);
 			if( $ImageData && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] ) // Just check that it is an image, the correct image type and that the image is square
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
@@ -128,7 +128,7 @@ function powerpress_admin_init()
 				} while( file_exists($upload_path . $filename ) );
 			}
 			
-			if( getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
 				$Feed['rss2_image'] = $upload_url . $filename;
@@ -154,7 +154,7 @@ function powerpress_admin_init()
 				} while( file_exists($upload_path . $filename ) );
 			}
 			
-			if( getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
 				$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
@@ -365,7 +365,11 @@ function powerpress_admin_init()
 		
 		if( @$_POST['TestiTunesPing'] == 1 )
 		{
-			$PingResults = powerpress_ping_itunes($General?$General['itunes_url']:$Feed['itunes_url']);
+			if( $_POST['action'] == 'powerpress-save-settings' )
+				$PingResults = powerpress_ping_itunes($General['itunes_url']);
+			else
+				$PingResults = powerpress_ping_itunes($Feed['itunes_url']);
+			
 			powerpress_ping_itunes_log($PingResults);
 			
 			if( @$PingResults['success'] )
