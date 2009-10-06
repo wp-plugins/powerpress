@@ -1208,7 +1208,7 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			
 			$GeneralSettings = get_option('powerpress_general');
 			if( !isset($GeneralSettings['player_scale']) )
-				$GeneralSettings['player_scale'] = 'aspect';
+				$GeneralSettings['player_scale'] = 'tofit';
 				
 			// If there is no cover image specified, lets use the default...
 			if( $cover_image == '' )

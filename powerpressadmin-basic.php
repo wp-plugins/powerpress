@@ -757,9 +757,9 @@ Height of player (leave blank for 240 default)
 <td>
 	<select name="General[player_scale]" class="bpp_input_sm" onchange="javascript:jQuery('#player_scale_custom').css('display', (this.value=='tofit'||this.value=='aspect'? 'none':'inline' ))">
 <?php
-	$scale_options = array('aspect'=>"Aspect (default)", 'tofit'=>"ToFit"); 
+	$scale_options = array('tofit'=>"ToFit (default)", 'aspect'=>"Aspect" ); 
 	if( !isset($General['player_scale']) )
-		$General['player_scale'] = 'aspect';
+		$General['player_scale'] = 'tofit'; // Tofit works in almost all cases
 	
 	if( is_numeric($General['player_scale']) )
 		$scale_options[ $General['player_scale'] ]='Custom';
