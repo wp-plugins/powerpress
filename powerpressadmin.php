@@ -30,6 +30,21 @@ function powerpress_admin_init()
 	global $wp_rewrite;
 	
 	add_thickbox(); // we use the thckbox for some settings
+	wp_enqueue_script('jquery');
+	//wp_enqueue_script('jquery-ui-resizable');
+	wp_enqueue_script('jquery-ui-core');
+	wp_enqueue_script('jquery-ui-tabs');
+	//wp_enqueue_script('jquery-ui-selectable');
+	//wp_enqueue_script('interface');
+	
+	//wp_enqueue_script('jquery-ui-resizable');
+	//wp_enqueue_script('jquery-ui-draggable');
+	//wp_enqueue_script('jquery-ui-droppable');
+	//wp_enqueue_script('jquery-ui-selectable');
+	//wp_enqueue_script('jquery-ui-sortable');
+	
+	wp_enqueue_script( 'powerpress',  powerpress_get_root_url().'3rdparty/jquery.cookie.js', array('jquery' ) );
+	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
 		powerpress_admin_jquery_init();
@@ -38,15 +53,6 @@ function powerpress_admin_init()
 	{
 		powerpress_page_message_add_error( __('You do not have sufficient permission to manage options.') );
 		return;
-	}
-	
-	if( isset($_POST['CheckSWF']) ) // Leave until we no longer support Wordpress 2.6.x
-	{
-		$md5 = md5_file( dirname(__FILE__).'/FlowPlayerClassic.swf' );
-		if( $md5 == '051ed574774436e228e5dafd97d0f5f0' )
-			powerpress_page_message_add_notice( __('Flash player verified successfully.') );
-		else
-			powerpress_page_message_add_error( __('FlowPlayerClassic.swf is corrupt, please re-upload.') );
 	}
 
 	// Check for other podcasting plugin
@@ -161,9 +167,21 @@ function powerpress_admin_init()
 		
 		if( isset($_POST['UpdateDisablePlayer']) )
 		{
+			$player_feed_slug = $_POST['UpdateDisablePlayer'];
 			$General['disable_player'] = array();
-			if( isset($_POST['DisablePlayer']) )
-				$General['disable_player'] = $_POST['DisablePlayer'];
+			$GeneralPrev = get_option('powerpress_general');
+			if( isset($GeneralPrev['disable_player']) )
+				$General['disable_player'] = $GeneralPrev['disable_player'];
+			if( isset($_POST['DisablePlayerFor']) )
+				$General['disable_player'][ $player_feed_slug ] = 1;
+			else
+				unset($General['disable_player'][ $player_feed_slug ]);
+		}
+		
+		
+		if( isset($_POST['PlayerScaleCustom']) && isset($General['player_scale']) && $General['player_scale'] !='tofit' && $General['player_scale'] != 'aspect' )
+		{
+			$General['player_scale'] = $_POST['PlayerScaleCustom'];
 		}
 			
 		
@@ -189,8 +207,11 @@ function powerpress_admin_init()
 					$General['display_player_excerpt'] = 0; // Set it to zero.
 			}
 			
-			if( $_POST['action'] == 'powerpress-save-basic' )
+			if( $_POST['action'] == 'powerpress-save-settings' )
 			{
+				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
+					$General['display_player_excerpt'] = 0; // Set it to zero.
+				
 				$General['disable_dashboard_widget'] = 0;
 				if( !isset($_POST['StatsInDashboard'] ) )
 					$General['disable_dashboard_widget'] = 1;
@@ -207,6 +228,16 @@ function powerpress_admin_init()
 					$General['episode_box_summary'] = 0;
 				if( !isset($General['episode_box_explicit'] ) )
 					$General['episode_box_explicit'] = 0;
+				
+				// Advanced Features
+				if( !isset($General['player_options'] ) )
+					$General['player_options'] = 0;
+				if( !isset($General['cat_casting'] ) )
+					$General['cat_casting'] = 0;
+				if( !isset($General['channels'] ) )
+					$General['channels'] = 0;
+				if( !isset($General['advanced_mode']) )
+					$General['advanced_mode'] = 1;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
@@ -297,6 +328,9 @@ function powerpress_admin_init()
 		// Settings saved successfully
 		switch( $_POST['action'] )
 		{
+			case 'powerpress-save-settings': {
+				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.') );
+			}; break;
 			case 'powerpress-save-appearance': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress Appearance settings saved.') );
 			}; break;
@@ -747,29 +781,24 @@ function powerpress_admin_menu()
 	
 	if( current_user_can('manage_options') )
 	{
-		if( $Powerpress['advanced_mode'] )
-		{
-			add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Basic Settings'), __('Basic Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Appearance Settings'), __('Appearance'), 1, 'powerpress/powerpressadmin_appearance.php', 'powerpress_admin_page_appearance' );
-				if( @$Powerpress['player_options'] )
-					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Player Options'), __('Player Options'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
-				
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress General Feed Settings'), __('Feeds General'), 1, 'powerpress/powerpressadmin_feedsettings.php', 'powerpress_admin_page_feedsettings');
+		$Powerpress = powerpress_default_settings($Powerpress, 'basic');
+		
+		add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings'), __('Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
+			if( @$Powerpress['player_options'] )
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options'), __('Audio Player'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+			
+			if( $Powerpress['channels'] )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Custom Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+			if( $Powerpress['cat_casting'] )	
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-				if( @$Powerpress['podpress_stats'] )
-					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
-				
-				
-				if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
-					add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
-		}
-		else
-		{
-			add_options_page('Blubrry PowerPress Settings', 'Blubrry PowerPress', 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page');
-		}
+			if( @$Powerpress['podpress_stats'] )
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
+			
+			
+			if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 	}
 }
 
@@ -1084,58 +1113,15 @@ function powerpress_changemode(Mode)
 	document.forms[0].submit();
 	return false;
 }
-</script>
-<style type="text/css">
-.powerpress-notice {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	line-height: 29px;
-	font-size: 12px;
-	border-width: 1px;
-	border-style: solid;
-	font-weight: bold;
-}
-.powerpress-error {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	line-height: 29px;
-	font-size: 12px;
-	border-width: 1px;
-	border-style: solid;
-	font-weight: bold;
-}
-#powerpress_settings {
-	background-image:url(http://images.blubrry.com/powerpress/blubrry_logo.png);
-	background-repeat: no-repeat;
-	background-position: bottom right;
-}
 
-#powerpress_settings ul li ul {
-	list-style: disc;
-}
-#powerpress_settings ul li ul li {
-	margin-left: 50px;
-	font-size: 90%;
-}
-#powerpress_settings label {
-	font-size: 120%;
-}
-.bpp_input_sm {
-	width: 120px;
-}
-.bpp_input_med {
-	width: 250px;
-}
-.powerpress_color_box {
-	float: left;
-	width: 16px;
-	height: 16px;
-	cursor: pointer;
-	margin: 4px 1px;
-	border: 1px solid #666666;
+jQuery(document).ready(function($) {
+
+	jQuery("#powerpress_settings_page").tabs({ cookie: { expires: 30 } });
 	
-}
-</style>
+});
+	
+</script>
+<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/admin.css" type="text/css" media="screen" />
 <?php
 	}
 	else if( $page_name == 'edit' || $page_name == 'edit-pages' ) // || $page_name == '' ) // we don't know the page, we better include our CSS just in case
@@ -1181,6 +1167,11 @@ function powerpress_changemode(Mode)
 	border-style: solid;
 	font-weight: bold;
 	text-align: center;
+}
+.powerpress_podcast_box input[type="button"] {
+	height: 20px;
+	vertical-align: bottom;
+	font-size: 90%;
 }
 </style>
 <script language="javascript">
@@ -1238,7 +1229,7 @@ function powerpress_check_url(url)
 
 function powerpress_get_media_info(FeedSlug)
 {
-	if( jQuery('#powerpress_check_'+FeedSlug).attr("src") != "<?php echo admin_url(); ?>images/yes.png" )
+	if( jQuery('#powerpress_check_'+FeedSlug).css("display") != "none" )
 		return; // Another process is already running
 	
 	jQuery( '#powerpress_warning_'+FeedSlug ).text('');
@@ -1251,7 +1242,7 @@ function powerpress_get_media_info(FeedSlug)
 	{
 		if( powerpress_check_url(Value, 'powerpress_warning_'+FeedSlug ) )
 		{
-			jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/loading.gif");
+			jQuery('#powerpress_check_'+FeedSlug).css("display", 'inline');
 			jQuery.ajax( {
 				type: 'POST',
 				url: '<?php echo admin_url(); ?>admin-ajax.php', 
@@ -1262,7 +1253,7 @@ function powerpress_get_media_info(FeedSlug)
 					var Parts = response.split("\n", 5);
 					var FeedSlug = Parts[0];
 					
-					jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/yes.png");
+					jQuery('#powerpress_check_'+FeedSlug).css("display", 'none');
 					
 					if( Parts[1] == 'OK' )
 					{
@@ -1304,7 +1295,7 @@ function powerpress_get_media_info(FeedSlug)
 				},
 				error: function(objAJAXRequest, strError) {
 						
-					jQuery('#powerpress_check_'+FeedSlug).attr("src","<?php echo admin_url(); ?>images/yes.png");
+					jQuery('#powerpress_check_'+FeedSlug).css("display", 'none');
 					if( strError == 'timeout' )
 						jQuery( '#powerpress_warning_'+FeedSlug ).text( 'Operation timed out.' );
 					else
@@ -1406,6 +1397,8 @@ function powerpress_admin_page_basic()
 {
 	powerpress_admin_page_header();
 	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+	require_once( dirname(__FILE__).'/powerpressadmin-appearance.php');
+	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
 	powerpress_admin_basic();
 	powerpress_admin_page_footer(true);
 }
@@ -1417,24 +1410,6 @@ function powerpress_admin_page_players()
 	require_once( dirname(__FILE__).'/powerpressadmin-player.php');
 	powerpress_admin_page_player();
 	powerpress_admin_page_footer(true);
-}
-
-// Admin page, advanced mode: appearance settings
-function powerpress_admin_page_appearance()
-{
-	powerpress_admin_page_header('powerpress/powerpressadmin_appearance.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-appearance.php');
-	powerpressadmin_appearance();
-	powerpress_admin_page_footer();
-}
-
-// Admin page, advanced mode: feed settings
-function powerpress_admin_page_feedsettings()
-{
-	powerpress_admin_page_header('powerpress/powerpressadmin_feedsettings.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-	powerpress_admin_editfeed();
-	powerpress_admin_page_footer();
 }
 
 // Admin page, advanced mode: feed settings
@@ -1463,6 +1438,7 @@ function powerpress_admin_page_customfeeds()
 		case 'powerpress-editfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_customfeeds.php');
 			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
 			powerpress_admin_editfeed($_GET['feed_slug']);
 			powerpress_admin_page_footer();
 		}; break;
@@ -1483,6 +1459,7 @@ function powerpress_admin_page_categoryfeeds()
 		case 'powerpress-editcategoryfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php');
 			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
 			powerpress_admin_editfeed(false, $_GET['cat']);
 			powerpress_admin_page_footer();
 		}; break;
@@ -1565,45 +1542,6 @@ function powerpress_podpress_stats_exist()
 	if( count($results) )
 		return true;
 	return false;
-}
-
-// Admin page, simple mode
-function powerpress_admin_page()
-{
-	
-	
-	$Settings = get_option('powerpress_general');
-	
-	if( !isset($Settings['advanced_mode']) )
-	{
-		powerpress_admin_page_header(false,  'powerpress-edit', true);
-		require_once( dirname(__FILE__).'/powerpressadmin-mode.php');
-		powerpress_admin_mode();
-		powerpress_admin_page_footer(false);
-	}
-	else
-	{
-		if( $_GET['action'] == 'powerpress-diagnostics' )
-		{
-			powerpress_admin_page_header(false, false);
-			require_once( dirname(__FILE__).'/powerpressadmin-diagnostics.php');
-			powerpressadmin_diagnostics();
-			powerpress_admin_page_footer(false, false);
-		}
-		else
-		{
-			// Simple mode:
-			powerpress_admin_page_header(false,  'powerpress-edit', true);
-			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
-			powerpress_admin_basic();
-
-			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-			powerpress_admin_editfeed();
-			
-			powerpress_admin_basic_diagnostics();
-			powerpress_admin_page_footer(true);
-		}
-	}
 }
 
 /*
@@ -2109,6 +2047,27 @@ function powerpress_default_settings($Settings, $Section='basic')
 	{
 		case 'basic': {
 			// Nothing needs to be pre-set in the basic settings area
+			
+			if( !isset($Settings['player_options'] ) )
+			{
+				$Settings['player_options'] = 0;
+				if( isset($Settings['player']) && $Settings['player'] != '' && $Settings['player'] != 'default' )
+					$Settings['player_options'] = 1;
+			}
+			
+			if( !isset($Settings['cat_casting'] ) )
+			{
+				$Settings['cat_casting'] = 0;
+				if( isset($Settings['custom_cat_feeds']) && count($Settings['custom_cat_feeds']) > 0 )
+					$Settings['cat_casting'] = 1;
+			}
+			
+			if( !isset($Settings['channels'] ) )
+			{
+				$Settings['channels'] = 0;
+				if( isset($Settings['custom_feeds']) && count($Settings['custom_feeds']) > 0 )
+					$Settings['channels'] = 1;
+			}
 		}; break;
 		case 'editfeed': {
 			if( !isset($Settings['apply_to']) )

@@ -3,18 +3,22 @@
 function powerpress_admin_basic()
 {
 	$General = powerpress_get_settings('powerpress_general');
-	$AdvancedMode = $General['advanced_mode'];
 	$General = powerpress_default_settings($General, 'basic');
 	
 	// Default setings for advanced mode:
 	if( $General['episode_box_mode'] != 2 )
 	{
-		$General['episode_box_embed'] = 1;
-		$General['episode_box_no_player'] = 1;
+	/*
+		$General['episode_box_embed'] = 0;
+		$General['episode_box_no_player'] = 0;
 		$General['episode_box_keywords'] = 0;
 		$General['episode_box_subtitle'] = 0;
 		$General['episode_box_summary'] = 0;
+		*/
 	}
+	
+	$FeedSettings = powerpress_get_settings('powerpress_feed');
+	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
 		
 		
 ?>
@@ -37,68 +41,245 @@ function CheckRedirect(obj)
 }
 function SelectEntryBox(mode)
 {
-	document.getElementById('episode_entry_settings').style.display= (mode==1?'none':'block');
-	document.getElementById('episode_box_embed').disabled = (mode!=2);
-	document.getElementById('episode_box_no_player').disabled = (mode!=2);
-	document.getElementById('episode_box_keywords').disabled = (mode!=2);
-	document.getElementById('episode_box_subtitle').disabled = (mode!=2);
-	document.getElementById('episode_box_summary').disabled = (mode!=2);
-	document.getElementById('episode_box_explicit').disabled = (mode!=2);
-	document.getElementById('episode_box_mode_adv').style.display = (mode==2?'block':'none');
+	if( mode==2 )
+		jQuery('.episode_box_option').removeAttr("disabled");
+	else
+		jQuery('.episode_box_option').attr("disabled","disabled");
 }
 
+
+	
+
 </script>
-<input type="hidden" name="action" value="powerpress-save-basic" />
-<h2><?php echo __("Basic Settings"); ?></h2>
+
+<input type="hidden" name="action" value="powerpress-save-settings" />
+
+<h2><?php echo __("Blubrry PowerPress Settings"); ?></h2>
+
+<div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
+  <ul class="powerpress_settings_tabs"> 
+		<li><a href="#tab1"><span>Basic Settings</span></a></li> 
+		<li><a href="#tab2"><span>Services &amp; Statistics</span></a></li>
+		<li><a href="#tab3"><span>Appearance</span></a></li>
+		<li><a href="#tab4"><span>Feeds</span></a></li>
+		<li><a href="#tab5"><span>iTunes</span></a></li>
+  </ul>
+	
+  <div id="tab1" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_entry_options($General);
+		powerpressadmin_edit_podpress_options($General);
+		?>
+	</div>
+	
+	<div id="tab2" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_blubrry_services($General);
+		powerpressadmin_edit_media_statistics($General);
+		?>
+	</div>
+	
+	<div id="tab3" class="powerpress_tab">
+		<?php
+		powerpressadmin_appearance($General);
+		?>
+	</div>
+	
+	<div id="tab4" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_feed_general($FeedSettings, $General);
+		powerpressadmin_edit_feed_settings($FeedSettings, $General);
+		?>
+	</div>
+	
+	<div id="tab5" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_itunes_general($General);
+		powerpressadmin_edit_itunes_feed($FeedSettings, $General);
+		?>
+	</div>
+	
+</div>
+<div class="clear"></div>
+			
+<div style="margin-left: 10px;">
+	<h3>Advanced Options</h3>
+	<div style="margin-left: 50px;">
+		<div>
+			<input type="checkbox" name="General[advanced_mode]" value="0" <?php echo ($General['advanced_mode']==0?' checked':''); ?>/> <strong>Simple Mode</strong> - 
+			Display only the essential settings. Perfect for folks who may feel overwelmed.
+		</div>
+		<div>
+			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?>/> <strong>Audio Player Options</strong> - 
+			Select from 5 different web based audio flash players.
+		</div>
+		<div>
+			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> <strong>Podcast Channels</strong> - 
+			Manage multiple podcast channels in each blog post.
+		</div>
+		<div>
+			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> <strong>Category Casting</strong> - 
+			Manage category podcast feeds.
+		</div>
+	</div>
+</div>
+
+<?php
+}
+
+function powerpressadmin_edit_entry_options($General)
+{
+	$OpenSSLSupport = extension_loaded('openssl');
+?>
+<h3><?php echo __("Episode Entry Options"); ?></h3>
 
 <table class="form-table">
-
-
-<tr valign="top">
-<th scope="row">
-
-<?php echo __("Mode"); ?></th> 
-<td><input type="hidden" name="General[advanced_mode]" id="powerpress_advanced_mode" value="<?php echo $General['advanced_mode']; ?>" />
 <?php
-	if( $General['advanced_mode'] == 0 )
+	if( @$General['advanced_mode'] )
 	{
 ?>
-	<p style="margin-top: 5px;">Simple Mode (<strong><a href="#" onclick="return powerpress_changemode(1);">Switch to Advanced Mode</a></strong>)</p>
-	<?php if( count($General['custom_feeds']) > 0 || count($General['custom_cat_feeds']) > 0 ) { ?>
-	<p>
-		NOTE: You have custom feed settings configured while in Advancede Mode which have presidence over the Feed Settings below.
-	</p>
-	<?php } ?>
-<?php
-	}
-	else
-	{
-?>
-	<p style="margin-top: 5px;">Advanced Mode (<strong><a href="#" onclick="return powerpress_changemode(0);">Switch to Simple Mode</a></strong>)</p>
-<?php
-	}
-?>
-</td>
-</tr>
-
-
-<?php if( $AdvancedMode ) { ?>
 <tr valign="top">
 <th scope="row"><?php _e("Default Media URL"); ?></th> 
 <td>
-<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo $General['default_url']; ?>" maxlength="250" />
-<p>URL above will prefix entered file names that do not start with 'http://'. URL above must end with a trailing slash.
-You may leave blank if you always enter the complete URL to your media when creating podcast episodes.
-</p>
-<p>e.g. http://example.com/mediafolder/</p>
+	<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo $General['default_url']; ?>" maxlength="250" />
+	<p>e.g. http://example.com/mediafolder/</p>
+	<p>URL above will prefix entered file names that do not start with 'http://'. URL above must end with a trailing slash.
+	You may leave blank if you always enter the complete URL to your media when creating podcast episodes.
+	</p>
 </td>
 </tr>
-<?php } ?>
+<?php
+	}
+?>
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Podcast Entry Box"); ?></th> 
+<td>
+
+	<ul>
+		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="SelectEntryBox(1);" /> Simple</label></li>
+		<li>
+			<ul>
+				<li>Episode entry box includes Media URL field only. File Size and Duration will be auto detected upon saving the post.</li>
+			</ul>
+		</li>
+		
+		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="SelectEntryBox(0);" /> Normal</label> (default)</li>
+		<li>
+			<ul>
+				<li>Episode entry box includes Media URL, File Size and Duration fields.</li>
+			</ul>
+		</li>
+		
+				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> Custom</label></li>
+		<li>
+			<ul>
+				<li>Episode entry box includes Media URL, File Size and Duration fields, plus:
+				<div id="episode_box_mode_adv">
+					<p style="margin-top: 15px;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> Embed Field
+						(Enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_no_player" class="episode_box_option" name="General[episode_box_no_player]" type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option
+						(Disable player on a per episode basis)</p>
+					
+					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field
+						(Leave unchecked to use your blog post tags)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field
+						(Leave unchecked to use the first 250 characters of your blog post)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field
+						(Leave unchecked to use your blog post)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( $General['episode_box_explicit'] ) echo ' checked'; ?> /> iTunes Explicit Field
+						(Leave unchecked to use your feed's explicit setting)</p>	
+					
+					<em>NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing.
+					It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.</em><br />
+					<em><strong>USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.</strong></em>
+				</div>
+				</li>
+			</ul>
+		</li>
+	</ul>
+
+</td>
+</tr>
+</table>
+<script language="javascript">
+SelectEntryBox(<?php echo $General['episode_box_mode']; ?>);
+</script>
 
 <?php
+	if( @$General['advanced_mode'] )
+	{
+?>
+<div id="episode_entry_settings" style="<?php if( $General['episode_box_mode'] == 1 ) echo 'display:none;'; ?>">
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+
+<?php _e("File Size Default"); ?></th> 
+<td>
+		<select name="General[set_size]" class="bpp_input_med">
+<?php
+$options = array(0=>'Auto detect file size', 1=>'User specify');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['set_size']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select> (specify default file size option when creating a new episode)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("Duration Default"); ?></th> 
+<td>
+		<select name="General[set_duration]" class="bpp_input_med">
+<?php
+$options = array(0=>'Auto detect duration (mp3\'s only)', 1=>'User specify', -1=>'Not specified (not recommended)');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['set_duration']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select> (specify default duration option when creating a new episode)
+</td>
+</tr>
+</table>
+</div>
+
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php _e("Auto Add Media"); ?></th> 
+<td>
+		<select name="General[auto_enclose]" class="bpp_input_med">
+<?php
+$options = array(0=>'Disabled (default)', 1=>'First media link found in post content', 2=>'Last media link found in post content');
+
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['auto_enclose']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select>
+		<p>When enabled, the first or last media link found in the post content is automatically added as your podcast episode.</p>
+		<p style="margin-bottom: 0;"><em>NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.</em></p>
+</td>
+</tr>
+
+</table>
+<?php
+	}
+}
+
+function powerpressadmin_edit_podpress_options($General)
+{
 	if( $General['process_podpress'] || powerpress_podpress_episodes_exist() )
 	{
 ?>
+
+<h3>PodPress Options</h3>
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 
@@ -133,32 +314,60 @@ while( list($value,$desc) = each($options) )
 	</td>
 	</tr>
 	<?php } ?>
-<?php } ?>
+	</table>
+<?php
+	}
+}
 
-<?php if( $AdvancedMode ) { ?>
 
+function powerpressadmin_edit_itunes_general($General, $FeedSettings = false)
+{
+	$OpenSSLSupport = extension_loaded('openssl');
+	if( $OpenSSLSupport == false )
+	{
+?>
+<div class="error powerpress-error">Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module.</div>
+<?php } // End if !$OpenSSLSupport ?>
 
+<h3>iTunes Listing Information</h3>
+<table class="form-table">
 <tr valign="top">
-<th scope="row"><?php _e("iTunes URL"); ?></th> 
+<th scope="row"><?php _e("iTunes Subscription URL"); ?></th> 
 <td>
-<input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
-<p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
-Once your podcast is listed on iTunes, enter your one-click subscription URL above.
-</p>
+<?php
+	if( $FeedSettings ) {
+?>
+<input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
+<?php } else { ?>
+<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
+<?php } ?>
 <p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
+
+<p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
+iTunes will send an email to your <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.
+</p>
+
 </td>
 </tr>
 
 <?php
-	$OpenSSLSupport = extension_loaded('openssl');
+	if( @$General['advanced_mode'] )
+	{
 ?>
 <tr valign="top">
 <th scope="row">
 
 <?php _e("Update iTunes Listing"); ?></th> 
 <td>
-<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
 <?php
+	if( $FeedSettings )
+	{
+?>
+<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
+<?php } else { ?>
+<select name="Feed[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
+<?php
+	}
 $options = array(0=>'No ', 1=>'Yes ');
 
 if( $OpenSSLSupport == false )
@@ -225,131 +434,16 @@ while( list($value,$desc) = each($options) )
 <?php } ?>
 </td>
 </tr>
-<?php } // End if $AdvancedMode ?>
-</table>
-<?php if( $OpenSSLSupport == false && $AdvancedMode ) { ?>
-<div class="error powerpress-error">Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module.</div>
-<?php } // End if !$OpenSSLSupport ?>
-
-
-<h2><?php _e("Podcast Entry Box Options"); ?></h2>
-<p style="margin-bottom: 0;">Configure how the Podcast Episode entry box functions when editing blog posts and pages.</p>
-<table class="form-table">
-<tr valign="top">
-<th scope="row">
-
-<?php _e("Podcast Entry Box"); ?></th> 
-<td>
-
-	<ul>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="SelectEntryBox(1);" /> Simple</label></li>
-		<li>
-			<ul>
-				<li>Episode entry box includes Media URL field only. File Size and Duration will be auto detected.</li>
-			</ul>
-		</li>
-		
-		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="SelectEntryBox(0);" /> Normal</label> (default)</li>
-		<li>
-			<ul>
-				<li>Episode entry box includes Media URL, File Size and Duration fields.</li>
-			</ul>
-		</li>
-		
-				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> Custom</label></li>
-		<li>
-			<ul>
-				<li>Episode entry box includes Media URL, File Size and Duration fields, plus:
-				<div id="episode_box_mode_adv" style="display: <?php echo ($General['episode_box_mode'] == 2?'block':'none'); ?>;">
-					<p style="margin-top: 15px;"><input id="episode_box_embed" name="General[episode_box_embed]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> Embed Field
-						(Enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_no_player" name="General[episode_box_no_player]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option
-						(Disable player on a per episode basis)</p>
-					
-					<p style="margin-top: 15px;"><input id="episode_box_keywords" name="General[episode_box_keywords]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field
-						(Leave unchecked to use your blog post tags)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_subtitle" name="General[episode_box_subtitle]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> iTunes Subtitle Field
-						(Leave unchecked to use the first 250 characters of your blog post)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_summary" name="General[episode_box_summary]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> iTunes Summary Field
-						(Leave unchecked to use your blog post)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_explicit" name="General[episode_box_explicit]" <?php if( $General['episode_box_mode'] != 2 ) echo 'disabled'; ?> type="checkbox" value="1"<?php if( $General['episode_box_explicit'] ) echo ' checked'; ?> /> iTunes Explicit Field
-						(Leave unchecked to use your feed's explicit setting)</p>	
-					
-					<em>NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing.
-					It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.</em><br />
-					<em><strong>USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.</strong></em>
-				</div>
-				</li>
-			</ul>
-		</li>
-	</ul>
-
-</td>
-</tr>
-</table>
-<div id="episode_entry_settings" style="<?php if( $General['episode_box_mode'] == 1 ) echo 'display:none;'; ?>">
-<?php if( $AdvancedMode ) { ?>
-<table class="form-table">
-<tr valign="top">
-<th scope="row">
-
-<?php _e("File Size Default"); ?></th> 
-<td>
-		<select name="General[set_size]" class="bpp_input_med">
 <?php
-$options = array(0=>'Auto detect file size', 1=>'User specify');
-
-while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['set_size']==$value?' selected':''). ">$desc</option>\n";
-	
+	} // end advanced_mode
 ?>
-		</select> (specify default file size option when creating a new episode)
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php _e("Duration Default"); ?></th> 
-<td>
-		<select name="General[set_duration]" class="bpp_input_med">
-<?php
-$options = array(0=>'Auto detect duration (mp3\'s only)', 1=>'User specify', -1=>'Not specified (not recommended)');
-
-while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['set_duration']==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-		</select> (specify default duration option when creating a new episode)
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php _e("Auto Add Media"); ?></th> 
-<td>
-		<select name="General[auto_enclose]" class="bpp_input_med">
-<?php
-$options = array(0=>'Disabled (default)', 1=>'First media link found in post content', 2=>'Last media link found in post content');
-
-while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['auto_enclose']==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-		</select>
-		<p>When enabled, the first or last media link found in the post content is automatically added as your podcast episode.</p>
-		<p style="margin-bottom: 0;"><em>NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.</em></p>
-</td>
-</tr>
 
 </table>
-<br />
 <?php
-	}
-?>
-</div>
+} // end itunes general
 
-
-<?php
+function powerpressadmin_edit_blubrry_services($General)
+{
 	
 	$ModeDesc = 'None';
 	if( $General['blubrry_auth'] )
@@ -361,7 +455,7 @@ while( list($value,$desc) = each($options) )
 		$StatsInDashboard = false;
 		
 ?>
-<h2><?php _e("Blubrry Services Integration"); ?></h2>
+<h3><?php _e("Blubrry Services Integration"); ?></h3>
 <p>
 	Adds <a href="http://www.blubrry.com/podcast_statistics/" title="Blubrry Media Statistics" target="_blank">Blubrry Media Statistics</a> to your blog's <a href="<?php echo admin_url(); ?>" title="WordPress Dashboard">dashboard</a> plus 
 	features for <a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" title="Blubrry Media Hosting" target="_blank">Blubrry Media Hosting</a> users to quickly select and publish uploaded media.
@@ -372,7 +466,7 @@ while( list($value,$desc) = each($options) )
 	<?php _e("Blubrry Services"); ?> 
 	</th>
 	<td>
-		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( ($AdvancedMode?'admin':'options-general') .".php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&KeepThis=true&TB_iframe=true&width=500&height=400&modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
+		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=500&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
 	</td>
 	</tr>
 	
@@ -386,8 +480,13 @@ while( list($value,$desc) = each($options) )
 	</tr>
 	
 </table>
+<?php
+}
 
-<h2><?php _e("Media Statistics"); ?></h2>
+function powerpressadmin_edit_media_statistics($General)
+{
+?>
+<h3><?php _e("Media Statistics"); ?></h3>
 <p>
 Enter your Redirect URL issued by your media statistics service provider below.
 </p>
@@ -473,40 +572,231 @@ Enter your Redirect URL issued by your media statistics service provider below.
 	</tr>
 	</table>
 </div>
-	
-
-<!--
-<p>
-	The services above must support redirects that do
-	not include nested 'http://' within the URL. Statistics services such as
-	<a href="http://www.podtrac.com" target="_blank" title="PodTrac">PodTrac.com</a>,
-	<a href="http://www.blubrry.com/podcast_statistics/" target="_blank" title="Blubrry Statistics">Blubrry.com</a>,
-	<a href="http://www.techpodcasts.com/podcast_statistics/" target="_blank" title="TechPodcasts Statistics">TechPodcasts.com</a>,
-	<a href="http://www.rawvoice.com/products/statistics/" target="_blank" title="RawVoice Statistics">RawVoice.com</a>
-	are supported.
-</p>
--->
-
-
 <?php
 }
-
-function powerpress_admin_basic_diagnostics()
+	
+function powerpressadmin_appearance($General=false)
 {
+	if( $General === false )
+		$General = powerpress_get_settings('powerpress_general');
+	$General = powerpress_default_settings($General, 'appearance');
+	
+	$Players = array('podcast'=>'Default Podcast (podcast)');
+	if( isset($General['custom_feeds']) )
+	{
+		while( list($podcast_slug, $podcast_title) = each($General['custom_feeds']) )
+		{
+			if( $podcast_slug == 'podcast' )
+				continue;
+			$Players[$podcast_slug] = sprintf('%s (%s)', $podcast_title, $podcast_slug);
+		}
+	}
+
+ // <input type="hidden" name="action" value="powerpress-save-appearance" />
 ?>
-<h2><?php echo __('Tools'); ?></h2>
+
+<h3><?php echo __("Appearance Settings"); ?></h3>
+
 <table class="form-table">
+
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
 <tr valign="top">
-<th scope="row"><?php echo __("Diagnostics"); ?></th> 
-<td>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . ($AdvancedMode?'admin':'options-general') .'.php?page=powerpress/powerpressadmin_basic.php&amp;action=powerpress-diagnostics'; ?>"><?php _e('Diagnose Your PowerPress Installation'); ?></a></strong></p>
-	<p>
-	<?php echo __('The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.'); ?>
-	</p>
+<th scope="row"><?php echo __("Media Presentation"); ?></th> 
+<td><select name="General[display_player]"  class="bpp_input_sm">
+<?php
+$displayoptions = array(1=>"Below Post", 2=>"Above Post", 0=>"None");
+
+while( list($value,$desc) = each($displayoptions) )
+	echo "\t<option value=\"$value\"". ($General['display_player']==$value?' selected':''). ">$desc</option>\n";
+
+?>
+</select> (where player and/or links will be displayed)
+<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if($General['display_player_excerpt']) echo 'checked '; ?>/> Display player / links in <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="Explanation of an excerpt in Wordpress" target="_blank">excerpts</a>  (e.g. search results)</p>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("Display Media Player"); ?></th>
+<td><select name="General[player_function]" class="bpp_input_med" onchange="javascript: jQuery('#new_window_settings').css('display', (this.value==1||this.value==3?'block':'none') );">
+<?php
+$playeroptions = array(1=>'On Page & New Window', 2=>'On Page Only', 3=>'New Window Only', /* 4=>'On Page Link', 5=>'On Page Link & New Window', */ 0=>'Disable');
+
+while( list($value,$desc) = each($playeroptions) )
+	echo "\t<option value=\"$value\"". ($General['player_function']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+
+?>
+</select>
 </td>
 </tr>
 </table>
+
+<div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Width"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
+Width of new window (leave blank for 320 default)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Height"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_height']; ?>" maxlength="4" />
+Height of new window (leave blank for 240 default)
+</td>
+</tr>
+</table>
+</div>
+
+
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Download Link"); ?></th> 
+<td>
+<select name="General[podcast_link]" class="bpp_input_med">
 <?php
-}
+$linkoptions = array(1=>"Display", 2=>"Display with file size", 3=>"Display with file size and duration", 0=>"Disable");
+
+while( list($value,$desc) = each($linkoptions) )
+	echo "\t<option value=\"$value\"". ($General['podcast_link']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+</select>
+</td>
+</tr>
+
+<?php
+		if( false && count($Players) > 1 )
+		{
+?>
+<tr valign="top">
+<th scope="row"><?php echo __("Disable Player for"); ?></th> 
+<td>
+	<input type="hidden" name="UpdateDisablePlayer" value="1" />
+	<?php
+			while( list($podcast_slug, $podcast_title) = each($Players) )
+			{
+	?>
+	<p><input name="DisablePlayer[<?php echo $podcast_slug; ?>]" type="checkbox" value="1" <?php if( isset($General['disable_player'][$podcast_slug]) ) echo 'checked '; ?>/> <?php echo htmlspecialchars($podcast_title); ?> <?php echo __('feed episodes'); ?></p>
+	<?php
+			}
+	?>
+	<p>Check the custom podcast feeds above that you do not want in-page players for.</p>
+</td>
+</tr>
+<?php
+		}
+	} // end advanced mode
+?>
+
+
+<tr valign="top">
+<th scope="row" style="background-image: url(../wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
+
+<div style="margin-left: 24px;"><?php _e("Having Theme Issues?"); ?></div></th>
+<td>
+	<select name="General[player_aggressive]" class="bpp_input_med">
+<?php
+$linkoptions = array(0=>"No, everything is working great", 1=>"Yes, please try to fix");
+
+while( list($value,$desc) = each($linkoptions) )
+	echo "\t<option value=\"$value\"". ($General['player_aggressive']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+</select>
+<p style="margin-top: 5px;">
+	Use this option if you are having problems with the players not appearing in your pages.
+</p>
+</td>
+</tr>
+</table>
+
+
+
+<h3><?php echo __("Video Player Settings"); ?></h3>
+
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __("Player Width"); ?>
+</th>
+<td>
+<input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width']; ?>" maxlength="4" />
+Width of player (leave blank for 320 default)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("Player Height"); ?>
+</th>
+<td>
+<input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_height']; ?>" maxlength="4" />
+Height of player (leave blank for 240 default)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("QuickTime Scale"); ?></th>
+<td>
+	<select name="General[player_scale]" class="bpp_input_sm" onchange="javascript:jQuery('#player_scale_custom').css('display', (this.value=='tofit'||this.value=='aspect'? 'none':'inline' ))">
+<?php
+	$scale_options = array('aspect'=>"Aspect (default)", 'tofit'=>"ToFit"); 
+	if( !isset($General['player_scale']) )
+		$General['player_scale'] = 'aspect';
+	
+	if( is_numeric($General['player_scale']) )
+		$scale_options[ $General['player_scale'] ]='Custom';
+	else
+		$scale_options['custom']='Custom';
+
+
+
+while( list($value,$desc) = each($scale_options) )
+	echo "\t<option value=\"$value\"". ($General['player_scale']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+</select>
+<span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
+	Scale: <input type="text" name="PlayerScaleCustom" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9.]/g, '');" value="<?php echo (is_numeric($General['player_scale'])?$General['player_scale']:''); ?>" maxlength="4" /> e.g. 1.5
+</span>
+<p style="margin-top: 5px;">
+	If you do not see video, adjust the width, height and scale settings above.
+</p>
+</td>
+</tr>
+
+</table>
+
+<h3>Audio Player Settings</h3>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __("Default Player Width"); ?>
+</th>
+<td>
+<input type="text" name="General[player_width_audio]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width_audio']; ?>" maxlength="4" />
+Width of Audio mp3 player (leave blank for 320 default)
+</td>
+</tr>
+</table>
+
+<?php  
+} // End powerpress_admin_appearance()
 
 ?>

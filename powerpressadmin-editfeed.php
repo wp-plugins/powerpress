@@ -125,21 +125,31 @@ function powerpress_admin_capabilities()
 	asort($capnames);
 	return $capnames;
 }
-
-// powerpressadmin_editfeed.php
-function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
+$g_SupportUploads = null;
+function powerpressadmin_support_uploads()
 {
-	$SupportUploads = false;
+	global $g_SupportUploads;
+	if( $g_SupportUploads != null )
+		return $g_SupportUploads;
+	
+	$g_SupportUploads = false;
 	$UploadArray = wp_upload_dir();
 	if( false === $UploadArray['error'] )
 	{
 		$upload_path =  $UploadArray['basedir'].'/powerpress/';
 		
 		if( !file_exists($upload_path) )
-			$SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
+			$g_SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
 		else
-			$SupportUploads = true;
+			$g_SupportUploads = true;
 	}
+	return $g_SupportUploads;
+}
+
+// powerpressadmin_editfeed.php
+function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
+{
+	$SupportUploads = powerpressadmin_support_uploads();
 	$General = powerpress_get_settings('powerpress_general');
 	
 	
@@ -152,6 +162,9 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 			$FeedSettings['title'] = $General['custom_feeds'][$feed_slug];
 		}
 		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
+		
+		if( !isset($General['custom_feeds'][$feed_slug]) )
+			$General['custom_feeds'][$feed_slug] = 'Podcast (default)';
 	}
 	else if( $cat_ID )
 	{
@@ -167,38 +180,108 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	$FeedTitle = __('Feed Settings');
 	if( $feed_slug )
 	{
-		$FeedTitle = sprintf( '%s: %s', $FeedTitle, $General['custom_feeds'][$feed_slug]) ;
+		$FeedTitle = sprintf( 'Podcast Channel: %s', $General['custom_feeds'][$feed_slug]);
 		echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
 	}
 	else if( $cat_ID )
 	{
 		$category = get_category_to_edit($cat_ID);
-		$FeedTitle = sprintf( 'Category %s: %s', $FeedTitle, $category->name) ;
+		$FeedTitle = sprintf( 'Category Feed: %s', $FeedTitle, $category->name);
 		echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
 	}
 	
-	$AdvancedMode = $General['advanced_mode'];
+		echo '<h2>'. $FeedTitle .'</h2>';
 ?>
-<h2><?php echo $FeedTitle; ?></h2>
-<?php if( $feed_slug ) { ?>
+<div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
+  <ul class="powerpress_settings_tabs">
+		<li><a href="#feed_tab_feed"><span>Feed Settings</span></a></li>
+		<li><a href="#feed_tab_itunes"><span>iTunes Settings</span></a></li>
+	<?php if( $feed_slug ) { ?>
+		<li><a href="#feed_tab_appearance"><span>Appearance</span></a></li>
+		<li><a href="#feed_tab_other"><span>Other Settings</span></a></li> 
+	<?php } ?>
+  </ul>
+	
+	
+	<div id="feed_tab_feed" class="powerpress_tab">
+		<?php
+		//powerpressadmin_edit_feed_general($FeedSettings, $General);
+		//powerpressadmin_edit_feed_settings($FeedSettings, $General);
+		powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID, $feed_slug );
+		?>
+	</div>
+	
+	<div id="feed_tab_itunes" class="powerpress_tab">
+		<?php
+		//powerpressadmin_edit_itunes_general($General);
+		if( $feed_slug != 'podcast' )
+			powerpressadmin_edit_itunes_general($General, $FeedSettings);
+		powerpressadmin_edit_itunes_feed($FeedSettings, $General);
+		?>
+	</div>
+	
+	<?php if( $feed_slug ) { ?>
+	<div id="feed_tab_appearance" class="powerpress_tab">
+		<?php
+		//powerpressadmin_appearance($General);
+		powerpressadmin_edit_appearance_feed($General, $feed_slug);
+		?>
+	</div>
+	
+	<div id="feed_tab_other" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_basics_feed($General, $feed_slug)
+		?>
+	</div>
+	<?php } ?>
+	
+</div>
+<div class="clear"></div>
+<?php
+
+
+
+
+		//if( !$cat_ID && !$feed_slug )
+		//	powerpressadmin_edit_feed_general($FeedSettings, $General);
+		
+		
+		
+		
+}
+
+function powerpressadmin_edit_podcast_channel($FeedSettings, $General)
+{
+	// TODO
+?>
 <input type="hidden" name="action" value="powerpress-save-customfeed" />
 <p style="margin-bottom: 0;">
 	<?php _e('Configure your custom podcast feed.'); ?>
 </p>
-<?php } else if( $cat_ID ) { ?>
+<?php
+}
+
+function powerpressadmin_edit_category_feed($FeedSettings, $General)
+{
+?>
 <input type="hidden" name="action" value="powerpress-save-categoryfeedsettings" />
 <p style="margin-bottom: 0;">
 	<?php _e('Configure your category feed to support podcasting.'); ?>
 </p>
-<?php } else { ?>
-<input type="hidden" name="action" value="powerpress-save-feedsettings" />
-<p style="margin-bottom: 0;">
-	<?php _e('Configure your feeds to support podcasting.'); ?>
-</p>
-<?php } ?>
+<?php
+}
+
+function powerpressadmin_edit_feed_general($FeedSettings, $General)
+{
+	$AdvancedMode = $General['advanced_mode'];
+?>
+<h3>Podcast Feeds</h3>
 <table class="form-table">
-<?php if( !$feed_slug && !$cat_ID ) { ?>
-<?php if( $AdvancedMode ) { ?>
+
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
 <tr valign="top">
 <th scope="row">
 
@@ -222,28 +305,12 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		<li><label><input type="radio" name="Feed[apply_to]" value="0" <?php if( $FeedSettings['apply_to'] == 0 ) echo 'checked'; ?> /> Do Not Enhance Feeds</label></li>
 		<li>
 			<ul>
-				<li>Feed Settings below will only apply to your podcast only feeds</li>
+				<li>Feed Settings below will only apply to your podcast channel feeds</li>
 			</ul>
 		</li>
 	</ul>
-		
-<?php /* ?>
-<select name="Feed[apply_to]" class="bpp_input_large"  style="width: 60%;">
-<?php
-$applyoptions = array(1=>'All RSS2 Feeds (category / tag specific podcast feeds)', 2=>'Main RSS2 Feed only', 0=>'Disable (settings below ignored)');
-
-while( list($value,$desc) = each($applyoptions) )
-	echo "\t<option value=\"$value\"". ($FeedSettings['apply_to']==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-</select>
-<p>Select 'All RSS Feeds' to include podcast episodes in all feeds such as category and tag feeds.</p>
-<p>Select 'Main RSS2 Feed only' to include podcast episodes only in your primary RSS2 feed.</p>
-<p>Select 'Disable' to prevent Blubrry PowerPress from adding podcast episodes to any feeds.</p>
-<?php */ ?>
 </td>
 </tr>
-<?php } // End AdvancedMode ?>
 
 <tr valign="top">
 <th scope="row">
@@ -253,16 +320,17 @@ while( list($value,$desc) = each($applyoptions) )
 	<p style="margin-top: 5px; margin-bottom: 0;">Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
 </td>
 </tr>
-
-
+<?php
+	}
+?>
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Custom Podcast Feeds"); ?></th> 
+<?php _e("Your Podcast Feeds"); ?></th> 
 <td>
 <?php
 	
-	$General = get_option('powerpress_general');
+	//$General = get_option('powerpress_general');
 	$Feeds = array('podcast'=>'Special Podcast only Feed');
 	if( isset($General['custom_feeds']['podcast']) )
 		$Feeds = $General['custom_feeds'];
@@ -271,19 +339,29 @@ while( list($value,$desc) = each($applyoptions) )
 		
 	while( list($feed_slug, $feed_title) = each($Feeds) )
 	{
-		$edit_link = admin_url(  ($AdvancedMode?'admin':'options-general') .'.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
+		$edit_link = admin_url( 'admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
 ?>
 <p><?php echo $feed_title; ?>: <a href="<?php echo get_feed_link($feed_slug); ?>" title="<?php echo $feed_title; ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a>
 | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" title="Validate Feed" target="_blank">validate</a>
-	<?php if( $AdvancedMode ) { ?>
-	| <a href="<?php echo $edit_link; ?>" title="Edit Feed">edit</a>
+	<?php if( false && $feed_slug != 'podcast' ) { ?>
+	| <a href="<?php echo $edit_link; ?>" title="Edit Podcast Channel">edit</a>
 	<?php } ?>
 </p>
 <?php } ?>
 </td>
 </tr>
-<?php } else { // Else if( $feed_slug)  ?>
+</table>
+<?php
+}
 
+function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = false, $feed_slug = false)
+{
+	$SupportUploads = powerpressadmin_support_uploads();
+	if( $cat_ID || $feed_slug )
+	{
+?>
+<h3>Feed Information</h3>
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php _e("Feed URL"); ?> <br />
@@ -296,8 +374,17 @@ while( list($value,$desc) = each($applyoptions) )
 <?php } ?>
 </td>
 </tr>
+</table>
+<?php
+	}
+?>
+<h3>Feed Settings</h3>
+<table class="form-table">
 
-
+<?php
+if( $feed_slug || $cat_ID )
+{
+?>
 <tr valign="top">
 <th scope="row">
 <?php _e("Feed Title"); ?>
@@ -342,7 +429,7 @@ while( list($value,$desc) = each($applyoptions) )
 <?php
 
 	// TODO: This is a bug, user should be able to ping a specific feed without pinging the main feed.
-	if( $General['ping_itunes'] && $feed_slug != 'podcast' )
+	if( false && $General['ping_itunes'] && $feed_slug != 'podcast' )
 	{
 ?>
 <tr valign="top">
@@ -449,44 +536,178 @@ else
 <td>
 <input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" />  episodes / posts per feed (leave blank to use blog default: <?php form_option('posts_per_rss'); ?>)
 <?php if( !$feed_slug && !$cat_ID ) { ?>
-<p style="margin-top: 5px; margin-bottomd: 0;">Note: Setting above applies only to custom podcast feeds</p>
+<p style="margin-top: 5px; margin-bottomd: 0;">Note: Setting above applies only to podcast channel feeds</p>
 <?php } ?>
 </td>
 </tr>
 
-<?php if( $AdvancedMode ) { ?>
-	<tr valign="top">
-	<th scope="row" >
+<tr valign="top">
+<th scope="row">
+<?php _e("RSS2 Image"); ?> <br />
+</th>
+<td>
+<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo $FeedSettings['rss2_image']; ?>" maxlength="250" />
+<a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;">preview</a>
 
-<?php _e("iTunes New Feed URL"); ?></th> 
-	<td>
-		<div id="new_feed_url_step_1" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'none':'block'); ?>;">
-			 <p style="margin-top: 5px;"><a href="#" onclick="return powerpress_new_feed_url_prompt();">Click here</a> if you need to change the Feed URL for iTunes subscribers.</p>
-		</div>
-		<div id="new_feed_url_step_2" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'block':'none'); ?>;">
-			<p style="margin-top: 5px;"><strong>WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.</strong></p>
-			<p><strong>DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.</strong></p>
-			<p>
-				Apple recommends you maintain the &lt;itunes:new-feed-url&gt; tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.
-			</p>
-			<p>
-				Example URL: <?php echo get_feed_link( ($feed_slug?$feed_slug:'podcast') ); ?>
-			</p>
-			<p style="margin-bottom: 0;">
-				<label style="width: 25%; float:left; display:block; font-weight: bold;">New Feed URL</label>
-				<input type="text" name="Feed[itunes_new_feed_url]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
-			</p>
-			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
-			<p>More information regarding the iTunes New Feed URL is available <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank" title="Apple iTunes Podcasting Specificiations">here</a>.</p>
-		</div>
-	</td>
-	</tr>
+<p>Place the URL to the RSS image above. e.g. http://mysite.com/images/rss.jpg</p>
+<p>RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.</p>
 
+<?php if( $SupportUploads ) { ?>
+<p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> Upload new image</p>
+<div style="display:none" id="rss_image_upload">
+	<label for="rss2_image">Choose file:</label><input type="file" name="rss2_image_file"  />
+</div>
+<?php } ?>
+</td>
+</tr>
+
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Feed Language"); ?></th>
+<td>
+<select name="Feed[rss_language]" class="bpp_input_med">
+<?php
+$Languages = powerpress_languages();
+
+echo '<option value="">Blog Default Language</option>';
+while( list($value,$desc) = each($Languages) )
+	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+?>
+</select>
+<?php
+	$rss_language = get_option('rss_language');
+if( isset($Languages[ $rss_language ]) )
+{
+?>
+ Blog Default: <?php echo $Languages[ $rss_language ]; ?>
+ <?php } ?>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php _e("Copyright"); ?>
+</th>
+<td>
+<input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
+</td>
+</tr>
+<?php
+	} // end advanced_mode
+?>
+
+<!-- password protected feed option -->
+<?php
+	if( @$General['feed_caps'] && $feed_slug && $feed_slug != 'podcast' )
+	{
+?>
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Password Protect Feed"); ?></th>
+<td>
+	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectFeed" value="1" <?php echo ($FeedSettings['user_cap']?'checked ':''); ?>/> Require user to be signed-in to access feed.</p>
+<?php ?>
+	<div style="margin-left: 20px;">User must have 
+<select name="Feed[user_cap]" class="bpp_input_med">
+<?php
+			$caps = powerpress_admin_capabilities();
+			if( !isset($FeedSettings['user_cap']) || $FeedSettings['user_cap'] == '' )
+				$FeedSettings['user_cap'] = 'premium_content';
+			
+			echo '<option value="">None</option>';
+			while( list($value,$desc) = each($caps) )
+				echo "\t<option value=\"$value\"". ($FeedSettings['user_cap']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+?>
+</select> capability.</div>
+</td>
+</tr>
+<?php
+	}
+?>
+
+</table>
+<?php
+}
+
+
+function powerpressadmin_edit_basics_feed($General, $feed_slug)
+{
+?>
+
+<h3>Episode Entry Options</h3>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php _e("Episode Box Background Color"); ?>
+</th>
+<td>
+<input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
+<div style="background-color: #FFDFEF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFDFEF'; jQuery('#episode_background_color').css({'background-color' :'#FFDFEF' });"></div>
+<div style="background-color: #FBECD8;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FBECD8'; jQuery('#episode_background_color').css({'background-color' :'#FBECD8' });"></div>
+<div style="background-color: #FFFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFFCC' });"></div>
+<div style="background-color: #DFFFDF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#DFFFDF'; jQuery('#episode_background_color').css({'background-color' :'#DFFFDF' });"></div>
+
+<div style="background-color: #EBFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBFFFF'; jQuery('#episode_background_color').css({'background-color' :'#EBFFFF' });"></div>
+<div style="background-color: #D9E0EF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#D9E0EF'; jQuery('#episode_background_color').css({'background-color' :'#D9E0EF' });"></div>
+<div style="background-color: #EBE0EB;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBE0EB'; jQuery('#episode_background_color').css({'background-color' :'#EBE0EB' });"></div>
+ &nbsp; (leave blank for default)
+
+<div class="clear"></div>
+</td>
+</tr>
+</table>
+<?php
+}
+
+function powerpressadmin_edit_appearance_feed($General,  $feed_slug)
+{
+	// Appearance Settings
+?>
+<h3>Appearance Settings</h3>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php _e("Disable Player"); ?>
+</th>
+<td>
+	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> Do not display web player or links for this podcast channel.</p>
+	<input type="hidden" name="UpdateDisablePlayer" value="<?php echo $feed_slug; ?>" />
+</td>
+</tr>
+</table>
+<?php
+}
+
+function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
+{
+	$SupportUploads = powerpressadmin_support_uploads();
+?>
+<h3>iTunes Feed Settings</h3>
+<table class="form-table">
+	
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
+<tr valign="top">
+<th scope="row">
+<?php _e("iTunes Program Subtitle"); ?> <br />
+</th>
+<td>
+<input type="text" name="Feed[itunes_subtitle]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_subtitle']; ?>" maxlength="250" />
+</td>
+</tr>
 
 <tr valign="top">
 <th scope="row">
 
-<?php _e("iTunes Summary"); ?></th>
+<?php _e("iTunes Program Summary"); ?></th>
 <td>
 <p style="margin-top: 5px;">Your summary may not contain HTML and cannot exceed 4,000 characters in length.</p>
 
@@ -497,19 +718,9 @@ else
 <?php } ?>
 </td>
 </tr>
-
-<tr valign="top">
-<th scope="row">
-<?php _e("iTunes Program Subtitle"); ?> <br />
-</th>
-<td>
-<input type="text" name="Feed[itunes_subtitle]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_subtitle']; ?>" maxlength="250" />
-</td>
-</tr>
-<?php } else { // End AdvancedMode ?>
-<input type="hidden" name="Feed[enhance_itunes_summary]" value="<?php echo ($FeedSettings['enhance_itunes_summary']?'1':'0'); ?>" />
-<?php } ?>
-
+<?php
+	}
+?>
 <tr valign="top">
 <th scope="row">
 <?php _e("iTunes Program Keywords"); ?> <br />
@@ -542,7 +753,10 @@ reset($Categories);
 </td>
 </tr>
 
-<?php if( $AdvancedMode ) { ?>
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
 <tr valign="top">
 <th scope="row">
 <?php _e("iTunes Category 2"); ?> 
@@ -583,7 +797,9 @@ reset($Categories);
 </select>
 </td>
 </tr>
-<?php } // End AdvancedMode ?>
+<?php
+	} // end advanced_mode
+?>
 
 <tr valign="top">
 <th scope="row">
@@ -622,59 +838,13 @@ while( list($value,$desc) = each($explicit) )
 </td>
 </tr>
 
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
 <tr valign="top">
 <th scope="row">
-<?php _e("RSS2 Image"); ?> <br />
-</th>
-<td>
-<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo $FeedSettings['rss2_image']; ?>" maxlength="250" />
-<a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;">preview</a>
-
-<p>Place the URL to the RSS image above. e.g. http://mysite.com/images/rss.jpg</p>
-<p>RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.</p>
-
-<?php if( $SupportUploads ) { ?>
-<p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> Upload new image</p>
-<div style="display:none" id="rss_image_upload">
-	<label for="rss2_image">Choose file:</label><input type="file" name="rss2_image_file"  />
-</div>
-<?php } ?>
-</td>
-</tr>
-
-<?php if( $AdvancedMode ) { ?>
-<tr valign="top">
-<th scope="row">
-
-<?php _e("Feed Language"); ?></th>
-<td>
-<?php
-	
-
-
-?>
-<select name="Feed[rss_language]" class="bpp_input_med">
-<?php
-$Languages = powerpress_languages();
-
-echo '<option value="">Blog Default Language</option>';
-while( list($value,$desc) = each($Languages) )
-	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
-?>
-</select>
-<?php
-	$rss_language = get_option('rss_language');
-if( isset($Languages[ $rss_language ]) )
-{
-?>
- Blog Default: <?php echo $Languages[ $rss_language ]; ?>
- <?php } ?>
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php _e("Talent Name"); ?> <br />
+<?php _e("iTunes Talent Name"); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
@@ -682,82 +852,56 @@ if( isset($Languages[ $rss_language ]) )
 
 </td>
 </tr>
-
-
-<!-- password protected feed option -->
-<?php 
-		if( @$General['feed_caps'] && $feed_slug && $feed_slug != 'podcast' )
-		{
-?>
-<tr valign="top">
-<th scope="row">
-
-<?php _e("Password Protect Feed"); ?></th>
-<td>
-	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectFeed" value="1" <?php echo ($FeedSettings['user_cap']?'checked ':''); ?>/> Require user to be signed-in to access feed.</p>
-<?php ?>
-	<div style="margin-left: 20px;">User must have 
-<select name="Feed[user_cap]" class="bpp_input_med">
 <?php
-			$caps = powerpress_admin_capabilities();
-			if( !isset($FeedSettings['user_cap']) || $FeedSettings['user_cap'] == '' )
-				$FeedSettings['user_cap'] = 'premium_content';
-			
-			echo '<option value="">None</option>';
-			while( list($value,$desc) = each($caps) )
-				echo "\t<option value=\"$value\"". ($FeedSettings['user_cap']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+	}
 ?>
-</select> capability.</div>
-</td>
-</tr>
-<?php
-		}
-?>
-
-<?php } // End AdvancedMode ?>
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Email"); ?>
+<?php _e("iTunes Email"); ?>
 </th>
 <td>
 <input type="text" name="Feed[email]"  style="width: 60%;" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
+<div>(iTunes will email this address when your podcast is accepted into the iTunes Directory.)</div>
 </td>
 </tr>
 
-<?php if( $AdvancedMode ) { ?>
-<tr valign="top">
-<th scope="row">
-<?php _e("Copyright"); ?>
-</th>
-<td>
-<input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
-</td>
-</tr>
-<?php } // End AdvancedMode ?>
-<?php if( $feed_slug ) { ?>
-<tr valign="top">
-<th scope="row">
-<?php _e("Episode Box Background Color"); ?>
-</th>
-<td>
-<input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
-<div style="background-color: #FFDFEF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFDFEF'; jQuery('#episode_background_color').css({'background-color' :'#FFDFEF' });"></div>
-<div style="background-color: #FBECD8;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FBECD8'; jQuery('#episode_background_color').css({'background-color' :'#FBECD8' });"></div>
-<div style="background-color: #FFFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFFCC' });"></div>
-<div style="background-color: #DFFFDF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#DFFFDF'; jQuery('#episode_background_color').css({'background-color' :'#DFFFDF' });"></div>
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
+	<tr valign="top">
+	<th scope="row" >
 
-<div style="background-color: #EBFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBFFFF'; jQuery('#episode_background_color').css({'background-color' :'#EBFFFF' });"></div>
-<div style="background-color: #D9E0EF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#D9E0EF'; jQuery('#episode_background_color').css({'background-color' :'#D9E0EF' });"></div>
-<div style="background-color: #EBE0EB;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBE0EB'; jQuery('#episode_background_color').css({'background-color' :'#EBE0EB' });"></div>
- &nbsp; (leave blank for default)
+<?php _e("iTunes New Feed URL"); ?></th> 
+	<td>
+		<div id="new_feed_url_step_1" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'none':'block'); ?>;">
+			 <p style="margin-top: 5px;"><a href="#" onclick="return powerpress_new_feed_url_prompt();">Click here</a> if you need to change the Feed URL for iTunes subscribers.</p>
+		</div>
+		<div id="new_feed_url_step_2" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'block':'none'); ?>;">
+			<p style="margin-top: 5px;"><strong>WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.</strong></p>
+			<p><strong>DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.</strong></p>
+			<p>
+				Apple recommends you maintain the &lt;itunes:new-feed-url&gt; tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.
+			</p>
+			<p>
+				Example URL: <?php echo get_feed_link( ($feed_slug?$feed_slug:'podcast') ); ?>
+			</p>
+			<p style="margin-bottom: 0;">
+				<label style="width: 25%; float:left; display:block; font-weight: bold;">New Feed URL</label>
+				<input type="text" name="Feed[itunes_new_feed_url]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
+			</p>
+			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
+			<p>More information regarding the iTunes New Feed URL is available <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank" title="Apple iTunes Podcasting Specificiations">here</a>.</p>
+		</div>
+	</td>
+	</tr>
+<?php
+	} // end advanced_mode
+?>
 
-<div class="clear"></div>
-</td>
-</tr>
-<?php } // end customm feeds ?>
 </table>
 <?php
-	}
+}
 	
 ?>

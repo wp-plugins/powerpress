@@ -12,7 +12,7 @@ function powerpress_admin_players_init()
 	
 	$action = (isset($_GET['action'])?$_GET['action']: (isset($_POST['action'])?$_POST['action']:false) );
 
-        if( !$action )
+	if( !$action )
 		return;
 		
 	switch($action)
