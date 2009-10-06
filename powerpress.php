@@ -1206,6 +1206,10 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 		case 'qt':
 		case 'mov': {
 			
+			$GeneralSettings = get_option('powerpress_general');
+			if( !isset($GeneralSettings['player_scale']) )
+				$GeneralSettings['player_scale'] = 'aspect';
+				
 			// If there is no cover image specified, lets use the default...
 			if( $cover_image == '' )
 				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
@@ -1214,14 +1218,14 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'"></div>'.PHP_EOL;
 				$content .= '<script type="text/javascript">'.PHP_EOL;
-				$content .= "powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );\n";
+				$content .= "powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$GeneralSettings['player_scale']}');\n";
 				$content .= "</script>\n";
 			}
 			else
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">'.PHP_EOL;
 				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
-				$content .= "return powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );";
+				$content .= "return powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$GeneralSettings['player_scale']}' );";
 				$content .= '">';
 				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
 				$content .= '</a>';

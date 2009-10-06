@@ -1564,44 +1564,44 @@ function powerpress_do_ping_itunes($post_id)
 				$PingResults = powerpress_ping_itunes($Settings['itunes_url']);
 				powerpress_ping_itunes_log($PingResults, $post_id);
 			}
+		}
+	}
+	
+	// Category feeds
+	if( isset($Settings['custom_cat_feeds']) )
+	{
+		$post_categories = wp_get_post_categories($post_id);
+		while( list($null, $cat_id) = each($post_categories) )
+		{
+			if( !in_array($cat_id, $Settings['custom_cat_feeds']) )
+				continue; // This isn't a podcast category, so skip it...
 			
-			// Category feeds
-			if( isset($Settings['custom_cat_feeds']) )
+			$FeedSettings = get_option('powerpress_cat_feed_'.$cat_id);
+			if( $FeedSettings && @$FeedSettings['ping_itunes'] && $FeedSettings['itunes_url'] )
 			{
-				$post_categories = wp_get_post_categories($post_id);
-				while( list($null, $cat_id) = each($post_categories) )
-				{
-					if( !in_array($cat_id, $Settings['custom_cat_feeds']) )
-						continue; // This isn't a podcast category, so skip it...
-					
-					$FeedSettings = get_option('powerpress_cat_feed_'.$cat_id);
-					if( $FeedSettings && $FeedSettings['itunes_url'] )
-					{
-						$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
-						powerpress_ping_itunes_log($PingResults, $post_id);
-					}
-				}
+				$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
+				powerpress_ping_itunes_log($PingResults, $post_id);
 			}
 		}
-		
-		// Custom Podcast Feeds
-		if( isset($Settings['custom_feeds']) )
+	}
+	
+	// Custom Podcast Feeds
+	if( isset($Settings['custom_feeds']) )
+	{
+		while( list($feed_slug,$null) = each($Settings['custom_feeds']) )
 		{
-			while( list($feed_slug,$null) = each($Settings['custom_feeds']) )
+			if( $feed_slug == 'podcast' )
+				continue;
+			
+			// Next double check we're looking at a podcast episode...
+			$Enclosure = get_post_meta($post_id, '_'.$feed_slug.':enclosure', true);
+			if( $Enclosure )
 			{
-				if( $feed_slug == 'podcast' )
-					continue;
-				
-				// Next double check we're looking at a podcast episode...
-				$Enclosure = get_post_meta($post_id, '_'.$feed_slug.':enclosure', true);
-				if( $Enclosure )
+				$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
+				if( $FeedSettings && @$FeedSettings['ping_itunes'] && $FeedSettings['itunes_url'] )
 				{
-					$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
-					if( $FeedSettings && $FeedSettings['itunes_url'] )
-					{
-						$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
-						powerpress_ping_itunes_log($PingResults, $post_id);
-					}
+					$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
+					powerpress_ping_itunes_log($PingResults, $post_id);
 				}
 			}
 		}

@@ -28,7 +28,7 @@
 	@width - width of player
 	@height - height of player
 */
-function powerpress_embed_quicktime(div,media_url,width,height)
+function powerpress_embed_quicktime(div,media_url,width,height,scale)
 {
 	if( document.getElementById(div) )
 	{
@@ -48,11 +48,11 @@ function powerpress_embed_quicktime(div,media_url,width,height)
 		Html += '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="'+ width +'" height="'+ height +'" codebase="http://www.apple.com/qtactivex/qtplugin.cab">\n';
 		Html += '	<param name="src" value="'+ media_url +'" />\n';
 		Html += '	<param name="href" value="'+ media_url +'" />\n';
-		Html += '	<param name="scale" value="tofit" />\n';
+		Html += '	<param name="scale" value="'+ scale +'" />\n';
 		Html += '	<param name="controller" value="true" />\n';
 		Html += '	<param name="autoplay" value="true" />\n';
 		Html += '	<param name="pluginspage" value="http://www.apple.com/quicktime/download/" />\n';
-		Html += '	<embed type="'+ contentType +'" src="'+ media_url +'" width="'+ width +'" height="'+ height +'" scale="tofit" correction="full" cache="true" autoplay="true" controller="true" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
+		Html += '	<embed type="'+ contentType +'" src="'+ media_url +'" width="'+ width +'" height="'+ height +'" scale="'+ scale +'" correction="full" cache="true" autoplay="true" controller="true" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
 		Html += '</object>\n';
 		document.getElementById(div).innerHTML = Html;
 		return false; // stop the default link from proceeding

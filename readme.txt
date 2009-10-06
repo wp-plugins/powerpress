@@ -99,9 +99,10 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * New option that may fix issues with themes that strip the player from posts and pages. Confirmed fix works with Hybird based themes.
 * Relabeled Custom Podcast Feeds to Custom Channels to clear up confusion.
 * Reorganized settings pages with tabbed sections.
+* Added new Video Scale setting, users can choose between 'scale', 'tofit, or enter their own scale value such as 1.5.
 * Added new 'E-Book PDF' label for download links of PDF files.
 * Added new CSS class to download links in the form of powerpress_links_EXTENSION, where EXTENSION is replaced with the media file extension in lower case. e.g. powerpress_links_mp3. Learn more: [PowerPress Advanced Tweaks](http://help.blubrry.com/blubrry-powerpress/advanced-tweaks/)
-
+* Update iTunes Listing option in Podcast Channels and Podcast Category Feeds is now independant of main Update iTunes Listing setting.
 
 = 0.9.11 =
 * Released on 10/01/2009
