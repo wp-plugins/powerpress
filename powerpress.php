@@ -150,6 +150,9 @@ function powerpress_content($content)
 	$ExcludePlayers = array();
 	if( isset($GeneralSettings['disable_player']) )
 		$ExcludePlayers = $GeneralSettings['disable_player']; // automatically disable the players configured
+		
+	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
+		return $content;
 	
 	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
 	{

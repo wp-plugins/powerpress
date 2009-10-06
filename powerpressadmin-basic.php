@@ -114,7 +114,7 @@ function SelectEntryBox(mode)
 			Select from 5 different web based audio flash players.
 		</div>
 		<div>
-			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> <strong>Podcast Channels</strong> - 
+			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> <strong>Custom Podcast Channels</strong> - 
 			Manage multiple media files and/or formats to one blog post.
 		</div>
 		<div>
