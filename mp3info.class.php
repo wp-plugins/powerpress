@@ -110,7 +110,7 @@
 			// The following code relies on fopen_url capability.
 			if( $RedirectCount > $this->m_RedirectLimit )
 			{
-				$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (fopen).' );
+				$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (fopen).' );
 				return false;
 			}
 			
@@ -263,7 +263,7 @@
 			{
 				if( $RedirectCount > $this->m_RedirectLimit )
 				{
-					$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL in safe mode).' );
+					$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL in safe mode).' );
 					return false;
 				}
 				$this->m_RedirectCount = $RedirectCount;
@@ -305,7 +305,7 @@
 					case 307: {
 						if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 						{
-							$this->SetError( 'Download exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL).' );
+							$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL).' );
 						}
 						else
 						{
