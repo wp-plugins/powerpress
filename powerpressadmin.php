@@ -793,9 +793,9 @@ function powerpress_admin_menu()
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options'), __('Audio Player'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			
 			if( $Powerpress['channels'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Custom Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Podcast Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( $Powerpress['cat_casting'] )	
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Feeds'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Casting'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 			if( @$Powerpress['podpress_stats'] )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			

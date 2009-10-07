@@ -1383,6 +1383,9 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				continue;
 			
 			$EpisodeData = powerpress_get_enclosure_data($post->ID, $feed_slug);
+			if( !$EpisodeData && $GeneralSettings['process_podpress'] && $feed_slug == 'podcast' )
+				$EpisodeData = powerpress_get_enclosure_data_podpress($post->ID);
+				
 			if( !$EpisodeData )
 				continue;
 				

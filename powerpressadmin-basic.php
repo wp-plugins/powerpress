@@ -111,15 +111,15 @@ function SelectEntryBox(mode)
 		</div>
 		<div>
 			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?>/> <strong>Audio Player Options</strong> - 
-			Select from 5 different web based audio flash players.
+			Select from 5 different web based audio flash players. <span style="font-size: 85%;">(feature will appear in left menu when enabled)</span>
 		</div>
 		<div>
 			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> <strong>Custom Podcast Channels</strong> - 
-			Manage multiple media files and/or formats to one blog post.
+			Manage multiple media files and/or formats to one blog post. <span style="font-size: 85%;">(feature will appear in left menu when enabled)</span>
 		</div>
 		<div>
 			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> <strong>Category Casting</strong> - 
-			Manage category podcast feeds.
+			Manage category podcast feeds. <span style="font-size: 85%;">(feature will appear in left menu when enabled)</span>
 		</div>
 	</div>
 </div>

@@ -89,8 +89,12 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
 * Released on TBD
+
+
+= 1.0.0beta =
+* Released on 10/06/2009
 * Added 4 new mp3 flash players: 1 Pixel Out Player, Mp3 Player Maxi, Simple Flash MP3 Player and AudioPlay player.
 * Added PodPress Stats Archive view (option available in Settings > Basic page).
 * Added 'Verify' media option next to Media URL box to check entered URL and detect file size/duration information.
@@ -103,6 +107,8 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 * Added new 'E-Book PDF' label for download links of PDF files.
 * Added new CSS class to download links in the form of powerpress_links_EXTENSION, where EXTENSION is replaced with the media file extension in lower case. e.g. powerpress_links_mp3. Learn more: [PowerPress Advanced Tweaks](http://help.blubrry.com/blubrry-powerpress/advanced-tweaks/)
 * Update iTunes Listing option in Podcast Channels and Podcast Category Feeds is now independant of main Update iTunes Listing setting.
+* Made additional tweaks to further support the old PodPress [display_podcast] shortcode.
+
 
 = 0.9.11 =
 * Released on 10/01/2009
