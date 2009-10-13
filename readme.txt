@@ -1,9 +1,9 @@
 === Podcasting - Blubrry PowerPress Podcast plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry
+Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu
 Requires at least: 2.6.0
 Tested up to: 2.8.4
-Stable tag: 0.9.11
+Stable tag: 1.0.2
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -63,6 +63,7 @@ Want more? Check out the advanced features.
 * FeedBurner Support: Use FeedBurner.com to host your podcast feeds.
 * *User Role Management: Control which users in your blog can podcast.
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
+* WordPress MU: Blubrry PowerPress is compatible with [WordPress MU](http://mu.wordpress.org/)
 
 *User Role Management requires a separate plugin to manage WordPress Roles and Capabilities. 
 
@@ -117,9 +118,11 @@ To install Blubrry PowerPress manually, follow these steps:
 
 == Screenshots ==
 1. Add podcast episode, found within the edit post screen
-2. Cross section of Blubrry PowerPress Feed settings page (Advanced Mode)
-3. Cross section of Blubrry PowerPress Basic settings page (Simple Mode)
-4. Cross section of blog post with built-in flash player and download links
+2. Select from 5 audio mp3 players for your web site
+3. Example of the Flow Player Classic in a blog post
+4. Example of the 1 Pixel Out Audio Player in a blog post
+5. Cross section of Blubrry PowerPress iTunes settings page
+
 
 == Changelog ==
 
@@ -128,7 +131,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added 4 new mp3 flash players: 1 Pixel Out Audio Player, Mp3 Player Maxi, Simple Flash MP3 Player and AudioPlay player.
 * Added PodPress Stats Archive view (option available in Settings > Basic Settings page).
 * Added 'Verify' media option next to Media URL box to check entered URL and detect file size/duration information.
-* Added Password Protect option for Custom Podcast Channels, allows for Premum Content (feature explained and enabled under Tools page).
+* Added Password Protect option for Custom Podcast Channels, allows for Premium Content (feature explained and enabled under Tools page).
 * Relabeled Custom Podcast Feeds to Custom Podcast Channels to clear up confusion.
 * Reorganized settings pages with tabbed sections.
 
