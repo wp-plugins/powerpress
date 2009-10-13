@@ -579,7 +579,7 @@ function audio_player_defaults()
 			<div class="color_control">
 <select style="width: 50px;" id="animation" name="Player[animation]" class="other_field"> 
                                 <?php
-                                $option = array('no','yes');
+                                $option = array('yes','no');
                                  foreach($option as $option){
                                         if($PlayerSettings['animation'] == $option):
                                             $selected = " SELECTED";
