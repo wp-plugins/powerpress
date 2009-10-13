@@ -296,8 +296,8 @@ function powerpress_admin_init()
 		
 		if( $Feed )
 		{
-			if( !isset($_POST['ProtectFeed']) && isset($Feed['user_cap']) )
-				$Feed['user_cap'] = false;
+			if( !isset($_POST['ProtectContent']) && isset($Feed['premium']) )
+				$Feed['premium'] = false;
 			if( !isset($Feed['enhance_itunes_summary']) )
 				$Feed['enhance_itunes_summary'] = false;
 			if( !isset($Feed['itunes_author_post']) )
@@ -622,9 +622,9 @@ function powerpress_admin_init()
 						$role->add_cap('premium_content');
 				}
 				
-				$General = array('feed_caps'=>true);
+				$General = array('premium_caps'=>true);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Password Protection Option for Custom Channel Feeds added to WordPress Blog.') );
+				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds added successfully.') );
 				
 			}; break;
 			case 'powerpress-remove-feed-caps': {
@@ -640,9 +640,9 @@ function powerpress_admin_init()
 				
 				remove_role('premium_subscriber');
 				
-				$General = array('feed_caps'=>false);
+				$General = array('premium_caps'=>false);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Password Protection Option for Custom Channel Feeds removed from WordPress Blog') );
+				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully.') );
 				
 			}; break;
 			case 'powerpress-clear-update_plugins': {

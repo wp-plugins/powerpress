@@ -22,7 +22,7 @@ function powerpress_admin_players_init()
 			$SaveSettings = array();
 			$SaveSettings = $_POST['Player'];
 			powerpress_save_settings($SaveSettings, 'powerpress_general');
-			powerpress_page_message_add_notice('Player selected successfully.');
+			powerpress_page_message_add_notice('Player activated successfully.');
 			
 		}; break;
 		case 'powerpress-audio-player': {

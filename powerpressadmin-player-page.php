@@ -97,7 +97,7 @@ jQuery(document).ready(function($) {
 div.color_control { display: block; float:left; width: 100%; padding:  0; }
 div.color_control input { display: inline; float: left; }
 div.color_control div.color_picker { display: inline; float: left; margin-top: 3px; }
-#player_preview { margin-bottom: 0px; height: 30px; margin-top: 8px; }
+#player_preview { margin-bottom: 0px; height: 50px; margin-top: 8px;}
 input#colorpicker-value-input {
 	width: 60px;
 	height: 16px;
@@ -113,6 +113,14 @@ input#colorpicker-value-input {
 	if( $select_player )
 	{
 ?>
+<script language="javascript" type="text/javascript">
+function powerpress_activate_player(Player)
+{
+	jQuery('#player_'+Player).attr('checked', true);
+	jQuery("form:first").submit();
+	return false;
+}
+</script>
 <input type="hidden" name="action" value="powerpress-select-player" />
 <h2><?php echo __('Blubrry PowerPress Player Options'); ?></h2>
 <p style="margin-bottom: 0;"><?php echo __('Select the media player you would like to use.'); ?></p>
@@ -122,7 +130,9 @@ input#colorpicker-value-input {
 <td>
 
 	<ul>
-		<li><label><input type="radio" name="Player[player]" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> /> Flow Player Classic (default)</label></li>
+		<li><label><input type="radio" name="Player[player]" id="player_default" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> /> Flow Player Classic (default)</label>
+			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('default');" title="Activate and Configure Flow Player Classic">Activate and Configure Now</a></strong>
+		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 <?php
@@ -149,7 +159,9 @@ input#colorpicker-value-input {
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" value="audio-player" <?php if( $General['player'] == 'audio-player' ) echo 'checked'; ?> /> 1 Pixel Out Audio Player</label></li>
+		<li><label><input type="radio" name="Player[player]" id="player_audio_player" value="audio-player" <?php if( $General['player'] == 'audio-player' ) echo 'checked'; ?> /> 1 Pixel Out Audio Player</label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audio_player');" title="Activate and Configure 1 Pixel Out Audio Player">Activate and Configure Now</a></strong>
+		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 <script language="JavaScript" src="<?php echo powerpressplayer_get_root_url();?>audio-player.js"></script>
@@ -166,7 +178,9 @@ input#colorpicker-value-input {
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" value="flashmp3-maxi" <?php if( $General['player'] == 'flashmp3-maxi' ) echo 'checked'; ?> /> Flash Player Maxi</label></li>
+		<li><label><input type="radio" name="Player[player]" id="player_flashmp3_maxi" value="flashmp3-maxi" <?php if( $General['player'] == 'flashmp3-maxi' ) echo 'checked'; ?> /> Mp3 Player Maxi</label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('flashmp3_maxi');" title="Activate and Configure Mp3 Player Maxi">Activate and Configure Now</a></strong>
+		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 				<object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>player_mp3_maxi.swf" width="200" height="20">
@@ -176,20 +190,22 @@ input#colorpicker-value-input {
 </object>
 			</p>
 			<p>
-				Flash Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options.
+				Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options.
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" value="simple_flash" <?php if( $General['player'] == 'simple_flash' ) echo 'checked'; ?> /> Simple Flash MP3 Player</label></li>
+		<li><label><input type="radio" name="Player[player]" id="player_simple_flash" value="simple_flash" <?php if( $General['player'] == 'simple_flash' ) echo 'checked'; ?> /> Simple Flash MP3 Player</label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('simple_flash');" title="Activate and Configure Simple Flash MP3 Player">Activate and Configure Now</a></strong>
+		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 
     <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
     <param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" />
     <param name="wmode" value="transparent" />
-    <param name="FlashVars" value="url=http://&amp;autostart=false" />
+    <param name="FlashVars" value="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" />
     <param name="quality" value="high" />
-    <embed wmode="transparent" src="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
+    <embed wmode="transparent" src="<?php echo get_bloginfo('home'); ?>?url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
 </object>
 			</p>
 			<p>
@@ -197,7 +213,9 @@ input#colorpicker-value-input {
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" value="audioplay" <?php if( $General['player'] == 'audioplay' ) echo 'checked'; ?> /> AudioPlay</label></li>
+		<li><label><input type="radio" name="Player[player]" id="player_audioplay" value="audioplay" <?php if( $General['player'] == 'audioplay' ) echo 'checked'; ?> /> AudioPlay</label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audioplay');" title="Activate and Configure AudioPlay">Activate and Configure Now</a></strong>
+		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="30" height="30">
@@ -225,7 +243,7 @@ input#colorpicker-value-input {
 </td>
 </tr>
 </table>
-<h4 style="margin-bottom: 0;">Click 'Save Changes' to configure selected player.</h4>
+<h4 style="margin-bottom: 0;">Click 'Save Changes' to activate and configure selected player.</h4>
 <?php
 	}
 	else
@@ -261,8 +279,8 @@ input#colorpicker-value-input {
                     'text' => '#333333',
                     'pagebg' => '',
                     'rtl' => 'no',
-										'initialvolume'=>'60'
-                    
+										'initialvolume'=>'60',
+                    'animation'=>'yes'
                     );
             endif;
                             $keys = array_keys($PlayerSettings);
@@ -343,6 +361,92 @@ function update_audio_player()
 	player.innerHTML = out;
 }
 
+function audio_player_defaults()
+{
+ 	if( confirm('Set defaults, are you sure?\n\nAll of the current settings will be overwritten!') )
+	{
+		jQuery('#player_width').val('290');
+		UpdatePlayerPreview('player_width',jQuery('#player_width').val() );
+		
+		jQuery('#transparentpagebg').val( 'yes');
+		UpdatePlayerPreview('transparentpagebg',jQuery('#transparentpagebg').val() );
+		
+		jQuery('#lefticon').val( '#333333');
+		UpdatePlayerPreview('lefticon',jQuery('#lefticon').val() );
+		jQuery('#lefticon_prev'  ).css( { 'background-color' : '#333333' } );
+		
+		jQuery('#leftbg').val( '#CCCCCC');
+		UpdatePlayerPreview('leftbg',jQuery('#leftbg').val() );
+		jQuery('#leftbg_prev'  ).css( { 'background-color' : '#CCCCCC' } );
+		
+		jQuery('#bg').val( '#E5E5E5');
+		UpdatePlayerPreview('bg',jQuery('#bg').val() );
+		jQuery('#bg_prev'  ).css( { 'background-color' : '#E5E5E5' } );
+		
+		jQuery('#voltrack').val( '#F2F2F2');
+		UpdatePlayerPreview('voltrack',jQuery('#voltrack').val() );
+		jQuery('#voltrack_prev'  ).css( { 'background-color' : '#F2F2F2' } );
+		
+		jQuery('#volslider').val( '#666666');
+		UpdatePlayerPreview('volslider',jQuery('#volslider').val() );
+		jQuery('#volslider_prev'  ).css( { 'background-color' : '#666666' } );
+		
+		jQuery('#rightbg').val( '#B4B4B4');
+		UpdatePlayerPreview('rightbg',jQuery('#rightbg').val() );
+		jQuery('#rightbg_prev'  ).css( { 'background-color' : '#B4B4B4' } );
+		
+		jQuery('#rightbghover').val( '#999999');
+		UpdatePlayerPreview('rightbghover',jQuery('#rightbghover').val() );
+		jQuery('#rightbghover_prev'  ).css( { 'background-color' : '#999999' } );
+		
+		jQuery('#righticon').val( '#333333');
+		UpdatePlayerPreview('righticon',jQuery('#righticon').val() );
+		jQuery('#righticon_prev'  ).css( { 'background-color' : '#333333' } );
+		
+		jQuery('#righticonhover').val( '#FFFFFF');
+		UpdatePlayerPreview('righticonhover',jQuery('#righticonhover').val() );
+		jQuery('#righticonhover_prev'  ).css( { 'background-color' : '#FFFFFF' } );
+		
+		jQuery('#loader').val( '#009900');
+		UpdatePlayerPreview('loader',jQuery('#loader').val() );
+		jQuery('#loader_prev'  ).css( { 'background-color' : '#009900' } );
+		
+		jQuery('#track').val( '#FFFFFF');
+		UpdatePlayerPreview('track',jQuery('#track').val() );
+		jQuery('#track_prev'  ).css( { 'background-color' : '#FFFFFF' } );
+		
+		jQuery('#tracker').val( '#DDDDDD');
+		UpdatePlayerPreview('tracker',jQuery('#tracker').val() );
+		jQuery('#tracker_prev'  ).css( { 'background-color' : '#DDDDDD' } );
+		
+		jQuery('#player_border').val( '#CCCCCC');
+		UpdatePlayerPreview('player_border',jQuery('#player_border').val() );
+		jQuery('#player_border_prev'  ).css( { 'background-color' : '#CCCCCC' } );
+		
+		jQuery('#skip').val( '#666666');
+		UpdatePlayerPreview('skip',jQuery('#skip').val() );
+		jQuery('#skip_prev'  ).css( { 'background-color' : '#666666' } );
+		
+		jQuery('#text').val( '#333333');
+		UpdatePlayerPreview('text',jQuery('#text').val() );
+		jQuery('#text_prev'  ).css( { 'background-color' : '#333333' } );
+		
+		jQuery('#pagebg').val( '');
+		UpdatePlayerPreview('pagebg',jQuery('#pagebg').val() );
+		
+		jQuery('#animation').val( 'yes');
+		UpdatePlayerPreview('animation',jQuery('#animation').val() );
+		
+		jQuery('#rtl' ).val( 'no' );
+		UpdatePlayerPreview('rtl',jQuery('#rtl').val() );
+		
+		jQuery('#initialvolume').val('60');
+		UpdatePlayerPreview('initialvolume',jQuery('#initialvolume').val() );
+		
+		update_audio_player();
+	}
+}
+
 </script>
 	<input type="hidden" name="action" value="powerpress-audio-player" />
 	Configure the 1 pixel out Audio Player
@@ -366,17 +470,33 @@ function update_audio_player()
 			</div>
 		</td>
 	</tr>
-	<tr><td><h2>General Settings</h2></td></tr>
+</table>
+
+<div id="powerpress_settings_page" class="powerpress_tabbed_content" style="position: relative;">
+	<div style="position: absolute; top: 6px; right:0px;">
+		<a href="#" onclick="audio_player_defaults();return false;">Set Defaults</a>
+	</div>
+  <ul class="powerpress_settings_tabs"> 
+		<li><a href="#tab_general"><span>Basic Settings</span></a></li> 
+		<li><a href="#tab_progress"><span>Progress Bar</span></a></li> 
+		<li><a href="#tab_volume"><span>Volume Button</span></a></li>
+		<li><a href="#tab_play"><span>Play / Pause Button</span></a></li>
+  </ul>
+	
+ <div id="tab_general" class="powerpress_tab">
+ <h3>General Settings</h3>
+<table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Page Background Color"); ?> <br />
-                        <small><?php _e('leave blank for transparent'); ?></small>
+			<?php _e("Page Background Color"); ?>
+                        
 		</th>
 		<td>
 			<div class="color_control">
 				<input type="text" style="width: 100px;" id="pagebg" name="Player[pagebg]" class="color_field" value="<?php echo $PlayerSettings['pagebg']; ?>" maxlength="20" />
 				<img id="pagebg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['pagebg']; ?>;" class="color_preview" />
 			</div>
+			<small>(<?php _e('leave blank for transparent'); ?>)</small>
 		</td>
 	</tr>	<tr valign="top">
 		<th scope="row">
@@ -418,6 +538,38 @@ function update_audio_player()
 		</td>
 	</tr>
 	
+	<tr valign="top">
+		<th scope="row">
+			<?php _e("Loading Bar Color"); ?> 
+		</th>
+		<td>
+			<div class="color_control">
+				<input type="text" style="width: 100px;" id="loader" name="Player[loader]" class="color_field" value="<?php echo $PlayerSettings['loader']; ?>" maxlength="20" />
+				<img id="loader_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['loader']; ?>;" class="color_preview" />
+			</div>
+		</td>
+	</tr>
+	
+	<tr valign="top">
+		<th scope="row">
+			<?php _e("Text Color"); ?> 
+		</th>
+		<td>
+			<div class="color_control">
+                <input type="text" style="width: 100px;" id="text" name="Player[text]" class="color_field" value="<?php echo $PlayerSettings['text']; ?>" maxlength="20" />
+						<img id="text_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['text']; ?>;" class="color_preview" />
+			</div>
+		</td>
+	</tr>
+	
+	<tr valign="top">
+		<th scope="row">
+			<?php _e("Text In Player"); ?> 
+		</th>
+		<td>
+          <input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" />
+		</td>
+	</tr>
 	
 	<tr valign="top">
 		<th scope="row">
@@ -440,40 +592,15 @@ function update_audio_player()
 		</td>
 	</tr>
 	
-	<tr valign="top">
-		<th scope="row">
-			<?php _e("Text In Player"); ?> 
-		</th>
-		<td>
-          <input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" />
-		</td>
-	</tr>
-	
-	<tr valign="top">
-		<th scope="row">
-			<?php _e("Text Color"); ?> 
-		</th>
-		<td>
-			<div class="color_control">
-                <input type="text" style="width: 100px;" id="text" name="Player[text]" class="color_field" value="<?php echo $PlayerSettings['text']; ?>" maxlength="20" />
-						<img id="text_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['text']; ?>;" class="color_preview" />
-			</div>
-		</td>
-	</tr>
-	<tr valign="top">
-		<th scope="row">
-			<?php _e("Loading Bar Color"); ?> 
-		</th>
-		<td>
-			<div class="color_control">
-				<input type="text" style="width: 100px;" id="loader" name="Player[loader]" class="color_field" value="<?php echo $PlayerSettings['loader']; ?>" maxlength="20" />
-				<img id="loader_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['loader']; ?>;" class="color_preview" />
-			</div>
-		</td>
-	</tr>
+</table>
+</div>
+
+ <div id="tab_progress" class="powerpress_tab">
+	<h3>Progress Bar</h3>
+<table class="form-table">
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Progress Track Background"); ?> 
+			<?php _e("Progress Bar Background"); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -484,7 +611,7 @@ function update_audio_player()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Progress Track Color"); ?> 
+			<?php _e("Progress Bar Color"); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -504,10 +631,13 @@ function update_audio_player()
 			</div>
 		</td>
 	</tr>       
-        <tr><td colspan="2"><h2>Volumn Settings</h2></td></tr>
-				
-				
-				
+	</table>
+	</div>
+	
+	
+<div id="tab_volume" class="powerpress_tab">
+	<h3>Volume Button Settings</h3>
+	<table class="form-table">	
 	<tr valign="top">
 		<th scope="row">
 			<?php _e("Initial Volume"); ?> 
@@ -568,7 +698,12 @@ function update_audio_player()
 			</div>
 		</td>
 	</tr>
-        <tr><td colspan="2"><h2>Play/Pause Settings</h2></td></tr>
+</table>
+</div>
+
+<div id="tab_play" class="powerpress_tab">
+	<h3>Play / Pause Button Settings</h3>
+	<table class="form-table">	
         <tr valign="top">
 		<th scope="row">
 			<?php _e("Play/Pause Background Color"); ?> 
@@ -615,8 +750,9 @@ function update_audio_player()
 	</tr>
 
 </table>
-	
-	
+</div> <!-- end tab -->
+</div> <!-- end tab wrapper -->
+
 <?php
 			}; break;
                         case 'simple_flash':{ ?>
@@ -630,9 +766,9 @@ function update_audio_player()
     <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
     <param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" />
     <param name="wmode" value="transparent" />
-    <param name="FlashVars" value="url=http://&amp;autostart=false" />
+    <param name="FlashVars" value="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" />
     <param name="quality" value="high" />
-    <embed wmode="transparent" src="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
+    <embed wmode="transparent" src="?url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
 </object>
 
 			</p>
@@ -755,6 +891,94 @@ function update_audio_player()
                             }
 
 ?>
+<script type="text/javascript">
+
+function audio_player_defaults()
+{
+	if( confirm('Set defaults, are you sure?\n\nAll of the current settings will be overwritten!') )
+	{
+		jQuery('#bgcolor1').val('#7c7c7c');
+		UpdatePlayerPreview('bgcolor1',jQuery('#bgcolor1').val() );
+		jQuery('#bgcolor1_prev'  ).css( { 'background-color' : '#7c7c7c' } );
+		
+		jQuery('#bgcolor2').val('#333333' );
+		UpdatePlayerPreview('bgcolor2',jQuery('#bgcolor2').val() );
+		jQuery('#bgcolor2_prev'  ).css( { 'background-color' : '#333333' } );
+		
+		jQuery('#textcolor' ).val( '#FFFFFF' );
+		UpdatePlayerPreview('textcolor',jQuery('#textcolor').val() );
+		jQuery('#textcolor_prev'  ).css( { 'background-color' : '#FFFFFF' } );
+		
+		jQuery('#buttoncolor' ).val( '#FFFFFF' );
+		UpdatePlayerPreview('buttoncolor',jQuery('#buttoncolor').val() );
+		jQuery('#buttoncolor_prev'  ).css( { 'background-color' : '#FFFFFF' } );
+		
+		jQuery('#buttonovercolor' ).val( '#FFFF00' );
+		UpdatePlayerPreview('buttonovercolor',jQuery('#buttonovercolor').val() );
+		jQuery('#buttonovercolor_prev'  ).css( { 'background-color' : '#FFFF00' } );
+		
+		jQuery('#showstop' ).val( '0' );
+		UpdatePlayerPreview('showstop',jQuery('#showstop').val() );
+		jQuery('#showinfo' ).val( '0' );
+		UpdatePlayerPreview('showinfo',jQuery('#showinfo').val() );
+		jQuery('#showvolume' ).val( '1' );
+		UpdatePlayerPreview('showvolume',jQuery('#showvolume').val() );
+		
+		jQuery('#player_height' ).val( '20' );
+		UpdatePlayerPreview('height',jQuery('#player_height').val() );
+		
+		jQuery('#player_width' ).val( '200' );
+		UpdatePlayerPreview('width',jQuery('#player_width').val() );
+		
+		jQuery('#showloading' ).val( 'autohide' );
+		UpdatePlayerPreview('showloading',jQuery('#showloading').val() );
+		
+		
+		jQuery('#slidercolor1').val('#cccccc' );
+		UpdatePlayerPreview('slidercolor1',jQuery('#slidercolor1').val() );
+		jQuery('#slidercolor1_prev'  ).css( { 'background-color' : '#cccccc' } );
+		
+		jQuery('#slidercolor2').val('#888888' );
+		UpdatePlayerPreview('slidercolor2',jQuery('#slidercolor2').val() );
+		jQuery('#slidercolor2_prev'  ).css( { 'background-color' : '#888888' } );
+		
+		jQuery('#sliderheight' ).val( '10' );
+		UpdatePlayerPreview('sliderheight',jQuery('#sliderheight').val() );
+		jQuery('#sliderwidth' ).val( '20' );
+		UpdatePlayerPreview('sliderwidth',jQuery('#sliderwidth').val() );
+		
+		jQuery('#loadingcolor' ).val( '#FFFF00' );
+		UpdatePlayerPreview('loadingcolor',jQuery('#loadingcolor').val() );
+		jQuery('#loadingcolor_prev'  ).css( { 'background-color' : '#FFFF00' } );
+		
+		jQuery('#bgcolor').val('');
+		UpdatePlayerPreview('bgcolor',jQuery('#bgcolor').val() );
+		jQuery('#bgcolor_prev'  ).css( { 'background-color' : '' } );
+		
+		jQuery('#volumeheight' ).val( '6' );
+		UpdatePlayerPreview('volumeheight',jQuery('#volumeheight').val() );
+		jQuery('#volumewidth' ).val( '30' );
+		UpdatePlayerPreview('volumewidth',jQuery('#volumewidth').val() );
+		
+		jQuery('#sliderovercolor' ).val( '#eeee00' );
+		UpdatePlayerPreview('sliderovercolor',jQuery('#sliderovercolor').val() );
+		jQuery('#sliderovercolor_prev'  ).css( { 'background-color' : '#eeee00' } );
+		
+		jQuery('#volume' ).val( '100' );
+		UpdatePlayerPreview('volume',jQuery('#volume').val() );
+		
+		jQuery('#showslider' ).val( '1' );
+		UpdatePlayerPreview('showslider',jQuery('#showslider').val() );
+		
+		jQuery('#buttonwidth' ).val( '26' );
+		UpdatePlayerPreview('buttonwidth',jQuery('#buttonwidth').val() );
+		
+		//update_audio_player();
+		generator.updatePlayer();
+	}
+}
+
+</script>
 	<input type="hidden" name="action" value="powerpress-flashmp3-maxi" />
 	Configure the Flash Mp3 Maxi Player
 <table class="form-table">
@@ -783,9 +1007,25 @@ $content .= '</object>'.PHP_EOL;
 
 		</td>
 	</tr>
+</table>
+
+<div id="powerpress_settings_page" class="powerpress_tabbed_content" style="position: relative;">
+	<div style="position: absolute; top: 6px; right:0px;">
+		<a href="#" onclick="audio_player_defaults();return false;">Set Defaults</a>
+	</div>
+  <ul class="powerpress_settings_tabs"> 
+		<li><a href="#tab_general"><span>Basic Settings</span></a></li> 
+		<li><a href="#tab_buttons"><span>Button Settings</span></a></li> 
+		<li><a href="#tab_volume"><span>Volume Settings</span></a></li>
+		<li><a href="#tab_slider"><span>Slider Settings</span></a></li>
+  </ul>
+	
+ <div id="tab_general" class="powerpress_tab">
+		<h3><?php _e('General Settings'); ?></h3>
+		<table class="form-table">
         <tr valign="top">
             <td colspan="2">
-            <h2><?php _e('General Player Settings'); ?></h2>
+            
             <?php _e('leave blank for default values'); ?>
             </td>
         </tr>
@@ -813,14 +1053,15 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Background Color"); ?><br />
-                        <small><?php _e("leave blank for transparent");?></small>
+			<?php _e("Background Color"); ?>
+                        
 		</th>
 		<td>
 			<div class="color_control">
 				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
+			<small><?php _e("leave blank for transparent");?></small>
 		</td>
 	</tr>
 	<tr valign="top">
@@ -855,11 +1096,12 @@ $content .= '</object>'.PHP_EOL;
 			</div>
 		</td>
 	</tr>
-        <tr valign="top">
-            <td colspan="2">
-            <h2><?php _e('Button Settings'); ?></h2>
-            </td>
-        </tr>
+</table>
+</div>
+
+ <div id="tab_buttons" class="powerpress_tab">
+		<h3><?php _e('Button Settings'); ?></h3>
+		<table class="form-table">
 	<tr valign="top">
 		<th scope="row">
 			<?php _e("Button Color"); ?> 
@@ -940,11 +1182,13 @@ $content .= '</object>'.PHP_EOL;
 			</div>
 		</td>
 	</tr>
-        <tr valign="top">
-            <td colspan="2">
-            <h2><?php _e('Volume Settings'); ?></h2>
-            </td>
-        </tr>
+</table>
+</div>
+
+ <div id="tab_volume" class="powerpress_tab">
+		<h3><?php _e('Volume Settings'); ?></h3>
+		<table class="form-table">
+        
         <tr valign="top">
 		<th scope="row">
 			<?php _e("Show Volume"); ?> 
@@ -1008,11 +1252,14 @@ $content .= '</object>'.PHP_EOL;
 			</div>
 		</td>
 	</tr>
-        <tr valign="top">
-            <td colspan="2">
-            <h2><?php _e('Slider Settings'); ?></h2>
-            </td>
-        </tr>
+
+</table>
+</div>
+
+ <div id="tab_slider" class="powerpress_tab">
+		<h3><?php _e('Slider Settings'); ?></h3>
+		<table class="form-table">
+		
         <tr valign="top">
 		<th scope="row">
 			<?php _e("Show Slider"); ?> 
@@ -1125,6 +1372,8 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 
 </table>
+</div> <!-- end tab -->
+</div><!-- end tab container -->
 
 <script type="text/javascript">
 
@@ -1224,19 +1473,21 @@ print $content;
                 </div>
             </td>
         </tr>
-        <tr>
-            <td colspan="2"><h2>General Settings</h2></td>
-        </tr>
+</table>
+				
+		<h2>General Settings</h2>
+	<table class="form-table">
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Background Color"); ?> <br />
-                        <small><?php _e("leave blank for transparent");?></small>
+			<?php _e("Background Color"); ?>
+                        
 		</th>
 		<td valign="top">
 			<div class="color_control">
 				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
+			<small><?php _e("leave blank for transparent");?></small>
 		</td>
 	</tr>
 	<tr valign="top">

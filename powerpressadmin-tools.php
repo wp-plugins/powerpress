@@ -53,7 +53,10 @@
 ?>
 	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-caps", 'powerpress-remove-caps'); ?>"><?php _e('Remove PowerPress Podcasting Capabilities for User Role Management'); ?></a></strong></p>
 	<p>
-	Removing PowerPress Podcasting Capabilities will allow anyone who can edit posts the ability to create and edit podcast episodes and view statistics from the WordPress Dashboard.
+	Podcasting capability allows administrators, editors and authors access to create and configure podcast episodes. 
+	Only administrators will be able to view media statistics from the WordPress Dashboard. Contributors, subscribers and other
+	custom users will not have access to create podcast episodes or view statistics from the dashboard. Due to this feature's
+	complexity, it is not supported by Blubrry.com.
 	</p>
 	
 <?php
@@ -61,53 +64,58 @@
 	else
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-caps", 'powerpress-add-caps'); ?>"><?php _e('Add PowerPress Podcasting Capabilities for User Role Management'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-caps", 'powerpress-add-caps'); ?>">
+		<?php _e('Add PowerPress Podcasting Capabilities for User Role Management'); ?></a></strong></p>
 	<p>
-	Currently anyone who can edit posts on this blog may also edit podcast episodes.
-	</p>
-	<p>
-	Adding Edit Podcast capability will configure Administrators, Editors and Authors with access to create and edit podcast episodes. Only administrators will be able to view statistics from the WordPress Dashboard. Contributors, Subscribers and other custom user roles will not be able to create and edit podcast episodes and view statistics from the dashboard.
+	Adding podcasting capability will allow administrators, editors and authors access to create and configure podcast episodes. 
+	Only administrators will be able to view media statistics from the WordPress Dashboard. Contributors, subscribers and other
+	custom users will not have access to create podcast episodes or view statistics from the dashboard. Due to this feature's
+	complexity, it is not supported by Blubrry.com.
 	</p>
 <?php
 	}
 	
-	if( @$General['feed_caps'] )
+	if( @$General['premium_caps'] )
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-feed-caps", 'powerpress-remove-feed-caps'); ?>"><?php _e('Remove Password Protection Capabilities for Custom Channel Feeds'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-feed-caps", 'powerpress-remove-feed-caps'); ?>"><?php _e('Remove Password Protection Capabilities for Control of Which Users can Access Your Podcasts'); ?></a></strong>  (Also kown as Premium Content)</p>
 	<p>
-		Removing Password Portection Option for Custom Channel feeds will remove any password protection that may be configured from your Custom Channel Feeds.
+		To use this feature, go to '<a href="<?php echo admin_url("admin.php?page=powerpressadmin_customfeeds.php"); ?>" title="Podcast Channels">Podcast Channels</a>'
+		and create a new custom podcast channel. In the Edit Podcast Channel page, click the last tab labeled 'Other Settings'. Place a check in the box labled 'Protect Content' and then click 'Save Changes'.
+	</p>
+	<p>
+		Password protection capabilities for custom podcast channel feeds lets you control who can listen and view your 
+		podcast. This feature allows you to password-protect custom podcast channels by adding a new role called "Premium 
+		Subscriber." Only users with the "Premium Subscriber" role have access to your password protected custom podcast
+		channels. Due to this feature's complexity, it is not supported by Blubrry.com.
 	</p>
 <?php
 	}
 	else
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-feed-caps", 'powerpress-add-feed-caps'); ?>"><?php _e('Add Password Protection Capabilities for Custom Channel Feeds'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-feed-caps", 'powerpress-add-feed-caps'); ?>"><?php _e('Add Password Protection Capabilities for Control of Which Users can Access Your Podcasts'); ?></a></strong> (Also kown as Premium Content)</p>
 	<p>
-		Adding Password Protection Capabilities for Custom Channel feeds allows you to manage which users can access your Custom Channel feeds. A new capability "Premium Content" is added which may be managed with a Roles and Capabilities plugin.
+		Adding password protection capabilities for custom podcast channel feeds lets you control who can listen and view your 
+		podcast. This feature allows you to password-protect custom podcast channels by adding a new role called "Premium 
+		Subscriber." Only users with the "Premium Subscriber" role have access to your password protected custom podcast
+		channels. Due to this feature's complexity, it is not supported by Blubrry.com.
 	</p>
 <?php
 	}
 ?>
 
-	<p>&nbsp;</p>
-	
-	<p>The WordPress <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities</a> 
-	feature is designed to give the blog owner the ability to control and assign what users can and cannot do in the blog.
-	By adding the capabilities above to your blog, you will be able to use the Roles and Capabilities in Wordpress to manage which users can create and edit podcast episodes.
+	<p><strong>What are Roles and Capabilities?</strong></p>
+	<p>
+		The WordPress <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities</a>
+		feature gives the blog owner the ability to control what users can and cannot
+		do in the blog. You will most likely need a roles and capabilities plugin such as 
+		<a href="http://www.im-web-gefunden.de/wordpress-plugins/role-manager/" target="_blank">Role Manager</a>,
+		<a href="http://alkivia.org/wordpress/capsman/" target="_blank">Capability Manager</a>,
+		or <a href="http://agapetry.net/category/plugins/role-scoper/" target="_blank">Role Scoper</a>  
+		to take advantage of these features. Due to this feature's complexity, it is not supported by Blubrry.com.
 	</p>
 	
-	<p>You will most likely need a Roles and Capabilities plugin such as
-	<a href="http://www.im-web-gefunden.de/wordpress-plugins/role-manager/" target="_blank">Role Manager</a>,
-	<a href="http://alkivia.org/wordpress/capsman/" target="_blank">Capability Manager</a>,
-	or <a href="http://agapetry.net/category/plugins/role-scoper/" target="_blank">Role Scoper</a>  
-	plugin to manage user roles and capabilities.
-	
-	Due to the complexity of this feature, the <em>Edit Podcast</em> and <em>Premium Content</em> capabilities above
-	come with no support. Please do not contact Blubrry.com for help with these features.
-	</p>
-
 </td>
 </tr>
 

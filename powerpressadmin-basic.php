@@ -461,10 +461,13 @@ function powerpressadmin_edit_blubrry_services($General)
 	Adds <a href="http://www.blubrry.com/podcast_statistics/" title="Blubrry Media Statistics" target="_blank">Blubrry Media Statistics</a> to your blog's <a href="<?php echo admin_url(); ?>" title="WordPress Dashboard">dashboard</a> plus 
 	features for <a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" title="Blubrry Media Hosting" target="_blank">Blubrry Media Hosting</a> users to quickly select and publish uploaded media.
 </p>
+<p>
+	<em>Note: <strong>No membership or service is required</strong> to use this free open source podcasting plugin.</em>
+</p>
 <table class="form-table">
 	<tr valign="top">
 	<th scope="row">
-	<?php _e("Blubrry Services"); ?> 
+	<?php _e("Blubrry Services"); ?>*
 	</th>
 	<td>
 		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=500&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;" title="Blubrry Services Integration">Click here to configure Blubrry Services</a></strong>)</p>
@@ -479,8 +482,14 @@ function powerpressadmin_edit_blubrry_services($General)
 		<p style="margin-top: 5px;"><input name="StatsInDashboard" type="checkbox" value="1"<?php if( $StatsInDashboard == true ) echo ' checked'; ?> /> Display Statistics in WordPress Dashboard</p>
 	</td>
 	</tr>
-	
 </table>
+<p>
+*<em>The Blubrry basic statistics service is FREE. Our 
+<a href="https://secure.blubrry.com/podcast-statistics-premium/" title="Blubrry Premium Statistics Service" target="_blank">Premium Statistics Service</a>,
+which includes U.S. downloads, trending and exporting, is available for $5 month. Blubrry
+<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" title="Blubrry Media Hosting" target="_blank">Media Hosting</a>
+packages start at $12.</em>
+</p>
 <?php
 }
 
@@ -681,26 +690,6 @@ while( list($value,$desc) = each($linkoptions) )
 </tr>
 
 <?php
-		if( false && count($Players) > 1 )
-		{
-?>
-<tr valign="top">
-<th scope="row"><?php echo __("Disable Player for"); ?></th> 
-<td>
-	<input type="hidden" name="UpdateDisablePlayer" value="1" />
-	<?php
-			while( list($podcast_slug, $podcast_title) = each($Players) )
-			{
-	?>
-	<p><input name="DisablePlayer[<?php echo $podcast_slug; ?>]" type="checkbox" value="1" <?php if( isset($General['disable_player'][$podcast_slug]) ) echo 'checked '; ?>/> <?php echo htmlspecialchars($podcast_title); ?> <?php echo __('feed episodes'); ?></p>
-	<?php
-			}
-	?>
-	<p>Check the custom podcast feeds above that you do not want in-page players for.</p>
-</td>
-</tr>
-<?php
-		}
 	} // end advanced mode
 ?>
 

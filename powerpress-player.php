@@ -278,9 +278,9 @@ $content .= "</embed>\n		</object>\n";
 $content = '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url() .'simple_mp3.swf" id="'.$player_id.'" width="150" height="50">';
 $content .= '<param name="movie" value="'. powerpressplayer_get_root_url().'simple_mp3.swf" />';
 $content .= '<param name="wmode" value="transparent" />';
-$content .= '<param name="FlashVars" value="url='. $media_url.'&amp;autostart='. ($autostart?'true':'false') .'" />';
+$content .= '<param name="FlashVars" value="'. get_bloginfo('home') .'?url='. $media_url.'&amp;autostart='. ($autostart?'true':'false') .'" />';
 $content .= '<param name="quality" value="high" />';
-$content .= '<embed wmode="transparent" src="url='.$media_url.'&amp;autostart='. ($autostart?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>';
+$content .= '<embed wmode="transparent" src="'. get_bloginfo('home') .'?url='.$media_url.'&amp;autostart='. ($autostart?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>';
 $content .= '</object>';
                 }; break;
 		// Let all other cases fall through...

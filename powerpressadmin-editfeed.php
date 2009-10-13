@@ -180,13 +180,13 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	$FeedTitle = __('Feed Settings');
 	if( $feed_slug )
 	{
-		$FeedTitle = sprintf( 'Podcast Channel: %s', $General['custom_feeds'][$feed_slug]);
+		$FeedTitle = sprintf( 'Edit Podcast Channel: %s', $General['custom_feeds'][$feed_slug]);
 		echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
 	}
 	else if( $cat_ID )
 	{
 		$category = get_category_to_edit($cat_ID);
-		$FeedTitle = sprintf( 'Category Feed: %s', $FeedTitle, $category->name);
+		$FeedTitle = sprintf( 'Edit Category Feed: %s', $FeedTitle, $category->name);
 		echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
 	}
 	
@@ -224,13 +224,13 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	<div id="feed_tab_appearance" class="powerpress_tab">
 		<?php
 		//powerpressadmin_appearance($General);
-		powerpressadmin_edit_appearance_feed($General, $feed_slug);
+		powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug);
 		?>
 	</div>
 	
 	<div id="feed_tab_other" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_basics_feed($General, $feed_slug)
+		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
 		?>
 	</div>
 	<?php } ?>
@@ -600,43 +600,12 @@ if( isset($Languages[ $rss_language ]) )
 <?php
 	} // end advanced_mode
 ?>
-
-<!-- password protected feed option -->
-<?php
-	if( @$General['feed_caps'] && $feed_slug && $feed_slug != 'podcast' )
-	{
-?>
-<tr valign="top">
-<th scope="row">
-
-<?php _e("Password Protect Feed"); ?></th>
-<td>
-	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectFeed" value="1" <?php echo ($FeedSettings['user_cap']?'checked ':''); ?>/> Require user to be signed-in to access feed.</p>
-<?php ?>
-	<div style="margin-left: 20px;">User must have 
-<select name="Feed[user_cap]" class="bpp_input_med">
-<?php
-			$caps = powerpress_admin_capabilities();
-			if( !isset($FeedSettings['user_cap']) || $FeedSettings['user_cap'] == '' )
-				$FeedSettings['user_cap'] = 'premium_content';
-			
-			echo '<option value="">None</option>';
-			while( list($value,$desc) = each($caps) )
-				echo "\t<option value=\"$value\"". ($FeedSettings['user_cap']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
-?>
-</select> capability.</div>
-</td>
-</tr>
-<?php
-	}
-?>
-
 </table>
 <?php
 }
 
 
-function powerpressadmin_edit_basics_feed($General, $feed_slug)
+function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
 {
 ?>
 
@@ -662,10 +631,101 @@ function powerpressadmin_edit_basics_feed($General, $feed_slug)
 </td>
 </tr>
 </table>
+
+<!-- password protected feed option -->
+
 <?php
+	if( @$General['premium_caps'] && $feed_slug && $feed_slug != 'podcast' )
+	{
+?>
+<h3>Password Protect Podcast Channel</h3>
+<p>
+	Require visitors to have membership to your blog in order to gain access to this channel's Premium Content.
+</p>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+
+<?php _e("Protect Content"); ?></th>
+<td>
+	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectContent" value="1" <?php echo ($FeedSettings['premium']?'checked ':''); ?> onchange="powerpress_toggle_premium_content(this.checked);" /> Require user to be signed-in to access feed.</p>
+<?php ?>
+	<div style="margin-left: 20px; display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;" id="premium_role">User must have 
+<select name="Feed[premium]" class="bpp_input_med">
+<?php
+			$caps = powerpress_admin_capabilities();
+			$actual_premium_value = $FeedSettings['premium'];
+			if( !isset($FeedSettings['premium']) || $FeedSettings['premium'] == '' )
+				$actual_premium_value = 'premium_content';
+			
+			echo '<option value="">None</option>';
+			while( list($value,$desc) = each($caps) )
+				echo "\t<option value=\"$value\"". ($actual_premium_value==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+?>
+</select> capability.</div>
+</td>
+</tr>
+</table>
+<div id="protected_content_message" style="display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;">
+<script language="Javascript" type="text/javascript">
+function powerpress_toggle_premium_content(enabled)
+{
+	jQuery('#premium_role').css('display', (enabled?'block':'none') );
+	jQuery('#protected_content_message').css('display', (enabled?'block':'none') );
+}	
+function powerpress_premium_label_append_signin_link()
+{
+	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="Sign In">Sign In<\/a>'); 
+}
+function powerpress_default_premium_label(event)
+{
+	if( confirm('Use default label, are you sure?') )
+	{
+		jQuery('#premium_label_custom').css('display', (this.checked==false?'block':'none') );
+		jQuery('#premium_label').val('');
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+</script>
+	<table class="form-table">
+	<tr valign="top">
+	<th scope="row">
+	<?php _e("Unauthorized Label"); ?>
+	</th>
+	<td>
+	<p style="margin-top: 5px;"><input type="radio" name="PremiumLabel" value="0" <?php echo ($FeedSettings['premium_label']==''?'checked ':''); ?> onclick="return powerpress_default_premium_label(this)" />
+		Use default label:
+	</p>
+	<p style="margin-left: 20px;">
+	<?php echo $FeedSettings['title']; ?>: <a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" target="_blank" title="Protected Content">(Protected Content)</a>
+	</p>
+	<p style="margin-top: 5px;"><input type="radio" name="PremiumLabel" id="premium_label_1" value="1" <?php echo ($FeedSettings['premium_label']!=''?'checked ':''); ?> onchange="jQuery('#premium_label_custom').css('display', (this.checked?'block':'none') );" />
+		Use a custom label:
+	</p>
+	
+	<div id="premium_label_custom" style="margin-left: 20px; display: <?php echo ($FeedSettings['premium_label']!=''?'block':'none'); ?>;">
+	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo htmlspecialchars(@$FeedSettings['premium_label']); ?></textarea>
+		<div style="width: 80%; font-size: 85%; text-align: right;">
+			<a href="#" onclick="powerpress_premium_label_append_signin_link();return false;">Add sign in link to message</a>
+		</div>
+		<p style="width: 80%;">
+			Label above appears in place of the in-page player and links when
+			the current signed-in user does not have access to the protected content.
+		</p>
+	</div>
+	</td>
+	</tr>
+	</table>
+</div>
+<?php
+	}
 }
 
-function powerpressadmin_edit_appearance_feed($General,  $feed_slug)
+function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_slug)
 {
 	// Appearance Settings
 ?>
@@ -676,12 +736,13 @@ function powerpressadmin_edit_appearance_feed($General,  $feed_slug)
 <?php _e("Disable Player"); ?>
 </th>
 <td>
-	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> Do not display web player or links for this podcast channel.</p>
+	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> Do not display web player or links for this podcast channel.
 	<input type="hidden" name="UpdateDisablePlayer" value="<?php echo $feed_slug; ?>" />
 </td>
 </tr>
 </table>
 <?php
+
 }
 
 function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
@@ -712,9 +773,29 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
 <p style="margin-top: 5px;">Your summary may not contain HTML and cannot exceed 4,000 characters in length.</p>
 
 <textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
-<?php if ( version_compare( '5', phpversion(), '>=' ) ) { ?>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+
+<?php _e("iTunes Episode Summary"); ?></th>
+<td>
+
+<?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
 <div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Optimize iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
 </div>
+<p>
+	Creates a friendlier view of your post/episode content by converting web links and images to clickable links in iTunes.
+</p>
+<?php } else { ?>
+
+	<strong>Option Not Available</strong>
+
+<p>
+	This feature requires PHP version 5 or newer.
+	Your server's version of PHP is <?php echo phpversion(); ?>. 
+</p>
 <?php } ?>
 </td>
 </tr>

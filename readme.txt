@@ -8,6 +8,7 @@ Stable tag: 0.9.11
 Add podcasting support to your blog.
 
 == Description ==
+
 Blubrry PowerPress podcasting plugin adds all of the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress goes above and beyond with full iTunes support, Update iTunes listing feature, web audio/video media players and more!
 
 For users who feel the plugin is too complicated, we've included a Simple Mode. Simple Mode only includes the essential features to your blog to support podcasting.
@@ -91,6 +92,14 @@ You can insert the media player within yoru blog posts by using the WordPress sh
 
 = 1.0.1 =
 * Released on TBD
+* New Password Protected Content feature now applies to both feeds and blog pages.
+* Added note in services settings page that the plugin does not require blubrry.com membership or blubrry.com services.
+* New Select and Configure link added on the select players page.
+* Settings for 1 Pixel Out Audio Player and the Mp3 Flash Maxi player are now in tabbed navigation.
+* Reset defaults options added to the 1 Pixel Out Audio Player and the Mp3 Flash Maxi player settings pages.
+* Rewrote descriptions for the Password Protected and User Capabilities listed in the Tools page to clear up confusion.
+* 
+
 
 
 = 1.0.0beta =

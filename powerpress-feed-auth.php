@@ -16,7 +16,7 @@
 		if( !is_wp_error($user) )
 		{
 			// Check capability...
-			if( $user->has_cap( $FeedSettings['user_cap'] ) )
+			if( $user->has_cap( $FeedSettings['premium'] ) )
 				return; // Nice, let us continue...
 			
 			powerpress_feed_auth_basic( $FeedSettings['title'], __('Access Denied') );
