@@ -101,7 +101,7 @@ function SelectEntryBox(mode)
 	
 </div>
 <div class="clear"></div>
-			
+
 <div style="margin-left: 10px;">
 	<h3>Advanced Options</h3>
 	<div style="margin-left: 50px;">
@@ -125,6 +125,26 @@ function SelectEntryBox(mode)
 </div>
 
 <?php
+	if( $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
+	{
+?>
+<div style="margin-left: 10px;">
+	<h3 style="margin-bottom: 5px;">Like The Plugin?</h3>
+	<p style="margin-top: 0;">
+		This plugin is great, don't you think? If you like the plugin we'd be ever so grateful if you'd give it your support. Here's how:
+	</p>
+	<ul id="powerpress_support">
+		<li>Rate this plugin 5 stars in the <a href="http://wordpress.org/extend/plugins/powerpress/" title="Rate this plugin 5 stars in the WordPress Plugins Directory" target="_blank">WordPress Plugins Directory</a>.</li>
+		<li>Tell the world about PowerPress by writing about it on your blog, 
+		<a href="http://twitter.com/home/?status=<?php echo urlencode('I\'m podcasting with Blubrry PowerPress (http://blubrry.com/powerpress/) #powerpress #wordpress'); ?>" target="_blank" title="Tweet about Blubrry PowerPress">tweet</a>, 
+		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://www.blubrry.com/powerpress/'); ?>&t=<?php echo urlencode('I podcast with Blubrry PowerPress'); ?>" target="_blank" title="Share Blubrry PowerPress on Facebook">facebook</a>,
+		<a href="http://digg.com/submit?phase=2&url=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&title=<?php echo urlencode('Blubrry PowerPress Podcasting Plugin for WordPress'); ?>" target="_blank" title="Digg about Blubrry PowerPress">digg</a>,
+		etc...</li>
+		<li><a href="http://www.blubrry.com/contact.php" target="_blank" title="Send blubrry.com feedback">Send us feedback</a> (we love getting suggestions for new features!)</li>
+	</ul>
+</div>
+<?php
+	}
 }
 
 function powerpressadmin_edit_entry_options($General)
@@ -320,7 +340,7 @@ while( list($value,$desc) = each($options) )
 }
 
 
-function powerpressadmin_edit_itunes_general($General, $FeedSettings = false)
+function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
 {
 	$OpenSSLSupport = extension_loaded('openssl');
 	if( $OpenSSLSupport == false )
@@ -345,6 +365,19 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false)
 
 <p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
 iTunes will send an email to your <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.
+</p>
+<p>
+Recommended feed to submit to iTunes: 
+<?php
+	if( $cat_ID )
+	{
+		echo get_category_feed_link($cat_ID);
+	}
+	else
+	{
+		echo get_feed_link($feed_slug);
+	}
+?>
 </p>
 
 </td>

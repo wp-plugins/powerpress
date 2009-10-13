@@ -30,13 +30,9 @@
 	<p>Advanced Mode gives you all of the features packaged in Blubrry PowerPress. This mode is perfect for someone who may want to distribute multiple versions of their podcast, customize the web player &amp; download links,
 	or import data from a previous podcasting platform.</p>
 	<ul><li>Features Include:<ul>
-		<li><em>Advanced Settings</em> - Tweak additional basic settings.</li>
+		<li><em>Advanced Settings</em> - Tweak additional settings.</li>
 		<li><em>Presentation Settings</em> - Customize web player and media download links</li>
 		<li><em>Extensive Feed Settings</em> -  Tweak all available feed settings</li>
-		<li><em>Manage Custom Podcast Feeds</em> -  Manage and add custom podcast feeds</li>
-		<li><em>Manage Category Podcast Feeds</em> -  Manage and add category podcast feeds</li>
-		<li><em>MP3 ID3 Tags</em> - Blubrry Media Hosting  users can configure how their MP3 ID3 tags are written to hosted media</li>
-		<li><em>Useful Tools</em> - Import data from previous sites (PodPress, MovableType, Blogger), add Update Sservices to your blog and more</li>
 	</ul></li></ul>
 	
 </td>

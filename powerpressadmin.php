@@ -694,6 +694,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 			$Settings = array();
 		while( list($key,$value) = each($SettingsNew) )
 			$Settings[$key] = $value;
+		if( $field == 'powerpress_general' && !isset($Settings['timestamp']) )
+			$Settings['timestamp'] = time();
 		update_option($field,  $Settings);
 	}
 }
@@ -1162,6 +1164,33 @@ jQuery(document).ready(function($) {
 	font-weight: bold;
 	text-align: center;
 }
+.powerpress_podcast_box  .success {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+	font-weight: bold;
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #009900;
+	background-color: #CCFFCC;
+	font-size: 12px;
+	position: relative;
+}
+.powerpress_podcast_box  .success a.close {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	text-align: right;
+	color: #993366;
+	text-decoration: none;
+}
 .powerpress_podcast_box  .updated {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -1235,13 +1264,15 @@ function powerpress_get_media_info(FeedSlug)
 {
 	if( jQuery('#powerpress_check_'+FeedSlug).css("display") != "none" )
 		return; // Another process is already running
-	
+
+	jQuery( '#powerpress_success_'+FeedSlug ).css('display', 'none');
 	jQuery( '#powerpress_warning_'+FeedSlug ).text('');
 	jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'none');
 	jQuery( '#powerpress_warning_'+FeedSlug ).addClass("error");
 	jQuery( '#powerpress_warning_'+FeedSlug ).removeClass("updated");
 	
 	var Value = jQuery('#powerpress_url_'+FeedSlug).val();
+	var Hosting = jQuery('#powerpress_hosting_'+FeedSlug).val();
 	if( Value )
 	{
 		if( powerpress_check_url(Value, 'powerpress_warning_'+FeedSlug ) )
@@ -1250,7 +1281,7 @@ function powerpress_get_media_info(FeedSlug)
 			jQuery.ajax( {
 				type: 'POST',
 				url: '<?php echo admin_url(); ?>admin-ajax.php', 
-				data: { action: 'powerpress_media_info', media_url : Value, feed_slug : encodeURIComponent(FeedSlug) },
+				data: { action: 'powerpress_media_info', media_url : Value, feed_slug : encodeURIComponent(FeedSlug), hosting: Hosting },
 				timeout: (30 * 1000),
 				success: function(response) {
 					
@@ -1285,6 +1316,12 @@ function powerpress_get_media_info(FeedSlug)
 							jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
 							jQuery( '#powerpress_warning_'+FeedSlug ).addClass("updated");
 							jQuery( '#powerpress_warning_'+FeedSlug ).removeClass("error");
+						}
+						else
+						{
+							jQuery( '#powerpress_success_'+FeedSlug ).html( 'Media verified successfully. <a href="#" onclick="jQuery( \'#powerpress_success_'+ FeedSlug +'\' ).fadeOut(1000);return false;" title="Close" class="close">X<\/a>' );
+							jQuery( '#powerpress_success_'+FeedSlug ).css('display', 'block');
+							// setTimeout( function() { jQuery( '#powerpress_success_'+FeedSlug ).fadeOut(1000); }, 10000 );
 						}
 					}
 					else
@@ -1328,12 +1365,32 @@ function powerpress_media_info_ajax()
 {
 	$feed_slug = $_POST['feed_slug'];
 	$media_url = $_POST['media_url'];
+	$hosting = $_POST['hosting'];
 	$size = 0;
 	$duration = '';
 	$status = 'OK';
+	$GeneralSettings = get_option('powerpress_general');
+
+	if( defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
+	{
+		if( strpos($media_url, 'http://') !== 0 && strpos($media_url, 'https://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http:// or https://
+		{
+			$media_url = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $media_url;
+		}
+	}
+	else
+	{
+		if( strpos($media_url, 'http://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http://
+		{
+			$media_url = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $media_url;
+		}
+	}
 	
 	// Get media info here...
-	$MediaInfo = powerpress_get_media_info_local($media_url, '', 0, '', true);
+	if( $hosting )
+		$MediaInfo = powerpress_get_media_info($media_url);
+	else
+		$MediaInfo = powerpress_get_media_info_local($media_url, '', 0, '', true);
 	
 	if( !isset($MediaInfo['error']) && !empty($MediaInfo['length']) )
 	{
@@ -1399,6 +1456,17 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 // Admin page, advanced mode: basic settings
 function powerpress_admin_page_basic()
 {
+	$Settings = get_option('powerpress_general');
+	
+	if( !isset($Settings['advanced_mode']) )
+	{
+		powerpress_admin_page_header(false,  'powerpress-edit', true);
+		require_once( dirname(__FILE__).'/powerpressadmin-mode.php');
+		powerpress_admin_mode();
+		powerpress_admin_page_footer(false);
+		return;
+	}
+	
 	powerpress_admin_page_header();
 	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
 	require_once( dirname(__FILE__).'/powerpressadmin-appearance.php');
@@ -1585,7 +1653,7 @@ function powerpress_do_ping_itunes($post_id)
 		}
 	}
 	
-	// Custom Podcast Feeds
+	// Custom Podcast Channels
 	if( isset($Settings['custom_feeds']) )
 	{
 		while( list($feed_slug,$null) = each($Settings['custom_feeds']) )

@@ -120,3 +120,13 @@ padding-bottom: 15px;
 	line-height: 20px;
 	font-size: 11px;
 }
+
+#powerpress_support {
+	
+}
+#powerpress_support li {
+	margin-left: 70px;
+	list-style-type:disc;
+	margin-top: 0;
+	margin-bottom: 0;
+}

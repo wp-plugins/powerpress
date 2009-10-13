@@ -36,7 +36,6 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
 	global $g_powerpress_player_id; // Use the global unique player id variable for the surrounding div
 	if( !isset($g_powerpress_player_id) )
 		$g_powerpress_player_id = rand(0, 10000);
-	$player_id = $g_powerpress_player_id; // Set the player ID to use for this player
 	$g_powerpress_player_id++; // increment the player id for the next div so it is unique
 	$content = '';
 	$autoplay = false;
@@ -103,11 +102,11 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
                                 $flashvars .= '&amp;transparentpagebg=yes';
                             }
                         // TODO: Add audio-player player here
-			$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
+			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
 			$content .= '<script language="JavaScript" src="'.powerpressplayer_get_root_url().'audio-player.js"></script>'.PHP_EOL;
-                        $content .= '<object type="application/x-shockwave-flash" data="'.powerpressplayer_get_root_url().'audio-player.swf" id="'.$player_id.'" height="24" width="290">'.PHP_EOL;
+                        $content .= '<object type="application/x-shockwave-flash" data="'.powerpressplayer_get_root_url().'audio-player.swf" id="'.$g_powerpress_player_id.'" height="24" width="290">'.PHP_EOL;
                         $content .= '<param name="movie" value="'.powerpressplayer_get_root_url().'/audio-player.swf">'.PHP_EOL;
-                        $content .= '<param name="FlashVars" value="playerID='.$player_id.'&amp;soundFile='.$media_url.$flashvars.'">'.PHP_EOL;
+                        $content .= '<param name="FlashVars" value="playerID='.$g_powerpress_player_id.'&amp;soundFile='.$media_url.$flashvars.'">'.PHP_EOL;
                         $content .= '<param name="quality" value="high">'.PHP_EOL;
                         $content .= '<param name="menu" value="false">'.PHP_EOL;
                         $content .= '<param name="wmode" value="transparent">'.PHP_EOL;
@@ -216,11 +215,13 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
                             
                             
 			// TODO: Add flashmp3-maxi player here
-$content = '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url().'player_mp3_maxi.swf" id="'.$player_id.'" width="'. $width.'" height="'. $height .'">'.PHP_EOL;
+$content = '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'"></div>'.PHP_EOL;
+$content .= '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url().'player_mp3_maxi.swf" id="'.$g_powerpress_player_id.'" width="'. $width.'" height="'. $height .'">'.PHP_EOL;
 $content .=  '<param name="movie" value="'. powerpressplayer_get_root_url().'player_mp3_maxi.swf" />'.PHP_EOL;
 $content .= $transparency.PHP_EOL;
 $content .= $flashvars;
 $content .= '</object>'.PHP_EOL;
+$content .= '</div>'.PHP_EOL;
 
 			
 		}; break;
@@ -265,23 +266,27 @@ $content .= '</object>'.PHP_EOL;
                                 $flashvars .= '&amp;mode='. $PlayerSettings['mode'];
   
 			// TODO: Add audioplay player here
-$content = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" id="'.$player_id.'" data="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'">'.PHP_EOL;
+$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
+$content .= '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" id="'.$g_powerpress_player_id.'" data="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'">'.PHP_EOL;
 $content .= '<param name="movie" value="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'" />'.PHP_EOL;
 $content .= '<param name="quality" value="high" />'.PHP_EOL;
 $content .= $transparency.PHP_EOL;
 $content .= '<param name="FlashVars" value="'.$flashvars.'" />'.PHP_EOL;
 $content .= '<embed src="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'" quality="high"  width="30" height="30" type="application/x-shockwave-flash">'.PHP_EOL;
 $content .= "</embed>\n		</object>\n";
+$content .= "</div>\n";
 			
 		}; break;
                 case 'simple_flash' : {
-$content = '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url() .'simple_mp3.swf" id="'.$player_id.'" width="150" height="50">';
+$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
+$content .= '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url() .'simple_mp3.swf" id="'.$g_powerpress_player_id.'" width="150" height="50">';
 $content .= '<param name="movie" value="'. powerpressplayer_get_root_url().'simple_mp3.swf" />';
 $content .= '<param name="wmode" value="transparent" />';
 $content .= '<param name="FlashVars" value="'. get_bloginfo('home') .'?url='. $media_url.'&amp;autostart='. ($autostart?'true':'false') .'" />';
 $content .= '<param name="quality" value="high" />';
 $content .= '<embed wmode="transparent" src="'. get_bloginfo('home') .'?url='.$media_url.'&amp;autostart='. ($autostart?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>';
 $content .= '</object>';
+$content .= "</div>\n";
                 }; break;
 		// Let all other cases fall through...
 	}

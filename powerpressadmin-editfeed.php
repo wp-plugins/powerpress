@@ -215,7 +215,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		<?php
 		//powerpressadmin_edit_itunes_general($General);
 		if( $feed_slug != 'podcast' )
-			powerpressadmin_edit_itunes_general($General, $FeedSettings);
+			powerpressadmin_edit_itunes_general($General, $FeedSettings, $feed_slug, $cat_ID);
 		powerpressadmin_edit_itunes_feed($FeedSettings, $General);
 		?>
 	</div>
@@ -364,7 +364,7 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed URL"); ?> <br />
+<?php _e("Feed URL"); ?>
 </th>
 <td>
 <?php if( $cat_ID ) { ?>

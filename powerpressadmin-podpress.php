@@ -686,7 +686,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 	is why Blubrry PowerPress does not support them.
 </p>
 <p>
-	As a alternative, PowerPress allows you to create additional <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>">Custom Podcast Feeds</a> to associate additional media files in a blog post to specific feeds.
+	As a alternative, PowerPress allows you to create additional <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>">Custom Podcast Channels</a> to associate additional media files in a blog post to specific feed channels.
 </p>
 <p class="submit">
 <input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('We found blog posts that have <?php echo $results['feeds_required']; ?> media files.\n\nYou will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue. ');" />
