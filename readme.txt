@@ -14,7 +14,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 *PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member, **no membership is required** to use this free open source podcasting plugin.*
 
 =  Key Features  =
-- Full iTunes Support: Adds iTunes complaint podcast feeds to your WordPress blog.
+- Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
 - Integrated Media Players: Audio/video web players with video embed support from sites such as YouTube and Ustream.tv.
 - Media Modifiers: Easily add, modify and remove podcasts form blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
