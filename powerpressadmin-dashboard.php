@@ -100,7 +100,7 @@ function powerpress_dashboard_stats_content()
 	{
 ?>
 	<div id="blubrry_stats_media_show">
-		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&KeepThis=true&TB_iframe=true" title="Blubrry Media statistics" class="thickbox">more</a>
+		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="Blubrry Media statistics" class="thickbox">more</a>
 	</div>
 <?php } ?>
 </div>

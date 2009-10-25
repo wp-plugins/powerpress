@@ -166,11 +166,11 @@ function powerpress_activate_player(Player)
 			<p>
 <script language="JavaScript" src="<?php echo powerpressplayer_get_root_url();?>audio-player.js"></script>
 <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="290">
-<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf">
-<param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?>">
-<param name="quality" value="high">
-<param name="menu" value="false">
-<param name="wmode" value="transparent">
+<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" />
+<param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?>" />
+<param name="quality" value="high" />
+<param name="menu" value="false" />
+<param name="wmode" value="transparent" />
 </object>			</p>
 			<p>
 				1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player.
@@ -461,10 +461,10 @@ function audio_player_defaults()
 		<td>
 			<div id="player_preview">
 <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="<?php echo $PlayerSettings['width']; ?>">
-<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf">
-<param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?><?php echo $flashvars;?>">
-<param name="quality" value="high">
-<param name="menu" value="false">
+<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" />
+<param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?><?php echo $flashvars;?>" />
+<param name="quality" value="high" />
+<param name="menu" value="false" />
 <?php echo $transparency; ?>
 </object>
 			</div>

@@ -570,6 +570,8 @@ function powerpress_admin_jquery_header($title, $jquery = false)
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
 <?php
 
+// In case these functions haven't been included yet...
+require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 wp_admin_css( 'css/global' );
 wp_admin_css();

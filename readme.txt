@@ -9,9 +9,9 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress inc
 
 == Description ==
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, the Update iTunes Listing feature, web audio/video media players and more.
+Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, the Update iTunes Listing feature, web audio/video media players and more. PowerPress is designed as an upgrade to PodPress.
 
-*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member, **no membership is required** to use this free open source podcasting plugin.*
+*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
 
 =  Key Features  =
 - Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
@@ -125,6 +125,16 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 == Changelog ==
+
+= 1.0.3 =
+* Released on TBA
+* 
+* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly. (Thanks JWM!)
+* Updated <param> tags for player embeds so they are XML complaint (Thanks billhector!)
+* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
+* Fixed Protected Content link by adding slash before wp-login.php (Thanks Grant!)
+* Removed unneeded javascript include to audio-player.js. (thanks Mark!)
+
 
 = 1.0.2 =
 * Released on 10/13/2009
@@ -308,7 +318,7 @@ Fixed bug with line 930 printing warning in podcast feeds.
 Fixed bug with merging custom feed settings with regular feed settings, fixed bug where exerpt not used as itunes summary, added new error reporting when editing posts/pages and integrated Blubrry Services (optional), Added multi-language support to the custom podcast feeds. Added better listing of custom feeds on the main feed settings page. Add new feature under Tools section for adding Update Services / Ping sites relevant to podcasting. Added new select mode screen for new installations. Added podcast category feeds. Added statistics view to WordPress Dashboard. Write mp3 ID3 edit screen added for Blubrry Hosting users.
 
 0.7.3 released on 4/21/2009
-Fixed POWERPRESS _CONTENT _ACTION _PRIORITY define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type, fix bug where channel link matches image link, no longer including empty duration values in feeds, fixed bug with curl-setopt function printing a PHP warning in some situations, added warning when user enters an unknown media redirect url.
+Fixed `POWERPRESS_CONTENT_ACTION_PRIORITY` define typo, incremented version check (PowerPress now requires WordPress 2.6.x), fixed bug where player.js was not included in the header if simple mode was used, made the enhanced itunes summary set on by default for new installations, detecting additional file types, add new import episodes previously created in Blogger/Movable Type, fix bug where channel link matches image link, no longer including empty duration values in feeds, fixed bug with curl-setopt function printing a PHP warning in some situations, added warning when user enters an unknown media redirect url.
 
 0.7.2 released on 3/26/2009
 Re-ordered change log so latest release is listed first rather than last. Fixed powerpress_bloginfo_rss() warning message that occurred for some users, Updated the itunes_url setting to handle the latest itunes URL itunes.apple.com, No longer including revision posts in the PodPress import episode utility, Fixed bug with iTunes author setting not getting applied to feeds, display player in excerpts checkbox bug fixed, no longer including player code in HTML headers if not necessary, fixed duration bug with 1:00:60 which now reports 1:01:00, feed settings are now used for custom feeds that do not have settings of their own, added additional fix for FeedSmith when permalinks is not enabled, fixed bug where feed settings were not being applied to podcast feed in simple mode under some situations, fixed bug with enhance podcast only and main site feed only setting, fixed bug with pinging iTunes with CURL missing SSL certificates, and fixed itunes ping for latest itunes.apple.com one click subscribe links.

@@ -2217,7 +2217,7 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 	if( isset($FeedSettings['premium_label']) && $FeedSettings['premium_label'] != '' ) // User has a custom label
 		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL;
 	
-	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('home') .'wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
+	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('home') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
 }
 /*
 End Helper Functions
