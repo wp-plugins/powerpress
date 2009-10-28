@@ -1000,9 +1000,11 @@ function powerpress_edit_post($post_ID, $post)
 				// If we made if this far, we have the content type and file size...
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
 				$ToSerialize = array();
-				// iTunes duration
+				
 				if( $Powerpress['hosting'] )
 					$ToSerialize['hosting'] = 1;
+					
+				// iTunes duration
 				if( $Duration )
 					$ToSerialize['duration'] = $Duration; // regular expression '/^(\d{1,2}\:)?\d{1,2}\:\d\d$/i' (examples: 1:23, 12:34, 1:23:45, 12:34:56)
 				// iTunes Subtitle (FUTURE USE)
@@ -1395,6 +1397,17 @@ function powerpress_get_media_info(FeedSlug)
 				}
 			});
 		}
+	}
+}
+
+function powerpress_remove_hosting(FeedSlug)
+{
+	if( confirm('Are you sure you want to remove this media file?') )
+	{
+		jQuery( '#powerpress_url_'+FeedSlug ).attr("readOnly", false);
+		jQuery( '#powerpress_url_'+FeedSlug ).val('');
+		jQuery( '#powerpress_hosting_'+FeedSlug ).val(0);
+		jQuery( '#powerpress_hosting_note_'+FeedSlug ).css('display', 'none');
 	}
 }
 

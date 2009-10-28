@@ -157,6 +157,7 @@ function SelectMedia(File)
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value=File;
 	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1';
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true';
+	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='block';
 	self.parent.tb_remove();
 }
 function DeleteMedia(File)

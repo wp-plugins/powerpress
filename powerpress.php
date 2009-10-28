@@ -211,7 +211,13 @@ function powerpress_content($content)
 					if( $EpisodeData && isset($EpisodeData['embed']) )
 						$new_content .=  $EpisodeData['embed'];
 					if( !isset($EpisodeData['no_player']) )
-						$new_content .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'type'=>$EpisodeData['type']) );
+					{
+						$image = '';
+						if( isset($EpisodeData['image']) && $EpisodeData['image'] != '' )
+							$image = $EpisodeData['image'];
+						
+						$new_content .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisodeData['type']) );
+					}
 				}
 				
 				$new_content .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData);
@@ -1371,7 +1377,10 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		$EpisodeData = powerpress_get_enclosure_data($post->ID, $feed);
 		if( isset($EpisodeData['embed']) && $EpisodeData['embed'] )
 			$return = $EpisodeData['embed'];
-		
+			
+		if( $image == '' && isset($EpisodeData['image']) && $EpisodeData['image'] )
+			$image = $EpisodeData['image'];
+			
 		if( !isset($EpisodeData['no_player']) )
 		{
 			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($feed) )
@@ -1404,6 +1413,10 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				
 			if( isset($EpisodeData['embed']) && $EpisodeData['embed'] )
 				$return .= $EpisodeData['embed'];
+			
+			$image_current = $image;
+			if( $image_current == '' && isset($EpisodeData['image']) && $EpisodeData['image'] )
+				$image_current = $EpisodeData['image'];
 				
 			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($GeneralSettings) )
 			{
@@ -1413,7 +1426,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				
 			if( !isset($EpisodeData['no_player']) )
 			{
-				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisodeData['type']) );
+				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image_current, 'type'=>$EpisodeData['type']) );
 				$return .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData );
 			}
 		}
@@ -1539,8 +1552,15 @@ function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 			return 'audio/m4b';
 		case 'm4r': // iPhone ringtone format
 			return 'audio/m4r';
+		// OGG Internet contnet types as set forth by rfc5334 (http://tools.ietf.org/html/rfc5334)
 		case 'ogg':
+		case 'oga':
+		case 'spx':
 			return 'audio/ogg';
+		case 'ogv':
+			return 'video/ogg';
+		case 'ogx':
+			return 'application/ogg';
 		case 'wma':
 			return 'audio/x-ms-wma';
 		case 'wax':

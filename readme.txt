@@ -128,6 +128,8 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 1.0.3 =
 * Released on TBA
+* Added oga, spx, ogv and ogx (variations of ogg) to list of media file extensions detected.
+* Added note with remove option below Media URL when media file is hosted by blubrry.com.
 * Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...)
 * Added link to enable Category Podcasting from the Categories page in WordPress. Added 'Podcast Settings' and 'Add Podcasting' links under Categories table listing.
 * Retitled Category Casting to Category Podcasting to clear up confusion
