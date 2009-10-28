@@ -106,8 +106,8 @@ function SelectEntryBox(mode)
 	<h3>Advanced Options</h3>
 	<div style="margin-left: 50px;">
 		<div>
-			<input type="checkbox" name="General[advanced_mode]" value="0" <?php echo ($General['advanced_mode']==0?' checked':''); ?>/> <strong>Simple Mode</strong> - 
-			Display only the essential settings. Perfect for folks who may feel overwelmed.
+			<input type="checkbox" name="General[advanced_mode]" value="1" <?php echo ($General['advanced_mode']==1?' checked':''); ?>/> <strong>Advanced Mode</strong> - 
+			Uncheck to display only the essential settings for podcasting.
 		</div>
 		<div>
 			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?>/> <strong>Audio Player Options</strong> - 
@@ -201,6 +201,9 @@ function powerpressadmin_edit_entry_options($General)
 						(Enter embed code from sites such as YouTube, Viddler and Blip.tv)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_no_player" class="episode_box_option" name="General[episode_box_no_player]" type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> No Player Option
 						(Disable player on a per episode basis)</p>
+						
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( $General['episode_box_cover_image'] ) echo ' checked'; ?> /> Video Cover Image
+						(specify URL to image to display in place of QuickTime video)</p>
 					
 					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> iTunes Keywords Field
 						(Leave unchecked to use your blog post tags)</p>
@@ -677,30 +680,7 @@ while( list($value,$desc) = each($playeroptions) )
 </tr>
 </table>
 
-<div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">
-<table class="form-table">
 
-<tr valign="top">
-<th scope="row">
-<?php echo __("New Window Width"); ?>
-</th>
-<td>
-<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
-Width of new window (leave blank for 320 default)
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php echo __("New Window Height"); ?>
-</th>
-<td>
-<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_height']; ?>" maxlength="4" />
-Height of new window (leave blank for 240 default)
-</td>
-</tr>
-</table>
-</div>
 
 
 <table class="form-table">
@@ -741,14 +721,45 @@ while( list($value,$desc) = each($linkoptions) )
 	
 ?>
 </select>
-<p style="margin-top: 5px;">
+<p style="margin-top: 5px; margin-bottom:0;">
 	Use this option if you are having problems with the players not appearing in your pages.
 </p>
 </td>
 </tr>
 </table>
 
+<?php
+	if( @$General['advanced_mode'] )
+	{
+?>
+<div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">
+<h3>Play in New Window Settings</h3>
+<table class="form-table">
 
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Width"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
+Width of new window (leave blank for 320 default)
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __("New Window Height"); ?>
+</th>
+<td>
+<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_height']; ?>" maxlength="4" />
+Height of new window (leave blank for 240 default)
+</td>
+</tr>
+</table>
+</div>
+<?php
+	}
+?>
 
 <h3><?php echo __("Video Player Settings"); ?></h3>
 
@@ -798,7 +809,7 @@ while( list($value,$desc) = each($scale_options) )
 <span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
 	Scale: <input type="text" name="PlayerScaleCustom" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9.]/g, '');" value="<?php echo (is_numeric($General['player_scale'])?$General['player_scale']:''); ?>" maxlength="4" /> e.g. 1.5
 </span>
-<p style="margin-top: 5px;">
+<p style="margin-top: 5px; margin-bottom: 0;">
 	If you do not see video, adjust the width, height and scale settings above.
 </p>
 </td>

@@ -332,7 +332,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Your Podcast Feeds"); ?></th> 
+<?php _e("Podcast Channel Feeds"); ?></th> 
 <td>
 <?php
 	

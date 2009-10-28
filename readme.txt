@@ -128,8 +128,10 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 1.0.3 =
 * Released on TBA
+* Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...)
 * Added link to enable Category Podcasting from the Categories page in WordPress. Added 'Podcast Settings' and 'Add Podcasting' links under Categories table listing.
 * Retitled Category Casting to Category Podcasting to clear up confusion
+* Simple mode option retitled to 'Advanced Mode' to clear up confusion.
 * Fixed sufficient permissions to access this page bug when selecting players in Simple Mode (Thanks Ben!)
 * Fixed bug with Mp3 flash maxi player where <div> container was not closed properly (Thanks JWM!)
 * Updated <param> tags for player embeds so they are XML complaint (Thanks billhector!)

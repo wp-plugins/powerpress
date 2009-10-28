@@ -220,6 +220,8 @@ function powerpress_admin_init()
 					$General['episode_box_embed'] = 0;
 				if( !isset($General['episode_box_no_player'] ) )
 					$General['episode_box_no_player'] = 0;
+				if( !isset($General['episode_box_cover_image'] ) )
+					$General['episode_box_cover_image'] = 0;	
 				if( !isset($General['episode_box_keywords'] ) )
 					$General['episode_box_keywords'] = 0;
 				if( !isset($General['episode_box_subtitle'] ) )
@@ -237,7 +239,7 @@ function powerpress_admin_init()
 				if( !isset($General['channels'] ) )
 					$General['channels'] = 0;
 				if( !isset($General['advanced_mode']) )
-					$General['advanced_mode'] = 1;
+					$General['advanced_mode'] = 0;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
@@ -1024,6 +1026,8 @@ function powerpress_edit_post($post_ID, $post)
 				// Player Embed
 				if( isset($Powerpress['embed']) && trim($Powerpress['embed']) != '' )
 					$ToSerialize['embed'] = stripslashes($Powerpress['embed']); // we have to strip slahes if they are present befure we serialize the data
+				if( isset($Powerpress['image']) && trim($Powerpress['image']) != '' )
+					$ToSerialize['image'] = stripslashes($Powerpress['image']);
 				if( isset($Powerpress['no_player']) && $Powerpress['no_player'] )
 					$ToSerialize['no_player'] = 1;
 				if( $Powerpress['set_duration'] == -1 )

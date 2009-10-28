@@ -12,6 +12,7 @@ function powerpress_meta_box($object, $box)
 	$EnclosureURL = '';
 	$EnclosureLength = '';
 	$Embed = '';
+	$CoverImage = '';
 	$iTunesKeywords = '';
 	$iTunesSubtitle = '';
 	$iTunesSummary = '';
@@ -51,6 +52,8 @@ function powerpress_meta_box($object, $box)
 				$NoPlayer = $ExtraData['no_player'];
 			if( $ExtraData && isset($ExtraData['explicit']) )	
 				$iTunesExplicit = $ExtraData['explicit'];
+			if( $ExtraData && isset($ExtraData['image']) )	
+				$CoverImage = $ExtraData['image'];	
 		}
 		
 		
@@ -178,6 +181,21 @@ function powerpress_meta_box($object, $box)
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][embed]">Media Embed</label>
 			<div class="powerpress_row_content">
 				<textarea id="powerpress_embed_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][embed]" style="width: 90%; height: 80px; font-size: 90%;" onfocus="this.select();"><?php echo htmlspecialchars($Embed); ?></textarea>
+			</div>
+		</div>
+<?php
+		}
+		
+		if( @$GeneralSettings['episode_box_cover_image'] )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]">Cover Image</label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 90%; font-size: 90%;" size="250" />
+			</div>
+			<div class="powerpress_row_content">
+				<em>Cover image for Quicktime (m4v, mov, etc..) video only. e.g. http://example.com/path/to/image.jpg</em>
 			</div>
 		</div>
 <?php
