@@ -127,21 +127,21 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = 1.0.3 =
-* Released on TBA
-* Fixed bug where Media URL value starting with a slash '/' resulted in 2 slashes when the Default Media URL was added.
+* Released on 10/28/2008
 * Added oga, spx, ogv and ogx (variations of ogg) to list of media file extensions detected.
 * Added note with remove option below Media URL when media file is hosted by blubrry.com.
-* Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...)
+* Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...).
 * Added link to enable Category Podcasting from the Categories page in WordPress. Added 'Podcast Settings' and 'Add Podcasting' links under Categories table listing.
-* Retitled Category Casting to Category Podcasting to clear up confusion
+* Retitled Category Casting to Category Podcasting to clear up confusion.
 * Simple mode option retitled to 'Advanced Mode' to clear up confusion.
+* Fixed bug where Media URL value starting with a slash '/' resulted in 2 slashes when the Default Media URL was added.
 * Fixed bug with Verify button setting minutes in hour field and seconds in minute field for media hosted by Blubrry Services.
-* Fixed sufficient permissions to access this page bug when selecting players in Simple Mode (Thanks Ben!)
-* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly (Thanks JWM!)
-* Updated <param> tags for player embeds so they are XML complaint (Thanks billhector!)
-* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard (Thanks digigirl!)
-* Fixed Protected Content link by adding slash before wp-login.php (Thanks Grant!)
-* Removed unneeded javascript include to audio-player.js (thanks Mark!)
+* Fixed sufficient permissions to access this page bug when selecting players in Simple Mode. (Thanks Ben!)
+* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly. (Thanks JWM!)
+* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
+* Fixed Protected Content link by adding slash before wp-login.php. (Thanks Grant!)
+* Updated <param> tags for player embeds so they are XML complaint. (Thanks billhector!)
+* Removed unneeded javascript include to audio-player.js. (thanks Mark!)
 
 
 = 1.0.2 =
