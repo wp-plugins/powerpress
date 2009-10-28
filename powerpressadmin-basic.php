@@ -118,7 +118,7 @@ function SelectEntryBox(mode)
 			Manage multiple media files and/or formats to one blog post. <span style="font-size: 85%;">(feature will appear in left menu when enabled)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> <strong>Category Casting</strong> - 
+			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> <strong>Category Podcasting</strong> - 
 			Manage category podcast feeds. <span style="font-size: 85%;">(feature will appear in left menu when enabled)</span>
 		</div>
 	</div>

@@ -410,7 +410,7 @@
 </tr>
 </table>
 
-<form enctype="multipart/form-data" method="get" action="<?php echo admin_url( ($GeneralSettings['advanced_mode']==1?'admin':'options-general') .'.php'); ?>">
+<form enctype="multipart/form-data" method="get" action="<?php echo admin_url('admin.php'); ?>">
 <input type="hidden" name="action" value="powerpress-diagnostics" />
 <input type="hidden" name="page" value="powerpress/powerpressadmin_<?php echo ($GeneralSettings['advanced_mode']==1?'tools':'basic'); ?>.php" />
 <?php

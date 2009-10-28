@@ -250,7 +250,7 @@ function powerpress_activate_player(Player)
 	{
 ?>
 <h2><?php _e("Configure Player"); ?></h2>
-<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url(( @$General['advanced_mode']?'admin':'options-general').".php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>" title="Select a different flash player">Select a different flash player</a></strong></p>
+<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>" title="Select a different flash player">Select a different flash player</a></strong></p>
 <?php 
 		// Start adding logic here to display options based on the player selected...
 		switch( $General['player'] )

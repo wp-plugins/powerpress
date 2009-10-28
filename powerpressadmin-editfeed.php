@@ -191,6 +191,12 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	}
 	
 		echo '<h2>'. $FeedTitle .'</h2>';
+	
+	if( $cat_ID && (isset($_GET['from_categories']) || isset($_POST['from_categories'])) )
+	{
+		echo '<input type="hidden" name="from_categories" value="1" />';
+	}
+	
 ?>
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
   <ul class="powerpress_settings_tabs">
@@ -292,7 +298,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 		<li>
 			<ul>
 				<li>Adds podcasting support to all feeds</li>
-				<li>Allows for Category Casting (Visitors may subscribe to your categories as a podcast)</li>
+				<li>Allows for Category Podcasting (Visitors may subscribe to your categories as a podcast)</li>
 				<li>Allows for Tag/Keyword Casting (Visitors may subscribe to your tags as a podcast)</li>
 			</ul>
 		</li>

@@ -424,7 +424,8 @@ function powerpress_admin_init()
 			}; break;
 			case 'powerpress-addcategoryfeed': {
 				check_admin_referer('powerpress-add-category-feed');
-				$cat_ID = $_POST['cat'];
+				$cat_ID = ( isset($_POST['cat'])? $_POST['cat'] : $_GET['cat'] );
+				
 				$Settings = get_option('powerpress_general');
 				/*
 				$key = sanitize_title($_POST['feed_slug']);
@@ -504,6 +505,44 @@ function powerpress_admin_init()
 	{
 		switch( $_GET['action'] )
 		{
+			case 'powerpress-enable-categorypodcasting': {
+				check_admin_referer('powerpress-enable-categorypodcasting');
+				
+				$Settings = get_option('powerpress_general');
+				$Settings['cat_casting'] = 1;
+				powerpress_save_settings($Settings);
+				
+				wp_redirect('categories.php?message=3');
+				exit;
+				
+			}; break;
+			case 'powerpress-addcategoryfeed': {
+				check_admin_referer('powerpress-add-category-feed');
+				$cat_ID = $_GET['cat'];
+				
+				$Settings = get_option('powerpress_general');
+				$category = get_category($cat_ID);
+				if( $category == false )
+				{
+					powerpress_page_message_add_error( __('Error obtaining category information.') );
+				}
+				else
+				{
+					if( !is_array($Settings['custom_cat_feeds']) )
+						$Settings['custom_cat_feeds'] = array();
+					
+					if( !in_array($cat_ID, @$Settings['custom_cat_feeds']) )
+					{
+						$Settings['custom_cat_feeds'][] = $cat_ID;
+						powerpress_save_settings($Settings);
+					}
+				
+					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.') );
+					
+					$_GET['action'] = 'powerpress-editcategoryfeed';
+					$_GET['cat'] = $cat_ID;
+				}
+			}; break;
 			case 'powerpress-delete-feed': {
 				$delete_slug = $_GET['feed_slug'];
 				$force_deletion = @$_GET['force'];
@@ -655,6 +694,13 @@ function powerpress_admin_init()
 		}
 	}
 	
+	// Handle edit from category page
+	if( isset($_POST['from_categories']) )
+	{
+		wp_redirect('categories.php?message=3');
+		exit;
+	}
+	
 	$GeneralSettings = get_option('powerpress_general');
 	if( @$GeneralSettings['player_options'] )
 	{
@@ -797,7 +843,7 @@ function powerpress_admin_menu()
 			if( $Powerpress['channels'] )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Podcast Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( $Powerpress['cat_casting'] )	
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcast Feeds'), __('Category Casting'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting'), __('Category Podcasting'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 			if( @$Powerpress['podpress_stats'] )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			
@@ -1414,6 +1460,72 @@ function powerpress_media_info_ajax()
 add_action('wp_ajax_powerpress_media_info', 'powerpress_media_info_ajax');
 
 
+function powerpress_cat_row_actions($actions, $category)
+{
+	$General = get_option('powerpress_general');
+	if( !isset($General['cat_casting']) || $General['cat_casting'] == 0 )
+		return $actions;
+		
+	if( isset($General['custom_cat_feeds']) && is_array($General['custom_cat_feeds']) && in_array($category->cat_ID, $General['custom_cat_feeds']) )
+	{
+		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-editcategoryfeed&amp;cat=') . $category->cat_ID;
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. _('Edit Blubrry PowerPress Podcast Settings') .'">' . __('Podcast&nbsp;Settings') . '</a>';
+	}
+	else
+	{
+		$edit_link = admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-addcategoryfeed&amp;cat=".$category->cat_ID, 'powerpress-add-category-feed');
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. _('Add Blubrry PowerPress Podcasting Settings') .'">' . __('Add&nbsp;Podcasting') . '</a>';
+	}
+	return $actions;
+}
+
+add_filter('cat_row_actions', 'powerpress_cat_row_actions', 1,2);
+
+function powerpress_delete_category($cat_ID)
+{
+	$Settings = get_option('powerpress_general');
+	$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
+	if( $key !== false )
+	{
+		unset( $Settings['custom_cat_feeds'][$key] );
+		powerpress_save_settings($Settings); // Delete the feed from the general settings
+	}
+	delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
+}
+
+add_action('delete_category', 'powerpress_delete_category');
+
+
+function powerpress_edit_category_form($cat)
+{
+	if( empty($cat) || !isset( $cat->cat_ID ) )
+	{
+?>
+<div>
+<?php
+		$General = get_option('powerpress_general');
+		if( !isset($General['cat_casting']) || $General['cat_casting'] == 0 )
+		{
+			$enable_link = admin_url() . wp_nonce_url('categories.php?action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
+?>
+	<h2>PowerPress Category Podcasting</h2>
+	<p><a href="<?php echo $enable_link; ?>" title="Enable Category Podcasting">Enable Category Podcasting</a> if you would like to add specific podcasting settings to your blog categories.</p>
+<?php
+		}
+		else
+		{
+?>
+	<h2>PowerPress Category Podcasting</h2>
+	<p>PowerPress Category Podcasting is enabled. Select <u>Add Podcasting</u> to add podcasting settings. Select <u>Podcast Settings</u> to edit existing podcast settings.</p>
+<?php
+		}
+?>
+</div>
+<?php
+	}
+}
+add_action('edit_category_form', 'powerpress_edit_category_form');
+
 // Admin page, header
 function powerpress_admin_page_header($page=false, $nonce_field = 'powerpress-edit', $simple_mode=false)
 {
@@ -1425,7 +1537,7 @@ function powerpress_admin_page_header($page=false, $nonce_field = 'powerpress-ed
 	if( $nonce_field )
 	{
 ?>
-<form enctype="multipart/form-data" method="post" action="<?php echo admin_url( ($simple_mode?'options-general':'admin') .'.php?page='.$page) ?>">
+<form enctype="multipart/form-data" method="post" action="<?php echo admin_url( 'admin.php?page='.$page) ?>">
 <?php
 		wp_nonce_field($nonce_field);
 	}

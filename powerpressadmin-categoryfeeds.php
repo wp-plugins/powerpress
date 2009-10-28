@@ -20,10 +20,10 @@ function powerpress_admin_categoryfeeds()
 	
 	
 ?>
-<h2><?php echo __("Category Podcast Feeds"); ?></h2>
+<h2><?php echo __("Category Podcasting"); ?></h2>
 <p>
-	Category podcast feeds add custom podcast settings to specific blog category feeds.
-	Category podcast feeds allow you to organize episodes by topic.
+	Category Podcasting adds custom podcast settings to specific blog category feeds.
+	Category Podcasting allows you to organize episodes by topic.
 </p>
 <p>
 	If you are looking to organize episodes by file or format, please use <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>" title="Custom Podcast Feeds">Custom Podcast Feeds</a>.

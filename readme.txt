@@ -128,12 +128,14 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 1.0.3 =
 * Released on TBA
-* 
-* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly. (Thanks JWM!)
+* Added link to enable Category Podcasting from the Categories page in WordPress. Added 'Podcast Settings' and 'Add Podcasting' links under Categories table listing.
+* Retitled Category Casting to Category Podcasting to clear up confusion
+* Fixed sufficient permissions to access this page bug when selecting players in Simple Mode (Thanks Ben!)
+* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly (Thanks JWM!)
 * Updated <param> tags for player embeds so they are XML complaint (Thanks billhector!)
-* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
+* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard (Thanks digigirl!)
 * Fixed Protected Content link by adding slash before wp-login.php (Thanks Grant!)
-* Removed unneeded javascript include to audio-player.js. (thanks Mark!)
+* Removed unneeded javascript include to audio-player.js (thanks Mark!)
 
 
 = 1.0.2 =
@@ -387,9 +389,11 @@ Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, archit
 
 Pat McSweeny, Developer for [RawVoice](http://www.rawvoice.com) - Developed initial version (v0.1.0) of plugin
 
-Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1
+Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1, wrote initial code for the 4 new flash players.
 
 Darcy Fiander, Rooty Radio (http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
+
+Joel Haasnoot, (http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
 
 
 == Feedback == 
