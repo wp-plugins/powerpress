@@ -138,7 +138,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with Verify button setting minutes in hour field and seconds in minute field for media hosted by blubrry.com.
 * Fixed sufficient permissions to access this page bug when selecting players in Simple Mode. (Thanks Ben!)
 * Fixed bug with Mp3 flash maxi player where <div> container was not closed properly. (Thanks JWM!)
-* Fixex bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
+* Fixed bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
 * Fixed Protected Content link by adding slash before wp-login.php. (Thanks Grant!)
 * Updated <param> tags for player embeds so they are XML complaint. (Thanks billhector!)
 * Removed unneeded javascript include to audio-player.js. (thanks Mark!)
