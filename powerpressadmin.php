@@ -1447,7 +1447,7 @@ function powerpress_media_info_ajax()
 		echo "$feed_slug\n";
 		echo "OK\n";
 		echo "{$MediaInfo['length']}\n";
-		echo "{$MediaInfo['duration']}\n";
+		echo powerpress_readable_duration($MediaInfo['duration'], true) ."\n";
 		if( isset($MediaInfo['warnings']) )
 			echo $MediaInfo['warnings'];
 		exit;
