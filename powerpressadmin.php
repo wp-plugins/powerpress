@@ -903,14 +903,14 @@ function powerpress_edit_post($post_ID, $post)
 				{
 					if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
 					{
-						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $MediaURL;
+						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				else
 				{
 					if( strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 					{
-						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $MediaURL;
+						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				

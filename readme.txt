@@ -128,6 +128,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 1.0.3 =
 * Released on TBA
+* Fixed bug where Media URL value starting with a slash '/' resulted in 2 slashes when the Default Media URL was added.
 * Added oga, spx, ogv and ogx (variations of ogg) to list of media file extensions detected.
 * Added note with remove option below Media URL when media file is hosted by blubrry.com.
 * Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...)
