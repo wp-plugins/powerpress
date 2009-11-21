@@ -36,6 +36,10 @@ function powerpress_meta_box($object, $box)
 			$enclosureArray = get_post_meta($object->ID, '_'.$FeedSlug.':enclosure', true);
 		
 		list($EnclosureURL, $EnclosureLength, $EnclosureType, $EnclosureSerialized) =  explode("\n", $enclosureArray, 4);
+		$EnclosureURL = trim($EnclosureURL);
+		$EnclosureLength = trim($EnclosureLength);
+		$EnclosureType = trim($EnclosureType);
+		
 		if( $EnclosureSerialized )
 		{
 			$ExtraData = @unserialize($EnclosureSerialized);

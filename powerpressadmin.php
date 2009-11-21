@@ -470,6 +470,14 @@ function powerpress_admin_init()
 				
 				$_GET['action'] = 'powerpress-ping-sites';
 			}; break;
+			case 'powerpress-find-replace': {
+				check_admin_referer('powerpress-find-replace');
+				
+				require_once( dirname(__FILE__) . '/powerpressadmin-find-replace.php');
+				powerpressadmin_find_replace_process();
+				
+				$_GET['action'] = 'powerpress-find-replace';
+			}; break;
 			case 'powerpress-importpodpress': {
 				check_admin_referer('powerpress-import-podpress');
 				
@@ -1696,6 +1704,12 @@ function powerpress_admin_page_tools()
 			powerpress_admin_ping_sites();
 			powerpress_admin_page_footer(false);
 		}; break;
+		case 'powerpress-find-replace': {
+			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-find-replace');
+			require_once( dirname(__FILE__).'/powerpressadmin-find-replace.php');
+			powerpress_admin_find_replace();
+			powerpress_admin_page_footer(false);
+		}; break;
 		case 'powerpress-diagnostics': {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', false);
 			require_once( dirname(__FILE__).'/powerpressadmin-diagnostics.php');
@@ -1834,7 +1848,7 @@ function powerpress_ping_itunes($iTunes_url)
 		
 	// Parse the data into something readable
 	$results = trim( str_replace('Podcast Ping Received', '', strip_tags($tempdata) ) );
-	list($null, $FeedURL, $null, $null, $null, $PodcastID) = split("\n", $results );
+	list($null, $FeedURL, $null, $null, $null, $PodcastID) = explode("\n", $results );
 	
 	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
 }
@@ -1996,7 +2010,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	if( $basic_auth )
 	{
 		$UserPassDecoded = base64_decode($basic_auth);
-		list($User, $Pass) = split(':', $UserPassDecoded, 2);
+		list($User, $Pass) = explode(':', $UserPassDecoded, 2);
 		$url_prefix = sprintf('http://%s:%s@', str_replace('@', '$', $User), $Pass);
 		$url = $url_prefix . substr($url, 7);
 	}
@@ -2025,7 +2039,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 		
 		if( $EnclosureData )
 		{
-			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $EnclosureData);
+			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $EnclosureData, 4);
 			$EnclosureURL = trim($EnclosureURL);
 			$EnclosureType = trim($EnclosureType);
 			$EnclosureSize = trim($EnclosureSize);

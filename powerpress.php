@@ -417,11 +417,11 @@ function powerpress_rss2_head()
 	$Categories = powerpress_itunes_categories();
 	$Cat1 = false; $Cat2 = false; $Cat3 = false;
 	if( $Feed['itunes_cat_1'] != '' )
-			list($Cat1, $SubCat1) = split('-', $Feed['itunes_cat_1']);
+			list($Cat1, $SubCat1) = explode('-', $Feed['itunes_cat_1']);
 	if( $Feed['itunes_cat_2'] != '' )
-			list($Cat2, $SubCat2) = split('-', $Feed['itunes_cat_2']);
+			list($Cat2, $SubCat2) = explode('-', $Feed['itunes_cat_2']);
 	if( $Feed['itunes_cat_3'] != '' )
-			list($Cat3, $SubCat3) = split('-', $Feed['itunes_cat_3']);
+			list($Cat3, $SubCat3) = explode('-', $Feed['itunes_cat_3']);
  
 	if( $Cat1 )
 	{
@@ -1482,7 +1482,7 @@ function get_the_powerpress_content()
 
 function powerpress_do_pinw($pinw, $process_podpress)
 {
-	list($post_id, $feed_slug) = split('-', $pinw, 2);
+	list($post_id, $feed_slug) = explode('-', $pinw, 2);
 	$EpisodeData = powerpress_get_enclosure_data($post_id, $feed_slug);
 	
 	if( $EpisodeData == false && $process_podpress && $feed_slug == 'podcast' )
@@ -1757,7 +1757,7 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 	{
 		while( list($key,$val) = each($temp) )
 		{
-			$parts = split('-', $key);
+			$parts = explode('-', $key);
 			$cat = $parts[0];
 			$subcat = $parts[1];
 		 
@@ -1964,7 +1964,7 @@ function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings
 function powerpress_readable_duration($duration, $include_hour=false)
 {
 	$seconds = 0;
-	$parts = split(':', $duration);
+	$parts = explode(':', $duration);
 	if( count($parts) == 3 )
 		$seconds = $parts[2] + ($parts[1]*60) + ($parts[0]*60*60);
 	else if ( count($parts) == 2 )
@@ -2064,8 +2064,11 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	
 	$Data = array();
 	$Data['duration'] = 0;
-	list($Data['url'], $Data['size'], $Data['type'], $Serialized) = explode("\n", $MetaData, 4);
-	$Data['url'] = powerpress_add_redirect_url( trim($Data['url']) );
+	list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
+	$Data['url'] = powerpress_add_redirect_url( trim($url) );
+	$Data['size'] = trim($size);
+	$Data['type'] = trim($type);
+	
 	if( $Serialized )
 	{
 		$ExtraData = unserialize($Serialized);

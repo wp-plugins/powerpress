@@ -126,8 +126,15 @@ To install Blubrry PowerPress manually, follow these steps:
 
 == Changelog ==
 
+= 1.0.4 =
+* Released on 11/??/2009
+* Converted all function calls from split() to explode for PHP 6 compatibility.
+* Added new find and replace episode URL feature found under tools section. Perfect for users moving their media hosting to a new web site or service.
+* Added translation support to the tools page. (translation support for all of PowerPress coming soon).
+
+
 = 1.0.3 =
-* Released on 10/28/2008
+* Released on 10/28/2009
 * Added oga, spx, ogv and ogx (variations of ogg) to list of media file extensions detected.
 * Added note with remove option below Media URL when media file is hosted by blubrry.com.
 * Added Video Cover Image option for those who want to specify a URL to an image to display in place of the default play video box for QuickTime formatted video (m4v, mov, etc...).

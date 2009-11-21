@@ -99,7 +99,7 @@ if( !function_exists('add_action') )
 					if( $enclosure_data )
 					{
 						$Included = false;
-						list($EnclosureURL,$null) = split("\n", $enclosure_data);
+						list($EnclosureURL,$null) = explode("\n", $enclosure_data);
 						$return[ $row['ID'] ]['enclosure'] = $enclosure_data;
 						
 						while( list($episode_index_temp,$episode_data_temp) = each($clean_data) )
@@ -422,7 +422,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 				if( !$enclosure_data )
 					continue;
 					
-				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $enclosure_data);
+				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
 				if( $EnclosureURL )
 				{
 					$CurrentEnclosures[ $feed_slug ] = array();

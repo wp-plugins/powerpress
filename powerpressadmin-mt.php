@@ -51,7 +51,7 @@ if( !function_exists('add_action') )
 		if( isset($_GET['include_only_ext']) && trim($_GET['include_only_ext']) != '' )
 		{
 			$extensions = strtolower(preg_replace("/\s/", '', $_GET['include_only_ext']));
-			$ext_array = split(',', trim($extensions, ',') );
+			$ext_array = explode(',', trim($extensions, ',') );
 			if( in_array( strtolower($partsFile['extension']), $ext_array ) )
 			{
 				if( !isset($g_import_mt_extensions[ strtolower($partsFile['extension']) ]) )
@@ -462,7 +462,7 @@ else
 				if( !$enclosure_data )
 					continue;
 					
-				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = split("\n", $enclosure_data);
+				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
 				if( $EnclosureURL )
 				{
 					$CurrentEnclosures[ $feed_slug ] = array();
