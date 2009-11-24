@@ -208,9 +208,9 @@ dt {
 			if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
 			{
 ?>
-<h2><?php echo ($FindReplace['step'] == 2 ? __("Preview Changes") : __('Change Results') ); ?></h2>
+<h2><?php echo ($FindReplace['step'] == 2 ? __('Preview Changes') : __('Change Results') ); ?></h2>
 
-<p><?php echo sprintf( __('Found %d results with "%s"'), count($FindReplaceResults), "<span class="find_string strong">{$FindReplace['find_string']}</span>" ); ?></p>
+<p><?php echo sprintf( __('Found %d results with "%s"'), count($FindReplaceResults), "<span class=\"find_string strong\">{$FindReplace['find_string']}</span>" ); ?></p>
 
 <ol>
 <?php
@@ -238,7 +238,7 @@ dt {
 			  <?php echo __('Found') .': '. $row['find_readable']; ?>
 			 </dt>
 			 <dd>
-			  <?php __('Replace') .': '. echo $row['replace_readable']; ?>
+			  <?php echo __('Replace') .': '. $row['replace_readable']; ?>
 			 (<a href="<?php echo $row['new_url']; ?>" target="_blank"><?php echo __('test link'); ?></a>)
 			 </dd>
 		</dl>

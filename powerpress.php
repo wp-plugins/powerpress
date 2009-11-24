@@ -74,6 +74,11 @@ if( !defined('PHP_EOL') )
 	
 $powerpress_feed = NULL; // DO NOT CHANGE
 
+// Translation support loaded:
+load_plugin_textdomain('powerpress', // domain / keyword name of plugin
+		PLUGINDIR.'/'.dirname(plugin_basename(__FILE__)).'/languages', // Absolute path
+		dirname(plugin_basename(__FILE__)).'/languages' ); // relative path in plugins folder
+
 function powerpress_content($content)
 {
 	global $post, $g_powerpress_excerpt_post_id;
@@ -821,9 +826,6 @@ add_action('template_redirect', 'powerpress_template_redirect', 0);
 function powerpress_init()
 {
 	$GeneralSettings = get_option('powerpress_general');
-	
-	// Translation support loaded:
-	// load_plugin_textdomain('powerpress', false, dirname(plugin_basename(__FILE__)));
 	
 	if( isset($_GET['powerpress_pinw']) )
 		powerpress_do_pinw($_GET['powerpress_pinw'], @$GeneralSettings['process_podpress']);
