@@ -1,0 +1,299 @@
+<?php
+	// powerpressadmin-find-replace.php
+	$g_FindReplaceResults = array();
+	
+	// Returns an array of enclosures with key of array = meta_id
+	function powerpressadmin_find_replace_get_enclosures($find_string)
+	{
+		$Episodes = array();
+		global $wpdb;
+		
+		$query = "SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_key LIKE \"%enclosure\"";
+		$results = mysql_query($query);
+		while( $row = mysql_fetch_assoc($results) )
+		{
+			list($url, $null) = explode("\n", $row['meta_value'], 2 );
+			$url = trim($url);
+			if( $find_string == '' || strstr($url, $find_string) )
+				$Episodes[ $row['meta_id'] ] = $row;
+		}
+		mysql_free_result($results);
+		return $Episodes;
+	}
+	
+	function powerpressadmin_find_replace_update_meta($meta_id, $meta_value)
+	{
+		global $wpdb;
+		return $wpdb->update( $wpdb->postmeta, array('meta_value'=>$meta_value), array('meta_id'=>$meta_id) );
+	}
+	
+	function powerpressadmin_find_replace_process()
+	{
+		global $g_FindReplaceResults;
+		if( isset($_POST['FindReplace']) )
+		{
+			$FindReplace = $_POST['FindReplace'];
+			if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
+			{
+				$success_count = 0;
+				$failed_count = 0;
+				
+				$FoundArray = powerpressadmin_find_replace_get_enclosures($FindReplace['find_string']);
+				
+				while( list($meta_id, $row) = each($FoundArray) )
+				{
+					// powerpress_get_post_meta
+					$meta_value = get_post_meta($row['post_id'], $row['meta_key'], true);
+					list($old_url, $other_meta_data) = explode("\n", $meta_value, 2);
+					$old_url = trim($old_url);
+					//echo  $old_url;
+					$g_FindReplaceResults[ $meta_id ] = $row;
+					$g_FindReplaceResults[ $meta_id ]['old_url'] = $old_url;
+					$g_FindReplaceResults[ $meta_id ]['find_readable'] = str_replace($FindReplace['find_string'],
+							sprintf('<span class="find_string strong">%s</span>', $FindReplace['find_string']), $old_url);
+					$g_FindReplaceResults[ $meta_id ]['replace_readable'] = str_replace($FindReplace['find_string'],
+							sprintf('<span class="replace_string strong">%s</span>', $FindReplace['replace_string']), $old_url);
+					$new_url = str_replace($FindReplace['find_string'],$FindReplace['replace_string'], $old_url);
+					$g_FindReplaceResults[ $meta_id ]['new_url'] = $new_url;
+					
+					if( $FindReplace['step'] == 3 && $FindReplace['find_string'] != '' )
+					{
+						$good = true;
+						if( @$FindReplace['verify'] )
+						{
+							$response = @wp_remote_head( $new_url );
+							if ( is_wp_error( $response ) )
+							{
+								$g_FindReplaceResults[ $meta_id ]['error'] = $response->get_error_message();
+								$good = false;
+							}
+							
+							if( $good && isset($response['response']['code']) && ($response['response']['code'] < 200 || $response['response']['code'] > 203) )
+							{
+								$g_FindReplaceResults[ $meta_id ]['error'] = 'Error, HTTP '.$response['response']['code'];
+								$good = false;
+							}
+						}
+						
+						if( $good )
+						{
+							
+							$DataUpdated = $new_url ."\n". $other_meta_data;
+							if( update_post_meta( $row['post_id'], $row['meta_key'], $DataUpdated) )
+								$success_count++;
+							else
+								$good = false;
+						}
+						
+						if( !$good )
+						{
+							$failed_count++;
+						}
+						$g_FindReplaceResults[ $meta_id ]['success'] = $good;
+					}
+					
+				}
+				
+				if( $FindReplace['step'] == 3 )
+				{
+					if( $success_count > 0 )
+						powerpress_page_message_add_notice(  sprintf(__('%d URLs updated successfully.'), $success_count) );
+					if( $failed_count > 0 )
+						powerpress_page_message_add_error(  sprintf(__('%d URLs were not updated.'), $failed_count) );
+					else if( $FindReplace['find_string'] == '' )
+						powerpress_page_message_add_notice(  __('Nothing specified to find.') );
+				}
+			}
+			
+		
+		}
+		
+		powerpress_page_message_add_notice(  __('WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsibile for any lost or damaged data resulting from this Find and Replace tool.') );
+	}
+	
+	function powerpress_admin_find_replace()
+	{
+		$FindReplaceResults = array();
+		
+		if( isset($_POST['FindReplace']) )
+		{
+			$FindReplace = $_POST['FindReplace'];
+		}
+		else
+		{
+			$FindReplace = array();
+			$FindReplace['find_string'] = '';
+			$FindReplace['replace_string'] = '';
+			$FindReplace['step'] = 1;
+		}
+		
+		if( $FindReplace['step'] == 2 )
+		{
+			$FindReplace['verify'] = true;
+		}
+		if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
+		{
+			$FindReplaceResults = powerpressadmin_find_replace_get_results();
+		}
+?>
+
+<script type="text/javascript">
+function VerifyCheck(obj)
+{
+	if( !obj.checked && !confirm('<?php echo __('WARNING: Verification prevents changes if the URL entered is invalid.\n\nAre you sure you do not want to verify the URLs?'); ?>') )
+		obj.checked = true;
+}
+
+function ConfirmReplace()
+{
+	if( confirm('<?php echo __('WARNING: You are about to make permanent changes to your database.\n\nAre you sure you wish to continue?'); ?>') )
+	{
+		jQuery('#replace_step').val('3');
+		return true;
+	}
+	return false;
+}
+</script>
+<style type="text/css">
+.find_string {
+	background-color: #CFE2F3; /* lt blue */
+	padding: 1px;
+}
+.replace_string {
+	background-color: #FCE5CD; /* orange */
+	padding: 1px;
+}
+.strong {
+	font-style:italic;
+}
+
+dd {
+	margin: 2px 2px 2px 10px;
+}
+dt {
+	margin: 2px 2px 2px 10px;
+}
+</style>
+
+<input type="hidden" name="action" value="powerpress-find-replace" />
+<input type="hidden" name="FindReplace[step]" value="<?php echo $FindReplace['step']; ?>" id="replace_step" />
+
+<h2><?php echo __("Find and Replace Episode URLs"); ?></h2>
+
+<p style="margin-bottom: 0;"><?php echo __('Find and replace parts of existing media URLs (podcast episodes)'); ?></p>
+
+<table class="form-table">
+	<tr valign="top">
+	<th scope="row"><?php echo __("Find in URL"); ?></th> 
+	<td>
+			<input type="text" id="find_string" name="FindReplace[find_string]" style="width: 50%;" value="<?php echo $FindReplace['find_string']; ?>" maxlength="250" <?php if( $FindReplace['step'] != 1 ) { echo ' readOnly'; } ?> />
+			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();" title="<?php echo __('Modify'); ?>"><?php echo __('Modify'); ?></a><?php } ?>
+			<p style="margin: 0; font-size: 90%;"><?php echo __('Example'); ?>: http://www.oldsite.com/</p>
+	</td>
+	</tr>
+	<tr valign="top">
+	<th scope="row"><?php echo __("Replace with"); ?></th> 
+	<td>
+			<input type="text" id="replace_string" name="FindReplace[replace_string]" style="width: 50%;" value="<?php echo $FindReplace['replace_string']; ?>" maxlength="250" <?php if( $FindReplace['step'] != 1 ) { echo ' readOnly'; } ?> />
+			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();" title="<?php echo __('Modify'); ?>"><?php echo __('Modify'); ?></a><?php } ?>
+			<p style="margin: 0; font-size: 90%;"><?php echo __('Example'); ?>: http://www.newsite.com/</p>
+	</td>
+	</tr>
+</table>
+
+
+
+
+<?php
+			if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
+			{
+?>
+<h2><?php echo ($FindReplace['step'] == 2 ? __("Preview Changes") : __('Change Results') ); ?></h2>
+
+<p><?php echo sprintf( __('Found %d results with "%s"'), count($FindReplaceResults), "<span class="find_string strong">{$FindReplace['find_string']}</span>" ); ?></p>
+
+<ol>
+<?php
+				while( list($meta_id, $row) = each($FindReplaceResults) )
+				{
+					$post_view_link = '<a href="' . get_permalink($row['post_id']) . '" target="_blank">' . get_the_title($row['post_id']) . '</a>';
+					$post_edit_link = '<a href="' . get_edit_post_link($row['post_id']) . '" target="_blank">' . __('Edit Post') . '</a>';
+?>
+	<li>
+<?php
+					if( $FindReplace['step'] == 3 )
+					{
+						echo '<div>';
+						powerpressadmin_find_replace_status($row['success']);
+						echo ' &nbsp; ';
+						if( @$row['error'] )
+							echo $row['error'];
+						echo '</div>';
+					}
+?>
+		Post: <strong><?php echo $post_view_link; ?></strong>
+		<span style="font-size: 90%;">(<?php echo $post_edit_link; ?>)</span>
+		<dl>
+			<dt>
+			  <?php echo __('Found') .': '. $row['find_readable']; ?>
+			 </dt>
+			 <dd>
+			  <?php __('Replace') .': '. echo $row['replace_readable']; ?>
+			 (<a href="<?php echo $row['new_url']; ?>" target="_blank"><?php echo __('test link'); ?></a>)
+			 </dd>
+		</dl>
+	</li>
+<?php 
+					}
+?>
+</ol>
+<?php 	} ?>
+
+<?php if( $FindReplace['step'] == 1 ) { ?>
+<p class="submit">
+	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="Find and Preview Changes" onclick="jQuery('#replace_step').val('2');" />
+</p>
+<?php } else if( $FindReplace['step'] == 2 && count($FindReplaceResults) > 0 ) { ?>
+<p class="submit">
+	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="Commit Changes" onclick="return ConfirmReplace()" />
+	&nbsp;
+	<input type="checkbox" name="FindReplace[verify]" value="1" <?php if( @$FindReplace['verify'] ) echo 'checked'; ?> onchange="return VerifyCheck(this)" />
+	<strong><?php echo __("Verify modified URLs"); ?></strong>
+		(<?php echo __('Does not change media URL if link is not found or invalid'); ?>)</p>
+</p>
+<?php } else if ( $FindReplace['step'] == 3 || ($FindReplace['step'] == 2 && count($FindReplaceResults) == 0) ) { ?>
+<p class="submit">
+	<strong><a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_tools.php'); ?>"><?php echo __('PowerPress Tools'); ?></a></strong>
+</p>
+<?php 		} ?>
+
+
+	<!-- start footer -->
+<?php
+	}
+	
+	function powerpressadmin_find_replace_status($success=true)
+	{
+		$img = 'yes.png';
+		$color = '#458045';
+		$text = __('Success');
+		if( $success == false ) // Failed takes precedence over warning
+		{
+			$img = 'no.png';
+			$color = '#CC0000';
+			$text = __('Failed');
+		}
+?>
+	<img src="<?php echo admin_url(); ?>/images/<?php echo $img; ?>" style="vertical-align:text-top;" />
+	<strong style="color:<?php echo $color; ?>;"><?php echo $text; ?></strong>
+<?php
+	}
+	
+	function powerpressadmin_find_replace_get_results()
+	{
+		global $g_FindReplaceResults;
+		if( !is_array($g_FindReplaceResults) )
+			return array();
+		return $g_FindReplaceResults;
+	}
+?>
