@@ -823,6 +823,27 @@ function powerpress_template_redirect()
 
 add_action('template_redirect', 'powerpress_template_redirect', 0);
 
+function powerpress_pre_transient_rewrite_rules($return_rules)
+{
+	global $wp_rewrite;
+	$GeneralSettings = get_option('powerpress_general');
+	if( !in_array('podcast', $wp_rewrite->feeds) )
+		$wp_rewrite->feeds[] = 'podcast';
+	
+	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
+	{
+		while( list($feedname,$null) = each($GeneralSettings['custom_feeds']) )
+		{
+			if( !in_array($feedname, $wp_rewrite->feeds) )
+				$wp_rewrite->feeds[] = $feedname;
+		}
+	}
+	
+	return $return_rules;
+}
+
+add_filter('pre_transient_rewrite_rules', 'powerpress_pre_transient_rewrite_rules');
+
 function powerpress_init()
 {
 	$GeneralSettings = get_option('powerpress_general');
