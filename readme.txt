@@ -130,7 +130,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 12/??/2009
 * Converted all function calls from split() to explode for PHP 6 compatibility.
 * Added new find and replace episode URL feature found under tools section. Perfect for users moving their media hosting to a new web site or service.
-* Added translation support to the tools page. (translation support for all of PowerPress coming soon).
+* Added translation support (translation support for all of PowerPress coming soon)
+** tools page completed
+** basic settings page completed
 * Added code to prevent other plugins from wiping out the custom podcast feed permalinks.
 ** ATTENTION: If you were having this problem and this update restores your podcast feeds, chances are the plugin that caused this error is also causing other harm to your page load times.
 

@@ -1,5 +1,0 @@
-<?php
-// powerpressadmin-appearance.php
-
-
-?>

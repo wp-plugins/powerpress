@@ -1595,7 +1595,6 @@ function powerpress_admin_page_basic()
 	
 	powerpress_admin_page_header();
 	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-appearance.php');
 	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
 	powerpress_admin_basic();
 	powerpress_admin_page_footer(true);
