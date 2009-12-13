@@ -5,10 +5,10 @@ if( !function_exists('add_action') )
 	
 function powerpress_admin_customfeeds_columns($data=array())
 {
-	$data['name'] = 'Category Name';
+	$data['name'] = __('Category Name');
 	$data['feed-slug'] = 'Slug';
 	//$data['episode-count'] = 'Episodes';
-	$data['url'] = 'Feed URL';
+	$data['url'] = __('Feed URL');
 	return $data;
 }
 
@@ -20,17 +20,14 @@ function powerpress_admin_categoryfeeds()
 	
 	
 ?>
-<h2><?php echo __("Category Podcasting"); ?></h2>
+<h2><?php echo __('Category Podcasting'); ?></h2>
 <p>
-	Category Podcasting adds custom podcast settings to specific blog category feeds.
-	Category Podcasting allows you to organize episodes by topic.
+	<?php echo __('Category Podcasting adds custom podcast settings to specific blog category feeds, allowing you to organize episodes by topic.'); ?>
 </p>
 <p>
-	If you are looking to organize episodes by file or format, please use <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>" title="Custom Podcast Feeds">Custom Podcast Feeds</a>.
-</p>
-
-<style type="text/css">
-
+	<?php echo sprintf( __('If you are looking to organize episodes by file or format, please use %s.'),
+		'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php') .'" title="'. __('Custom Podcast Channels') .'">'. __('Custom Podcast Channels') .'</a>'); ?>
+</p>'<style type="text/css">
 .column-url {
 	width: 40%;
 }
@@ -77,9 +74,9 @@ function powerpress_admin_categoryfeeds()
 	else // WordPress 2.6 or older
 	{
 	?>
-	<th scope="col" class="manage-column column-name" style="">Category Name</th>
-	<th scope="col" class="manage-column column-feed-slug" style="">Slug</th>
-	<th scope="col" class="manage-column column-url" style="">Feed URL</th>
+	<th scope="col" class="manage-column column-name" style=""><?php echo __('Category Name'); ?></th>
+	<th scope="col" class="manage-column column-feed-slug" style=""><?php echo __('Slug'); ?></th>
+	<th scope="col" class="manage-column column-url" style=""><?php echo __('Feed URL'); ?></th>
 	<?php
 	}
 ?>
@@ -101,9 +98,7 @@ function powerpress_admin_categoryfeeds()
 		
 		$columns = powerpress_admin_customfeeds_columns();
 		$hidden = array();
-		if( $feed_slug == 'podcast' )
-			$feed_title = 'Podcast Feed (default)';
-		$feed_title = wp_specialchars($feed_title);
+
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
 		else
@@ -183,7 +178,7 @@ function powerpress_admin_categoryfeeds()
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
-<h3><?php _e('Add Podcast Settings to existing Category Feed'); ?></h3>
+<h3><?php echo __('Add Podcast Settings to existing Category Feed'); ?></h3>
 <input type="hidden" name="action" value="powerpress-addcategoryfeed" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
@@ -191,9 +186,9 @@ function powerpress_admin_categoryfeeds()
 ?>
 
 <div class="form-field form-required">
-	<label for="feed_name"><?php _e('Category') ?></label>
+	<label for="feed_name"><?php echo __('Category') ?></label>
 	<select name="cat" id="cat_id" style="width: 100%;">
-		<option value="">Select Category</option>
+		<option value=""><?php echo __('Select Category'); ?></option>
 <?php
 	wp_dropdown_cats();
 ?>
@@ -201,7 +196,7 @@ function powerpress_admin_categoryfeeds()
     
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Podcast Settings to Category Feed'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Category Feed'); ?>" /></p>
 
 </div>
 </div>
@@ -210,14 +205,12 @@ function powerpress_admin_categoryfeeds()
 
 </div> <!-- col-container -->
 
-<h3>Example Usage</h3>
+<h3><?php echo __('Example Usage'); ?></h3>
 <p>
-	Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics
-	and use category feeds to distribute topic specific episodes.
+	<?php echo __('Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics 	and use category feeds to distribute topic specific episodes.'); ?>
 </p>
 <p>
-	Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed
-	combining all categories to provide a network feed.
+	<?php echo __('Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed combining all categories to provide a network feed.'); ?>
 </p>
 
 <?php
