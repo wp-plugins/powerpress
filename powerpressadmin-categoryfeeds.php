@@ -6,8 +6,7 @@ if( !function_exists('add_action') )
 function powerpress_admin_customfeeds_columns($data=array())
 {
 	$data['name'] = __('Category Name');
-	$data['feed-slug'] = 'Slug';
-	//$data['episode-count'] = 'Episodes';
+	$data['feed-slug'] = __('Slug');
 	$data['url'] = __('Feed URL');
 	return $data;
 }
@@ -17,8 +16,7 @@ add_filter('manage_powerpressadmin_categoryfeeds_columns', 'powerpress_admin_cus
 function powerpress_admin_categoryfeeds()
 {
 	$General = powerpress_get_settings('powerpress_general');
-	
-	
+
 ?>
 <h2><?php echo __('Category Podcasting'); ?></h2>
 <p>
@@ -48,16 +46,16 @@ function powerpress_admin_categoryfeeds()
 	<thead>
 	<tr>
 <?php 
-	if( function_exists('') )
+	if( function_exists('print_column_headers') )
 	{
 		print_column_headers('powerpressadmin_categoryfeeds');
 	}
 	else
 	{
 	?>
-	<th scope="col" id="name" class="manage-column column-name" style="">Category Name</th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug" style="">Slug</th>
-	<th scope="col" id="url" class="manage-column column-url" style="">Feed URL</th>
+	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Category Name'); ?></th>
+	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
+	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL'); ?></th>
 	<?php
 	}
 ?>
@@ -74,9 +72,9 @@ function powerpress_admin_categoryfeeds()
 	else // WordPress 2.6 or older
 	{
 	?>
-	<th scope="col" class="manage-column column-name" style=""><?php echo __('Category Name'); ?></th>
-	<th scope="col" class="manage-column column-feed-slug" style=""><?php echo __('Slug'); ?></th>
-	<th scope="col" class="manage-column column-url" style=""><?php echo __('Feed URL'); ?></th>
+	<th scope="col" class="manage-column column-name"><?php echo __('Category Name'); ?></th>
+	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
+	<th scope="col" class="manage-column column-url"><?php echo __('Feed URL'); ?></th>
 	<?php
 	}
 ?>
