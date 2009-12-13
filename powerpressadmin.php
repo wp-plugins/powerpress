@@ -2107,8 +2107,11 @@ function powerpress_process_hosting($post_ID, $post_title)
 
 function powerpress_json_decode($value)
 {
-	if( function_exists('json_decode') )
+	global $wp_version;
+	if( function_exists('json_decode') && version_compare( phpversion(), '5.2', '>=' ) ) // Native PHP 5.2+ json_decode function
 		return json_decode($value, true);
+	if( function_exists('json_decode') && version_compare($wp_version, '2.8.9', '>') ) // WordPress 2.9+ json_decode function
+		$null = json_decode('{"a":1}'); // Hack, includes the class-json.php from within the wp-includes folder
 	if( !class_exists('Services_JSON') )
 		require_once( dirname(__FILE__).'/3rdparty/JSON.php');
 	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);

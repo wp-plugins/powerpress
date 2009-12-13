@@ -89,12 +89,7 @@ function powerpress_dashboard_stats_content()
 ?>
 <div>
 <?php
-//$content = http_get('http://api.blubrry.local/stats/compiled_weekly2/summary.html?year=2008&month=7', 'amandato@gmail.com', 'testit');
-
-//$decoded = my_json_decode($content['data'], true);
-//print_r( $content ); 
 	echo $content;
-	//echo 'Podcast Statistics go here.';
 	
 	if( $UserPass )
 	{
