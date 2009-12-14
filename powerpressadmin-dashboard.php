@@ -72,8 +72,12 @@ function powerpress_dashboard_stats_content()
 	{
 		if( !$UserPass )
 		{
-			$content = '<p>Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable <a href="http://www.blubrry.com/powerpress_services/" target="_blank">services</a>.</p>
-<p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting</a> integrated PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>';
+			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable %s.') .'</p>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Services') . '</a>' );
+			$content .= ' ';
+			$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!') .'</p>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Podcast Hosting') .'</a>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Video') .'</a>' );
 		}
 		else
 		{
@@ -83,7 +87,7 @@ function powerpress_dashboard_stats_content()
 			if( $content )
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content) );
 			else
-				$content = 'Error: An error occurred authenticating user.';
+				$content = __('Error: An error occurred authenticating user.');
 		}
 	}
 ?>
@@ -95,7 +99,7 @@ function powerpress_dashboard_stats_content()
 	{
 ?>
 	<div id="blubrry_stats_media_show">
-		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="Blubrry Media statistics" class="thickbox">more</a>
+		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="<?php echo __('Blubrry Media statistics'); ?>" class="thickbox"><?php echo __('more'); ?></a>
 	</div>
 <?php } ?>
 </div>

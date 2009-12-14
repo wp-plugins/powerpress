@@ -133,6 +133,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added translation support (translation support for all of PowerPress coming soon)
 ** tools page completed
 ** basic settings page completed
+** category feeds page completed
+** podcast channel settings page completed
+** dashboard page completed
+** diagnostics page completed
 * Added code to prevent other plugins from wiping out the custom podcast feed permalinks.
 ** ATTENTION: If you were having this problem and this update restores your podcast feeds, chances are the plugin that caused this error is also causing other harm to your page load times.
 
