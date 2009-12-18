@@ -2097,6 +2097,9 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 		$ExtraData = unserialize($Serialized);
 		while( list($key,$value) = each($ExtraData) )
 			$Data[ $key ] = $value;
+			
+		if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
+			$Data['duration'] = powerpress_readable_duration($Data['length'], true);
 	}
 	
 	// Check that the content type is a valid one...

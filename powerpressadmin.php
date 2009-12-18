@@ -616,6 +616,16 @@ function powerpress_admin_init()
 					powerpress_page_message_add_error( __('No Podpress settings found.') );
 				
 			}; break;
+			case 'powerpress-podcasting-settings': {
+				check_admin_referer('powerpress-podcasting-settings');
+				
+				// Import settings here..
+				if( powerpress_admin_import_podcasting_settings() )
+					powerpress_page_message_add_notice( __('Settings imported from the plugin "Podcasting" successfully.') );
+				else
+					powerpress_page_message_add_error( __('No settings found for the plugin "Podcasting".') );
+				
+			}; break;
 			case 'powerpress-add-caps': {
 				check_admin_referer('powerpress-add-caps');
 				
@@ -2227,6 +2237,150 @@ function powerpress_admin_import_podpress_settings()
 	return true;
 }
 
+// Import plugin Podcasting settings
+function powerpress_admin_import_podcasting_settings()
+{
+	$Changes = false;
+	
+	$General = get_option('powerpress_general');
+	if( !$General)
+	{
+		$General = array();
+		$Changes = true;
+		$General['process_podpress'] = 0;
+		$General['display_player'] = 1;
+		$General['player_function'] = 1;
+		$General['podcast_link'] = 1;
+		$General['ping_itunes'] = 1;
+	}
+
+	$pod_player_location = get_option('pod_player_location');
+	if( $pod_player_location == 'top' ) // display player below posts is default in PowerPress
+	{
+		$General['display_player'] = 2; // display above posts
+		$Changes = true;
+	}
+	
+	$pod_audio_width = get_option('pod_audio_width');
+	if( is_int( (int)$pod_audio_width) && $pod_audio_width > 100 ) // audio player width
+	{
+		$General['player_width_audio'] = $pod_audio_width;
+		$Changes = true;
+	}
+	
+	$pod_player_width = get_option('pod_player_width');
+	if( is_int( (int)$pod_player_width) && $pod_player_width > 100 ) // video player width
+	{
+		$General['player_width'] = $pod_player_width;
+		$Changes = true;
+	}
+	
+	$pod_player_height = get_option('pod_player_height');
+	if( is_int( (int)$pod_player_height) && $pod_player_height > 100 ) // video player width
+	{
+		$General['player_height'] = $pod_player_height;
+		$Changes = true;
+	}
+	
+	if( $Changes == true )
+	{
+		// save these imported general settings
+		powerpress_save_settings($General, 'powerpress_general');
+	}
+	
+	$FeedChanges = false;
+	// Feed settings:
+	$FeedSettings = get_option('powerpress_feed');
+	
+	if( !$FeedSettings ) // If no feed settings, lets set defaults or copy from podpress.
+	{
+		$FeedSettings = array();
+		$FeedChanges = true;
+	}
+	
+	$pod_itunes_summary = get_option('pod_itunes_summary');
+	if( $pod_itunes_summary )
+	{
+		$FeedSettings['itunes_summary'] = stripslashes($pod_itunes_summary);
+		$FeedChanges = true;
+	}
+	
+	$pod_itunes_image = get_option('pod_itunes_image');
+	if( $pod_itunes_image ) 
+	{
+		$FeedSettings['itunes_image'] = $pod_itunes_image;
+		$FeedChanges = true;
+	}
+	
+	$iTunesCategories = powerpress_itunes_categories(true);
+	for( $x = 1; $x <= 3; $x++ )
+	{
+		$pod_itunes_cat = get_option('pod_itunes_cat'.$x);
+		$find = str_replace('&amp;', '&', $pod_itunes_cat);
+		$CatDesc = str_replace('||', ' > ', $find);
+		$CatKey = array_search($CatDesc, $iTunesCategories);
+		if( $CatKey )
+		{
+			$FeedSettings['itunes_cat_'.$x] = $CatKey;
+			$FeedChanges = true;
+		}
+	}
+	
+	$pod_itunes_keywords = get_option('pod_itunes_keywords');
+	if( $pod_itunes_keywords ) 
+	{
+		$FeedSettings['itunes_keywords'] = stripslashes($pod_itunes_keywords);
+		$FeedChanges = true;
+	}
+	
+	$pod_itunes_ownername = get_option('pod_itunes_ownername');
+	if( $pod_itunes_ownername ) 
+	{
+		$FeedSettings['itunes_talent_name'] = stripslashes($pod_itunes_ownername);
+		$FeedChanges = true;
+	}
+	
+	$pod_itunes_owneremail = get_option('pod_itunes_owneremail');
+	if( $pod_itunes_owneremail ) 
+	{
+		$FeedSettings['email'] = $pod_itunes_owneremail;
+		$FeedChanges = true;
+	}
+	
+	$rss_language = get_option('rss_language');
+	if( $rss_language ) 
+	{
+		$FeedSettings['rss_language'] = $rss_language;
+		$FeedChanges = true;
+	}
+	
+	$pod_tagline = get_option('pod_tagline');
+	if( $pod_tagline ) 
+	{
+		$FeedSettings['itunes_subtitle'] = stripslashes($pod_tagline);
+		$FeedChanges = true;
+	}
+	
+	$pod_itunes_explicit = get_option('pod_itunes_explicit');
+	if( $pod_itunes_explicit == 'yes'  ) 
+	{
+		$FeedSettings['itunes_explicit'] = 1;
+		$FeedChanges = true;
+	}
+	else if( $pod_itunes_explicit == 'clean'  ) 
+	{
+		$FeedSettings['itunes_explicit'] = 2;
+		$FeedChanges = true;
+	}
+	
+	if( $FeedChanges )
+	{
+		// save these imported feed settings
+		powerpress_save_settings($FeedSettings, 'powerpress_feed');
+	}
+	
+	return ($Changes||$FeedChanges);
+}
 
 function powerpress_admin_episodes_per_feed($feed_slug)
 {

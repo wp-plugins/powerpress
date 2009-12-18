@@ -127,7 +127,10 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = 1.0.4 =
-* Released on 12/??/2009
+* Released on 12/18/2009
+* plugin "Podcasting" support
+** Now including iTunes duration (audio length) previously saved using the "Podcasting" plugin.
+** Import plugin "Podcasting" settings option added to Tools page.
 * Converted all function calls from split() to explode for PHP 6 compatibility.
 * Added new find and replace episode URL feature found under tools section. Perfect for users moving their media hosting to a new web site or service.
 * 1 Pixel Out player
