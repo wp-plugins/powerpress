@@ -401,7 +401,7 @@ function DeleteMedia(File)
 	<h2>Blubrry Services Integration</h2>
 <?php if( $Step == 1 ) { ?>
 	<p>
-		<label for="blubrry_username">Blubrry User Name</label>
+		<label for="blubrry_username">Blubrry User Name (Email)</label>
 		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
 	</p>
 	<p id="password_row">
