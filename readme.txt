@@ -130,6 +130,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 12/??/2009
 * Converted all function calls from split() to explode for PHP 6 compatibility.
 * Added new find and replace episode URL feature found under tools section. Perfect for users moving their media hosting to a new web site or service.
+* 1 Pixel Out player
+** Width setting is now applied (up until now player was always 290 pixels wide)
+** Added option to display track information from mp3 by entering "TRACK" in the "Text In Player" field.
 * Added translation support (translation support for all of PowerPress coming soon)
 ** tools page completed
 ** basic settings page completed

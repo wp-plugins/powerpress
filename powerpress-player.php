@@ -76,6 +76,8 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
 												//$PlayerSettings['noinfo'] = 'yes';
 												if( $PlayerSettings['titles'] == '' )
 													$PlayerSettings['titles'] = 'Blubrry PowerPress';
+												else if( strtoupper($PlayerSettings['titles']) == 'TRACK' )
+													unset( $PlayerSettings['titles'] );
 												
                              $keys = array_keys($PlayerSettings);
                                 $flashvars ='';
@@ -90,7 +92,10 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
 															$flashvars .= '&amp;autostart=yes';
 														}
 
-                            if($PlayerSettings['pagebg'] != ""){
+                            if( !isset($PlayerSettings['width']) )	
+															$PlayerSettings['width'] = 290;
+														
+														if($PlayerSettings['pagebg'] != ""){
                                 $transparency = '<param name="bgcolor" value="'.$PlayerSettings['pagebg'].'" />';
                                 $PlayerSettings['transparentpagebg'] = "no";
                                 $flashvars .= '&amp;transparentpagebg=no';
@@ -104,7 +109,7 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
                         // TODO: Add audio-player player here
 			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
 			//$content .= '<script language="JavaScript" src="'.powerpressplayer_get_root_url().'audio-player.js"></script>'.PHP_EOL;
-                        $content .= '<object type="application/x-shockwave-flash" data="'.powerpressplayer_get_root_url().'audio-player.swf" id="'.$g_powerpress_player_id.'" height="24" width="290">'.PHP_EOL;
+                        $content .= '<object type="application/x-shockwave-flash" data="'.powerpressplayer_get_root_url().'audio-player.swf" id="'.$g_powerpress_player_id.'" height="24" width="'. $PlayerSettings['width'] .'">'.PHP_EOL;
                         $content .= '<param name="movie" value="'.powerpressplayer_get_root_url().'/audio-player.swf" />'.PHP_EOL;
                         $content .= '<param name="FlashVars" value="playerID='.$g_powerpress_player_id.'&amp;soundFile='.$media_url.$flashvars.'" />'.PHP_EOL;
                         $content .= '<param name="quality" value="high" />'.PHP_EOL;

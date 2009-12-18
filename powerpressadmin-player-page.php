@@ -567,7 +567,8 @@ function audio_player_defaults()
 			<?php _e("Text In Player"); ?> 
 		</th>
 		<td>
-          <input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" />
+          <div><input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" /></div>
+				<small><?php _e('Enter \'TRACK\' to display track name from mp3. Only works if media is hosted on same server as blog.'); ?></small>
 		</td>
 	</tr>
 	
