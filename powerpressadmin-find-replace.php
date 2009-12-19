@@ -12,7 +12,7 @@
 		$results = mysql_query($query);
 		while( $row = mysql_fetch_assoc($results) )
 		{
-			list($url, $null) = explode("\n", $row['meta_value'], 2 );
+			list($url) = @explode("\n", $row['meta_value'], 2 );
 			$url = trim($url);
 			if( $find_string == '' || strstr($url, $find_string) )
 				$Episodes[ $row['meta_id'] ] = $row;
@@ -44,7 +44,13 @@
 				{
 					// powerpress_get_post_meta
 					$meta_value = get_post_meta($row['post_id'], $row['meta_key'], true);
-					list($old_url, $other_meta_data) = explode("\n", $meta_value, 2);
+					$parts = explode("\n", $meta_value, 2);
+					$other_meta_data = false;
+					if( count($parts) == 2 )
+						list($old_url, $other_meta_data) = $parts;
+					else
+						$old_url = trim($meta_value);
+					
 					$old_url = trim($old_url);
 					//echo  $old_url;
 					$g_FindReplaceResults[ $meta_id ] = $row;
@@ -77,8 +83,9 @@
 						
 						if( $good )
 						{
-							
-							$DataUpdated = $new_url ."\n". $other_meta_data;
+							$DataUpdated = $new_url;
+							if( $other_meta_data )
+								$DataUpdated .= "\n". $other_meta_data;
 							if( update_post_meta( $row['post_id'], $row['meta_key'], $DataUpdated) )
 								$success_count++;
 							else
@@ -180,7 +187,7 @@ dt {
 
 <h2><?php echo __("Find and Replace Episode URLs"); ?></h2>
 
-<p style="margin-bottom: 0;"><?php echo __('Find and replace parts of existing media URLs (podcast episodes)'); ?></p>
+<p style="margin-bottom: 0;"><?php echo __('Find and replace complete or partial segments of media URLs. Useful if you move your media to a new web site or service.'); ?></p>
 
 <table class="form-table">
 	<tr valign="top">
@@ -267,7 +274,7 @@ dt {
 </p>
 <?php 		} ?>
 
-
+	<p style="margin-bottom: 40px; margin-top:0;"><?php echo sprintf( __('We recommend using the %s plugin to backup your database before using this Find and Replace tool.'), '<a href="http://wordpress.org/extend/plugins/wp-db-backup/" target="_blank">'. __('WP-DB-Backup') .'</a>' ); ?></p>
 	<!-- start footer -->
 <?php
 	}

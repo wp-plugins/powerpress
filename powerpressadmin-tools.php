@@ -53,12 +53,12 @@
 
 <!--  find_replace -->
 <tr valign="top">
-<th scope="row"><?php echo __("Episode Find and Replace"); ?></th> 
+<th scope="row"><?php echo __("Find and Replace Media"); ?></th>
 <td>
 	
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-find-replace"); ?>"><?php echo __('Find and Replace Episode URLs'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-find-replace"); ?>"><?php echo __('Find and Replace for Episode URLs'); ?></a></strong></p>
 	<p>
-		<?php echo __('Useful if you move your media to a new web site or service.'); ?>
+		<?php echo __('Find and replace complete or partial segments of media URLs. Useful if you move your media to a new web site or service.'); ?>
 	</p>
 	
 </td>
@@ -69,7 +69,7 @@
 <th scope="row"><?php echo __("User Capabilities"); ?></th> 
 <td>
 <?php
-	if( $General['use_caps'] )
+	if( !empty($General['use_caps']) )
 	{
 ?>
 	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-caps", 'powerpress-remove-caps'); ?>"><?php _e('Remove PowerPress Podcasting Capabilities for User Role Management'); ?></a></strong></p>
@@ -128,7 +128,7 @@
 	}
 ?>
 
-	<p><strong>What are Roles and Capabilities?</strong></p>
+	<p><strong><?php echo __('What are Roles and Capabilities?'); ?></strong></p>
 	<p>
 		<?php
 		echo sprintf( __("The WordPress %s feature gives the blog owner the ability to control what users can and 

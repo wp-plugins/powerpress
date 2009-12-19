@@ -2,7 +2,7 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu
 Requires at least: 2.6.0
-Tested up to: 2.8.5
+Tested up to: 2.9
 Stable tag: 1.0.3
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
@@ -70,11 +70,19 @@ Want more? Check out the advanced features.
 = Migrating from PodPress =
  We made it easy to migrate from PodPress to PowerPress.
  
-* Install PowerPress
+* Install and enable PowerPress
 * Configure the "PodPress Episodes" setting in PowerPress to "Include in Posts and Feeds"
 * Disable PodPress
 
 PowerPress will continue where PodPress left off by including your previously created PodPress episodes in your feeds and web pages.
+
+= Migrating from plugin "Podcasting" =
+ We made it easy to migrate from plugin "Podcasting" to PowerPress.
+ 
+* Install and enable PowerPress
+* Disable plugin "Podcasting"
+
+PowerPress will continue where plugin "Podcasting" left off by including your previously created episodes in your feeds and web pages.
 
 = Need Help? =
 . . . or have some ideas that could improve the plugin?
@@ -126,26 +134,28 @@ To install Blubrry PowerPress manually, follow these steps:
 
 == Changelog ==
 
-= 1.0.4 =
-* Released on 12/18/2009
-* plugin "Podcasting" support
-** Now including iTunes duration (audio length) previously saved using the "Podcasting" plugin.
-** Import plugin "Podcasting" settings option added to Tools page.
-* Converted all function calls from split() to explode for PHP 6 compatibility.
-* Added new find and replace episode URL feature found under tools section. Perfect for users moving their media hosting to a new web site or service.
-* 1 Pixel Out player
-** Width setting is now applied (up until now player was always 290 pixels wide)
-** Added option to display track information from mp3 by entering "TRACK" in the "Text In Player" field.
-* Added translation support (translation support for all of PowerPress coming soon)
-** tools page completed
-** basic settings page completed
-** category feeds page completed
-** podcast channel settings page completed
-** dashboard page completed
-** diagnostics page completed
-* Added code to prevent other plugins from wiping out the custom podcast feed permalinks.
-** ATTENTION: If you were having this problem and this update restores your podcast feeds, chances are the plugin that caused this error is also causing other harm to your page load times.
+= Announcement =
+* We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+= 1.0.4 =
+* Released on 12/19/2009
+* Fixed compatibility bug introduced in WordPress 2.9 when using Blubrry Services on web servers with versions of PHP older than 5.2 (json_decode function compatibility)
+* Added new "Display Player and Links Options" under Podcast Entry Box settings. You can now control displaying the default Player and/or Links on a per episode basis.
+* Added new "Replace Player with Embed" option under Podcast Entry Box settings. When set, PowerPress will not display the default player if an embed code is set for the episode. Default behavior is to display both the native player and embed code.
+* Added new "Find and Replace for Episode URLs" feature found under tools section. Perfect for users moving their media hosting to a new web site or service (Like Blubrry!).
+* Plugin "Podcasting" support: Now including iTunes duration (audio length) previously saved using plugin "Podcasting".
+* Plugin "Podcasting" support: Import plugin "Podcasting" settings option added to Tools page.
+* Converted all function calls from split() to explode for PHP 6 compatibility.
+* Using a default value for length (file size) to prevent feeds from becoming invalid.
+* Fixed PodPress import bug where extra space characters from PodPress were not trimmed.
+* 1 Pixel Out player: Width setting is now applied (up until now player was always 290 pixels wide)
+* 1 Pixel Out player: Added option to display track information from mp3 by entering "TRACK" in the "Text In Player" field.
+* Added translation support (translation support for PowerPress coming soon). Pages include tools, basic settings, category feeds, podcast channel feeds, dashboard page and diagnostics page.
+* Added code to prevent other plugins from wiping out the custom podcast feed permalinks. Plugin identified that this code fixes so far include the pagebar plugin.
+* Diagnostic results email can now optionally include the list of active plugins which helps when resolving conflicts between plugins.
+* Diagnostic results email is now in HTML form which makes it easier to read.
+* Removed most 'Notice' messages when WP_DEBUG define set in WordPress.
+* Support for WordPress 2.6 will be dropped in the next release of PowerPress.
 
 = 1.0.3 =
 * Released on 10/28/2009
@@ -158,10 +168,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug where Media URL value starting with a slash '/' resulted in 2 slashes when the Default Media URL was added.
 * Fixed bug with Verify button setting minutes in hour field and seconds in minute field for media hosted by blubrry.com.
 * Fixed sufficient permissions to access this page bug when selecting players in Simple Mode. (Thanks Ben!)
-* Fixed bug with Mp3 flash maxi player where <div> container was not closed properly. (Thanks JWM!)
+* Fixed bug with Mp3 flash maxi player where `<div>` container was not closed properly. (Thanks JWM!)
 * Fixed bug with PowerPress conflicting with the headspace2 plugin in the blog dashboard. (Thanks digigirl!)
 * Fixed Protected Content link by adding slash before wp-login.php. (Thanks Grant!)
-* Updated <param> tags for player embeds so they are XML complaint. (Thanks billhector!)
+* Updated `<param>` tags for player embeds so they are XML complaint. (Thanks billhector!)
 * Removed unneeded javascript include to audio-player.js. (thanks Mark!)
 * Added alt tags to images to support XHTML.
 
@@ -411,6 +421,14 @@ Fixed bugs: itunes:subtitle bug, itunes:summary is now enabled by default, add e
 0.2 released on 08/11/2008
 Initial release of Blubrry PowerPress
 
+
+== Upgrade Notice ==
+
+= 1.0.4 =
+Fixed compatibility bug introduced in WordPress 2.9 for web servers with versions of PHP older than 5.2. Users with older versions of PHP are strongly encouraged to upgrade.
+
+= 1.0.2 =
+First stable release of Blubrry PowerPress. Users are strongly encouraged to upgrade.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer

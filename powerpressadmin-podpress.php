@@ -77,7 +77,7 @@ if( !function_exists('add_action') )
 								$clean_data[ $episode_index ]['duration'] = powerpress_readable_duration($episode_data['duration'], true);
 							$ContentType = powerpress_get_contenttype( $episode_data['URI'] );
 							if( $ContentType )
-								$clean_data[ $episode_index ]['type'] = $ContentType;
+								$clean_data[ $episode_index ]['type'] = trim($ContentType);
 						}
 					}
 					
@@ -187,7 +187,7 @@ if( !function_exists('add_action') )
 						if( $headers && $headers['content-length'] )
 							$EpisodeData['size'] = (int) $headers['content-length'];
 					}
-					$EnclosureData = $EpisodeData['url'] . "\n" . $EpisodeData['size'] . "\n". $EpisodeData['type'];	
+					$EnclosureData = trim($EpisodeData['url']) . "\n" . trim($EpisodeData['size']) . "\n". trim($EpisodeData['type']);	
 					if( $EpisodeData['duration'] )
 						$EnclosureData .= "\n".serialize( array('duration'=>$EpisodeData['duration']) );
 					

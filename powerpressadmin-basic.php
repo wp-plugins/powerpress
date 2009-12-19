@@ -6,7 +6,7 @@ function powerpress_admin_basic()
 	$General = powerpress_default_settings($General, 'basic');
 	
 	// Default setings for advanced mode:
-	if( $General['episode_box_mode'] != 2 )
+	if( @$General['episode_box_mode'] != 2 )
 	{
 	/*
 		$General['episode_box_embed'] = 0;
@@ -46,6 +46,42 @@ function SelectEntryBox(mode)
 	else
 		jQuery('.episode_box_option').attr("disabled","disabled");
 }
+
+function SelectEmbedField(checked)
+{
+	if( checked )
+		jQuery('#embed_replace_player').removeAttr("disabled");
+	else
+		jQuery('#embed_replace_player').attr("disabled","disabled");
+}
+
+jQuery(document).ready(function($) {
+	
+	jQuery('#episode_box_player_links_options').change(function () {
+		
+		if( jQuery(this).attr("checked") == true ) {
+			jQuery('#episode_box_player_links_options_div').css("display", 'block' );
+		}
+		else {
+			jQuery('#episode_box_player_links_options_div').css("display", 'none' );
+			jQuery('.episode_box_no_player_or_links').attr("checked", false );
+			jQuery('#episode_box_no_player_and_links').attr("checked", false );
+		}
+	} );
+	
+	jQuery('#episode_box_no_player_and_links').change(function () {
+		
+		if( jQuery(this).attr("checked") == true ) {
+			jQuery('.episode_box_no_player_or_links').attr("checked", false );
+		}
+	} );
+
+	jQuery('.episode_box_no_player_or_links').change(function () {
+		if( jQuery(this).attr("checked") == true) {
+			jQuery('#episode_box_no_player_and_links').attr("checked", false );
+		}
+	} );
+} );
 
 </script>
 
@@ -154,12 +190,26 @@ function SelectEntryBox(mode)
 function powerpressadmin_edit_entry_options($General)
 {
 	$OpenSSLSupport = extension_loaded('openssl');
+	if( !isset($General['advanced_mode']) )
+		$General['advanced_mode'] = 0;
+	if( !isset($General['default_url']) )
+		$General['default_url'] = '';
+	if( !isset($General['episode_box_mode']) )
+		$General['episode_box_mode'] = 0;
+	if( !isset($General['episode_box_embed']) )
+		$General['episode_box_embed'] = 0;
+	if( !isset($General['set_duration']) )
+		$General['set_duration'] = 0;
+	if( !isset($General['set_size']) )
+		$General['set_size'] = 0;
+	if( !isset($General['auto_enclose']) )
+		$General['auto_enclose'] = 0;
 ?>
 <h3><?php echo __("Episode Entry Options"); ?></h3>
 
 <table class="form-table">
 <?php
-	if( @$General['advanced_mode'] )
+	if( $General['advanced_mode'] )
 	{
 ?>
 <tr valign="top">
@@ -200,21 +250,38 @@ function powerpressadmin_edit_entry_options($General)
 			<ul>
 				<li><?php echo __('Episode entry box includes Media URL, File Size and Duration fields, plus:'); ?>
 				<div id="episode_box_mode_adv">
-					<p style="margin-top: 15px;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( $General['episode_box_embed'] ) echo ' checked'; ?> /> <?php echo __('Embed Field'); ?>
+					<p style="margin-top: 15px; margin-bottom: 0;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( !empty($General['episode_box_embed']) ) echo ' checked'; ?> onclick="SelectEmbedField(this.checked);"  /> <?php echo __('Embed Field'); ?>
 						(<?php echo __('Enter embed code from sites such as YouTube, Viddler and Blip.tv'); ?>)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_no_player" class="episode_box_option" name="General[episode_box_no_player]" type="checkbox" value="1"<?php if( $General['episode_box_no_player'] ) echo ' checked'; ?> /> <?php echo __('No Player Option'); ?>
-						(<?php echo __('Disable player on a per episode basis'); ?>)</p>
+							<p style="margin-top: 5px; margin-left: 20px; font-size: 90%;"><input id="embed_replace_player" class="episode_box_option" name="General[embed_replace_player]" type="checkbox" value="1"<?php if( !empty($General['embed_replace_player']) ) echo ' checked'; ?> /> <?php echo __('Replace Player with Embed'); ?>
+								(<?php echo __('Do not display default player if embed present for episode.'); ?>)</p>
+					
+					<p style="margin-top: 15px;"><input id="episode_box_player_links_options" class="episode_box_option" name="episode_box_player_links_options" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_player_and_links']) || !empty($General['episode_box_no_player']) || !empty($General['episode_box_no_links']) ) echo ' checked'; ?> /> <?php echo __('Display Player and Links Options'); ?>
+					</p>
+					<div id="episode_box_player_links_options_div" style="margin-left: 20px;<?php if( empty($General['episode_box_no_player_and_links']) && empty($General['episode_box_no_player']) && empty($General['episode_box_no_links']) ) echo 'display:none;'; ?>">
 						
-					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( $General['episode_box_cover_image'] ) echo ' checked'; ?> /> <?php echo __('Video Cover Image'); ?>
+						<p style="margin-top: 0px; margin-bottom: 5px;"><input id="episode_box_no_player_and_links" class="episode_box_option" name="General[episode_box_no_player_and_links]" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_player_and_links']) ) echo ' checked'; ?> /> <?php echo htmlspecialchars(__('No Player & Links Option')); ?>
+							(<?php echo __('Disable media player and links on a per episode basis'); ?>)</p>
+						
+						<p style="margin-top: 0; margin-bottom: 0; margin-left: 20px;"><?php echo ('- or -'); ?></p>
+						
+						<p style="margin-top: 5px;  margin-bottom: 10px;"><input id="episode_box_no_player" class="episode_box_option episode_box_no_player_or_links" name="General[episode_box_no_player]" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_player']) ) echo ' checked'; ?> /> <?php echo __('No Player Option'); ?>
+							(<?php echo __('Disable media player on a per episode basis'); ?>)</p>
+						
+						<p style="margin-top: 5px;  margin-bottom: 20px;"><input id="episode_box_no_links" class="episode_box_option episode_box_no_player_or_links" name="General[episode_box_no_links]" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_links']) ) echo ' checked'; ?> /> <?php echo __('No Links Option'); ?>
+							(<?php echo __('Disable media links on a per episode basis'); ?>)</p>
+						
+					</div>
+				
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( @$General['episode_box_cover_image'] ) echo ' checked'; ?> /> <?php echo __('Video Cover Image'); ?>
 						(<?php echo __('specify URL to image to display in place of QuickTime video'); ?>)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( $General['episode_box_keywords'] ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( !empty($General['episode_box_keywords']) ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field'); ?>
 						(<?php echo __('Leave unchecked to use your blog post tags'); ?>)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( $General['episode_box_subtitle'] ) echo ' checked'; ?> /> <?php echo __('iTunes Subtitle Field'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( !empty($General['episode_box_subtitle']) ) echo ' checked'; ?> /> <?php echo __('iTunes Subtitle Field'); ?>
 						(<?php echo __('Leave unchecked to use the first 250 characters of your blog post'); ?>)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( $General['episode_box_summary'] ) echo ' checked'; ?> /> <?php echo __('iTunes Summary Field'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( !empty($General['episode_box_summary']) ) echo ' checked'; ?> /> <?php echo __('iTunes Summary Field'); ?>
 						(<?php echo __('Leave unchecked to use your blog post'); ?>)</p>
-					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( $General['episode_box_explicit'] ) echo ' checked'; ?> /> <?php echo __('iTunes Explicit Field'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( !empty($General['episode_box_explicit']) ) echo ' checked'; ?> /> <?php echo __('iTunes Explicit Field'); ?>
 						(<?php echo __('Leave unchecked to use your feed\'s explicit setting'); ?>)</p>	
 					
 					<em><?php echo __('NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.'); ?></em><br />
@@ -230,10 +297,11 @@ function powerpressadmin_edit_entry_options($General)
 </table>
 <script language="javascript">
 SelectEntryBox(<?php echo $General['episode_box_mode']; ?>);
+SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 </script>
 
 <?php
-	if( @$General['advanced_mode'] )
+	if( $General['advanced_mode'] )
 	{
 ?>
 <div id="episode_entry_settings" style="<?php if( $General['episode_box_mode'] == 1 ) echo 'display:none;'; ?>">
@@ -246,7 +314,7 @@ SelectEntryBox(<?php echo $General['episode_box_mode']; ?>);
 		<select name="General[set_size]" class="bpp_input_med">
 <?php
 $options = array(0=>__('Auto detect file size'), 1=>__('User specify') );
-
+	
 while( list($value,$desc) = each($options) )
 	echo "\t<option value=\"$value\"". ($General['set_size']==$value?' selected':''). ">$desc</option>\n";
 	
@@ -262,7 +330,7 @@ while( list($value,$desc) = each($options) )
 		<select name="General[set_duration]" class="bpp_input_med">
 <?php
 $options = array(0=>__('Auto detect duration (mp3\'s only)'), 1=>__('User specify'), -1=>__('Not specified (not recommended)') );
-
+	
 while( list($value,$desc) = each($options) )
 	echo "\t<option value=\"$value\"". ($General['set_duration']==$value?' selected':''). ">$desc</option>\n";
 	
@@ -281,7 +349,7 @@ while( list($value,$desc) = each($options) )
 		<select name="General[auto_enclose]" class="bpp_input_med">
 <?php
 $options = array(0=>__('Disabled (default)'), 1=>__('First media link found in post content'), 2=>__('Last media link found in post content') );
-
+	
 while( list($value,$desc) = each($options) )
 	echo "\t<option value=\"$value\"". ($General['auto_enclose']==$value?' selected':''). ">$desc</option>\n";
 	
@@ -299,8 +367,12 @@ while( list($value,$desc) = each($options) )
 
 function powerpressadmin_edit_podpress_options($General)
 {
-	if( $General['process_podpress'] || powerpress_podpress_episodes_exist() )
+	if( !empty($General['process_podpress']) || powerpress_podpress_episodes_exist() )
 	{
+		if( !isset($General['process_podpress']) )
+			$General['process_podpress'] = 0;
+		if( !isset($General['podpress_stats']) )	
+			$General['podpress_stats'] = 0;
 ?>
 
 <h3><?php echo __('PodPress Options'); ?></h3>
@@ -347,6 +419,20 @@ while( list($value,$desc) = each($options) )
 
 function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
 {
+	// Set default settings (if not set)
+	if( $FeedSettings )
+	{
+		if( !isset($FeedSettings['ping_itunes']) )
+			$FeedSettings['ping_itunes'] = 0;
+		if( !isset($FeedSettings['itunes_url']) )
+			$FeedSettings['itunes_url'] = '';
+	}
+	if( !isset($General['itunes_url']) )
+		$General['itunes_url'] = '';
+	if( !isset($General['ping_itunes']) )	
+		$General['ping_itunes'] = 0;
+		
+	
 	$OpenSSLSupport = extension_loaded('openssl');
 	if( $OpenSSLSupport == false )
 	{
@@ -485,12 +571,12 @@ function powerpressadmin_edit_blubrry_services($General)
 {
 	
 	$ModeDesc = 'None';
-	if( $General['blubrry_auth'] )
+	if( !empty($General['blubrry_auth']) )
 		$ModeDesc = 'Media Statistics Only';
-	if( $General['blubrry_hosting'] )
+	if( !empty($General['blubrry_hosting']) )
 		$ModeDesc = 'Media Statistics and Hosting';
 	$StatsInDashboard = true;
-	if( isset($General['disable_dashboard_widget']) && $General['disable_dashboard_widget'] == 1 )
+	if( !empty($General['disable_dashboard_widget']) )
 		$StatsInDashboard = false;
 		
 ?>
@@ -534,6 +620,15 @@ packages start at $12.</em>
 
 function powerpressadmin_edit_media_statistics($General)
 {
+	if( !isset($General['redirect1']) )
+		$General['redirect1'] = '';
+	if( !isset($General['redirect2']) )
+		$General['redirect2'] = '';
+	if( !isset($General['redirect3']) )
+		$General['redirect3'] = '';
+	if( !isset($General['hide_free_stats']) )
+		$General['hide_free_stats'] = 0;
+	
 ?>
 <h3><?php echo __('Media Statistics'); ?></h3>
 <p>
@@ -551,14 +646,14 @@ function powerpressadmin_edit_media_statistics($General)
 	</td>
 	</tr>
 	</table>
-	<?php if( $General['redirect2'] == '' && $General['redirect3'] == '' ) { ?>
+	<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) { ?>
 	<div style="position: absolute;bottom: 0px;right: 10px;font-size: 85%;" id="powerpress_redirect2_showlink">
 		<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect2_table').style.display='block';document.getElementById('powerpress_redirect2_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect'); ?></a>
 	</div>
 <?php } ?>
 </div>
 	
-<div id="powerpress_redirect2_table" style="position: relative;<?php if( $General['redirect2'] == '' && $General['redirect3'] == '' ) echo 'display:none;'; ?>">
+<div id="powerpress_redirect2_table" style="position: relative;<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) echo 'display:none;'; ?>">
 	<table class="form-table">
 	<tr valign="top">
 	<th scope="row">
@@ -576,7 +671,7 @@ function powerpressadmin_edit_media_statistics($General)
 	<?php } ?>
 </div>
 
-<div id="powerpress_redirect3_table" style="<?php if( $General['redirect3'] == '' ) echo 'display:none;'; ?>">
+<div id="powerpress_redirect3_table" style="<?php if( empty($General['redirect3']) ) echo 'display:none;'; ?>">
 	<table class="form-table">
 	<tr valign="top">
 	<th scope="row">
@@ -593,9 +688,9 @@ function powerpressadmin_edit_media_statistics($General)
 	border: solid 1px #3D517E;
 }
 </style>
-<input type="hidden" id="hide_free_stats" name="General[hide_free_stats]" value="<?php echo $General['hide_free_stats']; ?>" />
+<input type="hidden" id="hide_free_stats" name="General[hide_free_stats]" value="<?php echo (empty($General['hide_free_stats'])?0:1); ?>" />
 
-<div id="blubrry_stats_box" style="<?php if( $General['hide_free_stats'] == 1 ) echo 'display:none;'; ?>">
+<div id="blubrry_stats_box" style="<?php if( !empty($General['hide_free_stats']) ) echo 'display:none;'; ?>">
 	<div style="font-family: Arial, Helvetica, sans-serif; border: solid 1px #3D517E; background-color:#D2E9FF;padding:10px; margin-left:10px;margin-right:10px;margin-top:10px;">
 		<div style="color: #3D517E; font-weight: bold; font-size: 18px;">Free Access to the Best Media Statistics!</div>
 		<div style="font-size: 14px;margin-top: 10px; margin-bottom: 10px;">
@@ -629,6 +724,21 @@ function powerpressadmin_appearance($General=false)
 	if( $General === false )
 		$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'appearance');
+	if( !isset($General['player_function']) )
+		$General['player_function'] = 1;
+	if( !isset($General['player_aggressive']) )
+		$General['player_aggressive'] = 0;
+	if( !isset($General['new_window_width']) )
+		$General['new_window_width'] = '';
+	if( !isset($General['new_window_height']) )
+		$General['new_window_height'] = '';
+	if( !isset($General['player_width']) )
+		$General['player_width'] = '';
+	if( !isset($General['player_height']) )
+		$General['player_height'] = '';
+	if( !isset($General['player_width_audio']) )
+		$General['player_width_audio'] = '';	
+		
 	
 	$Players = array('podcast'=>__('Default Podcast (podcast)') );
 	if( isset($General['custom_feeds']) )
@@ -673,7 +783,7 @@ while( list($value,$desc) = each($displayoptions) )
 <td><select name="General[player_function]" class="bpp_input_med" onchange="javascript: jQuery('#new_window_settings').css('display', (this.value==1||this.value==3?'block':'none') );">
 <?php
 $playeroptions = array(1=>__('On Page & New Window'), 2=>__('On Page Only'), 3=>__('New Window Only'), /* 4=>'On Page Link', 5=>'On Page Link & New Window', */ 0=>__('Disable') );
-
+			
 while( list($value,$desc) = each($playeroptions) )
 	echo "\t<option value=\"$value\"". ($General['player_function']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
@@ -718,7 +828,7 @@ while( list($value,$desc) = each($linkoptions) )
 	<select name="General[player_aggressive]" class="bpp_input_med">
 <?php
 $linkoptions = array(0=>__('No, everything is working'), 1=>__('Yes, please try to fix') );
-
+	
 while( list($value,$desc) = each($linkoptions) )
 	echo "\t<option value=\"$value\"". ($General['player_aggressive']==$value?' selected':''). ">$desc</option>\n";
 	
@@ -732,7 +842,7 @@ while( list($value,$desc) = each($linkoptions) )
 </table>
 
 <?php
-	if( @$General['advanced_mode'] )
+	if( !empty($General['advanced_mode']) )
 	{
 ?>
 <div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">

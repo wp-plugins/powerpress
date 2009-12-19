@@ -25,6 +25,23 @@ function powerpress_page_message_print()
 	$g_powerpress_page_message = '';
 }
 
+function powerpress_admin_activate()
+{
+	$Settings = get_option('powerpress_general');
+	if( $Settings == false )
+	{
+		// If no settings exist, see if either PodPress or Podcasting plugins are enabled and import those settings...
+		if( defined('PODPRESS_VERSION') )
+		{
+			powerpress_admin_import_podpress_settings();
+		}
+		else if( isset($GLOBALS['podcasting_player_id']) || defined('PODCASTING_VERSION') )
+		{
+			powerpress_admin_import_podcasting_settings();
+		}
+	}
+}
+	
 function powerpress_admin_init()
 {
 	global $wp_rewrite;
@@ -80,8 +97,8 @@ function powerpress_admin_init()
 		}
 	
 		// Save the posted value in the database
-		$Feed = $_POST['Feed'];
-    $General = $_POST['General'];
+		$Feed = (isset($_POST['Feed'])?$_POST['Feed']:false);
+		$General = (isset($_POST['General'])?$_POST['General']:false);
 		$FeedSlug = (isset($_POST['feed_slug'])?$_POST['feed_slug']:false);
 		$Category = (isset($_POST['cat'])?$_POST['cat']:false);
 		
@@ -218,8 +235,14 @@ function powerpress_admin_init()
 					
 				if( !isset($General['episode_box_embed'] ) )
 					$General['episode_box_embed'] = 0;
+				if( !isset($General['embed_replace_player'] ) )
+					$General['embed_replace_player'] = 0;
 				if( !isset($General['episode_box_no_player'] ) )
 					$General['episode_box_no_player'] = 0;
+				if( !isset($General['episode_box_no_links'] ) )
+					$General['episode_box_no_links'] = 0;
+				if( !isset($General['episode_box_no_player_and_links'] ) )
+					$General['episode_box_no_player_and_links'] = 0;
 				if( !isset($General['episode_box_cover_image'] ) )
 					$General['episode_box_cover_image'] = 0;	
 				if( !isset($General['episode_box_keywords'] ) )
@@ -778,7 +801,7 @@ function powerpress_htmlspecialchars($data)
 {
 	if( !$data )
 		return $data;
-	if( is_array($value) )
+	if( is_array($data) )
 	{
 		while( list($key,$value) = each($data) )
 		{
@@ -1041,6 +1064,13 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['image'] = stripslashes($Powerpress['image']);
 				if( isset($Powerpress['no_player']) && $Powerpress['no_player'] )
 					$ToSerialize['no_player'] = 1;
+				if( isset($Powerpress['no_links']) && $Powerpress['no_links'] )
+					$ToSerialize['no_links'] = 1;
+				if( isset($Powerpress['no_player_and_links']) && $Powerpress['no_player_and_links'] )
+				{
+					$ToSerialize['no_player'] = 1;
+					$ToSerialize['no_links'] = 1;
+				}
 				if( $Powerpress['set_duration'] == -1 )
 					unset($ToSerialize['duration']);
 				if( count($ToSerialize) > 0 ) // Lets add the serialized data
@@ -1146,7 +1176,7 @@ function powerpress_admin_head()
 		$page_name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
 			
 	// Powerpress page
-	if( strstr($_GET['page'], 'powerpress' ) !== false )
+	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
 ?>
 <script type="text/javascript">

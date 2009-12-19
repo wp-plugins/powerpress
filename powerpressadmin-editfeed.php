@@ -340,7 +340,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 	$Feeds = array('podcast'=>'Special Podcast only Feed');
 	if( isset($General['custom_feeds']['podcast']) )
 		$Feeds = $General['custom_feeds'];
-	else if( is_array($General['custom_feeds']) )
+	else if( isset($General['custom_feeds'])&& is_array($General['custom_feeds']) )
 		$Feeds += $General['custom_feeds'];
 		
 	while( list($feed_slug, $feed_title) = each($Feeds) )
@@ -363,6 +363,13 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = false, $feed_slug = false)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
+	if( !isset($FeedSettings['posts_per_rss']) )
+		$FeedSettings['posts_per_rss'] = '';
+	if( !isset($FeedSettings['rss2_image']) )
+		$FeedSettings['rss2_image'] = '';
+	if( !isset($FeedSettings['copyright']) )
+		$FeedSettings['copyright'] = '';
+	
 	if( $cat_ID || $feed_slug )
 	{
 ?>
@@ -754,12 +761,35 @@ function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_sl
 function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
+	if( !isset($FeedSettings['itunes_subtitle']) )
+		$FeedSettings['itunes_subtitle'] = '';
+	if( !isset($FeedSettings['itunes_summary']) )
+		$FeedSettings['itunes_summary'] = '';
+	if( !isset($FeedSettings['itunes_keywords']) )
+		$FeedSettings['itunes_keywords'] = '';	
+	if( !isset($FeedSettings['itunes_cat_1']) )
+		$FeedSettings['itunes_cat_1'] = '';
+	if( !isset($FeedSettings['itunes_cat_2']) )
+		$FeedSettings['itunes_cat_2'] = '';
+	if( !isset($FeedSettings['itunes_cat_3']) )
+		$FeedSettings['itunes_cat_3'] = '';
+	if( !isset($FeedSettings['itunes_explicit']) )
+		$FeedSettings['itunes_explicit'] = 0;
+	if( !isset($FeedSettings['itunes_talent_name']) )
+		$FeedSettings['itunes_talent_name'] = '';
+	if( !isset($FeedSettings['email']) )
+		$FeedSettings['email'] = '';
+	if( !isset($FeedSettings['itunes_new_feed_url_podcast']) )
+		$FeedSettings['itunes_new_feed_url_podcast'] = '';
+	if( !isset($FeedSettings['itunes_new_feed_url']) )
+		$FeedSettings['itunes_new_feed_url'] = '';
+	
 ?>
 <h3>iTunes Feed Settings</h3>
 <table class="form-table">
 	
 <?php
-	if( @$General['advanced_mode'] )
+	if( !empty($General['advanced_mode']) )
 	{
 ?>
 <tr valign="top">
@@ -789,7 +819,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
 <td>
 
 <?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ($FeedSettings['enhance_itunes_summary']?'checked ':''); ?>/> Optimize iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> Optimize iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
 </div>
 <p>
 	Creates a friendlier view of your post/episode content by converting web links and images to clickable links in iTunes.
@@ -935,7 +965,7 @@ while( list($value,$desc) = each($explicit) )
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
-<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ($FeedSettings['itunes_author_post']?'checked ':''); ?>/> Use blog post author's name for individual episodes.</div>
+<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> Use blog post author's name for individual episodes.</div>
 
 </td>
 </tr>
@@ -962,17 +992,17 @@ while( list($value,$desc) = each($explicit) )
 
 <?php _e("iTunes New Feed URL"); ?></th> 
 	<td>
-		<div id="new_feed_url_step_1" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'none':'block'); ?>;">
+		<div id="new_feed_url_step_1" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'none':'block'); ?>;">
 			 <p style="margin-top: 5px;"><a href="#" onclick="return powerpress_new_feed_url_prompt();">Click here</a> if you need to change the Feed URL for iTunes subscribers.</p>
 		</div>
-		<div id="new_feed_url_step_2" style="display: <?php echo ($FeedSettings['itunes_new_feed_url'] || $FeedSettings['itunes_new_feed_url_podcast']  ?'block':'none'); ?>;">
+		<div id="new_feed_url_step_2" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'block':'none'); ?>;">
 			<p style="margin-top: 5px;"><strong>WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.</strong></p>
 			<p><strong>DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.</strong></p>
 			<p>
 				Apple recommends you maintain the &lt;itunes:new-feed-url&gt; tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.
 			</p>
 			<p>
-				Example URL: <?php echo get_feed_link( ($feed_slug?$feed_slug:'podcast') ); ?>
+				Example URL: <?php echo get_feed_link( ( empty($feed_slug)?'podcast':$feed_slug) ); ?>
 			</p>
 			<p style="margin-bottom: 0;">
 				<label style="width: 25%; float:left; display:block; font-weight: bold;">New Feed URL</label>

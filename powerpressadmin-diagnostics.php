@@ -225,59 +225,81 @@
 		$SettingsGeneral = get_option('powerpress_general');
 		
 		// First we need some basic information about the blog...
-		$message = __('Blog Title:') .' '. get_bloginfo('name') . "\n";
-		$message .= __('Blog URL:') .' '. get_bloginfo('home') . "\n";
-		$message .= __('WordPress Version:') .' '. $wp_version . "\n";
+		$message = __('Blog Title:') .' '. get_bloginfo('name') . "<br />\n";
+		$message .= __('Blog URL:') .' '. get_bloginfo('home') . "<br />\n";
+		$message .= __('WordPress Version:') .' '. $wp_version . "<br />\n";
 		if( !empty($wpmu_version) )
-				$message .= __('WordPress MU Version:') .' '. $wpmu_version . "\n";
-		$message .= __('System:') .' '. $_SERVER['SERVER_SOFTWARE'] . "\n";
-		$message .= __('Safe node:') .' '. ( ini_get('safe_mode')?'true':'false') ."\n";
-		$message .= __('Open basedir:') .' '. ini_get('open_basedir') ."\n";
+				$message .= __('WordPress MU Version:') .' '. $wpmu_version . "<br />\n";
+		$message .= __('System:') .' '. $_SERVER['SERVER_SOFTWARE'] . "<br />\n";
+		$message .= __('Safe node:') .' '. ( ini_get('safe_mode')?'true':'false') ."<br />\n";
+		$message .= __('Open basedir:') .' '. ini_get('open_basedir') ."<br />\n";
 		
 		// Crutial PowerPress Settings
-		$message .= "\n";
-		$message .= __('Important PowerPress Settings...') ."\n";
-		$message .= "\t". __('PowerPress version:') .' '. POWERPRESS_VERSION ."\n";
-		$message .= "\t". __('advanced mode:') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."\n";
-		$message .= "\t". __('episode box mode:') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal'): ($SettingsGeneral['episode_box_mode']==1?__('simple'):__('advanced')) ) ."\n";
+		$message .= "<br />\n";
+		$message .= '<strong>'. __('Important PowerPress Settings') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:') .' '. POWERPRESS_VERSION ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal'): ($SettingsGeneral['episode_box_mode']==1?__('simple'):__('advanced')) ) ."<br />\n";
 		
 		// Detecting Media Information
-		$message .= "\n";
-		$message .= __('Detecting Media Information...') ."\n";
-		$message .= "\t". __('success:') .' '. ($powerpress_diags['detecting_media']['success']?'true':'false') ."\n";
-		$message .= "\t". __('warning:') .' '. ($powerpress_diags['detecting_media']['warning']?'true':'false') ."\n";
-		$message .= "\t". __('allow_url_fopen:') .' '. ($powerpress_diags['detecting_media']['allow_url_fopen']?'true':'false') ."\n";
-		$message .= "\t". __('curl:') .' '. ($powerpress_diags['detecting_media']['curl']?'true':'false') ."\n";
-		$message .= "\t". __('message:') .' '. $powerpress_diags['detecting_media']['message'] ."\n";
-		$message .= "\t". __('message 2:') .' '. $powerpress_diags['detecting_media']['message2'] ."\n";
+		$message .= "<br />\n";
+		$message .= '<strong>'.__('Detecting Media Information') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['detecting_media']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('warning:') .' '. ($powerpress_diags['detecting_media']['warning']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('allow_url_fopen:') .' '. ($powerpress_diags['detecting_media']['allow_url_fopen']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('curl:') .' '. ($powerpress_diags['detecting_media']['curl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['detecting_media']['message'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 2:') .' '. $powerpress_diags['detecting_media']['message2'] ."<br />\n";
 		
 		// Pinging iTunes
-		$message .= "\n";
-		$message .= __('Pinging iTunes...') ."\n";
-		$message .= "\t". __('success:') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."\n";
-		$message .= "\t". __('curl_ssl:') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."\n";
-		$message .= "\t". __('openssl:') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."\n";
-		$message .= "\t". __('message:') .' '. $powerpress_diags['pinging_itunes']['message'] ."\n";
+		$message .= "<br />\n";
+		$message .= '<strong>'.__('Pinging iTunes') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('curl_ssl:') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('openssl:') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['pinging_itunes']['message'] ."<br />\n";
 		
 		// Uploading Artwork
-		$message .= "\n";
-		$message .= __('Uploading Artwork...') ."\n";
-		$message .= "\t". __('success:') .' '. ($powerpress_diags['uploading_artwork']['success']?'true':'false') ."\n";
-		$message .= "\t". __('file_uploads:') .' '. ($powerpress_diags['uploading_artwork']['file_uploads']?'true':'false') ."\n";
-		$message .= "\t". __('writable:') .' '. ($powerpress_diags['uploading_artwork']['writable']?'true':'false') ."\n";
-		$message .= "\t". __('upload_path:') .' '. $powerpress_diags['uploading_artwork']['upload_path'] ."\n";
-		$message .= "\t". __('message:') .' '. $powerpress_diags['uploading_artwork']['message'] ."\n";
+		$message .= "<br />\n";
+		$message .= '<strong>'.__('Uploading Artwork') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['uploading_artwork']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('file_uploads:') .' '. ($powerpress_diags['uploading_artwork']['file_uploads']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('writable:') .' '. ($powerpress_diags['uploading_artwork']['writable']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('upload_path:') .' '. $powerpress_diags['uploading_artwork']['upload_path'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['uploading_artwork']['message'] ."<br />\n";
 		
 		// System Information
-		$message .= "\n";
-		$message .= __('System Information...') ."\n";
-		$message .= "\t". __('success:') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."\n";
-		$message .= "\t". __('warning:') .' '. ($powerpress_diags['system_info']['warning']?'yes':'no') ."\n";
-		$message .= "\t". __('php_version:') .' '. $powerpress_diags['system_info']['php_version'] ."\n";
-		$message .= "\t". __('memory_limit:') .' '. $powerpress_diags['system_info']['memory_limit'] ."M\n";
-		$message .= "\t". __('memory_used:') .' '. sprintf('%.01fM',$powerpress_diags['system_info']['memory_used']) ."\n";
-		$message .= "\t". __('message:') .' '. $powerpress_diags['system_info']['message'] ."\n";
-		$message .= "\t". __('message 2:') .' '. $powerpress_diags['system_info']['message2'] ."\n";
+		$message .= "<br />\n";
+		$message .= '<strong>'.__('System Information') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('warning:') .' '. ($powerpress_diags['system_info']['warning']?'yes':'no') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('php_version:') .' '. $powerpress_diags['system_info']['php_version'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('memory_limit:') .' '. $powerpress_diags['system_info']['memory_limit'] ."M\n";
+		$message .= " &nbsp; \t &nbsp; ". __('memory_used:') .' '. sprintf('%.01fM',$powerpress_diags['system_info']['memory_used']) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['system_info']['message'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 2:') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
+
+		if( isset($_GET['ap']) && $_GET['ap'] )
+		{
+			$current_plugins = get_option('active_plugins');
+			$message .= "<br />\n";
+			$message .= '<strong>'.__('Active Plugins') ."</strong><br />\n";
+			while( list($null,$plugin_path) = each($current_plugins) )
+			{
+				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/'). '\\/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
+				
+				$message .= " &nbsp; \t &nbsp; " . __('Title:') .' '. $plugin_data['Title']. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Relative Path:') .' '. $plugin_path. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Version:') .' '. $plugin_data['Version']. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Web Site:') .' '. $plugin_data['PluginURI']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Description:') .' '. $plugin_data['Description']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Author Name:') .' '. $plugin_data['Author']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Author Web Site:') .' '. $plugin_data['AuthorURI']. "<br />\n";
+				//print_r($plugin_data);
+				$message .= "<br />\n";
+			}
+		}
+		//$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
 		
 		// Now lets loop through each section of diagnostics
 		$user_info = wp_get_current_user();
@@ -288,6 +310,7 @@
 			.'Return-Path: "'.$from_name.'" <'.$from_email.'>'."\n";
 		if( isset($_GET['CC']) )
 			$headers .= 'CC: "'.$from_name.'" <'.$from_email.'>'."\n";
+		$headers .= "Content-Type: text/html\n";
 		
 		@wp_mail($email, sprintf(__('Blubrry PowerPress diagnostic results for %s'), get_bloginfo('name')), $message, $headers);
 	}
@@ -432,6 +455,9 @@
 	</div>
 	<div>
 		<input type="checkbox" name="CC" value="1" style="vertical-align: text-top;" checked /> CC: <?php $user_info = wp_get_current_user(); echo "&quot;{$user_info->user_nicename}&quot; &lt;{$user_info->user_email}&gt;"; ?>
+	</div>
+	<div>
+		<input type="checkbox" name="ap" value="1" style="vertical-align: text-top;" checked /> Include list of active plugins in diagnostics results.
 	</div>
 </td>
 </tr>
