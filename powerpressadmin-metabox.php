@@ -36,7 +36,12 @@ function powerpress_meta_box($object, $box)
 		else
 			$enclosureArray = get_post_meta($object->ID, '_'.$FeedSlug.':enclosure', true);
 		
-		list($EnclosureURL, $EnclosureLength, $EnclosureType, $EnclosureSerialized) =  explode("\n", $enclosureArray, 4);
+		$EnclosureURL = '';
+		$EnclosureLength = '';
+		$EnclosureType = '';
+		$EnclosureSerialized = false;
+		if( $enclosureArray )
+			list($EnclosureURL, $EnclosureLength, $EnclosureType, $EnclosureSerialized) =  explode("\n", $enclosureArray, 4);
 		$EnclosureURL = trim($EnclosureURL);
 		$EnclosureLength = trim($EnclosureLength);
 		$EnclosureType = trim($EnclosureType);
@@ -69,7 +74,7 @@ function powerpress_meta_box($object, $box)
 			}
 		}
 		
-		
+		$iTunesDuration = false;
 		if( $FeedSlug == 'podcast' && !$iTunesDuration )
 			$iTunesDuration = get_post_meta($object->ID, 'itunes:duration', true);
 			

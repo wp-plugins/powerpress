@@ -155,6 +155,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Diagnostic results email can now optionally include the list of active plugins which helps when resolving conflicts between plugins.
 * Diagnostic results email is now in HTML form which makes it easier to read.
 * Removed most 'Notice' messages when WP_DEBUG define set in WordPress.
+* Updated Blubrry Services Integration to support listing the past 30 days of published media.
 * Support for WordPress 2.6 will be dropped in the next release of PowerPress.
 
 = 1.0.3 =

@@ -1415,7 +1415,7 @@ function powerpress_get_media_info(FeedSlug)
 					}
 					else
 					{
-						var Parts = response.split("\n", 2);
+						var Parts = response.split("\n", 3);
 						if( Parts[1] )
 							jQuery( '#powerpress_warning_'+FeedSlug ).html( Parts[1] );
 						else
@@ -1500,6 +1500,8 @@ function powerpress_media_info_ajax()
 		echo powerpress_readable_duration($MediaInfo['duration'], true) ."\n";
 		if( isset($MediaInfo['warnings']) )
 			echo $MediaInfo['warnings'];
+		
+		echo "\n"; // make sure this line is ended
 		exit;
 	}
 	
@@ -1508,6 +1510,7 @@ function powerpress_media_info_ajax()
 		echo $MediaInfo['error'];
 	else
 		echo __('Unknown error occurred looking up media information.');
+	echo "\n";
 	exit;
 }
  

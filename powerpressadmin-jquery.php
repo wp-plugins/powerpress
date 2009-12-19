@@ -32,6 +32,24 @@ function powerpress_add_blubrry_redirect($program_keyword)
 		powerpress_save_settings($NewSettings);
 }
 
+function powerpress_strip_redirect_urls($url)
+{
+	$Settings = powerpress_get_settings('powerpress_general');
+	for( $x = 1; $x <= 3; $x++ )
+	{
+		$field = sprintf('redirect%d', $x);
+		if( !empty($Settings[$field]) )
+		{
+			$redirect_no_http = str_replace('http://', '', $Settings[$field]);
+			if( substr($redirect_no_http, -1, 1) != '/' )
+				$redirect_no_http .= '/';
+			$url = str_replace($redirect_no_http, '', $url);
+		}
+	}
+	
+	return $url;
+}
+
 function powerpress_admin_jquery_init()
 {
 	$Settings = false; // Important, never remove this
@@ -143,7 +161,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 					$Msg = __('An unknown error occurred deleting media file.');
 			}
 
-			$api_url = sprintf('%s/media/%s/index.json?quota=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
+			$api_url = sprintf('%s/media/%s/index.json?quota=true&published=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
 			$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
 			$results =  powerpress_json_decode($json_data);
 				
@@ -156,13 +174,21 @@ function SelectMedia(File)
 {
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value=File;
 	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1';
-	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly='true';
+	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly=true;
 	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='block';
+	self.parent.tb_remove();
+}
+function SelectURL(url)
+{
+	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').value=url;
+	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='0';
+	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly=false;
+	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='none';
 	self.parent.tb_remove();
 }
 function DeleteMedia(File)
 {
-	return confirm('Delete '+File+', are you sure?');
+	return confirm('<?php echo __('Delete'); ?>: '+File+'\n\n<?php echo __('Are you sure you want to delete this media file?'); ?>');
 }
 </script>
 		<div id="media-header">
@@ -171,8 +197,8 @@ function DeleteMedia(File)
 				if( $Msg )
 				echo '<p>'. $Msg . '</p>';
 			?>
-			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
-			<p>Select from media files uploaded to blubrry.com:</p>
+			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="<?php echo __('Upload Media File'); ?>"><?php echo __('Upload Media File'); ?></a></div>
+			<p><?php echo __('Select from media files uploaded to blubrry.com'); ?>:</p>
 		</div>
 	<div id="media-items-container">
 		<div id="media-items">
@@ -184,6 +210,7 @@ function DeleteMedia(File)
 		}
 		else
 		{
+			$PublishedList = false;
 			while( list($index,$data) = each($results) )
 			{
 				if( $index === 'quota' )
@@ -191,15 +218,33 @@ function DeleteMedia(File)
 					$QuotaData = $data;
 					continue;
 				}
+				
+				if( $PublishedList == false && !empty($data['published']) )
+				{
+?>
+<div id="media-published-title">
+	<?php echo __('Media Published within the past 30 days'); ?>:
+</div>
+<?php
+					$PublishedList = true;
+				}
 
 ?>
-<div class="media-item">
-	<strong class="media-name"><?php echo $data['name']; ?></strong>
+<div class="media-item <?php echo (empty($data['published'])?'media-unpublished':'media-published'); ?>">
+	<strong class="media-name"><?php echo htmlspecialchars($data['name']); ?></strong>
 	<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
+	<?php if( !empty($data['published']) ) { ?>
+	<div class="media-published-date">&middot; <?php echo __('Published on'); ?> <?php echo date(get_option('date_format'), $data['last_modified']); ?></div>
+	<?php } ?>
 	<div class="media-item-links">
-		<?php if (function_exists('curl_init')) { ?>
-		<a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-media-delete", 'powerpress-jquery-media-delete'); ?>&amp;podcast-feed=<?php echo $FeedSlug; ?>&amp;delete=<?php echo urlencode($data['name']); ?>" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | <?php } ?>
-		<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;">Select</a>
+		<?php if( !empty($data['published']) && !empty($data['url']) ) { ?>
+			<a href="#" onclick="SelectURL('<?php echo $data['url']; ?>'); return false;"><?php echo __('Select'); ?></a>
+		<?php } else { ?>
+			<?php if (function_exists('curl_init')) { ?>
+				<a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-media-delete", 'powerpress-jquery-media-delete'); ?>&amp;podcast-feed=<?php echo $FeedSlug; ?>&amp;delete=<?php echo urlencode($data['name']); ?>" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | 
+			<?php } ?>
+			<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;"><?php echo __('Select'); ?></a>
+		<?php } ?>
 	</div> 
 </div>
 <?php				
@@ -524,8 +569,8 @@ while( list($value,$desc) = each($Programs) )
 				exit;
 			}
 			
-			$File = $_GET['File'];
-			$Message = $_GET['Message'];
+			$File = (isset($_GET['File'])?$_GET['File']:false);
+			$Message = (isset($_GET['Message'])?$_GET['Message']:false);
 			
 			powerpress_admin_jquery_header('Upload Complete');
 			echo '<h2>'. __('Uploader') .'</h2>';
@@ -561,6 +606,7 @@ self.parent.tb_remove();
 
 function powerpress_admin_jquery_header($title, $jquery = false)
 {
+	$other = false;
 	if( $jquery )
 		add_thickbox(); // we use the thckbox for some settings
 ?>
