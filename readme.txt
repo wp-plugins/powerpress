@@ -137,6 +137,12 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+
+= 1.0.5 =
+* Released on 12/??/2009 (this may become version 2.0)
+* Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
+
+
 = 1.0.4 =
 * Released on 12/19/2009
 * Fixed compatibility bug introduced in WordPress 2.9 when using Blubrry Services on web servers with versions of PHP older than 5.2 (json_decode function compatibility)
