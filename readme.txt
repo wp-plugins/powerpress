@@ -141,7 +141,8 @@ To install Blubrry PowerPress manually, follow these steps:
 = 1.0.5 =
 * Released on 12/??/2009 (this may become version 2.0)
 * Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
-
+* Additional code added for some cases where previous PodPress data was stored serialized twice over. PowerPress now un-serializes the PodPress data twice if necessary.
+* PodPress Import screen now includes a media file extension filter.
 
 = 1.0.4 =
 * Released on 12/19/2009

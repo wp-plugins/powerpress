@@ -4,15 +4,58 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
+	function powerpress_only_include_ext($url)
+	{
+		if( isset($_GET['include_only_ext']) && trim($_GET['include_only_ext']) != '' )
+		{
+			global $powerpress_only_include_ext_array;
+			if( !isset($powerpress_only_include_ext_array) )
+			{
+				$extensions = strtolower(preg_replace("/\s/", '', $_GET['include_only_ext']));
+				$powerpress_only_include_ext_array = explode(',', trim($extensions, ',') );
+			}
+			
+			$partsURL = @parse_url( trim($url) );
+			if( !$partsURL )
+				return false;
+			$filename = substr($partsURL['path'], strrpos($partsURL['path'], '/')+1 );
+			$partsFile = pathinfo($filename);
+				
+			if( in_array( strtolower($partsFile['extension']), $powerpress_only_include_ext_array ) )
+			{
+				return true;
+			}
+			return false;
+		}
+		
+		return true; // we include all extensions otherwise
+	}
+	
 	function powerpress_get_podpress_episodes($hide_errors=true)
 	{
 		global $wpdb;
 		
 		$PodpressSettings = get_option('podPress_config');
 		if( !$PodpressSettings )
-			return false;
+		{
+			$PodpressSettings = array();
+			$PodpressSettings['mediaWebPath'] = '';
+			$powerpress_settings = get_option('powerpress_general');
+			if( !empty($powerpress_settings['default_url']) )
+			{
+				$PodpressSettings['mediaWebPath'] = $powerpress_settings['default_url'];
+				powerpress_page_message_add_notice( sprintf(__('Unable to detect PodPress media URL setting. Using the PowerPress setting "Default Media URL" (%s) instead.'), $PodpressSettings['mediaWebPath']) );
+			}
+			else
+			{
+				// We need to print a warning that they need to configure their podPress settings as the settings are no longer found in the database.
+				powerpress_page_message_add_error( __('Unable to detect PodPress media URL setting. Please set the "Default Media URL" setting in PowerPress to properly import podcast episodes.') );
+			}
+		}
+		
+		
 		$media_url = $PodpressSettings['mediaWebPath'];
-		if( $media_url && substr($media_url, 0, -1) != '/' )
+		if( substr($media_url, 0, -1) != '/' )
 			$media_url .= '/'; // Make sure the URL has a trailing slash
 			
 		
@@ -33,7 +76,7 @@ if( !function_exists('add_action') )
 			while( list($null,$row) = each($results_data) )
 			{
 				//$return = $row;
-				$podpress_data = unserialize($row['meta_value']);
+				$podpress_data = @unserialize($row['meta_value']);
 				if( !$podpress_data )
 				{
 					$podpress_data_serialized = powerpress_repair_serialize( $row['meta_value'] );
@@ -51,6 +94,18 @@ if( !function_exists('add_action') )
 							$podpress_data = $podpress_data_two;
 					}
 				}
+				else if( is_string($podpress_data) )
+				{
+					// May have been double serialized...
+					$podpress_unserialized = @unserialize($podpress_data);
+					if( !$podpress_unserialized )
+					{
+						$podpress_data_serialized = powerpress_repair_serialize( $podpress_data );
+						$podpress_unserialized = @unserialize($podpress_data_serialized);
+					}
+					
+					$podpress_data = $podpress_unserialized;
+				}
 				
 				if( $podpress_data )
 				{
@@ -67,11 +122,15 @@ if( !function_exists('add_action') )
 					{
 						if( trim($episode_data['URI']) != '' )
 						{
+							$MediaURL = $episode_data['URI'];
+							if( strtolower(substr($MediaURL, 0, 4)) != 'http' )
+								$MediaURL = $media_url . rtrim($episode_data['URI'], '/');
+							
+							if( !powerpress_only_include_ext($MediaURL) ) // Skip this media type
+								continue;
+							
 							$clean_data[ $episode_index ] = array();
-							if( strtolower(substr($episode_data['URI'], 0, 4)) == 'http' )
-								$clean_data[ $episode_index ]['url'] = $episode_data['URI'];
-							else
-								$clean_data[ $episode_index ]['url'] = $media_url . $episode_data['URI'];
+							$clean_data[ $episode_index ]['url'] = $MediaURL;
 							$clean_data[ $episode_index ]['size'] = $episode_data['size'];
 							if( trim($episode_data['duration']) && $episode_data['duration'] != 'UNKNOWN' )
 								$clean_data[ $episode_index ]['duration'] = powerpress_readable_duration($episode_data['duration'], true);
@@ -188,7 +247,7 @@ if( !function_exists('add_action') )
 							$EpisodeData['size'] = (int) $headers['content-length'];
 					}
 					$EnclosureData = trim($EpisodeData['url']) . "\n" . trim($EpisodeData['size']) . "\n". trim($EpisodeData['type']);	
-					if( $EpisodeData['duration'] )
+					if( !empty($EpisodeData['duration']) )
 						$EnclosureData .= "\n".serialize( array('duration'=>$EpisodeData['duration']) );
 					
 					if( $feed_slug == 'podcast' )
@@ -304,6 +363,10 @@ if( !function_exists('add_action') )
 }
 .column-post-date {
 	width: 80px;
+}
+label {
+	float: left;
+	width: 160px;
 }
 </style>
 <script language="javascript">
@@ -422,7 +485,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 				if( !$enclosure_data )
 					continue;
 					
-				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
+				@list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
 				if( $EnclosureURL )
 				{
 					$CurrentEnclosures[ $feed_slug ] = array();
@@ -458,9 +521,6 @@ function check_radio_selection(obj, PostID, FileIndex)
 			reset($Settings['custom_feeds']);
 		}
 		
-		if( $feed_slug == 'podcast' )
-			$feed_title = 'Podcast Feed (default)';
-		$feed_title = wp_specialchars($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
 		else
@@ -496,19 +556,19 @@ function check_radio_selection(obj, PostID, FileIndex)
 						$filename = substr($Parts['path'], strrpos($Parts['path'], '/')+1 );
 						echo "File&nbsp;$index:&nbsp;";
 						
-						if( !$episode_data['not_podpress'] && !$episode_data['imported'] )
+						if( empty($episode_data['not_podpress']) && empty($episode_data['imported']) )
 						{
 							echo '<span style="color: #CC0000; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
 							$AllowCleanup = false;
 							$StrandedEpisodes++;
 						}
-						else if( !$episode_data['not_podpress'] && $episode_data['imported'] )
+						else if( empty($episode_data['not_podpress']) && $episode_data['imported'] )
 							echo '<span style="color: green; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
 						
-						if( !$episode_data['not_podpress'] && !$episode_data['imported'] )
+						if( empty($episode_data['not_podpress']) && empty($episode_data['imported']) )
 							echo '*';
 						echo $filename;
-						if( !$episode_data['not_podpress'] )
+						if( empty($episode_data['not_podpress']) )
 							echo '</span>';
 							
 						echo '<br/>';
@@ -551,7 +611,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 							echo "File $index: ";
 							if( $CurrentEnclosures[$feed_slug]['url'] == $episode_data['url'] )
 							{
-								if( $CurrentEnclosures[$feed_slug]['present'] )
+								if( !empty($CurrentEnclosures[$feed_slug]['present']) )
 									echo '<strong style="color: green;">present</strong>';
 								else
 									echo '<strong style="color: green;">imported</strong>';
@@ -692,10 +752,24 @@ function check_radio_selection(obj, PostID, FileIndex)
 <input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('We found blog posts that have <?php echo $results['feeds_required']; ?> media files.\n\nYou will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue. ');" />
 </p>
 
+
+
 <?php
 		}
 ?>
-	<!-- start footer -->
+</form>
+<hr />
+<form enctype="enctype" method="get" action="<?php echo admin_url('admin.php') ?>">
+<input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
+<input type="hidden" name="action" value="powerpress-podpress-epiosdes" />
+<h2>Filter Results</h2>
+<p><label>Include Only</label><input type="text" name="include_only_ext" value="<?php if( !empty($_GET['include_only_ext']) ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" /> (leave blank for all media) <br />
+<label>&nbsp;</label>specify the file extensions to include separated by commas (e.g. mp3, m4v).
+</p>
+<p class="submit">
+<input type="submit" name="Submit" class="button-primary" value="Filter Episodes" />
+</p>
+<!-- start footer -->
 <?php
 	}
 

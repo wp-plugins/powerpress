@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '1.0.4' );
+define('POWERPRESS_VERSION', '1.0.5beta' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -43,15 +43,15 @@ define('POWERPRESS_VERSION', '1.0.4' );
 
 // Set specific play and download labels for your installation of PowerPress
 if( !defined('POWERPRESS_LINKS_TEXT') )
-	define('POWERPRESS_LINKS_TEXT', __('Podcast') );
+	define('POWERPRESS_LINKS_TEXT', __('Podcast', 'powerpress') );
 if( !defined('POWERPRESS_DURATION_TEXT') )
-	define('POWERPRESS_DURATION_TEXT', __('Duration') );
+	define('POWERPRESS_DURATION_TEXT', __('Duration', 'powerpress') );
 if( !defined('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT') )
-	define('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT', __('Play in new window') );	
+	define('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT', __('Play in new window', 'powerpress') );	
 if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
-	define('POWERPRESS_DOWNLOAD_TEXT', __('Download') );	
+	define('POWERPRESS_DOWNLOAD_TEXT', __('Download', 'powerpress') );	
 if( !defined('POWERPRESS_PLAY_TEXT') )
-	define('POWERPRESS_PLAY_TEXT', __('Play') );	
+	define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );	
 
 if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
@@ -1350,9 +1350,9 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			
 			if( $firefox )
 			{
-				$content .= '<p style="font-size: 85%;margin-top:0;">'. __('Best viewed with');
+				$content .= '<p style="font-size: 85%;margin-top:0;">'. __('Best viewed with', 'powerpress');
 				$content .= ' <a href="http://support.mozilla.com/en-US/kb/Using+the+Windows+Media+Player+plugin+with+Firefox#Installing_the_plugin" target="_blank">';
-				$content .= __('Windows Media Player plugin for Firefox') .'</a></p>';
+				$content .= __('Windows Media Player plugin for Firefox', 'powerpress') .'</a></p>';
 			}
 			
 			$content .= "</div>\n";
@@ -2160,6 +2160,13 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 			$podPressMedia = @unserialize($podPressMedia);
 		}
 		
+		// Do it a second time in case it is double serialized
+		if( !is_array($podPressMedia) )
+		{
+			// Sometimes the stored data gets messed up, we can fix it here:
+			$podPressMedia = powerpress_repair_serialize($podPressMedia);
+			$podPressMedia = @unserialize($podPressMedia);
+		}
 		
 		if( is_array($podPressMedia) && isset($podPressMedia[$mediaNum]) && isset($podPressMedia[$mediaNum]['URI']) )
 		{
@@ -2224,7 +2231,7 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 		case 3: // Play in new window only
 		case 5: { // Play in page and new window
 			if( $is_pdf )
-				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". __('Open in New Window') ."\">". __('Open in New Window') ."</a>".PHP_EOL;
+				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". __('Open in New Window', 'powerpress') ."\">". __('Open in New Window', 'powerpress') ."</a>".PHP_EOL;
 			else if( $post_id )
 				$player_links .= "<a href=\"{$EpisodeData['url']}\" class=\"powerpress_link_pinw\" target=\"_blank\" title=\"". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."\" onclick=\"return powerpress_pinw('{$post_id}-{$feed_slug}');\">". POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT ."</a>".PHP_EOL;
 			else
@@ -2265,7 +2272,7 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 			$extension  = strtolower($parts['extension']);
 		
 		if( $is_pdf )
-			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. __('E-Book PDF') . ( $feed_slug=='pdf'||$feed_slug=='podcast'?'':" ($feed_slug)") .': '. $player_links . '</p>'.PHP_EOL;
+			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. __('E-Book PDF', 'powerpress') . ( $feed_slug=='pdf'||$feed_slug=='podcast'?'':" ($feed_slug)") .': '. $player_links . '</p>'.PHP_EOL;
 		else if( $feed_slug != 'podcast' )
 			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .' ('. htmlspecialchars($feed_slug) .'): '. $player_links . '</p>'.PHP_EOL;
 		else
