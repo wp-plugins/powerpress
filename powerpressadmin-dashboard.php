@@ -109,6 +109,9 @@ function powerpress_dashboard_stats_content()
 
 function powerpress_dashboard_setup()
 {
+	if( !function_exists('wp_add_dashboard_widget') )
+		return;
+	
 	$Settings = get_option('powerpress_general');
 	
 	if( isset($Settings['disable_dashboard_widget']) && $Settings['disable_dashboard_widget'] == 1 )
