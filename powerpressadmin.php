@@ -1429,7 +1429,7 @@ function powerpress_get_media_info(FeedSlug)
 					if( strError == 'timeout' )
 						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Operation timed out.'); ?>' );
 					else
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Unknown error occurred.'); ?>' );
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error occurred: '); ?>'+strError );
 					jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
 				}
 			});

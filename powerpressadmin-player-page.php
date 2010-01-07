@@ -461,7 +461,7 @@ function audio_player_defaults()
 		<td>
 			<div id="player_preview">
 <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="<?php echo $PlayerSettings['width']; ?>">
-<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" />
+<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" />
 <param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?><?php echo $flashvars;?>" />
 <param name="quality" value="high" />
 <param name="menu" value="false" />
