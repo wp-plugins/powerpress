@@ -143,6 +143,7 @@
 		$powerpress_diags['system_info']['success'] = true;
 		$powerpress_diags['system_info']['php_version'] = phpversion();
 		$powerpress_diags['system_info']['memory_limit'] = (int) ini_get('memory_limit');
+		$powerpress_diags['system_info']['temp_directory'] = get_temp_dir(); // Function available since WP2.5+
 		
 		// testing:
 		//$powerpress_diags['system_info']['memory_limit'] = -1;
@@ -210,6 +211,21 @@
 			$powerpress_diags['system_info']['message2'] .= sprintf(__('We recommend that you have at least %dM (4M more that what is currently used) or more memory to accomodate all of your installed plugins.'), ceil($used)+4 );
 		}
 		
+		if( empty($powerpress_diags['system_info']['temp_directory']) )
+		{
+			$powerpress_diags['system_info']['success'] = false;
+			$powerpress_diags['system_info']['message3'] =  __('Error:') .' '. __('No temporary directory available.');
+		}
+		else if( is_dir($powerpress_diags['system_info']['temp_directory']) && is_writable($powerpress_diags['system_info']['temp_directory']) )
+		{
+			$powerpress_diags['system_info']['message3'] = sprintf(__('Temporary directory %s is writable.'), $powerpress_diags['system_info']['temp_directory']);
+		}
+		else
+		{
+			$powerpress_diags['system_info']['success'] = false;
+			$powerpress_diags['system_info']['message3'] = __('Error:') .' '. sprintf(__('Temporary directory %s is not writable.'), $powerpress_diags['system_info']['temp_directory']);
+		}
+		
 		if( isset($_GET['Email']) && strlen($_GET['Email']) > 4 )
 		{
 			check_admin_referer('powerpress-diagnostics');
@@ -221,7 +237,7 @@
 	
 	function powerpressadmin_diagnostics_email($email)
 	{
-		global $powerpress_diags, $wpmu_version, $wp_version;
+		global $powerpress_diags, $wpmu_version, $wp_version, $powerpress_diag_message;
 		$SettingsGeneral = get_option('powerpress_general');
 		
 		// First we need some basic information about the blog...
@@ -276,8 +292,10 @@
 		$message .= " &nbsp; \t &nbsp; ". __('php_version:') .' '. $powerpress_diags['system_info']['php_version'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('memory_limit:') .' '. $powerpress_diags['system_info']['memory_limit'] ."M\n";
 		$message .= " &nbsp; \t &nbsp; ". __('memory_used:') .' '. sprintf('%.01fM',$powerpress_diags['system_info']['memory_used']) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('temp directory:') .' '. $powerpress_diags['system_info']['temp_directory'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['system_info']['message'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('message 2:') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 3:') .' '. $powerpress_diags['system_info']['message3'] ."<br />\n";
 
 		if( isset($_GET['ap']) && $_GET['ap'] )
 		{
@@ -286,7 +304,7 @@
 			$message .= '<strong>'.__('Active Plugins') ."</strong><br />\n";
 			while( list($null,$plugin_path) = each($current_plugins) )
 			{
-				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/'). '\\/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
+				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/'). '/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
 				
 				$message .= " &nbsp; \t &nbsp; " . __('Title:') .' '. $plugin_data['Title']. "<br />\n";
 				$message .= " &nbsp; \t &nbsp; " . __('Relative Path:') .' '. $plugin_path. "<br />\n";
@@ -313,6 +331,7 @@
 		$headers .= "Content-Type: text/html\n";
 		
 		@wp_mail($email, sprintf(__('Blubrry PowerPress diagnostic results for %s'), get_bloginfo('name')), $message, $headers);
+		$powerpress_diag_message = $message;
 	}
 	
 	function powerpressadmin_diagnostics_is_writable($dir)
@@ -350,7 +369,7 @@
 	
 	function powerpressadmin_diagnostics()
 	{
-		global $powerpress_diags;
+		global $powerpress_diags, $powerpress_diag_message;
 		$GeneralSettings = get_option('powerpress_general');
 		
 		if( empty($powerpress_diags) )
@@ -364,6 +383,16 @@
 <p>
 	<?php echo __('The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.'); ?>
 </p>
+
+<?php
+	if( !empty($powerpress_diag_message) )
+	{
+?>
+<h3 style="margin-bottom: 2px;"><?php echo __('Diagnostics Email Message'); ?></h3>
+<div style="border: 2px inset #000000; padding: 10px; margin-right: 20px; font-size: 85%;">
+<?php echo $powerpress_diag_message; ?>
+</div>
+<?php } ?>
 
 <h3 style="margin-bottom: 0;"><?php echo __('Detecting Media Information'); ?></h3>
 <p style="margin: 0;">
@@ -417,7 +446,7 @@
 </table>
 
 <h3 style="margin-bottom: 0;"><?php echo __('System Information'); ?></h3>
-<p style="margin: 0;"><?php echo __('The following test checks your version of PHP and memory usage.'); ?></p>
+<p style="margin: 0;"><?php echo __('The following test checks your version of PHP, memory usage and temporary directory access.'); ?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -426,6 +455,7 @@
 <td>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message2']); ?></p>
+	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message3']); ?></p>
 <?php if( $powerpress_diags['system_info']['warning'] ) { ?>
 	<p><?php echo __('Contact your web hosting provider to inquire how to increase the PHP memory limit on your web server.'); ?></p>
 <?php } ?>

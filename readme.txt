@@ -148,6 +148,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated Flash players to support URLs with spaces by urlencoding the URL values.
 * Added better error reporting for AJAX 'Verify' button failures.
 * Fixed bug where WordPress 2.6 PowerPress users have a disabled WordPress dashboard caused by missing wp_add_dashboard_widget() function.
+* Diagnostics now tests that the temporary directory exists and is writable.
+* Diagnostics Email results are now printed in the page after sending.
+* Diagnostics now includes the title, version and URL of active plugins.
 
 
 = 1.0.4 =
