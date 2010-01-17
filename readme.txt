@@ -139,7 +139,8 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 1.0.5 =
-* Released on 1/??/2010 (this may become version 2.0)
+* Released on 1/??/2010
+* Added new 'Podcast Permalinks' option in Basic Settings so users can map example.com/podcast/ to a static page or category.
 * Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
 * Additional code added for some cases where previous PodPress data was stored serialized twice over. PowerPress now un-serializes the PodPress data twice if necessary.
 * PodPress Import screen now includes a media file extension filter.

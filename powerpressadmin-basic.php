@@ -359,6 +359,30 @@ while( list($value,$desc) = each($options) )
 		<p style="margin-bottom: 0;"><em><?php echo __('NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.'); ?></em></p>
 </td>
 </tr>
+<?php
+		global $wp_rewrite;
+		if( $wp_rewrite->permalink_structure ) // Only display if permalinks are enabled in WordPress
+		{
+?>
+<tr valign="top">
+<th scope="row">
+<?php echo __("Podcast Permalinks"); ?></th> 
+<td>
+		<select name="General[permalink_feeds_only]" class="bpp_input_med">
+<?php
+$options = array(0=>__('Default WordPress Behavior'), 1=>__('Match Feed Name to Page/Category') );
+	
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['permalink_feeds_only']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select>
+		<p><?php echo sprintf(__('When configured, %s/podcast/ is matched to page/category named \'podcast\'.'), get_bloginfo('home') ); ?></p>
+</td>
+</tr>
+<?php
+		}
+?>
 
 </table>
 <?php

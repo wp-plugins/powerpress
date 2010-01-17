@@ -825,7 +825,7 @@ function powerpress_template_redirect()
 {
 	if( is_feed() && powerpress_is_custom_podcast_feed() )
 	{
-		remove_action('template_redirect', 'ol_feed_redirect'); // Remove this action
+		remove_action('template_redirect', 'ol_feed_redirect'); // Remove this action so feedsmith doesn't redirect
 		global $powerpress_feed;
 		
 		if( is_array($powerpress_feed) && trim(@$powerpress_feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) && @$_GET['redirect'] != 'no' )
@@ -841,6 +841,71 @@ function powerpress_template_redirect()
 
 add_action('template_redirect', 'powerpress_template_redirect', 0);
 
+
+function powerpress_rewrite_rules_array($array)
+{
+	global $wp_rewrite;
+	$settings = get_option('powerpress_general');
+	
+	$podcast_feeds = array('podcast'=>true);
+	if( isset($settings['custom_feeds']) && is_array($settings['custom_feeds']) )
+		$podcast_feeds = array_merge($settings['custom_feeds'], $podcast_feeds );
+	
+	$merged_slugs = '';
+	while( list($feed_slug, $feed_title) = each($podcast_feeds) )
+	{
+		if( $merged_slugs != '' )
+			$merged_slugs .= '|';
+		$merged_slugs .= $feed_slug;
+	}
+	
+	// $wp_rewrite->index most likely index.php
+	$new_array[ 'feed/('.$merged_slugs.')/?$' ] = $wp_rewrite->index. '?feed='. $wp_rewrite->preg_index(1);
+	
+	// If feature is not enabled, use the default permalinks
+	if( empty($settings['permalink_feeds_only']) )
+		return array_merge($new_array, $array);
+	
+	global $wpdb;
+	reset($podcast_feeds);
+	while( list($feed_slug, $feed_title) = each($podcast_feeds) )
+	{
+		$page_name_id = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_name = '".$feed_slug."'");
+		if( $page_name_id )
+		{
+			$new_array[ $feed_slug.'/?$' ] = $wp_rewrite->index. '?pagename='. $feed_slug.'&page_id='.$page_name_id;
+			unset($podcast_feeds[ $feed_slug ]);
+			continue;
+		}
+	
+		$category = get_category_by_slug($feed_slug);
+		if( $category )
+		{
+			$new_array[ $feed_slug.'/?$' ] = $wp_rewrite->index. '?cat='. $category->term_id; // category_name='. $feed_slug .'&
+			unset($podcast_feeds[ $feed_slug ]);
+		}
+	}
+	
+	if( count($podcast_feeds) > 0 )
+	{
+		reset($podcast_feeds);
+		$remaining_slugs = '';
+		while( list($feed_slug, $feed_title) = each($podcast_feeds) )
+		{
+			if( $remaining_slugs != '' )
+				$remaining_slugs .= '|';
+			$remaining_slugs .= $feed_slug;
+		}
+		
+		$new_array[ '('.$remaining_slugs.')/?$' ] = $wp_rewrite->index. '?pagename='. $wp_rewrite->preg_index(1);
+	}
+	
+	return array_merge($new_array, $array);
+}
+
+add_filter('rewrite_rules_array', 'powerpress_rewrite_rules_array');
+
+
 function powerpress_pre_transient_rewrite_rules($return_rules)
 {
 	global $wp_rewrite;
@@ -850,10 +915,10 @@ function powerpress_pre_transient_rewrite_rules($return_rules)
 	
 	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
 	{
-		while( list($feedname,$null) = each($GeneralSettings['custom_feeds']) )
+		while( list($feed_slug,$null) = each($GeneralSettings['custom_feeds']) )
 		{
-			if( !in_array($feedname, $wp_rewrite->feeds) )
-				$wp_rewrite->feeds[] = $feedname;
+			if( !in_array($feed_slug, $wp_rewrite->feeds) )
+				$wp_rewrite->feeds[] = $feed_slug;
 		}
 	}
 	
@@ -891,28 +956,40 @@ function powerpress_init()
 			if( $feed_slug != 'podcast' )
 				add_feed($feed_slug, 'powerpress_do_podcast_feed');
 		}
-		
-		// FeedSmith support...
-		if( isset($_GET['feed']) )
+	}
+
+	// FeedSmith support...
+	/*
+	// This logic need not apply anymore
+	if( isset($_GET['feed']) )
+	{
+		switch($_GET['feed'])
 		{
-			switch($_GET['feed'])
-			{
-				case '':
-				case 'feed':
-				case 'atom':
-				case 'rss':
-				case 'comments-rss2':
-				case 'rss2': break; // Let FeedSmith redirect these feeds if it wants
-				default: { // Otherwise lets remove FeedSmith
-					if( has_action('init', 'ol_check_url') !== false )
-						remove_action('init', 'ol_check_url');
-				}
+			case '':
+			case 'feed':
+			case 'atom':
+			case 'rss':
+			case 'comments-rss2':
+			case 'rss2': break; // Let FeedSmith redirect these feeds if it wants
+			default: { // Otherwise lets remove FeedSmith
+				if( has_action('init', 'ol_check_url') !== false )
+					remove_action('init', 'ol_check_url');
 			}
 		}
 	}
+	*/	
 }
 
-add_action('init', 'powerpress_init', 9);
+add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
+
+// May be used for future use
+/*
+function powerpress_plugins_loaded()
+{
+	
+}
+add_action('plugins_loaded', 'powerpress_plugins_loaded');
+*/
 
 // Load the general feed settings for feeds handled by powerpress
 function powerpress_load_general_feed_settings()
