@@ -528,8 +528,10 @@ while( list($value,$desc) = each($options) )
 ?>
 </select>  <?php echo __('Notify (ping) iTunes when you publish a new episode.'); ?>
 <p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> <?php echo __('Test Update iTunes Listing (recommended)'); ?></p>
-<?php if( $General['itunes_url'] ) {
-
+<?php 
+	$itunes_subscribe_url = ($FeedSettings?$FeedSettings['itunes_url']:$General['itunes_url']);
+	if( !empty($itunes_subscribe_url) )
+	{
 		$ping_url = str_replace(
 			array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
 								'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
@@ -537,12 +539,12 @@ while( list($value,$desc) = each($options) )
 								'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
 								'https://www.itunes.com/podcast?id=',
 								'http://www.itunes.com/podcast?id='),
-			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $General['itunes_url']);
+			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $itunes_subscribe_url);
 ?>
 <p><?php echo __('You may also update your iTunes listing by using the following link:'); ?> <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="<?php echo __('Ping iTunes in New Window'); ?>"><?php echo __('Ping iTunes in New Window'); ?></a></p>
 
 <?php
-		if( preg_match('/id=(\d+)/', $General['itunes_url'], $matches) )
+		if( preg_match('/id=(\d+)/', $itunes_subscribe_url, $matches) )
 		{
 			$FEEDID = $matches[1];
 			$Logging = get_option('powerpress_log');

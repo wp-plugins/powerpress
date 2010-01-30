@@ -147,6 +147,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added option to Disable Media Player for known mobile devices such as iPhone, Android, Palm Pre and Blackberry phones. (Thanks Michael H!)
 * Fixed bug with play in new window only using the default player. (Thanks Álvaro!)
 * Fixed bug with AudioPlay flash player not linking to media file.
+* Fixed bug with iTunes ping results for podcast categories and channels displaying the default feed results.
+* Displaying default podcast category feed title below feed title field for reference.
+* Displaying default podcast category landing page URL below Landing Page field for reference.
+* Added note in the iTunes New Feed URL setting which feed the setting is applied to.
 * Updated Flash players to support URLs with spaces by urlencoding the URL values.
 * Added better error reporting for AJAX 'Verify' button failures.
 * PowerPress shortcode [powerpress] now documented within the Appearance Settings tab.

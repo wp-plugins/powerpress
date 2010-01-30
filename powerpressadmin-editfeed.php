@@ -186,7 +186,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	else if( $cat_ID )
 	{
 		$category = get_category_to_edit($cat_ID);
-		$FeedTitle = sprintf( 'Edit Category Feed: %s', $FeedTitle, $category->name);
+		$FeedTitle = sprintf( 'Edit Category Feed: %s', $category->name);
 		echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
 	}
 	
@@ -222,7 +222,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		//powerpressadmin_edit_itunes_general($General);
 		if( $feed_slug != 'podcast' )
 			powerpressadmin_edit_itunes_general($General, $FeedSettings, $feed_slug, $cat_ID);
-		powerpressadmin_edit_itunes_feed($FeedSettings, $General);
+		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug, $cat_ID);
 		?>
 	</div>
 	
@@ -403,11 +403,19 @@ if( $feed_slug || $cat_ID )
 <?php _e("Feed Title"); ?>
 </th>
 <td>
-<input type="text" name="Feed[title]"style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" /> 
+<input type="text" name="Feed[title]"style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
-(leave blank to use category title)
+(leave blank to use default category title)
 <?php } else { ?>
 (leave blank to use blog title)
+<?php } ?>
+<?php if( $cat_ID ) { 
+	$category = get_category_to_edit($cat_ID);
+	$CategoryName = htmlspecialchars($category->name);
+?>
+<p><?php echo __('Default Category title:') .' '. get_bloginfo_rss('name') . ' &#187; '. $CategoryName; ?></p>
+<?php } else { ?>
+<p><?php echo __('Blog title:') .' '. get_bloginfo_rss('name'); ?></p>
 <?php } ?>
 </td>
 </tr>
@@ -427,12 +435,17 @@ if( $feed_slug || $cat_ID )
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed Landing Page"); ?> <br />
+<?php _e("Feed Landing Page URL"); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />  (optional)
+<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
-<p>Leave blank to use category page: <?php echo get_category_link($cat_ID); ?></p>
+(leave blank to use category page)
+<?php } else { ?>
+(leave blank to use home page)
+<?php } ?>
+<?php if( $cat_ID ) { ?>
+<p>Category page URL: <?php echo get_category_link($cat_ID); ?></p>
 <?php } else { ?>
 <p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
 <?php } ?>
@@ -758,7 +771,7 @@ function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_sl
 
 }
 
-function powerpressadmin_edit_itunes_feed($FeedSettings, $General)
+function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=false, $cat_ID=false)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
 	if( !isset($FeedSettings['itunes_subtitle']) )
@@ -979,7 +992,7 @@ while( list($value,$desc) = each($explicit) )
 </th>
 <td>
 <input type="text" name="Feed[email]"  style="width: 60%;" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
-<div>(iTunes will email this address when your podcast is accepted into the iTunes Directory.)</div>
+<div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.'); ?>)</div>
 </td>
 </tr>
 
@@ -993,23 +1006,55 @@ while( list($value,$desc) = each($explicit) )
 <?php _e("iTunes New Feed URL"); ?></th> 
 	<td>
 		<div id="new_feed_url_step_1" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'none':'block'); ?>;">
-			 <p style="margin-top: 5px;"><a href="#" onclick="return powerpress_new_feed_url_prompt();">Click here</a> if you need to change the Feed URL for iTunes subscribers.</p>
+			 <p style="margin-top: 5px;"><strong><a href="#" onclick="return powerpress_new_feed_url_prompt();"><?php echo __('Set iTunes New Feed URL'); ?></a></strong></p>
 		</div>
 		<div id="new_feed_url_step_2" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'block':'none'); ?>;">
-			<p style="margin-top: 5px;"><strong>WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.</strong></p>
-			<p><strong>DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.</strong></p>
+			<p style="margin-top: 5px;"><strong><?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.'); ?></strong></p>
+			<p><strong><?php echo __('DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.'); ?></strong></p>
 			<p>
-				Apple recommends you maintain the &lt;itunes:new-feed-url&gt; tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.
+				<?php echo htmlspecialchars( __('Apple recommends you maintain the <itunes:new-feed-url> tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.') ); ?>
 			</p>
 			<p>
-				Example URL: <?php echo get_feed_link( ( empty($feed_slug)?'podcast':$feed_slug) ); ?>
+			<?php 
+			$FeedName = 'Main RSS2 feed';
+			$FeedURL = get_feed_link('rss2');
+			if( $cat_ID )
+			{
+				$category = get_category_to_edit($cat_ID);
+				$FeedName = sprintf( __('%s category feed'), htmlspecialchars($category->name) );
+				$FeedURL = get_category_feed_link($cat_ID);
+			}
+			else if( $feed_slug )
+			{
+				if( !empty($General['custom_feeds'][ $feed_slug ]) )
+					$FeedName = $General['custom_feeds'][ $feed_slug ];
+				else
+					$FeedName = __('Podcast');
+				$FeedName = trim($FeedName).' '.__('feed');
+				$FeedURL = get_feed_link($feed_slug);
+			}
+			
+			echo sprintf(__('The New Feed URL value below will be applied to the %s (%s).'), $FeedName, $FeedURL);
+?>
 			</p>
 			<p style="margin-bottom: 0;">
 				<label style="width: 25%; float:left; display:block; font-weight: bold;">New Feed URL</label>
 				<input type="text" name="Feed[itunes_new_feed_url]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
 			</p>
 			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
+			
 			<p>More information regarding the iTunes New Feed URL is available <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank" title="Apple iTunes Podcasting Specificiations">here</a>.</p>
+			<p>
+<?php
+			if( !$cat_ID && !$feed_slug )
+			{
+				if( empty($General['channels']) )
+					echo sprintf(__('Please activate the \'Custom Podcast Channels\' Advanced Option to set the new-feed-url for your podcast only feed (%s)'), get_feed_link('podcast') );
+				else
+					echo sprintf(__('Please navigate to the \'Custom Podcast Channels\' section to set the new-feed-url for your podcast only feed (%s)'), get_feed_link('podcast') );
+			}
+?>
+			</p>
 		</div>
 	</td>
 	</tr>

@@ -409,8 +409,8 @@ function powerpress_rss2_head()
 		
 	if( !empty($Feed['rss2_image']) )
 	{
-		echo"\t". '<image>' .PHP_EOL;
-		if( is_category() )
+		echo "\t". '<image>' .PHP_EOL;
+		if( is_category() && !empty($Feed['title']) )
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
@@ -420,8 +420,8 @@ function powerpress_rss2_head()
 	}
 	else // Use the default image
 	{
-		echo"\t". '<image>' .PHP_EOL;
-		if( is_category() )
+		echo "\t". '<image>' .PHP_EOL;
+		if( is_category() && !empty($Feed['title']) )
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
