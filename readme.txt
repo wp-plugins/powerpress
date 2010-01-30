@@ -1,9 +1,9 @@
-=== Podcasting - Blubrry PowerPress Podcast plugin ===
+=== Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu
 Requires at least: 2.6.0
-Tested up to: 2.9
-Stable tag: 1.0.4
+Tested up to: 2.9.1
+Stable tag: 1.0.5
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -90,6 +90,7 @@ PowerPress will continue where plugin "Podcasting" left off by including your pr
 * Visit the Blubrry [Community Forum](http://forum.blubrry.com/)
 * Use the Blubrry [Contact Us](http://www.blubrry.com/contact.php)  form
 * Blubrry [PowerPress Documentation](http://help.blubrry.com/blubrry-powerpress/)
+* Check out [PodcastFAQ.com](http://www.podcastfaq.com/) - everything you need to know about podcasting
 
 
 == Frequently Asked Questions ==
@@ -139,22 +140,22 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 1.0.5 =
-* Released on 1/??/2010
+* Released on 1/30/2010
 * Added new 'Podcast Permalinks' option in Basic Settings so users can map example.com/podcast/ to a static page or category.
-* Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
+* Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting the word 'cookie' as a possible threat.
 * Additional code added for some cases where previous PodPress data was stored serialized twice over. PowerPress now un-serializes the PodPress data twice if necessary.
 * Added option to Disable Media Player for known mobile devices such as iPhone, Android, Palm Pre and Blackberry phones. (Thanks Michael H!)
 * Fixed bug with play in new window only using the default player. (Thanks Álvaro!)
 * Fixed bug with AudioPlay flash player not linking to media file.
 * Fixed bug with iTunes ping results for podcast categories and channels displaying the default feed results.
-* Fixed bug with iTunes duration not displaying in edit screen after saving. (specified values are used if auto detect fails)
+* Fixed bug with iTunes duration not displaying in edit screen after saving. (entered values are now saved if auto detect fails)
 * Displaying default podcast category feed title below feed title field for reference.
 * Displaying default podcast category landing page URL below Landing Page field for reference.
 * Added note in the iTunes New Feed URL setting which feed the setting is applied to.
 * Added option to allow manually setting the iTunes author name on a per episode basis.
 * Updated Flash players to support URLs with spaces by urlencoding the URL values.
 * Added better error reporting for AJAX 'Verify' button failures.
-* Relabeled Import from "Import Movable Type/Blogger/Joomla/TypePad Episodes" to "Import from other Blogging Platform".
+* Relabeled "Import Movable Type/Blogger/Joomla/TypePad Episodes" to "Import from other Blogging Platform".
 * PodPress Import screen now includes a media file extension filter.
 * PodPress Import now includes the m4v video cover images.
 * PodPress Import "Select Only" specific columns feature.

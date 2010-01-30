@@ -372,7 +372,7 @@ while( list($value,$desc) = each($options) )
 </tr>
 <?php
 		global $wp_rewrite;
-		if( $wp_rewrite->permalink_structure ) // Only display if permalinks are enabled in WordPress
+		if( $wp_rewrite->permalink_structure ) // Only display if permalinks is enabled in WordPress
 		{
 ?>
 <tr valign="top">
