@@ -281,6 +281,8 @@ function powerpressadmin_edit_entry_options($General)
 						(<?php echo __('Leave unchecked to use the first 250 characters of your blog post'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( !empty($General['episode_box_summary']) ) echo ' checked'; ?> /> <?php echo __('iTunes Summary Field'); ?>
 						(<?php echo __('Leave unchecked to use your blog post'); ?>)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_author" class="episode_box_option" name="General[episode_box_author]" type="checkbox" value="1"<?php if( !empty($General['episode_box_author']) ) echo ' checked'; ?> /> <?php echo __('iTunes Author Field'); ?>
+						(<?php echo __('Leave unchecked to the post author name'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( !empty($General['episode_box_explicit']) ) echo ' checked'; ?> /> <?php echo __('iTunes Explicit Field'); ?>
 						(<?php echo __('Leave unchecked to use your feed\'s explicit setting'); ?>)</p>	
 					

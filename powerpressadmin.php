@@ -248,6 +248,8 @@ function powerpress_admin_init()
 					$General['episode_box_subtitle'] = 0;
 				if( !isset($General['episode_box_summary'] ) )
 					$General['episode_box_summary'] = 0;
+				if( !isset($General['episode_box_author'] ) )
+					$General['episode_box_author'] = 0;	
 				if( !isset($General['episode_box_explicit'] ) )
 					$General['episode_box_explicit'] = 0;
 				
@@ -1028,19 +1030,19 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes duration
 				if( $Duration )
 					$ToSerialize['duration'] = $Duration; // regular expression '/^(\d{1,2}\:)?\d{1,2}\:\d\d$/i' (examples: 1:23, 12:34, 1:23:45, 12:34:56)
-				// iTunes Subtitle (FUTURE USE)
+				// iTunes Subtitle
 				if( isset($Powerpress['subtitle']) && trim($Powerpress['subtitle']) != '' ) 
 					$ToSerialize['subtitle'] = stripslashes($Powerpress['subtitle']);
-				// iTunes Summary (FUTURE USE)
+				// iTunes Summary
 				if( isset($Powerpress['summary']) && trim($Powerpress['summary']) != '' ) 
 					$ToSerialize['summary'] = stripslashes($Powerpress['summary']);
-				// iTunes keywords (FUTURE USE)
+				// iTunes keywords
 				if( isset($Powerpress['keywords']) && trim($Powerpress['keywords']) != '' ) 
 					$ToSerialize['keywords'] = stripslashes($Powerpress['keywords']);
-				// iTunes Author (FUTURE USE)
+				// iTunes Author
 				if( isset($Powerpress['author']) && trim($Powerpress['author']) != '' ) 
 					$ToSerialize['author'] = stripslashes($Powerpress['author']);
-				// iTunes Explicit (FUTURE USE)
+				// iTunes Explicit
 				if( isset($Powerpress['explicit']) && trim($Powerpress['explicit']) != '' ) 
 					$ToSerialize['explicit'] = $Powerpress['explicit'];
 				// iTunes Block (FUTURE USE)

@@ -376,7 +376,7 @@ function powerpress_rss2_head()
 		
 	if( !empty($Feed['itunes_image']) )
 	{
-		echo "\t".'<itunes:image href="' . wp_specialchars($Feed['itunes_image'], 'double') . '" />'.PHP_EOL;
+		echo "\t".'<itunes:image href="' . wp_specialchars( str_replace(' ', '+', $Feed['itunes_image']), 'double') . '" />'.PHP_EOL;
 	}
 	else
 	{
@@ -414,7 +414,7 @@ function powerpress_rss2_head()
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
 			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
-		echo "\t\t".'<url>' . wp_specialchars($Feed['rss2_image']) . '</url>'.PHP_EOL;
+		echo "\t\t".'<url>' . wp_specialchars( str_replace(' ', '+', $Feed['rss2_image'])) . '</url>'.PHP_EOL;
 		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}

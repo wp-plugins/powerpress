@@ -16,6 +16,7 @@ function powerpress_meta_box($object, $box)
 	$iTunesKeywords = '';
 	$iTunesSubtitle = '';
 	$iTunesSummary = '';
+	$iTunesAuthor = '';
 	$iTunesExplicit = '';
 	$NoPlayer = false;
 	$NoLinks = false;
@@ -63,6 +64,8 @@ function powerpress_meta_box($object, $box)
 					$iTunesSubtitle = $ExtraData['subtitle'];
 				if( isset($ExtraData['summary']) )
 					$iTunesSummary = $ExtraData['summary'];
+				if( isset($ExtraData['author']) )
+					$iTunesAuthor = $ExtraData['author'];
 				if( isset($ExtraData['no_player']) )
 					$NoPlayer = $ExtraData['no_player'];
 				if( isset($ExtraData['no_links']) )
@@ -273,7 +276,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_summary'] )
+		if( !empty($GeneralSettings['episode_box_summary']) )
 		{
 ?>
 		<div class="powerpress_row">
@@ -283,6 +286,21 @@ function powerpress_meta_box($object, $box)
 			</div>	
 			<div class="powerpress_row_content">
 				<em><?php echo __('Your summary may not contain HTML and cannot exceed 4,000 characters in length. Leave blank to use your blog post.'); ?></em>
+			</div>
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_author']) )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][author]"><?php echo __('iTunes Author'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_author_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][author]" value="<?php echo htmlspecialchars($iTunesAuthor); ?>" style="width: 60%; font-size: 90%;" size="250" />
+			</div>
+			<div class="powerpress_row_content">
+				<em><?php echo __('Leave blank to use post author name.'); ?></em>
 			</div>
 		</div>
 <?php
