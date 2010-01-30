@@ -135,28 +135,36 @@ jQuery(document).ready(function($) {
 </div>
 <div class="clear"></div>
 
+<?php
+	$ChannelsCheckbox = '';
+	if( !empty($General['custom_feeds']) )
+		$ChannelsCheckbox = ' onclick="alert(\'You must delete all of the Podcast Channels to disable this option.\');return false;"';
+	$CategoryCheckbox = '';
+	//if( !empty($General['custom_cat_feeds']) ) // Decided ont to include this warning because it may imply that you have to delete the actual category, which is not true.
+	//	$CategoryCheckbox = ' onclick="alert(\'You must remove podcasting from the categories to disable this option.\');return false;"';
+?>
 <div style="margin-left: 10px;">
 	<h3>Advanced Options</h3>
 	<div style="margin-left: 50px;">
 		<div>
-			<input type="checkbox" name="General[advanced_mode]" value="1" <?php echo ($General['advanced_mode']==1?' checked':''); ?>/> 
+			<input type="checkbox" name="General[advanced_mode]" value="1" <?php echo ($General['advanced_mode']==1?' checked':''); ?> /> 
 			<strong><?php echo __('Advanced Mode'); ?></strong> - 
 			<?php echo __('Uncheck to display only the essential settings for podcasting.'); ?>
 		</div>
 		<div>
-			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?>/> 
+			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?> /> 
 			<strong><?php echo __('Audio Player Options'); ?></strong> - 
 			<?php echo __('Select from 5 different web based audio flash players.'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled'); ?>)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); ?>/> 
+			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); echo $ChannelsCheckbox; ?> /> 
 			<strong><?php echo __('Custom Podcast Channels'); ?></strong> - 
 			<?php echo __('Manage multiple media files and/or formats to one blog post.'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled'); ?>)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':''); ?>/> 
+			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':'');  echo $CategoryCheckbox;  ?> /> 
 			<strong><?php echo __('Category Podcasting'); ?></strong> - 
 			<?php echo __('Manage category podcast feeds.'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled'); ?>)</span>
@@ -359,6 +367,7 @@ while( list($value,$desc) = each($options) )
 		</select>
 		<p><?php echo __('When enabled, the first or last media link found in the post content is automatically added as your podcast episode.'); ?></p>
 		<p style="margin-bottom: 0;"><em><?php echo __('NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.'); ?></em></p>
+		<p><em><?php echo __('WARNING: Episodes created with this feature will <u>not</u> include Duration (total play time) information.'); ?></em></p>
 </td>
 </tr>
 <?php

@@ -206,7 +206,7 @@ function powerpress_admin_init()
 		if( $FeedSlug )
 		{
 			$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
-			if( $GeneralSettingsTemp['custom_feeds'][$FeedSlug] != $Feed['title'] )
+			if( !isset($GeneralSettingsTemp['custom_feeds'][$FeedSlug]) || $GeneralSettingsTemp['custom_feeds'][$FeedSlug] != $Feed['title'] )
 			{
 				if( !$General )
 					$General = array();
@@ -574,11 +574,11 @@ function powerpress_admin_init()
 				
 				$Episodes = powerpress_admin_episodes_per_feed($delete_slug);
 				
-				if( $delete_slug == 'podcast' && $force_deletion == false )
+				if( false && $delete_slug == 'podcast' && $force_deletion == false ) // Feature disabled, you can now delete podcast specific settings
 				{
 					powerpress_page_message_add_error( __('Cannot delete default podcast feed.') );
 				}
-				else if( $Episodes > 0 && $force_deletion == false )
+				else if( $delete_slug != 'podcast' && $Episodes > 0 && $force_deletion == false )
 				{
 					powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).'), $Episodes) );
 				}
@@ -1185,22 +1185,6 @@ function powerpress_new_feed_url_prompt() {
 	}
 	return false;
 }
-function powerpress_changemode(Mode)
-{
-	if( Mode )
-	{
-		if( !confirm("<?php echo __('Are you sure you want to switch to Advanced Mode?\n\nAdvanced Mode provides:\n   * Advanced Settings\n   * Presentation Settings\n   * Extensive Feed Settings \n   * Custom Feeds \n   * Useful Tools'); ?>") )
-			return false;
-	}
-	else
-	{
-		if( !confirm("<?php echo __('Are you sure you want to switch to Simple Mode?\n\nSimple Mode provides:\n   * Only the bare essential settings\n   * All settings on one page'); ?>") )
-			return false;
-	}
-	document.getElementById('powerpress_advanced_mode').value = Mode;
-	document.forms[0].submit();
-	return false;
-}
 
 jQuery(document).ready(function($) {
 	jQuery("#powerpress_settings_page").tabs({ cookie: { expires: 30 } });
@@ -1602,8 +1586,9 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 </p>
 <?php } ?>
 <p style="font-size: 85%; text-align: center; padding-bottom: 25px;">
-	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress'); ?></a> <?php echo POWERPRESS_VERSION; ?>
-	&#8212; <a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation'); ?>"><?php echo __('Documentation'); ?></a> |
+	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
+	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com'); ?>"><?php echo __('PodcastFAQ.com'); ?></a> |
+	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation'); ?>"><?php echo __('Documentation'); ?></a> |
 	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum'); ?>"><?php echo __('Forum'); ?></a> |
 	<a href="http://twitter.com/blubrry" target="_blank" title="<?php echo __('Follow Blubrry on Twitter'); ?>"><?php echo __('Follow Blubrry on Twitter'); ?></a>
 </p>
@@ -2447,11 +2432,10 @@ function powerpress_default_settings($Settings, $Section='basic')
 			}
 			
 			if( !isset($Settings['channels'] ) )
-			{
 				$Settings['channels'] = 0;
-				if( isset($Settings['custom_feeds']) && count($Settings['custom_feeds']) > 0 )
-					$Settings['channels'] = 1;
-			}
+			if( isset($Settings['custom_feeds']) && count($Settings['custom_feeds']) > 0 ) // They can't delete this until they remove all the channels
+				$Settings['channels'] = 1;
+					
 		}; break;
 		case 'editfeed': {
 			if( !isset($Settings['apply_to']) )

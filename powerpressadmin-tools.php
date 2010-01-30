@@ -7,10 +7,24 @@
 ?>
 <h2><?php echo __("PowerPress Tools"); ?></h2>
 
-<p style="margin-bottom: 0;"><?php echo __('Useful utilities and tools for PowerPress.'); ?></p>
+<p style="margin-bottom: 0;"><?php echo __('Useful utilities and tools.'); ?></p>
 
 
 <table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __("Podcasting Resources"); ?></th> 
+<td>
+	<p style="margin-top: 5px;"><strong><a href="http://www.podcastfaq.com"><?php echo __('PodcastFAQ.com'); ?></a></strong>
+	- <?php echo __('everything you need to know about podcasting.'); ?></p>
+	
+	<p style="margin-top: 5px;"><strong><a href="http://help.blubrry.com/blubrry-powerpress/"><?php echo __('PowerPress Documentation'); ?></a></strong>
+	- <?php echo __('learn more about PowerPress.'); ?></p>
+	
+	<p style="margin-top: 5px;"><strong><a href="http://forum.blubrry.com/"><?php echo __('Blubrry Forum'); ?></a></strong>
+	- <?php echo __('interact with other podcasters.'); ?></p>
+</td>
+</tr>
+
 <tr valign="top">
 <th scope="row"><?php echo __("Import Settings"); ?></th> 
 <td>

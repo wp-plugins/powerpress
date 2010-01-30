@@ -160,6 +160,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * PodPress Import "Select Only" specific columns feature.
 * Other Blogging Platform Import "Select Only" specific columns feature.
 * PowerPress shortcode [powerpress] now documented within the Appearance Settings tab.
+* Warning added to "Auto Add Media" setting that the Duration (total play time) will not be detected.
+* Added link to PodcastFAQ.com to footer and "Tools" page.
+* All Podcast Channels must be deleted before disabling the Advanced Option.
+* Fixed bug where Custom Channels with blank titles did not appear in list.
 * Fixed bug where WordPress 2.6 PowerPress users have a disabled WordPress dashboard caused by missing wp_add_dashboard_widget() function.
 * Diagnostics now tests that the temporary directory exists and is writable.
 * Diagnostics Email results are now printed in the page after sending.

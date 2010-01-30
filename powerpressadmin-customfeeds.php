@@ -91,7 +91,7 @@ function powerpress_admin_customfeeds()
 <?php
 	
 	
-	$Feeds = array('podcast'=>__('Podcast Feed') );
+	$Feeds = array('podcast'=>__('Podcast') );
 	if( isset($General['custom_feeds']['podcast']) )
 		$Feeds = $General['custom_feeds'];
 	else if( is_array($General['custom_feeds']) )
@@ -106,7 +106,7 @@ function powerpress_admin_customfeeds()
 		$columns = powerpress_admin_customfeeds_columns();
 		$hidden = array();
 		if( $feed_slug == 'podcast' )
-			$feed_title = __('Podcast Feed');
+			$feed_title = __('Podcast');
 		$feed_title = wp_specialchars($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
@@ -141,6 +141,10 @@ function powerpress_admin_customfeeds()
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					if( !isset($General['custom_feeds'][ $feed_slug ]) )
+					{
+						unset($actions['delete']);
+					}
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';
@@ -181,6 +185,10 @@ function powerpress_admin_customfeeds()
 ?>
 	</tbody>
 </table>
+<?php if( !isset($General['custom_feeds'][ $feed_slug ]) ) { ?>
+<p><?php echo sprintf( __('Note: The default channel "Podcast" is currently using global PowerPress settings. Click %s to customize the default "Podcast" channel.'), 
+	'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=podcast') .'">'. __('Edit') .'</a>'); ?></p>
+<?php } ?>
 </div> <!-- col-right -->
 
 <div id="col-left">
