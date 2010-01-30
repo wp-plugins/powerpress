@@ -13,6 +13,7 @@ function powerpress_meta_box($object, $box)
 	$EnclosureLength = '';
 	$Embed = '';
 	$CoverImage = '';
+	$iTunesDuration = false;
 	$iTunesKeywords = '';
 	$iTunesSubtitle = '';
 	$iTunesSummary = '';
@@ -77,8 +78,7 @@ function powerpress_meta_box($object, $box)
 			}
 		}
 		
-		$iTunesDuration = false;
-		if( $FeedSlug == 'podcast' && !$iTunesDuration )
+		if( $FeedSlug == 'podcast' && !$iTunesDuration ) // Get the iTunes duration the old way (very old way)
 			$iTunesDuration = get_post_meta($object->ID, 'itunes:duration', true);
 			
 		if( $iTunesDuration )

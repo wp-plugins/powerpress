@@ -32,10 +32,10 @@
 <td>
 	
 	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podpress-epiosdes"); ?>"><?php echo __('Import PodPress Episodes'); ?></a></strong> </p>
-	<p><?php echo __('Import PodPress created episodes to PowerPress specific podcast feed(s).'); ?></p>
+	<p><?php echo __('Import PodPress created episodes to PowerPress.'); ?></p>
 	
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-mt-epiosdes"); ?>"><?php echo __('Import Movable Type/Blogger/Joomla/TypePad Episodes'); ?></a></strong> <?php echo __('(media linked in blog posts)'); ?></p>
-	<p><?php echo __('Import Movable Type/Blogger/Joomla/TypePad (and most other blogging systems) podcast episodes to PowerPress specific podcast feed(s).'); ?></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-mt-epiosdes"); ?>"><?php echo __('Import from other Blogging Platform'); ?></a></strong> <?php echo __('(media linked in blog posts)'); ?></p>
+	<p><?php echo __('Import from podcast episodes from blogging platforms such as Movable Type/Blogger/Joomla/TypePad (and most other blogging systems) to PowerPress.'); ?></p>
 	
 </td>
 </tr>

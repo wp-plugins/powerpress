@@ -299,7 +299,7 @@ if( !function_exists('add_action') )
 		$results = powerpress_get_mt_episodes();
 		$Settings = powerpress_get_settings('powerpress_general', false);
 		if( !isset($Settings['custom_feeds']['podcast']) )
-			$Settings['custom_feeds']['podcast'] = 'Podcast Feed (default)';
+			$Settings['custom_feeds'] = array_merge( array('podcast'=> 'Podcast Feed (default)'), $Settings['custom_feeds'] );
 			
 		if( $results )
 		{
@@ -389,6 +389,36 @@ function no_import_all()
 	}
 }
 
+function select_all(index,value)
+{
+	var NoImport = [];
+	var Inputs = document.getElementsByTagName('input');
+	for (var i = 0; i < Inputs.length; i++)
+	{
+		var Elem = Inputs[i];
+		if( Elem.type == 'radio' && Elem.value == value )
+		{
+			ElemIndex = Elem.id.substring( Elem.id.lastIndexOf('_')+1);
+			if( ElemIndex == index )
+				Elem.checked = true;
+			else if( Elem.checked && Elem.value != '' )
+				NoImport.push( Elem.id );
+		}
+	}
+	for (var i = 0; i < Inputs.length; i++)
+	{
+		var Elem = Inputs[i];
+		if( Elem.type == 'radio' && Elem.value == '' )
+		{
+			for (var j = 0; j < NoImport.length; j++)
+			{
+				if( NoImport[j] == Elem.id )
+					Elem.checked = true;
+			}
+		}
+	}
+}
+
 </script>
 <h2><?php echo __("Import Episodes"); ?></h2>
 <?php
@@ -439,6 +469,7 @@ else
 	
 	$StrandedEpisodes = 0;
 	$ImportableEpisodes = 0;
+	$MaxFileIndex = 1;
 	
 	$count = 0;
 	while( list($post_id, $import_data) = each($results	) )
@@ -532,6 +563,8 @@ else
 					$index = 1;
 					while( list($episode_index,$episode_data) = each($import_data['enclosures']) )
 					{
+						if( $index > $MaxFileIndex )
+							$MaxFileIndex = $index;
 						$Parts = parse_url($episode_data['url']);
 						$filename = substr($Parts['path'], strrpos($Parts['path'], '/')+1 );
 						if( $filename == '' )
@@ -660,7 +693,28 @@ else
 </table>
 
 <p>Importable episodes highlighted in <span style="color: #CC0000; font-weight: bold;">red</span> with asterisks *.</p>
-
+<p style="margin-bottom: 0; padding-bottom: 0;">Select Only:</p>
+<?php
+					if( $results['feeds_required'] < 1 )
+				$results['feeds_required'] = 1;
+			
+			for( $number = 0; $number < $MaxFileIndex; $number++ )
+			{
+?>
+<p style="margin: 0 0 0 40px; padding: 0;">
+ File <?php echo ($number+1); ?>:
+<?php
+				while( list($feed_slug,$feed_title) = each($Settings['custom_feeds']) )
+				{
+					echo '<a href="javascript:void()" onclick="select_all('. $number .',\''. $feed_slug .'\');return false;">'. htmlspecialchars($feed_title) .'</a> | ';
+				}
+				reset($Settings['custom_feeds']);
+?>
+<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;">No Import</a>
+</p>
+<?php
+			}
+?>
 <p>Types of media found: 
 <?php
 	$comma = false;

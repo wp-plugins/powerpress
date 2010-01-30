@@ -959,7 +959,7 @@ function powerpress_edit_post($post_ID, $post)
 				}
 
 				//Set the duration specified by the user
-				if( $Powerpress['set_duration'] == 1 ) // specify duration
+				if( $Powerpress['set_duration'] == 1 || $Powerpress['set_duration'] == 0 ) // specify duration
 				{
 					$Duration = sprintf('%02d:%02d:%02d', $Powerpress['duration_hh'], $Powerpress['duration_mm'], $Powerpress['duration_ss'] );
 				}
@@ -981,7 +981,7 @@ function powerpress_edit_post($post_ID, $post)
 							{
 								if( @$Powerpress['set_size'] == 0 )
 									$FileSize = $MediaInfo['length'];
-								if( @$Powerpress['set_duration'] == 0 )
+								if( @$Powerpress['set_duration'] == 0 && !empty($MediaInfo['duration']) )
 									$Duration = powerpress_readable_duration($MediaInfo['duration'], true);
 							}
 							else
@@ -1002,15 +1002,15 @@ function powerpress_edit_post($post_ID, $post)
 							continue;
 						}
 						else if( empty($MediaInfo['length']) )
-							{
+						{
 							$error = __('Error') ." ({$MediaURL}): ". __('Unable to obtain size of media.');
 							powerpress_add_error($error);
 							continue;
-								}
+						}
 						else
-								{
+						{
 							// Detect the duration
-							if( $Powerpress['set_duration'] == 0 && $MediaInfo['duration'] )
+							if( $Powerpress['set_duration'] == 0 && !empty($MediaInfo['duration']) )
 								$Duration = powerpress_readable_duration($MediaInfo['duration'], true); // Fix so it looks better when viewed for editing
 						
 							// Detect the file size
@@ -1028,7 +1028,7 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['hosting'] = 1;
 					
 				// iTunes duration
-				if( $Duration )
+				if( $Duration && ltrim($Duration, '0:') != '' ) // If all the zeroz and : are trimmed from the front and you're left with an empty value then don't save it.
 					$ToSerialize['duration'] = $Duration; // regular expression '/^(\d{1,2}\:)?\d{1,2}\:\d\d$/i' (examples: 1:23, 12:34, 1:23:45, 12:34:56)
 				// iTunes Subtitle
 				if( isset($Powerpress['subtitle']) && trim($Powerpress['subtitle']) != '' ) 

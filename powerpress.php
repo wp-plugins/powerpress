@@ -2268,7 +2268,8 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 				$Data['size'] = $podPressMedia[$mediaNum]['size'];
 			if( isset($PodPressSettings[$mediaNum]['duration']) )
 				$Data['duration'] = $podPressMedia[$mediaNum]['duration'];
-			
+			if( isset($PodPressSettings[$mediaNum]['previewImage']) )
+				$Data['image'] = $podPressMedia[$mediaNum]['previewImage'];
 			
 			if( strpos($Data['url'], 'http://' ) !== 0 && strpos($Data['url'], 'https://' ) !== 0 )
 			{

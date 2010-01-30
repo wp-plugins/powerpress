@@ -137,6 +137,8 @@ if( !function_exists('add_action') )
 							$ContentType = powerpress_get_contenttype( $episode_data['URI'] );
 							if( $ContentType )
 								$clean_data[ $episode_index ]['type'] = trim($ContentType);
+							if( !empty($episode_data['previewImage']) )
+								$clean_data[ $episode_index ]['image'] = $episode_data['previewImage'];
 						}
 					}
 					
@@ -240,15 +242,21 @@ if( !function_exists('add_action') )
 				{
 					$EpisodeData = $PodPressData[ $post_id ]['podpress_data'][ $podpress_index ];
 					
-					if( $EpisodeData['size'] == '' || $EpisodeData['size'] == 'UNKNOWN' ) // Get the content length
+					if( $EpisodeData['size'] == '' || !is_int($EpisodeData['size']) ) // Get the content length
 					{
 						$headers = wp_get_http_headers($EpisodeData['url']);
 						if( $headers && $headers['content-length'] )
 							$EpisodeData['size'] = (int) $headers['content-length'];
 					}
-					$EnclosureData = trim($EpisodeData['url']) . "\n" . trim($EpisodeData['size']) . "\n". trim($EpisodeData['type']);	
+					$EnclosureData = trim($EpisodeData['url']) . "\n" . trim($EpisodeData['size']) . "\n". trim($EpisodeData['type']);
+					$Serialized = array();
 					if( !empty($EpisodeData['duration']) )
-						$EnclosureData .= "\n".serialize( array('duration'=>$EpisodeData['duration']) );
+						$Serialized['duration'] = $EpisodeData['duration'];
+					if( !empty($EpisodeData['image']) )
+						$Serialized['image'] = $EpisodeData['image'];
+					
+					if( count($Serialized) > 0 )
+						$EnclosureData .= "\n".serialize($Serialized);
 					
 					if( $feed_slug == 'podcast' )
 						add_post_meta($post_id, 'enclosure', $EnclosureData, true);
@@ -311,7 +319,7 @@ if( !function_exists('add_action') )
 					$data['feed-'.$feed_slug] = 'Feed: ('.$feed_slug.')';
 			}
 		}
-		$data['exclude'] = 'No Import';
+		$data['exclude'] = '<a href="#" onclick="no_import_all();return false;">No Import</a>';
 		
 		return $data;
 	}
@@ -405,6 +413,50 @@ function check_radio_selection(obj, PostID, FileIndex)
 	}
 	
 	return true;
+}
+
+function no_import_all()
+{
+	if( !confirm('Select "No Import" option for all media files?') )
+		return;
+		
+	var Inputs = document.getElementsByTagName('input');
+	for (var i = 0; i < Inputs.length; i++)
+	{
+		var Elem = Inputs[i];
+		if( Elem.type == 'radio' && Elem.value == '' )
+			Elem.checked = true;
+	}
+}
+
+function select_all(index,value)
+{
+	var NoImport = [];
+	var Inputs = document.getElementsByTagName('input');
+	for (var i = 0; i < Inputs.length; i++)
+	{
+		var Elem = Inputs[i];
+		if( Elem.type == 'radio' && Elem.value == value )
+		{
+			ElemIndex = Elem.id.substring( Elem.id.lastIndexOf('_')+1);
+			if( ElemIndex == index )
+				Elem.checked = true;
+			else if( Elem.checked && Elem.value != '' )
+				NoImport.push( Elem.id );
+		}
+	}
+	for (var i = 0; i < Inputs.length; i++)
+	{
+		var Elem = Inputs[i];
+		if( Elem.type == 'radio' && Elem.value == '' )
+		{
+			for (var j = 0; j < NoImport.length; j++)
+			{
+				if( NoImport[j] == Elem.id )
+					Elem.checked = true;
+			}
+		}
+	}
 }
 
 </script>
@@ -670,8 +722,28 @@ function check_radio_selection(obj, PostID, FileIndex)
 	</tbody>
 </table>
 <p>Importable PodPress episodes highlighted in <span style="color: #CC0000; font-weight: bold;">red</span> with asterisks *.</p>
-		
+<p style="margin-bottom: 0; padding-bottom: 0;">Select Only:</p>
 <?php
+			if( $results['feeds_required'] < 1 )
+				$results['feeds_required'] = 1;
+			
+			for( $number = 0; $number < $results['feeds_required']; $number++ )
+			{
+?>
+<p style="margin: 0 0 0 40px; padding: 0;">
+ File <?php echo ($number+1); ?>:
+<?php
+				while( list($feed_slug,$feed_title) = each($Settings['custom_feeds']) )
+				{
+					echo '<a href="javascript:void()" onclick="select_all('. $number .',\''. $feed_slug .'\');return false;">'. htmlspecialchars($feed_title) .'</a> | ';
+				}
+?>
+<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;">No Import</a>
+</p>
+<?php
+				break;
+			}
+
 		}
 		
 		if( $StrandedEpisodes )

@@ -143,16 +143,22 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added new 'Podcast Permalinks' option in Basic Settings so users can map example.com/podcast/ to a static page or category.
 * Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
 * Additional code added for some cases where previous PodPress data was stored serialized twice over. PowerPress now un-serializes the PodPress data twice if necessary.
-* PodPress Import screen now includes a media file extension filter.
 * Added option to Disable Media Player for known mobile devices such as iPhone, Android, Palm Pre and Blackberry phones. (Thanks Michael H!)
 * Fixed bug with play in new window only using the default player. (Thanks Álvaro!)
 * Fixed bug with AudioPlay flash player not linking to media file.
 * Fixed bug with iTunes ping results for podcast categories and channels displaying the default feed results.
+* Fixed bug with iTunes duration not displaying in edit screen after saving. (specified values are used if auto detect fails)
 * Displaying default podcast category feed title below feed title field for reference.
 * Displaying default podcast category landing page URL below Landing Page field for reference.
 * Added note in the iTunes New Feed URL setting which feed the setting is applied to.
+* Added option to allow manually setting the iTunes author name on a per episode basis.
 * Updated Flash players to support URLs with spaces by urlencoding the URL values.
 * Added better error reporting for AJAX 'Verify' button failures.
+* Relabeled Import from "Import Movable Type/Blogger/Joomla/TypePad Episodes" to "Import from other Blogging Platform".
+* PodPress Import screen now includes a media file extension filter.
+* PodPress Import now includes the m4v video cover images.
+* PodPress Import "Select Only" specific columns feature.
+* Other Blogging Platform Import "Select Only" specific columns feature.
 * PowerPress shortcode [powerpress] now documented within the Appearance Settings tab.
 * Fixed bug where WordPress 2.6 PowerPress users have a disabled WordPress dashboard caused by missing wp_add_dashboard_widget() function.
 * Diagnostics now tests that the temporary directory exists and is writable.
