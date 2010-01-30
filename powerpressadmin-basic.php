@@ -775,7 +775,6 @@ function powerpressadmin_appearance($General=false)
 		}
 	}
 
- // <input type="hidden" name="action" value="powerpress-save-appearance" />
 ?>
 
 <h3><?php echo __('Appearance Settings'); ?></h3>
@@ -796,8 +795,25 @@ while( list($value,$desc) = each($displayoptions) )
 	echo "\t<option value=\"$value\"". ($General['display_player']==$value?' selected':''). ">$desc</option>\n";
 
 ?>
-</select> (<?php echo __('where player and/or links will be displayed'); ?>)
-<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if($General['display_player_excerpt']) echo 'checked '; ?>/> <?php echo __('Display player / links in:'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts'); ?>" target="_blank"><?php echo __('WordPress Excerpts'); ?></a>  (<?php echo __('e.g. search results'); ?>)</p>
+</select> (<?php echo __('where media player and download links will be displayed'); ?>)
+<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts'); ?>" target="_blank"><?php echo __('WordPress Excerpts'); ?></a>  (<?php echo __('e.g. search results'); ?>)</p>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __('PowerPress Shortcode'); ?></th>
+<td>
+<p>
+<?php echo sprintf(__('The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your Post or Page.'), '<code>[powerpress]</code>'); ?> 
+<?php echo __('Simply insert the code on a new line in your content like this:'); ?>
+</p>
+<div style="margin-left: 30px;">
+	<code>[powerpress]</code>
+</div>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.'), '<a href="http://help.blubrry.com/blubrry-powerpress/shortcode/" target="_blank">'. __('PowerPress Shortcode') .'</a>' ); ?>
+</p>
 </td>
 </tr>
 
@@ -813,6 +829,8 @@ while( list($value,$desc) = each($playeroptions) )
 
 ?>
 </select>
+(<?php echo __('select where to display media flash player or embed code'); ?>)
+<p><input type="checkbox" name="General[display_player_disable_mobile]" value="1" <?php if( !empty($General['display_player_disable_mobile']) ) echo 'checked '; ?>/> <?php echo __('Disable Media Player for known mobile devices.'); ?></p>
 </td>
 </tr>
 </table>

@@ -144,9 +144,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * Renamed jquery.cookie.js to jquery.c.js to prevent Apache mod_security from detecting as a possible threat.
 * Additional code added for some cases where previous PodPress data was stored serialized twice over. PowerPress now un-serializes the PodPress data twice if necessary.
 * PodPress Import screen now includes a media file extension filter.
+* Added option to Disable Media Player for known mobile devices such as iPhone, Android, Palm Pre and Blackberry phones. (Thanks Michael H!)
+* Fixed bug with play in new window only using the default player. (Thanks Álvaro!)
 * Fixed bug with AudioPlay flash player not linking to media file.
 * Updated Flash players to support URLs with spaces by urlencoding the URL values.
 * Added better error reporting for AJAX 'Verify' button failures.
+* PowerPress shortcode [powerpress] now documented within the Appearance Settings tab.
 * Fixed bug where WordPress 2.6 PowerPress users have a disabled WordPress dashboard caused by missing wp_add_dashboard_widget() function.
 * Diagnostics now tests that the temporary directory exists and is writable.
 * Diagnostics Email results are now printed in the page after sending.

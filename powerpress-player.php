@@ -18,6 +18,9 @@ function powerpressplayer_get_root_url()
 function powerpressplayer_filter($content, $media_url, $ExtraData = array())
 {
 	$Settings = get_option('powerpress_general');
+	if( !empty($Settings['display_player_disable_mobile']) && powerpress_is_mobile_client() )
+		return $content; // lets not add a player for this situation
+	
 	// Check if we are using a custom flash player...
 	if( !isset($Settings['player']) || $Settings['player'] == 'default' ) // Either the default player is selected or the user never selected a player
 		return $content;

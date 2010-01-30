@@ -71,6 +71,10 @@ if( !defined('POWERPRESS_PLAY_IMAGE') )
 	define('POWERPRESS_PLAY_IMAGE', 'play_video_default.jpg');
 if( !defined('PHP_EOL') )
 	define('PHP_EOL', "\n"); // We need this variable defined for new lines.
+
+// Set regular expression values for determining mobile devices
+if( !defined('POWERPRESS_MOBILE_REGEX') )
+	define('POWERPRESS_MOBILE_REGEX', 'iphone|ipod|aspen|android|blackberry|opera mini|webos|incognito|webmate');
 	
 $powerpress_feed = NULL; // DO NOT CHANGE
 
@@ -931,11 +935,11 @@ function powerpress_init()
 {
 	$GeneralSettings = get_option('powerpress_general');
 	
-	if( isset($_GET['powerpress_pinw']) )
-		powerpress_do_pinw($_GET['powerpress_pinw'], !empty($GeneralSettings['process_podpress']) );
-	
 	if( !empty($GeneralSettings['player_options']) )
 		require_once( dirname(__FILE__).'/powerpress-player.php');
+		
+	if( isset($_GET['powerpress_pinw']) )
+		powerpress_do_pinw($_GET['powerpress_pinw'], !empty($GeneralSettings['process_podpress']) );
 	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return false; // Another podcasting plugin is enabled...
@@ -1290,6 +1294,9 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 	
 	// Based on $ExtraData, we can determine which type of player to handle here...
 	$Settings = get_option('powerpress_general');
+	if( !empty($Settings['display_player_disable_mobile']) && powerpress_is_mobile_client() )
+		return $content; // lets not add a player for this situation
+	
 	if( !isset($Settings['player_function']) )
 		$Settings['player_function'] = 1;
 	$player_width = 320;
@@ -2387,6 +2394,11 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL;
 	
 	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('home') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
+}
+
+function powerpress_is_mobile_client()
+{
+	return preg_match('/'.POWERPRESS_MOBILE_REGEX.'/i', $_SERVER['HTTP_USER_AGENT']);
 }
 /*
 End Helper Functions

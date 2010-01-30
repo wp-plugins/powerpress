@@ -218,16 +218,13 @@ function powerpress_admin_init()
 		// Update the settings in the database:
 		if( $General )
 		{
-			if( $_POST['action'] == 'powerpress-save-appearance' )
-			{
-				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
-					$General['display_player_excerpt'] = 0; // Set it to zero.
-			}
-			
 			if( $_POST['action'] == 'powerpress-save-settings' )
 			{
 				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
 					$General['display_player_excerpt'] = 0; // Set it to zero.
+				
+				if( !isset($General['display_player_disable_mobile']) )
+					$General['display_player_disable_mobile'] = 0;
 				
 				$General['disable_dashboard_widget'] = 0;
 				if( !isset($_POST['StatsInDashboard'] ) )
@@ -356,15 +353,8 @@ function powerpress_admin_init()
 			case 'powerpress-save-settings': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.') );
 			}; break;
-			case 'powerpress-save-appearance': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Appearance settings saved.') );
-			}; break;
 			case 'powerpress-save-customfeed': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.') );
-			}; break;
-			
-			case 'powerpress-save-feedsettings': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Feed settings saved.') );
 			}; break;
 			case 'powerpress-save-categoryfeedsettings': {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.') );
@@ -382,7 +372,6 @@ function powerpress_admin_init()
 				else
 					powerpress_page_message_add_notice( __('You are now in Simple Mode.') );
 			}; break;
-			case 'powerpress-save-basic':
 			default: {
 				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.') );
 			}; break;
@@ -2481,6 +2470,9 @@ function powerpress_default_settings($Settings, $Section='basic')
 				$Settings['podcast_link'] = 1;
 			if( !isset($Settings['display_player_excerpt']) )
 					$Settings['display_player_excerpt'] = 0;
+			if( !isset($Settings['display_player_disable_mobile']) )
+					$Settings['display_player_disable_mobile'] = 0;
+			
 			// Play in page obsolete, switching here:
 			if( $Settings['player_function'] == 5 )
 				$Settings['player_function'] = 1;
