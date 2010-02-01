@@ -138,6 +138,9 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+= 2.0 =
+* Released on X/Y/2010
+* Fixed warning message from appearing in other Blogging System import screen.
 
 = 1.0.5 =
 * Released on 1/30/2010

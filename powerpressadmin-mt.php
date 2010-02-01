@@ -298,8 +298,10 @@ if( !function_exists('add_action') )
 	{
 		$results = powerpress_get_mt_episodes();
 		$Settings = powerpress_get_settings('powerpress_general', false);
-		if( !isset($Settings['custom_feeds']['podcast']) )
+		if( !isset($Settings['custom_feeds']['podcast']) && !empty($Settings['custom_feeds']) )
 			$Settings['custom_feeds'] = array_merge( array('podcast'=> 'Podcast Feed (default)'), $Settings['custom_feeds'] );
+		else if( empty($Settings['custom_feeds']) )
+			$Settings['custom_feeds'] = array('podcast'=> 'Podcast Feed (default)');
 			
 		if( $results )
 		{
