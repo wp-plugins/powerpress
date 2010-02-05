@@ -141,6 +141,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 2.0 =
 * Released on X/Y/2010
 * Fixed warning message from appearing in other Blogging System import screen.
+* Fixed bug where media links were always being displayed when using the powerpress shortcode.
 
 = 1.0.5 =
 * Released on 1/30/2010

@@ -1533,7 +1533,8 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			}
 			
 			$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed, 'image'=>$image, 'type'=>$EpisodeData['type']) );
-			$return .= powerpress_get_player_links($post->ID, $feed, $EpisodeData );
+			if( !isset($EpisodeData['no_links']) )
+				$return .= powerpress_get_player_links($post->ID, $feed, $EpisodeData );
 		}
 	}
 	else
@@ -1570,6 +1571,9 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			if( !isset($EpisodeData['no_player']) )
 			{
 				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image_current, 'type'=>$EpisodeData['type']) );
+			}
+			if( !isset($EpisodeData['no_links']) )
+			{
 				$return .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData );
 			}
 		}
