@@ -117,6 +117,8 @@ You can insert the media player within yoru blog posts by using the WordPress sh
  = Why can't you upload large media files? =
  File uploads are tricky to handle because there are so many web hosting variations with different upload size limits. We recommend using an FTP application to upload large media files. FTP is much more efficient than web based uploads and is typically provided by nearly all web hosting providers.
 
+ = Will you be upgrading the version of Flow Player to 3.x? =
+ Because of the feature restrictions and branding that FlowPlayer.org places on FlowPlayer 3.x versions, we do not plan on updating the player packaged with PowerPress. The **PAID open-source** FlowPlayer is not compatible with the **FREE open source** PowerPress plugin.
 
 == Installation ==
 To install Blubrry PowerPress manually, follow these steps:
@@ -142,6 +144,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on X/Y/2010
 * Fixed warning message from appearing in other Blogging System import screen.
 * Fixed bug where media links were always being displayed when using the powerpress shortcode.
+* Added note why we do not plan on upgrading the FlowPlayer in PowerPress plugin.
 
 = 1.0.5 =
 * Released on 1/30/2010
