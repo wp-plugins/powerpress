@@ -51,7 +51,7 @@ if( !defined('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT') )
 if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
 	define('POWERPRESS_DOWNLOAD_TEXT', __('Download', 'powerpress') );	
 if( !defined('POWERPRESS_PLAY_TEXT') )
-	define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );	
+	define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );
 
 if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
@@ -67,6 +67,8 @@ if( !defined('POWERPRESS_CONTENT_ACTION_PRIORITY') )
 // Define variables, advanced users could define these in their own wp-config.php so lets not try to re-define
 if( !defined('POWERPRESS_LINK_SEPARATOR') )
 	define('POWERPRESS_LINK_SEPARATOR', '|');
+if( !defined('POWERPRESS_TEXT_SEPARATOR') )
+	define('POWERPRESS_TEXT_SEPARATOR', ':');
 if( !defined('POWERPRESS_PLAY_IMAGE') )
 	define('POWERPRESS_PLAY_IMAGE', 'play_video_default.jpg');
 if( !defined('PHP_EOL') )
@@ -2360,12 +2362,17 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 		if( $parts && isset($parts['extension']) )
 			$extension  = strtolower($parts['extension']);
 		
+		$prefix = '';
 		if( $is_pdf )
-			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. __('E-Book PDF', 'powerpress') . ( $feed_slug=='pdf'||$feed_slug=='podcast'?'':" ($feed_slug)") .': '. $player_links . '</p>'.PHP_EOL;
+			$prefix .= __('E-Book PDF', 'powerpress') . ( $feed_slug=='pdf'||$feed_slug=='podcast'?'':" ($feed_slug)") .POWERPRESS_TEXT_SEPARATOR;
 		else if( $feed_slug != 'podcast' )
-			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .' ('. htmlspecialchars($feed_slug) .'): '. $player_links . '</p>'.PHP_EOL;
+			$prefix .= htmlspecialchars(POWERPRESS_LINKS_TEXT) .' ('. htmlspecialchars($feed_slug) .')'. POWERPRESS_TEXT_SEPARATOR;
 		else
-			return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars(POWERPRESS_LINKS_TEXT) .': '. $player_links . '</p>'.PHP_EOL;
+			$prefix .= htmlspecialchars(POWERPRESS_LINKS_TEXT) . POWERPRESS_TEXT_SEPARATOR;
+		if( !empty($prefix) )
+			$prefix .= ' ';
+		
+		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $prefix . $player_links . '</p>'.PHP_EOL;
 	}
 	return '';
 }

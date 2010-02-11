@@ -145,6 +145,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed warning message from appearing in other Blogging System import screen.
 * Fixed bug where media links were always being displayed when using the powerpress shortcode.
 * Added note why we do not plan on upgrading the FlowPlayer in PowerPress plugin.
+* Added new define `POWERPRESS_TEXT_SEPARATOR` so users can replace the : character with what ever they want in their wp-config.php.
 
 = 1.0.5 =
 * Released on 1/30/2010
