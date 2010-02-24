@@ -242,7 +242,7 @@ if( !function_exists('add_action') )
 				{
 					$EpisodeData = $PodPressData[ $post_id ]['podpress_data'][ $podpress_index ];
 					
-					if( $EpisodeData['size'] == '' || !is_int($EpisodeData['size']) ) // Get the content length
+					if( $EpisodeData['size'] == '' || !is_numeric($EpisodeData['size']) ) // Get the content length
 					{
 						$headers = wp_get_http_headers($EpisodeData['url']);
 						if( $headers && $headers['content-length'] )
