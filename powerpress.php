@@ -1036,7 +1036,7 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
 				else
 					$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-				$powerpress_feed['enhance_itunes_summary'] = @$Feed['enhance_itunes_summary'];
+				$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
 				$powerpress_feed['posts_per_rss'] = false;
 				if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 					$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
@@ -1075,11 +1075,7 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
 				else
 					$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-				$powerpress_feed['enhance_itunes_summary'] = 1;
-				if( version_compare( '5', phpversion(), '>=' ) )
-					$powerpress_feed['enhance_itunes_summary'] = 0;
-				else if( !empty($Feed['enhance_itunes_summary']) )
-					$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+				$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
 				$powerpress_feed['posts_per_rss'] = false;
 				if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 					$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
@@ -1134,10 +1130,8 @@ function powerpress_load_general_feed_settings()
 						$powerpress_feed['itunes_talent_name'] = $FeedSettingsBasic['itunes_talent_name'];
 					else
 						$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-					$powerpress_feed['enhance_itunes_summary'] = 1;
-					if( version_compare( '5', phpversion(), '>=' ) )
-						$powerpress_feed['enhance_itunes_summary'] = 0;
-					else if( !empty($FeedSettingsBasic['enhance_itunes_summary']) )
+					$powerpress_feed['enhance_itunes_summary'] = (version_compare( '5', phpversion(), '>=' )?0 : 1);
+					if( isset($FeedSettingsBasic['enhance_itunes_summary']) )
 						$powerpress_feed['enhance_itunes_summary'] = $FeedSettingsBasic['enhance_itunes_summary'];
 					$powerpress_feed['posts_per_rss'] = false;
 					if( !empty($FeedSettingsBasic['posts_per_rss']) && is_numeric($FeedSettingsBasic['posts_per_rss']) && $FeedSettingsBasic['posts_per_rss'] > 0 )
@@ -1801,12 +1795,6 @@ function powerpress_itunes_summary($html)
 			), 
 				$html);
 	
-	// Third, convert <ul><li> to <li>* 
-	// TODO:
-	
-	// Last, and the hardest, convert <ol><li> to numbers, this will be the hardest
-	// TODO:
-	
 	// For now make them bullet points...
 	$html = str_replace('<li>', '<li>* ', $html);
 	
@@ -1814,8 +1802,9 @@ function powerpress_itunes_summary($html)
 	$html = strip_shortcodes( $html ); 
 	$html = str_replace(']]>', ']]&gt;', $html);
 	$content_no_html = strip_tags($html);
-
-	return powerpress_format_itunes_value($content_no_html, 'summary');
+	$content_no_html = powerpress_format_itunes_value($content_no_html, 'summary');
+	$content_no_html = preg_replace('/(\(http:\/\/[^\)\s]*)$/i', '', $content_no_html);
+	return $content_no_html;
 }
 
 function powerpress_itunes_categories($PrefixSubCategories = false)
@@ -2099,6 +2088,10 @@ function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings
 	unset($FeedSettings['itunes_new_feed_url']);
 	unset($FeedSettings['apply_to']);
 	unset($FeedSettings['feed_redirect_url']);
+	
+	// If the setting is not already set, set the enhnaced itunes setting if they have PHP5+ on by default
+	if( !isset($FeedSettings['enhance_itunes_summary']) )
+		$FeedSettings['enhance_itunes_summary'] = ( version_compare( '5', phpversion(), '>=' )?0:1);
  
 	if( !$CustomFeedSettings )
 		return $FeedSettings; // If the $CustomFeedSettings is false

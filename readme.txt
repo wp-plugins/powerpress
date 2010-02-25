@@ -141,12 +141,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
 = 1.0.6 =
-* Released on 2/24/2010
+* Released on 2/25/2010
 * Fixed warning message from appearing in other Blogging System import screen.
 * Fixed bug where media links were always being displayed when using the powerpress shortcode.
 * Added note why we do not plan on upgrading the FlowPlayer in PowerPress plugin.
 * Added new define `POWERPRESS_TEXT_SEPARATOR` so users can replace the : character with what ever they want in their wp-config.php.
-* Fixed bug where post per feed/item settings were not getting set, now using `is_numeric` instead of `is_int`(Thanks Darcy!)
+* Fixed bug with iTunes Enhanced Summary setting not applying correctly to podcast channel feeds (Thanks Kimberly for helping us with this issue!)
+* Added extra logic to the iTunes Enhanced Summary to remove incomplete URLs from the end of the summary. (Thanks Kimbery for bringing to our attention!)
+* Fixed bug where post per feed/item settings were not getting set, now using `is_numeric` instead of `is_int`(Thanks Darcy for bug fix!)
 
 
 = 1.0.5 =
