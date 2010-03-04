@@ -373,7 +373,11 @@ function DeleteMedia(File)
 				}
 				else
 				{
-					$Error = 'Authentication failed.';
+					global $g_powerpress_remote_error;
+					if( !empty($g_powerpress_remote_error) )
+						$Error = __('Error:', 'powerpress') .' '.$g_powerpress_remote_error;
+					else
+						$Error = __('Authentication failed.', 'powerpress');
 				}
 			}
 			

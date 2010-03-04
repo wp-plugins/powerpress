@@ -256,6 +256,11 @@
 		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:') .' '. POWERPRESS_VERSION ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal'): ($SettingsGeneral['episode_box_mode']==1?__('simple'):__('advanced')) ) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:') .' '. ($SettingsGeneral['use_caps']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:') .' '. ($SettingsGeneral['feed_caps']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:') .' '. ($SettingsGeneral['cat_casting']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcast Channels:') .' '. ($SettingsGeneral['channels']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Additional Player Options:') .' '. ($SettingsGeneral['player_options']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
 		
 		// Detecting Media Information
 		$message .= "<br />\n";

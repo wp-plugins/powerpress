@@ -1876,7 +1876,7 @@ function powerpress_ping_itunes_log($Data, $post_id = 0)
 	}
 }
 
-function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 10, $custom_request = false )
+function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 15, $custom_request = false )
 {
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
@@ -1931,10 +1931,12 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		
 		$content = curl_exec($curl);
 		$error = curl_errno($curl);
+		$error_msg = curl_error($curl);
 		curl_close($curl);
 		if( $error )
 		{
 			global $g_powerpress_remote_error;
+			$g_powerpress_remote_error = $error_msg;
 			return false;
 		}
 		return $content;
@@ -1946,33 +1948,32 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		$options = array();
 		$options['timeout'] = $timeout;
 		$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
-		if( $basicauth )
-			$options['headers'][] = 'Authorization: Basic '.$basic_auth;
+		if( $basic_auth )
+			$options['headers']['Authorization'] = 'Basic '.$basic_auth;
+		
 		if( count($post_args) > 0 )
 		{
 			$options['body'] = $post_args;
-			$response = wp_remote_post( $uri, $options );
+			$response = wp_remote_post( $url, $options );
 		}
 		else
 		{
-			$response = wp_remote_get( $uri, $options );
+			$response = wp_remote_get( $url, $options );
 		}
 		
 		if ( is_wp_error( $response ) )
+		{
+			global $g_powerpress_remote_error;
+			$g_powerpress_remote_error = $response->get_error_message();
 			return false;
+		}
 
 		return $response['body'];
 	}
 	
-	// No sense going any further, we're not allowed to open remote URLs on this server
-	if( !ini_get( 'allow_url_fopen' ) )
-		return false;
-
-	if( count($post_args) > 0 )
+	// Try the fopen way:
+	if( count($post_args) > 0 && ini_get( 'allow_url_fopen' ) && function_exists('fsockopen') )
 	{
-		if( !function_exists('fsockopen') )
-			return false; // This was our last attempt, we failed...
-			
 		$post_query = '';
 		while( list($name,$value) = each($post_args) )
 		{
@@ -1988,7 +1989,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		if( isset($url_parts['port']) )
 			$port = $url_parts['port'];
 
-		$http_request  = "POST /updated-batch/ HTTP/1.0\r\n";
+		$http_request  = "POST {$url_parts['path']} HTTP/1.0\r\n";
 		$http_request .= "Host: $host\r\n";
 		if( $basic_auth )
 			$http_request .= 'Authorization: Basic '. $basic_auth ."\r\n";
@@ -2011,9 +2012,21 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		$response = explode("\r\n\r\n", $response, 2);
 		if( count($response) > 1 )
 			return $response[1];
+			
+		global $g_powerpress_remote_error;
+		$g_powerpress_remote_error = __('Unable to parse response from server.', 'powerpress');
 		return false;
 	}
 	
+	// If we made it this far then we got a different problem.
+	if( count($post_args) > 0 )
+	{
+		global $g_powerpress_remote_error;
+		$g_powerpress_remote_error = __('Your version of WordPress is too outdated for this function.', 'powerpress');
+		return false;
+	}
+	
+	// Last ditch attempt using Pre WP2.7 helper function
 	if( $basic_auth )
 	{
 		$UserPassDecoded = base64_decode($basic_auth);

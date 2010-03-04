@@ -149,6 +149,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with iTunes Enhanced Summary setting not applying correctly to podcast channel feeds (Thanks Kimberly for helping us with this issue!)
 * Added extra logic to the iTunes Enhanced Summary to remove incomplete URLs from the end of the summary. (Thanks Kimbery for bringing to our attention!)
 * Fixed bug where post per feed/item settings were not getting set, now using `is_numeric` instead of `is_int`(Thanks Darcy for bug fix!)
+* Added additional information in the Diagnostics email message.
+* Fixed remote HTTP logic for non-CURL configured servers (Thanks Andy for your assistance!)
 
 
 = 1.0.5 =
