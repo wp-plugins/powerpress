@@ -289,6 +289,7 @@ function powerpress_admin_init()
 					{
 						// Lets try to cache the image onto Blubrry's Server...
 						$api_url = sprintf('%s/media/%s/coverart.json?url=%s', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $GeneralSettingsTemp['blubrry_program_keyword'], urlencode($TagValues['tag_coverart']) );
+						$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 						$json_data = powerpress_remote_fopen($api_url, $GeneralSettingsTemp['blubrry_auth']);
 						$results =  powerpress_json_decode($json_data);
 							
@@ -2108,6 +2109,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 					// Extend the max execution time here
 					set_time_limit(60*20); // give it 20 minutes just in case
 					$api_url = sprintf('%s/media/%s/%s?format=json&publish=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($EnclosureURL)  );
+					$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 					$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], array(), 60*30); // give this up to 30 minutes, though 3 seocnds to 20 seconds is all one should need.
 					$results =  powerpress_json_decode($json_data);
 					
@@ -2534,6 +2536,7 @@ function powerpress_write_tags($file, $post_title)
 							
 	// Get meta info via API
 	$api_url = sprintf('%s/media/%s/%s?format=json&id3=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($file) );
+	$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 	
 	$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], $PostArgs );
 	if( $content )
@@ -2551,6 +2554,7 @@ function powerpress_get_media_info($file)
 	$Settings = get_option('powerpress_general');
 	
 	$api_url = sprintf('%s/media/%s/%s?format=json&info=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), urlencode($Settings['blubrry_program_keyword']), urlencode($file) );
+	$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 	$content = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
 	if( $content )
 	{

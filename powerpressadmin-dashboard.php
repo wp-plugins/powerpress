@@ -82,6 +82,7 @@ function powerpress_dashboard_stats_content()
 		else
 		{
 			$api_url = sprintf('%s/stats/%s/summary.html?nobody=1', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Keyword);
+			$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 
 			$content = powerpress_remote_fopen($api_url, $UserPass);
 			if( $content )

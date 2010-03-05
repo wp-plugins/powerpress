@@ -150,6 +150,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 			if( $DeleteFile )
 			{
 				$api_url = sprintf('%s/media/%s/%s?format=json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'], $DeleteFile );
+				$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth'], array(), 10, 'DELETE');
 				$results =  powerpress_json_decode($json_data);
 				
@@ -162,6 +163,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 			}
 
 			$api_url = sprintf('%s/media/%s/index.json?quota=true&published=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
+			$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 			$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
 			$results =  powerpress_json_decode($json_data);
 				
@@ -314,6 +316,7 @@ function DeleteMedia(File)
 					$api_url = sprintf('%s/stats/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
 				else
 					$api_url = sprintf('%s/media/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
+				$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
 				$json_data = powerpress_remote_fopen($api_url, $auth);
 				if( $json_data )
 				{
@@ -513,6 +516,7 @@ while( list($value,$desc) = each($Programs) )
 			if( $Error == false )
 			{
 				$api_url = sprintf('%s/media/%s/upload_session.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
+				$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
 				$json_data = powerpress_remote_fopen($api_url, $Settings['blubrry_auth']);
 				
 				$results =  powerpress_json_decode($json_data);
