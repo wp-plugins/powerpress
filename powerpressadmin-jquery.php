@@ -8,6 +8,9 @@
 	
 function powerpress_add_blubrry_redirect($program_keyword)
 {
+	if( !strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry.com' ) )
+		return;
+	
 	$Settings = powerpress_get_settings('powerpress_general');
 	$RedirectURL = 'http://media.blubrry.com/'.$program_keyword;
 	$NewSettings = array();
