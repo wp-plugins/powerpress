@@ -60,7 +60,7 @@ function powerpress_admin_init()
 	//wp_enqueue_script('jquery-ui-selectable');
 	//wp_enqueue_script('jquery-ui-sortable');
 	
-	wp_enqueue_script( 'powerpress',  powerpress_get_root_url().'3rdparty/jquery.c.js', array('jquery' ) );
+	//wp_enqueue_script( 'powerpress',  powerpress_get_root_url().'3rdparty/jquery.c.js', array('jquery' ) );
 	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
@@ -1188,7 +1188,8 @@ function powerpress_new_feed_url_prompt() {
 }
 
 jQuery(document).ready(function($) {
-	jQuery("#powerpress_settings_page").tabs({ cookie: { expires: 30 } });
+	//jQuery("#powerpress_settings_page").tabs({ cookie: { expires: 30 } });
+	jQuery("#powerpress_settings_page").tabs();
 });
 	
 </script>
