@@ -48,20 +48,8 @@ function powerpress_admin_init()
 	
 	add_thickbox(); // we use the thckbox for some settings
 	wp_enqueue_script('jquery');
-	//wp_enqueue_script('jquery-ui-resizable');
 	wp_enqueue_script('jquery-ui-core');
 	wp_enqueue_script('jquery-ui-tabs');
-	//wp_enqueue_script('jquery-ui-selectable');
-	//wp_enqueue_script('interface');
-	
-	//wp_enqueue_script('jquery-ui-resizable');
-	//wp_enqueue_script('jquery-ui-draggable');
-	//wp_enqueue_script('jquery-ui-droppable');
-	//wp_enqueue_script('jquery-ui-selectable');
-	//wp_enqueue_script('jquery-ui-sortable');
-	
-	//wp_enqueue_script( 'powerpress',  powerpress_get_root_url().'3rdparty/jquery.c.js', array('jquery' ) );
-	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
 		powerpress_admin_jquery_init();
@@ -1188,7 +1176,6 @@ function powerpress_new_feed_url_prompt() {
 }
 
 jQuery(document).ready(function($) {
-	//jQuery("#powerpress_settings_page").tabs({ cookie: { expires: 30 } });
 	jQuery("#powerpress_settings_page").tabs();
 });
 	
