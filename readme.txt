@@ -143,6 +143,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 1.0.7 =
 * Released on 3/?/2010
 * Removed code to maintain currently selected tab due to conflict with mod_security. (Thanks Glark and matt1027 for your assistance with this issue!)
+* Fixed ampersand (&) to &amp; in podcast channel descriptions (Thanks David for bringing to our attention!)
 
 
 = 1.0.6 =

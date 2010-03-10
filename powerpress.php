@@ -739,12 +739,12 @@ function powerpress_bloginfo_rss($content, $field = '')
 			{
 				case 'description': {
 					if( isset($Feed['description']) && $Feed['description'] != '' )
-						return $Feed['description'];
+						return convert_chars($Feed['description']);
 					else if( is_category() )
 					{
 						$category = get_category( get_query_var('cat') );
 						if( $category->description )
-							return $category->description;
+							return convert_chars($category->description);
 					}
 				}; break;
 				case 'url': {
@@ -756,7 +756,7 @@ function powerpress_bloginfo_rss($content, $field = '')
 				case 'name':
 				default: {
 					if( isset($Feed['title']) && $Feed['title'] != '' )
-						return $Feed['title'];
+						return convert_chars($Feed['title']);
 				}; break;
 			
 			}
