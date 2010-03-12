@@ -983,7 +983,11 @@ function powerpress_edit_post($post_ID, $post)
 					}
 					else
 					{
-						$MediaInfo = powerpress_get_media_info_local($MediaURL, $ContentType, 0, $Duration);
+						if( empty($Powerpress['set_duration']) )
+							$MediaInfo = powerpress_get_media_info_local($MediaURL, $ContentType, 0, '');
+						else
+							$MediaInfo = powerpress_get_media_info_local($MediaURL, $ContentType, 0, $Duration);
+						
 						if( isset($MediaInfo['error']) )
 						{
 							$error = __('Error') ." ({$MediaURL}): {$MediaInfo['error']}";
@@ -999,11 +1003,11 @@ function powerpress_edit_post($post_ID, $post)
 						else
 						{
 							// Detect the duration
-							if( $Powerpress['set_duration'] == 0 && !empty($MediaInfo['duration']) )
+							if( empty($Powerpress['set_duration']) && !empty($MediaInfo['duration']) )
 								$Duration = powerpress_readable_duration($MediaInfo['duration'], true); // Fix so it looks better when viewed for editing
 						
 							// Detect the file size
-							if( $Powerpress['set_size'] == 0 && $MediaInfo['length'] > 0 )
+							if( empty($Powerpress['set_size']) && $MediaInfo['length'] > 0 )
 								$FileSize = $MediaInfo['length'];
 						}
 					}
