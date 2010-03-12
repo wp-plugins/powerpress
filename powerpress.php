@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '1.0.6' );
+define('POWERPRESS_VERSION', '1.0.7beta' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -739,12 +739,12 @@ function powerpress_bloginfo_rss($content, $field = '')
 			{
 				case 'description': {
 					if( isset($Feed['description']) && $Feed['description'] != '' )
-						return convert_chars($Feed['description']);
+						return $Feed['description'];
 					else if( is_category() )
 					{
 						$category = get_category( get_query_var('cat') );
 						if( $category->description )
-							return convert_chars($category->description);
+							return $category->description;
 					}
 				}; break;
 				case 'url': {
@@ -756,7 +756,7 @@ function powerpress_bloginfo_rss($content, $field = '')
 				case 'name':
 				default: {
 					if( isset($Feed['title']) && $Feed['title'] != '' )
-						return convert_chars($Feed['title']);
+						return $Feed['title'];
 				}; break;
 			
 			}
