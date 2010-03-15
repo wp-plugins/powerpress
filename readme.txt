@@ -145,6 +145,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Removed code to maintain currently selected tab due to conflict with mod_security. (Thanks Glark and matt1027 for your assistance with this issue!)
 * Fixed ampersand (&) to &amp; in podcast channel descriptions (Thanks David for bringing to our attention!)
 * Fixed bug where duration would only properly set using the Verify button, now works without the Verify button (Thanks Fr. Shawn for bringing to our attention!)
+* Updated the `the_powerpress_content()` and `get_the_powerpress_content()` theme functions to work even if the 'Media Presentation' setting is set to 'None'.
 
 = 1.0.6 =
 * Released on 3/6/2010

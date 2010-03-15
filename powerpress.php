@@ -1622,7 +1622,101 @@ function the_powerpress_content()
 
 function get_the_powerpress_content()
 {
-	return powerpress_content('');
+	global $post;
+	
+	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
+		return '';
+		
+	if( function_exists('post_password_required') )
+	{
+		if( post_password_required($post) )
+			return '';
+	}
+	
+	// PowerPress settings:
+	$GeneralSettings = get_option('powerpress_general');
+	
+	if( !isset($GeneralSettings['custom_feeds']) )
+    $GeneralSettings['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
+	
+	// Re-order so the default podcast episode is the top most...
+	$Temp = $GeneralSettings['custom_feeds'];
+	$GeneralSettings['custom_feeds'] = array();
+	$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+	while( list($feed_slug, $feed_title) = each($Temp) )
+	{
+		if( $feed_slug == 'podcast' )
+			continue;
+		$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
+	}
+	
+	if( !isset($GeneralSettings['display_player']) )
+			$GeneralSettings['display_player'] = 1;
+	if( !isset($GeneralSettings['player_function']) )
+		$GeneralSettings['player_function'] = 1;
+	if( !isset($GeneralSettings['podcast_link']) )
+		$GeneralSettings['podcast_link'] = 1;
+	
+	// Figure out which players are alerady in the body of the page...
+	$ExcludePlayers = array();
+	if( isset($GeneralSettings['disable_player']) )
+		$ExcludePlayers = $GeneralSettings['disable_player']; // automatically disable the players configured
+	
+	// LOOP HERE TO DISPLAY EACH MEDIA TYPE
+	$new_content = '';
+	while( list($feed_slug,$feed_title) = each($GeneralSettings['custom_feeds']) )
+	{
+		// Get the enclosure data
+		$EpisodeData = powerpress_get_enclosure_data($post->ID, $feed_slug);
+		
+		if( !$EpisodeData && !empty($GeneralSettings['process_podpress']) && $feed_slug == 'podcast' )
+			$EpisodeData = powerpress_get_enclosure_data_podpress($post->ID);
+		
+		if( !$EpisodeData || !$EpisodeData['url'] )
+			continue;
+	
+		// Just in case, if there's no URL lets escape!
+		if( !$EpisodeData['url'] )
+			continue;
+		
+		// If the player is not already inserted in the body of the post using the shortcode...
+		//if( preg_match('/\[powerpress(.*)\]/is', $content) == 0 )
+		if( !isset($ExcludePlayers[ $feed_slug ]) ) // If the player is not in our exclude list because it's already in the post body somewhere...
+		{
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($feed_slug) )
+			{
+				$new_content .=  powerpress_premium_content_message($post->ID, $feed_slug, $EpisodeData);
+			}
+			else
+			{
+				if( $GeneralSettings['player_function'] != 3 && $GeneralSettings['player_function'] != 0 ) // Play in new window only or disabled
+				{
+					$AddDefaultPlayer = empty($EpisodeData['no_player']);
+					
+					if( $EpisodeData && !empty($EpisodeData['embed']) )
+					{
+						$new_content .=  trim($EpisodeData['embed']);
+						if( !empty($GeneralSettings['embed_replace_player']) )
+							$AddDefaultPlayer = false;
+					}
+						
+					if( $AddDefaultPlayer )
+					{
+						$image = '';
+						if( isset($EpisodeData['image']) && $EpisodeData['image'] != '' )
+							$image = $EpisodeData['image'];
+						
+						$new_content .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image, 'type'=>$EpisodeData['type']) );
+					}
+				}
+				
+				if( !isset($EpisodeData['no_links']) )
+					$new_content .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData);
+			}
+		}
+	}
+	
+	return $new_content;
 }
 
 function powerpress_do_pinw($pinw, $process_podpress)
