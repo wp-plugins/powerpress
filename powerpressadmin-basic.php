@@ -197,7 +197,6 @@ jQuery(document).ready(function($) {
 
 function powerpressadmin_edit_entry_options($General)
 {
-	$OpenSSLSupport = extension_loaded('openssl');
 	if( !isset($General['advanced_mode']) )
 		$General['advanced_mode'] = 0;
 	if( !isset($General['default_url']) )
@@ -469,6 +468,12 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 		
 	
 	$OpenSSLSupport = extension_loaded('openssl');
+	if( !$OpenSSLSupport && function_exists('curl_version') )
+	{
+		$curl_info = curl_version();
+		$OpenSSLSupport = ($curl_info['features'] & CURL_VERSION_SSL );
+	}
+		
 	if( $OpenSSLSupport == false )
 	{
 ?>
