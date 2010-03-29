@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu
 Requires at least: 2.6.0
 Tested up to: 2.9.2
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -141,7 +141,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
 = 1.0.7 =
-* Released on 3/?/2010
+* Released on 3/29/2010
+* NOTE: There is no need to update to this version unless you can benefit from the minor fixes listed below.
 * Removed code to maintain currently selected tab due to conflict with mod_security. (Thanks Glark and matt1027 for your assistance with this issue!)
 * Fixed ampersand (&) to &amp; in podcast channel descriptions (Thanks David for bringing to our attention!)
 * Fixed bug where duration would only properly set using the Verify button, now works without the Verify button (Thanks Fr. Shawn for bringing to our attention!)
