@@ -140,6 +140,11 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+= 1.0.8 =
+* Released on TBA
+* Fixed bug where ampersand characters, if present, where not being escaped properly for the itunes:new-feed-url setting. (Thanks Bryon for reporting the bug)
+
+
 = 1.0.7 =
 * Released on 3/29/2010
 * NOTE: There is no need to update to this version unless you can benefit from the minor fixes listed below.

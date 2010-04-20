@@ -355,11 +355,15 @@ function powerpress_rss2_head()
 	if( powerpress_is_custom_podcast_feed() )
 	{
 		if( !empty($Feed['itunes_new_feed_url']) )
-			echo "\t<itunes:new-feed-url>". trim($Feed['itunes_new_feed_url']) .'</itunes:new-feed-url>'.PHP_EOL;
+		{
+			$Feed['itunes_new_feed_url'] = str_replace('&amp;', '&', $Feed['itunes_new_feed_url']);
+			echo "\t<itunes:new-feed-url>". htmlspecialchars(trim($Feed['itunes_new_feed_url'])) .'</itunes:new-feed-url>'.PHP_EOL;
+		}
 	}
 	else if( !empty($Feed['itunes_new_feed_url']) && ($feed_slug == 'feed' || $feed_slug == 'rss2') ) // If it is the default feed (We don't wnat to apply this to category or tag feeds
 	{
-		echo "\t<itunes:new-feed-url>". $Feed['itunes_new_feed_url'] .'</itunes:new-feed-url>'.PHP_EOL;
+		$Feed['itunes_new_feed_url'] = str_replace('&amp;', '&', $Feed['itunes_new_feed_url']);
+		echo "\t<itunes:new-feed-url>". htmlspecialchars(trim($Feed['itunes_new_feed_url'])) .'</itunes:new-feed-url>'.PHP_EOL;
 	}
 	
 	if( !empty($Feed['itunes_summary']) )
