@@ -630,7 +630,7 @@ function audio_player_defaults()
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Buffering Time"); echo $PlayerSettings['buffer']; ?> 
+			<?php _e("Buffering Time"); ?> 
 		</th>
 		<td>
 			<div class="color_control">
