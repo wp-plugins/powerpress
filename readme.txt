@@ -142,12 +142,15 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 1.0.8 =
 * Released on TBA
+* NOTE: There is no need to update to this version unless you can benefit from the new options or minor fixes listed below.
 * Fixed bug where ampersand characters, if present, where not being escaped properly for the itunes:new-feed-url setting. (Thanks Bryon for reporting the bug)
+* Added option to 1 pixel out player to display **Display Remaining Time**  (thanks siri102 for suggesting this feature)
+* Added option to 1 pixel out player to set the **Buffering Time** (thanks siri102 for suggesting this feature)
+* Added better debug information for the Verify button's AJAX failures
 
 
 = 1.0.7 =
 * Released on 3/29/2010
-* NOTE: There is no need to update to this version unless you can benefit from the minor fixes listed below.
 * Removed code to maintain currently selected tab due to conflict with mod_security. (Thanks Glark and matt1027 for your assistance with this issue!)
 * Fixed ampersand (&) to &amp; in podcast channel descriptions (Thanks David for bringing to our attention!)
 * Fixed bug where duration would only properly set using the Verify button, now works without the Verify button (Thanks Fr. Shawn for bringing to our attention!)

@@ -280,9 +280,17 @@ function powerpress_activate_player(Player)
                     'pagebg' => '',
                     'rtl' => 'no',
 										'initialvolume'=>'60',
-                    'animation'=>'yes'
+                    'animation'=>'yes',
+										'remaining'=>'no',
                     );
             endif;
+						
+						if( empty($PlayerSettings['remaining']) )
+							$PlayerSettings['remaining'] = 'no'; // New default setting
+						if( !isset($PlayerSettings['buffer']) )
+							$PlayerSettings['buffer'] = ''; // New default setting	
+							
+							
                             $keys = array_keys($PlayerSettings);
                     $flashvars ='';
                 foreach ($keys as $key) {
@@ -437,6 +445,12 @@ function audio_player_defaults()
 		jQuery('#animation').val( 'yes');
 		UpdatePlayerPreview('animation',jQuery('#animation').val() );
 		
+		jQuery('#remaining').val( 'no');
+		UpdatePlayerPreview('remaining',jQuery('#remaining').val() );
+		
+		jQuery('#buffer').val( '');
+		UpdatePlayerPreview('buffer',jQuery('#buffer').val() );
+		
 		jQuery('#rtl' ).val( 'no' );
 		UpdatePlayerPreview('rtl',jQuery('#rtl').val() );
 		
@@ -528,7 +542,7 @@ function audio_player_defaults()
 			$option = array('no','yes');
 			 foreach($option as $option){
 							if($PlayerSettings['rtl'] == $option):
-									$selected = " SELECTED";
+									$selected = " selected";
 							else:
 									$selected = "";
 							endif;
@@ -583,7 +597,7 @@ function audio_player_defaults()
                                 $option = array('yes','no');
                                  foreach($option as $option){
                                         if($PlayerSettings['animation'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -592,6 +606,50 @@ function audio_player_defaults()
                                 </select>			if no, player is always open</div>
 		</td>
 	</tr>
+	
+	<tr valign="top">
+		<th scope="row">
+			<?php _e("Display Remaining Time"); ?> 
+		</th>
+		<td>
+			<div class="color_control">
+<select style="width: 50px;" id="remaining" name="Player[remaining]" class="other_field"> 
+                                <?php
+                                $options = array('yes','no');
+                                 foreach($options as $option){
+                                        if($PlayerSettings['remaining'] == $option):
+                                            $selected = " selected";
+                                        else:
+                                            $selected = "";
+                                        endif;
+                                        echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
+                                }?>
+                                </select>			if yes, shows remaining track time rather than ellapsed time (default: no)</div>
+		</td>
+	</tr>
+	
+	<tr valign="top">
+		<th scope="row">
+			<?php _e("Buffering Time"); echo $PlayerSettings['buffer']; ?> 
+		</th>
+		<td>
+			<div class="color_control">
+<select style="width: 200px;" id="buffer" name="Player[buffer]" class="other_field"> 
+                                <?php
+                                $options = array('0'=>'No buffering', ''=>'Default (5 seconds)','10'=>'10 seconds','15'=>'15 seconds','20'=>'20 seconds','30'=>'30 seconds','60'=>'60 seconds');
+                                 
+																 while( list($key,$value) = each($options) ) {
+                                        if( $PlayerSettings['buffer'] == $key )
+                                            $selected = " selected";
+                                        else
+                                            $selected = "";
+                                        
+                                        echo '<option value="'. $key .'"'. $selected .' >'. $value .'</option>';
+                                }?>
+                                </select>		buffering time in seconds</div>
+		</td>
+	</tr>
+	
 	
 </table>
 </div>
@@ -1144,7 +1202,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="showstop" name="Player[showstop]"> 
                                <?php foreach($options as $option){
                                         if($PlayerSettings['showstop'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1168,7 +1226,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="showinfo" name="Player[showinfo]"> 
                                 <?php foreach($options as $option){
                                         if($PlayerSettings['showinfo'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1199,7 +1257,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="showvolume" name="Player[showvolume]"> 
                                 <?php foreach($options as $option){
                                         if($PlayerSettings['showvolume'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1223,7 +1281,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="volume" name="Player[volume]"> 
                                 <?php foreach($volume as $volume){
                                         if($PlayerSettings['volume'] == $volume):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1270,7 +1328,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="showslider" name="Player[showslider]"> 
                                 <?php foreach($options as $option){
                                         if($PlayerSettings['showslider'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1350,7 +1408,7 @@ $content .= '</object>'.PHP_EOL;
 				<select style="width: 100px;" id="showloading" name="Player[showloading]"> 
                                 <?php foreach($autoload as $option){
                                         if($PlayerSettings['showloading'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;
@@ -1501,7 +1559,7 @@ print $content;
                                 <?php $options = array('playpause','playstop');
                                  foreach($options as $option){
                                         if($PlayerSettings['mode'] == $option):
-                                            $selected = " SELECTED";
+                                            $selected = " selected";
                                         else:
                                             $selected = "";
                                         endif;

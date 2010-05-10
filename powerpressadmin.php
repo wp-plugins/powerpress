@@ -1342,6 +1342,10 @@ function powerpress_get_media_info(FeedSlug)
 				timeout: (30 * 1000),
 				success: function(response) {
 					
+					<?php
+					if( defined('POWERPRESS_AJAX_DEBUG') )
+						echo "\t\t\t\talert(response);\n";
+					?>
 					var Parts = response.split("\n", 5);
 					var FeedSlug = Parts[0];
 					
@@ -1392,12 +1396,21 @@ function powerpress_get_media_info(FeedSlug)
 					}
 				},
 				error: function(objAJAXRequest, strError) {
-						
+					
+					var errorMsg = "HTTP " +objAJAXRequest.statusText;
+					if ( objAJAXRequest.responseText ) {
+						errorMsg += ', '+ objAJAXRequest.responseText.replace( /<.[^<>]*?>/g, '' );
+					}
+					
 					jQuery('#powerpress_check_'+FeedSlug).css("display", 'none');
 					if( strError == 'timeout' )
 						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Operation timed out.'); ?>' );
-					else
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error occurred: '); ?>'+strError );
+					else if( errorMsg )
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '; ?>'+errorMsg );
+					else if( strError != null )
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '; ?>'+strError );
+					else 
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '. __('Unknown'); ?>' );
 					jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
 				}
 			});
