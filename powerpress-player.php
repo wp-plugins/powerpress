@@ -12,7 +12,7 @@ if( !defined('PHP_EOL') )
 
 function powerpressplayer_get_root_url()
 {
-	return WP_PLUGIN_URL . '/'. basename( dirname(__FILE__) ) .'/';
+	return WP_PLUGIN_URL . '/'. basename( POWERPRESS_ABSPATH ) .'/';
 }
 
 function powerpressplayer_filter($content, $media_url, $ExtraData = array())
@@ -306,6 +306,6 @@ $content .= "</div>\n";
 add_filter('powerpress_player', 'powerpressplayer_filter', 10, 3);
 
 //if( is_admin() )
-//	require_once(dirname(__FILE__).'/powerpressadmin-player.php');
+//	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-player.php');
 
 ?>

@@ -480,7 +480,7 @@
 			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
-			require_once(dirname(__FILE__).'/getid3/getid3.php');
+			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
 			$getID3 = new getID3;
 			$FileInfo = $getID3->analyze( $LocalFile, $this->m_ContentLength );
 			if( $DeleteFile )

@@ -82,7 +82,7 @@ function powerpress_admin_page_player()
 	
 	//$Settings = get_option('powerpress_general');
 	//powerpress_admin_page_header('powerpress/powerpressadmin_player.php',  'powerpress-edit', $simple_mode );
-	require_once( dirname(__FILE__).'/powerpressadmin-player-page.php');
+	require_once( POWERPRESS_ABSPATH.'/powerpressadmin-player-page.php');
 	powerpress_admin_players();
 	//powerpress_admin_page_footer(true);
 }

@@ -80,10 +80,14 @@ if( !defined('POWERPRESS_MOBILE_REGEX') )
 	
 $powerpress_feed = NULL; // DO NOT CHANGE
 
+
+if ( !defined('POWERPRESS_ABSPATH') )
+	define('POWERPRESS_ABSPATH', dirname(__FILE__) );
+
 // Translation support loaded:
 load_plugin_textdomain('powerpress', // domain / keyword name of plugin
-		PLUGINDIR.'/'.dirname(plugin_basename(__FILE__)).'/languages', // Absolute path
-		dirname(plugin_basename(__FILE__)).'/languages' ); // relative path in plugins folder
+		POWERPRESS_ABSPATH .'/languages', // Absolute path
+		basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
 
 function powerpress_content($content)
 {
@@ -821,7 +825,7 @@ function powerpress_do_podcast_feed($for_comments=false)
 			$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
 			if( @$FeedSettings['premium'] )
 			{
-				require_once( dirname(__FILE__).'/powerpress-feed-auth.php');
+				require_once( POWERPRESS_ABSPATH.'/powerpress-feed-auth.php');
 				powerpress_feed_auth( $feed_slug );
 			}
 		}
@@ -942,7 +946,7 @@ function powerpress_init()
 	$GeneralSettings = get_option('powerpress_general');
 	
 	if( !empty($GeneralSettings['player_options']) )
-		require_once( dirname(__FILE__).'/powerpress-player.php');
+		require_once( POWERPRESS_ABSPATH.'/powerpress-player.php');
 		
 	if( isset($_GET['powerpress_pinw']) )
 		powerpress_do_pinw($_GET['powerpress_pinw'], !empty($GeneralSettings['process_podpress']) );
@@ -1269,7 +1273,7 @@ function powerpress_future_to_publish($post)
 		$Settings = get_option('powerpress_general');
 		if( isset($Settings['ping_itunes']) && $Settings['ping_itunes'] )
 		{
-			require_once(dirname(__FILE__).'/powerpressadmin.php');
+			require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 		}
 	}
 }
@@ -2010,7 +2014,7 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 
 function powerpress_get_root_url()
 {
-	$powerpress_dirname = basename( dirname(__FILE__) );
+	$powerpress_dirname = basename( POWERPRESS_ABSPATH );
 	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
@@ -2510,7 +2514,7 @@ End Helper Functions
 // Are we in the admin?
 if( is_admin() )
 {
-	require_once(dirname(__FILE__).'/powerpressadmin.php');
+	require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
 }
 

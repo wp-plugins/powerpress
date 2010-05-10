@@ -148,7 +148,7 @@ if( !function_exists('add_action') )
 		
 		if( $DetectDuration )
 		{
-			require_once(dirname(__FILE__).'/mp3info.class.php');
+			require_once(POWERPRESS_ABSPATH.'/mp3info.class.php');
 			$Mp3Info = new Mp3Info();
 		}
 		

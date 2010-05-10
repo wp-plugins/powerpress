@@ -468,7 +468,7 @@ function powerpress_admin_init()
 			case 'powerpress-ping-sites': {
 				check_admin_referer('powerpress-ping-sites');
 				
-				require_once( dirname(__FILE__) . '/powerpressadmin-ping-sites.php');
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-ping-sites.php');
 				powerpressadmin_ping_sites_process();
 				
 				$_GET['action'] = 'powerpress-ping-sites';
@@ -476,7 +476,7 @@ function powerpress_admin_init()
 			case 'powerpress-find-replace': {
 				check_admin_referer('powerpress-find-replace');
 				
-				require_once( dirname(__FILE__) . '/powerpressadmin-find-replace.php');
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-find-replace.php');
 				powerpressadmin_find_replace_process();
 				
 				$_GET['action'] = 'powerpress-find-replace';
@@ -484,7 +484,7 @@ function powerpress_admin_init()
 			case 'powerpress-importpodpress': {
 				check_admin_referer('powerpress-import-podpress');
 				
-				require_once( dirname(__FILE__) . '/powerpressadmin-podpress.php');
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
 				powerpressadmin_podpress_do_import();
 				
 				$_GET['action'] = 'powerpress-podpress-epiosdes';
@@ -492,7 +492,7 @@ function powerpress_admin_init()
 			case 'powerpress-importmt': {
 				check_admin_referer('powerpress-import-mt');
 				
-				require_once( dirname(__FILE__) . '/powerpressadmin-mt.php');
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-mt.php');
 				powerpressadmin_mt_do_import();
 				
 				$_GET['action'] = 'powerpress-mt-epiosdes';
@@ -500,7 +500,7 @@ function powerpress_admin_init()
 			case 'deletepodpressdata': {
 				check_admin_referer('powerpress-delete-podpress-data');
 				
-				require_once( dirname(__FILE__) . '/powerpressadmin-podpress.php');
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
 				powerpressadmin_podpress_delete_data();
 				
 			}; break;
@@ -728,7 +728,7 @@ function powerpress_admin_init()
 	if( @$GeneralSettings['player_options'] )
 	{
 		// Make sure we include the player-options
-		require_once( dirname(__FILE__).'/powerpressadmin-player.php');
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-player.php');
 		powerpress_admin_players_init();
 	}
 }
@@ -825,7 +825,7 @@ function powerpress_admin_menu()
 	else if( function_exists('add_meta_box') && (!@$Powerpress['use_caps'] || current_user_can('edit_podcast') ) )
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
-		require_once( dirname(__FILE__).'/powerpressadmin-metabox.php');
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
 		add_meta_box('powerpress-podcast', __('Podcast Episode'), 'powerpress_meta_box', 'page', 'normal');
 		
 		if( isset($Powerpress['custom_feeds']) )
@@ -1612,15 +1612,15 @@ function powerpress_admin_page_basic()
 	if( !isset($Settings['advanced_mode']) )
 	{
 		powerpress_admin_page_header(false,  'powerpress-edit', true);
-		require_once( dirname(__FILE__).'/powerpressadmin-mode.php');
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-mode.php');
 		powerpress_admin_mode();
 		powerpress_admin_page_footer(false);
 		return;
 	}
 	
 	powerpress_admin_page_header();
-	require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
 	powerpress_admin_basic();
 	powerpress_admin_page_footer(true);
 }
@@ -1629,7 +1629,7 @@ function powerpress_admin_page_basic()
 function powerpress_admin_page_players()
 {
 	powerpress_admin_page_header('powerpress/powerpressadmin_player.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-player.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-player.php');
 	powerpress_admin_page_player();
 	powerpress_admin_page_footer(true);
 }
@@ -1638,7 +1638,7 @@ function powerpress_admin_page_players()
 function powerpress_admin_page_podpress_stats()
 {
 	powerpress_admin_page_header('powerpress/powerpressadmin_podpress-stats.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-podpress-stats.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-podpress-stats.php');
 	powerpress_admin_podpress_stats();
 	powerpress_admin_page_footer(false);
 }
@@ -1647,7 +1647,7 @@ function powerpress_admin_page_podpress_stats()
 function powerpress_admin_page_tags()
 {
 	powerpress_admin_page_header('powerpress/powerpressadmin_tags.php');
-	require_once( dirname(__FILE__).'/powerpressadmin-tags.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-tags.php');
 	powerpress_admin_tags();
 	powerpress_admin_page_footer();
 }
@@ -1659,14 +1659,14 @@ function powerpress_admin_page_customfeeds()
 	{
 		case 'powerpress-editfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_customfeeds.php');
-			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
 			powerpress_admin_editfeed($_GET['feed_slug']);
 			powerpress_admin_page_footer();
 		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_customfeeds.php', 'powerpress-add-feed');
-			require_once( dirname(__FILE__).'/powerpressadmin-customfeeds.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-customfeeds.php');
 			powerpress_admin_customfeeds();
 			powerpress_admin_page_footer(false);
 		};
@@ -1680,14 +1680,14 @@ function powerpress_admin_page_categoryfeeds()
 	{
 		case 'powerpress-editcategoryfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php');
-			require_once( dirname(__FILE__).'/powerpressadmin-editfeed.php');
-			require_once( dirname(__FILE__).'/powerpressadmin-basic.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
 			powerpress_admin_editfeed(false, $_GET['cat']);
 			powerpress_admin_page_footer();
 		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php', 'powerpress-add-categoryfeed');
-			require_once( dirname(__FILE__).'/powerpressadmin-categoryfeeds.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-categoryfeeds.php');
 			powerpress_admin_categoryfeeds();
 			powerpress_admin_page_footer(false);
 		};
@@ -1701,37 +1701,37 @@ function powerpress_admin_page_tools()
 	{
 		case 'powerpress-podpress-epiosdes' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-import-podpress');
-			require_once( dirname(__FILE__).'/powerpressadmin-podpress.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-podpress.php');
 			powerpress_admin_podpress();
 			powerpress_admin_page_footer(false);
 		}; break;
 		case 'powerpress-mt-epiosdes': {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-import-mt');
-			require_once( dirname(__FILE__).'/powerpressadmin-mt.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-mt.php');
 			powerpress_admin_mt();
 			powerpress_admin_page_footer(false);
 		}; break;
 		case 'powerpress-ping-sites': {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-ping-sites');
-			require_once( dirname(__FILE__).'/powerpressadmin-ping-sites.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-ping-sites.php');
 			powerpress_admin_ping_sites();
 			powerpress_admin_page_footer(false);
 		}; break;
 		case 'powerpress-find-replace': {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-find-replace');
-			require_once( dirname(__FILE__).'/powerpressadmin-find-replace.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-find-replace.php');
 			powerpress_admin_find_replace();
 			powerpress_admin_page_footer(false);
 		}; break;
 		case 'powerpress-diagnostics': {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', false);
-			require_once( dirname(__FILE__).'/powerpressadmin-diagnostics.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-diagnostics.php');
 			powerpressadmin_diagnostics();
 			powerpress_admin_page_footer(false, false);
 		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', false);
-			require_once( dirname(__FILE__).'/powerpressadmin-tools.php');
+			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-tools.php');
 			powerpress_admin_tools();
 			powerpress_admin_page_footer(false, false);
 		};
@@ -2152,7 +2152,7 @@ function powerpress_json_decode($value)
 	if( function_exists('json_decode') && version_compare($wp_version, '2.8.9', '>') ) // WordPress 2.9+ json_decode function
 		$null = json_decode('{"a":1}'); // Hack, includes the class-json.php from within the wp-includes folder
 	if( !class_exists('Services_JSON') )
-		require_once( dirname(__FILE__).'/3rdparty/JSON.php');
+		require_once( POWERPRESS_ABSPATH .'/3rdparty/JSON.php');
 	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 	return $json->decode($value);
 }
@@ -2623,7 +2623,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		
 	$get_duration_info = ($content_type == 'audio/mpeg' && $duration === '');
 	// Lets use the mp3info class:
-	require_once(dirname(__FILE__).'/mp3info.class.php');
+	require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 	$Mp3Info = new Mp3Info();
 	$Mp3Data = $Mp3Info->GetMp3Info($media_file, !$get_duration_info);
 	if( $Mp3Data )
@@ -2677,7 +2677,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	if( $content_type == 'audio/mpeg' && $duration === '' ) // if duration has a value or is set to false then we don't want to try to obtain it here...
 	{
 		// Lets use the mp3info class:
-		require_once(dirname(__FILE__).'/mp3info.class.php');
+		require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 		$Mp3Info = new Mp3Info();
 		$Mp3Data = $Mp3Info->GetMp3Info($media_file);
 		if( $Mp3Data )
@@ -2749,8 +2749,8 @@ function powerpress_add_error($error)
 	
 
 
-require_once( dirname(__FILE__).'/powerpressadmin-jquery.php');
+require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.
-require_once(dirname(__FILE__).'/powerpressadmin-dashboard.php');
+require_once( POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');
 
 ?>
