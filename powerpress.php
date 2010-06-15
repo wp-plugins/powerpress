@@ -1742,7 +1742,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Blubrry PowerPress Player</title>
+	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
 <?php wp_head(); ?>
 <style type="text/css">
 body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; }
@@ -1754,7 +1754,7 @@ body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; }
 	$GeneralSettings = get_option('powerpress_general');
 	if( !$EpisodeData )
 	{
-		echo '<p>Unable to retrieve media information.</p>';
+		echo '<p>'.  __('Unable to retrieve media information.', 'powerpress') .'</p>';
 	}
 	else if( !empty($GeneralSettings['premium_caps']) && !powerpress_premium_content_authorized($feed_slug) )
 	{
