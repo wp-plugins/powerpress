@@ -56,18 +56,18 @@ function powerpress_admin_init()
 	
 	if( !current_user_can('manage_options') )
 	{
-		powerpress_page_message_add_error( __('You do not have sufficient permission to manage options.') );
+		powerpress_page_message_add_error( __('You do not have sufficient permission to manage options.', 'powerpress') );
 		return;
 	}
 
 	// Check for other podcasting plugin
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
-		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.') );
+		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.', 'powerpress') );
 	
 	global $wp_version;
 	$VersionDiff = version_compare($wp_version, 2.6);
 	if( $VersionDiff < 0 )
-		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.') );
+		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.', 'powerpress') );
 
 	
 	// Save settings here
@@ -114,7 +114,7 @@ function powerpress_admin_init()
 			}
 			else
 			{
-				powerpress_page_message_add_error( 'Invalid iTunes image ' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
+				powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
 			}
 		}
 		
@@ -140,7 +140,7 @@ function powerpress_admin_init()
 			}
 			else
 			{
-				powerpress_page_message_add_error( __('Invalid RSS image') .': '. htmlspecialchars($_FILES['rss2_image_file']['name']) );
+				powerpress_page_message_add_error( __('Invalid RSS image', 'powerpress') .': '. htmlspecialchars($_FILES['rss2_image_file']['name']) );
 			}
 		}
 		
@@ -166,7 +166,7 @@ function powerpress_admin_init()
 			}
 			else
 			{
-				powerpress_page_message_add_error( __('Invalid Coverat image') .': ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
+				powerpress_page_message_add_error( __('Invalid Coverat image', 'powerpress') .': ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
 			}
 		}
 		
@@ -287,17 +287,17 @@ function powerpress_admin_init()
 						}
 						else if( isset($results['error']) )
 						{
-							$error = __('Blubrry Hosting Error (updating coverart)') .': '. $results['error'];
+							$error = __('Blubrry Hosting Error (updating coverart)', 'powerpress') .': '. $results['error'];
 						}
 						else
 						{
-							$error = __('An error occurred updating the coverart with your Blubrry Services Account.');
+							$error = __('An error occurred updating the coverart with your Blubrry Services Account.', 'powerpress');
 						}
 						
 					}
 					else
 					{
-						powerpress_page_message_add_error( __('Coverart Image was not uploaded to your Blubrry Services Account. It will <u>NOT</u> be added to your mp3s.') );
+						powerpress_page_message_add_error( __('Coverart Image was not uploaded to your Blubrry Services Account. It will NOT be added to your mp3s.', 'powerpress') );
 					}
 				}
 			}
@@ -342,29 +342,29 @@ function powerpress_admin_init()
 		switch( $_POST['action'] )
 		{
 			case 'powerpress-save-settings': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.') );
+				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.', 'powerpress') );
 			}; break;
 			case 'powerpress-save-customfeed': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.') );
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.', 'powerpress') );
 			}; break;
 			case 'powerpress-save-categoryfeedsettings': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.') );
+				powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.', 'powerpress') );
 			}; break;
 			case 'powerpress-save-tags': {
 				$General = get_option('powerpress_general');
 				if( !@$General['blubrry_hosting'] )
-					powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.') );
+					powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
 				else
-					powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.') );
+					powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
 			}; break;
 			case 'powerpress-save-mode': {
 				if( $General['advanced_mode'] == 1 )
-					powerpress_page_message_add_notice( __('You are now in Advanced Mode.') );
+					powerpress_page_message_add_notice( __('You are now in Advanced Mode.', 'powerpress') );
 				else
-					powerpress_page_message_add_notice( __('You are now in Simple Mode.') );
+					powerpress_page_message_add_notice( __('You are now in Simple Mode.', 'powerpress') );
 			}; break;
 			default: {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.') );
+				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
 			}; break;
 		}
 		
@@ -379,7 +379,7 @@ function powerpress_admin_init()
 			
 			if( @$PingResults['success'] )
 			{
-				powerpress_page_message_add_notice( __('iTunes Ping Successful. Podcast Feed URL') .': '. $PingResults['feed_url'] );
+				powerpress_page_message_add_notice( __('iTunes Ping Successful. Podcast Feed URL', 'powerpress') .': '. $PingResults['feed_url'] );
 			}
 			else
 			{
@@ -408,11 +408,11 @@ function powerpress_admin_init()
 				} else */
 				if( $key == '' )
 				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.'), $_POST['feed_slug']) );
+					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), $_POST['feed_slug']) );
 				}
 				else if( in_array($key, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
 				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.'), $key) );
+					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), $key) );
 				}
 				else
 				{
@@ -422,7 +422,7 @@ function powerpress_admin_init()
 					add_feed($key, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
 					$wp_rewrite->flush_rules();
 					
-					powerpress_page_message_add_notice( sprintf(__('Podcast Feed "%s" added, please configure your new feed now.'), $value) );
+					powerpress_page_message_add_notice( sprintf(__('Podcast Feed "%s" added, please configure your new feed now.', 'powerpress'), $value) );
 					$_GET['action'] = 'powerpress-editfeed';
 					$_GET['feed_slug'] = $key;
 				}
@@ -446,7 +446,7 @@ function powerpress_admin_init()
 				} else */
 				if( $category == false )
 				{
-					powerpress_page_message_add_error( __('Error obtaining category information.') );
+					powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
 				}
 				else
 				{
@@ -459,7 +459,7 @@ function powerpress_admin_init()
 						powerpress_save_settings($Settings);
 					}
 				
-					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.') );
+					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
 					
 					$_GET['action'] = 'powerpress-editcategoryfeed';
 					$_GET['cat'] = $cat_ID;
@@ -507,7 +507,7 @@ function powerpress_admin_init()
 			case 'powerpress-save-mode': {
 				
 				if( !isset($_POST['General']['advanced_mode']) )
-					powerpress_page_message_add_notice( __('You must select a Mode to continue.') );
+					powerpress_page_message_add_notice( __('You must select a Mode to continue.', 'powerpress') );
 				
 			}; break;
 		}
@@ -537,7 +537,7 @@ function powerpress_admin_init()
 				$category = get_category($cat_ID);
 				if( $category == false )
 				{
-					powerpress_page_message_add_error( __('Error obtaining category information.') );
+					powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
 				}
 				else
 				{
@@ -550,7 +550,7 @@ function powerpress_admin_init()
 						powerpress_save_settings($Settings);
 					}
 				
-					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.') );
+					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
 					
 					$_GET['action'] = 'powerpress-editcategoryfeed';
 					$_GET['cat'] = $cat_ID;
@@ -565,11 +565,11 @@ function powerpress_admin_init()
 				
 				if( false && $delete_slug == 'podcast' && $force_deletion == false ) // Feature disabled, you can now delete podcast specific settings
 				{
-					powerpress_page_message_add_error( __('Cannot delete default podcast feed.') );
+					powerpress_page_message_add_error( __('Cannot delete default podcast feed.', 'powerpress') );
 				}
 				else if( $delete_slug != 'podcast' && $Episodes > 0 && $force_deletion == false )
 				{
-					powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).'), $Episodes) );
+					powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).', 'powerpress'), $Episodes) );
 				}
 				else
 				{
@@ -591,7 +591,7 @@ function powerpress_admin_init()
 					remove_action($hook, $hook, 10, 1); // This may not be necessary
 					$wp_rewrite->flush_rules(); // This is definitely necessary
 					
-					powerpress_page_message_add_notice( __('Feed deleted successfully.') );
+					powerpress_page_message_add_notice( __('Feed deleted successfully.', 'powerpress') );
 				}
 			}; break;
 			case 'powerpress-delete-category-feed': {
@@ -607,16 +607,16 @@ function powerpress_admin_init()
 				}
 				delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
 				
-				powerpress_page_message_add_notice( __('Removed podcast settings for category feed successfully.') );
+				powerpress_page_message_add_notice( __('Removed podcast settings for category feed successfully.', 'powerpress') );
 			}; break;
 			case 'powerpress-podpress-settings': {
 				check_admin_referer('powerpress-podpress-settings');
 				
 				// Import settings here..
 				if( powerpress_admin_import_podpress_settings() )
-					powerpress_page_message_add_notice( __('Podpress settings imported successfully.') );
+					powerpress_page_message_add_notice( __('Podpress settings imported successfully.', 'powerpress') );
 				else
-					powerpress_page_message_add_error( __('No Podpress settings found.') );
+					powerpress_page_message_add_error( __('No Podpress settings found.', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-podcasting-settings': {
@@ -624,9 +624,9 @@ function powerpress_admin_init()
 				
 				// Import settings here..
 				if( powerpress_admin_import_podcasting_settings() )
-					powerpress_page_message_add_notice( __('Settings imported from the plugin "Podcasting" successfully.') );
+					powerpress_page_message_add_notice( __('Settings imported from the plugin "Podcasting" successfully.', 'powerpress') );
 				else
-					powerpress_page_message_add_error( __('No settings found for the plugin "Podcasting".') );
+					powerpress_page_message_add_error( __('No settings found for the plugin "Podcasting".', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-add-caps': {
@@ -644,7 +644,7 @@ function powerpress_admin_init()
 				
 				$General = array('use_caps'=>true);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities added to WordPress Blog.') );
+				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities added to WordPress Blog.', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-remove-caps': {
@@ -661,7 +661,7 @@ function powerpress_admin_init()
 				}
 				$General = array('use_caps'=>false);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog') );
+				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-add-feed-caps': {
@@ -670,7 +670,7 @@ function powerpress_admin_init()
 				$ps_role = get_role('premium_subscriber');
 				if(!$ps_role)
 				{
-					add_role('premium_subscriber', 'Premium Subscriber', $caps);
+					add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'), $caps);
 					$ps_role = get_role('premium_subscriber');
 					$ps_role->add_cap('read');
 					$ps_role->add_cap('premium_content');
@@ -686,13 +686,13 @@ function powerpress_admin_init()
 				
 				$General = array('premium_caps'=>true);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds added successfully.') );
+				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds added successfully.', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-remove-feed-caps': {
 				check_admin_referer('powerpress-remove-feed-caps');
 				
-				$users = array('administrator','editor', 'author', 'contributor', 'subscriber', 'premium_subscriber');
+				$users = array('administrator','editor', 'author', 'contributor', 'subscriber', 'premium_subscriber', 'powerpress');
 				while( list($null,$user) = each($users) )
 				{
 					$role = get_role($user);
@@ -704,14 +704,14 @@ function powerpress_admin_init()
 				
 				$General = array('premium_caps'=>false);
 				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully.') );
+				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully.', 'powerpress') );
 				
 			}; break;
 			case 'powerpress-clear-update_plugins': {
 				check_admin_referer('powerpress-clear-update_plugins');
 				
 				delete_option('update_plugins');
-				powerpress_page_message_add_notice( __('Plugins Update Cache cleared successfully. You may now to go the <a href="'. admin_url() .'plugins.php" title="Manage Plugins">Manage Plugins</a> page to see the latest plugin versions.') );
+				powerpress_page_message_add_notice( sprintf( __('Plugins Update Cache cleared successfully. You may now to go the %s page to see the latest plugin versions.', 'powerpress'), '<a href="'. admin_url() .'plugins.php" title="'.  __('Manage Plugins', 'powerpress') .'">'.  __('Manage Plugins', 'powerpress') .'</a>') );
 				
 			}; break;
 		}
@@ -826,22 +826,22 @@ function powerpress_admin_menu()
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
-		add_meta_box('powerpress-podcast', __('Podcast Episode'), 'powerpress_meta_box', 'page', 'normal');
+		add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', 'page', 'normal');
 		
 		if( isset($Powerpress['custom_feeds']) )
 		{
-			add_meta_box('powerpress-podcast', __('Podcast Episode (default)'), 'powerpress_meta_box', 'post', 'normal');
+			add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', 'post', 'normal');
 			
 			while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )
 			{
 				if( $feed_slug == 'podcast' )
 					continue;
-				add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel') .': '.$feed_title, 'powerpress_meta_box', 'post', 'normal');
+				add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', 'post', 'normal');
 			}
 		}
 		else
 		{
-			add_meta_box('powerpress-podcast', __('Podcast Episode'), 'powerpress_meta_box', 'post', 'normal');
+			add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', 'post', 'normal');
 		}
 	}
 	
@@ -849,22 +849,22 @@ function powerpress_admin_menu()
 	{
 		$Powerpress = powerpress_default_settings($Powerpress, 'basic');
 		
-		add_menu_page(__('PowerPress'), __('PowerPress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings'), __('Settings'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
+		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			if( @$Powerpress['player_options'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options'), __('Audio Player'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			
 			if( $Powerpress['channels'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels'), __('Podcast Channels'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( $Powerpress['cat_casting'] )	
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting'), __('Category Podcasting'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 			if( @$Powerpress['podpress_stats'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats'), __('PodPress Stats'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			
 			
 			if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags'), __('MP3 Tags'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools'), __('Tools'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 	}
 }
 
@@ -942,7 +942,7 @@ function powerpress_edit_post($post_ID, $post)
 
 				if( !$ContentType )
 				{
-					$error = __('Error') ." [{$Powerpress['url']}]: " .__('Unable to determine content type of media (e.g. audio/mpeg). Verify file extension is correct and try again.');
+					$error = __('Error', 'powerpress') ." [{$Powerpress['url']}]: " .__('Unable to determine content type of media (e.g. audio/mpeg). Verify file extension is correct and try again.', 'powerpress');
 					powerpress_add_error($error);
 					continue;
 				}
@@ -975,7 +975,7 @@ function powerpress_edit_post($post_ID, $post)
 							}
 							else
 							{
-								$error = __('Error') ." ({$Powerpress['url']}): {$MediaInfo['error']}";
+								$error = __('Error', 'powerpress') ." ({$Powerpress['url']}): {$MediaInfo['error']}";
 								powerpress_add_error($error);
 								continue;
 							}
@@ -990,13 +990,13 @@ function powerpress_edit_post($post_ID, $post)
 						
 						if( isset($MediaInfo['error']) )
 						{
-							$error = __('Error') ." ({$MediaURL}): {$MediaInfo['error']}";
+							$error = __('Error', 'powerpress') ." ({$MediaURL}): {$MediaInfo['error']}";
 							powerpress_add_error($error);
 							continue;
 						}
 						else if( empty($MediaInfo['length']) )
 						{
-							$error = __('Error') ." ({$MediaURL}): ". __('Unable to obtain size of media.');
+							$error = __('Error', 'powerpress') ." ({$MediaURL}): ". __('Unable to obtain size of media.', 'powerpress');
 							powerpress_add_error($error);
 							continue;
 						}
@@ -1171,7 +1171,7 @@ function powerpress_show_field(id, show) {
 	 document.getElementById(id).style.display = (show?"block":"none");
 }
 function powerpress_new_feed_url_prompt() {
-	var Msg = '<?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.\n\nDO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.\n\nAre you sure you want to continue?'); ?>';
+	var Msg = '<?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.\n\nDO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.\n\nAre you sure you want to continue?', 'powerpress'); ?>';
 	if( confirm(Msg) ) {
 		powerpress_show_field('new_feed_url_step_1', false);
 		powerpress_show_field('new_feed_url_step_2', true);
@@ -1281,7 +1281,7 @@ function powerpress_check_url(url)
 	{
 		if( validChars.indexOf( url.charAt(x) ) == -1 )
 		{
-			jQuery( '#'+DestDiv ).text('<?php echo __('Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only.'); ?>');
+			jQuery( '#'+DestDiv ).text('<?php echo __('Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only.', 'powerpress'); ?>');
 			jQuery( '#'+DestDiv ).css('display', 'block');
 			return false;
 		}
@@ -1296,7 +1296,7 @@ function powerpress_check_url(url)
 ?>
     if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
     {
-        jQuery( '#'+DestDiv ).html('<?php echo __('PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.'); ?>');
+        jQuery( '#'+DestDiv ).html('<?php echo __('PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.', 'powerpress'); ?>');
 				jQuery( '#'+DestDiv ).css('display', 'block');
         return false;
     }
@@ -1305,7 +1305,7 @@ function powerpress_check_url(url)
 ?>
     if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
     {
-        jQuery( '#'+DestDiv ).html('<?php echo __('Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.'); ?>');
+        jQuery( '#'+DestDiv ).html('<?php echo __('Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.', 'powerpress'); ?>');
         jQuery( '#'+DestDiv ).css('display', 'block');
         return false;
     }
@@ -1380,7 +1380,7 @@ function powerpress_get_media_info(FeedSlug)
 						}
 						else
 						{
-							jQuery( '#powerpress_success_'+FeedSlug ).html( '<?php echo __('Media verified successfully.'); ?> <a href="#" onclick="jQuery( \'#powerpress_success_'+ FeedSlug +'\' ).fadeOut(1000);return false;" title="Close" class="close">X<\/a>' );
+							jQuery( '#powerpress_success_'+FeedSlug ).html( '<?php echo __('Media verified successfully.', 'powerpress'); ?> <a href="#" onclick="jQuery( \'#powerpress_success_'+ FeedSlug +'\' ).fadeOut(1000);return false;" title="Close" class="close">X<\/a>' );
 							jQuery( '#powerpress_success_'+FeedSlug ).css('display', 'block');
 							// setTimeout( function() { jQuery( '#powerpress_success_'+FeedSlug ).fadeOut(1000); }, 10000 );
 						}
@@ -1391,7 +1391,7 @@ function powerpress_get_media_info(FeedSlug)
 						if( Parts[1] )
 							jQuery( '#powerpress_warning_'+FeedSlug ).html( Parts[1] );
 						else
-							jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Unknown error occurred while checking Media URL.'); ?>' );
+							jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Unknown error occurred while checking Media URL.', 'powerpress'); ?>' );
 						jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
 					}
 				},
@@ -1404,13 +1404,13 @@ function powerpress_get_media_info(FeedSlug)
 					
 					jQuery('#powerpress_check_'+FeedSlug).css("display", 'none');
 					if( strError == 'timeout' )
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Operation timed out.'); ?>' );
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Operation timed out.', 'powerpress'); ?>' );
 					else if( errorMsg )
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '; ?>'+errorMsg );
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error', 'powerpress') .': '; ?>'+errorMsg );
 					else if( strError != null )
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '; ?>'+strError );
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error', 'powerpress') .': '; ?>'+strError );
 					else 
-						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error') .': '. __('Unknown'); ?>' );
+						jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('AJAX Error', 'powerpress') .': '. __('Unknown', 'powerpress'); ?>' );
 					jQuery( '#powerpress_warning_'+FeedSlug ).css('display', 'block');
 				}
 			});
@@ -1420,7 +1420,7 @@ function powerpress_get_media_info(FeedSlug)
 
 function powerpress_remove_hosting(FeedSlug)
 {
-	if( confirm('<?php echo __('Are you sure you want to remove this media file?'); ?>') )
+	if( confirm('<?php echo __('Are you sure you want to remove this media file?', 'powerpress'); ?>') )
 	{
 		jQuery( '#powerpress_url_'+FeedSlug ).attr("readOnly", false);
 		jQuery( '#powerpress_url_'+FeedSlug ).val('');
@@ -1490,7 +1490,7 @@ function powerpress_media_info_ajax()
 	if( $MediaInfo['error'] )
 		echo $MediaInfo['error'];
 	else
-		echo __('Unknown error occurred looking up media information.');
+		echo __('Unknown error occurred looking up media information.', 'powerpress');
 	echo "\n";
 	exit;
 }
@@ -1507,12 +1507,12 @@ function powerpress_cat_row_actions($actions, $category)
 	if( isset($General['custom_cat_feeds']) && is_array($General['custom_cat_feeds']) && in_array($category->cat_ID, $General['custom_cat_feeds']) )
 	{
 		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-editcategoryfeed&amp;cat=') . $category->cat_ID;
-		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Edit Blubrry PowerPress Podcast Settings') .'">' . str_replace(' ', '&nbsp;', __('Podcast Settings')) . '</a>';
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Edit Blubrry PowerPress Podcast Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Podcast Settings')) . '</a>';
 	}
 	else
 	{
 		$edit_link = admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-addcategoryfeed&amp;cat=".$category->cat_ID, 'powerpress-add-category-feed');
-		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Add Blubrry PowerPress Podcasting Settings') .'">' . str_replace(' ', '&nbsp;', __('Add Podcasting')) . '</a>';
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Add Blubrry PowerPress Podcasting Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Add Podcasting')) . '</a>';
 	}
 	return $actions;
 }
@@ -1547,14 +1547,14 @@ function powerpress_edit_category_form($cat)
 			$enable_link = admin_url() . wp_nonce_url('categories.php?action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
 ?>
 	<h2><?php echo __('PowerPress Category Podcasting'); ?></h2>
-	<p><a href="<?php echo $enable_link; ?>" title="<?php echo __('Enable Category Podcasting'); ?>"><?php echo __('Enable Category Podcasting'); ?></a> <?php echo __('if you would like to add specific podcasting settings to your blog categories.'); ?></p>
+	<p><a href="<?php echo $enable_link; ?>" title="<?php echo __('Enable Category Podcasting', 'powerpress'); ?>"><?php echo __('Enable Category Podcasting', 'powerpress'); ?></a> <?php echo __('if you would like to add specific podcasting settings to your blog categories.', 'powerpress'); ?></p>
 <?php
 		}
 		else
 		{
 ?>
-	<h2><?php echo __('PowerPress Category Podcasting'); ?></h2>
-	<p><?php echo __('PowerPress Category Podcasting is enabled. Select <u>Add Podcasting</u> to add podcasting settings. Select <u>Podcast Settings</u> to edit existing podcast settings.'); ?></p>
+	<h2><?php echo __('PowerPress Category Podcasting', 'powerpress'); ?></h2>
+	<p><?php echo __('PowerPress Category Podcasting is enabled. Select \'Add Podcasting\' to add podcasting settings. Select <u>Podcast Settings</u> to edit existing podcast settings.', 'powerpress'); ?></p>
 <?php
 		}
 ?>
@@ -1588,15 +1588,15 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 {
 	if( $SaveButton ) { ?>
 <p class="submit">
-<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="<?php echo __('Save Changes' ) ?>" />
+<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="<?php echo __('Save Changes', 'powerpress') ?>" />
 </p>
 <?php } ?>
 <p style="font-size: 85%; text-align: center; padding-bottom: 25px;">
-	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
-	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com'); ?>"><?php echo __('PodcastFAQ.com'); ?></a> |
-	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation'); ?>"><?php echo __('Documentation'); ?></a> |
-	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum'); ?>"><?php echo __('Forum'); ?></a> |
-	<a href="http://twitter.com/blubrry" target="_blank" title="<?php echo __('Follow Blubrry on Twitter'); ?>"><?php echo __('Follow Blubrry on Twitter'); ?></a>
+	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress', 'powerpress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
+	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com', 'powerpress'); ?>"><?php echo __('PodcastFAQ.com', 'powerpress'); ?></a> |
+	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation', 'powerpress'); ?>"><?php echo __('Documentation', 'powerpress'); ?></a> |
+	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum', 'powerpress'); ?>"><?php echo __('Forum'); ?></a> |
+	<a href="http://twitter.com/blubrry" target="_blank" title="<?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?>"><?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?></a>
 </p>
 <?php if( $form ) { ?>
 </form><?php } ?>
@@ -2102,9 +2102,9 @@ function powerpress_process_hosting($post_ID, $post_title)
 				}
 				else
 				{
-					$error = sprintf( __('Blubrry Hosting Error (media info): An error occurred publishing media %s.'), $EnclosureURL);
+					$error = sprintf( __('Blubrry Hosting Error (media info): An error occurred publishing media %s.', 'powerpress'), $EnclosureURL);
 					$error .= ' ';
-					$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
+					$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">'. __('Display Error', 'powerpress') .'</a>';
 					$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
 					powerpress_add_error($error);
 				}
@@ -2127,14 +2127,14 @@ function powerpress_process_hosting($post_ID, $post_title)
 					}
 					else if( isset($results['error']) )
 					{
-						$error = 'Blubrry Hosting Error (publish): '. $results['error'];
+						$error = __('Blubrry Hosting Error (publish)', 'powerpress') .': '. $results['error'];
 						powerpress_add_error($error);
 					}
 					else
 					{
 						$rand_id = rand(100,2000);
-						$error = 'Blubrry Hosting Error (publish): An error occurred publishing media <em>'. $EnclosureURL .'</em>. ';
-						$error .= '<a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">Display Error</a>';
+						$error = __('Blubrry Hosting Error (publish)', 'powerpress') .': '. sprintf( __('An error occurred publishing media \'%s\'.','powerpress'), $EnclosureURL);
+						$error .= ' <a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">'. __('Display Error', 'powerpress') .'</a>';
 						$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
 						powerpress_add_error($error);
 					}
@@ -2551,7 +2551,7 @@ function powerpress_write_tags($file, $post_title)
 			return $Results;
 	}
 	
-	return array('error'=>'Error occurred writing MP3 ID3 Tags.');
+	return array('error'=>__('Error occurred writing MP3 ID3 Tags.', 'powerpress') );
 }
 
 function powerpress_get_media_info($file)
@@ -2568,7 +2568,7 @@ function powerpress_get_media_info($file)
 			return $Results;
 	}
 	
-	return array('error'=>'Error occurred obtaining media information.');
+	return array('error'=>__('Error occurred obtaining media information.', 'powerpress') );
 }
 
 // Call this function when there is no enclosure currently detected for the post but users set the option to auto-add first media file linked within post option is checked.
@@ -2619,7 +2619,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		$content_type = powerpress_get_contenttype($media_file);
 	
 	if( $content_type == '' )
-		return array('error'=>'Unable to detect content type.');
+		return array('error'=>__('Unable to detect content type.', 'powerpress') );
 		
 	$get_duration_info = ($content_type == 'audio/mpeg' && $duration === '');
 	// Lets use the mp3info class:
@@ -2631,7 +2631,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( $Mp3Info->GetRedirectCount() > 5 )
 		{
 			// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
-			$warning = sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() );
+			$warning = sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() );
 			$warning .=	' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
 			if( $return_warnings )
 				$warning_msg .= $warning;
@@ -2650,7 +2650,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			$Warnings = $Mp3Info->GetWarnings();
 			while( list($null, $warning) = each($Warnings) )
 			{
-				$warning = sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
+				$warning = sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
 				if( $return_warnings )
 					$warning_msg .= $warning;
 				else
@@ -2663,11 +2663,11 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( $Mp3Info->GetError() )
 			return array('error'=>$Mp3Info->GetError() );
 		else
-			return array('error'=>'Error occurred obtaining media information.');
+			return array('error'=>__('Error occurred obtaining media information.', 'powerpress') );
 	}
 	
 	if( $file_size == 0 )
-		return array('error'=>'Error occurred obtaining media file size.' );
+		return array('error'=>__('Error occurred obtaining media file size.', 'powerpress') );
 	
 	if( $return_warnings && $warning_msg != '' )
 		return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration, 'warnings'=>$warning_msg);
@@ -2685,7 +2685,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			if( $Mp3Info->GetRedirectCount() > 5 )
 			{
 				// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
-				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.'), $media_file, $Mp3Info->GetRedirectCount() )
+				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() )
 					.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
 					);
 			}
@@ -2699,7 +2699,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				$Warnings = $Mp3Info->GetWarnings();
 				while( list($null, $warning) = each($Warnings) )
-					powerpress_add_error(  sprintf( __('Warning, Media URL %s:'), $media_file) .' '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
+					powerpress_add_error(  sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
 			}
 		}
 		else
@@ -2707,7 +2707,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			if( $Mp3Info->GetError() )
 				return array('error'=>$Mp3Info->GetError() );
 			else
-				return array('error'=>'Error occurred obtaining media information.');
+				return array('error'=>__('Error occurred obtaining media information.', 'powerpress') );
 		}
 	}
 	
@@ -2721,7 +2721,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		
 		if( isset($response['response']['code']) && $response['response']['code'] < 200 || $response['response']['code'] > 290 )
 		{
-			return array('error'=>trim('Error, HTTP '.$response['response']['code']) );
+			return array('error'=> __('Error, HTTP', 'powerpress')  .' '.$response['response']['code']);
 		}
 
 		$headers = wp_remote_retrieve_headers( $response );
@@ -2729,11 +2729,11 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( $headers && $headers['content-length'] )
 			$file_size = (int) $headers['content-length'];
 		else
-			return array('error'=>'Unable to obtain file size of media file.' );
+			return array('error'=>__('Unable to obtain file size of media file.', 'powerpress') );
 	}
 	
 	if( $file_size == 0 )
-		return array('error'=>'Error occurred obtaining media file size.' );
+		return array('error'=>__('Error occurred obtaining media file size.', 'powerpress') );
 	
 	return array('content-type'=>$content_type, 'length'=>$file_size, 'duration'=>$duration);
 }
