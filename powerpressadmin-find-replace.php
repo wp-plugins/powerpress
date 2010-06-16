@@ -104,18 +104,18 @@
 				if( $FindReplace['step'] == 3 )
 				{
 					if( $success_count > 0 )
-						powerpress_page_message_add_notice(  sprintf(__('%d URLs updated successfully.'), $success_count) );
+						powerpress_page_message_add_notice(  sprintf(__('%d URLs updated successfully.', 'powerpress'), $success_count) );
 					if( $failed_count > 0 )
-						powerpress_page_message_add_error(  sprintf(__('%d URLs were not updated.'), $failed_count) );
+						powerpress_page_message_add_error(  sprintf(__('%d URLs were not updated.', 'powerpress'), $failed_count) );
 					else if( $FindReplace['find_string'] == '' )
-						powerpress_page_message_add_notice(  __('Nothing specified to find.') );
+						powerpress_page_message_add_notice(  __('Nothing specified to find.', 'powerpress') );
 				}
 			}
 			
 		
 		}
 		
-		powerpress_page_message_add_notice(  __('WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsibile for any lost or damaged data resulting from this Find and Replace tool.') );
+		powerpress_page_message_add_notice(  __('WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsibile for any lost or damaged data resulting from this Find and Replace tool.', 'powerpress') );
 	}
 	
 	function powerpress_admin_find_replace()
@@ -147,13 +147,13 @@
 <script type="text/javascript">
 function VerifyCheck(obj)
 {
-	if( !obj.checked && !confirm('<?php echo __('WARNING: Verification prevents changes if the URL entered is invalid.\n\nAre you sure you do not want to verify the URLs?'); ?>') )
+	if( !obj.checked && !confirm('<?php echo __('WARNING: Verification prevents changes if the URL entered is invalid.\n\nAre you sure you do not want to verify the URLs?', 'powerpress'); ?>') )
 		obj.checked = true;
 }
 
 function ConfirmReplace()
 {
-	if( confirm('<?php echo __('WARNING: You are about to make permanent changes to your database.\n\nAre you sure you wish to continue?'); ?>') )
+	if( confirm('<?php echo __('WARNING: You are about to make permanent changes to your database.\n\nAre you sure you wish to continue?', 'powerpress'); ?>') )
 	{
 		jQuery('#replace_step').val('3');
 		return true;
@@ -185,25 +185,25 @@ dt {
 <input type="hidden" name="action" value="powerpress-find-replace" />
 <input type="hidden" name="FindReplace[step]" value="<?php echo $FindReplace['step']; ?>" id="replace_step" />
 
-<h2><?php echo __("Find and Replace Episode URLs"); ?></h2>
+<h2><?php echo __("Find and Replace Episode URLs", 'powerpress'); ?></h2>
 
-<p style="margin-bottom: 0;"><?php echo __('Find and replace complete or partial segments of media URLs. Useful if you move your media to a new web site or service.'); ?></p>
+<p style="margin-bottom: 0;"><?php echo __('Find and replace complete or partial segments of media URLs. Useful if you move your media to a new web site or service.', 'powerpress'); ?></p>
 
 <table class="form-table">
 	<tr valign="top">
-	<th scope="row"><?php echo __("Find in URL"); ?></th> 
+	<th scope="row"><?php echo __("Find in URL", 'powerpress'); ?></th> 
 	<td>
 			<input type="text" id="find_string" name="FindReplace[find_string]" style="width: 50%;" value="<?php echo $FindReplace['find_string']; ?>" maxlength="250" <?php if( $FindReplace['step'] != 1 ) { echo ' readOnly'; } ?> />
-			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();" title="<?php echo __('Modify'); ?>"><?php echo __('Modify'); ?></a><?php } ?>
-			<p style="margin: 0; font-size: 90%;"><?php echo __('Example'); ?>: http://www.oldsite.com/</p>
+			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();"><?php echo __('Modify', 'powerpress'); ?></a><?php } ?>
+			<p style="margin: 0; font-size: 90%;"><?php echo __('Example', 'powerpress'); ?>: http://www.oldsite.com/</p>
 	</td>
 	</tr>
 	<tr valign="top">
-	<th scope="row"><?php echo __("Replace with"); ?></th> 
+	<th scope="row"><?php echo __('Replace with', 'powerpress'); ?></th> 
 	<td>
 			<input type="text" id="replace_string" name="FindReplace[replace_string]" style="width: 50%;" value="<?php echo $FindReplace['replace_string']; ?>" maxlength="250" <?php if( $FindReplace['step'] != 1 ) { echo ' readOnly'; } ?> />
-			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();" title="<?php echo __('Modify'); ?>"><?php echo __('Modify'); ?></a><?php } ?>
-			<p style="margin: 0; font-size: 90%;"><?php echo __('Example'); ?>: http://www.newsite.com/</p>
+			<?php if( $FindReplace['step'] != 1 ) { ?><a href="#" onclick="jQuery('#replace_step').val('1');document.forms[0].submit();"><?php echo __('Modify', 'powerpress'); ?></a><?php } ?>
+			<p style="margin: 0; font-size: 90%;"><?php echo __('Example', 'powerpress'); ?>: http://www.newsite.com/</p>
 	</td>
 	</tr>
 </table>
@@ -215,16 +215,16 @@ dt {
 			if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
 			{
 ?>
-<h2><?php echo ($FindReplace['step'] == 2 ? __('Preview Changes') : __('Change Results') ); ?></h2>
+<h2><?php echo ($FindReplace['step'] == 2 ? __('Preview Changes', 'powerpress') : __('Change Results', 'powerpress') ); ?></h2>
 
-<p><?php echo sprintf( __('Found %d results with "%s"'), count($FindReplaceResults), "<span class=\"find_string strong\">{$FindReplace['find_string']}</span>" ); ?></p>
+<p><?php echo sprintf( __('Found %d results with "%s"', 'powerpress'), count($FindReplaceResults), "<span class=\"find_string strong\">{$FindReplace['find_string']}</span>" ); ?></p>
 
 <ol>
 <?php
 				while( list($meta_id, $row) = each($FindReplaceResults) )
 				{
 					$post_view_link = '<a href="' . get_permalink($row['post_id']) . '" target="_blank">' . get_the_title($row['post_id']) . '</a>';
-					$post_edit_link = '<a href="' . get_edit_post_link($row['post_id']) . '" target="_blank">' . __('Edit Post') . '</a>';
+					$post_edit_link = '<a href="' . get_edit_post_link($row['post_id']) . '" target="_blank">' . __('Edit Post', 'powerpress') . '</a>';
 ?>
 	<li>
 <?php
@@ -242,11 +242,11 @@ dt {
 		<span style="font-size: 90%;">(<?php echo $post_edit_link; ?>)</span>
 		<dl>
 			<dt>
-			  <?php echo __('Found') .': '. $row['find_readable']; ?>
+			  <?php echo __('Found', 'powerpress') .': '. $row['find_readable']; ?>
 			 </dt>
 			 <dd>
-			  <?php echo __('Replace') .': '. $row['replace_readable']; ?>
-			 (<a href="<?php echo $row['new_url']; ?>" target="_blank"><?php echo __('test link'); ?></a>)
+			  <?php echo __('Replace', 'powerpress') .': '. $row['replace_readable']; ?>
+			 (<a href="<?php echo $row['new_url']; ?>" target="_blank"><?php echo __('test link', 'powerpress'); ?></a>)
 			 </dd>
 		</dl>
 	</li>
@@ -265,16 +265,16 @@ dt {
 	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="Commit Changes" onclick="return ConfirmReplace()" />
 	&nbsp;
 	<input type="checkbox" name="FindReplace[verify]" value="1" <?php if( @$FindReplace['verify'] ) echo 'checked'; ?> onchange="return VerifyCheck(this)" />
-	<strong><?php echo __("Verify modified URLs"); ?></strong>
-		(<?php echo __('Does not change media URL if link is not found or invalid'); ?>)</p>
+	<strong><?php echo __('Verify modified URLs', 'powerpress'); ?></strong>
+		(<?php echo __('Does not change media URL if link is not found or invalid', 'powerpress'); ?>)</p>
 </p>
 <?php } else if ( $FindReplace['step'] == 3 || ($FindReplace['step'] == 2 && count($FindReplaceResults) == 0) ) { ?>
 <p class="submit">
-	<strong><a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_tools.php'); ?>"><?php echo __('PowerPress Tools'); ?></a></strong>
+	<strong><a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_tools.php'); ?>"><?php echo __('PowerPress Tools', 'powerpress'); ?></a></strong>
 </p>
 <?php 		} ?>
 
-	<p style="margin-bottom: 40px; margin-top:0;"><?php echo sprintf( __('We recommend using the %s plugin to backup your database before using this Find and Replace tool.'), '<a href="http://wordpress.org/extend/plugins/wp-db-backup/" target="_blank">'. __('WP-DB-Backup') .'</a>' ); ?></p>
+	<p style="margin-bottom: 40px; margin-top:0;"><?php echo sprintf( __('We recommend using the %s plugin to backup your database before using this Find and Replace tool.', 'powerpress'), '<a href="http://wordpress.org/extend/plugins/wp-db-backup/" target="_blank">'. __('WP-DB-Backup', 'powerpress') .'</a>' ); ?></p>
 	<!-- start footer -->
 <?php
 	}
@@ -283,12 +283,12 @@ dt {
 	{
 		$img = 'yes.png';
 		$color = '#458045';
-		$text = __('Success');
+		$text = __('Success', 'powerpress');
 		if( $success == false ) // Failed takes precedence over warning
 		{
 			$img = 'no.png';
 			$color = '#CC0000';
-			$text = __('Failed');
+			$text = __('Failed', 'powerpress');
 		}
 ?>
 	<img src="<?php echo admin_url(); ?>/images/<?php echo $img; ?>" style="vertical-align:text-top;" />
