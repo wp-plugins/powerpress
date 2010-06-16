@@ -12,23 +12,23 @@
 				$ping_site_data = trim($ping_site_data)."\r\n$url";
 				
 			update_option('ping_sites', $ping_site_data);
-			powerpress_page_message_add_notice(  __('Update services added successfully.') );
+			powerpress_page_message_add_notice(  __('Update services added successfully.', 'powerpress') );
 		}
 		else
 		{
-			powerpress_page_message_add_notice(  __('No update services selected to add.') );
+			powerpress_page_message_add_notice(  __('No update services selected to add.', 'powerpress') );
 		}
 	}
 	
 	function powerpress_admin_ping_sites()
 	{
 		$ping_sites = get_option('ping_sites');
-		$BlogSites = array('http://rpc.pingomatic.com/'=>'Ping-o-Matic!',
-			'http://blogsearch.google.com/ping/RPC2'=>'Google Blog Search',
-			'http://rssrpc.weblogs.com/RPC2'=>'WebLogs',
-			'http://rpc.technorati.com/rpc/ping'=>'Technorati');
+		$BlogSites = array('http://rpc.pingomatic.com/'=> __('Ping-o-Matic!', 'powerpress'),
+			'http://blogsearch.google.com/ping/RPC2'=> __('Google Blog Search', 'powerpress'),
+			'http://rssrpc.weblogs.com/RPC2'=> __('WebLogs', 'powerpress'),
+			'http://rpc.technorati.com/rpc/ping'=> __('Technorati', 'powerpress') );
 			
-		$PodcastSites = array('http://audiorpc.weblogs.com/RPC2'=>'WebLogs Audio',
+		$PodcastSites = array('http://audiorpc.weblogs.com/RPC2'=> __('WebLogs Audio', 'powerpress'),
 			'http://www.allpodcasts.com/Ping.aspx'=>'AllPodcasts.com',
 			'http://www.podnova.com/xmlrpc.srf'=>'PodNova.com',
 			'http://ping.podcast.com/ping.php'=>'Podcasts.com',
@@ -37,15 +37,15 @@
 
 
 <input type="hidden" name="action" value="powerpress-ping-sites" />
-<h2><?php echo __("Add Update services / Ping Sites"); ?></h2>
+<h2><?php echo __('Add Update services / Ping Sites', 'powerpress'); ?></h2>
 
-<p style="margin-bottom: 0;">Notify the following Update Services / Ping Sites when you create a new blog post / podcast episode.</p>
+<p style="margin-bottom: 0;"><?php echo __('Notify the following Update Services / Ping Sites when you create a new blog post / podcast episode.', 'powerpress'); ?></p>
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __("Update Blog Searvices"); ?></th> 
+<th scope="row"><?php echo __('Update Blog Searvices', 'powerpress'); ?></th> 
 <td>
-	<p>Select the blog service you would like to notify.</p>
+	<p><?php echo __('Select the blog service you would like to notify.', 'powerpress'); ?></p>
 <?php
 	while( list($url,$name) = each($BlogSites) )
 	{
@@ -67,9 +67,9 @@
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php echo __("Update Podcast Searvices"); ?></th> 
+<th scope="row"><?php echo __('Update Podcast Searvices', 'powerpress'); ?></th> 
 <td>
-	<p>Select the podcasting service you would like to notify.</p>
+	<p><?php echo __('Select the podcasting service you would like to notify.', 'powerpress'); ?></p>
 <?php
 	while( list($url,$name) = each($PodcastSites) )
 	{
@@ -92,10 +92,10 @@
 
 </table>
 <p>
-	You can manually add ping services by going to the to the "Update Services" section found in the <strong>WordPress Settings</strong> &gt; <strong>Writing</strong> page.
+	<?php echo __('You can manually add ping services by going to the to the "Update Services" section found in the <b>WordPress Settings</b> &gt; <b>Writing</b> page.', 'powerpress'); ?>
 </p>
 <p class="submit">
-	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="Add Selected Update Services" />
+	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="<?php echo __('Add Selected Update Services', 'powerpress'); ?>" />
 </p>
 
 	<!-- start footer -->
