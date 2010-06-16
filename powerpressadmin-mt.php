@@ -205,7 +205,7 @@ if( !function_exists('add_action') )
 				}
 				else
 				{
-					powerpressadmin_mt_import_log($Titles[ $post_id ], $EpisodeData['url'], $feed_slug, 'HTTP return code '. $response['response']['code'] .'.');
+					powerpressadmin_mt_import_log($Titles[ $post_id ], $EpisodeData['url'], $feed_slug, __('HTTP return code', 'powerpress')  .' '. $response['response']['code'] .'.');
 				}
 			}
 		}
@@ -217,9 +217,22 @@ if( !function_exists('add_action') )
 		$filename = substr($episode_url, strrpos($episode_url, '/')+1);
 		$g_mt_import_log .= '<p style="font-weight: normal; margin-top: 2px; margin-bottom: 2px; margin-left: 20px;">';
 		if( $error )
-			$g_mt_import_log .= '<div class="error-mt">Error importing "<a href="'. $episode_url .'">'. htmlspecialchars($filename) .'</a>" for blog post "'. htmlspecialchars($post_title) .": $error</div>\n";
+		{
+			$g_mt_import_log .= '<div class="error-mt">';
+			$g_mt_import_log .= sprintf( __('Error importing %s for blog post %s:', 'powerpress'),
+					'"<a href="'. $episode_url .'">'. htmlspecialchars($filename) .'</a>"',
+					'<em>'. htmlspecialchars($post_title) .'</em>' );
+			$g_mt_import_log .= ' '.$error;
+			$g_mt_import_log .= "</div>\n";
+		}
 		else
-			$g_mt_import_log .= 'Episode "<a href="'. $episode_url .'">'. htmlspecialchars($filename) .'</a>" for blog post "'. htmlspecialchars($post_title) .'" imported to feed "'. $feed_slug ."\".\n";
+		{
+			$g_mt_import_log .= sprintf( __('Episode %s for blog post %s imported to feed %s.', 'powerpress'),
+					'"<a href="'. $episode_url .'">'. htmlspecialchars($filename) .'</a>"',
+					'<em>'. htmlspecialchars($post_title) .'</em>',
+					'<em>'. $feed_slug .'</em>'					);
+			$g_mt_import_log .= "\n";
+		}
 		
 		$g_mt_import_log .= '</p>';
 		if( $error )
@@ -248,34 +261,34 @@ if( !function_exists('add_action') )
 		$DetectDuration = ($_POST['DetectDuration']?$_POST['DetectDuration']:0);
 		if( $DetectDuration )
 		{
-			echo "<p style=\"font-weight: normal;\">Duration of each mp3 detected.</p>";
+			echo '<p style="font-weight: normal;">'. __('Duration of each mp3 detected.', 'powerpress') .'</p>';
 		}
 		
 		echo $g_mt_import_log;
 		$g_mt_import_log='';
-		echo "<p style=\"font-weight: normal;\">Imported $g_mt_import_count episode(s).</p>";
+		echo '<p style="font-weight: normal;">'. sprintf( __('Imported %d episode(s).', 'powerpress'), $g_mt_import_count ) .'</p>';
 		if( $g_mt_error_count )
-			echo "<p style=\"font-weight: normal;\">Found $g_mt_error_count error(s).</p>";
+			echo '<p style="font-weight: normal;">'. sprintf( __('Found %d error(s).', 'powerpress'), $g_mt_error_count ) .'</p>';
 		echo '</div>';
 	}
 	
 	function powerpressadmin_importmt_columns($data=array())
 	{
 		$Settings = powerpress_get_settings('powerpress_general', false);
-		$data['post-title'] = 'Episode Title';
-		$data['post-date'] = 'Date';
+		$data['post-title'] = __('Episode Title', 'powerpress');
+		$data['post-date'] = __('Date', 'powerpress');
 		
-		$data['feed-podcast'] = 'Feed: (podcast)';
+		$data['feed-podcast'] = __('Feed: (podcast)', 'powerpress');
 		
 		if( is_array($Settings['custom_feeds']) )
 		{
 			while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
 			{
 				if( $feed_slug != 'podcast' )
-					$data['feed-'.$feed_slug] = 'Feed: ('.$feed_slug.')';
+					$data['feed-'.$feed_slug] = __('Feed', 'powerpress')  .': ('.$feed_slug.')';
 			}
 		}
-		$data['exclude'] = '<a href="#" onclick="no_import_all();return false;">No Import</a>';
+		$data['exclude'] = '<a href="#" onclick="no_import_all();return false;">'. __('No Import', 'powerpress') .'</a>';
 		
 		return $data;
 	}
@@ -299,15 +312,15 @@ if( !function_exists('add_action') )
 		$results = powerpress_get_mt_episodes();
 		$Settings = powerpress_get_settings('powerpress_general', false);
 		if( !isset($Settings['custom_feeds']['podcast']) && !empty($Settings['custom_feeds']) )
-			$Settings['custom_feeds'] = array_merge( array('podcast'=> 'Podcast Feed (default)'), $Settings['custom_feeds'] );
+			$Settings['custom_feeds'] = array_merge( array('podcast'=> __('Podcast Feed (default)', 'powerpress') ), $Settings['custom_feeds'] );
 		else if( empty($Settings['custom_feeds']) )
-			$Settings['custom_feeds'] = array('podcast'=> 'Podcast Feed (default)');
+			$Settings['custom_feeds'] = array('podcast'=> __('Podcast Feed (default)', 'powerpress'));
 			
 		if( $results )
 		{
 			if( $results['feeds_required'] > count($Settings['custom_feeds']) )
 			{
-				powerpress_page_message_add_error( sprintf(__('We found blog posts that have as many as %d media files. You may need to create %d more Custom Feed%s in order to import all of the media.'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
+				powerpress_page_message_add_error( sprintf(__('We found blog posts that have as many as %d media files. You may need to create %d more Custom Feed%s in order to import all of the media.', 'powerpress'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
 				powerpress_page_message_print();
 			}
 		}
@@ -365,7 +378,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 			{
 				if (CheckObj[i].type == 'radio' && CheckObj[i].checked && CheckObj[i].value == obj.value )
 				{
-					alert("Sorry, you may only select one media file per post per feed. ");
+					alert("<?php echo __('Sorry, you may only select one media file per post per feed.', 'powerpress'); ?>");
 					return false;
 				}
 			}
@@ -379,7 +392,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 
 function no_import_all()
 {
-	if( !confirm('Select "No Import" option for all media files?') )
+	if( !confirm('<?php echo __('Select "No Import" option for all media files?', 'powerpress'); ?>') )
 		return;
 		
 	var Inputs = document.getElementsByTagName('input');
@@ -422,20 +435,20 @@ function select_all(index,value)
 }
 
 </script>
-<h2><?php echo __("Import Episodes"); ?></h2>
+<h2><?php echo __('Import Episodes', 'powerpress'); ?></h2>
 <?php
 
 if( count($results) == 0 || count($results) == 1 )
 {
 ?>	
-	<p>No episodes found to import.</p>
+	<p><?php echo __('No episodes found to import.', 'powerpress'); ?></p>
 <?php
 }
 else
 {
 ?>
 <input type="hidden" name="action" value="powerpress-importmt" />
-<p>Select the media file under each feed for each episode you wish to import.</p>
+<p><?php echo __('Select the media file under each feed for each episode you wish to import.', 'powerpress'); ?></p>
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
@@ -531,7 +544,7 @@ else
 		}
 		
 		if( $feed_slug == 'podcast' )
-			$feed_title = 'Podcast Feed (default)';
+			$feed_title = __('Podcast Feed (default)', 'powerpress');
 		$feed_title = wp_specialchars($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
@@ -552,7 +565,7 @@ else
 					echo '<td '.$class.'><strong>';
 					if ( current_user_can( 'edit_post', $post_id ) )
 					{
-					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
+					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
 					}
 					else
 					{
@@ -636,9 +649,9 @@ else
 							if( $CurrentEnclosures[$feed_slug]['url'] == $episode_data['url'] )
 							{
 								if( $CurrentEnclosures[$feed_slug]['present'] )
-									echo '<strong style="color: green;">present</strong>';
+									echo '<strong style="color: green;">'.  __('present', 'powerpress') .'</strong>';
 								else
-									echo '<strong style="color: green;">imported</strong>';
+									echo '<strong style="color: green;">'.  __('imported', 'powerpress') .'</strong>';
 							}
 							else
 								echo 'X';
@@ -694,8 +707,12 @@ else
 	</tbody>
 </table>
 
-<p>Importable episodes highlighted in <span style="color: #CC0000; font-weight: bold;">red</span> with asterisks *.</p>
-<p style="margin-bottom: 0; padding-bottom: 0;">Select Only:</p>
+<p><?php
+	echo sprintf( __('Importable episodes highlighted in %s with asterisks *.', 'powerpress'),
+		'<span style="color: #CC0000; font-weight: bold;">'. __('red', 'powerpress') .'</span>' );
+?>
+</p>
+<p style="margin-bottom: 0; padding-bottom: 0;"><?php echo __('Select Only:', 'powerpress'); ?></p>
 <?php
 					if( $results['feeds_required'] < 1 )
 				$results['feeds_required'] = 1;
@@ -704,7 +721,7 @@ else
 			{
 ?>
 <p style="margin: 0 0 0 40px; padding: 0;">
- File <?php echo ($number+1); ?>:
+ <?php echo __('File', 'powerpress'); ?> <?php echo ($number+1); ?>:
 <?php
 				while( list($feed_slug,$feed_title) = each($Settings['custom_feeds']) )
 				{
@@ -712,12 +729,12 @@ else
 				}
 				reset($Settings['custom_feeds']);
 ?>
-<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;">No Import</a>
+<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;"><?php echo __('No Import', 'powerpress'); ?></a>
 </p>
 <?php
 			}
 ?>
-<p>Types of media found: 
+<p><?php echo __('Types of media found:', 'powerpress'); ?> 
 <?php
 	$comma = false;
 	global $g_import_mt_extensions;
@@ -740,27 +757,32 @@ else
 	{
 		reset($results);
 ?>
-<p>
-	There are <?php echo $StrandedEpisodes; ?> media files that can be imported with a total of <?php echo (count($results) -1); ?> blog post podcast episodes.
+<p><?php
+	echo sprintf( __('There are %s media files that can be imported with a total of %d blog post podcast episodes.', 'powerpress'),
+		$StrandedEpisodes,
+		(count($results) -1) );
+
+?>
 </p>
 <?php
 	}
 ?>
 <p class="submit">
 <input type="submit" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="return confirm('Import selected episodes, are you sure?');" />
- &nbsp; <input type="checkbox" name="DetectDuration" value="1" /> Detect duration for mp3 media. (expect script to take a while with this option)</p>
+ &nbsp; <input type="checkbox" name="DetectDuration" value="1" /> <?php echo __('Detect duration for mp3 media. (expect script to take a while with this option)', 'powerpress'); ?></p>
 </p>
 </form>
 <hr />
 <form enctype="enctype" method="get" action="<?php echo admin_url('admin.php') ?>">
 <input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
 <input type="hidden" name="action" value="powerpress-mt-epiosdes" />
-<h2>Filter Results</h2>
-<p><label>Include Only</label><input type="text" name="include_only_ext" value="<?php if( $_GET['include_only_ext'] ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" /> (leave blank for all media) <br />
-<label>&nbsp;</label>specify the file extensions to include separated by commas (e.g. mp3, m4v).
+<h2><?php echo __('Filter Results', 'powerpress'); ?></h2>
+<p><label><?php echo __('Include Only', 'powerpress'); ?></label><input type="text" name="include_only_ext" value="<?php if( $_GET['include_only_ext'] ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" />
+(<?php echo __('leave blank for all media', 'powerpress'); ?>) <br />
+<label>&nbsp;</label><?php echo __('Specify the file extensions to include separated by commas (e.g. mp3, m4v).', 'powerpress'); ?>
 </p>
 <p class="submit">
-<input type="submit" name="Submit" class="button-primary" value="Filter Episodes" />
+<input type="submit" name="Submit" class="button-primary" value="<?php echo __('Filter Episodes', 'powerpress'); ?>" />
 </p>
 	<!-- start footer -->
 <?php
