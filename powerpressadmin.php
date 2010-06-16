@@ -446,7 +446,11 @@ function powerpress_admin_init()
 				{
 					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
 				} else */
-				if( $category == false )
+				if( $cat_ID == false )
+				{
+					powerpress_page_message_add_error( __('You must select a category to continue.', 'powerpress') );
+				}
+				else if( $category == false )
 				{
 					powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
 				}

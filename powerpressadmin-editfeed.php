@@ -206,6 +206,9 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		<li><a href="#feed_tab_appearance"><span>Appearance</span></a></li>
 		<li><a href="#feed_tab_other"><span>Other Settings</span></a></li> 
 	<?php } ?>
+	<?php if( $cat_ID ) { ?>
+		<li><a href="#feed_tab_other"><span>Other Settings</span></a></li> 
+	<?php } ?>
   </ul>
 	
 	
@@ -237,6 +240,14 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	<div id="feed_tab_other" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
+		?>
+	</div>
+	<?php } ?>
+	
+	<?php if( $cat_ID ) { ?>
+	<div id="feed_tab_other" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID)
 		?>
 	</div>
 	<?php } ?>
@@ -631,8 +642,32 @@ if( isset($Languages[ $rss_language ]) )
 }
 
 
-function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
+function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID = false)
 {
+
+	if( $cat_ID )
+	{
+?>
+	<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
+	<p>
+	<?php echo __('Enter your Redirect URL issued by your media statistics service provider below.', 'powerpress'); ?>
+	</p>
+
+	<table class="form-table">
+	<tr valign="top">
+	<th scope="row">
+	<?php echo __('Redirect URL', 'powerpress'); ?> 
+	</th>
+	<td>
+	<input type="text" style="width: 60%;" name="Feed[redirect]" value="<?php echo $FeedSettings['redirect']; ?>" maxlength="250" />
+	<p><?php echo __('Note: Category Media Redirect URL is applied to category feeds and pages only. The redirect will also apply to single pages if this is the only category associated with the blog post.', 'powerpress'); ?></p>
+	</td>
+	</tr>
+	</table>
+<?php
+	}
+	else // end if category, else channel...
+	{
 ?>
 
 <h3>Episode Entry Box</h3>
@@ -661,8 +696,8 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
 <!-- password protected feed option -->
 
 <?php
-	if( @$General['premium_caps'] && $feed_slug && $feed_slug != 'podcast' )
-	{
+		if( @$General['premium_caps'] && $feed_slug && $feed_slug != 'podcast' )
+		{
 ?>
 <h3>Password Protect Podcast Channel</h3>
 <p>
@@ -748,7 +783,8 @@ function powerpress_default_premium_label(event)
 	</table>
 </div>
 <?php
-	}
+		}
+	} // else if channel
 }
 
 function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_slug)

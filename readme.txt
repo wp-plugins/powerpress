@@ -140,6 +140,13 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+= 1.0.9 =
+* Released on 6/16/2010
+* Fixed minor bug when clicking 'Add Podcasting to Category' when category not selected.
+* Added Media Redirect URL option for Category feeds and pages. The Redirect URL also works with single pages if only one category is selected for the post.
+* Finished adding translation support.
+
+
 = 1.0.8 =
 * Released on 5/10/2010
 * Fixed bug where ampersand characters, if present, where not being escaped properly for the itunes:new-feed-url setting. (Thanks Bryon for reporting the bug)

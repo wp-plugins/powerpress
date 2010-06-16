@@ -2133,14 +2133,37 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 	{
 		global $powerpress_general_settings;
 		if( !$powerpress_general_settings )
+		{
 			$powerpress_general_settings = get_option('powerpress_general');
+			if( !empty($powerpress_general_settings['cat_casting']) ) // If category podcasting...
+			{
+				if( is_category() ) // Special case where we want to track the category separately
+				{
+					$FeedCatSettings = get_option('powerpress_cat_feed_'.get_query_var('cat') );
+					if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+						$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
+				}
+				else if( is_single() )
+				{
+					$categories = wp_get_post_categories( get_the_ID() );
+					if( count($categories) == 1 )
+					{
+						list($null,$cat_id) = each($categories);
+						$FeedCatSettings = get_option('powerpress_cat_feed_'.$cat_id );
+						if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+							$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
+						// See if only one category is associated with this post
+					}
+				}
+			}
+		}
 		$GeneralSettings = $powerpress_general_settings;
 	}
 	
-	for( $x = 3; $x > 0; $x-- )
+	for( $x = 3; $x >= 0; $x-- )
 	{
 		$key = sprintf('redirect%d', $x);
-		if( $GeneralSettings[ $key ] )
+		if( !empty($GeneralSettings[ $key ]) )
 		{
 			$RedirectClean = str_replace('http://', '', trim($GeneralSettings[ $key ]) );
 			if( !strstr($NewURL, $RedirectClean) )
