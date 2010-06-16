@@ -75,19 +75,19 @@ function powerpress_admin_jquery_init()
 			// Make sure users have permission to access this
 			if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
 			{
-				powerpress_admin_jquery_header( __('Blubrry Media Statistics') );
+				powerpress_admin_jquery_header( __('Blubrry Media Statistics', 'powerpress') );
 ?>
-<h2><?php echo __('Blubrry Media Statistics'); ?></h2>
-<p><?php echo __('You do not have sufficient permission to manage options.'); ?></p>
-<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+<h2><?php echo __('Blubrry Media Statistics', 'powerpress'); ?></h2>
+<p><?php echo __('You do not have sufficient permission to manage options.', 'powerpress'); ?></p>
+<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 <?php
 				powerpress_admin_jquery_footer();
 				exit;
 			}
 			else if( !current_user_can('edit_posts') )
 			{
-				powerpress_admin_jquery_header('Blubrry Media Statistics');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to view media statistics.') );
+				powerpress_admin_jquery_header( __('Blubrry Media Statistics', 'powerpress') );
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to view media statistics.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -95,9 +95,9 @@ function powerpress_admin_jquery_init()
 				
 			$StatsCached = get_option('powerpress_stats');
 			
-			powerpress_admin_jquery_header( __('Blubrry Media Statistics') );
+			powerpress_admin_jquery_header( __('Blubrry Media Statistics', 'powerpress') );
 ?>
-<h2><?php echo __('Blubrry Media Statistics'); ?></h2>
+<h2><?php echo __('Blubrry Media Statistics', 'powerpress'); ?></h2>
 <?php
 			echo $StatsCached['content'];
 			powerpress_admin_jquery_footer();
@@ -108,7 +108,7 @@ function powerpress_admin_jquery_init()
 			if( !current_user_can('edit_posts') )
 			{
 				powerpress_admin_jquery_header('Uploader');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -122,11 +122,11 @@ function powerpress_admin_jquery_init()
 			
 			if( !current_user_can('edit_posts') )
 			{
-				powerpress_admin_jquery_header( __('Select Media') );
+				powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
 ?>
-<h2><?php echo __('Select Media'); ?></h2>
-<p><?php echo __('You do not have sufficient permission to manage options.'); ?></p>
-<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
+<p><?php echo __('You do not have sufficient permission to manage options.', 'powerpress'); ?></p>
+<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 <?php
 				powerpress_admin_jquery_footer();
 				exit;
@@ -134,16 +134,22 @@ function powerpress_admin_jquery_init()
 			
 			if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' || !isset($Settings['blubrry_hosting']) || $Settings['blubrry_hosting'] == 0 )
 			{
-				powerpress_admin_jquery_header( __('Select Media') );
+				powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
 ?>
-<h2><?php echo __('Select Media'); ?></h2>
-<p><?php echo __('Wait a sec! This feature is only available to Blubrry Podcast paid hosting members.');
+<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
+<p><?php echo __('Wait a sec! This feature is only available to Blubrry Podcast paid hosting members.', 'powerpress');
 if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
-	echo ' '. __('Join our community to get free podcast statistics and access to other valuable').' <a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('services') . '</a>.';
+	echo ' '. sprintf( __('Join our community to get free podcast statistics and access to other valuable %s.', 'powerpress'),
+	'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('services', 'powerpress') .'</a>');
 ?>
 </p>
-<p>Our <a href="http://www.blubrry.com/powerpress_services/" target="_blank">podcast-hosting integrated</a> PowerPress makes podcast publishing simple. Check out the <a href="http://www.blubrry.com/powerpress_services/" target="_blank">video</a> on our exciting three-step publishing system!</p>
-<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+<p><?php 
+	echo sprintf( __('Our %s PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress'),
+		'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('podcast-hosting integrated', 'powerpress') .'</a>',
+		'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('video', 'powerpress') .'</a>' );
+	?>
+   </p>
+<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 <?php
 				powerpress_admin_jquery_footer();
 				exit;
@@ -162,7 +168,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 				else if( isset($results['error']) )
 					$Msg = $results['error'];
 				else
-					$Msg = __('An unknown error occurred deleting media file.');
+					$Msg = __('An unknown error occurred deleting media file.', 'powerpress');
 			}
 
 			$api_url = sprintf('%s/media/%s/index.json?quota=true&published=true', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Settings['blubrry_program_keyword'] );
@@ -171,7 +177,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 			$results =  powerpress_json_decode($json_data);
 				
 			$FeedSlug = $_GET['podcast-feed'];
-			powerpress_admin_jquery_header( __('Select Media'), true );
+			powerpress_admin_jquery_header( __('Select Media', 'powerpress'), true );
 ?>
 <script language="JavaScript" type="text/javascript">
 
@@ -193,17 +199,17 @@ function SelectURL(url)
 }
 function DeleteMedia(File)
 {
-	return confirm('<?php echo __('Delete'); ?>: '+File+'\n\n<?php echo __('Are you sure you want to delete this media file?'); ?>');
+	return confirm('<?php echo __('Delete', 'powerpress'); ?>: '+File+'\n\n<?php echo __('Are you sure you want to delete this media file?', 'powerpress'); ?>');
 }
 </script>
 		<div id="media-header">
-			<h2><?php echo __('Select Media'); ?></h2>
+			<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
 			<?php
 				if( $Msg )
 				echo '<p>'. $Msg . '</p>';
 			?>
-			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="<?php echo __('Upload Media File'); ?>"><?php echo __('Upload Media File'); ?></a></div>
-			<p><?php echo __('Select from media files uploaded to blubrry.com'); ?>:</p>
+			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
+			<p><?php echo __('Select from media files uploaded to blubrry.com', 'powerpress'); ?>:</p>
 		</div>
 	<div id="media-items-container">
 		<div id="media-items">
@@ -228,7 +234,7 @@ function DeleteMedia(File)
 				{
 ?>
 <div id="media-published-title">
-	<?php echo __('Media Published within the past 30 days'); ?>:
+	<?php echo __('Media Published within the past 30 days', 'powerpress'); ?>:
 </div>
 <?php
 					$PublishedList = true;
@@ -243,12 +249,12 @@ function DeleteMedia(File)
 	<?php } ?>
 	<div class="media-item-links">
 		<?php if( !empty($data['published']) && !empty($data['url']) ) { ?>
-			<a href="#" onclick="SelectURL('<?php echo $data['url']; ?>'); return false;"><?php echo __('Select'); ?></a>
+			<a href="#" onclick="SelectURL('<?php echo $data['url']; ?>'); return false;"><?php echo __('Select', 'powerpress'); ?></a>
 		<?php } else { ?>
 			<?php if (function_exists('curl_init')) { ?>
-				<a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-media-delete", 'powerpress-jquery-media-delete'); ?>&amp;podcast-feed=<?php echo $FeedSlug; ?>&amp;delete=<?php echo urlencode($data['name']); ?>" onclick="return DeleteMedia('<?php echo $data['name']; ?>');">Delete</a> | 
+				<a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-media-delete", 'powerpress-jquery-media-delete'); ?>&amp;podcast-feed=<?php echo $FeedSlug; ?>&amp;delete=<?php echo urlencode($data['name']); ?>" onclick="return DeleteMedia('<?php echo $data['name']; ?>');"><?php echo __('Delete', 'powerpress'); ?></a> | 
 			<?php } ?>
-			<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;"><?php echo __('Select'); ?></a>
+			<a href="#" onclick="SelectMedia('<?php echo $data['name']; ?>'); return false;"><?php echo __('Select', 'powerpress'); ?></a>
 		<?php } ?>
 	</div> 
 </div>
@@ -259,16 +265,34 @@ function DeleteMedia(File)
 		</div>
 	</div>
 	<div id="media-footer">
-		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox" title="Upload Media File">Upload Media File</a></div>
+		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
 		<?php
 		if( $QuotaData ) { 
 			$NextDate = strtotime( $QuotaData['published']['next_date']);
 		?>
-			<p>You have uploaded <em><?php echo powerpress_byte_size($QuotaData['unpublished']['used']); ?></em>  (<em><?php echo powerpress_byte_size($QuotaData['unpublished']['available']); ?></em> available) of your <em><?php echo powerpress_byte_size($QuotaData['unpublished']['total']); ?></em> limit</p>
-			<p>You are hosting <em><?php echo powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']); ?></em> (<em><?php echo powerpress_byte_size($QuotaData['published']['available']); ?></em> available) of your <em><?php echo powerpress_byte_size($QuotaData['published']['total']); ?></em>/month limit.</p>
-			<p>Your limit will adjust on <?php echo date('m/d/Y', $NextDate); ?> to <em><?php echo powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['next_available']); ?></em> (<em><?php echo powerpress_byte_size($QuotaData['published']['next_available']); ?></em> available).</p>
+			<p><?php
+			echo sprintf( __('You have uploaded %s (%s available) of your %s limit.', 'powerpress'),
+				'<em>'. powerpress_byte_size($QuotaData['unpublished']['used']) .'</em>',
+				'<em>'. powerpress_byte_size($QuotaData['unpublished']['available']) .'</em>',
+				'<em>'. powerpress_byte_size($QuotaData['unpublished']['total']) .'</em>' );
+			?>
+			</p>
+			<p><?php
+			echo sprintf( __('You are hosting %s (%s available) of your %s/30 day limit.', 'powerpress'),
+				'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
+				'<em>'. powerpress_byte_size($QuotaData['published']['available']) .'</em>',
+				'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
+			?>
+			</p>
+			<p><?php
+			echo sprintf( __('Your limit will adjust on %s to %s (%s available).', 'powerpress'),
+				date('m/d/Y', $NextDate),
+				'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['next_available']) .'</em>',
+				'<em>'. powerpress_byte_size($QuotaData['published']['next_available']) .'</em>' );
+			?>
+			</p>
 		<?php } ?>
-		<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+		<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 	</div>
 	
 <?php	
@@ -279,8 +303,8 @@ function DeleteMedia(File)
 		
 			if( !current_user_can('manage_options') )
 			{
-				powerpress_admin_jquery_header('Blubrry Services Integration');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.') );
+				powerpress_admin_jquery_header('Blubrry Services Integration', 'powerpress');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -328,8 +352,8 @@ function DeleteMedia(File)
 					if( isset($results['error']) )
 					{
 						$Error = $results['error'];
-						if( strstr($Error, 'currently not available') )
-							$Error = 'Unable to find podcasts for this account.';
+						if( strstr($Error, __('currently not available', 'powerpress') ) )
+							$Error = __('Unable to find podcasts for this account.', 'powerpress');
 					}
 					else if( !is_array($results) )
 					{
@@ -353,7 +377,7 @@ function DeleteMedia(File)
 							}
 							else if( isset($SaveSettings['blubrry_program_keyword']) )
 							{
-								$Error = 'You must select a program to continue.';
+								$Error = __('You must select a program to continue.', 'powerpress');
 							}
 							else if( count($Programs) == 1 )
 							{
@@ -365,7 +389,7 @@ function DeleteMedia(File)
 							}
 							else
 							{
-								$Error = 'Please select your podcast program to continue.';
+								$Error = __('Please select your podcast program to continue.', 'powerpress');
 								$Step = 2;
 								$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
 								$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
@@ -373,7 +397,7 @@ function DeleteMedia(File)
 						}
 						else
 						{
-							$Error = 'No podcasts for this account are listed on blubrry.com.';
+							$Error = __('No podcasts for this account are listed on blubrry.com.', 'powerpress');
 						}
 					}
 				}
@@ -398,14 +422,14 @@ function DeleteMedia(File)
 				
 			if( $Close )
 			{
-				powerpress_admin_jquery_header('Blubrry Services Integration');
+				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
 				powerpress_page_message_print();
 ?>
-<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove(); return false;" title="Close"><img src="<?php echo admin_url(); ?>/images/no.png" alt="Close" /></a></p>
-<h2>Blubrry Services Integration</h2>
-<p style="text-align: center;"><strong>Settings Saved Successfully!</strong></p>
+<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove(); return false;" title="<?php echo __('Close', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" alt="<?php echo __('Close', 'powerpress'); ?>" /></a></p>
+<h2><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h2>
+<p style="text-align: center;"><strong><?php echo __('Settings Saved Successfully!', 'powerpress'); ?></strong></p>
 <p style="text-align: center;">
-	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php"); ?>" target="_top" title="Close">Close</a>
+	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php"); ?>" target="_top"><?php echo __('Close', 'powerpress'); ?></a>
 </p>
 <?php
 				powerpress_admin_jquery_footer();
@@ -418,8 +442,8 @@ function DeleteMedia(File)
 		{
 			if( !current_user_can('manage_options') )
 			{
-				powerpress_admin_jquery_header('Blubrry Services Integration');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.') );
+				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -427,8 +451,8 @@ function DeleteMedia(File)
 			
 			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
 			{
-				powerpress_admin_jquery_header('Blubrry Services Integration');
-				powerpress_page_message_add_notice( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.') );
+				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+				powerpress_page_message_add_notice( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -446,38 +470,38 @@ function DeleteMedia(File)
 			//if( count($Programs) )
 			//	$Step = 2;
 			
-			powerpress_admin_jquery_header('Blubrry Services Integration');
+			powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
 			powerpress_page_message_print();	
 ?>
 <form action="<?php echo admin_url(); ?>" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field('powerpress-jquery-account'); ?>
 <input type="hidden" name="action" value="powerpress-jquery-account-save" />
 <div id="accountinfo">
-	<h2>Blubrry Services Integration</h2>
+	<h2><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h2>
 <?php if( $Step == 1 ) { ?>
 	<p>
-		<label for="blubrry_username">Blubrry User Name (Email)</label>
+		<label for="blubrry_username"><?php echo __('Blubrry User Name (Email)', 'powerpress'); ?></label>
 		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
 	</p>
 	<p id="password_row">
-		<label for="password_password">Blubrry Password</label>
+		<label for="password_password"><?php echo __('Blubrry Password', 'powerpress'); ?></label>
 		<input type="password" id="password_password" name="Password" value="" />
 	</p>
-	<p><strong>Select Blubrry Services</strong></p>
+	<p><strong><?php echo __('Select Blubrry Services', 'powerpress'); ?></strong></p>
 	<p style="margin-left: 20px; margin-bottom: 0px;margin-top: 0px;">
-		<input type="radio" name="Settings[blubrry_hosting]" value="0" <?php echo ($Settings['blubrry_hosting']==0?'checked':''); ?> />Statistics Integration only
+		<input type="radio" name="Settings[blubrry_hosting]" value="0" <?php echo ($Settings['blubrry_hosting']==0?'checked':''); ?> /> <?php echo __('Statistics Integration only', 'powerpress'); ?>
 	</p>
 	<p style="margin-left: 20px; margin-top: 0px;">
-		<input type="radio" name="Settings[blubrry_hosting]" value="1" <?php echo ($Settings['blubrry_hosting']==1?'checked':''); ?> />Statistics and Hosting Integration (Requires Blubrry Hosting Account)
+		<input type="radio" name="Settings[blubrry_hosting]" value="1" <?php echo ($Settings['blubrry_hosting']==1?'checked':''); ?> /> <?php echo __('Statistics and Hosting Integration (Requires Blubrry Hosting Account)', 'powerpress'); ?>
 	</p>
 <?php } else { ?>
 	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo htmlspecialchars($Settings['blubrry_username']); ?>" />
 	<input type="hidden" name="Password" value="<?php echo htmlspecialchars($Password); ?>" />
 	<input type="hidden" name="Settings[blubrry_hosting]" value="<?php echo $Settings['blubrry_hosting']; ?>" />
 	<p>
-		<label>Blubrry Program Keyword</label>
+		<label><?php echo __('Blubrry Program Keyword', 'powerpress'); ?></label>
 <select name="Settings[blubrry_program_keyword]">
-<option value="">Select Program</option>
+<option value=""><?php echo __('Select Program', 'powerpress'); ?></option>
 <?php
 while( list($value,$desc) = each($Programs) )
 	echo "\t<option value=\"$value\"". ($Settings['blubrry_program_keyword']==$value?' selected':''). ">$desc</option>\n";
@@ -486,9 +510,9 @@ while( list($value,$desc) = each($Programs) )
 	</p>
 <?php } ?>
 	<p>
-		<input type="submit" name="Remove" value="Remove" style="float: right;" onclick="return confirm('Remove Blubrry Services Integration, are you sure?');" />
-		<input type="submit" name="Save" value="Save" />
-		<input type="button" name="Cancel" value="Cancel" onclick="self.parent.tb_remove();" />
+		<input type="submit" name="Remove" value="Remove" style="float: right;" onclick="return confirm('<?php echo __('Remove Blubrry Services Integration, are you sure?', 'powerpress'); ?>');" />
+		<input type="submit" name="Save" value="<?php echo __('Save', 'powerpress'); ?>" />
+		<input type="button" name="Cancel" value="<?php echo __('Cancel', 'powerpress'); ?>" onclick="self.parent.tb_remove();" />
 	</p>
 </div>
 </form>
@@ -500,8 +524,8 @@ while( list($value,$desc) = each($Programs) )
 			
 			if( !current_user_can('edit_posts') )
 			{
-				powerpress_admin_jquery_header('Uploader');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_admin_jquery_header( __('Uploader', 'powerpress') );
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.','powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -513,7 +537,7 @@ while( list($value,$desc) = each($Programs) )
 			$Error = false;
 			if( $Settings['blubrry_hosting'] == 0 )
 			{
-				$Error = __('This feature is available to Blubrry Hosting users only.');
+				$Error = __('This feature is available to Blubrry Hosting users only.','powerpress');
 			}
 			
 			if( $Error == false )
@@ -529,7 +553,7 @@ while( list($value,$desc) = each($Programs) )
 				{
 					$Error = $results['error'];
 					if( strstr($Error, 'currently not available') )
-						$Error = 'Unable to find podcasts for this account.';
+						$Error = __('Unable to find podcasts for this account.','powerpress');
 				}
 				else if( $results === $json_data )
 				{
@@ -555,16 +579,16 @@ while( list($value,$desc) = each($Programs) )
 			}
 			else if( $Error == false )
 			{
-				$Error = __('Unable to obtain upload session.');
+				$Error = __('Unable to obtain upload session.','powerpress');
 			}
 			
-			powerpress_admin_jquery_header('Uploader');
-			echo '<h2>'. __('Uploader') .'</h2>';
+			powerpress_admin_jquery_header( __('Uploader','powerpress') );
+			echo '<h2>'. __('Uploader','powerpress') .'</h2>';
 			echo '<p>';
 			echo $Error;
 			echo '</p>';
 			?>
-			<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+			<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 			<?php
 			powerpress_admin_jquery_footer();
 			exit;
@@ -574,7 +598,7 @@ while( list($value,$desc) = each($Programs) )
 			if( !current_user_can('edit_posts') )
 			{
 				powerpress_admin_jquery_header('Uploader');
-				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.') );
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to upload media.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
 				exit;
@@ -583,19 +607,19 @@ while( list($value,$desc) = each($Programs) )
 			$File = (isset($_GET['File'])?$_GET['File']:false);
 			$Message = (isset($_GET['Message'])?$_GET['Message']:false);
 			
-			powerpress_admin_jquery_header('Upload Complete');
-			echo '<h2>'. __('Uploader') .'</h2>';
+			powerpress_admin_jquery_header( __('Upload Complete', 'powerpress') );
+			echo '<h2>'. __('Uploader', 'powerpress') .'</h2>';
 			echo '<p>';
 			if( $File )
 			{
-				echo 'File: ';
+				echo __('File', 'powerpress')  .': ';
 				echo $File;
 				echo ' - ';
 			}
 			echo $Message;
 			echo '</p>';
 			?>
-			<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Close'); ?>"><?php echo __('Close'); ?></a></p>
+			<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 			<?php
 			
 			if( $Message == '' )
@@ -625,7 +649,7 @@ function powerpress_admin_jquery_header($title, $jquery = false)
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
+<title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; <?php echo __('WordPress', 'powerpress'); ?></title>
 <?php
 
 // In case these functions haven't been included yet...
@@ -648,7 +672,7 @@ echo '<!-- done adding extra stuff -->';
 </head>
 <body>
 <div id="container">
-<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="Cancel"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
+<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Cancel', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 <?php
 }
 
@@ -664,6 +688,5 @@ function powerpress_admin_jquery_footer($jquery = false)
 </html>
 <?php
 }
-
 
 ?>
