@@ -531,7 +531,10 @@ function powerpress_admin_init()
 				$Settings['cat_casting'] = 1;
 				powerpress_save_settings($Settings);
 				
-				wp_redirect('categories.php?message=3');
+				if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
+					wp_redirect('categories.php?message=3');
+				else
+					wp_redirect('edit-tags.php?taxonomy=category&message=3');
 				exit;
 				
 			}; break;
@@ -726,7 +729,10 @@ function powerpress_admin_init()
 	// Handle edit from category page
 	if( isset($_POST['from_categories']) )
 	{
-		wp_redirect('categories.php?message=3');
+		if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
+			wp_redirect('categories.php?message=3');
+		else
+			wp_redirect('edit-tags.php?taxonomy=category&message=3');
 		exit;
 	}
 	
@@ -1504,26 +1510,46 @@ function powerpress_media_info_ajax()
 add_action('wp_ajax_powerpress_media_info', 'powerpress_media_info_ajax');
 
 
-function powerpress_cat_row_actions($actions, $category)
+function powerpress_cat_row_actions($actions, $object)
 {
 	$General = get_option('powerpress_general');
-	if( !isset($General['cat_casting']) || $General['cat_casting'] == 0 )
+	
+	
+	// New 3.0+ tag in taxonomy check
+	if( !empty($General['tag_casting']) && !empty($object->taxonomy) && $object->taxonomy == 'tag' )
+	{
+		// TODO:
+	}
+	
+	// Otherwise from here on in, we're working with a category or nothing at all.
+	if( empty($General['cat_casting']) )
+		return $actions;
+	
+	// 3.0 category in taxonomy check
+	if( !empty($object->taxonomy) && $object->taxonomy != 'category' )
 		return $actions;
 		
-	if( isset($General['custom_cat_feeds']) && is_array($General['custom_cat_feeds']) && in_array($category->cat_ID, $General['custom_cat_feeds']) )
+	$cat_id = (isset($object->term_id)?$object->term_id : $object->cat_ID);
+	
+	if( empty($cat_id) )
+		return $actions;
+	
+	if( isset($General['custom_cat_feeds']) && is_array($General['custom_cat_feeds']) && in_array($cat_id, $General['custom_cat_feeds']) )
 	{
-		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-editcategoryfeed&amp;cat=') . $category->cat_ID;
+		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-editcategoryfeed&amp;cat=') . $cat_id;
 		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Edit Blubrry PowerPress Podcast Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Podcast Settings')) . '</a>';
 	}
 	else
 	{
-		$edit_link = admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-addcategoryfeed&amp;cat=".$category->cat_ID, 'powerpress-add-category-feed');
+		$edit_link = admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-addcategoryfeed&amp;cat=".$cat_id, 'powerpress-add-category-feed');
 		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Add Blubrry PowerPress Podcasting Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Add Podcasting')) . '</a>';
 	}
 	return $actions;
 }
 
 add_filter('cat_row_actions', 'powerpress_cat_row_actions', 1,2);
+add_filter('tag_row_actions', 'powerpress_cat_row_actions', 1,2);
+
 
 function powerpress_delete_category($cat_ID)
 {
@@ -1550,7 +1576,10 @@ function powerpress_edit_category_form($cat)
 		$General = get_option('powerpress_general');
 		if( !isset($General['cat_casting']) || $General['cat_casting'] == 0 )
 		{
-			$enable_link = admin_url() . wp_nonce_url('categories.php?action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
+			if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
+				$enable_link = admin_url() . wp_nonce_url('categories.php?action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
+			else
+				$enable_link = admin_url() . wp_nonce_url('edit-tags.php?taxonomy=category&action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
 ?>
 	<h2><?php echo __('PowerPress Category Podcasting'); ?></h2>
 	<p><a href="<?php echo $enable_link; ?>" title="<?php echo __('Enable Category Podcasting', 'powerpress'); ?>"><?php echo __('Enable Category Podcasting', 'powerpress'); ?></a> <?php echo __('if you would like to add specific podcasting settings to your blog categories.', 'powerpress'); ?></p>
