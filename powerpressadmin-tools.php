@@ -174,11 +174,34 @@
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php echo __('Plugin Translation', 'powerpress'); ?></th> 
+<th scope="row"><?php echo __('Translations', 'powerpress'); ?></th> 
 <td>
 	<p style="margin-top: 5px;">
-	Coming soon.
+	<?php echo __('Blubrry would like to thank the following for translating PowerPress.', 'powerpress'); ?>
 	</p>
+	<ul style="margin-left: 50px;">
+		<li>
+			<p>
+			<?php echo __('Translations coming soon', 'powerpress'); ?>
+			</p>
+		</li>
+		<!--
+		<li>
+			<p>
+			<b><?php echo __('German', 'powerpress'); ?></b> - 
+			<?php echo sprintf( __('versions %s by', 'powerpress'), '1.1'); ?>
+				 <a href="" target="_blank">Optional Link</a>
+			</p>
+		</li>
+		<li>
+			<p>
+			<b><?php echo __('Italian', 'powerpress'); ?></b> - 
+			<?php echo sprintf( __('versions %s by', 'powerpress'), '1.1, 1.2'); ?>
+				 Anonymous
+			</p>
+		</li>
+		-->
+	</ul>
 </td>
 </tr>
 
