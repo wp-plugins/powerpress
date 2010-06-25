@@ -15,15 +15,6 @@ function ToggleID3Tags(Obj)
 }
 
 </script>
-<style type="text/css">
-.item-row {
-.	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	min-height: 36px;
-	position: relative;
-	width: 100%;
-}
-</style>
 <input type="hidden" name="action" value="powerpress-save-tags" />
 <h2><?php echo __('MP3 Tags', 'powerpress'); ?></h2>
 
