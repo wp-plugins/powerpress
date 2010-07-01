@@ -1157,7 +1157,7 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_buttons" class="powerpress_tab">
-		<h3><?php _e('Button Settings', 'powerpress'); ?></h3>
+		<h3><?php echo __('Button Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
 	<tr valign="top">
 		<th scope="row">
@@ -1243,7 +1243,7 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_volume" class="powerpress_tab">
-		<h3><?php _e('Volume Settings'); ?></h3>
+		<h3><?php echo __('Volume Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
         
         <tr valign="top">
@@ -1314,7 +1314,7 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_slider" class="powerpress_tab">
-		<h3><?php _e('Slider Settings'); ?></h3>
+		<h3><?php echo __('Slider Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
 		
         <tr valign="top">

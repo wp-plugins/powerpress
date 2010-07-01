@@ -86,7 +86,7 @@
 	if( !empty($General['use_caps']) )
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-caps", 'powerpress-remove-caps'); ?>"><?php _e('Remove PowerPress Podcasting Capabilities for User Role Management'); ?></a></strong></p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-caps", 'powerpress-remove-caps'); ?>"><?php echo __('Remove PowerPress Podcasting Capabilities for User Role Management', 'powerpress'); ?></a></strong></p>
 	<p>
 	<?php echo __('Podcasting capability allows administrators, editors and authors access to create and configure podcast episodes. 
 	Only administrators will be able to view media statistics from the WordPress Dashboard. Contributors, subscribers and other
@@ -113,7 +113,7 @@
 	if( @$General['premium_caps'] )
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-feed-caps", 'powerpress-remove-feed-caps'); ?>"><?php _e('Remove Password Protection Capabilities for Control of Which Users can Access Your Podcasts'); ?></a></strong>  (<?php echo __('Also kown as Premium Content', 'powerpress'); ?>)</p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-feed-caps", 'powerpress-remove-feed-caps'); ?>"><?php echo __('Remove Password Protection Capabilities for Control of Which Users can Access Your Podcasts', 'powerpress'); ?></a></strong>  (<?php echo __('Also kown as Premium Content', 'powerpress'); ?>)</p>
 	<p>
 	<?php
 		echo sprintf( __("To use this feature, go to %s and create a new custom podcast channel. In the Edit Podcast Channel page, click the last tab labeled 'Other Settings'. Place a check in the box labled 'Protect Content' and then click 'Save Changes'.", 'powerpress'),
@@ -131,7 +131,7 @@
 	else
 	{
 ?>
-	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-feed-caps", 'powerpress-add-feed-caps'); ?>"><?php echo __('Add Password Protection Capabilities for Control of Which Users can Access Your Podcasts'); ?></a></strong> (<?php echo __('Also kown as Premium Content', 'powerpress'); ?>)</p>
+	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-add-feed-caps", 'powerpress-add-feed-caps'); ?>"><?php echo __('Add Password Protection Capabilities for Control of Which Users can Access Your Podcasts', 'powerpress'); ?></a></strong> (<?php echo __('Also kown as Premium Content', 'powerpress'); ?>)</p>
 	<p>
 		<?php echo __('Adding password protection capabilities for custom podcast channel feeds lets you control who can listen and view your 
 		podcast. This feature allows you to password-protect custom podcast channels by adding a new role called "Premium 
@@ -202,6 +202,10 @@
 		</li>
 		-->
 	</ul>
+	<p>
+	<!-- Do not translate the following, we need translators to communicate with us in our native language (English) -->
+	 Please <a href="http://www.blubrry.com/contact.php" target="_blank">contact Blubrry</a> if you are interested in translating PowerPress to a language not listed above.
+	</p>
 </td>
 </tr>
 

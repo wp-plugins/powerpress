@@ -7,102 +7,102 @@ function powerpress_languages()
 {
 	// List copied from PodPress:
 	$langs = array();
-	$langs['af'] = 'Afrikaans';
-	$langs['sq'] = 'Albanian';
-	$langs['eu'] = 'Basque';
-	$langs['be'] = 'Belarusian';
-	$langs['bg'] = 'Bulgarian';
-	$langs['ca'] = 'Catalan';
-	$langs['zh-cn'] = 'Chinese (Simplified)';
-	$langs['zh-tw'] = 'Chinese (Traditional)';
-	$langs['hr'] = 'Croatian';
-	$langs['cs'] = 'Czech';
-	$langs['da'] = 'Danish';
-	$langs['nl'] = 'Dutch';
-	$langs['nl-be'] = 'Dutch (Belgium)';
-	$langs['nl-nl'] = 'Dutch (Netherlands)';
-	$langs['en'] = 'English';
-	$langs['en-au'] = 'English (Australia)';
-	$langs['en-bz'] = 'English (Belize)';
-	$langs['en-ca'] = 'English (Canada)';
-	$langs['en-ie'] = 'English (Ireland)';
-	$langs['en-jm'] = 'English (Jamaica)';
-	$langs['en-nz'] = 'English (New Zealand)';
-	$langs['en-ph'] = 'English (Phillipines)';
-	$langs['en-za'] = 'English (South Africa)';
-	$langs['en-tt'] = 'English (Trinidad)';
-	$langs['en-gb'] = 'English (United Kingdom)';
-	$langs['en-us'] = 'English (United States)';
-	$langs['en-zw'] = 'English (Zimbabwe)';
-	$langs['et'] = 'Estonian';
-	$langs['fo'] = 'Faeroese';
-	$langs['fi'] = 'Finnish';
-	$langs['fr'] = 'French';
-	$langs['fr-be'] = 'French (Belgium)';
-	$langs['fr-ca'] = 'French (Canada)';
-	$langs['fr-fr'] = 'French (France)';
-	$langs['fr-lu'] = 'French (Luxembourg)';
-	$langs['fr-mc'] = 'French (Monaco)';
-	$langs['fr-ch'] = 'French (Switzerland)';
-	$langs['gl'] = 'Galician';
-	$langs['gd'] = 'Gaelic';
-	$langs['de'] = 'German';
-	$langs['de-at'] = 'German (Austria)';
-	$langs['de-de'] = 'German (Germany)';
-	$langs['de-li'] = 'German (Liechtenstein)';
-	$langs['de-lu'] = 'German (Luxembourg)';
-	$langs['de-ch'] = 'German (Switzerland)';
-	$langs['el'] = 'Greek';
-	$langs['haw'] = 'Hawaiian';
-	$langs['hu'] = 'Hungarian';
-	$langs['is'] = 'Icelandic';
-	$langs['in'] = 'Indonesian';
-	$langs['ga'] = 'Irish';
-	$langs['it'] = 'Italian';
-	$langs['it-it'] = 'Italian (Italy)';
-	$langs['it-ch'] = 'Italian (Switzerland)';
-	$langs['ja'] = 'Japanese';
-	$langs['ko'] = 'Korean';
-	$langs['mk'] = 'Macedonian';
-	$langs['no'] = 'Norwegian';
-	$langs['pl'] = 'Polish';
-	$langs['pt'] = 'Portuguese';
-	$langs['pt-br'] = 'Portuguese (Brazil)';
-	$langs['pt-pt'] = 'Portuguese (Portugal)';
-	$langs['ro'] = 'Romanian';
-	$langs['ro-mo'] = 'Romanian (Moldova)';
-	$langs['ro-ro'] = 'Romanian (Romania)';
-	$langs['ru'] = 'Russian';
-	$langs['ru-mo'] = 'Russian (Moldova)';
-	$langs['ru-ru'] = 'Russian (Russia)';
-	$langs['sr'] = 'Serbian';
-	$langs['sk'] = 'Slovak';
-	$langs['sl'] = 'Slovenian';
-	$langs['es'] = 'Spanish';
-	$langs['es-ar'] = 'Spanish (Argentina)';
-	$langs['es-bo'] = 'Spanish (Bolivia)';
-	$langs['es-cl'] = 'Spanish (Chile)';
-	$langs['es-co'] = 'Spanish (Colombia)';
-	$langs['es-cr'] = 'Spanish (Costa Rica)';
-	$langs['es-do'] = 'Spanish (Dominican Republic)';
-	$langs['es-ec'] = 'Spanish (Ecuador)';
-	$langs['es-sv'] = 'Spanish (El Salvador)';
-	$langs['es-gt'] = 'Spanish (Guatemala)';
-	$langs['es-hn'] = 'Spanish (Honduras)';
-	$langs['es-mx'] = 'Spanish (Mexico)';
-	$langs['es-ni'] = 'Spanish (Nicaragua)';
-	$langs['es-pa'] = 'Spanish (Panama)';
-	$langs['es-py'] = 'Spanish (Paraguay)';
-	$langs['es-pe'] = 'Spanish (Peru)';
-	$langs['es-pr'] = 'Spanish (Puerto Rico)';
-	$langs['es-es'] = 'Spanish (Spain)';
-	$langs['es-uy'] = 'Spanish (Uruguay)';
-	$langs['es-ve'] = 'Spanish (Venezuela)';
-	$langs['sv'] = 'Swedish';
-	$langs['sv-fi'] = 'Swedish (Finland)';
-	$langs['sv-se'] = 'Swedish (Sweden)';
-	$langs['tr'] = 'Turkish';
-	$langs['uk'] = 'Ukranian';
+	$langs['af'] = __('Afrikaans', 'powerpress');
+	$langs['sq'] = __('Albanian', 'powerpress');
+	$langs['eu'] = __('Basque', 'powerpress');
+	$langs['be'] = __('Belarusian', 'powerpress');
+	$langs['bg'] = __('Bulgarian', 'powerpress');
+	$langs['ca'] = __('Catalan', 'powerpress');
+	$langs['zh-cn'] = __('Chinese (Simplified)', 'powerpress');
+	$langs['zh-tw'] = __('Chinese (Traditional)', 'powerpress');
+	$langs['hr'] = __('Croatian', 'powerpress');
+	$langs['cs'] = __('Czech', 'powerpress');
+	$langs['da'] = __('Danish', 'powerpress');
+	$langs['nl'] = __('Dutch', 'powerpress');
+	$langs['nl-be'] = __('Dutch (Belgium)', 'powerpress');
+	$langs['nl-nl'] = __('Dutch (Netherlands)', 'powerpress');
+	$langs['en'] = __('English', 'powerpress');
+	$langs['en-au'] = __('English (Australia)', 'powerpress');
+	$langs['en-bz'] = __('English (Belize)', 'powerpress');
+	$langs['en-ca'] = __('English (Canada)', 'powerpress');
+	$langs['en-ie'] = __('English (Ireland)', 'powerpress');
+	$langs['en-jm'] = __('English (Jamaica)', 'powerpress');
+	$langs['en-nz'] = __('English (New Zealand)', 'powerpress');
+	$langs['en-ph'] = __('English (Phillipines)', 'powerpress');
+	$langs['en-za'] = __('English (South Africa)', 'powerpress');
+	$langs['en-tt'] = __('English (Trinidad)', 'powerpress');
+	$langs['en-gb'] = __('English (United Kingdom)', 'powerpress');
+	$langs['en-us'] = __('English (United States)', 'powerpress');
+	$langs['en-zw'] = __('English (Zimbabwe)', 'powerpress');
+	$langs['et'] = __('Estonian', 'powerpress');
+	$langs['fo'] = __('Faeroese', 'powerpress');
+	$langs['fi'] = __('Finnish', 'powerpress');
+	$langs['fr'] = __('French', 'powerpress');
+	$langs['fr-be'] = __('French (Belgium)', 'powerpress');
+	$langs['fr-ca'] = __('French (Canada)', 'powerpress');
+	$langs['fr-fr'] = __('French (France)', 'powerpress');
+	$langs['fr-lu'] = __('French (Luxembourg)', 'powerpress');
+	$langs['fr-mc'] = __('French (Monaco)', 'powerpress');
+	$langs['fr-ch'] = __('French (Switzerland)', 'powerpress');
+	$langs['gl'] = __('Galician', 'powerpress');
+	$langs['gd'] = __('Gaelic', 'powerpress');
+	$langs['de'] = __('German', 'powerpress');
+	$langs['de-at'] = __('German (Austria)', 'powerpress');
+	$langs['de-de'] = __('German (Germany)', 'powerpress');
+	$langs['de-li'] = __('German (Liechtenstein)', 'powerpress');
+	$langs['de-lu'] = __('German (Luxembourg)', 'powerpress');
+	$langs['de-ch'] = __('German (Switzerland)', 'powerpress');
+	$langs['el'] = __('Greek', 'powerpress');
+	$langs['haw'] = __('Hawaiian', 'powerpress');
+	$langs['hu'] = __('Hungarian', 'powerpress');
+	$langs['is'] = __('Icelandic', 'powerpress');
+	$langs['in'] = __('Indonesian', 'powerpress');
+	$langs['ga'] = __('Irish', 'powerpress');
+	$langs['it'] = __('Italian', 'powerpress');
+	$langs['it-it'] = __('Italian (Italy)', 'powerpress');
+	$langs['it-ch'] = __('Italian (Switzerland)', 'powerpress');
+	$langs['ja'] = __('Japanese', 'powerpress');
+	$langs['ko'] = __('Korean', 'powerpress');
+	$langs['mk'] = __('Macedonian', 'powerpress');
+	$langs['no'] = __('Norwegian', 'powerpress');
+	$langs['pl'] = __('Polish', 'powerpress');
+	$langs['pt'] = __('Portuguese', 'powerpress');
+	$langs['pt-br'] = __('Portuguese (Brazil)', 'powerpress');
+	$langs['pt-pt'] = __('Portuguese (Portugal)', 'powerpress');
+	$langs['ro'] = __('Romanian', 'powerpress');
+	$langs['ro-mo'] = __('Romanian (Moldova)', 'powerpress');
+	$langs['ro-ro'] = __('Romanian (Romania)', 'powerpress');
+	$langs['ru'] = __('Russian', 'powerpress');
+	$langs['ru-mo'] = __('Russian (Moldova)', 'powerpress');
+	$langs['ru-ru'] = __('Russian (Russia)', 'powerpress');
+	$langs['sr'] = __('Serbian', 'powerpress');
+	$langs['sk'] = __('Slovak', 'powerpress');
+	$langs['sl'] = __('Slovenian', 'powerpress');
+	$langs['es'] = __('Spanish', 'powerpress');
+	$langs['es-ar'] = __('Spanish (Argentina)', 'powerpress');
+	$langs['es-bo'] = __('Spanish (Bolivia)', 'powerpress');
+	$langs['es-cl'] = __('Spanish (Chile)', 'powerpress');
+	$langs['es-co'] = __('Spanish (Colombia)', 'powerpress');
+	$langs['es-cr'] = __('Spanish (Costa Rica)', 'powerpress');
+	$langs['es-do'] = __('Spanish (Dominican Republic)', 'powerpress');
+	$langs['es-ec'] = __('Spanish (Ecuador)', 'powerpress');
+	$langs['es-sv'] = __('Spanish (El Salvador)', 'powerpress');
+	$langs['es-gt'] = __('Spanish (Guatemala)', 'powerpress');
+	$langs['es-hn'] = __('Spanish (Honduras)', 'powerpress');
+	$langs['es-mx'] = __('Spanish (Mexico)', 'powerpress');
+	$langs['es-ni'] = __('Spanish (Nicaragua)', 'powerpress');
+	$langs['es-pa'] = __('Spanish (Panama)', 'powerpress');
+	$langs['es-py'] = __('Spanish (Paraguay)', 'powerpress');
+	$langs['es-pe'] = __('Spanish (Peru)', 'powerpress');
+	$langs['es-pr'] = __('Spanish (Puerto Rico)', 'powerpress');
+	$langs['es-es'] = __('Spanish (Spain)', 'powerpress');
+	$langs['es-uy'] = __('Spanish (Uruguay)', 'powerpress');
+	$langs['es-ve'] = __('Spanish (Venezuela)', 'powerpress');
+	$langs['sv'] = __('Swedish', 'powerpress');
+	$langs['sv-fi'] = __('Swedish (Finland)', 'powerpress');
+	$langs['sv-se'] = __('Swedish (Sweden)', 'powerpress');
+	$langs['tr'] = __('Turkish', 'powerpress');
+	$langs['uk'] = __('Ukranian', 'powerpress');
 	return $langs;
 }
 
@@ -164,7 +164,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
 		
 		if( !isset($General['custom_feeds'][$feed_slug]) )
-			$General['custom_feeds'][$feed_slug] = 'Podcast (default)';
+			$General['custom_feeds'][$feed_slug] = __('Podcast (default)', 'powerpress');
 	}
 	else if( $cat_ID )
 	{
@@ -177,7 +177,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
 	}
 		
-	$FeedTitle = __('Feed Settings');
+	$FeedTitle = __('Feed Settings', 'powerpress');
 	if( $feed_slug )
 	{
 		$FeedTitle = sprintf( 'Edit Podcast Channel: %s', $General['custom_feeds'][$feed_slug]);
@@ -186,7 +186,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 	else if( $cat_ID )
 	{
 		$category = get_category_to_edit($cat_ID);
-		$FeedTitle = sprintf( 'Edit Category Feed: %s', $category->name);
+		$FeedTitle = sprintf( __('Edit Category Feed: %s', 'powerpress'), $category->name);
 		echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
 	}
 	
@@ -200,14 +200,14 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 ?>
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
   <ul class="powerpress_settings_tabs">
-		<li><a href="#feed_tab_feed"><span>Feed Settings</span></a></li>
-		<li><a href="#feed_tab_itunes"><span>iTunes Settings</span></a></li>
+		<li><a href="#feed_tab_feed"><span><?php echo __('Feed Settings', 'powerpress'); ?></span></a></li>
+		<li><a href="#feed_tab_itunes"><span><?php echo __('iTunes Settings', 'powerpress'); ?></span></a></li>
 	<?php if( $feed_slug ) { ?>
-		<li><a href="#feed_tab_appearance"><span>Appearance</span></a></li>
-		<li><a href="#feed_tab_other"><span>Other Settings</span></a></li> 
+		<li><a href="#feed_tab_appearance"><span><?php echo __('Appearance', 'powerpress'); ?></span></a></li>
+		<li><a href="#feed_tab_other"><span><?php echo __('Other Settings', 'powerpress'); ?></span></a></li> 
 	<?php } ?>
 	<?php if( $cat_ID ) { ?>
-		<li><a href="#feed_tab_other"><span>Other Settings</span></a></li> 
+		<li><a href="#feed_tab_other"><span><?php echo __('Other Settings', 'powerpress'); ?></span></a></li> 
 	<?php } ?>
   </ul>
 	
@@ -273,7 +273,7 @@ function powerpressadmin_edit_podcast_channel($FeedSettings, $General)
 ?>
 <input type="hidden" name="action" value="powerpress-save-customfeed" />
 <p style="margin-bottom: 0;">
-	<?php _e('Configure your custom podcast feed.'); ?>
+	<?php echo __('Configure your custom podcast feed.', 'powerpress'); ?>
 </p>
 <?php
 }
@@ -283,7 +283,7 @@ function powerpressadmin_edit_category_feed($FeedSettings, $General)
 ?>
 <input type="hidden" name="action" value="powerpress-save-categoryfeedsettings" />
 <p style="margin-bottom: 0;">
-	<?php _e('Configure your category feed to support podcasting.'); ?>
+	<?php echo __('Configure your category feed to support podcasting.', 'powerpress'); ?>
 </p>
 <?php
 }
@@ -302,27 +302,27 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <tr valign="top">
 <th scope="row">
 
-<?php echo __('Enhance Feeds'); ?></th> 
+<?php echo __('Enhance Feeds', 'powerpress'); ?></th> 
 <td>
 	<ul>
-		<li><label><input type="radio" name="Feed[apply_to]" value="1" <?php if( $FeedSettings['apply_to'] == 1 ) echo 'checked'; ?> /> Enhance All Feeds</label> (Recommended)</li>
+		<li><label><input type="radio" name="Feed[apply_to]" value="1" <?php if( $FeedSettings['apply_to'] == 1 ) echo 'checked'; ?> /> <?php echo __('Enhance All Feeds', 'powerpress'); ?></label> (<?php echo __('Recommended', 'powerpress'); ?>)</li>
 		<li>
 			<ul>
-				<li>Adds podcasting support to all feeds</li>
-				<li>Allows for Category Podcasting (Visitors may subscribe to your categories as a podcast)</li>
-				<li>Allows for Tag/Keyword Casting (Visitors may subscribe to your tags as a podcast)</li>
+				<li><?php echo __('Adds podcasting support to all feeds', 'powerpress'); ?></li>
+				<li><?php echo __('Allows for Category Podcasting', 'powerpress'); ?> (<?php echo __('Visitors may subscribe to your categories as a podcast', 'powerpress'); ?>)</li>
+				<li><?php echo __('Allows for Tag/Keyword Casting', 'powerpress'); ?> (<?php echo __('Visitors may subscribe to your tags as a podcast', 'powerpress'); ?>)</li>
 			</ul>
 		</li>
-		<li><label><input type="radio" name="Feed[apply_to]" value="2" <?php if( $FeedSettings['apply_to'] == 2 ) echo 'checked'; ?> /> Enhance Main Feed Only</label></li>
+		<li><label><input type="radio" name="Feed[apply_to]" value="2" <?php if( $FeedSettings['apply_to'] == 2 ) echo 'checked'; ?> /> <?php echo __('Enhance Main Feed Only', 'powerpress'); ?></label></li>
 		<li>
 			<ul>
-				<li>Adds podcasting support to your main feed only</li>
+				<li><?php echo __('Adds podcasting support to your main feed only', 'powerpress'); ?></li>
 			</ul>
 		</li>
-		<li><label><input type="radio" name="Feed[apply_to]" value="0" <?php if( $FeedSettings['apply_to'] == 0 ) echo 'checked'; ?> /> Do Not Enhance Feeds</label></li>
+		<li><label><input type="radio" name="Feed[apply_to]" value="0" <?php if( $FeedSettings['apply_to'] == 0 ) echo 'checked'; ?> /> <?php echo __('Do Not Enhance Feeds', 'powerpress'); ?></label></li>
 		<li>
 			<ul>
-				<li>Feed Settings below will only apply to your podcast channel feeds</li>
+				<li><?php echo __('Feed Settings below will only apply to your podcast channel feeds', 'powerpress'); ?></li>
 			</ul>
 		</li>
 	</ul>
@@ -332,9 +332,9 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Main Site Feed"); ?></th> 
+<?php echo __('Main Site Feed', 'powerpress'); ?></th> 
 <td>
-	<p style="margin-top: 5px; margin-bottom: 0;">Main RSS2 Feed: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="Main RSS 2 Feed" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" title="Validate Feed" target="_blank">validate</a></p>
+	<p style="margin-top: 5px; margin-bottom: 0;"><?php echo __('Main RSS2 Feed', 'powerpress'); ?>: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="<?php echo __('Main RSS 2 Feed', 'powerpress'); ?>" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 </td>
 </tr>
 <?php
@@ -343,12 +343,12 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Podcast Channel Feeds"); ?></th> 
+<?php echo __('Podcast Channel Feeds', 'powerpress'); ?></th> 
 <td>
 <?php
 	
 	//$General = get_option('powerpress_general');
-	$Feeds = array('podcast'=>'Special Podcast only Feed');
+	$Feeds = array('podcast'=> __('Special Podcast only Feed', 'powerpress') );
 	if( isset($General['custom_feeds']['podcast']) )
 		$Feeds = $General['custom_feeds'];
 	else if( isset($General['custom_feeds'])&& is_array($General['custom_feeds']) )
@@ -359,9 +359,9 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 		$edit_link = admin_url( 'admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
 ?>
 <p><?php echo $feed_title; ?>: <a href="<?php echo get_feed_link($feed_slug); ?>" title="<?php echo $feed_title; ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a>
-| <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" title="Validate Feed" target="_blank">validate</a>
+| <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a>
 	<?php if( false && $feed_slug != 'podcast' ) { ?>
-	| <a href="<?php echo $edit_link; ?>" title="Edit Podcast Channel">edit</a>
+	| <a href="<?php echo $edit_link; ?>" title="<?php echo __('Edit Podcast Channel', 'powerpress'); ?>"><?php echo __('edit', 'powerpress'); ?></a>
 	<?php } ?>
 </p>
 <?php } ?>
@@ -384,17 +384,17 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 	if( $cat_ID || $feed_slug )
 	{
 ?>
-<h3>Feed Information</h3>
+<h3><?php echo __('Feed Information', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed URL"); ?>
+<?php echo __('Feed URL', 'powerpress'); ?>
 </th>
 <td>
 <?php if( $cat_ID ) { ?>
-<p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode( str_replace('&amp;', '&', get_category_feed_link($cat_ID))); ?>" target="_blank"><?php _e('validate'); ?></a></p>
+<p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode( str_replace('&amp;', '&', get_category_feed_link($cat_ID))); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 <?php } else { ?>
-<p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php _e('validate'); ?></a></p>
+<p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 <?php } ?>
 </td>
 </tr>
@@ -402,7 +402,7 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 <?php
 	}
 ?>
-<h3>Feed Settings</h3>
+<h3><?php echo __('Feed Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 
 <?php
@@ -411,52 +411,52 @@ if( $feed_slug || $cat_ID )
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed Title"); ?>
+<?php echo __('Feed Title', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" name="Feed[title]"style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
-(leave blank to use default category title)
+(<?php echo __('leave blank to use default category title', 'powerpress'); ?>)
 <?php } else { ?>
-(leave blank to use blog title)
+(<?php echo __('leave blank to use blog title', 'powerpress'); ?>)
 <?php } ?>
 <?php if( $cat_ID ) { 
 	$category = get_category_to_edit($cat_ID);
 	$CategoryName = htmlspecialchars($category->name);
 ?>
-<p><?php echo __('Default Category title:') .' '. get_bloginfo_rss('name') . ' &#187; '. $CategoryName; ?></p>
+<p><?php echo __('Default Category title:', 'powerpress') .' '. get_bloginfo_rss('name') . ' &#187; '. $CategoryName; ?></p>
 <?php } else { ?>
-<p><?php echo __('Blog title:') .' '. get_bloginfo_rss('name'); ?></p>
+<p><?php echo __('Blog title:', 'powerpress') .' '. get_bloginfo_rss('name'); ?></p>
 <?php } ?>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed Description"); ?>
+<?php echo __('Feed Description', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo $FeedSettings['description']; ?>" maxlength="1000" /> 
 <?php if( $cat_ID ) { ?>
-(leave blank to use category description)
+(<?php echo __('leave blank to use category description', 'powerpress'); ?>)
 <?php } else { ?>
-(leave blank to use blog description)
+(<?php echo __('leave blank to use blog description', 'powerpress'); ?>)
 <?php } ?>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Feed Landing Page URL"); ?> <br />
+<?php echo __('Feed Landing Page URL', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
-(leave blank to use category page)
+(<?php echo __('leave blank to use category page', 'powerpress'); ?>)
 <?php } else { ?>
-(leave blank to use home page)
+(<?php echo __('leave blank to use home page', 'powerpress'); ?>)
 <?php } ?>
 <?php if( $cat_ID ) { ?>
-<p>Category page URL: <?php echo get_category_link($cat_ID); ?></p>
+<p><?php echo __('Category page URL', 'powerpress'); ?>: <?php echo get_category_link($cat_ID); ?></p>
 <?php } else { ?>
 <p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
 <?php } ?>
@@ -471,16 +471,16 @@ if( $feed_slug || $cat_ID )
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes URL"); ?>
+<?php echo __('iTunes URL', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
-<p>Click the following link to <a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank" title="Publish a Podcast on iTunes">Publish a Podcast on iTunes</a>.
-Once your podcast is listed on iTunes, enter your one-click subscription URL above.
+<p><a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank"><?php echo __('Click here to Publish a Podcast on iTunes', 'powerpress'); ?></a>.
+<?php echo __('Once your podcast is listed on iTunes, enter your one-click subscription URL above.', 'powerpress'); ?>
 </p>
 <p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
 
-<p><input name="TestiTunesPing" type="checkbox" value="1" /> Test Update iTunes Listing (recommended)</p>
+<p><input name="TestiTunesPing" type="checkbox" value="1" /> <?php echo __('Test Update iTunes Listing', 'powerpress'); ?> (<?php echo __('recommended', 'powerpress'); ?>)</p>
 <?php if( $FeedSettings['itunes_url'] ) {
 
 		$ping_url = str_replace(
@@ -492,7 +492,7 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 								'http://www.itunes.com/podcast?id='),
 			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $FeedSettings['itunes_url']);
 ?>
-<p>You may also update your iTunes listing by using the following link: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;" title="Update iTunes Listing in New Window">Update iTunes Listing in New Window</a></p>
+<p><?php echo __('You may also update your iTunes listing by using the following link', 'powerpress'); ?>: <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;"><?php echo __('Update iTunes Listing in New Window', 'powerpress'); ?></a></p>
 
 <?php
 		if( preg_match('/id=(\d+)/', $FeedSettings['itunes_url'], $matches) )
@@ -504,27 +504,27 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 			{
 				$PingLog = $Logging['itunes_ping_'. $FEEDID ];
 ?>
-		<h3>Latest Update iTunes Listing Status: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">Successful</span>'; else echo '<span style="color: #f00;">Error</span>';  ?></h3>
+		<h3><?php echo __('Latest Update iTunes Listing Status', 'powerpress'); ?>: <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">'. __('Successful', 'powerpress') .'</span>'; else echo '<span style="color: #f00;">'. __('Error', 'powerpress') .'</span>';  ?></h3>
 		<div style="font-size: 85%; margin-left: 20px;">
 			<p>
-				<?php echo sprintf( __('iTunes notified on %s at %s'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
+				<?php echo sprintf( __('iTunes notified on %s at %s', 'powerpress'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
 <?php
 					if( $PingLog['post_id'] )
 					{
 						$post = get_post($PingLog['post_id']);
 						if( $post )
-							echo __(' for post: ') . htmlspecialchars($post->post_title); 
+							echo ' '. __('for post', 'powerpress') .': ' . htmlspecialchars($post->post_title); 
 					}
 ?>
 			</p>
 <?php if( $PingLog['success'] ) { ?>
-			<p>Feed pulled by iTunes: <?php echo $PingLog['feed_url']; ?>
+			<p><?php echo __('Feed pulled by iTunes', 'powerpress'); ?>: <?php echo $PingLog['feed_url']; ?>
 			</p>
 			<?php
 				
 			?>
 <?php } else { ?>
-			<p>Error: <?php echo htmlspecialchars($PingLog['content']); ?></p>
+			<p><?php echo __('Error', 'powerpress'); ?>: <?php echo htmlspecialchars($PingLog['content']); ?></p>
 <?php } ?>
 		</div>
 <?php
@@ -544,11 +544,11 @@ Once your podcast is listed on iTunes, enter your one-click subscription URL abo
 
 <tr valign="top">
 <th scope="row">
-<?php _e("FeedBurner Feed URL"); ?>
+<?php echo __('FeedBurner Feed URL', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo $FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (leave blank to use current feed)
-<p>Use this option to redirect this feed to a hosted feed service such as <a href="http://www.feedburner.com/" target="_blank">FeedBurner</a>.</p>
+<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo $FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
+<p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
 <?php
 if( $cat_ID )
 	$link = get_category_feed_link($cat_ID);
@@ -560,7 +560,7 @@ if( strstr($link, '?') )
 else
 	$link .= "?redirect=no";
 ?>
-<p>Bypass Redirect URL: <a href="<?php echo $link; ?>" target="_blank"><?php echo $link; ?></a></p>
+<p><?php echo __('Bypass Redirect URL', 'powerpress'); ?>: <a href="<?php echo $link; ?>" target="_blank"><?php echo $link; ?></a></p>
 </td>
 </tr>
 
@@ -568,31 +568,31 @@ else
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Show the most recent"); ?>
+<?php echo __('Show the most recent', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" />  episodes / posts per feed (leave blank to use blog default: <?php form_option('posts_per_rss'); ?>)
+<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" /> <?php echo __('episodes / posts per feed (leave blank to use blog default', 'powerpress'); ?>: <?php form_option('posts_per_rss'); ?>)
 <?php if( !$feed_slug && !$cat_ID ) { ?>
-<p style="margin-top: 5px; margin-bottomd: 0;">Note: Setting above applies only to podcast channel feeds</p>
+<p style="margin-top: 5px; margin-bottomd: 0;"><?php echo __('Note: Setting above applies only to podcast channel feeds', 'powerpress'); ?></p>
 <?php } ?>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row">
-<?php _e("RSS2 Image"); ?> <br />
+<?php echo __('RSS2 Image', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo $FeedSettings['rss2_image']; ?>" maxlength="250" />
-<a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;">preview</a>
+<a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p>Place the URL to the RSS image above. e.g. http://mysite.com/images/rss.jpg</p>
-<p>RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.</p>
+<p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>
+<p><?php echo __('RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.', 'powerpress'); ?></p>
 
 <?php if( $SupportUploads ) { ?>
-<p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> Upload new image</p>
+<p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?></p>
 <div style="display:none" id="rss_image_upload">
-	<label for="rss2_image">Choose file:</label><input type="file" name="rss2_image_file"  />
+	<label for="rss2_image"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="rss2_image_file"  />
 </div>
 <?php } ?>
 </td>
@@ -605,13 +605,13 @@ else
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Feed Language"); ?></th>
+<?php echo __('Feed Language', 'powerpress'); ?></th>
 <td>
 <select name="Feed[rss_language]" class="bpp_input_med">
 <?php
 $Languages = powerpress_languages();
 
-echo '<option value="">Blog Default Language</option>';
+echo '<option value="">'. __('Blog Default Language', 'powerpress') .'</option>';
 while( list($value,$desc) = each($Languages) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 ?>
@@ -621,14 +621,14 @@ while( list($value,$desc) = each($Languages) )
 if( isset($Languages[ $rss_language ]) )
 {
 ?>
- Blog Default: <?php echo $Languages[ $rss_language ]; ?>
+ <?php echo __('Blog Default', 'powerpress'); ?>: <?php echo $Languages[ $rss_language ]; ?>
  <?php } ?>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row">
-<?php _e("Copyright"); ?>
+<?php echo __('Copyright', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
@@ -670,11 +670,11 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 	{
 ?>
 
-<h3>Episode Entry Box</h3>
+<h3><?php echo __('Episode Entry Box', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php _e("Background Color"); ?>
+<?php echo __('Background Color', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
@@ -686,9 +686,9 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 <div style="background-color: #EBFFFF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBFFFF'; jQuery('#episode_background_color').css({'background-color' :'#EBFFFF' });"></div>
 <div style="background-color: #D9E0EF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#D9E0EF'; jQuery('#episode_background_color').css({'background-color' :'#D9E0EF' });"></div>
 <div style="background-color: #EBE0EB;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#EBE0EB'; jQuery('#episode_background_color').css({'background-color' :'#EBE0EB' });"></div>
- &nbsp; (leave blank for default)
+ &nbsp; (<?php echo __('leave blank for default', 'powerpress'); ?>)
 
-<p class="clear">Use a distinctive background color for this podcast channel's episode box.</p>
+<p class="clear"><?php echo __('Use a distinctive background color for this podcast channel\'s episode box.', 'powerpress'); ?></p>
 </td>
 </tr>
 </table>
@@ -699,19 +699,19 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 		if( @$General['premium_caps'] && $feed_slug && $feed_slug != 'podcast' )
 		{
 ?>
-<h3>Password Protect Podcast Channel</h3>
+<h3><?php echo __('Password Protect Podcast Channel', 'powerpress'); ?></h3>
 <p>
-	Require visitors to have membership to your blog in order to gain access to this channel's Premium Content.
+	<?php echo __('Require visitors to have membership to your blog in order to gain access to this channel\'s Premium Content.', 'powerpress'); ?>
 </p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
 
-<?php _e("Protect Content"); ?></th>
+<?php echo __('Protect Content', 'powerpress'); ?></th>
 <td>
-	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectContent" value="1" <?php echo ($FeedSettings['premium']?'checked ':''); ?> onchange="powerpress_toggle_premium_content(this.checked);" /> Require user to be signed-in to access feed.</p>
+	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectContent" value="1" <?php echo ($FeedSettings['premium']?'checked ':''); ?> onchange="powerpress_toggle_premium_content(this.checked);" /> <?php echo __('Require user to be signed-in to access feed.', 'powerpress'); ?></p>
 <?php ?>
-	<div style="margin-left: 20px; display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;" id="premium_role">User must have 
+	<div style="margin-left: 20px; display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;" id="premium_role"><?php echo __('User must have the following capability', 'powerpress'); ?>:
 <select name="Feed[premium]" class="bpp_input_med">
 <?php
 			$caps = powerpress_admin_capabilities();
@@ -723,7 +723,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 			while( list($value,$desc) = each($caps) )
 				echo "\t<option value=\"$value\"". ($actual_premium_value==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 ?>
-</select> capability.</div>
+</select></div>
 </td>
 </tr>
 </table>
@@ -736,11 +736,11 @@ function powerpress_toggle_premium_content(enabled)
 }	
 function powerpress_premium_label_append_signin_link()
 {
-	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="Sign In">Sign In<\/a>'); 
+	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="<?php echo __('Sign In', 'powerpress'); ?>"><?php echo __('Sign In', 'powerpress'); ?>\/a>'); 
 }
 function powerpress_default_premium_label(event)
 {
-	if( confirm('Use default label, are you sure?') )
+	if( confirm('<?php echo __('Use default label, are you sure?', 'powerpress'); ?>') )
 	{
 		jQuery('#premium_label_custom').css('display', (this.checked==false?'block':'none') );
 		jQuery('#premium_label').val('');
@@ -755,27 +755,26 @@ function powerpress_default_premium_label(event)
 	<table class="form-table">
 	<tr valign="top">
 	<th scope="row">
-	<?php _e("Unauthorized Label"); ?>
+	<?php echo __('Unauthorized Label', 'powerpress'); ?>
 	</th>
 	<td>
 	<p style="margin-top: 5px;"><input type="radio" name="PremiumLabel" value="0" <?php echo ($FeedSettings['premium_label']==''?'checked ':''); ?> onclick="return powerpress_default_premium_label(this)" />
-		Use default label:
+		<?php echo __('Use default label', 'powerpress'); ?>:
 	</p>
 	<p style="margin-left: 20px;">
-	<?php echo $FeedSettings['title']; ?>: <a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" target="_blank" title="Protected Content">(Protected Content)</a>
+	<?php echo $FeedSettings['title']; ?>: <a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" target="_blank" title="Protected Content">(<?php echo __('Protected Content', 'powerpress'); ?>)</a>
 	</p>
 	<p style="margin-top: 5px;"><input type="radio" name="PremiumLabel" id="premium_label_1" value="1" <?php echo ($FeedSettings['premium_label']!=''?'checked ':''); ?> onchange="jQuery('#premium_label_custom').css('display', (this.checked?'block':'none') );" />
-		Use a custom label:
+		<?php echo __('Use a custom label', 'powerpress'); ?>:
 	</p>
 	
 	<div id="premium_label_custom" style="margin-left: 20px; display: <?php echo ($FeedSettings['premium_label']!=''?'block':'none'); ?>;">
 	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo htmlspecialchars(@$FeedSettings['premium_label']); ?></textarea>
 		<div style="width: 80%; font-size: 85%; text-align: right;">
-			<a href="#" onclick="powerpress_premium_label_append_signin_link();return false;">Add sign in link to message</a>
+			<a href="#" onclick="powerpress_premium_label_append_signin_link();return false;"><?php echo __('Add sign in link to message', 'powerpress'); ?></a>
 		</div>
 		<p style="width: 80%;">
-			Label above appears in place of the in-page player and links when
-			the current signed-in user does not have access to the protected content.
+			<?php echo __('Label above appears in place of the in-page player and links when the current signed-in user does not have access to the protected content.', 'powerpress'); ?>
 		</p>
 	</div>
 	</td>
@@ -791,14 +790,14 @@ function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_sl
 {
 	// Appearance Settings
 ?>
-<h3>Appearance Settings</h3>
+<h3><?php echo __('Appearance Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php _e("Disable Player"); ?>
+<?php echo __('Disable Player', 'powerpress'); ?>
 </th>
 <td>
-	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> Do not display web player or links for this podcast channel.
+	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> <?php echo __('Do not display web player or links for this podcast channel.', 'powerpress'); ?>
 	<input type="hidden" name="UpdateDisablePlayer" value="<?php echo $feed_slug; ?>" />
 </td>
 </tr>
@@ -834,7 +833,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 		$FeedSettings['itunes_new_feed_url'] = '';
 	
 ?>
-<h3>iTunes Feed Settings</h3>
+<h3><?php echo __('iTunes Feed Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 	
 <?php
@@ -843,7 +842,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Program Subtitle"); ?> <br />
+<?php echo __('iTunes Program Subtitle', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[itunes_subtitle]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_subtitle']; ?>" maxlength="250" />
@@ -853,9 +852,9 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 <tr valign="top">
 <th scope="row">
 
-<?php _e("iTunes Program Summary"); ?></th>
+<?php echo __('iTunes Program Summary', 'powerpress'); ?></th>
 <td>
-<p style="margin-top: 5px;">Your summary may not contain HTML and cannot exceed 4,000 characters in length.</p>
+<p style="margin-top: 5px;"><?php echo __('Your summary may not contain HTML and cannot exceed 4,000 characters in length.', 'powerpress'); ?></p>
 
 <textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
 </td>
@@ -864,22 +863,22 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 <tr valign="top">
 <th scope="row">
 
-<?php _e("iTunes Episode Summary"); ?></th>
+<?php echo __('iTunes Episode Summary', 'powerpress'); ?></th>
 <td>
 
 <?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> Optimize iTunes Summary from Blog Posts (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank">What's this</a>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?> (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank"><?php echo __('What\'s this', 'powerpress'); ?></a>)
 </div>
 <p>
-	Creates a friendlier view of your post/episode content by converting web links and images to clickable links in iTunes.
+	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in iTunes.', 'powerpress'); ?>
 </p>
 <?php } else { ?>
 
-	<strong>Option Not Available</strong>
+	<strong><?php echo __('Option Not Available', 'powerpress'); ?></strong>
 
 <p>
-	This feature requires PHP version 5 or newer.
-	Your server's version of PHP is <?php echo phpversion(); ?>. 
+	<?php echo __('This feature requires PHP version 5 or newer.', 'powerpress'); ?>
+	<?php echo sprintf( __('Your server\'s version of PHP is %s','powerpress'),phpversion() ); ?>. 
 </p>
 <?php } ?>
 </td>
@@ -889,26 +888,25 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Program Keywords"); ?> <br />
+<?php echo __('iTunes Program Keywords', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[itunes_keywords]" style="width: 60%;"  value="<?php echo $FeedSettings['itunes_keywords']; ?>" maxlength="250" />
-<p>Enter up to 12 keywords separated by commas.</p>
+<p><?php echo __('Enter up to 12 keywords separated by commas.', 'powerpress'); ?></p>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Category"); ?> 
+<?php echo __('iTunes Category', 'powerpress'); ?> 
 </th>
 <td>
 <select name="Feed[itunes_cat_1]" style="width: 60%;">
 <?php
-$linkoptions = array("On page", "Disable");
 
 $Categories = powerpress_itunes_categories(true);
 
-echo '<option value="">Select Category</option>';
+echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
 
 while( list($value,$desc) = each($Categories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_1']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
@@ -925,14 +923,14 @@ reset($Categories);
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Category 2"); ?> 
+<?php echo __('iTunes Category 2', 'powerpress'); ?> 
 </th>
 <td>
 <select name="Feed[itunes_cat_2]" style="width: 60%;">
 <?php
-$linkoptions = array("On page", "Disable");
 
-echo '<option value="">Select Category</option>';
+
+echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
 
 while( list($value,$desc) = each($Categories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_2']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
@@ -946,14 +944,13 @@ reset($Categories);
 
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Category 3"); ?> 
+<?php echo __('iTunes Category 3', 'powerpress'); ?> 
 </th>
 <td>
 <select name="Feed[itunes_cat_3]" style="width: 60%;">
 <?php
-$linkoptions = array("On page", "Disable");
 
-echo '<option value="">Select Category</option>';
+echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
 
 while( list($value,$desc) = each($Categories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_3']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
@@ -969,12 +966,12 @@ reset($Categories);
 
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Explicit"); ?> 
+<?php echo __('iTunes Explicit', 'powerpress'); ?> 
 </th>
 <td>
 <select name="Feed[itunes_explicit]" class="bpp_input_med">
 <?php
-$explicit = array(0=>"no - display nothing", 1=>"yes - explicit content", 2=>"clean - no explicit content");
+$explicit = array(0=> __('No - display nothing', 'powerpress'), 1=>__('Yes - explicit content', 'powerpress'), 2=>__('Clean - no explicit content', 'powerpress'));
 
 while( list($value,$desc) = each($explicit) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_explicit']==$value?' selected':''). ">$desc</option>\n";
@@ -986,19 +983,21 @@ while( list($value,$desc) = each($explicit) )
 
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Image"); ?> 
+<?php echo __('iTunes Image', 'powerpress'); ?> 
 </th>
 <td>
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo $FeedSettings['itunes_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;">preview</a>
 
-<p>Place the URL to the iTunes image above. e.g. http://mysite.com/images/itunes.jpg<br /><br />iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.</p>
+<p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://mysite.com/images/itunes.jpg<br /><br />
+<?php echo __('iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.', 'powerpress'); ?></p>
 
-<p>Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory. Please contact <a href="http://www.apple.com/support/itunes/">iTunes Support</a> if you are having issues with your image changes not appearing in iTunes.</p>
+<p><?php echo __('Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory.', 'powerpress'); ?>
+<?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
 <?php if( $SupportUploads ) { ?>
-<p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> Upload new image </p>
+<p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
 <div style="display:none" id="itunes_image_upload">
-	<label for="itunes_image">Choose file:</label><input type="file" name="itunes_image_file"  />
+	<label for="itunes_image"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  />
 </div>
 <?php } ?>
 </td>
@@ -1010,11 +1009,11 @@ while( list($value,$desc) = each($explicit) )
 ?>
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Talent Name"); ?> <br />
+<?php echo __('iTunes Talent Name', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
-<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> Use blog post author's name for individual episodes.</div>
+<div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> <?php echo __('Use blog post author\'s name for individual episodes.', 'powerpress'); ?></div>
 
 </td>
 </tr>
@@ -1024,11 +1023,11 @@ while( list($value,$desc) = each($explicit) )
 
 <tr valign="top">
 <th scope="row">
-<?php _e("iTunes Email"); ?>
+<?php echo __('iTunes Email', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" name="Feed[email]"  style="width: 60%;" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
-<div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.'); ?>)</div>
+<div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>)</div>
 </td>
 </tr>
 
@@ -1039,25 +1038,25 @@ while( list($value,$desc) = each($explicit) )
 	<tr valign="top">
 	<th scope="row" >
 
-<?php _e("iTunes New Feed URL"); ?></th> 
+<?php echo __('iTunes New Feed URL', 'powerpress'); ?></th> 
 	<td>
 		<div id="new_feed_url_step_1" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'none':'block'); ?>;">
-			 <p style="margin-top: 5px;"><strong><a href="#" onclick="return powerpress_new_feed_url_prompt();"><?php echo __('Set iTunes New Feed URL'); ?></a></strong></p>
+			 <p style="margin-top: 5px;"><strong><a href="#" onclick="return powerpress_new_feed_url_prompt();"><?php echo __('Set iTunes New Feed URL', 'powerpress'); ?></a></strong></p>
 		</div>
 		<div id="new_feed_url_step_2" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'block':'none'); ?>;">
-			<p style="margin-top: 5px;"><strong><?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.'); ?></strong></p>
-			<p><strong><?php echo __('DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.'); ?></strong></p>
+			<p style="margin-top: 5px;"><strong><?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.', 'powerpress'); ?></strong></p>
+			<p><strong><?php echo __('DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.', 'powerpress'); ?></strong></p>
 			<p>
-				<?php echo htmlspecialchars( __('Apple recommends you maintain the <itunes:new-feed-url> tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.') ); ?>
+				<?php echo htmlspecialchars( sprintf(__('Apple recommends you maintain the %s tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL.', 'powerpress'), '<itunes:new-feed-url>' ) ); ?>
 			</p>
 			<p>
 			<?php 
-			$FeedName = 'Main RSS2 feed';
+			$FeedName = __('Main RSS2 feed', 'powerpress');
 			$FeedURL = get_feed_link('rss2');
 			if( $cat_ID )
 			{
 				$category = get_category_to_edit($cat_ID);
-				$FeedName = sprintf( __('%s category feed'), htmlspecialchars($category->name) );
+				$FeedName = sprintf( __('%s category feed', 'powerpress'), htmlspecialchars($category->name) );
 				$FeedURL = get_category_feed_link($cat_ID);
 			}
 			else if( $feed_slug )
@@ -1065,29 +1064,29 @@ while( list($value,$desc) = each($explicit) )
 				if( !empty($General['custom_feeds'][ $feed_slug ]) )
 					$FeedName = $General['custom_feeds'][ $feed_slug ];
 				else
-					$FeedName = __('Podcast');
-				$FeedName = trim($FeedName).' '.__('feed');
+					$FeedName = __('Podcast', 'powerpress');
+				$FeedName = trim($FeedName).' '.__('feed', 'powerpress');
 				$FeedURL = get_feed_link($feed_slug);
 			}
 			
-			echo sprintf(__('The New Feed URL value below will be applied to the %s (%s).'), $FeedName, $FeedURL);
+			echo sprintf(__('The New Feed URL value below will be applied to the %s (%s).', 'powerpress'), $FeedName, $FeedURL);
 ?>
 			</p>
 			<p style="margin-bottom: 0;">
-				<label style="width: 25%; float:left; display:block; font-weight: bold;">New Feed URL</label>
+				<label style="width: 25%; float:left; display:block; font-weight: bold;"><?php echo __('New Feed URL', 'powerpress'); ?></label>
 				<input type="text" name="Feed[itunes_new_feed_url]"style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
 			</p>
-			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(Leave blank for no New Feed URL)</p>
+			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(<?php echo __('Leave blank for no New Feed URL', 'powerpress'); ?>)</p>
 			
-			<p>More information regarding the iTunes New Feed URL is available <a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank" title="Apple iTunes Podcasting Specificiations">here</a>.</p>
+			<p><a href="http://www.apple.com/itunes/whatson/podcasts/specs.html#changing" target="_blank"><?php echo __('More information regarding the iTunes New Feed URL is available here.', 'powerpress'); ?></a></p>
 			<p>
 <?php
 			if( !$cat_ID && !$feed_slug )
 			{
 				if( empty($General['channels']) )
-					echo sprintf(__('Please activate the \'Custom Podcast Channels\' Advanced Option to set the new-feed-url for your podcast only feed (%s)'), get_feed_link('podcast') );
+					echo sprintf(__('Please activate the \'Custom Podcast Channels\' Advanced Option to set the new-feed-url for your podcast only feed (%s)', 'powerpress'), get_feed_link('podcast') );
 				else
-					echo sprintf(__('Please navigate to the \'Custom Podcast Channels\' section to set the new-feed-url for your podcast only feed (%s)'), get_feed_link('podcast') );
+					echo sprintf(__('Please navigate to the \'Custom Podcast Channels\' section to set the new-feed-url for your podcast only feed (%s)', 'powerpress'), get_feed_link('podcast') );
 			}
 ?>
 			</p>

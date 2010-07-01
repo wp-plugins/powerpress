@@ -1542,12 +1542,12 @@ function powerpress_cat_row_actions($actions, $object)
 	if( isset($General['custom_cat_feeds']) && is_array($General['custom_cat_feeds']) && in_array($cat_id, $General['custom_cat_feeds']) )
 	{
 		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-editcategoryfeed&amp;cat=') . $cat_id;
-		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Edit Blubrry PowerPress Podcast Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Podcast Settings')) . '</a>';
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Edit Blubrry PowerPress Podcast Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Podcast Settings', 'powerpress')) . '</a>';
 	}
 	else
 	{
 		$edit_link = admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;from_categories=1&amp;action=powerpress-addcategoryfeed&amp;cat=".$cat_id, 'powerpress-add-category-feed');
-		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Add Blubrry PowerPress Podcasting Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Add Podcasting')) . '</a>';
+		$actions['powerpress'] = '<a href="' . $edit_link . '" title="'. __('Add Blubrry PowerPress Podcasting Settings', 'powerpress') .'">' . str_replace(' ', '&nbsp;', __('Add Podcasting', 'powerpress')) . '</a>';
 	}
 	return $actions;
 }
@@ -1635,7 +1635,7 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress', 'powerpress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
 	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com', 'powerpress'); ?>"><?php echo __('PodcastFAQ.com', 'powerpress'); ?></a> |
 	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation', 'powerpress'); ?>"><?php echo __('Documentation', 'powerpress'); ?></a> |
-	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum', 'powerpress'); ?>"><?php echo __('Forum'); ?></a> |
+	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum', 'powerpress'); ?>"><?php echo __('Forum', 'powerpress'); ?></a> |
 	<a href="http://twitter.com/blubrry" target="_blank" title="<?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?>"><?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?></a>
 </p>
 <?php if( $form ) { ?>
@@ -1876,7 +1876,7 @@ function powerpress_ping_itunes($iTunes_url)
 {
 	// Pull the iTunes FEEDID from the URL...
 	if( !preg_match('/id=(\d+)/', $iTunes_url, $matches) )
-		return array('error'=>true, 'content'=>__('iTunes URL required to ping iTunes.'), 'podcast_id'=>0 );
+		return array('error'=>true, 'content'=>__('iTunes URL required to ping iTunes.', 'powerpress'), 'podcast_id'=>0 );
 	
 	$FEEDID = $matches[1];
 	
@@ -1893,11 +1893,11 @@ function powerpress_ping_itunes($iTunes_url)
 		sleep(1); // wait just a second :)
 		$tempdata = powerpress_remote_fopen($ping_url);
 		if( $tempdata == false )
-			return array('error'=>true, 'content'=>__('Unable to connect to iTunes ping server.'), 'podcast_id'=>trim($PodcastID));
+			return array('error'=>true, 'content'=>__('Unable to connect to iTunes ping server.', 'powerpress'), 'podcast_id'=>trim($PodcastID));
 	}
 	
 	if( stristr($tempdata, 'No Podcast Found') )
-		return array('error'=>true, 'content'=>__('No Podcast Found from iTunes ping request.'), 'podcast_id'=>trim($PodcastID));
+		return array('error'=>true, 'content'=>__('No Podcast Found from iTunes ping request.', 'powerpress'), 'podcast_id'=>trim($PodcastID));
 		
 	// Parse the data into something readable
 	$results = trim( str_replace('Podcast Ping Received', '', strip_tags($tempdata) ) );
@@ -2137,7 +2137,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 				}
 				else if( isset($results['error']) )
 				{
-					$error = __('Blubrry Hosting Error (media info)') .': '. $results['error'];
+					$error = __('Blubrry Hosting Error (media info)', 'powerpress') .': '. $results['error'];
 					powerpress_add_error($error);
 				}
 				else
@@ -2672,7 +2672,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		{
 			// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
 			$warning = sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() );
-			$warning .=	' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
+			$warning .=	' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help', 'powerpress') .'" target="_blank">'. __('Help') .'</a>]';
 			if( $return_warnings )
 				$warning_msg .= $warning;
 			else
@@ -2690,7 +2690,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			$Warnings = $Mp3Info->GetWarnings();
 			while( list($null, $warning) = each($Warnings) )
 			{
-				$warning = sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]';
+				$warning = sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]';
 				if( $return_warnings )
 					$warning_msg .= $warning;
 				else
@@ -2726,7 +2726,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
 				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() )
-					.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]'
+					.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]'
 					);
 			}
 			
@@ -2739,7 +2739,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				$Warnings = $Mp3Info->GetWarnings();
 				while( list($null, $warning) = each($Warnings) )
-					powerpress_add_error(  sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help') .'</a>]' );
+					powerpress_add_error(  sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]' );
 			}
 		}
 		else

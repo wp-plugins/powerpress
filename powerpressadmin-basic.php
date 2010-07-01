@@ -547,7 +547,7 @@ while( list($value,$desc) = each($options) )
 	
 ?>
 </select>  <?php echo __('Notify (ping) iTunes when you publish a new episode.', 'powerpress'); ?>
-<p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> <?php echo __('Test Update iTunes Listing (recommended)'); ?></p>
+<p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> <?php echo __('Test Update iTunes Listing (recommended)', 'powerpress'); ?></p>
 <?php 
 	$itunes_subscribe_url = ($FeedSettings?$FeedSettings['itunes_url']:$General['itunes_url']);
 	if( !empty($itunes_subscribe_url) )
@@ -762,7 +762,7 @@ function powerpressadmin_edit_media_statistics($General)
 	&nbsp;
 	</th>
 	<td>
-	<p style="margin: 0;"><a href="javascript:void();" onclick="javascript:document.getElementById('blubrry_stats_box').style.display='block';document.getElementById('hide_free_stats').value=0;document.getElementById('show_free_stats').style.display='none';return false;"><?php echo __('Learn About Free Blubrry Statistics'); ?></a></p>
+	<p style="margin: 0;"><a href="javascript:void();" onclick="javascript:document.getElementById('blubrry_stats_box').style.display='block';document.getElementById('hide_free_stats').value=0;document.getElementById('show_free_stats').style.display='none';return false;"><?php echo __('Learn About Free Blubrry Statistics', 'powerpress'); ?></a></p>
 	</td>
 	</tr>
 	</table>

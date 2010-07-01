@@ -245,7 +245,7 @@ function DeleteMedia(File)
 	<strong class="media-name"><?php echo htmlspecialchars($data['name']); ?></strong>
 	<cite><?php echo powerpress_byte_size($data['length']); ?></cite>
 	<?php if( !empty($data['published']) ) { ?>
-	<div class="media-published-date">&middot; <?php echo __('Published on'); ?> <?php echo date(get_option('date_format'), $data['last_modified']); ?></div>
+	<div class="media-published-date">&middot; <?php echo __('Published on', 'powerpress'); ?> <?php echo date(get_option('date_format'), $data['last_modified']); ?></div>
 	<?php } ?>
 	<div class="media-item-links">
 		<?php if( !empty($data['published']) && !empty($data['url']) ) { ?>

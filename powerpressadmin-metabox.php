@@ -178,7 +178,7 @@ function powerpress_meta_box($object, $box)
 	{
 ?>
 		<div class="powerpress_row">
-			<label><?php echo __('File Size'); ?></label>
+			<label><?php echo __('File Size', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<div style="margin-bottom: 4px;">
 					<input id="powerpress_set_size_0_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_size]" value="0" type="radio" <?php echo ($GeneralSettings['set_size']==0?'checked':''); ?> /> 
