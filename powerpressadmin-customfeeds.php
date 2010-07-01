@@ -5,10 +5,10 @@ if( !function_exists('add_action') )
 	
 function powerpress_admin_customfeeds_columns($data=array())
 {
-	$data['name'] = __('Name');
-	$data['feed-slug'] = __('Slug');
-	$data['episode-count'] = __('Episodes');
-	$data['url'] = __('URL');
+	$data['name'] = __('Name', 'powerpress');
+	$data['feed-slug'] = __('Slug', 'powerpress');
+	$data['episode-count'] = __('Episodes', 'powerpress');
+	$data['url'] = __('URL', 'powerpress');
 	return $data;
 }
 
@@ -20,13 +20,13 @@ function powerpress_admin_customfeeds()
 	
 	
 ?>
-<h2><?php echo __('Custom Podcast Channels'); ?></h2>
+<h2><?php echo __('Custom Podcast Channels', 'powerpress'); ?></h2>
 <p>
-	<?php echo __('Custom podcast Channels allow you to associate multiple media files and/or formats to one blog post.'); ?>
+	<?php echo __('Custom podcast Channels allow you to associate multiple media files and/or formats to one blog post.', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo sprintf( __('If you are looking to organize episodes by topic, please use %s.'),
-		'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php') .'" title="'. __('Category Podcast Feeds') .'">'. __('Category Podcast Feeds') .'</a>'); ?>
+	<?php echo sprintf( __('If you are looking to organize episodes by topic, please use %s.', 'powerpress'),
+		'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php') .'" title="'. __('Category Podcast Feeds', 'powerpress') .'">'. __('Category Podcast Feeds', 'powerpress') .'</a>'); ?>
 </p>
 
 <style type="text/css">
@@ -58,10 +58,10 @@ function powerpress_admin_customfeeds()
 	else // WordPress 2.6 or older
 	{
 	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Name'); ?></th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
-	<th scope="col" id="episode-count" class="manage-column column-episode-count"><?php echo __('Episodes'); ?></th>
-	<th scope="col" id="url" class="manage-column column-url"><?php echo __('URL'); ?></th>
+	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Name', 'powerpress'); ?></th>
+	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
+	<th scope="col" id="episode-count" class="manage-column column-episode-count"><?php echo __('Episodes', 'powerpress'); ?></th>
+	<th scope="col" id="url" class="manage-column column-url"><?php echo __('URL', 'powerpress'); ?></th>
 	<?php
 	}
 ?>
@@ -78,10 +78,10 @@ function powerpress_admin_customfeeds()
 	else // WordPress 2.6 or older
 	{
 	?>
-	<th scope="col" class="manage-column column-name"><?php echo __('Name'); ?></th>
-	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
-	<th scope="col" class="manage-column column-episode-count"><?php echo __('Episodes'); ?></th>
-	<th scope="col" class="manage-column column-url"><?php echo __('URL'); ?></th>
+	<th scope="col" class="manage-column column-name"><?php echo __('Name', 'powerpress'); ?></th>
+	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
+	<th scope="col" class="manage-column column-episode-count"><?php echo __('Episodes', 'powerpress'); ?></th>
+	<th scope="col" class="manage-column column-url"><?php echo __('URL', 'powerpress'); ?></th>
 	<?php
 	}
 ?>
@@ -91,7 +91,7 @@ function powerpress_admin_customfeeds()
 <?php
 	
 	
-	$Feeds = array('podcast'=>__('Podcast') );
+	$Feeds = array('podcast'=>__('Podcast', 'powerpress') );
 	if( isset($General['custom_feeds']['podcast']) )
 		$Feeds = $General['custom_feeds'];
 	else if( is_array($General['custom_feeds']) )
@@ -106,7 +106,7 @@ function powerpress_admin_customfeeds()
 		$columns = powerpress_admin_customfeeds_columns();
 		$hidden = array();
 		if( $feed_slug == 'podcast' )
-			$feed_title = __('Podcast');
+			$feed_title = __('Podcast', 'powerpress');
 		$feed_title = wp_specialchars($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
@@ -137,10 +137,10 @@ function powerpress_admin_customfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel') .')':'').'<br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel', 'powerpress') .')':'').'<br />';
 					$actions = array();
-					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
+					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete', 'powerpress') . "</a>";
 					if( !isset($General['custom_feeds'][ $feed_slug ]) )
 					{
 						unset($actions['delete']);
@@ -160,9 +160,9 @@ function powerpress_admin_customfeeds()
 					
 				case 'url': {
 				
-					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s'), $feed_title))."' target=\"_blank\">$short_url</a>";
+					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
-							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed') . '</a></span>';
+							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
 						echo '</div>';
 					echo "</td>";
 					
@@ -186,15 +186,15 @@ function powerpress_admin_customfeeds()
 	</tbody>
 </table>
 <?php if( !isset($General['custom_feeds'][ $feed_slug ]) ) { ?>
-<p><?php echo sprintf( __('Note: The default channel "Podcast" is currently using global PowerPress settings. Click %s to customize the default "Podcast" channel.'), 
-	'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=podcast') .'">'. __('Edit') .'</a>'); ?></p>
+<p><?php echo sprintf( __('Note: The default channel "Podcast" is currently using global PowerPress settings. Click %s to customize the default "Podcast" channel.', 'powerpress'), 
+	'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=podcast') .'">'. __('Edit', 'powerpress') .'</a>'); ?></p>
 <?php } ?>
 </div> <!-- col-right -->
 
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
-<h3><?php echo __('Add Podcast Channel'); ?></h3>
+<h3><?php echo __('Add Podcast Channel', 'powerpress'); ?></h3>
 <div id="ajax-response"></div>
 <input type="hidden" name="action" value="powerpress-addfeed" />
 <?php
@@ -203,18 +203,18 @@ function powerpress_admin_customfeeds()
 ?>
 
 <div class="form-field form-required">
-	<label for="feed_name"><?php echo __('Feed Name') ?></label>
+	<label for="feed_name"><?php echo __('Feed Name', 'powerpress') ?></label>
 	<input name="feed_name" id="feed_name" type="text" value="" size="40" />
-    <p><?php _e('The name is used for use within the administration area only.'); ?></p>
+    <p><?php echo __('The name is used for use within the administration area only.', 'powerpress'); ?></p>
 </div>
 
 <div class="form-field">
-	<label for="feed_slug"><?php echo __('Feed Slug') ?></label>
+	<label for="feed_slug"><?php echo __('Feed Slug', 'powerpress') ?></label>
 	<input name="feed_slug" id="feed_slug" type="text" value="" size="40" />
-    <p><?php echo __('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
+    <p><?php echo __('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'powerpress'); ?></p>
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Channel'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Channel', 'powerpress'); ?>" /></p>
 
 </div>
 </div>
@@ -223,15 +223,15 @@ function powerpress_admin_customfeeds()
 
 </div> <!-- col-container -->
 
-<h3><?php echo __('Example Usage'); ?></h3>
+<h3><?php echo __('Example Usage', 'powerpress'); ?></h3>
 <p>
-	<?php echo __('Example 1: You want to distribute both an mp3 and an ogg version of your podcast. Use the default podcast channel for your mp3 media and create a custom channel for your ogg media.'); ?>
+	<?php echo __('Example 1: You want to distribute both an mp3 and an ogg version of your podcast. Use the default podcast channel for your mp3 media and create a custom channel for your ogg media.', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo __('Example 2: You have a video podcast with multiple file formats. Use the default podcast channel for the main media that you want to appear on your blog (e.g. m4v). Create additional channels for the remaining formats (e.g. wmv, mov, mpeg).'); ?>
+	<?php echo __('Example 2: You have a video podcast with multiple file formats. Use the default podcast channel for the main media that you want to appear on your blog (e.g. m4v). Create additional channels for the remaining formats (e.g. wmv, mov, mpeg).', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo __('Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channels for your full length episodes.'); ?>
+	<?php echo __('Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channels for your full length episodes.', 'powerpress'); ?>
 </p>
 
 <?php
