@@ -138,13 +138,15 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
+* Translation support has been completed for Blubrry PowerPress. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
 = 1.0.9 =
-* Released on 6/16/2010
+* Released on 7/1/2010
+* Updated WP supported version tag to 3.0, we have yet to find any issues between PowerPress and the latest version of WordPress.
 * Fixed minor bug when clicking 'Add Podcasting to Category' when category not selected.
 * Added Media Redirect URL option for Category feeds and pages. The Redirect URL also works with single pages if only one category is selected for the post.
-* Finished adding translation support.
+* Finished adding translation support. Want to translate PowerPress into you language? Please email cio [at] rawvoice.com for details.
+* Improved error reporting for the 'Verify' button feature.
 
 
 = 1.0.8 =

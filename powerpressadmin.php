@@ -1359,11 +1359,11 @@ function powerpress_get_media_info(FeedSlug)
 						echo "\t\t\t\talert(response);\n";
 					?>
 					var Parts = response.split("\n", 5);
-					var FeedSlug = Parts[0];
+					var FinishFeedSlug = Parts[0];
 					
 					jQuery('#powerpress_check_'+FeedSlug).css("display", 'none');
 					
-					if( Parts[1] == 'OK' )
+					if( FeedSlug == FinishFeedSlug && Parts[1] == 'OK' )
 					{
 						jQuery('#powerpress_set_size_1_'+FeedSlug).attr('checked', true);
 						jQuery('#powerpress_size_'+FeedSlug).val( Parts[2] );
@@ -1399,8 +1399,13 @@ function powerpress_get_media_info(FeedSlug)
 					}
 					else
 					{
-						var Parts = response.split("\n", 3);
-						if( Parts[1] )
+						var Parts = response.split("\n", 5);
+						if( Parts.length > 4 )
+						{
+							var server_error = response.replace(/\n/g, "<br \/>");
+							jQuery( '#powerpress_warning_'+FeedSlug ).html( '<div style="text-align: left;">Server Error:</div><div style="text-align: left; font-weight: normal;">' + server_error +'<\/div>' );
+						}
+						else if( Parts[1] )
 							jQuery( '#powerpress_warning_'+FeedSlug ).html( Parts[1] );
 						else
 							jQuery( '#powerpress_warning_'+FeedSlug ).text( '<?php echo __('Unknown error occurred while checking Media URL.', 'powerpress'); ?>' );
@@ -2695,7 +2700,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	}
 	else
 	{
-		if( $Mp3Info->GetError() )
+		if( $Mp3Info->GetError() != '' )
 			return array('error'=>$Mp3Info->GetError() );
 		else
 			return array('error'=>__('Error occurred obtaining media information.', 'powerpress') );

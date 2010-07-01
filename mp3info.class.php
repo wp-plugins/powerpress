@@ -478,6 +478,27 @@
 				$LocalFile = $File;
 			}
 			
+			if( !is_file($LocalFile) )
+			{
+				$this->SetError( __('Error occurred downloading media file.', 'powerpress') );
+				return false;
+			}
+			
+			if( $this->m_ContentLength == -1 )
+			{
+				$this->SetError( __('Error occurred downloading media file.', 'powerpress') );
+				return false;
+			}
+			
+			if( $this->m_ContentLength < 1 )
+				$this->m_ContentLength = filesize($LocalFile);
+			
+			if( $this->m_ContentLength == 0 )
+			{
+				$this->SetError( __('Downloaded media file is empty.', 'powerpress') );
+				return false;
+			}
+			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
@@ -488,6 +509,14 @@
 				
 			if( $FileInfo )
 			{
+				if( isset($FileInfo['error']) )
+				{
+					$errors = '';
+					while( list($null,$error) = each($FileInfo['error']) )
+						$errors .= " $error.";
+					$this->SetError( trim($errors) );
+					return false;
+				}
 				// Remove extra data that is not necessary for us to return...
 				//unset($FileInfo['mpeg']);
 				unset($FileInfo['audio']);
