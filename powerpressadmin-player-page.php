@@ -535,17 +535,11 @@ function audio_player_defaults()
 			<?php echo __('Right-to-Left', 'powerpress'); ?>
 		</th>
 		<td>
-			<select style="width: 50px;" id="rtl" name="Player[rtl]" class="other_field"> 
-			<?php
-			$option = array('no','yes');
-			 foreach($option as $option){
-							if($PlayerSettings['rtl'] == $option):
-									$selected = " selected";
-							else:
-									$selected = "";
-							endif;
-							echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-			}?>
+			<select style="width: 102px;" id="rtl" name="Player[rtl]" class="other_field"> 
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['rtl']);
+?>
           </select>			<?php echo __('switches the layout to animate from the right to the left', 'powerpress'); ?>
 		</td>
 	</tr>
@@ -590,17 +584,11 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-<select style="width: 50px;" id="animation" name="Player[animation]" class="other_field"> 
-                                <?php
-                                $option = array( __('yes', 'powerpress'), __('no', 'powerpress') );
-                                 foreach($option as $option){
-                                        if($PlayerSettings['animation'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-                                }?>
+<select style="width: 102px;" id="animation" name="Player[animation]" class="other_field"> 
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['animation']);
+?>
                                 </select>			<?php echo __('if no, player is always open', 'powerpress'); ?></div>
 		</td>
 	</tr>
@@ -611,17 +599,11 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-<select style="width: 50px;" id="remaining" name="Player[remaining]" class="other_field"> 
-                                <?php
-                                $option = array( __('yes', 'powerpress'), __('no', 'powerpress') );
-                                 foreach($options as $option){
-                                        if($PlayerSettings['remaining'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-                                }?>
+<select style="width: 102px;" id="remaining" name="Player[remaining]" class="other_field">
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['remaining']);
+?>
                                 </select>			<?php echo __('if yes, shows remaining track time rather than ellapsed time (default: no)', 'powerpress'); ?></div>
 		</td>
 	</tr>
@@ -633,17 +615,10 @@ function audio_player_defaults()
 		<td>
 			<div class="color_control">
 <select style="width: 200px;" id="buffer" name="Player[buffer]" class="other_field"> 
-                                <?php
-                                $options = array('0'=>__('No buffering', 'powerpress'), ''=>__('Default (5 seconds)', 'powerpress'),'10'=>__('10 seconds', 'powerpress'),'15'=>__('15 seconds', 'powerpress'),'20'=>__('20 seconds', 'powerpress'),'30'=>__('30 seconds', 'powerpress'),'60'=>__('60 seconds', 'powerpress'));
-                                 
-																 while( list($key,$value) = each($options) ) {
-                                        if( $PlayerSettings['buffer'] == $key )
-                                            $selected = " selected";
-                                        else
-                                            $selected = "";
-                                        
-                                        echo '<option value="'. $key .'"'. $selected .' >'. $value .'</option>';
-                                }?>
+<?php
+			$options = array('0'=>__('No buffering', 'powerpress'), ''=>__('Default (5 seconds)', 'powerpress'),'10'=>__('10 seconds', 'powerpress'),'15'=>__('15 seconds', 'powerpress'),'20'=>__('20 seconds', 'powerpress'),'30'=>__('30 seconds', 'powerpress'),'60'=>__('60 seconds', 'powerpress'));
+			powerpress_print_options( $options, $PlayerSettings['buffer']);
+?>
                                 </select>		<?php echo __('buffering time in seconds', 'powerpress'); ?></div>
 		</td>
 	</tr>
@@ -700,13 +675,14 @@ function audio_player_defaults()
 			<?php echo __('Initial Volume', 'powerpress'); ?> 
 		</th>
 		<td>
-			<select style="width: 100px;" id="initialvolume" name="Player[initialvolume]" class="other_field"> 
-			<?php
+			<select style="width: 100px;" id="initialvolume" name="Player[initialvolume]" class="other_field">
+<?php
 			
 			for($x = 0; $x <= 100; $x +=5 )
 			{
 				echo '<option value="'. $x .'"'. ($PlayerSettings['initialvolume'] == $x?' selected':'') .'>'. $x .'%</option>';
-			}?>
+			}
+?>
 			</select> <?php echo __('initial volume level (default: 60)', 'powerpress'); ?>
 		</td>
 	</tr>
@@ -850,8 +826,8 @@ function audio_player_defaults()
                             
                             //set array values for dropdown lists
                             $options = array('0','1');
-                            $autoload = array('always','never','autohide');
-                            $volume = array('0','25','50','75','100','125','150','175','200');
+                            $autoload = array('always'=>'Always','never'=>'Never','autohide'=>'Auto Hide');
+                            $volume = array('0'=>'0','25'=>'25','50'=>'50','75'=>'75','100'=>'100','125'=>'125','150'=>'150','175'=>'175','200'=>'200');
                             
                             //set array values for flash variables with no dependencies
                             $keys = array('bgcolor1','bgcolor2','bgcolor','textcolor','buttoncolor','buttonovercolor','showstop','showinfo','showvolume','height','width','showloading','buttonwidth','volume','showslider');
@@ -1197,20 +1173,11 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showstop" name="Player[showstop]"> 
-                               <?php foreach($options as $option){
-                                        if($PlayerSettings['showstop'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showstop" name="Player[showstop]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showstop']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1221,20 +1188,11 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showinfo" name="Player[showinfo]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showinfo'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showinfo" name="Player[showinfo]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showinfo']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1252,20 +1210,11 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showvolume" name="Player[showvolume]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showvolume'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showvolume" name="Player[showvolume]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showvolume']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1276,15 +1225,10 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="volume" name="Player[volume]"> 
-                                <?php foreach($volume as $volume){
-                                        if($PlayerSettings['volume'] == $volume):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $volume .'"'. $selected .' >'. $volume .'%</option>';
-                                }?>
+				<select style="width: 100px;" id="volume" name="Player[volume]">
+<?php
+			powerpress_print_options( $volume, $PlayerSettings['volume']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1323,20 +1267,11 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showslider" name="Player[showslider]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showslider'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showslider" name="Player[showslider]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showslider']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1403,15 +1338,10 @@ $content .= '</object>'.PHP_EOL;
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showloading" name="Player[showloading]"> 
-                                <?php foreach($autoload as $option){
-                                        if($PlayerSettings['showloading'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $option .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showloading" name="Player[showloading]">
+<?php
+			powerpress_print_options( $autoload, $PlayerSettings['showloading']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1554,21 +1484,10 @@ print $content;
 		<td valign="top">
 			<div class="color_control">
                             <select name="Player[mode]" id="mode">
-                                <?php $options = array('playpause','playstop');
-                                 foreach($options as $option){
-                                        if($PlayerSettings['mode'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "playpause"):
-                                            $name = __('Play/Pause', 'powerpress');
-                                        else:
-                                            $name = __('Play/Stop', 'powerpress');
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
-                                
+<?php
+			$options = array( 'playpause'=>__('Play/Pause', 'powerpress'), 'playstop'=>__('Play/Stop', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['mode']);
+?>     
                             </select>
 			</div>
 		</td>

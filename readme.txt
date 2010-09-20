@@ -143,6 +143,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 1.0.10 =
 * Released on TBA
 * Added support for Custom Post Types, introduced in WP 3.0.
+* Fixed various translation issues with player settings admin screens.
 * Added `powerpress_print_options()` function to simplify printing select options in admin.
 * Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
 * Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
