@@ -826,6 +826,24 @@ function powerpress_stripslashes($data)
 	return $data;
 }
 
+function powerpress_admin_get_post_types_by_capability_type($capability_type = 'post')
+{
+	if( !function_exists('get_post_types') || !function_exists('get_post_type_object') )
+		return array($capability_type);
+		
+	$return = array();
+	$post_types = get_post_types();
+	while( list($index,$post_type) = each($post_types) )
+	{
+		if( $post_type == 'attachment' || $post_type == 'nav_menu_item' || $post_type == 'revision' )
+			continue;
+		$object = get_post_type_object($post_type);
+		if( $object && $object->capability_type == $capability_type )
+			$return[] = $post_type;
+	}
+	return $return;
+}
+
 function powerpress_admin_menu()
 {
 	$Powerpress = get_option('powerpress_general');
@@ -838,22 +856,29 @@ function powerpress_admin_menu()
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
-		add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', 'page', 'normal');
+		$page_types = powerpress_admin_get_post_types_by_capability_type('page');
+		while( list($null,$page_type) = each($page_types) )
+			add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
 		
+		$post_types = powerpress_admin_get_post_types_by_capability_type('post');
 		if( isset($Powerpress['custom_feeds']) )
 		{
-			add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', 'post', 'normal');
+			while( list($null,$post_type) = each($post_types) )
+				add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
 			
 			while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )
 			{
 				if( $feed_slug == 'podcast' )
 					continue;
-				add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', 'post', 'normal');
+				
+				while( list($null,$post_type) = each($post_types) )
+					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 			}
 		}
 		else
 		{
-			add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', 'post', 'normal');
+			while( list($null,$post_type) = each($post_types) )
+				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
 		}
 	}
 	
@@ -1167,10 +1192,16 @@ function powerpress_admin_head()
 	global $parent_file, $hook_suffix;
 	$page_name = '';
 	if ( isset($parent_file) && !empty($parent_file) )
+	{
 		$page_name = substr($parent_file, 0, -4);
+		$page_name = preg_replace('/(\?.*)$/', '', $page_name); // Hack required for WP 3.0
+		$page_name = str_replace(array('.php', '-new', '-add'), '', $page_name); // Hack required for WP 3.0
+	}
 	else
+	{
 		$page_name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
-			
+	}
+	
 	// Powerpress page
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
@@ -2505,7 +2536,7 @@ function powerpress_default_settings($Settings, $Section='basic')
 		}; // Let this fall through to the custom feed settings
 		case 'editfeed_custom': {
 			if( !isset($Settings['enhance_itunes_summary']) )
-				$Settings['enhance_itunes_summary'] = 1;
+				$Settings['enhance_itunes_summary'] = 0;
 		}; break;
 		case 'appearance': {
 			if( !isset($Settings['display_player']) )
@@ -2787,7 +2818,16 @@ function powerpress_add_error($error)
 	update_option('powerpress_errors',  $Errors);
 }
 	
-
+function powerpress_print_options($options,$selected=null)
+{
+	reset($options);
+	while( list($key,$value) = each($options) )
+	{
+		echo '<option value="'. htmlspecialchars($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
+		echo htmlspecialchars($value);
+		echo "</option>\n";
+	}
+}
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.

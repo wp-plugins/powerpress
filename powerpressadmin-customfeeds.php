@@ -107,7 +107,7 @@ function powerpress_admin_customfeeds()
 		$hidden = array();
 		if( $feed_slug == 'podcast' )
 			$feed_title = __('Podcast', 'powerpress');
-		$feed_title = wp_specialchars($feed_title);
+		$feed_title = esc_html($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
 		else

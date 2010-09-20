@@ -140,6 +140,14 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * Translation support has been completed for Blubrry PowerPress. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
 
+= 1.0.10 =
+* Released on TBA
+* Added support for Custom Post Types, introduced in WP 3.0.
+* Added `powerpress_print_options()` function to simplify printing select options in admin.
+* Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
+* Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
+* Optimized iTunes Summary option no longer selected on by default. Optimize iTunes Summary's clickable links do not appear on the online iTunes web site in the same way they do in the iTunes application.
+
 = 1.0.9 =
 * Released on 7/2/2010
 * Updated WP supported version tag to 3.0, we have yet to find any issues between PowerPress and the latest version of WordPress.

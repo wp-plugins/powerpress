@@ -867,11 +867,14 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 <td>
 
 <?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?> (<a href="http://help.blubrry.com/blubrry-powerpress/settings/enhanced-itunes-summary/" target="_blank"><?php echo __('What\'s this', 'powerpress'); ?></a>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?> (<?php echo __('We no longer recommend using this setting, see note below', 'powerpress'); ?>)
 </div>
 <p>
-	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in iTunes.', 'powerpress'); ?>
+	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application.', 'powerpress'); ?>
 </p>
+<p><strong>
+	<?php echo __('Note: With the recent laungh of iTunes web site during the summer of 2010, Optimize iTunes Summary\'s clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature.', 'powerpress'); ?>
+</strong></p>
 <?php } else { ?>
 
 	<strong><?php echo __('Option Not Available', 'powerpress'); ?></strong>
