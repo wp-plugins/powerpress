@@ -151,6 +151,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
 * Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
 * Optimized iTunes Summary option no longer selected on by default. Optimize iTunes Summary's clickable links do not appear on the online iTunes web site in the same way they do in the iTunes application.
+* Added Arabic languages to list of feed languages (Thanks Ahmad for bringing to our attention).
+
 
 
 = 1.0.9 =

@@ -9,6 +9,15 @@ function powerpress_languages()
 	$langs = array();
 	$langs['af'] = __('Afrikaans', 'powerpress');
 	$langs['sq'] = __('Albanian', 'powerpress');
+	$langs['ar'] = __('Arabic', 'powerpress');
+	$langs['ar-sa'] = __('Arabic (Saudi Arabia)', 'powerpress');
+	$langs['ar-eg'] = __('Arabic (Egypt)', 'powerpress');
+	$langs['ar-dz'] = __('Arabic (Algeria)', 'powerpress');
+	$langs['ar-tn'] = __('Arabic (Tunisia)', 'powerpress');
+	$langs['ar-ye'] = __('Arabic (Yemen)', 'powerpress');
+	$langs['ar-jo'] = __('Arabic (Jordan)', 'powerpress');
+	$langs['ar-kw'] = __('Arabic (Kuwait)', 'powerpress');
+	$langs['ar-bh'] = __('Arabic (Bahrain)', 'powerpress');
 	$langs['eu'] = __('Basque', 'powerpress');
 	$langs['be'] = __('Belarusian', 'powerpress');
 	$langs['bg'] = __('Bulgarian', 'powerpress');
