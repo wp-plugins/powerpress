@@ -1906,16 +1906,11 @@ function powerpress_do_ping_itunes($post_id)
 function powerpress_ping_itunes($iTunes_url)
 {
 	// Pull the iTunes FEEDID from the URL...
-	if( !preg_match('/id=(\d+)/', $iTunes_url, $matches) )
+	$AppleID = powerpress_get_apple_id($iTunes_url);
+	if( !$AppleID )
 		return array('error'=>true, 'content'=>__('iTunes URL required to ping iTunes.', 'powerpress'), 'podcast_id'=>0 );
 	
-	$FEEDID = $matches[1];
-	
-	// convert: https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=
-	// to: https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=
-	$ping_url = sprintf('https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=%d', $FEEDID );
-	
-	//$tempdata = wp_remote_fopen($ping_url);
+	$ping_url = 'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id='. $AppleID;
 	$tempdata = powerpress_remote_fopen($ping_url);
 	
 	if( $tempdata == false )

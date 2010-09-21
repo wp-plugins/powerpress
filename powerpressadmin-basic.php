@@ -496,10 +496,12 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 <?php } else { ?>
 <input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
 <?php } ?>
-<p>e.g. http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000</p>
+<p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p>
+
+<p><?php echo sprintf(__('You may use the older style Subscription URL: %s', 'powerpress'), 'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=<strong>000000000</strong>'); ?></p>
 
 <p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
-<?php echo __('iTunes will send an email to your <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>
+ <?php echo __('iTunes will email your Subscription URL to the <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>
 </p>
 <p>
 <?php echo __('Recommended feed to submit to iTunes: ', 'powerpress'); ?>
@@ -552,14 +554,9 @@ while( list($value,$desc) = each($options) )
 	$itunes_subscribe_url = ($FeedSettings?$FeedSettings['itunes_url']:$General['itunes_url']);
 	if( !empty($itunes_subscribe_url) )
 	{
-		$ping_url = str_replace(
-			array(	'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-								'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-								'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-								'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=',
-								'https://www.itunes.com/podcast?id=',
-								'http://www.itunes.com/podcast?id='),
-			'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=', $itunes_subscribe_url);
+		$AppleID = powerpress_get_apple_id($itunes_subscribe_url);
+		if( $AppleID )
+			$ping_url = 'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id='. $AppleID;
 ?>
 <p><?php echo __('You may also update your iTunes listing by using the following link:', 'powerpress'); ?> <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;"><?php echo __('Ping iTunes in New Window', 'powerpress'); ?></a></p>
 

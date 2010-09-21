@@ -152,7 +152,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
 * Optimized iTunes Summary option no longer selected on by default. Optimize iTunes Summary's clickable links do not appear on the online iTunes web site in the same way they do in the iTunes application.
 * Added Arabic languages to list of feed languages (Thanks Ahmad for bringing to our attention).
-
+* Added support for new iTunes 1-click Subscription URL format (e.g. http://itunes.apple.com/podcast/title-of-podcast/id000000000).
 
 
 = 1.0.9 =
