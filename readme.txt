@@ -62,10 +62,13 @@ Want more? Check out the advanced features.
 * Tag/Keyword Podcast Feeds (Tag Casting): Add iTunes compliant attributes to your tag feeds.
 * FeedBurner Support: Use FeedBurner.com to host your podcast feeds.
 * *User Role Management: Control which users in your blog can podcast.
+* **Custom Post Types: Use the new Custom Post Types feature found in WordPress 3.0
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
 * WordPress MU: Blubrry PowerPress is compatible with [WordPress MU](http://mu.wordpress.org/)
 
-*User Role Management requires a separate plugin to manage WordPress Roles and Capabilities. 
+*User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
+
+**Custom Post Types feature requires a separate plugin to manage custom post types.
 
 = Migrating from PodPress =
  We made it easy to migrate from PodPress to PowerPress.
@@ -148,6 +151,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
 * Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
 * Optimized iTunes Summary option no longer selected on by default. Optimize iTunes Summary's clickable links do not appear on the online iTunes web site in the same way they do in the iTunes application.
+
 
 = 1.0.9 =
 * Released on 7/2/2010
