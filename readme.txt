@@ -141,7 +141,7 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* Translation support has been completed for Blubrry PowerPress. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
+* Translation support has been completed for Blubrry PowerPress. Please visit the following link for more details: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 1.0.10 =
 * Released on TBA
