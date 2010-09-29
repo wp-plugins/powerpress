@@ -871,12 +871,14 @@ function powerpress_admin_menu()
 				if( $feed_slug == 'podcast' )
 					continue;
 				
+				reset($post_types);
 				while( list($null,$post_type) = each($post_types) )
 					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 			}
 		}
 		else
 		{
+			reset($post_types);
 			while( list($null,$post_type) = each($post_types) )
 				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
 		}

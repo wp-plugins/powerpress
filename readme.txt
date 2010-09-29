@@ -144,6 +144,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 1.0.11 =
+* Released on 9/29/2010
+* Fix bug introduced by the addition of Custom Post Type where Custom Podcast Channels do not appear.
+
+
 = 1.0.10 =
 * Released on 9/28/2010
 * Added support for Custom Post Types.
