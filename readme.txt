@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard
 Requires at least: 2.6.0
 Tested up to: 3.0
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -141,11 +141,12 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* Translation support has been completed for Blubrry PowerPress. Please visit the following link for more details: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+* Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+
 
 = 1.0.10 =
-* Released on TBA
-* Added support for Custom Post Types, introduced in WP 3.0.
+* Released on 9/28/2010
+* Added support for Custom Post Types.
 * Fixed various translation issues with player settings admin screens.
 * Added `powerpress_print_options()` function to simplify printing select options in admin.
 * Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
