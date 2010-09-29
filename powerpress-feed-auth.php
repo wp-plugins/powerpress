@@ -19,17 +19,17 @@
 			if( $user->has_cap( $FeedSettings['premium'] ) )
 				return; // Nice, let us continue...
 			
-			powerpress_feed_auth_basic( $FeedSettings['title'], __('Access Denied') );
+			powerpress_feed_auth_basic( $FeedSettings['title'], __('Access Denied', 'powerpress') );
 		}
 		
 		// user authenticated here
-		powerpress_feed_auth_basic( $FeedSettings['title'], __('Authorization Failed') );
+		powerpress_feed_auth_basic( $FeedSettings['title'], __('Authorization Failed', 'powerpress') );
 	}
 	
 	function powerpress_feed_auth_basic($realm_name, $error = false )
 	{
 		if( !$error )
-			$error = __('Unauthorized');
+			$error = __('Unauthorized', 'powerpress');
 		header('HTTP/1.0 401 Unauthorized');
 		header('WWW-Authenticate: Basic realm="'. str_replace('"', '', $realm_name).'"');
 		

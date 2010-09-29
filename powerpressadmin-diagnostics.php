@@ -20,34 +20,34 @@
 		
 		if( $powerpress_diags['detecting_media']['curl'] )
 		{
-			$powerpress_diags['detecting_media']['message'] = __('Your web server supports the PHP cURL library.');
+			$powerpress_diags['detecting_media']['message'] = __('Your web server supports the PHP cURL library.', 'powerpress');
 			if( $powerpress_diags['detecting_media']['allow_url_fopen'] )
-				$powerpress_diags['detecting_media']['message'] .= ' '. __('Your web server is also configured with the php.ini setting \'allow_url_fopen\' enabled, but the cURL library takes precedence.');
+				$powerpress_diags['detecting_media']['message'] .= ' '. __('Your web server is also configured with the php.ini setting \'allow_url_fopen\' enabled, but the cURL library takes precedence.', 'powerpress');
 			
 			if( ini_get('safe_mode') && ini_get('open_basedir') )
 			{
 				$powerpress_diags['detecting_media']['warning'] = true;
-				$powerpress_diags['detecting_media']['message2'] = __('Warning: Both php.ini settings \'safe_mode\' and \'open_basedir\' will prevent the cURL library from following redirects in URLs.');
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: Both php.ini settings \'safe_mode\' and \'open_basedir\' will prevent the cURL library from following redirects in URLs.', 'powerpress');
 			}
 			else if( ini_get('safe_mode') )
 			{
 				$powerpress_diags['detecting_media']['warning'] = true;
-				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'safe_mode\' will prevent the cURL library from following redirects in URLs.');
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'safe_mode\' will prevent the cURL library from following redirects in URLs.', 'powerpress');
 			}
 			else if( ini_get('open_basedir') )
 			{
 				$powerpress_diags['detecting_media']['warning'] = true;
-				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'open_basedir\' will prevent the cURL library from following redirects in URLs.');
+				$powerpress_diags['detecting_media']['message2'] = __('Warning: The php.ini setting \'open_basedir\' will prevent the cURL library from following redirects in URLs.', 'powerpress');
 			}
 		}
 		else if( $powerpress_diags['detecting_media']['allow_url_fopen'] )
 		{
-			$powerpress_diags['detecting_media']['message'] = __('Your web server is configured with the php.ini setting \'allow_url_fopen\' enabled.');
+			$powerpress_diags['detecting_media']['message'] = __('Your web server is configured with the php.ini setting \'allow_url_fopen\' enabled.', 'powerpress');
 		}
 		else
 		{
 			$powerpress_diags['detecting_media']['success'] = false;
-			$powerpress_diags['detecting_media']['message'] = __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to detect media information.');
+			$powerpress_diags['detecting_media']['message'] = __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to detect media information.', 'powerpress');
 		}
 		
 		// Second, see if we can ping itunes, OpenSSL is required
@@ -68,25 +68,25 @@
 		if( $powerpress_diags['detecting_media']['success'] == false )
 		{
 			$powerpress_diags['pinging_itunes']['success'] = false;
-			$powerpress_diags['pinging_itunes']['message'] = __('The problem with \'Detecting Media Information\' above needs to be resolved for this test to continue.');
+			$powerpress_diags['pinging_itunes']['message'] = __('The problem with \'Detecting Media Information\' above needs to be resolved for this test to continue.', 'powerpress');
 		}
 		else if( $powerpress_diags['detecting_media']['curl'] && $powerpress_diags['pinging_itunes']['curl_ssl'] )
 		{
-			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.');
+			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.', 'powerpress');
 		}
 		else if( $powerpress_diags['detecting_media']['curl'] )
 		{
 			$powerpress_diags['pinging_itunes']['success'] = false;
-			$powerpress_diags['pinging_itunes']['message'] = __('Your web server\'s cURL library does not support secure HTTPS connections.');
+			$powerpress_diags['pinging_itunes']['message'] = __('Your web server\'s cURL library does not support secure HTTPS connections.', 'powerpress');
 		}
 		else if( $powerpress_diags['pinging_itunes']['openssl'] && $powerpress_diags['detecting_media']['allow_url_fopen'] )
 		{
-			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.');
+			$powerpress_diags['pinging_itunes']['message'] = __('Your web server supports secure HTTPS connections.', 'powerpress');
 		}
 		else
 		{
 			$powerpress_diags['pinging_itunes']['success'] = false;
-			$powerpress_diags['pinging_itunes']['message'] = __('Pinging iTunes requires the PHP OpenSSL library to be installed.');
+			$powerpress_diags['pinging_itunes']['message'] = __('Pinging iTunes requires the PHP OpenSSL library to be installed.', 'powerpress');
 		}
 		
 		// Third, see if the uploads/powerpress folder is writable
@@ -105,7 +105,7 @@
 		
 		if( $powerpress_diags['uploading_artwork']['file_uploads'] == false )
 		{
-			$powerpress_diags['uploading_artwork']['message'] = __('Your server requires the php.ini setting \'file_uploads\' enabled in order to upload podcast artwork.');
+			$powerpress_diags['uploading_artwork']['message'] = __('Your server requires the php.ini setting \'file_uploads\' enabled in order to upload podcast artwork.', 'powerpress');
 		}
 		else if( $UploadArray['error'] === false )
 		{
@@ -113,19 +113,19 @@
 			
 			if ( !is_dir($powerpress_diags['uploading_artwork']['upload_path']) && ! wp_mkdir_p( rtrim($powerpress_diags['uploading_artwork']['upload_path'], '/') ) )
 			{
-				$powerpress_diags['uploading_artwork']['message'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), rtrim($powerpress_diags['uploading_artwork']['upload_path'], '/') );
+				$powerpress_diags['uploading_artwork']['message'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?', 'powerpress'), rtrim($powerpress_diags['uploading_artwork']['upload_path'], '/') );
 			}
 			else
 			{
 				$powerpress_diags['uploading_artwork']['writable'] = powerpressadmin_diagnostics_is_writable($powerpress_diags['uploading_artwork']['upload_path']);
 				if( $powerpress_diags['uploading_artwork']['writable'] == false )
 				{
-					$powerpress_diags['uploading_artwork']['message'] = sprintf(__('PowerPress is unable to write to the %s directory.'), $powerpress_diags['uploading_artwork']['upload_path']);
+					$powerpress_diags['uploading_artwork']['message'] = sprintf(__('PowerPress is unable to write to the %s directory.', 'powerpress'), $powerpress_diags['uploading_artwork']['upload_path']);
 				}
 				else
 				{
 					$powerpress_diags['uploading_artwork']['success'] = true;
-					$powerpress_diags['uploading_artwork']['message'] = __('You are able to upload and save artwork images for your podcasts.');
+					$powerpress_diags['uploading_artwork']['message'] = __('You are able to upload and save artwork images for your podcasts.', 'powerpress');
 				}
 			}
 		}
@@ -134,7 +134,7 @@
 			if( strlen($UploadArray['error']) > 2 )
 				$powerpress_diags['uploading_artwork']['message'] = $UploadArray['error'];
 			else
-				$powerpress_diags['uploading_artwork']['message'] = __('An error occurred obtaining the uploads directory from WordPress.');
+				$powerpress_diags['uploading_artwork']['message'] = __('An error occurred obtaining the uploads directory from WordPress.', 'powerpress');
 		}
 		
 		// Fourth, see if we have enough memory and we're running an appropriate version of PHP
@@ -163,15 +163,15 @@
 		
 		if( version_compare($powerpress_diags['system_info']['php_version'], '5.2') > -1 )
 		{
-			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK!'), $powerpress_diags['system_info']['php_version'] );
+			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK!', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
 		else if( version_compare($powerpress_diags['system_info']['php_version'], '5') > -1 )
 		{
-			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK, though PHP 5.2 or newer is recommended.'), $powerpress_diags['system_info']['php_version'] );
+			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK, though PHP 5.2 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
 		else
 		{
-			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) will work, but PHP 5.2 or newer is recommended.'), $powerpress_diags['system_info']['php_version'] );
+			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) will work, but PHP 5.2 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
 		
 		$used = 0;
@@ -179,7 +179,7 @@
 		
 		if( $total == -1 )
 		{
-			$powerpress_diags['system_info']['message2'] = __('Your scripts have no limit to the amount of memory they can use.');
+			$powerpress_diags['system_info']['message2'] = __('Your scripts have no limit to the amount of memory they can use.', 'powerpress');
 			$used = (function_exists('memory_get_peak_usage')? memory_get_peak_usage() : ( function_exists('memory_get_usage') ? memory_get_usage() : 0 ) );
 			if( $used )
 				$powerpress_diags['system_info']['memory_used'] = round($used / 1024 / 1024, 2);
@@ -189,41 +189,41 @@
 			$used = round(memory_get_peak_usage() / 1024 / 1024, 2);
 			$powerpress_diags['system_info']['memory_used'] = $used;
 			$percent = ($used/$total)*100;
-			$powerpress_diags['system_info']['message2'] = sprintf(__('You are using %d%% (%.01fM of %.01dM) of available memory.'), $percent, $used, $total);
+			$powerpress_diags['system_info']['message2'] = sprintf(__('You are using %d%% (%.01fM of %.01dM) of available memory.', 'powerpress'), $percent, $used, $total);
 		}
 		else if( function_exists('memory_get_usage') )
 		{
 			$used = round(memory_get_usage() / 1024 / 1024, 2);
 			$powerpress_diags['system_info']['memory_used'] = $used;
 			$percent = ($used/$total)*100;
-			$powerpress_diags['system_info']['message2'] = sprintf(__('You are using %d%% (%.01fM of %dM) of available memory. Versions of PHP 5.2 or newer will give you a more accurate total of memory usage.'), $percent, $used, $total);
+			$powerpress_diags['system_info']['message2'] = sprintf(__('You are using %d%% (%.01fM of %dM) of available memory. Versions of PHP 5.2 or newer will give you a more accurate total of memory usage.', 'powerpress'), $percent, $used, $total);
 		}
 		else
 		{
-			$powerpress_diags['system_info']['message2'] = sprintf(__('Your scripts have a total of %dM.'), $total );
+			$powerpress_diags['system_info']['message2'] = sprintf(__('Your scripts have a total of %dM.', 'powerpress'), $total );
 		}
 		
 		if( $total > 0 && ($used + 4) > $total )
 		{
 			$powerpress_diags['system_info']['warning'] = true;
-			$powerpress_diags['system_info']['message2'] = __('Warning:') .' '. $powerpress_diags['system_info']['message2'];
+			$powerpress_diags['system_info']['message2'] = __('Warning:', 'powerpress') .' '. $powerpress_diags['system_info']['message2'];
 			$powerpress_diags['system_info']['message2'] .= ' ';
-			$powerpress_diags['system_info']['message2'] .= sprintf(__('We recommend that you have at least %dM (4M more that what is currently used) or more memory to accomodate all of your installed plugins.'), ceil($used)+4 );
+			$powerpress_diags['system_info']['message2'] .= sprintf(__('We recommend that you have at least %dM (4M more that what is currently used) or more memory to accomodate all of your installed plugins.', 'powerpress'), ceil($used)+4 );
 		}
 		
 		if( empty($powerpress_diags['system_info']['temp_directory']) )
 		{
 			$powerpress_diags['system_info']['success'] = false;
-			$powerpress_diags['system_info']['message3'] =  __('Error:') .' '. __('No temporary directory available.');
+			$powerpress_diags['system_info']['message3'] =  __('Error:', 'powerpress') .' '. __('No temporary directory available.', 'powerpress');
 		}
 		else if( is_dir($powerpress_diags['system_info']['temp_directory']) && is_writable($powerpress_diags['system_info']['temp_directory']) )
 		{
-			$powerpress_diags['system_info']['message3'] = sprintf(__('Temporary directory %s is writable.'), $powerpress_diags['system_info']['temp_directory']);
+			$powerpress_diags['system_info']['message3'] = sprintf(__('Temporary directory %s is writable.', 'powerpress'), $powerpress_diags['system_info']['temp_directory']);
 		}
 		else
 		{
 			$powerpress_diags['system_info']['success'] = false;
-			$powerpress_diags['system_info']['message3'] = __('Error:') .' '. sprintf(__('Temporary directory %s is not writable.'), $powerpress_diags['system_info']['temp_directory']);
+			$powerpress_diags['system_info']['message3'] = __('Error:', 'powerpress') .' '. sprintf(__('Temporary directory %s is not writable.', 'powerpress'), $powerpress_diags['system_info']['temp_directory']);
 		}
 		
 		if( isset($_GET['Email']) && strlen($_GET['Email']) > 4 )
@@ -231,7 +231,7 @@
 			check_admin_referer('powerpress-diagnostics');
 			$email = $_GET['Email'];
 			powerpressadmin_diagnostics_email($email);
-			powerpress_page_message_add_notice(  sprintf(__('Diagnostic results sent to %s.'), $email) );
+			powerpress_page_message_add_notice(  sprintf(__('Diagnostic results sent to %s.', 'powerpress'), $email) );
 		}
 	}
 	
@@ -241,88 +241,88 @@
 		$SettingsGeneral = get_option('powerpress_general');
 		
 		// First we need some basic information about the blog...
-		$message = __('Blog Title:') .' '. get_bloginfo('name') . "<br />\n";
-		$message .= __('Blog URL:') .' '. get_bloginfo('home') . "<br />\n";
-		$message .= __('WordPress Version:') .' '. $wp_version . "<br />\n";
+		$message = __('Blog Title:', 'powerpress') .' '. get_bloginfo('name') . "<br />\n";
+		$message .= __('Blog URL:', 'powerpress') .' '. get_bloginfo('home') . "<br />\n";
+		$message .= __('WordPress Version:', 'powerpress') .' '. $wp_version . "<br />\n";
 		if( !empty($wpmu_version) )
-				$message .= __('WordPress MU Version:') .' '. $wpmu_version . "<br />\n";
-		$message .= __('System:') .' '. $_SERVER['SERVER_SOFTWARE'] . "<br />\n";
-		$message .= __('Safe node:') .' '. ( ini_get('safe_mode')?'true':'false') ."<br />\n";
-		$message .= __('Open basedir:') .' '. ini_get('open_basedir') ."<br />\n";
+				$message .= __('WordPress MU Version:', 'powerpress') .' '. $wpmu_version . "<br />\n";
+		$message .= __('System:', 'powerpress') .' '. $_SERVER['SERVER_SOFTWARE'] . "<br />\n";
+		$message .= __('Safe node:', 'powerpress') .' '. ( ini_get('safe_mode')?'true':'false') ."<br />\n";
+		$message .= __('Open basedir:', 'powerpress') .' '. ini_get('open_basedir') ."<br />\n";
 		
 		// Crutial PowerPress Settings
 		$message .= "<br />\n";
-		$message .= '<strong>'. __('Important PowerPress Settings') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:') .' '. POWERPRESS_VERSION ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal'): ($SettingsGeneral['episode_box_mode']==1?__('simple'):__('advanced')) ) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:') .' '. ($SettingsGeneral['use_caps']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:') .' '. ($SettingsGeneral['feed_caps']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:') .' '. ($SettingsGeneral['cat_casting']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Podcast Channels:') .' '. ($SettingsGeneral['channels']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Additional Player Options:') .' '. ($SettingsGeneral['player_options']==0?__('Disabled (default)'): __('Enabled')) ."<br />\n";
+		$message .= '<strong>'. __('Important PowerPress Settings', 'powerpress') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:', 'powerpress') .' '. POWERPRESS_VERSION ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:', 'powerpress') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:', 'powerpress') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('simple', 'powerpress'):__('advanced', 'powerpress')) ) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:', 'powerpress') .' '. ($SettingsGeneral['use_caps']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:', 'powerpress') .' '. ($SettingsGeneral['feed_caps']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:', 'powerpress') .' '. ($SettingsGeneral['cat_casting']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcast Channels:', 'powerpress') .' '. ($SettingsGeneral['channels']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Additional Player Options:', 'powerpress') .' '. ($SettingsGeneral['player_options']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
 		
 		// Detecting Media Information
 		$message .= "<br />\n";
-		$message .= '<strong>'.__('Detecting Media Information') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['detecting_media']['success']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('warning:') .' '. ($powerpress_diags['detecting_media']['warning']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('allow_url_fopen:') .' '. ($powerpress_diags['detecting_media']['allow_url_fopen']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('curl:') .' '. ($powerpress_diags['detecting_media']['curl']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['detecting_media']['message'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message 2:') .' '. $powerpress_diags['detecting_media']['message2'] ."<br />\n";
+		$message .= '<strong>'.__('Detecting Media Information', 'powerpress') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['detecting_media']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('warning:', 'powerpress') .' '. ($powerpress_diags['detecting_media']['warning']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('allow_url_fopen:', 'powerpress') .' '. ($powerpress_diags['detecting_media']['allow_url_fopen']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('curl:', 'powerpress') .' '. ($powerpress_diags['detecting_media']['curl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['detecting_media']['message'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 2:', 'powerpress') .' '. $powerpress_diags['detecting_media']['message2'] ."<br />\n";
 		
 		// Pinging iTunes
 		$message .= "<br />\n";
-		$message .= '<strong>'.__('Pinging iTunes') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('curl_ssl:') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('openssl:') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['pinging_itunes']['message'] ."<br />\n";
+		$message .= '<strong>'.__('Pinging iTunes', 'powerpress') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('curl_ssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('openssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['pinging_itunes']['message'] ."<br />\n";
 		
 		// Uploading Artwork
 		$message .= "<br />\n";
-		$message .= '<strong>'.__('Uploading Artwork') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['uploading_artwork']['success']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('file_uploads:') .' '. ($powerpress_diags['uploading_artwork']['file_uploads']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('writable:') .' '. ($powerpress_diags['uploading_artwork']['writable']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('upload_path:') .' '. $powerpress_diags['uploading_artwork']['upload_path'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['uploading_artwork']['message'] ."<br />\n";
+		$message .= '<strong>'.__('Uploading Artwork', 'powerpress') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['uploading_artwork']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('file_uploads:', 'powerpress') .' '. ($powerpress_diags['uploading_artwork']['file_uploads']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('writable:', 'powerpress') .' '. ($powerpress_diags['uploading_artwork']['writable']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('upload_path:', 'powerpress') .' '. $powerpress_diags['uploading_artwork']['upload_path'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['uploading_artwork']['message'] ."<br />\n";
 		
 		// System Information
 		$message .= "<br />\n";
-		$message .= '<strong>'.__('System Information') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('warning:') .' '. ($powerpress_diags['system_info']['warning']?'yes':'no') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('php_version:') .' '. $powerpress_diags['system_info']['php_version'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('memory_limit:') .' '. $powerpress_diags['system_info']['memory_limit'] ."M\n";
-		$message .= " &nbsp; \t &nbsp; ". __('memory_used:') .' '. sprintf('%.01fM',$powerpress_diags['system_info']['memory_used']) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('temp directory:') .' '. $powerpress_diags['system_info']['temp_directory'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message:') .' '. $powerpress_diags['system_info']['message'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message 2:') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message 3:') .' '. $powerpress_diags['system_info']['message3'] ."<br />\n";
+		$message .= '<strong>'.__('System Information', 'powerpress') ."</strong><br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('warning:', 'powerpress') .' '. ($powerpress_diags['system_info']['warning']?'yes':'no') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('php_version:', 'powerpress') .' '. $powerpress_diags['system_info']['php_version'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('memory_limit:', 'powerpress') .' '. $powerpress_diags['system_info']['memory_limit'] ."M\n";
+		$message .= " &nbsp; \t &nbsp; ". __('memory_used:', 'powerpress') .' '. sprintf('%.01fM',$powerpress_diags['system_info']['memory_used']) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('temp directory:', 'powerpress') .' '. $powerpress_diags['system_info']['temp_directory'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['system_info']['message'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 2:', 'powerpress') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('message 3:', 'powerpress') .' '. $powerpress_diags['system_info']['message3'] ."<br />\n";
 
 		if( isset($_GET['ap']) && $_GET['ap'] )
 		{
 			$current_plugins = get_option('active_plugins');
 			$message .= "<br />\n";
-			$message .= '<strong>'.__('Active Plugins') ."</strong><br />\n";
+			$message .= '<strong>'.__('Active Plugins', 'powerpress') ."</strong><br />\n";
 			while( list($null,$plugin_path) = each($current_plugins) )
 			{
 				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/'). '/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
 				
-				$message .= " &nbsp; \t &nbsp; " . __('Title:') .' '. $plugin_data['Title']. "<br />\n";
-				$message .= " &nbsp; \t &nbsp; " . __('Relative Path:') .' '. $plugin_path. "<br />\n";
-				$message .= " &nbsp; \t &nbsp; " . __('Version:') .' '. $plugin_data['Version']. "<br />\n";
-				$message .= " &nbsp; \t &nbsp; " . __('Web Site:') .' '. $plugin_data['PluginURI']. "<br />\n";
-				//$message .= " &nbsp; \t &nbsp; " . __('Description:') .' '. $plugin_data['Description']. "<br />\n";
-				//$message .= " &nbsp; \t &nbsp; " . __('Author Name:') .' '. $plugin_data['Author']. "<br />\n";
-				//$message .= " &nbsp; \t &nbsp; " . __('Author Web Site:') .' '. $plugin_data['AuthorURI']. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Title:', 'powerpress') .' '. $plugin_data['Title']. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Relative Path:', 'powerpress') .' '. $plugin_path. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Version:', 'powerpress') .' '. $plugin_data['Version']. "<br />\n";
+				$message .= " &nbsp; \t &nbsp; " . __('Web Site:', 'powerpress') .' '. $plugin_data['PluginURI']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Description:', 'powerpress') .' '. $plugin_data['Description']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Author Name:', 'powerpress') .' '. $plugin_data['Author']. "<br />\n";
+				//$message .= " &nbsp; \t &nbsp; " . __('Author Web Site:', 'powerpress') .' '. $plugin_data['AuthorURI']. "<br />\n";
 				//print_r($plugin_data);
 				$message .= "<br />\n";
 			}
 		}
-		//$message .= " &nbsp; \t &nbsp; ". __('success:') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
+		//$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['system_info']['success']?'true':'false') ."<br />\n";
 		
 		// Now lets loop through each section of diagnostics
 		$user_info = wp_get_current_user();
@@ -335,7 +335,7 @@
 			$headers .= 'CC: "'.$from_name.'" <'.$from_email.'>'."\n";
 		$headers .= "Content-Type: text/html\n";
 		
-		@wp_mail($email, sprintf(__('Blubrry PowerPress diagnostic results for %s'), get_bloginfo('name')), $message, $headers);
+		@wp_mail($email, sprintf(__('Blubrry PowerPress diagnostic results for %s', 'powerpress'), get_bloginfo('name')), $message, $headers);
 		$powerpress_diag_message = $message;
 	}
 	
@@ -353,18 +353,18 @@
 	{
 		$img = 'yes.png';
 		$color = '#458045';
-		$text = __('Success');
+		$text = __('Success', 'powerpress');
 		if( $success == false ) // Failed takes precedence over warning
 		{
 			$img = 'no.png';
 			$color = '#CC0000';
-			$text = __('Failed');
+			$text = __('Failed', 'powerpress');
 		}
 		else if( $warning )
 		{
 			$img = '../../../wp-includes/images/smilies/icon_exclaim.gif';
 			$color = '#D98500';
-			$text = __('Warning');
+			$text = __('Warning', 'powerpress');
 		}
 ?>
 	<img src="<?php echo admin_url(); ?>/images/<?php echo $img; ?>" style="vertical-align:text-top;" />
@@ -384,24 +384,24 @@
 		}
 ?>
 
-<h2><?php echo __('Blubrry PowerPress Diagnostics'); ?></h2>
+<h2><?php echo __('Blubrry PowerPress Diagnostics', 'powerpress'); ?></h2>
 <p>
-	<?php echo __('The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.'); ?>
+	<?php echo __('The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress.', 'powerpress'); ?>
 </p>
 
 <?php
 	if( !empty($powerpress_diag_message) )
 	{
 ?>
-<h3 style="margin-bottom: 2px;"><?php echo __('Diagnostics Email Message'); ?></h3>
+<h3 style="margin-bottom: 2px;"><?php echo __('Diagnostics Email Message', 'powerpress'); ?></h3>
 <div style="border: 2px inset #000000; padding: 10px; margin-right: 20px; font-size: 85%;">
 <?php echo $powerpress_diag_message; ?>
 </div>
 <?php } ?>
 
-<h3 style="margin-bottom: 0;"><?php echo __('Detecting Media Information'); ?></h3>
+<h3 style="margin-bottom: 0;"><?php echo __('Detecting Media Information', 'powerpress'); ?></h3>
 <p style="margin: 0;">
-	<?php echo __('The following test checks to see if your web server can make connections with other web servers to obtain file size and media duration information. The test checks to see if either the PHP cURL library is installed or the php.ini setting \'allow_url_fopen\' enabled.'); ?>
+	<?php echo __('The following test checks to see if your web server can make connections with other web servers to obtain file size and media duration information. The test checks to see if either the PHP cURL library is installed or the php.ini setting \'allow_url_fopen\' enabled.', 'powerpress'); ?>
 </p>
 <table class="form-table">
 <tr valign="top">
@@ -413,16 +413,16 @@
 <?php if( $powerpress_diags['detecting_media']['message2'] ) { ?>
 	<p><?php echo htmlspecialchars($powerpress_diags['detecting_media']['message2']); ?></p><?php } ?>
 <?php if( $powerpress_diags['detecting_media']['success'] ) { ?>
-	<p><?php echo __('If you are still having problems detecting media information, check with your web hosting provider if there is a firewall blocking your server.'); ?></p>
+	<p><?php echo __('If you are still having problems detecting media information, check with your web hosting provider if there is a firewall blocking your server.', 'powerpress'); ?></p>
 <?php } else { ?>
-	<p><?php echo __('Contact your web hosting provider with the information above.'); ?></p>
+	<p><?php echo __('Contact your web hosting provider with the information above.', 'powerpress'); ?></p>
 <?php } ?>
 </td>
 </tr>
 </table>
 
-<h3 style="margin-bottom: 0;"><?php echo __('Pinging iTunes'); ?></h3>
-<p style="margin: 0;"><?php echo __('The following test checks to see that your web server can make connections with Apple\'s secure ping server.'); ?></p>
+<h3 style="margin-bottom: 0;"><?php echo __('Pinging iTunes', 'powerpress'); ?></h3>
+<p style="margin: 0;"><?php echo __('The following test checks to see that your web server can make connections with Apple\'s secure ping server.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -431,14 +431,14 @@
 <td>
 	<p><?php echo htmlspecialchars($powerpress_diags['pinging_itunes']['message']); ?></p>
 <?php if( $powerpress_diags['pinging_itunes']['success'] == false ) { ?>
-	<p><?php echo __('Contact your web hosting provider with the information above.'); ?></p>
+	<p><?php echo __('Contact your web hosting provider with the information above.', 'powerpress'); ?></p>
 <?php } ?>
 </td>
 </tr>
 </table>
 
-<h3 style="margin-bottom: 0;"><?php echo __("Uploading Artwork"); ?></h3>
-<p style="margin: 0;"><?php echo __('The following test checks to see that you can upload and store files on your web server.'); ?></p>
+<h3 style="margin-bottom: 0;"><?php echo __('Uploading Artwork', 'powerpress'); ?></h3>
+<p style="margin: 0;"><?php echo __('The following test checks to see that you can upload and store files on your web server.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -450,8 +450,8 @@
 </tr>
 </table>
 
-<h3 style="margin-bottom: 0;"><?php echo __('System Information'); ?></h3>
-<p style="margin: 0;"><?php echo __('The following test checks your version of PHP, memory usage and temporary directory access.'); ?></p>
+<h3 style="margin-bottom: 0;"><?php echo __('System Information', 'powerpress'); ?></h3>
+<p style="margin: 0;"><?php echo __('The following test checks your version of PHP, memory usage and temporary directory access.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -462,7 +462,7 @@
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message2']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message3']); ?></p>
 <?php if( $powerpress_diags['system_info']['warning'] ) { ?>
-	<p><?php echo __('Contact your web hosting provider to inquire how to increase the PHP memory limit on your web server.'); ?></p>
+	<p><?php echo __('Contact your web hosting provider to inquire how to increase the PHP memory limit on your web server.', 'powerpress'); ?></p>
 <?php } ?>
 </td>
 </tr>
@@ -476,12 +476,12 @@
 	wp_nonce_field('powerpress-diagnostics');
 ?>
 
-<h3 style="margin-bottom: 0;"><?php echo __('Email Results'); ?></h3>
-<p style="margin: 0;"><?php echo __('Send the results above to the specified Email address.'); ?></p>
+<h3 style="margin-bottom: 0;"><?php echo __('Email Results', 'powerpress'); ?></h3>
+<p style="margin: 0;"><?php echo __('Send the results above to the specified Email address.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-	<?php echo __('Email'); ?>
+	<?php echo __('Email', 'powerpress'); ?>
 </th> 
 <td>
 	<div style="margin-top: 5px;">
@@ -492,7 +492,7 @@
 		<input type="checkbox" name="CC" value="1" style="vertical-align: text-top;" checked /> CC: <?php $user_info = wp_get_current_user(); echo "&quot;{$user_info->user_nicename}&quot; &lt;{$user_info->user_email}&gt;"; ?>
 	</div>
 	<div>
-		<input type="checkbox" name="ap" value="1" style="vertical-align: text-top;" checked /> Include list of active plugins in diagnostics results.
+		<input type="checkbox" name="ap" value="1" style="vertical-align: text-top;" checked /> <?php echo __('Include list of active plugins in diagnostics results.', 'powerpress') ?>
 	</div>
 </td>
 </tr>

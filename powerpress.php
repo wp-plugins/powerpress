@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 1.0.8
+Version: 1.0.10
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '1.0.8' );
+define('POWERPRESS_VERSION', '1.0.10' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -61,6 +61,8 @@ if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 
 if( !defined('POWERPRESS_CONTENT_ACTION_PRIORITY') )
 	define('POWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
+
+//define('POWERPRESS_ENQUEUE_SCRIPTS', true); // Add this define to your wp-config.php if you want the audio.js enqueued with other plugin scripts in your blog.
 
 //define('POWERPRESS_ENABLE_HTTPS_MEDIA', true); // Add this define to your wp-config.php if you wnat to allow media URLs that begin with https://
 
@@ -275,8 +277,11 @@ function powerpress_header()
 	if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
 	{
 		$PowerpressPluginURL = powerpress_get_root_url();
+		if( !defined('POWERPRESS_ENQUEUE_SCRIPTS') )
+		{
+			echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
+		}
 ?>
-<script type="text/javascript" src="<?php echo powerpress_get_root_url(); ?>player.js"></script>
 <script type="text/javascript">
 <?php
 		$new_window_width = 320;
@@ -376,7 +381,7 @@ function powerpress_rss2_head()
 		echo "\t".'<itunes:summary>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'summary' ) .'</itunes:summary>'.PHP_EOL;
 	
 	if( !empty($powerpress_feed['itunes_talent_name']) )
-		echo "\t<itunes:author>" . wp_specialchars($powerpress_feed['itunes_talent_name']) . '</itunes:author>'.PHP_EOL;
+		echo "\t<itunes:author>" . esc_html($powerpress_feed['itunes_talent_name']) . '</itunes:author>'.PHP_EOL;
 	
 	if( !empty($powerpress_feed['explicit']) )
 		echo "\t".'<itunes:explicit>' . $powerpress_feed['explicit'] . '</itunes:explicit>'.PHP_EOL;
@@ -386,7 +391,7 @@ function powerpress_rss2_head()
 		
 	if( !empty($Feed['itunes_image']) )
 	{
-		echo "\t".'<itunes:image href="' . wp_specialchars( str_replace(' ', '+', $Feed['itunes_image']), 'double') . '" />'.PHP_EOL;
+		echo "\t".'<itunes:image href="' . esc_html( str_replace(' ', '+', $Feed['itunes_image']), 'double') . '" />'.PHP_EOL;
 	}
 	else
 	{
@@ -396,17 +401,17 @@ function powerpress_rss2_head()
 	if( !empty($Feed['email']) )
 	{
 		echo "\t".'<itunes:owner>'.PHP_EOL;
-		echo "\t\t".'<itunes:name>' . wp_specialchars($powerpress_feed['itunes_talent_name']) . '</itunes:name>'.PHP_EOL;
-		echo "\t\t".'<itunes:email>' . wp_specialchars($Feed['email']) . '</itunes:email>'.PHP_EOL;
+		echo "\t\t".'<itunes:name>' . esc_html($powerpress_feed['itunes_talent_name']) . '</itunes:name>'.PHP_EOL;
+		echo "\t\t".'<itunes:email>' . esc_html($Feed['email']) . '</itunes:email>'.PHP_EOL;
 		echo "\t".'</itunes:owner>'.PHP_EOL;
-		echo "\t".'<managingEditor>'. wp_specialchars($Feed['email'] .' ('. $powerpress_feed['itunes_talent_name'] .')') .'</managingEditor>'.PHP_EOL;
+		echo "\t".'<managingEditor>'. esc_html($Feed['email'] .' ('. $powerpress_feed['itunes_talent_name'] .')') .'</managingEditor>'.PHP_EOL;
 	}
 	
 	if( !empty($Feed['copyright']) )
 	{
 		// In case the user entered the copyright html version or the copyright UTF-8 or ASCII symbol or just (c)
 		$Feed['copyright'] = str_replace(array('&copy;', '(c)', '(C)', chr(194) . chr(169), chr(169) ), '&#xA9;', $Feed['copyright']);
-		echo "\t".'<copyright>'. wp_specialchars($Feed['copyright']) . '</copyright>'.PHP_EOL;
+		echo "\t".'<copyright>'. esc_html($Feed['copyright']) . '</copyright>'.PHP_EOL;
 	}
 	
 	if( !empty($Feed['itunes_subtitle']) )
@@ -421,10 +426,10 @@ function powerpress_rss2_head()
 	{
 		echo "\t". '<image>' .PHP_EOL;
 		if( is_category() && !empty($Feed['title']) )
-			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
+			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
-			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
-		echo "\t\t".'<url>' . wp_specialchars( str_replace(' ', '+', $Feed['rss2_image'])) . '</url>'.PHP_EOL;
+			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
+		echo "\t\t".'<url>' . esc_html( str_replace(' ', '+', $Feed['rss2_image'])) . '</url>'.PHP_EOL;
 		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}
@@ -432,9 +437,9 @@ function powerpress_rss2_head()
 	{
 		echo "\t". '<image>' .PHP_EOL;
 		if( is_category() && !empty($Feed['title']) )
-			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
+			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
-			echo "\t\t".'<title>' . wp_specialchars( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
+			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
 		echo "\t\t".'<url>' . powerpress_get_root_url() . 'rss_default.jpg</url>'.PHP_EOL;
 		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
@@ -456,13 +461,13 @@ function powerpress_rss2_head()
 		$SubCatDesc = $Categories[$Cat1.'-'.$SubCat1];
 		if( $Cat1 != $Cat2 && $SubCat1 == '00' )
 		{
-			echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'" />'.PHP_EOL;
+			echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'" />'.PHP_EOL;
 		}
 		else
 		{
-			echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'">'.PHP_EOL;
+			echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'">'.PHP_EOL;
 			if( $SubCat1 != '00' )
-				echo "\t\t".'<itunes:category text="'. wp_specialchars($SubCatDesc) .'" />'.PHP_EOL;
+				echo "\t\t".'<itunes:category text="'. esc_html($SubCatDesc) .'" />'.PHP_EOL;
 			
 			// End this category set
 			if( $Cat1 != $Cat2 )
@@ -479,7 +484,7 @@ function powerpress_rss2_head()
 		if( $Cat1 == $Cat2 )
 		{
 			if( $SubCat2 != '00' )
-				echo "\t\t".'<itunes:category text="'. wp_specialchars($SubCatDesc) .'" />'.PHP_EOL;
+				echo "\t\t".'<itunes:category text="'. esc_html($SubCatDesc) .'" />'.PHP_EOL;
 			
 			// End this category set
 			if( $Cat2 != $Cat3 )
@@ -489,14 +494,14 @@ function powerpress_rss2_head()
 		{
 			if( $Cat2 != $Cat3 && $SubCat2 == '00' )
 			{
-				echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'" />'.PHP_EOL;
+				echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'" />'.PHP_EOL;
 			}
 			else // We have nested values
 			{
 				if( $Cat1 != $Cat2 ) // Start a new category set
-					echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'">'.PHP_EOL;
+					echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'">'.PHP_EOL;
 				if( $SubCat2 != '00' )
-				echo "\t\t".'<itunes:category text="'. wp_specialchars($SubCatDesc) .'" />'.PHP_EOL;
+				echo "\t\t".'<itunes:category text="'. esc_html($SubCatDesc) .'" />'.PHP_EOL;
 				if( $Cat2 != $Cat3 ) // End this category set
 					echo "\t".'</itunes:category>'.PHP_EOL;
 			}
@@ -512,7 +517,7 @@ function powerpress_rss2_head()
 		if( $Cat2 == $Cat3 )
 		{
 			if( $SubCat3 != '00' )
-				echo "\t\t".'<itunes:category text="'. wp_specialchars($SubCatDesc) .'" />'.PHP_EOL;
+				echo "\t\t".'<itunes:category text="'. esc_html($SubCatDesc) .'" />'.PHP_EOL;
 			
 			// End this category set
 			echo "\t".'</itunes:category>'.PHP_EOL;
@@ -521,14 +526,14 @@ function powerpress_rss2_head()
 		{
 			if( $Cat2 != $Cat3 && $SubCat3 == '00' )
 			{
-				echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'" />'.PHP_EOL;
+				echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'" />'.PHP_EOL;
 			}
 			else // We have nested values
 			{
 				if( $Cat2 != $Cat3 ) // Start a new category set
-					echo "\t".'<itunes:category text="'. wp_specialchars($CatDesc) .'">'.PHP_EOL;
+					echo "\t".'<itunes:category text="'. esc_html($CatDesc) .'">'.PHP_EOL;
 				if( $SubCat3 != '00' )
-					echo "\t\t".'<itunes:category text="'. wp_specialchars($SubCatDesc) .'" />'.PHP_EOL;
+					echo "\t\t".'<itunes:category text="'. esc_html($SubCatDesc) .'" />'.PHP_EOL;
 				// End this category set
 				echo "\t".'</itunes:category>'.PHP_EOL;
 			}
@@ -665,7 +670,7 @@ function powerpress_rss2_item()
 		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($content_no_html, 'summary') .'</itunes:summary>'.PHP_EOL;
 	
 	if( $author )
-		echo "\t\t<itunes:author>" . wp_specialchars($author) . '</itunes:author>'.PHP_EOL;
+		echo "\t\t<itunes:author>" . esc_html($author) . '</itunes:author>'.PHP_EOL;
 	else
 		echo "\t\t<itunes:author>".'NO AUTHOR</itunes:author>'.PHP_EOL;
 	
@@ -992,6 +997,10 @@ function powerpress_init()
 		}
 	}
 	*/	
+	if( defined('POWERPRESS_ENQUEUE_SCRIPTS') )
+	{
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	}
 }
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
@@ -1138,7 +1147,7 @@ function powerpress_load_general_feed_settings()
 						$powerpress_feed['itunes_talent_name'] = $FeedSettingsBasic['itunes_talent_name'];
 					else
 						$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-					$powerpress_feed['enhance_itunes_summary'] = (version_compare( '5', phpversion(), '>=' )?0 : 1);
+					$powerpress_feed['enhance_itunes_summary'] = 0;
 					if( isset($FeedSettingsBasic['enhance_itunes_summary']) )
 						$powerpress_feed['enhance_itunes_summary'] = $FeedSettingsBasic['enhance_itunes_summary'];
 					$powerpress_feed['posts_per_rss'] = false;
@@ -1742,7 +1751,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Blubrry PowerPress Player</title>
+	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
 <?php wp_head(); ?>
 <style type="text/css">
 body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; }
@@ -1754,7 +1763,7 @@ body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; }
 	$GeneralSettings = get_option('powerpress_general');
 	if( !$EpisodeData )
 	{
-		echo '<p>Unable to retrieve media information.</p>';
+		echo '<p>'.  __('Unable to retrieve media information.', 'powerpress') .'</p>';
 	}
 	else if( !empty($GeneralSettings['premium_caps']) && !powerpress_premium_content_authorized($feed_slug) )
 	{
@@ -2036,7 +2045,7 @@ function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = 
 	if( $remove_new_lines )
 		$value = preg_replace( array("/\r\n\r\n/u", "/\n/u", "/\r/u", "/\t/u") , array(' - ',' ', '', '  '), $value);
 	
-	return wp_specialchars( powerpress_trim_itunes_value($value, $tag) );
+	return esc_html( powerpress_trim_itunes_value($value, $tag) );
 }
 
 function powerpress_trim_itunes_value($value, $tag = 'summary')
@@ -2133,14 +2142,37 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 	{
 		global $powerpress_general_settings;
 		if( !$powerpress_general_settings )
+		{
 			$powerpress_general_settings = get_option('powerpress_general');
+			if( !empty($powerpress_general_settings['cat_casting']) ) // If category podcasting...
+			{
+				if( is_category() ) // Special case where we want to track the category separately
+				{
+					$FeedCatSettings = get_option('powerpress_cat_feed_'.get_query_var('cat') );
+					if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+						$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
+				}
+				else if( is_single() )
+				{
+					$categories = wp_get_post_categories( get_the_ID() );
+					if( count($categories) == 1 )
+					{
+						list($null,$cat_id) = each($categories);
+						$FeedCatSettings = get_option('powerpress_cat_feed_'.$cat_id );
+						if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+							$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
+						// See if only one category is associated with this post
+					}
+				}
+			}
+		}
 		$GeneralSettings = $powerpress_general_settings;
 	}
 	
-	for( $x = 3; $x > 0; $x-- )
+	for( $x = 3; $x >= 0; $x-- )
 	{
 		$key = sprintf('redirect%d', $x);
-		if( $GeneralSettings[ $key ] )
+		if( !empty($GeneralSettings[ $key ]) )
 		{
 			$RedirectClean = str_replace('http://', '', trim($GeneralSettings[ $key ]) );
 			if( !strstr($NewURL, $RedirectClean) )
@@ -2193,7 +2225,7 @@ function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings
 	
 	// If the setting is not already set, set the enhnaced itunes setting if they have PHP5+ on by default
 	if( !isset($FeedSettings['enhance_itunes_summary']) )
-		$FeedSettings['enhance_itunes_summary'] = ( version_compare( '5', phpversion(), '>=' )?0:1);
+		$FeedSettings['enhance_itunes_summary'] = 0;
  
 	if( !$CustomFeedSettings )
 		return $FeedSettings; // If the $CustomFeedSettings is false
@@ -2396,6 +2428,16 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 		}
 	}
 	return false;
+}
+
+function powerpress_get_apple_id($url)
+{
+	$results = preg_match('/id\=(\d+)/i', $url, $matches);
+	if( !$results )
+		$results = preg_match('/\/id(\d+)/i', $url, $matches);
+	if( $results )
+		return $matches[1];
+	return 0;
 }
 
 function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeData = false)

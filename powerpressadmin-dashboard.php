@@ -72,12 +72,12 @@ function powerpress_dashboard_stats_content()
 	{
 		if( !$UserPass )
 		{
-			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable %s.') .'</p>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Services') . '</a>' );
+			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable %s.', 'powerpress') .'</p>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Services', 'powerpress') . '</a>' );
 			$content .= ' ';
-			$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!') .'</p>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Podcast Hosting') .'</a>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Video') .'</a>' );
+			$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress') .'</p>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Podcast Hosting', 'powerpress') .'</a>',
+					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Video', 'powerpress') .'</a>' );
 		}
 		else
 		{
@@ -88,7 +88,7 @@ function powerpress_dashboard_stats_content()
 			if( $content )
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content) );
 			else
-				$content = __('Error: An error occurred authenticating user.');
+				$content = __('Error: An error occurred authenticating user.', 'powerpress');
 		}
 	}
 ?>
@@ -100,7 +100,7 @@ function powerpress_dashboard_stats_content()
 	{
 ?>
 	<div id="blubrry_stats_media_show">
-		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="<?php echo __('Blubrry Media statistics'); ?>" class="thickbox"><?php echo __('more'); ?></a>
+		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="<?php echo __('Blubrry Media statistics', 'powerpress'); ?>" class="thickbox"><?php echo __('more', 'powerpress'); ?></a>
 	</div>
 <?php } ?>
 </div>
@@ -123,7 +123,7 @@ function powerpress_dashboard_setup()
 		
 	if( $Settings )
 	{
-		wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics' ), 'powerpress_dashboard_stats_content' );
+		wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
 	}
 }
 	 

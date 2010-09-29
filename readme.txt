@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard
 Requires at least: 2.6.0
-Tested up to: 2.9.2
-Stable tag: 1.0.8
+Tested up to: 3.0
+Stable tag: 1.0.10
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -62,10 +62,13 @@ Want more? Check out the advanced features.
 * Tag/Keyword Podcast Feeds (Tag Casting): Add iTunes compliant attributes to your tag feeds.
 * FeedBurner Support: Use FeedBurner.com to host your podcast feeds.
 * *User Role Management: Control which users in your blog can podcast.
+* **Custom Post Types: Use the new Custom Post Types feature found in WordPress 3.0
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
 * WordPress MU: Blubrry PowerPress is compatible with [WordPress MU](http://mu.wordpress.org/)
 
-*User Role Management requires a separate plugin to manage WordPress Roles and Capabilities. 
+*User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
+
+**Custom Post Types feature requires a separate plugin to manage custom post types.
 
 = Migrating from PodPress =
  We made it easy to migrate from PodPress to PowerPress.
@@ -138,7 +141,29 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* We are about 90% done updating PowerPress for translation. If you would like to have PowerPress translated into other languages, please contact Angelo: cio [at] rawvoice.com.
+* Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+
+
+= 1.0.10 =
+* Released on 9/28/2010
+* Added support for Custom Post Types.
+* Fixed various translation issues with player settings admin screens.
+* Added `powerpress_print_options()` function to simplify printing select options in admin.
+* Switched to using `esc_html()` function (Thanks amereservant for bringing to our attention).
+* Added wp-config `POWERPRESS_ENQUEUE_SCRIPTS` define option if you want player.js to be enqueued (Feature request).
+* Optimized iTunes Summary option no longer selected by default. Optimize iTunes Summary's clickable links do not appear on the online iTunes web site in the same way they do in the iTunes application.
+* Added Arabic languages to list of feed languages (Thanks Ahmad for bringing to our attention).
+* Added support for new iTunes 1-click Subscription URL format (e.g. http://itunes.apple.com/podcast/title-of-podcast/id000000000).
+
+
+= 1.0.9 =
+* Released on 7/2/2010
+* Updated WP supported version tag to 3.0, we have yet to find any issues between PowerPress and the latest version of WordPress.
+* Fixed minor bug when clicking 'Add Podcasting to Category' when category not selected.
+* Added Media Redirect URL option for Category feeds and pages. The Redirect URL also works with single pages if only one category is selected for the post.
+* Finished adding translation support. Want to translate PowerPress into you language? Please email cio [at] rawvoice.com for details.
+* Improved error reporting for the 'Verify' button feature.
+
 
 = 1.0.8 =
 * Released on 5/10/2010

@@ -100,7 +100,7 @@
 		{
 			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
 			{
-				$this->SetError( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.') );
+				$this->SetError( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.', 'powerpress') );
 				return false;
 			}
 			
@@ -110,7 +110,7 @@
 			// The following code relies on fopen_url capability.
 			if( $RedirectCount > $this->m_RedirectLimit )
 			{
-				$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (fopen).' );
+				$this->SetError( sprintf( __('Media URL exceeded redirect limit of %d (fopen).', 'powerpress'), $this->m_RedirectLimit) );
 				return false;
 			}
 			
@@ -121,9 +121,9 @@
 			if( !isset( $urlParts['host']) )
 			{
 				if( empty($url) )
-					$this->SetError( 'Unable to obtain host name from URL.' );
+					$this->SetError( __('Unable to obtain host name from URL.', 'powerpress') );
 				else
-					$this->SetError( 'Unable to obtain  host name from the URL: '.$url );
+					$this->SetError( __('Unable to obtain  host name from the URL:', 'powerpress') .' '.$url );
 				return false;
 			}
 			if( !isset( $urlParts['path']) )
@@ -223,7 +223,7 @@
 						}
 						else
 						{
-							$this->SetError('Unable to obtain media size from web server.');
+							$this->SetError( __('Unable to obtain media size from web server.', 'powerpress') );
 							return false;
 						}
 					}
@@ -236,7 +236,7 @@
 					
 					if( $TempFile === false )
 					{
-						$this->SetError('Unable to save media information to temporary directory.');
+						$this->SetError( __('Unable to save media information to temporary directory.', 'powerpress') );
 						return false;
 					}
 					
@@ -249,7 +249,7 @@
 					return $TempFile;
 				}
 			}
-			$this->SetError('Unable to connect to host '.$urlParts['host'].'.');
+			$this->SetError( __('Unable to connect to host:','powerpress') .' '.$urlParts['host']);
 			return false;
 		}
 		
@@ -263,7 +263,7 @@
 			{
 				if( $RedirectCount > $this->m_RedirectLimit )
 				{
-					$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL in safe mode).' );
+					$this->SetError( sprintf( __('Media URL exceeded redirect limit of %d (cURL in safe mode).', 'powerpress'), $this->m_RedirectLimit) );
 					return false;
 				}
 				$this->m_RedirectCount = $RedirectCount;
@@ -305,7 +305,7 @@
 					case 307: {
 						if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 						{
-							$this->SetError( 'Media URL exceeded redirect limit of '.$this->m_RedirectLimit .' (cURL).' );
+							$this->SetError( sprintf( __('Media URL exceeded redirect limit of %d (cURL).', 'powerpress'), $this->m_RedirectLimit) );
 						}
 						else
 						{
@@ -320,7 +320,7 @@
 							}
 							else
 							{
-								$this->SetError( sprintf(__('Unable to obtain HTTP %d redirect URL.'), $HttpCode) );
+								$this->SetError( sprintf(__('Unable to obtain HTTP %d redirect URL.', 'powerpress'), $HttpCode) );
 							}
 						}
 					}; break;
@@ -350,7 +350,7 @@
 					$this->m_ContentLength = $ContentLength;
 					return true;
 				}
-				$this->SetError('Unable to obtain media size from server.');
+				$this->SetError( __('Unable to obtain media size from server.', 'powerpress') );
 				return false;
 			}
 			
@@ -361,7 +361,7 @@
 				$TempFile = tempnam('/tmp', 'wp_powerpress');
 			if( $TempFile === false )
 			{
-				$this->SetError('Unable to create temporary file for checking media information.');
+				$this->SetError( __('Unable to create temporary file for checking media information.', 'powerpress') );
 				return false;
 			}
 			
@@ -424,7 +424,7 @@
 				}
 				else if( $success && $this->m_data == '' )
 				{
-					$this->SetError('Unable to download media.');
+					$this->SetError( __('Unable to download media.', 'powerpress') );
 					$success = false;
 				}
 			}
@@ -432,9 +432,9 @@
 			if( !$success )
 			{
 				if( curl_errno($curl) )
-					$this->SetError('Retrieving file info: '.  curl_error($curl) );
+					$this->SetError( __('Retrieving file info:', 'powerpress') .' '.  curl_error($curl) );
 				else if( $this->GetError() == '' )
-					$this->SetError('Unable to download media.');
+					$this->SetError( __('Unable to download media.', 'powerpress') );
 			}
 			curl_close($curl);
 			fclose($fp);
@@ -478,6 +478,27 @@
 				$LocalFile = $File;
 			}
 			
+			if( !is_file($LocalFile) )
+			{
+				$this->SetError( __('Error occurred downloading media file.', 'powerpress') );
+				return false;
+			}
+			
+			if( $this->m_ContentLength == -1 )
+			{
+				$this->SetError( __('Error occurred downloading media file.', 'powerpress') );
+				return false;
+			}
+			
+			if( $this->m_ContentLength < 1 )
+				$this->m_ContentLength = filesize($LocalFile);
+			
+			if( $this->m_ContentLength == 0 )
+			{
+				$this->SetError( __('Downloaded media file is empty.', 'powerpress') );
+				return false;
+			}
+			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
@@ -488,6 +509,14 @@
 				
 			if( $FileInfo )
 			{
+				if( isset($FileInfo['error']) )
+				{
+					$errors = '';
+					while( list($null,$error) = each($FileInfo['error']) )
+						$errors .= " $error.";
+					$this->SetError( trim($errors) );
+					return false;
+				}
 				// Remove extra data that is not necessary for us to return...
 				//unset($FileInfo['mpeg']);
 				unset($FileInfo['audio']);
@@ -504,13 +533,13 @@
 					if( $Audio['sample_rate'] != 22050 && $Audio['sample_rate'] != 44100 )
 					{
 						// Add warning here
-						$this->AddWarning( sprintf(__('Sample Rate %dKhz may cause playback issues, we recommend 22Khz or 44Khz for maximum player compatibility.'), $Audio['sample_rate']/1000  ) );
+						$this->AddWarning( sprintf(__('Sample Rate %dKhz may cause playback issues, we recommend 22Khz or 44Khz for maximum player compatibility.', 'powerpress'), $Audio['sample_rate']/1000  ) );
 					}
 					
 					if( stristr($Audio['channelmode'], 'stereo' ) === false )
 					{
 						// Add warning here
-						$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.'), trim($Audio['channelmode']) ) );
+						$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.', 'powerpress'), trim($Audio['channelmode']) ) );
 					}
 				}
 				

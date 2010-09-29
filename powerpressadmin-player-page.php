@@ -122,16 +122,17 @@ function powerpress_activate_player(Player)
 }
 </script>
 <input type="hidden" name="action" value="powerpress-select-player" />
-<h2><?php echo __('Blubrry PowerPress Player Options'); ?></h2>
-<p style="margin-bottom: 0;"><?php echo __('Select the media player you would like to use.'); ?></p>
+<h2><?php echo __('Blubrry PowerPress Player Options', 'powerpress'); ?></h2>
+<p style="margin-bottom: 0;"><?php echo __('Select the media player you would like to use.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Select Player'); ?></th>  
+<th scope="row"><?php echo __('Select Player', 'powerpress'); ?></th>  
 <td>
 
 	<ul>
-		<li><label><input type="radio" name="Player[player]" id="player_default" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> /> Flow Player Classic (default)</label>
-			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('default');" title="Activate and Configure Flow Player Classic">Activate and Configure Now</a></strong>
+		<li><label><input type="radio" name="Player[player]" id="player_default" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> />
+		<?php echo __('Flow Player Classic (default)', 'powerpress'); ?></label>
+			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('default');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
@@ -150,17 +151,15 @@ function powerpress_activate_player(Player)
 ?>
 			</p>
 			<p>
-				Flow Player Classic is an open source flash player that supports both audio (mp3 only) and video (flv only) media files.
-				It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, 
-				total time, mute button and volume control.
+				<?php echo __('Flow Player Classic is an open source flash player that supports both audio (mp3 only) and video (flv only) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control.', 'powerpress'); ?>
 			</p>
 			<p>
-				Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and flash video.
+				<?php echo __('Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and flash video.', 'powerpress'); ?>
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" id="player_audio_player" value="audio-player" <?php if( $General['player'] == 'audio-player' ) echo 'checked'; ?> /> 1 Pixel Out Audio Player</label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audio_player');" title="Activate and Configure 1 Pixel Out Audio Player">Activate and Configure Now</a></strong>
+		<li><label><input type="radio" name="Player[player]" id="player_audio_player" value="audio-player" <?php if( $General['player'] == 'audio-player' ) echo 'checked'; ?> /> <?php echo __('1 Pixel Out Audio Player', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audio_player');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
@@ -173,13 +172,12 @@ function powerpress_activate_player(Player)
 <param name="wmode" value="transparent" />
 </object>			</p>
 			<p>
-				1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player.
-				Features include an animated play/pause button, scrollable position bar, ellapsed/remaining time, volume control and color styling options.
+				<?php echo __('1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player. Features include an animated play/pause button, scrollable position bar, ellapsed/remaining time, volume control and color styling options.', 'powerpress'); ?>
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" id="player_flashmp3_maxi" value="flashmp3-maxi" <?php if( $General['player'] == 'flashmp3-maxi' ) echo 'checked'; ?> /> Mp3 Player Maxi</label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('flashmp3_maxi');" title="Activate and Configure Mp3 Player Maxi">Activate and Configure Now</a></strong>
+		<li><label><input type="radio" name="Player[player]" id="player_flashmp3_maxi" value="flashmp3-maxi" <?php if( $General['player'] == 'flashmp3-maxi' ) echo 'checked'; ?> /> <?php echo __('Mp3 Player Maxi', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('flashmp3_maxi');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
@@ -190,12 +188,12 @@ function powerpress_activate_player(Player)
 </object>
 			</p>
 			<p>
-				Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options.
+				<?php echo __('Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options.', 'powerpress'); ?>
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" id="player_simple_flash" value="simple_flash" <?php if( $General['player'] == 'simple_flash' ) echo 'checked'; ?> /> Simple Flash MP3 Player</label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('simple_flash');" title="Activate and Configure Simple Flash MP3 Player">Activate and Configure Now</a></strong>
+		<li><label><input type="radio" name="Player[player]" id="player_simple_flash" value="simple_flash" <?php if( $General['player'] == 'simple_flash' ) echo 'checked'; ?> /> <?php echo __('Simple Flash MP3 Player', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('simple_flash');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
@@ -209,12 +207,12 @@ function powerpress_activate_player(Player)
 </object>
 			</p>
 			<p>
-				Simple Flash MP3 Player is a free and simple audio (mp3 only) flash player. Features include play/pause and stop buttons.
+				<?php echo __('Simple Flash MP3 Player is a free and simple audio (mp3 only) flash player. Features include play/pause and stop buttons.', 'powerpress'); ?>
 			</p>
 		</li>
 		
-		<li><label><input type="radio" name="Player[player]" id="player_audioplay" value="audioplay" <?php if( $General['player'] == 'audioplay' ) echo 'checked'; ?> /> AudioPlay</label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audioplay');" title="Activate and Configure AudioPlay">Activate and Configure Now</a></strong>
+		<li><label><input type="radio" name="Player[player]" id="player_audioplay" value="audioplay" <?php if( $General['player'] == 'audioplay' ) echo 'checked'; ?> /> <?php echo __('AudioPlay', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audioplay');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
@@ -233,7 +231,7 @@ function powerpress_activate_player(Player)
 
 			</p>
 			<p>
-				AudioPlay is one button freeware audio (mp3 only) flash player. Features include a play/stop or play/pause button available in two sizes in either black or white.
+				<?php echo __('AudioPlay is one button freeware audio (mp3 only) flash player. Features include a play/stop or play/pause button available in two sizes in either black or white.', 'powerpress'); ?>
 			</p>
 		</li>
 		
@@ -243,14 +241,14 @@ function powerpress_activate_player(Player)
 </td>
 </tr>
 </table>
-<h4 style="margin-bottom: 0;">Click 'Save Changes' to activate and configure selected player.</h4>
+<h4 style="margin-bottom: 0;"><?php echo __('Click \'Save Changes\' to activate and configure selected player.', 'powerpress'); ?></h4>
 <?php
 	}
 	else
 	{
 ?>
-<h2><?php _e("Configure Player"); ?></h2>
-<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>" title="Select a different flash player">Select a different flash player</a></strong></p>
+<h2><?php echo __('Configure Player', 'powerpress'); ?></h2>
+<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>"><?php echo __('Select a different flash player', 'powerpress'); ?></a></strong></p>
 <?php 
 		// Start adding logic here to display options based on the player selected...
 		switch( $General['player'] )
@@ -371,7 +369,7 @@ function update_audio_player()
 
 function audio_player_defaults()
 {
- 	if( confirm('Set defaults, are you sure?\n\nAll of the current settings will be overwritten!') )
+ 	if( confirm('<?php echo __("Set defaults, are you sure?\n\nAll of the current settings will be overwritten!", 'powerpress'); ?>') )
 	{
 		jQuery('#player_width').val('290');
 		UpdatePlayerPreview('player_width',jQuery('#player_width').val() );
@@ -463,14 +461,14 @@ function audio_player_defaults()
 
 </script>
 	<input type="hidden" name="action" value="powerpress-audio-player" />
-	Configure the 1 pixel out Audio Player
+	<?php echo __('Configure the 1 pixel out Audio Player', 'powerpress'); ?>
 	
 	
 <table class="form-table">
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Preview of Player"); ?> 
+			<?php echo __('Preview of Player', 'powerpress'); ?>
 		</th>
 		<td>
 			<div id="player_preview">
@@ -488,21 +486,21 @@ function audio_player_defaults()
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content" style="position: relative;">
 	<div style="position: absolute; top: 6px; right:0px;">
-		<a href="#" onclick="audio_player_defaults();return false;">Set Defaults</a>
+		<a href="#" onclick="audio_player_defaults();return false;"><?php echo __('Set Defaults', 'powerpress'); ?></a>
 	</div>
   <ul class="powerpress_settings_tabs"> 
-		<li><a href="#tab_general"><span>Basic Settings</span></a></li> 
-		<li><a href="#tab_progress"><span>Progress Bar</span></a></li> 
-		<li><a href="#tab_volume"><span>Volume Button</span></a></li>
-		<li><a href="#tab_play"><span>Play / Pause Button</span></a></li>
+		<li><a href="#tab_general"><span><?php echo __('Basic Settings', 'powerpress'); ?></span></a></li> 
+		<li><a href="#tab_progress"><span><?php echo __('Progress Bar', 'powerpress'); ?></span></a></li> 
+		<li><a href="#tab_volume"><span><?php echo __('Volume Button', 'powerpress'); ?></span></a></li>
+		<li><a href="#tab_play"><span><?php echo __('Play / Pause Button', 'powerpress'); ?></span></a></li>
   </ul>
 	
  <div id="tab_general" class="powerpress_tab">
- <h3>General Settings</h3>
+ <h3><?php echo __('General Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Page Background Color"); ?>
+			<?php echo __('Page Background Color', 'powerpress'); ?>
                         
 		</th>
 		<td>
@@ -510,11 +508,11 @@ function audio_player_defaults()
 				<input type="text" style="width: 100px;" id="pagebg" name="Player[pagebg]" class="color_field" value="<?php echo $PlayerSettings['pagebg']; ?>" maxlength="20" />
 				<img id="pagebg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['pagebg']; ?>;" class="color_preview" />
 			</div>
-			<small>(<?php _e('leave blank for transparent'); ?>)</small>
+			<small>(<?php echo __('leave blank for transparent', 'powerpress'); ?>)</small>
 		</td>
 	</tr>	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Background Color"); ?> 
+			<?php echo __('Player Background Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -525,36 +523,30 @@ function audio_player_defaults()
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Width (in pixels)"); ?> 
+			<?php echo __('Width (in pixels)', 'powerpress'); ?>
 		</th>
 		<td>
           <input type="text" style="width: 50px;" id="player_width" name="Player[width]" class="other_field" value="<?php echo $PlayerSettings['width']; ?>" maxlength="20" />
-				width of the player. e.g. 290 (290 pixels) or 100%
+				<?php echo __('width of the player. e.g. 290 (290 pixels) or 100%', 'powerpress'); ?>
 		</td>
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Right-to-Left"); ?> 
+			<?php echo __('Right-to-Left', 'powerpress'); ?>
 		</th>
 		<td>
-			<select style="width: 50px;" id="rtl" name="Player[rtl]" class="other_field"> 
-			<?php
-			$option = array('no','yes');
-			 foreach($option as $option){
-							if($PlayerSettings['rtl'] == $option):
-									$selected = " selected";
-							else:
-									$selected = "";
-							endif;
-							echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-			}?>
-          </select>			switches the layout to animate from the right to the left
+			<select style="width: 102px;" id="rtl" name="Player[rtl]" class="other_field"> 
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['rtl']);
+?>
+          </select>			<?php echo __('switches the layout to animate from the right to the left', 'powerpress'); ?>
 		</td>
 	</tr>
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Loading Bar Color"); ?> 
+			<?php echo __('Loading Bar Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -566,7 +558,7 @@ function audio_player_defaults()
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Text Color"); ?> 
+			<?php echo __('Text Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -578,75 +570,56 @@ function audio_player_defaults()
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Text In Player"); ?> 
+			<?php echo __('Text In Player', 'powerpress'); ?> 
 		</th>
 		<td>
           <div><input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" /></div>
-				<small><?php _e('Enter \'TRACK\' to display track name from mp3. Only works if media is hosted on same server as blog.'); ?></small>
+				<small><?php echo sprintf(__('Enter \'%s\' to display track name from mp3. Only works if media is hosted on same server as blog.', 'powerpress'), __('TRACK', 'powerpress') ); ?></small>
 		</td>
 	</tr>
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Play Animation"); ?> 
+			<?php echo __('Play Animation', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
-<select style="width: 50px;" id="animation" name="Player[animation]" class="other_field"> 
-                                <?php
-                                $option = array('yes','no');
-                                 foreach($option as $option){
-                                        if($PlayerSettings['animation'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-                                }?>
-                                </select>			if no, player is always open</div>
+<select style="width: 102px;" id="animation" name="Player[animation]" class="other_field"> 
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['animation']);
+?>
+                                </select>			<?php echo __('if no, player is always open', 'powerpress'); ?></div>
 		</td>
 	</tr>
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Display Remaining Time"); ?> 
+			<?php echo __('Display Remaining Time', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-<select style="width: 50px;" id="remaining" name="Player[remaining]" class="other_field"> 
-                                <?php
-                                $options = array('yes','no');
-                                 foreach($options as $option){
-                                        if($PlayerSettings['remaining'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. ucwords($option) .'</option>';
-                                }?>
-                                </select>			if yes, shows remaining track time rather than ellapsed time (default: no)</div>
+<select style="width: 102px;" id="remaining" name="Player[remaining]" class="other_field">
+<?php
+			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['remaining']);
+?>
+                                </select>			<?php echo __('if yes, shows remaining track time rather than ellapsed time (default: no)', 'powerpress'); ?></div>
 		</td>
 	</tr>
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Buffering Time"); ?> 
+			<?php echo __('Buffering Time', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
 <select style="width: 200px;" id="buffer" name="Player[buffer]" class="other_field"> 
-                                <?php
-                                $options = array('0'=>'No buffering', ''=>'Default (5 seconds)','10'=>'10 seconds','15'=>'15 seconds','20'=>'20 seconds','30'=>'30 seconds','60'=>'60 seconds');
-                                 
-																 while( list($key,$value) = each($options) ) {
-                                        if( $PlayerSettings['buffer'] == $key )
-                                            $selected = " selected";
-                                        else
-                                            $selected = "";
-                                        
-                                        echo '<option value="'. $key .'"'. $selected .' >'. $value .'</option>';
-                                }?>
-                                </select>		buffering time in seconds</div>
+<?php
+			$options = array('0'=>__('No buffering', 'powerpress'), ''=>__('Default (5 seconds)', 'powerpress'),'10'=>__('10 seconds', 'powerpress'),'15'=>__('15 seconds', 'powerpress'),'20'=>__('20 seconds', 'powerpress'),'30'=>__('30 seconds', 'powerpress'),'60'=>__('60 seconds', 'powerpress'));
+			powerpress_print_options( $options, $PlayerSettings['buffer']);
+?>
+                                </select>		<?php echo __('buffering time in seconds', 'powerpress'); ?></div>
 		</td>
 	</tr>
 	
@@ -655,11 +628,11 @@ function audio_player_defaults()
 </div>
 
  <div id="tab_progress" class="powerpress_tab">
-	<h3>Progress Bar</h3>
+	<h3><?php echo __('Progress Bar', 'powerpress'); ?></h3>
 <table class="form-table">
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Progress Bar Background"); ?> 
+			<?php echo __('Progress Bar Background', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -670,7 +643,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Progress Bar Color"); ?> 
+			<?php echo __('Progress Bar Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -681,7 +654,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Progress Bar Border"); ?> 
+			<?php echo __('Progress Bar Border', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -695,27 +668,28 @@ function audio_player_defaults()
 	
 	
 <div id="tab_volume" class="powerpress_tab">
-	<h3>Volume Button Settings</h3>
+	<h3><?php echo __('Volume Button Settings', 'powerpress'); ?></h3>
 	<table class="form-table">	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Initial Volume"); ?> 
+			<?php echo __('Initial Volume', 'powerpress'); ?> 
 		</th>
 		<td>
-			<select style="width: 100px;" id="initialvolume" name="Player[initialvolume]" class="other_field"> 
-			<?php
+			<select style="width: 100px;" id="initialvolume" name="Player[initialvolume]" class="other_field">
+<?php
 			
 			for($x = 0; $x <= 100; $x +=5 )
 			{
 				echo '<option value="'. $x .'"'. ($PlayerSettings['initialvolume'] == $x?' selected':'') .'>'. $x .'%</option>';
-			}?>
-			</select> initial volume level (default: 60)
+			}
+?>
+			</select> <?php echo __('initial volume level (default: 60)', 'powerpress'); ?>
 		</td>
 	</tr>
 				
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Volumn Background Color"); ?> 
+			<?php echo __('Volumn Background Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -726,7 +700,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Speaker Icon Color"); ?> 
+			<?php echo __('Speaker Icon Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -737,7 +711,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Volume Icon Background"); ?> 
+			<?php echo __('Volume Icon Background', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -748,7 +722,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Volume Slider Color"); ?> 
+			<?php echo __('Volume Slider Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -761,11 +735,11 @@ function audio_player_defaults()
 </div>
 
 <div id="tab_play" class="powerpress_tab">
-	<h3>Play / Pause Button Settings</h3>
+	<h3><?php echo __('Play / Pause Button Settings', 'powerpress'); ?></h3>
 	<table class="form-table">	
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Play/Pause Background Color"); ?> 
+			<?php echo __('Play/Pause Background Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -776,7 +750,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Play/Pause Hover Color"); ?> 
+			<?php echo __('Play/Pause Hover Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -787,7 +761,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Play/Pause Icon Color"); ?> 
+			<?php echo __('Play/Pause Icon Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -798,7 +772,7 @@ function audio_player_defaults()
 	</tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Play/Pause Icon Hover Color"); ?> 
+			<?php echo __('Play/Pause Icon Hover Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -818,7 +792,7 @@ function audio_player_defaults()
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Preview of Player"); ?> 
+			<?php echo __('Preview of Player', 'powerpress'); ?>
 		</th>
 		<td>
 			<p>
@@ -839,7 +813,7 @@ function audio_player_defaults()
 			&nbsp;
 		</th>
 		<td>
-			<p>Simple Flash Player has no additional settings.</p>
+			<p><?php echo __('Simple Flash Player has no additional settings.', 'powerpress'); ?></p>
 		</td>
 	</tr>
 </table>                            
@@ -852,8 +826,8 @@ function audio_player_defaults()
                             
                             //set array values for dropdown lists
                             $options = array('0','1');
-                            $autoload = array('always','never','autohide');
-                            $volume = array('0','25','50','75','100','125','150','175','200');
+                            $autoload = array('always'=>'Always','never'=>'Never','autohide'=>'Auto Hide');
+                            $volume = array('0'=>'0','25'=>'25','50'=>'50','75'=>'75','100'=>'100','125'=>'125','150'=>'150','175'=>'175','200'=>'200');
                             
                             //set array values for flash variables with no dependencies
                             $keys = array('bgcolor1','bgcolor2','bgcolor','textcolor','buttoncolor','buttonovercolor','showstop','showinfo','showvolume','height','width','showloading','buttonwidth','volume','showslider');
@@ -954,7 +928,7 @@ function audio_player_defaults()
 
 function audio_player_defaults()
 {
-	if( confirm('Set defaults, are you sure?\n\nAll of the current settings will be overwritten!') )
+	if( confirm('<?php echo __("Set defaults, are you sure?\n\nAll of the current settings will be overwritten!'", 'powerpress'); ?>) )
 	{
 		jQuery('#bgcolor1').val('#7c7c7c');
 		UpdatePlayerPreview('bgcolor1',jQuery('#bgcolor1').val() );
@@ -1044,7 +1018,7 @@ function audio_player_defaults()
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Preview of Player"); ?> 
+			<?php echo __('Preview of Player', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div id="player_preview">
@@ -1070,7 +1044,7 @@ $content .= '</object>'.PHP_EOL;
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content" style="position: relative;">
 	<div style="position: absolute; top: 6px; right:0px;">
-		<a href="#" onclick="audio_player_defaults();return false;">Set Defaults</a>
+		<a href="#" onclick="audio_player_defaults();return false;"><?php echo __('Set Defaults', 'powerpress'); ?></a>
 	</div>
   <ul class="powerpress_settings_tabs"> 
 		<li><a href="#tab_general"><span>Basic Settings</span></a></li> 
@@ -1080,17 +1054,17 @@ $content .= '</object>'.PHP_EOL;
   </ul>
 	
  <div id="tab_general" class="powerpress_tab">
-		<h3><?php _e('General Settings'); ?></h3>
+		<h3><?php echo __('General Settings'); ?></h3>
 		<table class="form-table">
         <tr valign="top">
             <td colspan="2">
             
-            <?php _e('leave blank for default values'); ?>
+            <?php echo __('leave blank for default values', 'powerpress'); ?>
             </td>
         </tr>
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Player Gradient Color Top"); ?> 
+			<?php echo __('Player Gradient Color Top', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -1101,7 +1075,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Gradient Color Bottom"); ?> 
+			<?php echo __('Player Gradient Color Bottom', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -1112,7 +1086,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Background Color"); ?>
+			<?php echo __('Background Color', 'powerpress'); ?>
                         
 		</th>
 		<td>
@@ -1120,12 +1094,12 @@ $content .= '</object>'.PHP_EOL;
 				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
-			<small><?php _e("leave blank for transparent");?></small>
+			<small><?php echo __('leave blank for transparent', 'powerpress'); ?></small>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Text Color"); ?> 
+			<?php echo __('Text Color', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1137,7 +1111,7 @@ $content .= '</object>'.PHP_EOL;
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Height (in pixels)"); ?> 
+			<?php echo __('Player Height (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1147,7 +1121,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Width (in pixels)"); ?> 
+			<?php echo __('Player Width (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1159,11 +1133,11 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_buttons" class="powerpress_tab">
-		<h3><?php _e('Button Settings'); ?></h3>
+		<h3><?php echo __('Button Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Button Color"); ?> 
+			<?php echo __('Button Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -1174,7 +1148,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Button Hover Color"); ?> 
+			<?php echo __('Button Hover Color', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -1185,7 +1159,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Button Width (in pixels)"); ?> 
+			<?php echo __('Button Width (in pixels)', 'powerpress'); ?>
 		</th>
 		<td>
 			<div class="color_control">
@@ -1195,48 +1169,30 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Show Stop Button"); ?> 
+			<?php echo __('Show Stop Button', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showstop" name="Player[showstop]"> 
-                               <?php foreach($options as $option){
-                                        if($PlayerSettings['showstop'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showstop" name="Player[showstop]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showstop']);
+?>
                                 </select>
 			</div>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Show Info"); ?> 
+			<?php echo __('Show Info', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showinfo" name="Player[showinfo]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showinfo'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showinfo" name="Player[showinfo]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showinfo']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1245,55 +1201,41 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_volume" class="powerpress_tab">
-		<h3><?php _e('Volume Settings'); ?></h3>
+		<h3><?php echo __('Volume Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
         
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Show Volume"); ?> 
+			<?php echo __('Show Volume', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showvolume" name="Player[showvolume]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showvolume'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showvolume" name="Player[showvolume]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showvolume']);
+?>
                                 </select>
 			</div>
 		</td>
 	</tr>	
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Volume"); ?> 
+			<?php echo __('Volume', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="volume" name="Player[volume]"> 
-                                <?php foreach($volume as $volume){
-                                        if($PlayerSettings['volume'] == $volume):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $volume .'"'. $selected .' >'. $volume .'%</option>';
-                                }?>
+				<select style="width: 100px;" id="volume" name="Player[volume]">
+<?php
+			powerpress_print_options( $volume, $PlayerSettings['volume']);
+?>
                                 </select>
 			</div>
 		</td>
 	</tr>	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Volume Height (in pixels)"); ?> 
+			<?php echo __('Volume Height (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1303,7 +1245,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Volume Width (in pixels)"); ?> 
+			<?php echo __('Volume Width (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1316,29 +1258,20 @@ $content .= '</object>'.PHP_EOL;
 </div>
 
  <div id="tab_slider" class="powerpress_tab">
-		<h3><?php _e('Slider Settings'); ?></h3>
+		<h3><?php echo __('Slider Settings', 'powerpress'); ?></h3>
 		<table class="form-table">
 		
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Show Slider"); ?> 
+			<?php echo __('Show Slider', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showslider" name="Player[showslider]"> 
-                                <?php foreach($options as $option){
-                                        if($PlayerSettings['showslider'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "1"):
-                                            $name = "Yes";
-                                        else:
-                                            $name = "No";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showslider" name="Player[showslider]">
+<?php
+			$options = array( '1'=>__('Yes', 'powerpress'), '0'=>__('No', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['showslider']);
+?>
                                 </select>
 			</div>
 		</td>
@@ -1346,7 +1279,7 @@ $content .= '</object>'.PHP_EOL;
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Slider Color Top"); ?> 
+			<?php echo __('Slider Color Top', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1357,7 +1290,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Slider Color Bottom"); ?> 
+			<?php echo __('Slider Color Bottom', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1369,7 +1302,7 @@ $content .= '</object>'.PHP_EOL;
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Slider Hover Color"); ?> 
+			<?php echo __('Slider Hover Color', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1380,7 +1313,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Slider Height (in pixels)"); ?> 
+			<?php echo __('Slider Height (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1390,7 +1323,7 @@ $content .= '</object>'.PHP_EOL;
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Slider Width (in pixels)"); ?> 
+			<?php echo __('Slider Width (in pixels)', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1401,26 +1334,21 @@ $content .= '</object>'.PHP_EOL;
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Show Loading Buffer"); ?> 
+			<?php echo __('Show Loading Buffer', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
-				<select style="width: 100px;" id="showloading" name="Player[showloading]"> 
-                                <?php foreach($autoload as $option){
-                                        if($PlayerSettings['showloading'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $option .'</option>';
-                                }?>
+				<select style="width: 100px;" id="showloading" name="Player[showloading]">
+<?php
+			powerpress_print_options( $autoload, $PlayerSettings['showloading']);
+?>
                                 </select>
 			</div>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Loading Buffer Color"); ?> 
+			<?php echo __('Loading Buffer Color', 'powerpress'); ?> 
 		</th>
 		<td>
 			<div class="color_control">
@@ -1507,13 +1435,13 @@ $content .= '</object>'.PHP_EOL;
                                 
 ?>
         	<input type="hidden" name="action" value="powerpress-audioplay" />
-	Configure the AudioPlay Player<br clear="all" />
+	<?php echo __('Configure the AudioPlay Player', 'powerpress'); ?><br clear="all" />
 
 <table class="form-table">
 	
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Preview of Player"); ?> 
+			<?php echo __('Preview of Player', 'powerpress'); ?> 
 		</th>
 		<td colspan="2">
 			<div id="player_preview">
@@ -1534,11 +1462,11 @@ print $content;
         </tr>
 </table>
 				
-		<h2>General Settings</h2>
+		<h2><?php echo __('General Settings', 'powerpress'); ?></h2>
 	<table class="form-table">
         <tr valign="top">
 		<th scope="row">
-			<?php _e("Background Color"); ?>
+			<?php echo __('Background Color', 'powerpress'); ?>
                         
 		</th>
 		<td valign="top">
@@ -1546,38 +1474,27 @@ print $content;
 				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
-			<small><?php _e("leave blank for transparent");?></small>
+			<small><?php echo __('leave blank for transparent', 'powerpress'); ?></small>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Mode"); ?>
+			<?php echo __('Player Mode', 'powerpress'); ?>
 		</th>
 		<td valign="top">
 			<div class="color_control">
                             <select name="Player[mode]" id="mode">
-                                <?php $options = array('playpause','playstop');
-                                 foreach($options as $option){
-                                        if($PlayerSettings['mode'] == $option):
-                                            $selected = " selected";
-                                        else:
-                                            $selected = "";
-                                        endif;
-                                        if($option == "playpause"):
-                                            $name = "Play/Pause";
-                                        else:
-                                            $name = "Play/Stop";
-                                        endif;
-                                        echo '<option value="'. $option .'"'. $selected .' >'. $name .'</option>';
-                                }?>
-                                
+<?php
+			$options = array( 'playpause'=>__('Play/Pause', 'powerpress'), 'playstop'=>__('Play/Stop', 'powerpress') );
+			powerpress_print_options( $options, $PlayerSettings['mode']);
+?>     
                             </select>
 			</div>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Player Button"); ?>
+			<?php echo __('Player Button', 'powerpress'); ?>
 		</th>
 		<td valign="top">
 			<div class="color_control">
@@ -1593,18 +1510,18 @@ print $content;
                                             $td = '<td style="background: #999;" align="center">';
                                             $warning = "(ideal for dark backgrounds)";
                                             if($option == "classic_small") {
-                                                $name = "Small White";
+                                                $name = __('Small White', 'powerpress');
                                             }else{
-                                                $name = "Large White";
+                                                $name = __('Large White', 'powerpress');
                                             }
                                         }
                                         else {
                                             $td = '<td align="center">';
                                             $warning = "";
                                             if($option == "negative_small") {
-                                                $name = "Small Black";
+                                                $name = __('Small Black', 'powerpress');
                                             }else{
-                                                $name = "Large Black";
+                                                $name = __('Large Black', 'powerpress');
                                             }
 
                                         }
@@ -1627,7 +1544,7 @@ print $content;
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			<?php _e("Preview of Player"); ?> 
+			<?php echo __('Preview of Player', 'powerpress'); ?> 
 		</th>
 		<td>
 			<p>
@@ -1653,7 +1570,7 @@ print $content;
 			&nbsp;
 		</th>
 		<td>
-			<p>Flow Player Classic has no additional settings.</p>
+			<p><?php echo __('Flow Player Classic has no additional settings.', 'powerpress'); ?></p>
 		</td>
 	</tr>
 </table>

@@ -44,12 +44,12 @@ if( !function_exists('add_action') )
 			if( !empty($powerpress_settings['default_url']) )
 			{
 				$PodpressSettings['mediaWebPath'] = $powerpress_settings['default_url'];
-				powerpress_page_message_add_notice( sprintf(__('Unable to detect PodPress media URL setting. Using the PowerPress setting "Default Media URL" (%s) instead.'), $PodpressSettings['mediaWebPath']) );
+				powerpress_page_message_add_notice( sprintf(__('Unable to detect PodPress media URL setting. Using the PowerPress setting "Default Media URL" (%s) instead.', 'powerpress'), $PodpressSettings['mediaWebPath']) );
 			}
 			else
 			{
 				// We need to print a warning that they need to configure their podPress settings as the settings are no longer found in the database.
-				powerpress_page_message_add_error( __('Unable to detect PodPress media URL setting. Please set the "Default Media URL" setting in PowerPress to properly import podcast episodes.') );
+				powerpress_page_message_add_error( __('Unable to detect PodPress media URL setting. Please set the "Default Media URL" setting in PowerPress to properly import podcast episodes.', 'powerpress') );
 			}
 		}
 		
@@ -113,7 +113,7 @@ if( !function_exists('add_action') )
 					{
 						// display a warning here...
 						if( $hide_errors == false )
-							powerpress_page_message_add_error( sprintf('Error decoding PodPress data for post "%s"', $row['post_title']) );
+							powerpress_page_message_add_error( sprintf( __('Error decoding PodPress data for post "%s"', 'powerpress'), $row['post_title']) );
 						continue;
 					}
 					
@@ -226,7 +226,7 @@ if( !function_exists('add_action') )
 		// Delete podpress data from database...
 		$query = "DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE 'podPress%'";
 		$deleted_count = $wpdb->query($query);
-		powerpress_page_message_add_notice( sprintf(__('PodPress data deleted from database successfully. (%d database records removed)'), $deleted_count) );
+		powerpress_page_message_add_notice( sprintf(__('PodPress data deleted from database successfully. (%d database records removed)', 'powerpress'), $deleted_count) );
 	}
 	
 	function powerpressadmin_podpress_do_import()
@@ -274,7 +274,10 @@ if( !function_exists('add_action') )
 		global $g_podpress_import_log, $g_podpress_import_count;
 		$filename = substr($episode_url, strrpos($episode_url, '/')+1);
 		$g_podpress_import_log .= '<p style="font-weight: normal; margin-top: 2px; margin-bottom: 2px; margin-left: 20px;">';
-		$g_podpress_import_log .= 'Podpress Episode "'. htmlspecialchars($filename) .'" for blog post "'. htmlspecialchars($post_title) .'" imported to feed "'. $feed_slug ."\".\n";
+		$g_podpress_import_log .= sprintf( __('Podpress Episode "%s" for blog post "%s" imported to feed "%s"', 'powerpress'),
+				htmlspecialchars($filename),
+				htmlspecialchars($post_title),
+				$feed_slug );
 		
 		$g_podpress_import_log .= '</p>';
 		
@@ -290,16 +293,16 @@ if( !function_exists('add_action') )
 		if( !$g_podpress_import_log )
 		{
 			echo '<div style="" class="updated powerpress-notice">';
-			echo '<p>If you are unsure about importing your PodPress data, try the option under Basic Settings titled \'PodPress Episodes\' and set to \'Include in posts and feeds\'.</p>';
-			echo '<p>Once you feel comfortable with PowerPress, you can use this screen to import your PodPress data.</p>';
+			echo '<p>'. __('If you are unsure about importing your PodPress data, try the option under Basic Settings titled \'PodPress Episodes\' and set to \'Include in posts and feeds\'.', 'powerpress') .'</p>';
+			echo '<p>'. __('Once you feel comfortable with PowerPress, you can use this screen to import your PodPress data.', 'powerpress') .'</p>';
 			echo '</div>';
 			return;
 		}
 		echo '<div style="" class="updated powerpress-notice">';
-		echo '<h3 style="margin-top: 2px; margin-bottom: 2px;">PodPress Import Log</h3>';
+		echo '<h3 style="margin-top: 2px; margin-bottom: 2px;">'. __('PodPress Import Log', 'powerpress') .'</h3>';
 		echo $g_podpress_import_log;
 		$g_podpress_import_log='';
-		echo "<p style=\"font-weight: normal;\">Imported $g_podpress_import_count PodPress episode(s).</p>";
+		echo "<p style=\"font-weight: normal;\">". sprintf( __('Imported %d PodPress episode(s).', 'powerpress'), $g_podpress_import_count) ."</p>";
 		echo '</div>';
 	}
 	
@@ -309,17 +312,17 @@ if( !function_exists('add_action') )
 		$data['post-title'] = 'Episode Title';
 		$data['post-date'] = 'Date';
 		
-		$data['feed-podcast'] = 'Feed: (podcast)';
+		$data['feed-podcast'] = __('Feed: (podcast)', 'powerpress');
 		
 		if( is_array($Settings['custom_feeds']) )
 		{
 			while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
 			{
 				if( $feed_slug != 'podcast' )
-					$data['feed-'.$feed_slug] = 'Feed: ('.$feed_slug.')';
+					$data['feed-'.$feed_slug] = __('Feed', 'powerpress') .': ('.$feed_slug.')';
 			}
 		}
-		$data['exclude'] = '<a href="#" onclick="no_import_all();return false;">No Import</a>';
+		$data['exclude'] = '<a href="#" onclick="no_import_all();return false;">'. __('No Import', 'powerpress') .'</a>';
 		
 		return $data;
 	}
@@ -343,7 +346,7 @@ if( !function_exists('add_action') )
 		$results = powerpress_get_podpress_episodes(false);
 		$Settings = powerpress_get_settings('powerpress_general', false);
 		if( !isset($Settings['custom_feeds']['podcast']) )
-			$Settings['custom_feeds']['podcast'] = 'Podcast Feed (default)';
+			$Settings['custom_feeds']['podcast'] = __('Podcast Feed (default)', 'powerpress');
 			
 		$AllowImport = false;
 		$AllowCleanup = true;
@@ -352,7 +355,7 @@ if( !function_exists('add_action') )
 		{
 			if( $results['feeds_required'] > count($Settings['custom_feeds']) )
 			{
-				powerpress_page_message_add_error( sprintf(__('We found blog posts that have %d media files. You will need to create %d more Custom Feed%s in order to continue.'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
+				powerpress_page_message_add_error( sprintf(__('We found blog posts that have %d media files. You will need to create %d more Custom Feed%s in order to continue.', 'powerpress'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
 			}
 			else
 			{
@@ -403,7 +406,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 			{
 				if (CheckObj[i].type == 'radio' && CheckObj[i].checked && CheckObj[i].value == obj.value )
 				{
-					alert("Sorry, you may only select one media file per post per feed. ");
+					alert("<?php echo __('Sorry, you may only select one media file per post per feed.', 'powerpress'); ?>");
 					return false;
 				}
 			}
@@ -417,7 +420,7 @@ function check_radio_selection(obj, PostID, FileIndex)
 
 function no_import_all()
 {
-	if( !confirm('Select "No Import" option for all media files?') )
+	if( !confirm('<?php echo __('Select "No Import" option for all media files?', 'powerpress'); ?>') )
 		return;
 		
 	var Inputs = document.getElementsByTagName('input');
@@ -460,7 +463,7 @@ function select_all(index,value)
 }
 
 </script>
-<h2><?php echo __("Import PodPress Episodes"); ?></h2>
+<h2><?php echo __('Import PodPress Episodes', 'powerpress'); ?></h2>
 <?php
 
 	//echo "<pre id=\"podpress_debug_info\" style=\"display: none;\">";
@@ -471,14 +474,14 @@ function select_all(index,value)
 	if( count($results) == 0 || count($results) == 1 )
 	{
 ?>	
-	<p>No PodPress episodes found to import.</p>
+	<p><?php echo __('No PodPress episodes found to import.', 'powerpress'); ?></p>
 <?php
 	}
 	else
 	{
 ?>
 <input type="hidden" name="action" value="powerpress-importpodpress" />
-<p>Select the media file under each feed for each episode you wish to import.</p>
+<p><?php echo __('Select the media file under each feed for each episode you wish to import.', 'powerpress'); ?></p>
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
@@ -592,7 +595,7 @@ function select_all(index,value)
 					echo '<td '.$class.'><strong>';
 					if ( current_user_can( 'edit_post', $post_id ) )
 					{
-					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
+					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
 					}
 					else
 					{
@@ -610,12 +613,12 @@ function select_all(index,value)
 						
 						if( empty($episode_data['not_podpress']) && empty($episode_data['imported']) )
 						{
-							echo '<span style="color: #CC0000; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
+							echo '<span style="color: #CC0000; font-weight: bold; cursor:pointer;" onclick="alert(\''. __('File', 'powerpress') . ': '. $filename .'\n'. __('URL', 'powerpress') . ': '. $episode_data['url'] .'\')">';
 							$AllowCleanup = false;
 							$StrandedEpisodes++;
 						}
 						else if( empty($episode_data['not_podpress']) && $episode_data['imported'] )
-							echo '<span style="color: green; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
+							echo '<span style="color: green; font-weight: bold; cursor:pointer;" onclick="alert(\''. __('File', 'powerpress') . ' '. $filename .'\n'. __('URL', 'powerpress') . ': '. $episode_data['url'] .'\')">';
 						
 						if( empty($episode_data['not_podpress']) && empty($episode_data['imported']) )
 							echo '*';
@@ -664,9 +667,9 @@ function select_all(index,value)
 							if( $CurrentEnclosures[$feed_slug]['url'] == $episode_data['url'] )
 							{
 								if( !empty($CurrentEnclosures[$feed_slug]['present']) )
-									echo '<strong style="color: green;">present</strong>';
+									echo '<strong style="color: green;">'. __('present', 'powerpress') .'</strong>';
 								else
-									echo '<strong style="color: green;">imported</strong>';
+									echo '<strong style="color: green;">'. __('imported', 'powerpress') .'</strong>';
 							}
 							else
 								echo 'X';
@@ -680,7 +683,7 @@ function select_all(index,value)
 						$index = 1;
 						while( list($episode_index,$episode_data) = each($import_data['podpress_data']) )
 						{
-							echo "File&nbsp;$index:&nbsp;";
+							echo __('File', 'powerpress') ."&nbsp;$index:&nbsp;";
 							if( @$episode_data['imported'] )
 							{
 									echo '&nbsp;X';
@@ -721,8 +724,11 @@ function select_all(index,value)
 ?>
 	</tbody>
 </table>
-<p>Importable PodPress episodes highlighted in <span style="color: #CC0000; font-weight: bold;">red</span> with asterisks *.</p>
-<p style="margin-bottom: 0; padding-bottom: 0;">Select Only:</p>
+<p><?php
+	echo sprintf( __('Importable episodes highlighted in %s with asterisks *.', 'powerpress'),
+		'<span style="color: #CC0000; font-weight: bold;">'. __('red', 'powerpress') .'</span>' );
+?></p>
+<p style="margin-bottom: 0; padding-bottom: 0;"><?php echo __('Select Only', 'powerpress'); ?>:</p>
 <?php
 			if( $results['feeds_required'] < 1 )
 				$results['feeds_required'] = 1;
@@ -738,7 +744,7 @@ function select_all(index,value)
 					echo '<a href="javascript:void()" onclick="select_all('. $number .',\''. $feed_slug .'\');return false;">'. htmlspecialchars($feed_title) .'</a> | ';
 				}
 ?>
-<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;">No Import</a>
+<a href="javascript:void()" onclick="select_all(<?php echo $number; ?>,'');return false;"><?php echo __('No Import', 'powerpress'); ?></a>
 </p>
 <?php
 				break;
@@ -749,8 +755,8 @@ function select_all(index,value)
 		if( $StrandedEpisodes )
 		{
 ?>
-<p>
-	There are <?php echo $StrandedEpisodes; ?> PodPress media files that can be imported.
+<p><?php echo sprintf(__('There are %d PodPress media files that can be imported.', 'powerpress'),
+	$StrandedEpisodes ); ?>
 </p>
 <?php
 		}
@@ -761,7 +767,7 @@ function select_all(index,value)
 			{
 ?>
 <p class="submit">
-<input type="submit" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" />
+<input type="submit" name="Submit" id="powerpress_import_button" class="button-primary" value="<?php echo __('Import Episodes', 'powerpress'); ?>" />
 </p>
 <?php
 			}
@@ -769,7 +775,7 @@ function select_all(index,value)
 			{
 ?>
 <p class="submit">
-<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('There are no PodPress episodes found to import.');" />
+<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="<?php echo __('Import Episodes', 'powerpress'); ?>" onclick="alert('<?php echo __('There are no PodPress episodes found to import.', 'powerpress'); ?>');" />
 </p>
 <?php
 			}
@@ -803,28 +809,41 @@ function select_all(index,value)
 		{
 ?>
 <div class="error powerpress-error">
-	We found blog posts that have <?php echo $results['feeds_required']; ?> media files.
-	
-	You will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue.
+<?php
+	echo sprintf(__('We found blog posts that have %d media files.', 'powerpress'),
+		$results['feeds_required'] );
+
+	echo sprintf(__('You will need to create %d Podcast Channels to continue.', 'powerpress'),
+		$results['feeds_required'] - count($Settings['custom_feeds'])
+		);
+?>
 </div>
 <p>
-	Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post).
-	This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download
-	the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories
-	either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that
-	<a href="http://www.reallysimplesyndication.com/2004/12/21" target="_blank">Dave Winer does not recommend multiple enclosures</a>
-	and the
-	<a href="http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html" target="_blank">FeedValidator.org recommendation against it</a>
-	is why Blubrry PowerPress does not support them.
+<?php
+	echo __('Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post).', 'powerpress');
+	echo __('This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest.', 'powerpress');
+	echo __('Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item.', 'powerpress');
+	echo sprintf( __('This inconsistency combined with the fact that Dave Winer does not recommend multiple enclosures (%s) and FeedValidator.org (%s) recommendation against it is why Blubrry PowerPress does not support them.', 'powerpress'),
+			'<a href="http://www.reallysimplesyndication.com/2004/12/21" target="_blank">'. __('Link', 'powerpress') .'</a>',
+			'<a href="http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html" target="_blank">'. __('Link', 'powerpress') .'</a>' );
+?>
 </p>
-<p>
-	As a alternative, PowerPress allows you to create additional <a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>">Custom Podcast Channels</a> to associate additional media files in a blog post to specific feed channels.
+<p><?php
+	echo sprintf( __('As a alternative, PowerPress allows you to create additional %s to associate additional media files in a blog post to specific feed channels.', 'powerpress'),
+			'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php') .'">'. __('Custom Podcast Channels', 'powerpress') .'</a>');
+?>
+
+
 </p>
 <p class="submit">
-<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="Import Episodes" onclick="alert('We found blog posts that have <?php echo $results['feeds_required']; ?> media files.\n\nYou will need to create <?php echo ( $results['feeds_required'] - count($Settings['custom_feeds']) ); ?> more Custom Feed<?php if( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 ) echo 's'; ?> in order to continue. ');" />
+<input type="button" name="Submit" id="powerpress_import_button" class="button-primary" value="<?php echo __('Import Episodes', 'powerpress'); ?>" onclick="alert('<?php
+	echo __('We found blog posts that have %d media files.', 'powerpress');
+	echo '\n\n';
+	echo sprintf( __('You will need to create %d additional Podcast Channels in order to continue.', 'powerpress').
+			$results['feeds_required'],
+			$results['feeds_required'] - count($Settings['custom_feeds']) );
+?>');" />
 </p>
-
-
 
 <?php
 		}
@@ -834,9 +853,9 @@ function select_all(index,value)
 <form enctype="enctype" method="get" action="<?php echo admin_url('admin.php') ?>">
 <input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
 <input type="hidden" name="action" value="powerpress-podpress-epiosdes" />
-<h2>Filter Results</h2>
-<p><label>Include Only</label><input type="text" name="include_only_ext" value="<?php if( !empty($_GET['include_only_ext']) ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" /> (leave blank for all media) <br />
-<label>&nbsp;</label>specify the file extensions to include separated by commas (e.g. mp3, m4v).
+<h2><?php echo __('Filter Results', 'powerpress'); ?></h2>
+<p><label><?php echo __('Include Only', 'powerpress'); ?></label><input type="text" name="include_only_ext" value="<?php if( !empty($_GET['include_only_ext']) ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" /> <?php echo __('(leave blank for all media)', 'powerpress'); ?><br />
+<label>&nbsp;</label><?php echo __('specify the file extensions to include separated by commas (e.g. mp3, m4v).', 'powerpress'); ?>
 </p>
 <p class="submit">
 <input type="submit" name="Submit" class="button-primary" value="Filter Episodes" />

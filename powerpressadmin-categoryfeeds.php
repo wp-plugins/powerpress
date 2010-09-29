@@ -5,9 +5,9 @@ if( !function_exists('add_action') )
 	
 function powerpress_admin_customfeeds_columns($data=array())
 {
-	$data['name'] = __('Category Name');
-	$data['feed-slug'] = __('Slug');
-	$data['url'] = __('Feed URL');
+	$data['name'] = __('Category Name', 'powerpress');
+	$data['feed-slug'] = __('Slug', 'powerpress');
+	$data['url'] = __('Feed URL', 'powerpress');
 	return $data;
 }
 
@@ -18,12 +18,12 @@ function powerpress_admin_categoryfeeds()
 	$General = powerpress_get_settings('powerpress_general');
 
 ?>
-<h2><?php echo __('Category Podcasting'); ?></h2>
+<h2><?php echo __('Category Podcasting', 'powerpress'); ?></h2>
 <p>
-	<?php echo __('Category Podcasting adds custom podcast settings to specific blog category feeds, allowing you to organize episodes by topic.'); ?>
+	<?php echo __('Category Podcasting adds custom podcast settings to specific blog category feeds, allowing you to organize episodes by topic.', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo sprintf( __('If you are looking to organize episodes by file or format, please use %s.'),
+	<?php echo sprintf( __('If you are looking to organize episodes by file or format, please use %s.', 'powerpress'),
 		'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php') .'" title="'. __('Custom Podcast Channels') .'">'. __('Custom Podcast Channels') .'</a>'); ?>
 </p>'<style type="text/css">
 .column-url {
@@ -53,9 +53,9 @@ function powerpress_admin_categoryfeeds()
 	else
 	{
 	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Category Name'); ?></th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
-	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL'); ?></th>
+	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Category Name', 'powerpress'); ?></th>
+	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
+	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
 	<?php
 	}
 ?>
@@ -72,9 +72,9 @@ function powerpress_admin_categoryfeeds()
 	else // WordPress 2.6 or older
 	{
 	?>
-	<th scope="col" class="manage-column column-name"><?php echo __('Category Name'); ?></th>
-	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug'); ?></th>
-	<th scope="col" class="manage-column column-url"><?php echo __('Feed URL'); ?></th>
+	<th scope="col" class="manage-column column-name"><?php echo __('Category Name', 'powerpress'); ?></th>
+	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
+	<th scope="col" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
 	<?php
 	}
 ?>
@@ -127,10 +127,10 @@ function powerpress_admin_categoryfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
 					$actions = array();
-					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-delete-category-feed&amp;cat=$cat_ID", 'powerpress-delete-category-feed-' . $cat_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to remove podcast settings for category feed '%s'\n  'Cancel' to stop, 'OK' to delete."), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove') . "</a>";
+					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
+					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-delete-category-feed&amp;cat=$cat_ID", 'powerpress-delete-category-feed-' . $cat_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to remove podcast settings for category feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove', 'powerpress') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';
@@ -146,9 +146,9 @@ function powerpress_admin_categoryfeeds()
 					
 				case 'url': {
 				
-					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s'), $feed_title))."' target=\"_blank\">$short_url</a>";
+					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
-							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed') . '</a></span>';
+							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
 						echo '</div>';
 					echo "</td>";
 					
@@ -176,7 +176,7 @@ function powerpress_admin_categoryfeeds()
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
-<h3><?php echo __('Add Podcast Settings to existing Category Feed'); ?></h3>
+<h3><?php echo __('Add Podcast Settings to existing Category Feed', 'powerpress'); ?></h3>
 <input type="hidden" name="action" value="powerpress-addcategoryfeed" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
@@ -184,9 +184,9 @@ function powerpress_admin_categoryfeeds()
 ?>
 
 <div class="form-field form-required">
-	<label for="feed_name"><?php echo __('Category') ?></label>
+	<label for="feed_name"><?php echo __('Category', 'powerpress') ?></label>
 	<select name="cat" id="cat_id" style="width: 100%;">
-		<option value=""><?php echo __('Select Category'); ?></option>
+		<option value=""><?php echo __('Select Category', 'powerpress'); ?></option>
 <?php
 	wp_dropdown_cats();
 ?>
@@ -194,7 +194,7 @@ function powerpress_admin_categoryfeeds()
     
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Category Feed'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Category Feed', 'powerpress'); ?>" /></p>
 
 </div>
 </div>
@@ -203,12 +203,12 @@ function powerpress_admin_categoryfeeds()
 
 </div> <!-- col-container -->
 
-<h3><?php echo __('Example Usage'); ?></h3>
+<h3><?php echo __('Example Usage', 'powerpress'); ?></h3>
 <p>
-	<?php echo __('Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics 	and use category feeds to distribute topic specific episodes.'); ?>
+	<?php echo __('Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics 	and use category feeds to distribute topic specific episodes.', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo __('Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed combining all categories to provide a network feed.'); ?>
+	<?php echo __('Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed combining all categories to provide a network feed.', 'powerpress'); ?>
 </p>
 
 <?php

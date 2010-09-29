@@ -79,7 +79,7 @@ function powerpressplayer_build($media_url, $Settings, $ExtraData = array())
 												//$PlayerSettings['noinfo'] = 'yes';
 												if( $PlayerSettings['titles'] == '' )
 													$PlayerSettings['titles'] = 'Blubrry PowerPress';
-												else if( strtoupper($PlayerSettings['titles']) == 'TRACK' )
+												else if( strtoupper($PlayerSettings['titles']) == __('TRACK', 'powerpress') )
 													unset( $PlayerSettings['titles'] );
 												
                              $keys = array_keys($PlayerSettings);

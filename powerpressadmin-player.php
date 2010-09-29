@@ -22,28 +22,28 @@ function powerpress_admin_players_init()
 			$SaveSettings = array();
 			$SaveSettings = $_POST['Player'];
 			powerpress_save_settings($SaveSettings, 'powerpress_general');
-			powerpress_page_message_add_notice('Player activated successfully.');
+			powerpress_page_message_add_notice( __('Player activated successfully.', 'powerpress') );
 			
 		}; break;
 		case 'powerpress-audio-player': {
 		
 			$SaveSettings = $_POST['Player'];
 			powerpress_save_settings($SaveSettings, 'powerpress_audio-player');
-			powerpress_page_message_add_notice('Audio Player settings saved successfully.');
+			powerpress_page_message_add_notice( __('Audio Player settings saved successfully.', 'powerpress') );
 		
 		}; break;
 		case 'powerpress-flashmp3-maxi': {
 			
 			$SaveSettings = $_POST['Player'];
 			powerpress_save_settings($SaveSettings, 'powerpress_flashmp3-maxi');
-			powerpress_page_message_add_notice('Flash Mp3 Maxi settings saved successfully.');
+			powerpress_page_message_add_notice( __('Flash Mp3 Maxi settings saved successfully.', 'powerpress') );
 			
 		} ; break; 
 		case 'powerpress-audioplay':
 		{
 			$SaveSettings = $_POST['Player'];
 			powerpress_save_settings($SaveSettings, 'powerpress_audioplay');
-			powerpress_page_message_add_notice('AudioPlay settings saved successfully.');
+			powerpress_page_message_add_notice( __('AudioPlay settings saved successfully.', 'powerpress') );
 		}; break;
 	}
 }
@@ -63,8 +63,8 @@ function powerpress_admin_page_player()
 	{
 		// Print an error message here..
 ?>
-<h2><?php echo __("Blubrry PowerPress Player Options"); ?></h2>
-<p>You must have the Blubrry PowerPress version 1.0 or newer installed for this plugin to work.</p>
+<h2><?php echo __('Blubrry PowerPress Player Options', 'powerpress'); ?></h2>
+<p><?php echo __('You must have the Blubrry PowerPress version 1.0 or newer installed for this plugin to work.', 'powerpress'); ?></p>
 <?php
 		return;
 	}
@@ -74,8 +74,8 @@ function powerpress_admin_page_player()
 	{
 		// Print an error message here..
 ?>
-<h2><?php echo __("Blubrry PowerPress Player Options"); ?></h2>
-<p>Your copy of Blubrry PowerPress is out of date.  You must have Blubrry PowerPress version 1.0 or newer installed for this plugin to work.</p>
+<h2><?php echo __('Blubrry PowerPress Player Options', 'powerpress'); ?></h2>
+<p><?php echo __('Your copy of Blubrry PowerPress is out of date. You must have Blubrry PowerPress version 1.0 or newer installed for this plugin to work.', 'powerpress'); ?></p>
 <?php
 		return;
 	}
