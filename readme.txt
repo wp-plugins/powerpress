@@ -532,14 +532,18 @@ First stable release of Blubrry PowerPress. Users are strongly encouraged to upg
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
 
-Pat McSweeny, Developer for [RawVoice](http://www.rawvoice.com) - Developed initial version (v0.1.0) of plugin
+Pat McSweeny, PHP Developer - Developed initial version (v0.1.0) of plugin
 
-Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1, wrote initial code for the 4 new flash players.
+Jerry Stephens, [Way of the Geek](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1, wrote initial code for the 4 new flash players.
 
-Darcy Fiander, Rooty Radio (http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
+Darcy Fiander, [Rooty Radio](http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
 
-Joel Haasnoot, (http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
+Joel Haasnoot, [Perosnal Blog](http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
 
+== Tips and Tutorials ==
+* [Using PowerPress outside the Loop](http://blog.nicolasbouliane.com/?p=1695) - by [Nicolas Bouliane](http://blog.nicolasbouliane.com/)
+
+Please [contact blubrry](http://www.blubrry.com/contact.php) with the link to your tips or tutorial for PowerPress and we'll add them to the list above.
 
 == Feedback == 
  http://www.blubrry.com/powerpress/
