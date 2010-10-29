@@ -2514,6 +2514,96 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 	return '';
 }
 
+function the_powerpress_all_players($slug = false, $no_link=false)
+{
+	echo get_the_powerpress_all_players($slug, $no_link);
+}
+
+function get_the_powerpress_all_players($slug = false, $no_link=false)
+{
+	$return = '';
+	//Use this function to insert the Powerpress player anywhere in the page.
+	//Made by Nicolas Bouliane (http://nicolasbouliane.com/)
+
+	/*We're going to use the Loop to retrieve the latest post with the 'enclosure' custom key set
+	//then interpret it and manually launch powerpressplayer_build with the URL contained within
+	//that data.*/
+
+	//Let's reset the Loop to make sure we look through all posts
+	rewind_posts();
+	
+	// Get the list of podcast channel slug names...
+	$GeneralSettings = get_option('powerpress_general');
+	$ChannelSlugs = array('podcast');
+	if( $slug == false )
+	{
+		if( isset($GeneralSettings['custom_feeds']['podcast']) )
+			$ChannelSlugs = array(); // Reset the array so it is added from the list in specified order
+		while( list($feed_slug,$null) = each($GeneralSettings['custom_feeds']) )
+			$ChannelSlugs[] = $feed_slug;
+	}
+	else if( is_array($slug) )
+	{
+		$ChannelSlugs = $slug;
+	}
+	else
+	{
+		$ChannelSlugs = array($slug);
+	}
+	
+	// Loop through the posts
+	while( have_posts() )
+	{
+		the_post();
+		//$PostMetaKeys = get_post_custom_keys($post->ID);
+		//print_r($PostMetaKeys);
+		while( list($null,$feed_slug) = each($ChannelSlugs) )
+		{
+			// Do we follow the global settings to disable a player?
+			if( isset($GeneralSettings['disable_player']) && isset($GeneralSettings['disable_player'][$feed_slug]) && $slug == false )
+				continue;
+			
+			$EpisodeData = powerpress_get_enclosure_data(get_the_ID(), $feed_slug);
+			if( !$EpisodeData && !empty($GeneralSettings['process_podpress']) && $feed_slug == 'podcast' )
+				$EpisodeData = powerpress_get_enclosure_data_podpress(get_the_ID());
+				
+			if( !$EpisodeData )
+				continue;
+			
+			$AddDefaultPlayer = true;
+			if( !empty($EpisodeData['embed']) )
+			{
+				$return .= $EpisodeData['embed'];
+				if( !empty($GeneralSettings['embed_replace_player']) )
+					$AddDefaultPlayer = false;
+			}
+			
+			$image_current = $image;
+			if( $image_current == '' && isset($EpisodeData['image']) && $EpisodeData['image'] )
+				$image_current = $EpisodeData['image'];
+			
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($GeneralSettings) )
+			{
+				$return .= powerpress_premium_content_message(get_the_ID(), $feed_slug, $EpisodeData);
+				continue;
+			}
+				
+			if( !isset($EpisodeData['no_player']) && $AddDefaultPlayer )
+			{
+				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image_current, 'type'=>$EpisodeData['type']) );
+			}
+			if( !isset($EpisodeData['no_links']) && $no_link == false )
+			{
+				$return .= powerpress_get_player_links(get_the_ID(), $feed_slug, $EpisodeData );
+			}
+		}
+		reset($ChannelSlugs);
+	}
+	
+	return $return;
+}
+
+
 function powerpress_premium_content_authorized($feed_slug)
 {
 	if( $feed_slug != 'podcast' )

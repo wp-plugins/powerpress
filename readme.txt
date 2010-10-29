@@ -143,6 +143,10 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+= 1.0.12 =
+* Released on 11/??/2010
+* Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
+* Added Danish translation to PowerPress. Thanks GeorgWP for translating!
 
 = 1.0.11 =
 * Released on 9/29/2010
@@ -539,6 +543,13 @@ Jerry Stephens, [Way of the Geek](http://wayofthegeek.org) - Contributed initial
 Darcy Fiander, [Rooty Radio](http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
 
 Joel Haasnoot, [Perosnal Blog](http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
+
+Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed code for `get_the_powerpress_all_players()` function.
+
+
+== Translators ==
+* Danish translation for v1.0.11 by [GeorgWP](http://wordpress.blogos.dk/)
+
 
 == Tips and Tutorials ==
 * [Using PowerPress outside the Loop](http://blog.nicolasbouliane.com/?p=1695) - by [Nicolas Bouliane](http://blog.nicolasbouliane.com/)
