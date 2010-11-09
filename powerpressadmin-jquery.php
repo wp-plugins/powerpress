@@ -219,7 +219,7 @@ function DeleteMedia(File)
 		{
 			echo $results['error'];
 		}
-		else
+		else if( is_array($results) )
 		{
 			$PublishedList = false;
 			while( list($index,$data) = each($results) )

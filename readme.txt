@@ -147,6 +147,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 11/??/2010
 * Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
 * Added Danish translation to PowerPress. Thanks GeorgWP for translating!
+* Fixed bug in line 225 of powerpressadmin-jquery.php file.
+
 
 = 1.0.11 =
 * Released on 9/29/2010
