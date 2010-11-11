@@ -153,6 +153,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 1.0.11 =
 * Released on 9/29/2010
 * Fix bug introduced by the addition of Custom Post Type where Custom Podcast Channels do not appear.
+* Fixed bug where email diagnostics feature failed when PowerPress is in Simple Mode.
 
 
 = 1.0.10 =

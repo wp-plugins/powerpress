@@ -470,7 +470,7 @@
 
 <form enctype="multipart/form-data" method="get" action="<?php echo admin_url('admin.php'); ?>">
 <input type="hidden" name="action" value="powerpress-diagnostics" />
-<input type="hidden" name="page" value="powerpress/powerpressadmin_<?php echo ($GeneralSettings['advanced_mode']==1?'tools':'basic'); ?>.php" />
+<input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
 <?php
 	// Print nonce
 	wp_nonce_field('powerpress-diagnostics');
