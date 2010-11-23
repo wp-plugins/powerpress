@@ -21,6 +21,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Multi-podcast support: Create separate podcasts by category (category casting) or by media format.
 - Supported Media Formats: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
+* Languages supported: English, Danish, French ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -147,6 +148,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 11/??/2010
 * Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
 * Added Danish translation to PowerPress. Thanks GeorgWP for translating!
+* Added French translation to PowerPress. Thanks Aurélien Denis for translating!
 * Fixed bug in line 225 of powerpressadmin-jquery.php file.
 
 
@@ -551,7 +553,8 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 
 
 == Translators ==
-* Danish translation for v1.0.11 by [GeorgWP](http://wordpress.blogos.dk/)
+* Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
+* French translation for v1.0.11+ by [Aurélien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
 
 
 == Tips and Tutorials ==
