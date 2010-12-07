@@ -415,9 +415,9 @@ function powerpress_rss2_head()
 	}
 	
 	if( !empty($Feed['itunes_subtitle']) )
-		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle', true) . '</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle') . '</itunes:subtitle>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( !empty($Feed['itunes_keywords']) )
 		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords'], 'keywords') . '</itunes:keywords>'.PHP_EOL;
@@ -654,11 +654,11 @@ function powerpress_rss2_item()
 	}
 	
 	if( $subtitle )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	else if( $excerpt_no_html )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	else	
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( $summary )
 		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($summary, 'summary') .'</itunes:summary>'.PHP_EOL;
@@ -2037,7 +2037,7 @@ function powerpress_get_root_url()
 	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
-function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = false)
+function powerpress_format_itunes_value($value, $tag)
 {
 	if( !defined('DB_CHARSET') || DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
 		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
@@ -2052,14 +2052,12 @@ function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = 
 		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
 	$value = preg_replace( '/&amp;/ui' , '&', $value); // Best we can do for PHP4. precaution in case it didn't get removed from function above.
 	
-	if( $remove_new_lines )
-		$value = preg_replace( array("/\r\n\r\n/u", "/\n/u", "/\r/u", "/\t/u") , array(' - ',' ', '', '  '), $value);
-	
 	return esc_html( powerpress_trim_itunes_value($value, $tag) );
 }
 
 function powerpress_trim_itunes_value($value, $tag = 'summary')
 {
+	$value = trim($value); // First we need to trim the string
 	$length = (function_exists('mb_strlen')?mb_strlen($value):strlen($value) );
 	$trim_at = false;
 	$remove_new_lines = false;
@@ -2108,38 +2106,9 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 	}
 	
 	if( $remove_new_lines )
-		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t"), array(' - ',' ', '', '  '), $value );
+		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t","-  "), array(' - ',' ', '', '  ', ''), $value );
 	
 	return $value;
-}
-
-function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = false)
-{
-	if( strlen($value) > $char_limit )
-	{
-		$new_value = substr($value, 0, $char_limit);
-		// Look back at most 50 characters...
-		$eos = strrpos($new_value, '.');
-		$eol = strrpos($new_value, "\n");
-
-		// If the end of line is longer than the end of sentence and we're not loosing too much of our string...
-		if( $eol > $eos && $eol > (strlen($new_value)-50) )
-			$return = substr($new_value, 0, $eol);
-		// If the end of sentence is longer than the end of line and we're not loosing too much of our string...
-		else if( $eos > $eol && $eos > (strlen($new_value)-50) )
-			$return = substr($new_value, 0, $eos);
-		else // Otherwise, just add some dots to the end
-			$return = substr($new_value, 0, $char_limit).'...';
-		//	$return = $new_value;
-	}
-	else
-	{
-		$return = $value;
-	}
-
-	if( $remove_new_lines )
-		$return = str_replace( array("\r\n\r\n", "\n", "\r", "\t"), array(' - ',' ', '', '  '), $return );
-	return $return;
 }
 
 function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)

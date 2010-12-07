@@ -153,6 +153,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug in line 225 of powerpressadmin-jquery.php file.
 * Added shortcode support for 'Podcasting' plugin's [podcast] shortcode.
 * Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility)
+* Updated the itunes:subtitle feed tag logic so empty lines found at the front and end of an excerpt do not include ' - '.
 
 
 = 1.0.11 =
