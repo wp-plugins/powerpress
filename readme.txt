@@ -154,7 +154,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed syntax bug on line 225 of powerpressadmin-jquery.php file.
 * Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility) (Thanks Jeremy for letting us know about the notices/warnings)
 * Updated the itunes:subtitle feed tag logic so empty lines found at the front and end of an excerpt do not include ' - '.
-* Fixed bug where <a> tag was incorrectly ended when the Premium Content feature was enabled. (Thanks Kimberly for letting us know about the bug)
+* Fixed bug where `<a>` tag was incorrectly ended when the Premium Content feature was enabled. (Thanks Kimberly for letting us know about the bug)
 * Added warning message in PowerPress settings pages when incompatible plugins found.
 * Added new define `POWERPRESS_DOWNLOAD_BYTE_LIMIT` option for users using buggy versions of Adobe Audition beta who are having media verification errors "Could not find valid MPEG synch before end of file.". Simply add `define('POWERPRESS_DOWNLOAD_BYTE_LIMIT', 500000);` near the top of your wp-config.php file.
 
