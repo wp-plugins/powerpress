@@ -150,6 +150,8 @@ if( !function_exists('add_action') )
 		{
 			require_once(POWERPRESS_ABSPATH.'/mp3info.class.php');
 			$Mp3Info = new Mp3Info();
+			if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT') )
+				$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT);
 		}
 		
 		while( list($post_id, $episode_feeds) = each($Import) )
