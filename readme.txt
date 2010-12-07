@@ -1,8 +1,8 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard
+Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast
 Requires at least: 2.6.0
-Tested up to: 3.0
+Tested up to: 3.0.2
 Stable tag: 1.0.11
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
