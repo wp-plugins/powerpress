@@ -168,7 +168,9 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		if( !$FeedSettings )
 		{
 			$FeedSettings = array();
-			$FeedSettings['title'] = $General['custom_feeds'][$feed_slug];
+			$FeedSettings['title'] = '';
+			if( !empty($General['custom_feeds'][$feed_slug]) )
+				$FeedSettings['title'] = $General['custom_feeds'][$feed_slug];
 		}
 		$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
 		
@@ -444,7 +446,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('Feed Description', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo $FeedSettings['description']; ?>" maxlength="1000" /> 
+<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo @$FeedSettings['description']; ?>" maxlength="1000" /> 
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category description', 'powerpress'); ?>)
 <?php } else { ?>
@@ -458,7 +460,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('Feed Landing Page URL', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo $FeedSettings['url']; ?>" maxlength="250" />
+<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo @$FeedSettings['url']; ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category page', 'powerpress'); ?>)
 <?php } else { ?>
@@ -467,7 +469,7 @@ if( $feed_slug || $cat_ID )
 <?php if( $cat_ID ) { ?>
 <p><?php echo __('Category page URL', 'powerpress'); ?>: <?php echo get_category_link($cat_ID); ?></p>
 <?php } else { ?>
-<p>e.g. <?php echo get_bloginfo('home'); ?>/custom-page/</p>
+<p>e.g. <?php echo get_bloginfo('url'); ?>/custom-page/</p>
 <?php } ?>
 </td>
 </tr>
@@ -477,7 +479,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('FeedBurner Feed URL', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo $FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
+<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo @$FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
 <p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
 <?php
 if( $cat_ID )
@@ -501,7 +503,7 @@ else
 <?php echo __('Show the most recent', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo $FeedSettings['posts_per_rss']; ?>" maxlength="5" /> <?php echo __('episodes / posts per feed (leave blank to use blog default', 'powerpress'); ?>: <?php form_option('posts_per_rss'); ?>)
+<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo @$FeedSettings['posts_per_rss']; ?>" maxlength="5" /> <?php echo __('episodes / posts per feed (leave blank to use blog default', 'powerpress'); ?>: <?php form_option('posts_per_rss'); ?>)
 <?php if( !$feed_slug && !$cat_ID ) { ?>
 <p style="margin-top: 5px; margin-bottomd: 0;"><?php echo __('Note: Setting above applies only to podcast channel feeds', 'powerpress'); ?></p>
 <?php } ?>
@@ -513,7 +515,7 @@ else
 <?php echo __('RSS2 Image', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo $FeedSettings['rss2_image']; ?>" maxlength="250" />
+<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo @$FeedSettings['rss2_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>
@@ -543,7 +545,7 @@ $Languages = powerpress_languages();
 
 echo '<option value="">'. __('Blog Default Language', 'powerpress') .'</option>';
 while( list($value,$desc) = each($Languages) )
-	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+	echo "\t<option value=\"$value\"". (@$FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 ?>
 </select>
 <?php
@@ -919,7 +921,7 @@ while( list($value,$desc) = each($explicit) )
 <?php echo __('iTunes Image', 'powerpress'); ?> 
 </th>
 <td>
-<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo $FeedSettings['itunes_image']; ?>" maxlength="250" />
+<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo @$FeedSettings['itunes_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;">preview</a>
 
 <p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://mysite.com/images/itunes.jpg<br /><br />

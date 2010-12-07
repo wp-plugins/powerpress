@@ -540,7 +540,7 @@ function select_all(index,value)
 				if( !$enclosure_data )
 					continue;
 					
-				@list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
+				@list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = @explode("\n", $enclosure_data);
 				if( $EnclosureURL )
 				{
 					$CurrentEnclosures[ $feed_slug ] = array();

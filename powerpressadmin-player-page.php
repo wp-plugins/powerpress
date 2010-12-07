@@ -203,7 +203,7 @@ function powerpress_activate_player(Player)
     <param name="wmode" value="transparent" />
     <param name="FlashVars" value="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" />
     <param name="quality" value="high" />
-    <embed wmode="transparent" src="<?php echo get_bloginfo('home'); ?>?url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
+    <embed wmode="transparent" src="<?php echo get_bloginfo('url'); ?>?url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>
 </object>
 			</p>
 			<p>
@@ -892,7 +892,7 @@ function audio_player_defaults()
                                 }
                             }
                             //set autoload dependencies
-                            if($PlayerSettings['showautoload'] != "never") {
+                            if( @$PlayerSettings['showautoload'] != "never") {
                                 if($PlayerSettings['loadingcolor'] != "") {
                                     $flashvars .= '&amp;laodingcolor='. preg_replace('/\#/','',$PlayerSettings['loadingcolor']);
                                 }

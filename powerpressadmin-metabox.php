@@ -43,7 +43,18 @@ function powerpress_meta_box($object, $box)
 		$EnclosureType = '';
 		$EnclosureSerialized = false;
 		if( $enclosureArray )
-			list($EnclosureURL, $EnclosureLength, $EnclosureType, $EnclosureSerialized) =  explode("\n", $enclosureArray, 4);
+		{
+			// list($EnclosureURL, $EnclosureLength, $EnclosureType, $EnclosureSerialized) =  explode("\n", $enclosureArray, 4);
+			$MetaParts = explode("\n", $enclosureArray, 4);
+			if( count($MetaParts) > 0 )
+				$EnclosureURL = $MetaParts[0];
+			if( count($MetaParts) > 1 )
+				$EnclosureLength = $MetaParts[1];
+			if( count($MetaParts) > 2 )
+				$EnclosureType = $MetaParts[2];
+			if( count($MetaParts) > 3 )
+				$EnclosureSerialized = $MetaParts[3];
+		}
 		$EnclosureURL = trim($EnclosureURL);
 		$EnclosureLength = trim($EnclosureLength);
 		$EnclosureType = trim($EnclosureType);

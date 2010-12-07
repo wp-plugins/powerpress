@@ -321,7 +321,7 @@ function DeleteMedia(File)
 			$Close = false;
 		
 			
-			if( $_POST['Remove'] )
+			if( !empty($_POST['Remove']) )
 			{
 				$SaveSettings['blubrry_username'] = '';
 				$SaveSettings['blubrry_auth'] = '';
@@ -369,7 +369,7 @@ function DeleteMedia(File)
 						{
 							$SaveSettings['blubrry_auth'] = $auth;
 							
-							if( $SaveSettings['blubrry_program_keyword'] != '' )
+							if( !empty($SaveSettings['blubrry_program_keyword']) )
 							{
 								powerpress_add_blubrry_redirect($SaveSettings['blubrry_program_keyword']);
 								$Save = true;

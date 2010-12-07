@@ -171,7 +171,7 @@ function powerpress_content($content)
 	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
 		return $content;
 	
-	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
+	if( preg_match_all('/(.?)\[(powerpress|podcast)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
 	{
 		if( isset($matches[3]) )
 		{
@@ -1521,6 +1521,13 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			'image' => ''
 		), $attributes ) );
 	
+	if( !$url && $content )
+	{
+		$content_url = trim($content);
+		if( @parse_url($content_url) )
+			$url = $content_url;
+	}
+	
 	if( $url )
 	{
 		$url = powerpress_add_redirect_url($url);
@@ -1596,7 +1603,10 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 }
 
 add_shortcode('powerpress', 'powerpress_shortcode_handler');
-
+if( !defined('PODCASTING_VERSION') )
+{
+	add_shortcode('podcast', 'powerpress_shortcode_handler');
+}
 
 /*
 Helper functions:
@@ -2340,12 +2350,28 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	if( !$MetaData )
 		return false;
 	
+	$MetaParts = explode("\n", $MetaData, 4);
+	
+	$Serialized = false;
 	$Data = array();
-	$Data['duration'] = 0;
-	list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
-	$Data['url'] = powerpress_add_redirect_url( trim($url) );
-	$Data['size'] = trim($size);
-	$Data['type'] = trim($type);
+	$Data['url'] = '';
+	$Data['duration'] = '';
+	$Data['size'] = '';
+	$Data['type'] = '';
+	
+	if( count($MetaParts) > 0 )
+		$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]) );
+	if( count($MetaParts) > 1 )
+		$Data['size'] = trim($MetaParts[1]);
+	if( count($MetaParts) > 2 )
+		$Data['type'] = trim($MetaParts[2]);
+	if( count($MetaParts) > 3 )
+		$Serialized = $MetaParts[3];
+		
+	//list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
+	//$Data['url'] = powerpress_add_redirect_url( trim($url) );
+	//$Data['size'] = trim($size);
+	//$Data['type'] = trim($type);
 	
 	if( $Serialized )
 	{
@@ -2632,7 +2658,7 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 	if( isset($FeedSettings['premium_label']) && $FeedSettings['premium_label'] != '' ) // User has a custom label
 		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL;
 	
-	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('home') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
+	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('url') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
 }
 
 function powerpress_is_mobile_client()

@@ -888,22 +888,22 @@ function powerpress_admin_menu()
 	{
 		$Powerpress = powerpress_default_settings($Powerpress, 'basic');
 		
-		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
+		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			if( @$Powerpress['player_options'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			
 			if( $Powerpress['channels'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( $Powerpress['cat_casting'] )	
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 			if( @$Powerpress['podpress_stats'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			
 			
 			if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 	}
 }
 
@@ -2133,11 +2133,28 @@ function powerpress_process_hosting($post_ID, $post_title)
 		
 		if( $EnclosureData )
 		{
+			/*
+			// Old Logic, replaced with below $MetaParts so no notices appear
 			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $EnclosureData, 4);
 			$EnclosureURL = trim($EnclosureURL);
 			$EnclosureType = trim($EnclosureType);
 			$EnclosureSize = trim($EnclosureSize);
 			$EpisodeData = unserialize($Serialized);
+			*/
+			$MetaParts = explode("\n", $EnclosureData, 4);
+			$EnclosureURL = '';
+			if( count($MetaParts) > 0 )
+				$EnclosureURL = trim($MetaParts[0]);
+			$EnclosureType = '';
+			if( count($MetaParts) > 1 )
+				$EnclosureType = trim($MetaParts[1]);
+			$EnclosureSize = '';
+			if( count($MetaParts) > 2 )
+				$EnclosureSize = trim($MetaParts[2]);
+			$EpisodeData = false;
+			if( count($MetaParts) > 3 )
+				$EpisodeData = unserialize($MetaParts[3]);
+			
 			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
 			{
 				

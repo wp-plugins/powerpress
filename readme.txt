@@ -142,14 +142,17 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
+* Future versions of PowerPress will no longer be compatible with WordPress 2.6.x and 2.7.x. Please upgrade to WordPress 2.8 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 1.0.12 =
-* Released on 11/??/2010
+* Released on 12/??/2010
 * Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
 * Added Danish translation to PowerPress. Thanks GeorgWP for translating!
 * Added French translation to PowerPress. Thanks Aurélien Denis for translating!
 * Fixed bug in line 225 of powerpressadmin-jquery.php file.
+* Added shortcode support for 'Podcasting' plugin's [podcast] shortcode.
+* Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility)
 
 
 = 1.0.11 =

@@ -508,7 +508,7 @@ else
 				if( !$enclosure_data )
 					continue;
 					
-				list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $enclosure_data);
+				@list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = @explode("\n", $enclosure_data);
 				if( $EnclosureURL )
 				{
 					$CurrentEnclosures[ $feed_slug ] = array();
@@ -565,7 +565,7 @@ else
 					echo '<td '.$class.'><strong>';
 					if ( current_user_can( 'edit_post', $post_id ) )
 					{
-					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
+					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
 					}
 					else
 					{
