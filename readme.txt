@@ -152,8 +152,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added French translation to PowerPress. Thanks Aurélien Denis for translating!
 * Fixed bug in line 225 of powerpressadmin-jquery.php file.
 * Added shortcode support for 'Podcasting' plugin's [podcast] shortcode.
-* Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility)
+* Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility) (Thanks Jeremy for letting us know about the notices/warnings)
 * Updated the itunes:subtitle feed tag logic so empty lines found at the front and end of an excerpt do not include ' - '.
+* Fixed bug where <a> tag was incorrectly ended when the Premium Content feature was enabled. (Thanks Kimberly for letting us know about the bug)
+* Added warning message in PowerPress settings pages when incompatible plugins found.
 
 
 = 1.0.11 =

@@ -70,7 +70,10 @@ function powerpress_admin_init()
 	$VersionDiff = version_compare($wp_version, 2.6);
 	if( $VersionDiff < 0 )
 		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.', 'powerpress') );
-
+	
+	// Check for incompatible plugins:
+	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
+		powerpress_page_message_add_error( __('The WP OS FLV plugin is not compatible with Blubrry PowerPress.', 'powerpress') );
 	
 	// Save settings here
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )

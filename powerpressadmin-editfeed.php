@@ -668,7 +668,7 @@ function powerpress_toggle_premium_content(enabled)
 }	
 function powerpress_premium_label_append_signin_link()
 {
-	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="<?php echo __('Sign In', 'powerpress'); ?>"><?php echo __('Sign In', 'powerpress'); ?>\/a>'); 
+	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="<?php echo __('Sign In', 'powerpress'); ?>"><?php echo __('Sign In', 'powerpress'); ?><\/a>'); 
 }
 function powerpress_default_premium_label(event)
 {
