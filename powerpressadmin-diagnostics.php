@@ -242,7 +242,7 @@
 		
 		// First we need some basic information about the blog...
 		$message = __('Blog Title:', 'powerpress') .' '. get_bloginfo('name') . "<br />\n";
-		$message .= __('Blog URL:', 'powerpress') .' '. get_bloginfo('home') . "<br />\n";
+		$message .= __('Blog URL:', 'powerpress') .' '. get_bloginfo('url') . "<br />\n";
 		$message .= __('WordPress Version:', 'powerpress') .' '. $wp_version . "<br />\n";
 		if( !empty($wpmu_version) )
 				$message .= __('WordPress MU Version:', 'powerpress') .' '. $wpmu_version . "<br />\n";
@@ -254,13 +254,13 @@
 		$message .= "<br />\n";
 		$message .= '<strong>'. __('Important PowerPress Settings', 'powerpress') ."</strong><br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:', 'powerpress') .' '. POWERPRESS_VERSION ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:', 'powerpress') .' '. ($SettingsGeneral['advanced_mode']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:', 'powerpress') .' '. ($SettingsGeneral['episode_box_mode']==0?__('normal', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('simple', 'powerpress'):__('advanced', 'powerpress')) ) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:', 'powerpress') .' '. ($SettingsGeneral['use_caps']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:', 'powerpress') .' '. ($SettingsGeneral['feed_caps']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:', 'powerpress') .' '. ($SettingsGeneral['cat_casting']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Podcast Channels:', 'powerpress') .' '. ($SettingsGeneral['channels']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('Additional Player Options:', 'powerpress') .' '. ($SettingsGeneral['player_options']==0?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:', 'powerpress') .' '. ( !empty($SettingsGeneral['advanced_mode']) ?'true':'false') ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:', 'powerpress') .' '. ( empty($SettingsGeneral['episode_box_mode']) ?__('normal', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('simple', 'powerpress'):__('advanced', 'powerpress')) ) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:', 'powerpress') .' '. ( empty($SettingsGeneral['use_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:', 'powerpress') .' '. ( empty($SettingsGeneral['feed_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:', 'powerpress') .' '. ( empty($SettingsGeneral['cat_casting']) ?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Podcast Channels:', 'powerpress') .' '. ( empty($SettingsGeneral['channels']) ?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('Additional Player Options:', 'powerpress') .' '. ( empty($SettingsGeneral['player_options'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
 		
 		// Detecting Media Information
 		$message .= "<br />\n";
@@ -470,7 +470,7 @@
 
 <form enctype="multipart/form-data" method="get" action="<?php echo admin_url('admin.php'); ?>">
 <input type="hidden" name="action" value="powerpress-diagnostics" />
-<input type="hidden" name="page" value="powerpress/powerpressadmin_<?php echo ($GeneralSettings['advanced_mode']==1?'tools':'basic'); ?>.php" />
+<input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
 <?php
 	// Print nonce
 	wp_nonce_field('powerpress-diagnostics');

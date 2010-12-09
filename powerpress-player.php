@@ -27,7 +27,7 @@ function powerpressplayer_filter($content, $media_url, $ExtraData = array())
 		
 	// Next check that we're working with an mp3
 	$parts = pathinfo($media_url);
-	if( $parts['extension'] != 'mp3' && $EpisdoeData['type'] != 'audio/mpeg' ) // we just need condition one to be false
+	if( strtolower($parts['extension']) != 'mp3' )
 		return $content; // We're apparently not working with an mp3
 		
 	$player_content = powerpressplayer_build( $media_url, $Settings, $ExtraData );
@@ -290,9 +290,9 @@ $content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpre
 $content .= '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url() .'simple_mp3.swf" id="'.$g_powerpress_player_id.'" width="150" height="50">';
 $content .= '<param name="movie" value="'. powerpressplayer_get_root_url().'simple_mp3.swf" />';
 $content .= '<param name="wmode" value="transparent" />';
-$content .= '<param name="FlashVars" value="'. get_bloginfo('home') .'?url='. urlencode($media_url).'&amp;autostart='. ($autostart?'true':'false') .'" />';
+$content .= '<param name="FlashVars" value="'. get_bloginfo('url') .'?url='. urlencode($media_url).'&amp;autostart='. ($autostart?'true':'false') .'" />';
 $content .= '<param name="quality" value="high" />';
-$content .= '<embed wmode="transparent" src="'. get_bloginfo('home') .'?url='.urlencode($media_url).'&amp;autostart='. ($autostart?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>';
+$content .= '<embed wmode="transparent" src="'. get_bloginfo('url') .'?url='.urlencode($media_url).'&amp;autostart='. ($autostart?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50"></embed>';
 $content .= '</object>';
 $content .= "</div>\n";
                 }; break;

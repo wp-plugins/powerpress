@@ -70,7 +70,10 @@ function powerpress_admin_init()
 	$VersionDiff = version_compare($wp_version, 2.6);
 	if( $VersionDiff < 0 )
 		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.', 'powerpress') );
-
+	
+	// Check for incompatible plugins:
+	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
+		powerpress_page_message_add_error( __('The WP OS FLV plugin is not compatible with Blubrry PowerPress.', 'powerpress') );
 	
 	// Save settings here
 	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
@@ -871,12 +874,14 @@ function powerpress_admin_menu()
 				if( $feed_slug == 'podcast' )
 					continue;
 				
+				reset($post_types);
 				while( list($null,$post_type) = each($post_types) )
 					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 			}
 		}
 		else
 		{
+			reset($post_types);
 			while( list($null,$post_type) = each($post_types) )
 				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
 		}
@@ -886,22 +891,22 @@ function powerpress_admin_menu()
 	{
 		$Powerpress = powerpress_default_settings($Powerpress, 'basic');
 		
-		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 1, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
+		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			if( @$Powerpress['player_options'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 1, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			
 			if( $Powerpress['channels'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 1, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( $Powerpress['cat_casting'] )	
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 1, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
 			if( @$Powerpress['podpress_stats'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 1, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			
 			
 			if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
-				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 1, 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 1, 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 	}
 }
 
@@ -2131,11 +2136,28 @@ function powerpress_process_hosting($post_ID, $post_title)
 		
 		if( $EnclosureData )
 		{
+			/*
+			// Old Logic, replaced with below $MetaParts so no notices appear
 			list($EnclosureURL, $EnclosureSize, $EnclosureType, $Serialized) = explode("\n", $EnclosureData, 4);
 			$EnclosureURL = trim($EnclosureURL);
 			$EnclosureType = trim($EnclosureType);
 			$EnclosureSize = trim($EnclosureSize);
 			$EpisodeData = unserialize($Serialized);
+			*/
+			$MetaParts = explode("\n", $EnclosureData, 4);
+			$EnclosureURL = '';
+			if( count($MetaParts) > 0 )
+				$EnclosureURL = trim($MetaParts[0]);
+			$EnclosureType = '';
+			if( count($MetaParts) > 1 )
+				$EnclosureType = trim($MetaParts[1]);
+			$EnclosureSize = '';
+			if( count($MetaParts) > 2 )
+				$EnclosureSize = trim($MetaParts[2]);
+			$EpisodeData = false;
+			if( count($MetaParts) > 3 )
+				$EpisodeData = unserialize($MetaParts[3]);
+			
 			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
 			{
 				
@@ -2683,14 +2705,16 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	$warning_msg = '';
 	if( $content_type == '' )
 		$content_type = powerpress_get_contenttype($media_file);
-	
-	if( $content_type == '' )
-		return array('error'=>__('Unable to detect content type.', 'powerpress') );
+		
+	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
+		return array('error'=>__('The WP OS FLV plugin is not compatible with Blubrry PowerPress.', 'powerpress') );
 		
 	$get_duration_info = ($content_type == 'audio/mpeg' && $duration === '');
 	// Lets use the mp3info class:
 	require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 	$Mp3Info = new Mp3Info();
+	if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT') )
+		$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT);
 	$Mp3Data = $Mp3Info->GetMp3Info($media_file, !$get_duration_info);
 	if( $Mp3Data )
 	{
@@ -2745,6 +2769,8 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		// Lets use the mp3info class:
 		require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 		$Mp3Info = new Mp3Info();
+		if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT') )
+			$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT);
 		$Mp3Data = $Mp3Info->GetMp3Info($media_file);
 		if( $Mp3Data )
 		{

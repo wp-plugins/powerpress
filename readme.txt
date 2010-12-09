@@ -1,9 +1,9 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard
+Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast
 Requires at least: 2.6.0
-Tested up to: 3.0
-Stable tag: 1.0.10
+Tested up to: 3.0.3
+Stable tag: 1.0.12
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -21,6 +21,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Multi-podcast support: Create separate podcasts by category (category casting) or by media format.
 - Supported Media Formats: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
+* Languages supported: English, Danish, French ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -141,7 +142,27 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
+* Future versions of PowerPress will no longer be compatible with WordPress 2.6.x and 2.7.x. Please upgrade to WordPress 2.8 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+
+= 1.0.12 =
+* Released on 12/8/2010
+* Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
+* Added Danish translation to PowerPress. Thanks GeorgWP for translating!
+* Added French translation to PowerPress. Thanks Aurelien Denis for translating!
+* Added shortcode support for 'Podcasting' plugin's [podcast] shortcode.
+* Fixed syntax bug on line 225 of powerpressadmin-jquery.php file.
+* Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility) (Thanks Jeremy for letting us know about the notices/warnings)
+* Updated the itunes:subtitle feed tag logic so empty lines found at the front and end of an excerpt do not include ' - '.
+* Fixed bug where `<a>` tag was incorrectly ended when the Premium Content feature was enabled. (Thanks Kimberly for letting us know about the bug)
+* Added warning message in PowerPress settings pages when incompatible plugins found.
+* Added new define `POWERPRESS_DOWNLOAD_BYTE_LIMIT` option for users using buggy versions of Adobe Audition beta who are having media verification errors "Could not find valid MPEG synch before end of file.". Simply add `define('POWERPRESS_DOWNLOAD_BYTE_LIMIT', 500000);` near the top of your wp-config.php file.
+
+
+= 1.0.11 =
+* Released on 9/29/2010
+* Fix bug introduced by the addition of Custom Post Type where Custom Podcast Channels do not appear.
+* Fixed bug where email diagnostics feature failed when PowerPress is in Simple Mode.
 
 
 = 1.0.10 =
@@ -527,14 +548,26 @@ First stable release of Blubrry PowerPress. Users are strongly encouraged to upg
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
 
-Pat McSweeny, Developer for [RawVoice](http://www.rawvoice.com) - Developed initial version (v0.1.0) of plugin
+Pat McSweeny, PHP Developer - Developed initial version (v0.1.0) of plugin
 
-Jerry Stephens, Way of the Geek [wayofthegeek.org](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1, wrote initial code for the 4 new flash players.
+Jerry Stephens, [Way of the Geek](http://wayofthegeek.org) - Contributed initial code fix for excerpt bug resolved in v0.6.1, wrote initial code for the 4 new flash players.
 
-Darcy Fiander, Rooty Radio (http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
+Darcy Fiander, [Rooty Radio](http://rootyradio.com) - Fixed bug with category links to FeedValidator.org and category title warning when validating category feeds.
 
-Joel Haasnoot, (http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
+Joel Haasnoot, [Perosnal Blog](http://waarisdetrein.nl/joelhaasnoot/) - Developed PodPress archive statistics.
 
+Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed code for `get_the_powerpress_all_players()` function.
+
+
+== Translators ==
+* Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
+* French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
+
+
+== Tips and Tutorials ==
+* [Using PowerPress outside the Loop](http://blog.nicolasbouliane.com/?p=1695) - by [Nicolas Bouliane](http://blog.nicolasbouliane.com/)
+
+Please [contact blubrry](http://www.blubrry.com/contact.php) with the link to your tips or tutorial for PowerPress and we'll add them to the list above.
 
 == Feedback == 
  http://www.blubrry.com/powerpress/

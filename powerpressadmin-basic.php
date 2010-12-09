@@ -391,7 +391,7 @@ while( list($value,$desc) = each($options) )
 	
 ?>
 		</select>
-		<p><?php echo sprintf(__('When configured, %s/podcast/ is matched to page/category named \'podcast\'.', 'powerpress'), get_bloginfo('home') ); ?></p>
+		<p><?php echo sprintf(__('When configured, %s/podcast/ is matched to page/category named \'podcast\'.', 'powerpress'), get_bloginfo('url') ); ?></p>
 </td>
 </tr>
 <?php

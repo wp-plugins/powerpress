@@ -176,36 +176,9 @@
 <tr valign="top">
 <th scope="row"><?php echo __('Translations', 'powerpress'); ?></th> 
 <td>
-	<p style="margin-top: 5px;">
-	<?php echo __('Blubrry would like to thank the following for translating PowerPress.', 'powerpress'); ?>
-	</p>
-	<ul style="margin-left: 50px;">
-		<li>
-			<p>
-			<?php echo __('Translations coming soon', 'powerpress'); ?>
-			</p>
-		</li>
-		<!--
-		<li>
-			<p>
-			<b><?php echo __('German', 'powerpress'); ?></b> - 
-			<?php echo sprintf( __('versions %s by', 'powerpress'), '1.1'); ?>
-				 <a href="" target="_blank">Optional Link</a>
-			</p>
-		</li>
-		<li>
-			<p>
-			<b><?php echo __('Italian', 'powerpress'); ?></b> - 
-			<?php echo sprintf( __('versions %s by', 'powerpress'), '1.1, 1.2'); ?>
-				 Anonymous
-			</p>
-		</li>
-		-->
-	</ul>
-	<p>
-	<!-- Do not translate the following, we need translators to communicate with us in our native language (English) -->
-	 Please <a href="http://www.blubrry.com/contact.php" target="_blank">contact Blubrry</a> if you are interested in translating PowerPress to a language not listed above.
-	</p>
+	<p style="margin-top: 5px;"><strong>
+		<a href="http://www.blubrry.com/powerpress_translate/" target="_blank"><?php echo __('Translate PowerPress to your language', 'powerpress'); ?></a>
+	</strong></p>
 </td>
 </tr>
 

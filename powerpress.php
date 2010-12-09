@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 1.0.10
+Version: 1.0.12
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '1.0.10' );
+define('POWERPRESS_VERSION', '1.0.12' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -171,7 +171,7 @@ function powerpress_content($content)
 	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
 		return $content;
 	
-	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
+	if( preg_match_all('/(.?)\[(powerpress|podcast)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
 	{
 		if( isset($matches[3]) )
 		{
@@ -415,9 +415,9 @@ function powerpress_rss2_head()
 	}
 	
 	if( !empty($Feed['itunes_subtitle']) )
-		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle', true) . '</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle') . '</itunes:subtitle>'.PHP_EOL;
 	else
-		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( !empty($Feed['itunes_keywords']) )
 		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords'], 'keywords') . '</itunes:keywords>'.PHP_EOL;
@@ -654,11 +654,11 @@ function powerpress_rss2_item()
 	}
 	
 	if( $subtitle )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	else if( $excerpt_no_html )
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	else	
-		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle', true) .'</itunes:subtitle>'.PHP_EOL;
+		echo "\t\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( $summary )
 		echo "\t\t<itunes:summary>". powerpress_format_itunes_value($summary, 'summary') .'</itunes:summary>'.PHP_EOL;
@@ -1521,6 +1521,13 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			'image' => ''
 		), $attributes ) );
 	
+	if( !$url && $content )
+	{
+		$content_url = trim($content);
+		if( @parse_url($content_url) )
+			$url = $content_url;
+	}
+	
 	if( $url )
 	{
 		$url = powerpress_add_redirect_url($url);
@@ -1596,7 +1603,10 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 }
 
 add_shortcode('powerpress', 'powerpress_shortcode_handler');
-
+if( !defined('PODCASTING_VERSION') )
+{
+	add_shortcode('podcast', 'powerpress_shortcode_handler');
+}
 
 /*
 Helper functions:
@@ -2027,7 +2037,7 @@ function powerpress_get_root_url()
 	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
 }
 
-function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = false)
+function powerpress_format_itunes_value($value, $tag)
 {
 	if( !defined('DB_CHARSET') || DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
 		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
@@ -2042,14 +2052,12 @@ function powerpress_format_itunes_value($value, $tag = 255, $remove_new_lines = 
 		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
 	$value = preg_replace( '/&amp;/ui' , '&', $value); // Best we can do for PHP4. precaution in case it didn't get removed from function above.
 	
-	if( $remove_new_lines )
-		$value = preg_replace( array("/\r\n\r\n/u", "/\n/u", "/\r/u", "/\t/u") , array(' - ',' ', '', '  '), $value);
-	
 	return esc_html( powerpress_trim_itunes_value($value, $tag) );
 }
 
 function powerpress_trim_itunes_value($value, $tag = 'summary')
 {
+	$value = trim($value); // First we need to trim the string
 	$length = (function_exists('mb_strlen')?mb_strlen($value):strlen($value) );
 	$trim_at = false;
 	$remove_new_lines = false;
@@ -2098,38 +2106,9 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 	}
 	
 	if( $remove_new_lines )
-		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t"), array(' - ',' ', '', '  '), $value );
+		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t","-  "), array(' - ',' ', '', '  ', ''), $value );
 	
 	return $value;
-}
-
-function powerpress_smart_trim($value, $char_limit = 250, $remove_new_lines = false)
-{
-	if( strlen($value) > $char_limit )
-	{
-		$new_value = substr($value, 0, $char_limit);
-		// Look back at most 50 characters...
-		$eos = strrpos($new_value, '.');
-		$eol = strrpos($new_value, "\n");
-
-		// If the end of line is longer than the end of sentence and we're not loosing too much of our string...
-		if( $eol > $eos && $eol > (strlen($new_value)-50) )
-			$return = substr($new_value, 0, $eol);
-		// If the end of sentence is longer than the end of line and we're not loosing too much of our string...
-		else if( $eos > $eol && $eos > (strlen($new_value)-50) )
-			$return = substr($new_value, 0, $eos);
-		else // Otherwise, just add some dots to the end
-			$return = substr($new_value, 0, $char_limit).'...';
-		//	$return = $new_value;
-	}
-	else
-	{
-		$return = $value;
-	}
-
-	if( $remove_new_lines )
-		$return = str_replace( array("\r\n\r\n", "\n", "\r", "\t"), array(' - ',' ', '', '  '), $return );
-	return $return;
 }
 
 function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
@@ -2340,12 +2319,28 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	if( !$MetaData )
 		return false;
 	
+	$MetaParts = explode("\n", $MetaData, 4);
+	
+	$Serialized = false;
 	$Data = array();
-	$Data['duration'] = 0;
-	list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
-	$Data['url'] = powerpress_add_redirect_url( trim($url) );
-	$Data['size'] = trim($size);
-	$Data['type'] = trim($type);
+	$Data['url'] = '';
+	$Data['duration'] = '';
+	$Data['size'] = '';
+	$Data['type'] = '';
+	
+	if( count($MetaParts) > 0 )
+		$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]) );
+	if( count($MetaParts) > 1 )
+		$Data['size'] = trim($MetaParts[1]);
+	if( count($MetaParts) > 2 )
+		$Data['type'] = trim($MetaParts[2]);
+	if( count($MetaParts) > 3 )
+		$Serialized = $MetaParts[3];
+		
+	//list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
+	//$Data['url'] = powerpress_add_redirect_url( trim($url) );
+	//$Data['size'] = trim($size);
+	//$Data['type'] = trim($type);
 	
 	if( $Serialized )
 	{
@@ -2514,6 +2509,96 @@ function powerpress_get_player_links($post_id, $feed_slug = 'podcast', $EpisodeD
 	return '';
 }
 
+function the_powerpress_all_players($slug = false, $no_link=false)
+{
+	echo get_the_powerpress_all_players($slug, $no_link);
+}
+
+function get_the_powerpress_all_players($slug = false, $no_link=false)
+{
+	$return = '';
+	//Use this function to insert the Powerpress player anywhere in the page.
+	//Made by Nicolas Bouliane (http://nicolasbouliane.com/)
+
+	/*We're going to use the Loop to retrieve the latest post with the 'enclosure' custom key set
+	//then interpret it and manually launch powerpressplayer_build with the URL contained within
+	//that data.*/
+
+	//Let's reset the Loop to make sure we look through all posts
+	rewind_posts();
+	
+	// Get the list of podcast channel slug names...
+	$GeneralSettings = get_option('powerpress_general');
+	$ChannelSlugs = array('podcast');
+	if( $slug == false )
+	{
+		if( isset($GeneralSettings['custom_feeds']['podcast']) )
+			$ChannelSlugs = array(); // Reset the array so it is added from the list in specified order
+		while( list($feed_slug,$null) = each($GeneralSettings['custom_feeds']) )
+			$ChannelSlugs[] = $feed_slug;
+	}
+	else if( is_array($slug) )
+	{
+		$ChannelSlugs = $slug;
+	}
+	else
+	{
+		$ChannelSlugs = array($slug);
+	}
+	
+	// Loop through the posts
+	while( have_posts() )
+	{
+		the_post();
+		//$PostMetaKeys = get_post_custom_keys($post->ID);
+		//print_r($PostMetaKeys);
+		while( list($null,$feed_slug) = each($ChannelSlugs) )
+		{
+			// Do we follow the global settings to disable a player?
+			if( isset($GeneralSettings['disable_player']) && isset($GeneralSettings['disable_player'][$feed_slug]) && $slug == false )
+				continue;
+			
+			$EpisodeData = powerpress_get_enclosure_data(get_the_ID(), $feed_slug);
+			if( !$EpisodeData && !empty($GeneralSettings['process_podpress']) && $feed_slug == 'podcast' )
+				$EpisodeData = powerpress_get_enclosure_data_podpress(get_the_ID());
+				
+			if( !$EpisodeData )
+				continue;
+			
+			$AddDefaultPlayer = true;
+			if( !empty($EpisodeData['embed']) )
+			{
+				$return .= $EpisodeData['embed'];
+				if( !empty($GeneralSettings['embed_replace_player']) )
+					$AddDefaultPlayer = false;
+			}
+			
+			$image_current = $image;
+			if( $image_current == '' && isset($EpisodeData['image']) && $EpisodeData['image'] )
+				$image_current = $EpisodeData['image'];
+			
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($GeneralSettings) )
+			{
+				$return .= powerpress_premium_content_message(get_the_ID(), $feed_slug, $EpisodeData);
+				continue;
+			}
+				
+			if( !isset($EpisodeData['no_player']) && $AddDefaultPlayer )
+			{
+				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('feed'=>$feed_slug, 'image'=>$image_current, 'type'=>$EpisodeData['type']) );
+			}
+			if( !isset($EpisodeData['no_links']) && $no_link == false )
+			{
+				$return .= powerpress_get_player_links(get_the_ID(), $feed_slug, $EpisodeData );
+			}
+		}
+		reset($ChannelSlugs);
+	}
+	
+	return $return;
+}
+
+
 function powerpress_premium_content_authorized($feed_slug)
 {
 	if( $feed_slug != 'podcast' )
@@ -2542,7 +2627,7 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 	if( isset($FeedSettings['premium_label']) && $FeedSettings['premium_label'] != '' ) // User has a custom label
 		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL;
 	
-	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('home') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
+	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('url') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
 }
 
 function powerpress_is_mobile_client()

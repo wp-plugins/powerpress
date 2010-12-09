@@ -3,7 +3,10 @@
 	
 	function powerpressadmin_ping_sites_process()
 	{
-		$PingSites = $_POST['PingSite'];
+		$PingSites = false;
+		if( isset($_POST['PingSite']) )
+			$PingSites = $_POST['PingSite'];
+		
 		if( $PingSites && count($PingSites) > 0 )
 		{
 			$ping_site_data = get_option('ping_sites');
