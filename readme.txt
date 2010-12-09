@@ -2,7 +2,7 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast
 Requires at least: 2.6.0
-Tested up to: 3.0.2
+Tested up to: 3.0.3
 Stable tag: 1.0.12
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
@@ -146,10 +146,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 1.0.12 =
-* Released on 12/??/2010
+* Released on 12/8/2010
 * Added `the_powerpress_all_players()` and `get_the_powerpress_all_players()` functions for use in themes. Thanks Nicolas for contributing code!
 * Added Danish translation to PowerPress. Thanks GeorgWP for translating!
-* Added French translation to PowerPress. Thanks Aurélien Denis for translating!
+* Added French translation to PowerPress. Thanks Aurelien Denis for translating!
 * Added shortcode support for 'Podcasting' plugin's [podcast] shortcode.
 * Fixed syntax bug on line 225 of powerpressadmin-jquery.php file.
 * Fixed a number of warning and notice message when WP_DEBUG define set in WordPress (Some notices remain for WordPress 2.6/2.7 backward compatibility) (Thanks Jeremy for letting us know about the notices/warnings)
@@ -561,7 +561,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 
 == Translators ==
 * Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
-* French translation for v1.0.11+ by [Aurélien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
+* French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
 
 
 == Tips and Tutorials ==
