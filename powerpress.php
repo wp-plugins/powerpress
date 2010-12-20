@@ -171,7 +171,7 @@ function powerpress_content($content)
 	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
 		return $content;
 	
-	if( preg_match_all('/(.?)\[(powerpress|podcast)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
+	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
 	{
 		if( isset($matches[3]) )
 		{
@@ -2345,11 +2345,14 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	if( $Serialized )
 	{
 		$ExtraData = unserialize($Serialized);
-		while( list($key,$value) = each($ExtraData) )
-			$Data[ $key ] = $value;
-			
-		if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
-			$Data['duration'] = powerpress_readable_duration($Data['length'], true);
+		if( $ExtraData && is_array($ExtraData) )
+		{
+			while( list($key,$value) = each($ExtraData) )
+				$Data[ $key ] = $value;
+				
+			if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
+				$Data['duration'] = powerpress_readable_duration($Data['length'], true);
+		}
 	}
 	
 	// Check that the content type is a valid one...
