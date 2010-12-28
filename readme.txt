@@ -150,6 +150,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 12/?/2010
 * Added additional support for the 'Podcasting' plugin's [podcast] shortcode. PowerPress will still add its player to the top/bottom of the page for backwards compatibility.
 * Eliminated 2 other situations where warning messages would appear in some cases.
+* Added Simplified Chinese translation to PowerPress. Thanks webmote for translating!
 
 
 = 1.0.12 =
@@ -569,6 +570,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 == Translators ==
 * Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
 * French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
+* Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - 
 
 
 == Tips and Tutorials ==
