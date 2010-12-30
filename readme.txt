@@ -570,7 +570,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 == Translators ==
 * Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
 * French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
-* Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - 
+* Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - From webmote: Welcome to use the plugin. Very good! and then hope you to access my site.
 
 
 == Tips and Tutorials ==
