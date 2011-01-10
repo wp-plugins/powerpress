@@ -1595,11 +1595,14 @@ add_filter('tag_row_actions', 'powerpress_cat_row_actions', 1,2);
 function powerpress_delete_category($cat_ID)
 {
 	$Settings = get_option('powerpress_general');
-	$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
-	if( $key !== false )
+	if( isset($Settings['custom_cat_feeds']) )
 	{
-		unset( $Settings['custom_cat_feeds'][$key] );
-		powerpress_save_settings($Settings); // Delete the feed from the general settings
+		$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
+		if( $key !== false )
+		{
+			unset( $Settings['custom_cat_feeds'][$key] );
+			powerpress_save_settings($Settings); // Delete the feed from the general settings
+		}
 	}
 	delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
 }

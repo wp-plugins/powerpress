@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://www.blubrry.com/powerpress/
 Description: <a href="http://www.blubrry.com/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 1.0.12
+Version: 1.0.13
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '1.0.12' );
+define('POWERPRESS_VERSION', '1.0.13' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -171,7 +171,7 @@ function powerpress_content($content)
 	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
 		return $content;
 	
-	if( preg_match_all('/(.?)\[(powerpress|podcast)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
+	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
 	{
 		if( isset($matches[3]) )
 		{
@@ -2345,11 +2345,14 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	if( $Serialized )
 	{
 		$ExtraData = unserialize($Serialized);
-		while( list($key,$value) = each($ExtraData) )
-			$Data[ $key ] = $value;
-			
-		if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
-			$Data['duration'] = powerpress_readable_duration($Data['length'], true);
+		if( $ExtraData && is_array($ExtraData) )
+		{
+			while( list($key,$value) = each($ExtraData) )
+				$Data[ $key ] = $value;
+				
+			if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
+				$Data['duration'] = powerpress_readable_duration($Data['length'], true);
+		}
 	}
 	
 	// Check that the content type is a valid one...
