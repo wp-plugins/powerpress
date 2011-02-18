@@ -1692,7 +1692,7 @@ print $content;
 </th>
 <td>
 <input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width']; ?>" maxlength="4" />
-<?php echo __('Width of player (leave blank for 320 default)', 'powerpress'); ?>
+<?php echo __('Width of player (leave blank for 400 default)', 'powerpress'); ?>
 </td>
 </tr>
 
@@ -1702,7 +1702,7 @@ print $content;
 </th>
 <td>
 <input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_height']; ?>" maxlength="4" />
-<?php echo __('Height of player (leave blank for 240 default)', 'powerpress'); ?>
+<?php echo __('Height of player (leave blank for 225 default)', 'powerpress'); ?>
 </td>
 </tr>
 

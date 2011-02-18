@@ -160,7 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress updated to be able to import episodes from latest versions of PodPress (change made in February, 2011 in PodPress how episodes are stored in WordPress).
 * New watarmarks added to Episode Entry Box for HH:MM:SS. Watermarks will be incorporated in additional fields in the future.
 * iTunes Update Directory feature (pingPodcast) is slated for removal in next release. Apple no longer supports this feature.
-
+* Upload image option added to supplement the video poster image field. Images are uploaded to the built-in image gallery in WordPress.
 
 =  1.0.13 =
 * Released on 1/10/2011

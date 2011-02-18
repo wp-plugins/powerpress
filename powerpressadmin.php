@@ -1364,6 +1364,8 @@ jQuery(document).ready(function($) {
 </style>
 <script language="javascript">
 
+g_powerpress_last_selected_channel = '';
+
 function powerpress_check_url(url)
 {
 	var DestDiv = 'powerpress_warning';
@@ -1562,9 +1564,22 @@ jQuery(document).ready(function($) {
 		powerpress_update_for_video(media_url, FeedSlug);
 	});
 	
+	jQuery('.powerpress-image-browser').click(function() {
+		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_image_browser_)(.*)$/, "$2");
+		tb_show('<?php echo __('Add Poster Image', 'powerpress'); ?>', jQuery(this).attr('href') );
+		return false;
+	});	
 });
 
-
+function powerpress_send_to_poster_image(url)
+{
+	if( g_powerpress_last_selected_channel )
+	{
+		jQuery('#powerpress_image_'+g_powerpress_last_selected_channel).val( url );
+		g_powerpress_last_selected_channel = '';
+	}
+	tb_remove();
+}
 
 </script>
 <?php

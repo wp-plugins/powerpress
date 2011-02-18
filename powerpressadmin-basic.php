@@ -97,7 +97,7 @@ jQuery(document).ready(function($) {
 		<li><a href="#tab3"><span><?php echo __('Media Appearance', 'powerpress'); ?></span></a></li>
 		<li><a href="#tab4"><span><?php echo __('Feeds', 'powerpress'); ?></span></a></li>
 		<li><a href="#tab5"><span><?php echo __('iTunes', 'powerpress'); ?></span></a></li>
-		<li><a href="#tab6"><span><?php echo __('T.V.', 'powerpress'); ?></span></a></li>
+		<li><a href="#tab6"><span><?php echo htmlspecialchars(__('T.V. & Video', 'powerpress')); ?></span></a></li>
   </ul>
 	
   <div id="tab1" class="powerpress_tab">

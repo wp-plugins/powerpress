@@ -248,11 +248,13 @@ function powerpress_meta_box($object, $box)
 		// Video Coverart Image (Poster)
 		if( @$GeneralSettings['episode_box_cover_image'] )
 		{
+			$form_action_url = admin_url("media-upload.php?type=powerpress_image&tab=type&post_id={$object->ID}&powerpress_feed={$FeedSlug}&TB_iframe=true&width=450&height=200");
 ?>
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 90%; font-size: 90%;" size="250" />
+				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-image-browser" id="powerpress_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select Poster Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 			<div class="powerpress_row_content">
 				<em><?php echo __('Poster image for video (m4v, mp4, ogv, webm, etc..). e.g. http://example.com/path/to/image.jpg', 'powerpress'); ?></em>
@@ -363,5 +365,140 @@ jQuery('#powerpress-<?php echo $FeedSlug; ?>').css( {'background-color' : '<?php
 </script><?php } ?>
 <?php
 }
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
+function media_upload_powerpress_image() {
+	$errors = array();
+	$id = 0;
+
+	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
+		// Upload File button was clicked
+		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
+		unset($_FILES);
+		if ( is_wp_error($id) ) {
+			$errors['upload_error'] = $id;
+			$id = false;
+		}
+	}
+
+	return wp_iframe( 'powerpress_media_upload_type_form', 'powerpress_image', $errors, $id );
+}
+
+add_action('media_upload_powerpress_image', 'media_upload_powerpress_image');
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $html
+ */
+function powerpress_send_to_episode_entry_box($url) {
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+var win = window.dialogArguments || opener || parent || top;
+if( win.powerpress_send_to_poster_image )
+	win.powerpress_send_to_poster_image('<?php echo addslashes($url); ?>');
+/* ]]> */
+</script>
+<?php
+	exit;
+}
+
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tabs
+ * @return unknown
+ */
+function powerpress_update_media_upload_tabs($tabs) {
+	
+	if( isset($_GET['type'] ) )
+	{
+		if( $_GET['type'] == 'powerpress_image' ) // We only want to allow uploads
+		{
+			unset($tabs['type_url']);
+			unset($tabs['gallery']);
+			unset($tabs['library']);
+		}
+	}
+	return $tabs;
+}
+add_filter('media_upload_tabs', 'powerpress_update_media_upload_tabs', 100);
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ * @param unknown_type $errors
+ * @param unknown_type $id
+ */
+function powerpress_media_upload_type_form($type = 'file', $errors = null, $id = null)
+{
+	media_upload_header();
+
+	$post_id = isset( $_REQUEST['post_id'] )? intval( $_REQUEST['post_id'] ) : 0;
+
+	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
+	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
+	
+	if ( $id && !is_wp_error($id) ) {
+		$image_url = wp_get_attachment_url($id);
+		powerpress_send_to_episode_entry_box( $image_url );
+	}
+
+?>
+
+<form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form type-form validate" id="<?php echo $type; ?>-form">
+<input type="submit" class="hidden" name="save" value="" />
+<input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
+<?php wp_nonce_field('media-form'); ?>
+
+<h3 class="media-title"><?php echo __('Select poster image from your computer.', 'powerpress'); ?></h3>
+
+<?php media_upload_form( $errors ); ?>
+
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready( function() {
+	jQuery('#sidemenu').css('display','none');
+	jQuery('body').css('margin','0px 20px');
+	jQuery('body').css('height','auto');
+	jQuery('html').css('height','auto'); // Elimate the weird scroll bar
+});
+//]]>
+</script>
+<div id="media-items">
+<?php
+	if ( $id && is_wp_error($id) ) {
+		echo '<div id="media-upload-error">'.esc_html($id->get_error_message()).'</div>';
+	}
+?>
+</div>
+</form>
+<?php
+}
+
+function powerpress_media_upload_use_flash($flash) {
+	if( isset($_GET['type']) && $_GET['type'] == 'powerpress_image' )
+	{
+		return false;
+	}
+	return $flash;
+}
+
+add_filter('flash_uploader', 'powerpress_media_upload_use_flash');
 
 ?>
