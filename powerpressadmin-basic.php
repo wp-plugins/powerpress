@@ -86,6 +86,7 @@ jQuery(document).ready(function($) {
 </script>
 
 <input type="hidden" name="action" value="powerpress-save-settings" />
+<input type="hidden" id="save_tab_pos" name="tab" value="<?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>" />
 
 <h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2>
 
@@ -93,9 +94,10 @@ jQuery(document).ready(function($) {
   <ul class="powerpress_settings_tabs"> 
 		<li><a href="#tab1"><span><?php echo __('Basic Settings', 'powerpress'); ?></span></a></li> 
 		<li><a href="#tab2"><span><?php echo htmlspecialchars(__('Services & Statistics', 'powerpress')); ?></span></a></li>
-		<li><a href="#tab3"><span><?php echo __('Appearance', 'powerpress'); ?></span></a></li>
+		<li><a href="#tab3"><span><?php echo __('Media Appearance', 'powerpress'); ?></span></a></li>
 		<li><a href="#tab4"><span><?php echo __('Feeds', 'powerpress'); ?></span></a></li>
 		<li><a href="#tab5"><span><?php echo __('iTunes', 'powerpress'); ?></span></a></li>
+		<li><a href="#tab6"><span><?php echo __('T.V.', 'powerpress'); ?></span></a></li>
   </ul>
 	
   <div id="tab1" class="powerpress_tab">
@@ -132,6 +134,12 @@ jQuery(document).ready(function($) {
 		?>
 	</div>
 	
+	<div id="tab6" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
+		?>
+	</div>
+	
 </div>
 <div class="clear"></div>
 
@@ -147,14 +155,15 @@ jQuery(document).ready(function($) {
 	<h3>Advanced Options</h3>
 	<div style="margin-left: 50px;">
 		<div>
-			<input type="checkbox" name="General[advanced_mode]" value="1" <?php echo ($General['advanced_mode']==1?' checked':''); ?> /> 
-			<strong><?php echo __('Advanced Mode', 'powerpress'); ?></strong> - 
-			<?php echo __('Uncheck to display only the essential settings for podcasting.', 'powerpress'); ?>
+			<input type="checkbox" name="NULL[player_options]" value="1" checked disabled /> 
+			<strong><?php echo __('Audio Player Options', 'powerpress'); ?></strong> - 
+			<?php echo __('Select from 5 different web based audio players.', 'powerpress'); ?> 
+			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="General[player_options]" value="1" <?php echo ($General['player_options']?' checked':''); ?> /> 
-			<strong><?php echo __('Audio Player Options', 'powerpress'); ?></strong> - 
-			<?php echo __('Select from 5 different web based audio flash players.', 'powerpress'); ?> 
+			<input type="checkbox" name="NULL[video_player_options]" value="1" checked disabled /> 
+			<strong><?php echo __('Video Player Options', 'powerpress'); ?></strong> - 
+			<?php echo __('Select from 2 different web based video players.', 'powerpress'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
 		</div>
 		<div>
@@ -201,8 +210,6 @@ jQuery(document).ready(function($) {
 
 function powerpressadmin_edit_entry_options($General)
 {
-	if( !isset($General['advanced_mode']) )
-		$General['advanced_mode'] = 0;
 	if( !isset($General['default_url']) )
 		$General['default_url'] = '';
 	if( !isset($General['episode_box_mode']) )
@@ -218,23 +225,8 @@ function powerpressadmin_edit_entry_options($General)
 ?>
 <h3><?php echo __('Episode Entry Options', 'powerpress'); ?></h3>
 
+
 <table class="form-table">
-<?php
-	if( $General['advanced_mode'] )
-	{
-?>
-<tr valign="top">
-<th scope="row"><?php echo __('Default Media URL', 'powerpress'); ?></th> 
-<td>
-	<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo $General['default_url']; ?>" maxlength="250" />
-	<p><?php echo __('e.g. http://example.com/mediafolder/', 'powerpress'); ?></p>
-	<p><?php echo __('URL above will prefix entered file names that do not start with \'http://\'. URL above must end with a trailing slash. You may leave blank if you always enter the complete URL to your media when creating podcast episodes.', 'powerpress'); ?>
-	</p>
-</td>
-</tr>
-<?php
-	}
-?>
 <tr valign="top">
 <th scope="row">
 
@@ -314,9 +306,38 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 </script>
 
 <?php
-	if( $General['advanced_mode'] )
-	{
+	
+	$AdvanecdOptions = false;
+	if( !empty($General['default_url']) )
+		$AdvanecdOptions = true;
+	if( !empty($General['set_duration']) )
+		$AdvanecdOptions = true;
+	if( !empty($General['set_size']) )
+		$AdvanecdOptions = true;
+	if( !empty($General['auto_enclose']) )
+		$AdvanecdOptions = true;
+	if( !empty($General['permalink_feeds_only']) )
+		$AdvanecdOptions = true;
+		
+
+	if( !$AdvanecdOptions ) {
 ?>
+	<div style="margin-left: 10px; font-weight: bold;"><a href="#" onclick="document.getElementById('advanced_basic_options').style.display='block';return false;"><?php echo __('Show Advanced Episode Entry Settings', 'powerpress'); ?></a></div>
+<?php } ?>
+<!-- start advanced features -->
+<div id="advanced_basic_options" <?php echo ($AdvanecdOptions?'':'style="display:none;"'); ?>>
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __('Default Media URL', 'powerpress'); ?></th> 
+<td>
+	<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo $General['default_url']; ?>" maxlength="250" />
+	<p><?php echo __('e.g. http://example.com/mediafolder/', 'powerpress'); ?></p>
+	<p><?php echo __('URL above will prefix entered file names that do not start with \'http://\'. URL above must end with a trailing slash. You may leave blank if you always enter the complete URL to your media when creating podcast episodes.', 'powerpress'); ?>
+	</p>
+</td>
+</tr>
+</table>
+
 <div id="episode_entry_settings" style="<?php if( $General['episode_box_mode'] == 1 ) echo 'display:none;'; ?>">
 <table class="form-table">
 <tr valign="top">
@@ -399,8 +420,10 @@ while( list($value,$desc) = each($options) )
 ?>
 
 </table>
+</div>
+<!-- end advanced features -->
+
 <?php
-	}
 }
 
 function powerpressadmin_edit_podpress_options($General)
@@ -519,11 +542,10 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 
 </td>
 </tr>
+</table>
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
+<!-- start advanced features -->
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 
@@ -602,11 +624,11 @@ while( list($value,$desc) = each($options) )
 <?php } ?>
 </td>
 </tr>
-<?php
-	} // end advanced_mode
-?>
-
 </table>
+<!-- end advanced features -->
+<?php
+
+?>
 <?php
 } // end itunes general
 
@@ -786,6 +808,8 @@ function powerpressadmin_appearance($General=false)
 		$General['player_height'] = '';
 	if( !isset($General['player_width_audio']) )
 		$General['player_width_audio'] = '';	
+	if( !isset($General['disable_appearance']) )
+		$General['disable_appearance'] = false;	
 		
 	
 	$Players = array('podcast'=>__('Default Podcast (podcast)', 'powerpress') );
@@ -801,26 +825,63 @@ function powerpressadmin_appearance($General=false)
 
 ?>
 
-<h3><?php echo __('Appearance Settings', 'powerpress'); ?></h3>
+<h3><?php echo __('Media Appearance Settings', 'powerpress'); ?></h3>
+
+<div id="enable_presentation_settings">
 
 <table class="form-table">
-
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
 <tr valign="top">
-<th scope="row"><?php echo __('Media Presentation', 'powerpress'); ?></th> 
-<td><select name="General[display_player]"  class="bpp_input_sm">
-<?php
-$displayoptions = array(1=>__('Below Post', 'powerpress'), 2=>__('Above Post', 'powerpress'), 0=>__('None', 'powerpress') );
+<th scope="row">&nbsp;	</th> 
+<td>
+	<ul>
+		<li><label><input type="radio" name="General[disable_appearance]" value="0" <?php if( $General['disable_appearance'] == 0 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'block':'none') );" /> <?php echo __('Enable PowerPress Media Players and Links', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
+		<li>
+			<ul>
+				<li><?php echo __('PowerPress will add media players and links to your site.', 'powerpress'); ?></li>
+			</ul>
+		</li>
+		
+		<li><label><input type="radio" name="General[disable_appearance]" value="1" <?php if( $General['disable_appearance'] == 1 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'none':'block') );" /> <?php echo __('Disable PowerPress Media Players and Links', 'powerpress'); ?></label></li>
+		<li>
+			<ul>
+				<li><?php echo __('PowerPress will <u>not</u> add any media players or media links to your site. PowerPress will only be used to add podcasting support to your feeds.', 'powerpress'); ?></li>
+			</ul>
+		</li>
+	</ul>
+</td>
+</tr>
+</table>
+</div>
 
-while( list($value,$desc) = each($displayoptions) )
-	echo "\t<option value=\"$value\"". ($General['display_player']==$value?' selected':''). ">$desc</option>\n";
+<div id="presentation_settings"<?php if($General['disable_appearance']) echo ' style="display: none;"'; ?>><!-- start presentation settings -->
+<h3><?php echo __('Blog Posts and Pages', 'powerpress'); ?></h3>
 
-?>
-</select> (<?php echo __('where media player and download links will be displayed', 'powerpress'); ?>)
-<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __('Display Media & Links', 'powerpress'); ?></th> 
+<td>
+	<ul>
+		<li><label><input type="radio" name="General[display_player]" value="1" <?php if( $General['display_player'] == 1 ) echo 'checked'; ?> /> <?php echo __('Below page content', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
+		<li>
+			<ul>
+				<li><?php echo __('Player and media links will appear <u>below</u> your post and page content.', 'powerpress'); ?></li>
+			</ul>
+		</li>
+		
+		<li><label><input type="radio" name="General[display_player]" value="2" <?php if( $General['display_player'] == 2 ) echo 'checked'; ?> /> <?php echo __('Above page content', 'powerpress'); ?></label></li>
+		<li>
+			<ul>
+				<li><?php echo __('Player and media links will appear <u>above</u> your post and page content.', 'powerpress'); ?></li>
+			</ul>
+		</li>
+		<li><label><input type="radio" name="General[display_player]" value="0" <?php if( $General['display_player'] == 0 ) echo 'checked'; ?> /> <?php echo __('Disable', 'powerpress'); ?></label></li>
+		<li>
+			<ul>
+				<li><?php echo __('Player and media links will <u>NOT</u> appear in your post and page content. Media player and links can be added manually by using the <i>shortcode</i> below.', 'powerpress'); ?></li>
+			</ul>
+		</li>
+	</ul>
+	<p style="margin-left: 35px;"><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
 </td>
 </tr>
 
@@ -829,8 +890,8 @@ while( list($value,$desc) = each($displayoptions) )
 <?php echo __('PowerPress Shortcode', 'powerpress'); ?></th>
 <td>
 <p>
-<?php echo sprintf(__('The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your Post or Page.', 'powerpress'), '<code>[powerpress]</code>'); ?> 
-<?php echo __('Simply insert the code on a new line in your content like this:', 'powerpress'); ?>
+<?php echo sprintf(__('The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your post or page content.', 'powerpress'), '<code>[powerpress]</code>'); ?> 
+<?php echo __('Simply insert the following code on a new line in your content.', 'powerpress'); ?>
 </p>
 <div style="margin-left: 30px;">
 	<code>[powerpress]</code>
@@ -843,18 +904,13 @@ while( list($value,$desc) = each($displayoptions) )
 
 <tr valign="top">
 <th scope="row">
-<?php echo __('Display Media Player', 'powerpress'); ?></th>
-<td><select name="General[player_function]" class="bpp_input_med" onchange="javascript: jQuery('#new_window_settings').css('display', (this.value==1||this.value==3?'block':'none') );">
-<?php
-$playeroptions = array(1=>__('On Page & New Window', 'powerpress'), 2=>__('On Page Only', 'powerpress'), 3=>__('New Window Only', 'powerpress'), /* 4=>'On Page Link', 5=>'On Page Link & New Window', */ 0=>__('Disable', 'powerpress') );
-			
-while( list($value,$desc) = each($playeroptions) )
-	echo "\t<option value=\"$value\"". ($General['player_function']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+<?php echo __('Media Player', 'powerpress'); ?></th>
+<td>
 
-?>
-</select>
-(<?php echo __('select where to display media flash player or embed code', 'powerpress'); ?>)
-<p><input type="checkbox" name="General[display_player_disable_mobile]" value="1" <?php if( !empty($General['display_player_disable_mobile']) ) echo 'checked '; ?>/> <?php echo __('Disable Media Player for known mobile devices.', 'powerpress'); ?></p>
+<p><label><input type="checkbox" name="PlayerSettings[display_media_player]" value="2" <?php if( $General['player_function'] == 1 || $General['player_function'] == 2 ) echo 'checked '; ?>/> <?php echo __('Display Player', 'powerpress'); ?></label></p>
+
+<p style="margin-left: 35px;"><input type="checkbox" name="General[display_player_disable_mobile]" value="1" <?php if( !empty($General['display_player_disable_mobile']) ) echo 'checked '; ?>/> <?php echo __('Disable Media Player for known mobile devices.', 'powerpress'); ?></p>
+
 </td>
 </tr>
 </table>
@@ -867,25 +923,26 @@ while( list($value,$desc) = each($playeroptions) )
 <tr valign="top">
 <th scope="row">
 
-<?php echo __('Download Link', 'powerpress'); ?></th> 
+<?php echo __('Media Links', 'powerpress'); ?></th> 
 <td>
-<select name="General[podcast_link]" class="bpp_input_med">
-<?php
-$linkoptions = array(1=>__('Display', 'powerpress'), 2=>__('Display with file size', 'powerpress'), 3=>__('Display with file size and duration', 'powerpress'), 0=>__('Disable', 'powerpress') );
-
-while( list($value,$desc) = each($linkoptions) )
-	echo "\t<option value=\"$value\"". ($General['podcast_link']==$value?' selected':''). ">$desc</option>\n";
+	<p><label><input type="checkbox" name="PlayerSettings[display_pinw]" value="3" <?php if( $General['player_function'] == 3 || $General['player_function'] == 1 ) echo 'checked '; ?>/> <?php echo __('Display Play in new Window Link', 'powerpress'); ?></label></p>
 	
-?>
-</select>
+	<p><label><input type="checkbox" name="PlayerSettings[display_download]" value="1" <?php if( $General['podcast_link'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Download Link', 'powerpress'); ?></label></p>
+	
+	<p style="margin-left: 35px;"><input type="checkbox" id="display_download_size" name="PlayerSettings[display_download_size]" value="1" <?php if( $General['podcast_link'] == 2 || $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( !this.checked ) { jQuery('#display_download_duration').removeAttr('checked'); }" /> <?php echo __('Include file size', 'powerpress'); ?>
+	<input type="checkbox" style="margin-left: 30px;" id="display_download_duration" name="PlayerSettings[display_download_duration]" value="1" <?php if( $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( this.checked ) { jQuery('#display_download_size').attr('checked','checked'); }" /> <?php echo __('Include file size and duration', 'powerpress'); ?></p>
+	
+	<!-- coming soon!
+	<p><label><input type="checkbox" name="General[podcast_embed]" value="1" <?php if( $General['podcast_embed'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Player Embed Link', 'powerpress'); ?></label></p>
+	-->
 </td>
 </tr>
-
-<?php
-	} // end advanced mode
-?>
+</table>
 
 
+
+
+<table class="form-table">
 <tr valign="top">
 <th scope="row" style="background-image: url(../wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
 
@@ -907,10 +964,8 @@ while( list($value,$desc) = each($linkoptions) )
 </tr>
 </table>
 
-<?php
-	if( !empty($General['advanced_mode']) )
-	{
-?>
+
+<!-- start advanced features -->
 <div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">
 <h3><?php echo __('Play in New Window Settings', 'powerpress'); ?></h3>
 <table class="form-table">
@@ -921,7 +976,7 @@ while( list($value,$desc) = each($linkoptions) )
 </th>
 <td>
 <input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
-<?php echo __('Width of new window (leave blank for 320 default)', 'powerpress'); ?>
+<?php echo __('Width of new window (leave blank for 420 default)', 'powerpress'); ?>
 </td>
 </tr>
 
@@ -936,80 +991,64 @@ while( list($value,$desc) = each($linkoptions) )
 </tr>
 </table>
 </div>
-<?php
-	}
-?>
+<!-- end advanced features -->
 
-<h3><?php echo __('Video Player Settings', 'powerpress'); ?></h3>
-
-<table class="form-table">
-<tr valign="top">
-<th scope="row">
-<?php echo __('Player Width', 'powerpress'); ?>
-</th>
-<td>
-<input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width']; ?>" maxlength="4" />
-<?php echo __('Width of player (leave blank for 320 default)', 'powerpress'); ?>
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php echo __('Player Height', 'powerpress'); ?>
-</th>
-<td>
-<input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_height']; ?>" maxlength="4" />
-<?php echo __('Height of player (leave blank for 240 default)', 'powerpress'); ?>
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
-<?php echo __('QuickTime Scale', 'powerpress'); ?></th>
-<td>
-	<select name="General[player_scale]" class="bpp_input_sm" onchange="javascript:jQuery('#player_scale_custom').css('display', (this.value=='tofit'||this.value=='aspect'? 'none':'inline' ))">
-<?php
-	$scale_options = array('tofit'=>__('ToFit (default)', 'powerpress'), 'aspect'=>__('Aspect', 'powerpress') ); 
-	if( !isset($General['player_scale']) )
-		$General['player_scale'] = 'tofit'; // Tofit works in almost all cases
-	
-	if( is_numeric($General['player_scale']) )
-		$scale_options[ $General['player_scale'] ]= __('Custom', 'powerpress');
-	else
-		$scale_options['custom']= __('Custom', 'powerpress');
-
-
-
-while( list($value,$desc) = each($scale_options) )
-	echo "\t<option value=\"$value\"". ($General['player_scale']==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-</select>
-<span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
-	<?php echo __('Scale:', 'powerpress'); ?> <input type="text" name="PlayerScaleCustom" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9.]/g, '');" value="<?php echo (is_numeric($General['player_scale'])?$General['player_scale']:''); ?>" maxlength="4" /> <?php echo __('e.g.', 'powerpress'); ?> 1.5
-</span>
-<p style="margin-top: 5px; margin-bottom: 0;">
-	<?php echo __('If you do not see video, adjust the width, height and scale settings above.', 'powerpress'); ?>
-</p>
-</td>
-</tr>
-
-</table>
-
-<h3><?php echo __('Audio Player Settings', 'powerpress'); ?></h3>
-<table class="form-table">
-<tr valign="top">
-<th scope="row">
-<?php echo __('Default Player Width', 'powerpress'); ?>
-</th>
-<td>
-<input type="text" name="General[player_width_audio]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width_audio']; ?>" maxlength="4" />
-<?php echo __('Width of Audio mp3 player (leave blank for 320 default)', 'powerpress'); ?>
-</td>
-</tr>
-</table>
-
+</div>
+<!-- end presentation settings -->
 <?php  
 } // End powerpress_admin_appearance()
+
+function powerpressadmin_edit_tv($FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
+{
+	if( !isset($FeedSettings['parental_rating']) )
+		$FeedSettings['parental_rating'] = '';
+
+?>
+<h3><?php echo __('T.V. Settings', 'powerpress'); ?></h3>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+ <?php echo __('Parental Rating', 'powerpress'); ?></th>
+<td>
+	<p><?php echo sprintf(__('A parental rating is used to display your content on %s applications available on Internet connected TV\'s. The TV Parental Rating applies to both audio and video media.', 'powerpress'), '<strong><a href="http://www.blubrry.com/roku_blubrry/" target="_blank">Blubrry</a></strong>'); ?></p>
+<?php
+	$Ratings = array(''=>__('No rating specified', 'powerpress'),
+			'TV-Y'=>__('Children of all ages', 'powerpress'),
+			'TV-Y7'=>__('Children 7 years and older', 'powerpress'),
+			'TV-Y7-FV'=>__('Children 7 years and older [fantasy violence]', 'powerpress'),
+			'TV-G'=>__('General audience', 'powerpress'),
+			'TV-PG'=>__('Parental guidance suggested', 'powerpress'),
+			'TV-14'=>__('May be unsuitable for children under 14 years of age', 'powerpress'),
+			'TV-MA'=>__('Mature audience - may be unsuitable for children under 17', 'powerpress')
+		);
+	$RatingsTips = array(''=>'',
+				'TV-Y'=>__('Whether animated or live-action, the themes and elements in this program are specifically designed for a very young audience, including children from ages 2-6. These programs are not expected to frighten younger children.  Examples of programs issued this rating include Sesame Street, Barney & Friends, Dora the Explorer, Go, Diego, Go! and The Backyardigans.', 'powerpress'),
+				'TV-Y7'=>__('These shows may or may not be appropriate for some children under the age of 7. This rating may include crude, suggestive humor, mild fantasy violence, or content considered too scary or controversial to be shown to children under seven. Examples include Foster\'s Home for Imaginary Friends, Johnny Test, and SpongeBob SquarePants.', 'powerpress'),
+				'TV-Y7-FV'=>__('When a show has noticeably more fantasy violence, it is assigned the TV-Y7-FV rating. Action-adventure shows such Pokemon series and the Power Rangers series are assigned a TV-Y7-FV rating.', 'powerpress'),
+				'TV-G'=>__('Although this rating does not signify a program designed specifically for children, most parents may let younger children watch this program unattended. It contains little or no violence, no strong language and little or no sexual dialogue or situation. Networks that air informational, how-to content, or generally inoffensive content.', 'powerpress'),
+				'TV-PG'=>__('This rating signifies that the program may be unsuitable for younger children without the guidance of a parent. Many parents may want to watch it with their younger children. Various game shows and most reality shows are rated TV-PG for their suggestive dialog, suggestive humor, and/or coarse language. Some prime-time sitcoms such as Everybody Loves Raymond, Fresh Prince of Bel-Air, The Simpsons, Futurama, and Seinfeld  usually air with a TV-PG rating.', 'powerpress'),
+				'TV-14'=>__('Parents are strongly urged to exercise greater care in monitoring this program and are cautioned against letting children of any age watch unattended. This rating may be accompanied by any of the following sub-ratings:', 'powerpress'),
+				'TV-MA'=>__('A TV-MA rating means the program may be unsuitable for those below 17. The program may contain extreme graphic violence, strong profanity, overtly sexual dialogue, very coarse language, nudity and/or strong sexual content. The Sopranos is a popular example.', 'powerpress')
+		);
+			
+	
+	while( list($rating,$title) = each($Ratings) )
+	{
+		$tip = $RatingsTips[ $rating ];
+?>
+	<div style="margin-bottom: 10px;"><label><input type="radio" name="Feed[parental_rating]" value="<?php echo $rating; ?>" <?php if( $FeedSettings['parental_rating'] == $rating) echo 'checked'; ?> /> <?php if( $rating ) { ?><strong><?php echo $rating; ?></strong><?php } else { ?><strong><?php echo htmlspecialchars($title); ?></strong><?php } ?></label>
+	<?php if( $rating ) { ?>  <span style="margin-left: 8px;"><a href="#" class="powerpress-parental-rating-tip" id="rating_tip_<?php echo $rating; ?>"><?php echo htmlspecialchars($title); ?></a><?php } ?></span>
+	<p style="margin: 5px 50px; display: none;" id="rating_tip_<?php echo $rating; ?>_p" class="powerpress-parental-rating-tip-p"><?php echo htmlspecialchars($tip); ?></p>
+	</div>
+	<?php
+	}
+?>
+</td>
+</tr>
+</table>
+
+
+<?php
+}
 
 ?>

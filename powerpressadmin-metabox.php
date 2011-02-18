@@ -21,6 +21,8 @@ function powerpress_meta_box($object, $box)
 	$iTunesExplicit = '';
 	$NoPlayer = false;
 	$NoLinks = false;
+	$IsHD = false;
+	$IsVideo = false;
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['set_size']) )
 		$GeneralSettings['set_size'] = 0;
@@ -86,6 +88,8 @@ function powerpress_meta_box($object, $box)
 					$iTunesExplicit = $ExtraData['explicit'];
 				if( isset($ExtraData['image']) )	
 					$CoverImage = $ExtraData['image'];
+				if( isset($ExtraData['ishd']) )	
+					$IsHD = $ExtraData['ishd'];
 			}
 		}
 		
@@ -102,6 +106,12 @@ function powerpress_meta_box($object, $box)
 				$DurationMM = '';
 			if( $DurationHH == '' && $DurationMM == '' && ltrim($DurationSS, '0') == 0 )
 				$DurationSS = '';
+		}
+		
+		// Check for HD Video formats
+		if( preg_match('/\.(mp4|m4v|webm|ogg|ogv)$/i', $EnclosureURL ) )
+		{
+			$IsVideo = true;
 		}
 	}
 	
@@ -141,7 +151,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][url]"><?php echo __('Media URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_url_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" onchange="powerpress_check_url(this.value,'powerpress_warning_<?php echo $FeedSlug; ?>')" <?php echo (@$ExtraData['hosting']==1?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
+				<input id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo (@$ExtraData['hosting']==1?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
 				<?php if( @$GeneralSettings['blubrry_hosting'] == 1 ) { ?>
 				<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
 				<?php } ?>
@@ -152,38 +162,37 @@ function powerpress_meta_box($object, $box)
 				<div id="powerpress_hosting_note_<?php echo $FeedSlug; ?>" style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px; display: <?php echo (@$ExtraData['hosting']==1?'block':'none'); ?>"><em><?php echo __('Media file hosted by blubrry.com.', 'powerpress'); ?>
 					(<a href="javascript:void();" title="<?php echo __('Remove Blubrry.com hosted media file', 'powerpress'); ?>" onclick="powerpress_remove_hosting('<?php echo $FeedSlug; ?>');return false;"><?php echo __('remove', 'powerpress'); ?></a>)
 				</em></div>
+				
+
+				<div style="padding-bottom: 2px; padding-top: 2px;">
+					<span id="powerpress_ishd_<?php echo $FeedSlug; ?>_span" style="margin-left: 20px; display: <?php echo ($IsVideo?'inline':'none'); ?>; "><input id="powerpress_ishd_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][ishd]" value="1" type="checkbox" <?php echo ($IsHD==1?'checked':''); ?> /> <?php echo __('Video is HD (720p/1080i/1080p)', 'powerpress'); ?></span>
 <?php
 
 	if( $GeneralSettings['episode_box_mode'] == 2 && ( !empty($GeneralSettings['episode_box_no_player']) || !empty($GeneralSettings['episode_box_no_links']) || !empty($GeneralSettings['episode_box_no_player_and_links']) ) )
 	{
-?>
-	<div style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px;">
-		<?php
 		if( $GeneralSettings['episode_box_no_player_and_links'] )
 		{
 		?>
-		<span><input id="powerpress_no_player_and_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player_and_links]" value="1" type="checkbox" <?php echo ($NoPlayer==1&&$NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display player and media links', 'powerpress'); ?></span>
+		<span style="margin-left: 20px;"><input id="powerpress_no_player_and_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player_and_links]" value="1" type="checkbox" <?php echo ($NoPlayer==1&&$NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display player and media links', 'powerpress'); ?></span>
 		<?php
 		}
 		if( $GeneralSettings['episode_box_no_player']  )
 		{
 		?>
-		<span style="margin-right: 20px;"><input id="powerpress_no_player_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player]" value="1" type="checkbox" <?php echo ($NoPlayer==1?'checked':''); ?> /> <?php echo __('Do not display player', 'powerpress'); ?></span>
+		<span style="margin-left: 20px;"><input id="powerpress_no_player_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player]" value="1" type="checkbox" <?php echo ($NoPlayer==1?'checked':''); ?> /> <?php echo __('Do not display player', 'powerpress'); ?></span>
 		<?php
 		}
 		if( @$GeneralSettings['episode_box_no_links']  )
 		{
 		?>
-		<span><input id="powerpress_no_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_links]" value="1" type="checkbox" <?php echo ($NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display media links', 'powerpress'); ?></span>
+		<span style="margin-left: 20px;"><input id="powerpress_no_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_links]" value="1" type="checkbox" <?php echo ($NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display media links', 'powerpress'); ?></span>
 		<?php
 		}
-		?>
-	</div>
-<?php
 	}
 ?>
-			</div>
-		</div>
+				</div>
+			</div><!-- end powerpress_row_content -->
+		</div><!-- end powerpress_row -->
 <?php
 	if( $GeneralSettings['episode_box_mode'] != 1 )
 	{
@@ -213,9 +222,9 @@ function powerpress_meta_box($object, $box)
 				<div style="margin-bottom: 4px;">
 					<input id="powerpress_set_duration_1_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> />
 					<?php echo __('Specify', 'powerpress').': '; ?>
-					<input id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /> HH:MM:SS
+					<input id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" class="powerpress-duration-hh" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" class="powerpress-duration-mm" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" class="powerpress-duration-ss" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" />
 				</div>
 				<div>
 					<input id="powerpress_set_duration_2_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="-1" type="radio" <?php echo ($GeneralSettings['set_duration']==-1?'checked':''); ?> />
@@ -236,6 +245,22 @@ function powerpress_meta_box($object, $box)
 	
 	if( $GeneralSettings['episode_box_mode'] == 2 )
 	{
+		// Video Coverart Image (Poster)
+		if( @$GeneralSettings['episode_box_cover_image'] )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 90%; font-size: 90%;" size="250" />
+			</div>
+			<div class="powerpress_row_content">
+				<em><?php echo __('Poster image for video (m4v, mp4, ogv, webm, etc..). e.g. http://example.com/path/to/image.jpg', 'powerpress'); ?></em>
+			</div>
+		</div>
+<?php
+		}
+
 		// Embed option, enter your own embed code provided by sites such as YouTube, Viddler and Blip.tv
 		if( $GeneralSettings['episode_box_embed'] )
 		{
@@ -249,21 +274,6 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( @$GeneralSettings['episode_box_cover_image'] )
-		{
-?>
-		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Cover Image', 'powerpress'); ?></label>
-			<div class="powerpress_row_content">
-				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 90%; font-size: 90%;" size="250" />
-			</div>
-			<div class="powerpress_row_content">
-				<em><?php echo __('Cover image for Quicktime (m4v, mov, etc..) video only. e.g. http://example.com/path/to/image.jpg', 'powerpress'); ?></em>
-			</div>
-		</div>
-<?php
-		}
-	
 		if( $GeneralSettings['episode_box_keywords'] )
 		{
 ?>

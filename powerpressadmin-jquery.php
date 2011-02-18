@@ -187,6 +187,8 @@ function SelectMedia(File)
 	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='1';
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly=true;
 	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='block';
+	if( self.parent.powerpress_update_for_video )
+		self.parent.powerpress_update_for_video(File, '<?php echo $FeedSlug; ?>');
 	self.parent.tb_remove();
 }
 function SelectURL(url)
@@ -195,6 +197,8 @@ function SelectURL(url)
 	self.parent.document.getElementById('powerpress_hosting_<?php echo $FeedSlug; ?>').value='0';
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly=false;
 	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='none';
+	if( self.parent.powerpress_update_for_video )
+		self.parent.powerpress_update_for_video(File, '<?php echo $FeedSlug; ?>');
 	self.parent.tb_remove();
 }
 function DeleteMedia(File)

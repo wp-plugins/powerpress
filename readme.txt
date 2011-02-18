@@ -146,8 +146,24 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 2.0 =
+* Beta 2.0.0 Released on 2/17/2011
+* Flare Video HTML5 video player with Flash 9 fallback added
+* Ogg/WebM HTML5 Audio and Video player support added
+* Elimation of Simple Mode
+* Video default size is now 400 wide by 225 high (a 16:9 ratio)
+* New Video Player settings pages added.
+* Settings pages enhanced with new options such as location, frequency and T.V. options added
+* Episode Entry box enhanced with new 'isHD' option when video entered into Media URL box
+* New RawVoice RSS namespace added
+* Player logic has been moved to powerpress-player.php, and a new option is available to disable player options completely. When player options disabled completely, the powerpress-player.php is not included in normal page loads.
+* PowerPress updated to be able to import episodes from latest versions of PodPress (change made in February, 2011 in PodPress how episodes are stored in WordPress).
+* New watarmarks added to Episode Entry Box for HH:MM:SS. Watermarks will be incorporated in additional fields in the future.
+* iTunes Update Directory feature (pingPodcast) is slated for removal in next release. Apple no longer supports this feature.
+
+
 =  1.0.13 =
-* Released on 1/10/2010
+* Released on 1/10/2011
 * Added additional support for the 'Podcasting' plugin's [podcast] shortcode. PowerPress will still add its player to the top/bottom of the page for backwards compatibility.
 * Eliminated 2 other situations where warning messages would appear in some cases.
 * Added Simplified Chinese translation to PowerPress. Thanks webmote for translating!

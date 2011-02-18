@@ -213,8 +213,9 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
   <ul class="powerpress_settings_tabs">
 		<li><a href="#feed_tab_feed"><span><?php echo __('Feed Settings', 'powerpress'); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo __('iTunes Settings', 'powerpress'); ?></span></a></li>
+		<li><a href="#feed_tab_itunes"><span><?php echo __('T.V.', 'powerpress'); ?></span></a></li>
 	<?php if( $feed_slug ) { ?>
-		<li><a href="#feed_tab_appearance"><span><?php echo __('Appearance', 'powerpress'); ?></span></a></li>
+		<li><a href="#feed_tab_appearance"><span><?php echo __('Media Appearance', 'powerpress'); ?></span></a></li>
 		<li><a href="#feed_tab_other"><span><?php echo __('Other Settings', 'powerpress'); ?></span></a></li> 
 	<?php } ?>
 	<?php if( $cat_ID ) { ?>
@@ -237,6 +238,12 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 		if( $feed_slug != 'podcast' )
 			powerpressadmin_edit_itunes_general($General, $FeedSettings, $feed_slug, $cat_ID);
 		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug, $cat_ID);
+		?>
+	</div>
+	
+	<div id="feed_tab_tv" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
 		?>
 	</div>
 	
@@ -301,15 +308,10 @@ function powerpressadmin_edit_category_feed($FeedSettings, $General)
 
 function powerpressadmin_edit_feed_general($FeedSettings, $General)
 {
-	$AdvancedMode = $General['advanced_mode'];
 ?>
 <h3>Podcast Feeds</h3>
 <table class="form-table">
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
 <tr valign="top">
 <th scope="row">
 
@@ -348,9 +350,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 	<p style="margin-top: 5px; margin-bottom: 0;"><?php echo __('Main RSS2 Feed', 'powerpress'); ?>: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="<?php echo __('Main RSS 2 Feed', 'powerpress'); ?>" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 </td>
 </tr>
-<?php
-	}
-?>
+
 <tr valign="top">
 <th scope="row">
 
@@ -530,10 +530,7 @@ else
 </td>
 </tr>
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
+<!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
 
@@ -566,10 +563,36 @@ if( isset($Languages[ $rss_language ]) )
 <input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
 </td>
 </tr>
-<?php
-	} // end advanced_mode
-?>
+<!-- end advanced features -->
+
 </table>
+
+<!-- Location and frequency information -->
+<?php
+	if( !isset($FeedSettings['location']) )
+		$FeedSettings['location'] = '';
+	if( !isset($FeedSettings['frequency']) )
+		$FeedSettings['frequency'] = '';
+?>
+<h3><?php echo __('Basic Show Information', 'powerpress'); ?></h3>
+<div id="rawvoice_basic_options">
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __('Location', 'powerpress'); ?></th> 
+<td>
+	<input type="text" style="width: 300px;" name="Feed[location]" value="<?php echo $FeedSettings['location']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
+	<p><?php echo __('e.g. Cleveland, Ohio', 'powerpress'); ?></p>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?></th> 
+<td>
+	<input type="text" style="width: 300px;" name="Feed[frequency]" value="<?php echo $FeedSettings['frequency']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
+	<p><?php echo __('e.g. Weekly', 'powerpress'); ?></p>
+</td>
+</tr>
+</table>
+</div>
 <?php
 }
 
@@ -766,12 +789,19 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 	
 ?>
 <h3><?php echo __('iTunes Feed Settings', 'powerpress'); ?></h3>
-<table class="form-table">
-	
+
 <?php
-	if( !empty($General['advanced_mode']) )
-	{
+	$AdvancediTunesSettings = !empty($FeedSettings['itunes_summary']);
+	if( !empty($FeedSettings['itunes_subtitle']) )
+		$AdvancediTunesSettings = true;
+	
+	if( !$AdvancediTunesSettings ) {
 ?>
+	<div style="margin-left: 230px; margin-bottom: 10px; font-weight: bold;"><a href="#" onclick="document.getElementById('advanced_itunes_settings').style.display='block';return false;"><?php echo __('Show Advanced iTunes Settings', 'powerpress'); ?></a></div>
+<?php } ?>
+<!-- start advanced features -->
+<div id="advanced_itunes_settings" <?php echo ($AdvancediTunesSettings?'':'style="display: none;"'); ?>>
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Program Subtitle', 'powerpress'); ?> <br />
@@ -805,7 +835,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application.', 'powerpress'); ?>
 </p>
 <p><strong>
-	<?php echo __('Note: With the recent laungh of iTunes web site during the summer of 2010, Optimize iTunes Summary\'s clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature.', 'powerpress'); ?>
+	<?php echo __('Note: With the recent launch of iTunes web site during the summer of 2010, Optimize iTunes Summary\'s clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature.', 'powerpress'); ?>
 </strong></p>
 <?php } else { ?>
 
@@ -818,9 +848,11 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 <?php } ?>
 </td>
 </tr>
-<?php
-	}
-?>
+</table>
+</div>
+<!-- end advanced features -->
+
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Program Keywords', 'powerpress'); ?> <br />
@@ -836,8 +868,14 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 <?php echo __('iTunes Category', 'powerpress'); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_1]" style="width: 60%;">
+<select name="Feed[itunes_cat_1]" class="bpp_input_med">
 <?php
+
+$MoreCategories = false;
+if( !empty($FeedSettings['itunes_cat_2']) )
+	$MoreCategories = true;
+else if( !empty($FeedSettings['itunes_cat_3']) ) 
+	$MoreCategories = true;
 
 $Categories = powerpress_itunes_categories(true);
 
@@ -849,19 +887,24 @@ while( list($value,$desc) = each($Categories) )
 reset($Categories);
 ?>
 </select>
+<?php
+	if( !$MoreCategories ) { ?>
+	<a href="#" onclick="document.getElementById('more_itunes_cats').style.display='block';return false;"><?php echo __('more', 'powerpress'); ?></a>
+<?php } ?>
 </td>
 </tr>
+</table>
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
+
+<!-- start advanced features -->
+<div id="more_itunes_cats" style="display: <?php echo ($MoreCategories?'block':'none'); ?>;">
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Category 2', 'powerpress'); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_2]" style="width: 60%;">
+<select name="Feed[itunes_cat_2]" class="bpp_input_med">
 <?php
 
 
@@ -882,7 +925,7 @@ reset($Categories);
 <?php echo __('iTunes Category 3', 'powerpress'); ?> 
 </th>
 <td>
-<select name="Feed[itunes_cat_3]" style="width: 60%;">
+<select name="Feed[itunes_cat_3]" class="bpp_input_med">
 <?php
 
 echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
@@ -895,10 +938,12 @@ reset($Categories);
 </select>
 </td>
 </tr>
-<?php
-	} // end advanced_mode
-?>
+</table>
+</div>
+<!-- end advanced features -->
 
+
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Explicit', 'powerpress'); ?> 
@@ -938,38 +983,32 @@ while( list($value,$desc) = each($explicit) )
 </td>
 </tr>
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
+
+<!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Talent Name', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[itunes_talent_name]"style="width: 60%;"  value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
+<input type="text" name="Feed[itunes_talent_name]" class="bpp_input_med" value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
 <div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> <?php echo __('Use blog post author\'s name for individual episodes.', 'powerpress'); ?></div>
 
 </td>
 </tr>
-<?php
-	}
-?>
+<!-- end advanced features -->
+
 
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Email', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[email]"  style="width: 60%;" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
+<input type="text" name="Feed[email]" class="bpp_input_med" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
 <div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>)</div>
 </td>
 </tr>
 
-<?php
-	if( @$General['advanced_mode'] )
-	{
-?>
+<!-- start advanced features -->
 	<tr valign="top">
 	<th scope="row" >
 
@@ -1028,9 +1067,7 @@ while( list($value,$desc) = each($explicit) )
 		</div>
 	</td>
 	</tr>
-<?php
-	} // end advanced_mode
-?>
+	<!-- end advanced features -->
 
 </table>
 <?php

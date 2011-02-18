@@ -231,7 +231,7 @@ function powerpress_admin_customfeeds()
 	<?php echo __('Example 2: You have a video podcast with multiple file formats. Use the default podcast channel for the main media that you want to appear on your blog (e.g. m4v). Create additional channels for the remaining formats (e.g. wmv, mov, mpeg).', 'powerpress'); ?>
 </p>
 <p>
-	<?php echo __('Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channels for your full length episodes.', 'powerpress'); ?>
+	<?php echo __('Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channel for your full length episodes.', 'powerpress'); ?>
 </p>
 
 <?php

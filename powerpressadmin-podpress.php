@@ -64,7 +64,7 @@ if( !function_exists('add_action') )
 		$query = "SELECT p.ID, p.post_title, p.post_date, pm.meta_value ";
 		$query .= "FROM {$wpdb->posts} AS p ";
 		$query .= "INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id ";
-		$query .= "WHERE pm.meta_key = 'podPressMedia' ";
+		$query .= "WHERE (pm.meta_key = 'podPressMedia' OR pm.meta_key = '_podPressMedia') ";
 		$query .= "AND p.post_type != 'revision' ";
 		$query .= "GROUP BY p.ID ";
 		$query .= "ORDER BY p.post_date DESC ";

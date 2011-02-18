@@ -1,14 +1,26 @@
 <?php
 // PowerPress Player settings page
+
+require_once( POWERPRESS_ABSPATH. '/powerpress-player.php'); // Include, if not included already
 	
-function powerpress_admin_players()
+function powerpress_admin_players($type='audio')
 {
 	$General = powerpress_get_settings('powerpress_general');
 	$select_player = false;
 	if( isset($_GET['sp']) )
 		$select_player = true;
-	else if( !isset($General['player']) )
-		$select_player = true;
+
+	if( $type == 'video' )
+	{
+		if( !isset($General['video_player']) )
+			$select_player = true;
+	}
+	else
+	{
+		if( !isset($General['player']) )
+			$select_player = true;
+	}
+	
 		
 	$Audio = array();
 	$Audio['default'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/FlowPlayerClassic.mp3';
@@ -17,7 +29,10 @@ function powerpress_admin_players()
 	$Audio['simple_flash'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/Simple_Flash_MP3_Player.mp3';
 	$Audio['audioplay'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/AudioPlay.mp3';
 		
-		
+	
+	$Video = array();
+	$Video['flare-player'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/FlarePlayer.mp4';
+	$Video['flow-player-classic'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/FlowPlayerClassic.flv';
 		/*
 		<div><
 		object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="30" height="30">
@@ -113,41 +128,82 @@ input#colorpicker-value-input {
 	if( $select_player )
 	{
 ?>
-<script language="javascript" type="text/javascript">
-function powerpress_activate_player(Player)
-{
-	jQuery('#player_'+Player).attr('checked', true);
-	jQuery("form:first").submit();
-	return false;
-}
-</script>
 <input type="hidden" name="action" value="powerpress-select-player" />
 <h2><?php echo __('Blubrry PowerPress Player Options', 'powerpress'); ?></h2>
 <p style="margin-bottom: 0;"><?php echo __('Select the media player you would like to use.', 'powerpress'); ?></p>
+
+<?php
+		if( $type == 'video' )
+		{
+?>
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Select Player', 'powerpress'); ?></th>  
+<th scope="row">&nbsp;</th>  
 <td>
-
 	<ul>
-		<li><label><input type="radio" name="Player[player]" id="player_default" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> />
-		<?php echo __('Flow Player Classic (default)', 'powerpress'); ?></label>
-			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('default');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_flare_player" value="flare-player" <?php if( @$General['video_player'] == 'flare-player' ) echo 'checked'; ?> /> <?php echo __('Flare Player', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_flare_player" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		</li>
+		<li style="margin-left: 30px; margin-bottom:16px;">
+			<p>
+            <?php
+						echo powerpressplayer_build_flareplayer( $Video['flare-player'] );
+					?>
+			</p>
+			<p>
+				<?php echo __('Flare Player is a freeware HTML5 video player with flash fallback. Player supports m4v/mp4 (H.264) as well as Flash flv video media.', 'powerpress'); ?>
+			</p>
+			<p>
+				<?php echo __('Flare Player was chosen as the default video player in Blubrry PowerPress because it supports HTML5 video and also includes backwards compatibility with Flash.', 'powerpress'); ?>
+			</p>
+		</li>
+		
+		
+		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_flow_player_classic_player" value="flow-player-classic" <?php if( @$General['video_player'] == 'flow-player-classic' ) echo 'checked'; ?> />
+		<?php echo __('Flow Player Classic', 'powerpress'); ?></label>
+			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_flow_player_classic_player" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 <?php
-			$media_url = '';
-			$content = '';
-			$content .= '<div id="flow_player_classic"></div>'.PHP_EOL;
-			$content .= '<script type="text/javascript">'.PHP_EOL;
-			$content .= "pp_flashembed(\n";
-			$content .= "	'flow_player_classic',\n";
-			$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: 320, height: 24 },\n";
-			$content .= "	{config: { autoPlay: false, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$Audio['default']}', loop: false, autoRewind: true } }\n";
-			$content .= ");\n";
-			$content .= "</script>\n";
-			echo $content;
+		echo powerpressplayer_build_flowplayerclassic( $Video['flow-player-classic'] );
+?>
+			</p>
+			<p>
+				<?php echo __('Flow Player Classic is an open source flash player that supports both audio (mp3 only) and video (flv only) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control.', 'powerpress'); ?>
+			</p>
+			<!--
+			<p>
+				<?php echo __('Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and flash video.', 'powerpress'); ?>
+			</p> -->
+		</li>
+		
+		
+		
+		
+	</ul>
+
+</td>
+</tr>
+</table>
+<?php
+		}
+		else
+		{
+?>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">&nbsp;</th>  
+<td>
+	<ul>
+		<li><label><input type="radio" name="Player[player]" id="player_default" value="default" <?php if( $General['player'] == 'default' || !isset($General['default']) ) echo 'checked'; ?> />
+		<?php echo __('Flow Player Classic (default)', 'powerpress'); ?></label>
+			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_default" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		</li>
+		<li style="margin-left: 30px; margin-bottom:16px;">
+			<p>
+<?php
+			echo powerpressplayer_build_flowplayerclassic( $Audio['default'] );
 ?>
 			</p>
 			<p>
@@ -159,13 +215,13 @@ function powerpress_activate_player(Player)
 		</li>
 		
 		<li><label><input type="radio" name="Player[player]" id="player_audio_player" value="audio-player" <?php if( $General['player'] == 'audio-player' ) echo 'checked'; ?> /> <?php echo __('1 Pixel Out Audio Player', 'powerpress'); ?></label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audio_player');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_audio_player" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
-<script language="JavaScript" src="<?php echo powerpressplayer_get_root_url();?>audio-player.js"></script>
-<object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="290">
-<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" />
+<script language="JavaScript" src="<?php echo powerpress_get_root_url();?>audio-player.js"></script>
+<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="290">
+<param name="movie" value="<?php echo powerpress_get_root_url();?>/audio-player.swf" />
 <param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?>" />
 <param name="quality" value="high" />
 <param name="menu" value="false" />
@@ -177,12 +233,12 @@ function powerpress_activate_player(Player)
 		</li>
 		
 		<li><label><input type="radio" name="Player[player]" id="player_flashmp3_maxi" value="flashmp3-maxi" <?php if( $General['player'] == 'flashmp3-maxi' ) echo 'checked'; ?> /> <?php echo __('Mp3 Player Maxi', 'powerpress'); ?></label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('flashmp3_maxi');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_flashmp3_maxi" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
-				<object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>player_mp3_maxi.swf" width="200" height="20">
-    <param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>player_mp3_maxi.swf" />
+				<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url(); ?>player_mp3_maxi.swf" width="200" height="20">
+    <param name="movie" value="<?php echo powerpress_get_root_url(); ?>player_mp3_maxi.swf" />
     <param name="bgcolor" value="#ffffff" />
     <param name="FlashVars" value="mp3=<?php echo $Audio['flashmp3-maxi']; ?>&amp;showstop=1&amp;showinfo=1&amp;showvolume=1" />
 </object>
@@ -193,13 +249,13 @@ function powerpress_activate_player(Player)
 		</li>
 		
 		<li><label><input type="radio" name="Player[player]" id="player_simple_flash" value="simple_flash" <?php if( $General['player'] == 'simple_flash' ) echo 'checked'; ?> /> <?php echo __('Simple Flash MP3 Player', 'powerpress'); ?></label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('simple_flash');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_simple_flash" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
 
-    <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
-    <param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" />
+    <object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
+    <param name="movie" value="<?php echo powerpress_get_root_url(); ?>simple_mp3.swf" />
     <param name="wmode" value="transparent" />
     <param name="FlashVars" value="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" />
     <param name="quality" value="high" />
@@ -212,17 +268,17 @@ function powerpress_activate_player(Player)
 		</li>
 		
 		<li><label><input type="radio" name="Player[player]" id="player_audioplay" value="audioplay" <?php if( $General['player'] == 'audioplay' ) echo 'checked'; ?> /> <?php echo __('AudioPlay', 'powerpress'); ?></label>
-			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" onclick="return powerpress_activate_player('audioplay');"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_audioplay" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p>
                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="30" height="30">
-			<param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>audioplay.swf?buttondir=<?php echo powerpressplayer_get_root_url(); ?>buttons/negative" />
+			<param name="movie" value="<?php echo powerpress_get_root_url(); ?>audioplay.swf?buttondir=<?php echo powerpress_get_root_url(); ?>buttons/negative" />
 			<param name="quality" value="high" />
 			<param name="bgcolor" value="#FFFFFF" />
 			
-                        <param name="FlashVars" value="buttondir=<?php echo powerpressplayer_get_root_url(); ?>buttons/negative&amp;mode=playstop" />
-			    <embed src="<?php echo powerpressplayer_get_root_url(); ?>audioplay.swf?file=<?php echo $Audio['audioplay']; ?>&amp;auto=no&amp;&sendstop=yes&amp;repeat=1&amp;mode=playpause&amp;buttondir=<?php echo powerpressplayer_get_root_url(); ?>buttons/negative" quality=high bgcolor=#FFFFFF width="30" height="30"
+                        <param name="FlashVars" value="buttondir=<?php echo powerpress_get_root_url(); ?>buttons/negative&amp;mode=playstop" />
+			    <embed src="<?php echo powerpress_get_root_url(); ?>audioplay.swf?file=<?php echo $Audio['audioplay']; ?>&amp;auto=no&amp;&sendstop=yes&amp;repeat=1&amp;mode=playpause&amp;buttondir=<?php echo powerpress_get_root_url(); ?>buttons/negative" quality=high bgcolor=#FFFFFF width="30" height="30"
 				align="" TYPE="application/x-shockwave-flash"
 				pluginspage="http://www.macromedia.com/go/getflashplayer">
 			    </embed>
@@ -241,6 +297,9 @@ function powerpress_activate_player(Player)
 </td>
 </tr>
 </table>
+<?php
+		}
+?>
 <h4 style="margin-bottom: 0;"><?php echo __('Click \'Save Changes\' to activate and configure selected player.', 'powerpress'); ?></h4>
 <?php
 	}
@@ -248,9 +307,16 @@ function powerpress_activate_player(Player)
 	{
 ?>
 <h2><?php echo __('Configure Player', 'powerpress'); ?></h2>
-<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>"><?php echo __('Select a different flash player', 'powerpress'); ?></a></strong></p>
+<?php if( $type == 'audio' ) { ?>
+<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>"><?php echo __('Select a different audio player', 'powerpress'); ?></a></strong></p>
+<?php } else { ?>
+<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_videoplayer.php&amp;sp=1"); ?>"><?php echo __('Select a different video player', 'powerpress'); ?></a></strong></p>
 <?php 
-		// Start adding logic here to display options based on the player selected...
+	}
+		
+	 // Start adding logic here to display options based on the player selected...
+	 if( $type == 'audio' )
+	 {
 		switch( $General['player'] )
 		{
 			case 'audio-player': {
@@ -320,8 +386,8 @@ function update_audio_player()
 	if( myWidth < 10 || myWidth > 900 )
 		myWidth = 290;
 	
-	var out = '<object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" width="'+myWidth+'" height="24">'+"\n";
-	out += '    <param name="movie" value="<?php echo powerpressplayer_get_root_url();?>/audio-player.swf" />'+"\n";
+	var out = '<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url();?>/audio-player.swf" width="'+myWidth+'" height="24">'+"\n";
+	out += '    <param name="movie" value="<?php echo powerpress_get_root_url();?>/audio-player.swf" />'+"\n";
 	out += '    <param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?>';
 	
 	var x = 0;
@@ -369,7 +435,7 @@ function update_audio_player()
 
 function audio_player_defaults()
 {
- 	if( confirm('<?php echo __("Set defaults, are you sure?\n\nAll of the current settings will be overwritten!", 'powerpress'); ?>') )
+ 	if( confirm('<?php echo __("Set defaults, are you sure?\\n\\nAll of the current settings will be overwritten!", 'powerpress'); ?>') )
 	{
 		jQuery('#player_width').val('290');
 		UpdatePlayerPreview('player_width',jQuery('#player_width').val() );
@@ -472,8 +538,8 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div id="player_preview">
-<object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="<?php echo $PlayerSettings['width']; ?>">
-<param name="movie" value="<?php echo powerpressplayer_get_root_url();?>audio-player.swf" />
+<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url();?>audio-player.swf" id="audioplayer1" height="24" width="<?php echo $PlayerSettings['width']; ?>">
+<param name="movie" value="<?php echo powerpress_get_root_url();?>audio-player.swf" />
 <param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?><?php echo $flashvars;?>" />
 <param name="quality" value="high" />
 <param name="menu" value="false" />
@@ -796,8 +862,8 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<p>
-    <object type="application/x-shockwave-flash" data="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
-    <param name="movie" value="<?php echo powerpressplayer_get_root_url(); ?>simple_mp3.swf" />
+    <object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url(); ?>simple_mp3.swf" width="150" height="50">
+    <param name="movie" value="<?php echo powerpress_get_root_url(); ?>simple_mp3.swf" />
     <param name="wmode" value="transparent" />
     <param name="FlashVars" value="url=<?php echo $Audio['simple_flash']; ?>&amp;autostart=false" />
     <param name="quality" value="high" />
@@ -928,7 +994,7 @@ function audio_player_defaults()
 
 function audio_player_defaults()
 {
-	if( confirm('<?php echo __("Set defaults, are you sure?\n\nAll of the current settings will be overwritten!'", 'powerpress'); ?>) )
+	if( confirm('<?php echo __("Set defaults, are you sure?\\n\\nAll of the current settings will be overwritten!'", 'powerpress'); ?>) )
 	{
 		jQuery('#bgcolor1').val('#7c7c7c');
 		UpdatePlayerPreview('bgcolor1',jQuery('#bgcolor1').val() );
@@ -1024,8 +1090,8 @@ function audio_player_defaults()
 			<div id="player_preview">
 <?php 
 
-$content = '<object type="application/x-shockwave-flash" data="'. powerpressplayer_get_root_url().'player_mp3_maxi.swf" width="'. $width.'" height="'. $height .'">'.PHP_EOL;
-$content .=  '<param name="movie" value="'. powerpressplayer_get_root_url().'player_mp3_maxi.swf" />'.PHP_EOL;
+$content = '<object type="application/x-shockwave-flash" data="'. powerpress_get_root_url().'player_mp3_maxi.swf" width="'. $width.'" height="'. $height .'">'.PHP_EOL;
+$content .=  '<param name="movie" value="'. powerpress_get_root_url().'player_mp3_maxi.swf" />'.PHP_EOL;
 $content .= $transparency.PHP_EOL;
 $content .= $flashvars;
 $content .= '</object>'.PHP_EOL;
@@ -1364,7 +1430,7 @@ $content .= '</object>'.PHP_EOL;
 
 <script type="text/javascript">
 
-	generator.player = '<?php echo powerpressplayer_get_root_url(); ?>player_mp3_maxi.swf';
+	generator.player = '<?php echo powerpress_get_root_url(); ?>player_mp3_maxi.swf';
 	generator.addParam("gen_mp3", "mp3", "url", '');
 	generator.addParam("player_height", "height", "int", "20");
 	generator.addParam("player_width", "width", "int", "200");
@@ -1423,9 +1489,9 @@ $content .= '</object>'.PHP_EOL;
                                 }
                                 
                                 if($PlayerSettings['buttondir'] == "") {
-                                    $flashvars .= "&amp;buttondir=".powerpressplayer_get_root_url()."buttons/negative";
+                                    $flashvars .= "&amp;buttondir=".powerpress_get_root_url()."buttons/negative";
                                 }else{
-                                    $flashvars .= "&amp;buttondir=".powerpressplayer_get_root_url().'buttons/'.$PlayerSettings['buttondir'];
+                                    $flashvars .= "&amp;buttondir=".powerpress_get_root_url().'buttons/'.$PlayerSettings['buttondir'];
                                     
                                 }
 																
@@ -1447,12 +1513,12 @@ $content .= '</object>'.PHP_EOL;
 			<div id="player_preview">
                         
 <?php                                                                         
-$content = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'">'.PHP_EOL;
-$content .= '<param name="movie" value="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'" />'.PHP_EOL;
+$content = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="'. powerpress_get_root_url().'audioplay.swf?'.$flashvars.'">'.PHP_EOL;
+$content .= '<param name="movie" value="'. powerpress_get_root_url().'audioplay.swf?'.$flashvars.'" />'.PHP_EOL;
 $content .= '<param name="quality" value="high" />'.PHP_EOL;
 $content .= $transparency.PHP_EOL;
 $content .= '<param name="FlashVars" value="'.$flashvars.'" />'.PHP_EOL;
-$content .= '<embed src="'. powerpressplayer_get_root_url().'audioplay.swf?'.$flashvars.'" quality="high"  width="30" height="30" type="application/x-shockwave-flash">'.PHP_EOL;
+$content .= '<embed src="'. powerpress_get_root_url().'audioplay.swf?'.$flashvars.'" quality="high"  width="30" height="30" type="application/x-shockwave-flash">'.PHP_EOL;
 $content .= "</embed>\n		</object>\n";
 
 print $content;
@@ -1525,7 +1591,7 @@ print $content;
                                             }
 
                                         }
-                                        echo '<tr><td><input type="radio" name="Player[buttondir]" value="'. $option .'"'. $selected .' /></td>'.$td.'<img src="'. powerpressplayer_get_root_url().'buttons/'.$option.'/playup.png" /></td><td>'.$name.' Button '.$warning.'</td></tr>';
+                                        echo '<tr><td><input type="radio" name="Player[buttondir]" value="'. $option .'"'. $selected .' /></td>'.$td.'<img src="'. powerpress_get_root_url().'buttons/'.$option.'/playup.png" /></td><td>'.$name.' Button '.$warning.'</td></tr>';
                                 }?>
                                 
                             </table>
@@ -1549,36 +1615,131 @@ print $content;
 		<td>
 			<p>
 <?php
-			$media_url = '';
-			$content = '';
-			$content .= '<div id="flow_player_classic"></div>'.PHP_EOL;
-			$content .= '<script type="text/javascript">'.PHP_EOL;
-			$content .= "pp_flashembed(\n";
-			$content .= "	'flow_player_classic',\n";
-			$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: 320, height: 24 },\n";
-			$content .= "	{config: { autoPlay: false, autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$Audio['default']}', loop: false, autoRewind: true } }\n";
-			$content .= ");\n";
-			$content .= "</script>\n";
-			echo $content;
+			echo powerpressplayer_build_flowplayerclassic( $Audio['default'] );
 ?>
 			</p>
 		</td>
 	</tr>
-	
+</table>
+
+<h2><?php echo __('General Settings', 'powerpress'); ?></h2>
+	<table class="form-table">
+        <tr valign="top">
+		<th scope="row">
+			<?php echo __('Width', 'powerpress'); ?>   
+		</th>
+		<td valign="top">
+				<input type="text" style="width: 50px;" id="player_width" name="General[player_width_audio]" class="player-width" value="<?php echo $General['player_width_audio']; ?>" maxlength="4" />
+			<?php echo __('Width of Audio mp3 player (leave blank for 320 default)', 'powerpress'); ?>
+		</td>
+	</tr>
+</table>
+<?php
+			} break;
+		}
+	 }
+	 else // Video
+	 {
+			switch( $General['video_player'] )
+			{
+				case 'flow-player-classic': {
+					?>
+<table class="form-table">
 	<tr valign="top">
 		<th scope="row">
-			&nbsp;
+			<?php echo __('Preview of Player', 'powerpress'); ?> 
 		</th>
 		<td>
-			<p><?php echo __('Flow Player Classic has no additional settings.', 'powerpress'); ?></p>
+			<p>
+<?php
+			echo powerpressplayer_build_flowplayerclassic( $Video['flow-player-classic'] );
+?>
+			</p>
 		</td>
 	</tr>
 </table>
 
-
+					<?php
+				}; break;
+				case 'flare-player': {
+					?>
+<table class="form-table">
+	<tr valign="top">
+		<th scope="row">
+			<?php echo __('Preview of Player', 'powerpress'); ?> 
+		</th>
+		<td>
+			<p>
 <?php
-			} break;
-		}
+				echo powerpressplayer_build_flareplayer( $Video['flare-player'] );
+?>
+			</p>
+		</td>
+	</tr>
+</table>
+
+					<?php
+				}; break;
+			}
+?>
+<!-- Global Video Player settings (Appy to all video players -->
+<h3><?php echo __('Common Settings', 'powerpress'); ?></h3>
+<p><?php echo __('The following video settings apply to the video player above as well as to classic video &lt;embed&gt; formats such as Microsoft Windows Media (.wmv), QuickTime (.mov) and RealPlayer.', 'powerpress'); ?></p>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __('Player Width', 'powerpress'); ?>
+</th>
+<td>
+<input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_width']; ?>" maxlength="4" />
+<?php echo __('Width of player (leave blank for 320 default)', 'powerpress'); ?>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __('Player Height', 'powerpress'); ?>
+</th>
+<td>
+<input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['player_height']; ?>" maxlength="4" />
+<?php echo __('Height of player (leave blank for 240 default)', 'powerpress'); ?>
+</td>
+</tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __('QuickTime Scale', 'powerpress'); ?></th>
+<td>
+	<select name="General[player_scale]" class="bpp_input_sm" onchange="javascript:jQuery('#player_scale_custom').css('display', (this.value=='tofit'||this.value=='aspect'? 'none':'inline' ))">
+<?php
+	$scale_options = array('tofit'=>__('ToFit (default)', 'powerpress'), 'aspect'=>__('Aspect', 'powerpress') ); 
+	if( !isset($General['player_scale']) )
+		$General['player_scale'] = 'tofit'; // Tofit works in almost all cases
+	
+	if( is_numeric($General['player_scale']) )
+		$scale_options[ $General['player_scale'] ]= __('Custom', 'powerpress');
+	else
+		$scale_options['custom']= __('Custom', 'powerpress');
+
+
+
+while( list($value,$desc) = each($scale_options) )
+	echo "\t<option value=\"$value\"". ($General['player_scale']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+</select>
+<span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
+	<?php echo __('Scale:', 'powerpress'); ?> <input type="text" name="PlayerScaleCustom" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9.]/g, '');" value="<?php echo (is_numeric($General['player_scale'])?$General['player_scale']:''); ?>" maxlength="4" /> <?php echo __('e.g.', 'powerpress'); ?> 1.5
+</span>
+<p style="margin-top: 5px; margin-bottom: 0;">
+	<?php echo __('If you do not see video, adjust the width, height and scale settings above.', 'powerpress'); ?>
+</p>
+</td>
+</tr>
+
+</table>
+<?php
+	 }
 ?>
 
 <?php

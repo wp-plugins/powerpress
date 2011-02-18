@@ -254,7 +254,6 @@
 		$message .= "<br />\n";
 		$message .= '<strong>'. __('Important PowerPress Settings', 'powerpress') ."</strong><br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:', 'powerpress') .' '. POWERPRESS_VERSION ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('advanced mode:', 'powerpress') .' '. ( !empty($SettingsGeneral['advanced_mode']) ?'true':'false') ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:', 'powerpress') .' '. ( empty($SettingsGeneral['episode_box_mode']) ?__('normal', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('simple', 'powerpress'):__('advanced', 'powerpress')) ) ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:', 'powerpress') .' '. ( empty($SettingsGeneral['use_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:', 'powerpress') .' '. ( empty($SettingsGeneral['feed_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
@@ -273,12 +272,12 @@
 		$message .= " &nbsp; \t &nbsp; ". __('message 2:', 'powerpress') .' '. $powerpress_diags['detecting_media']['message2'] ."<br />\n";
 		
 		// Pinging iTunes
-		$message .= "<br />\n";
-		$message .= '<strong>'.__('Pinging iTunes', 'powerpress') ."</strong><br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('curl_ssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('openssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['pinging_itunes']['message'] ."<br />\n";
+		//$message .= "<br />\n";
+		//$message .= '<strong>'.__('Pinging iTunes', 'powerpress') ."</strong><br />\n";
+		//$message .= " &nbsp; \t &nbsp; ". __('success:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['success']?'true':'false') ."<br />\n";
+		//$message .= " &nbsp; \t &nbsp; ". __('curl_ssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['curl_ssl']?'true':'false') ."<br />\n";
+		//$message .= " &nbsp; \t &nbsp; ". __('openssl:', 'powerpress') .' '. ($powerpress_diags['pinging_itunes']['openssl']?'true':'false') ."<br />\n";
+		//$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['pinging_itunes']['message'] ."<br />\n";
 		
 		// Uploading Artwork
 		$message .= "<br />\n";
@@ -421,6 +420,7 @@
 </tr>
 </table>
 
+<!--
 <h3 style="margin-bottom: 0;"><?php echo __('Pinging iTunes', 'powerpress'); ?></h3>
 <p style="margin: 0;"><?php echo __('The following test checks to see that your web server can make connections with Apple\'s secure ping server.', 'powerpress'); ?></p>
 <table class="form-table">
@@ -436,6 +436,7 @@
 </td>
 </tr>
 </table>
+-->
 
 <h3 style="margin-bottom: 0;"><?php echo __('Uploading Artwork', 'powerpress'); ?></h3>
 <p style="margin: 0;"><?php echo __('The following test checks to see that you can upload and store files on your web server.', 'powerpress'); ?></p>
