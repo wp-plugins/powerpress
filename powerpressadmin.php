@@ -50,12 +50,18 @@ function powerpress_admin_init()
 	wp_enqueue_script('jquery');
 	//wp_enqueue_script('jquery-ui-core'); // Now including the library at Google
 	//wp_enqueue_script('jquery-ui-tabs');
-	wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
+	
 	// For nice watermarks in admin area
 	wp_enqueue_script('jquery-watermark', powerpress_get_root_url() .'3rdparty/jquery.watermark.min.js');
 	
-	wp_enqueue_script('jquery-flash', powerpress_get_root_url() .'3rdparty/flare_player/jquery.flash.jss');
-	wp_enqueue_script('jquery-flare-player', powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.js');
+	// Powerpress page
+	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
+	{
+		wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
+		wp_enqueue_script('jquery-flash', powerpress_get_root_url() .'3rdparty/flare_player/jquery.flash.jss');
+		wp_enqueue_script('jquery-flare-player', powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.js');
+	}
+	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
 		powerpress_admin_jquery_init();
@@ -220,8 +226,8 @@ function powerpress_admin_init()
 				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
 					$General['display_player_excerpt'] = 0; // Set it to zero.
 				
-				if( !isset($General['display_player_disable_mobile']) )
-					$General['display_player_disable_mobile'] = 0;
+				//if( !isset($General['display_player_disable_mobile']) )
+				//	$General['display_player_disable_mobile'] = 0;
 				
 				$General['disable_dashboard_widget'] = 0;
 				if( !isset($_POST['StatsInDashboard'] ) )
@@ -239,6 +245,8 @@ function powerpress_admin_init()
 					$General['episode_box_no_player_and_links'] = 0;
 				if( !isset($General['episode_box_cover_image'] ) )
 					$General['episode_box_cover_image'] = 0;	
+				if( !isset($General['episode_box_player_size'] ) )
+					$General['episode_box_player_size'] = 0;	
 				if( !isset($General['episode_box_keywords'] ) )
 					$General['episode_box_keywords'] = 0;
 				if( !isset($General['episode_box_subtitle'] ) )
@@ -1112,6 +1120,11 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['no_links'] = 1;
 				if( isset($Powerpress['ishd']) && $Powerpress['ishd'] )
 					$ToSerialize['ishd'] = 1;
+				if( isset($Powerpress['width']) && trim($Powerpress['width']) )
+					$ToSerialize['width'] =stripslashes( trim($Powerpress['width']));
+				if( isset($Powerpress['height']) && trim($Powerpress['height']) )
+					$ToSerialize['height'] = stripslashes(trim($Powerpress['height']));
+					
 				if( isset($Powerpress['no_player_and_links']) && $Powerpress['no_player_and_links'] )
 				{
 					$ToSerialize['no_player'] = 1;
@@ -1552,6 +1565,8 @@ jQuery(document).ready(function($) {
 	jQuery(".powerpress-duration-hh").watermark('HH', {className: 'powerpress-watermark'});
 	jQuery(".powerpress-duration-mm").watermark('MM', {className: 'powerpress-watermark'});
 	jQuery(".powerpress-duration-ss").watermark('SS', {className: 'powerpress-watermark'});
+	jQuery(".powerpress-player-width").watermark('<?php echo __('Width', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+	jQuery(".powerpress-player-height").watermark('<?php echo __('Height', 'powerpress'); ?>', {className: 'powerpress-watermark'});
 	
 	jQuery('.powerpress-url').change(function() {
 	
@@ -2679,8 +2694,8 @@ function powerpress_default_settings($Settings, $Section='basic')
 				$Settings['podcast_link'] = 1;
 			if( !isset($Settings['display_player_excerpt']) )
 					$Settings['display_player_excerpt'] = 0;
-			if( !isset($Settings['display_player_disable_mobile']) )
-					$Settings['display_player_disable_mobile'] = 0;
+			//if( !isset($Settings['display_player_disable_mobile']) )
+			//		$Settings['display_player_disable_mobile'] = 0;
 			
 			// Play in page obsolete, switching here:
 			if( $Settings['player_function'] == 5 )

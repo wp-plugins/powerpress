@@ -211,15 +211,15 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
 ?>
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
   <ul class="powerpress_settings_tabs">
-		<li><a href="#feed_tab_feed"><span><?php echo __('Feed Settings', 'powerpress'); ?></span></a></li>
-		<li><a href="#feed_tab_itunes"><span><?php echo __('iTunes Settings', 'powerpress'); ?></span></a></li>
-		<li><a href="#feed_tab_itunes"><span><?php echo __('T.V.', 'powerpress'); ?></span></a></li>
+		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_tv"><span><?php echo htmlspecialchars(__('T.V. & Video', 'powerpress')); ?></span></a></li>
 	<?php if( $feed_slug ) { ?>
-		<li><a href="#feed_tab_appearance"><span><?php echo __('Media Appearance', 'powerpress'); ?></span></a></li>
-		<li><a href="#feed_tab_other"><span><?php echo __('Other Settings', 'powerpress'); ?></span></a></li> 
+		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_other"><span><?php echo htmlspecialchars(__('Other Settings', 'powerpress')); ?></span></a></li> 
 	<?php } ?>
 	<?php if( $cat_ID ) { ?>
-		<li><a href="#feed_tab_other"><span><?php echo __('Other Settings', 'powerpress'); ?></span></a></li> 
+		<li><a href="#feed_tab_other"><span><?php echo htmlspecialchars(__('Other Settings', 'powerpress')); ?></span></a></li> 
 	<?php } ?>
   </ul>
 	

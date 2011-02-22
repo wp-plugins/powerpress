@@ -92,11 +92,11 @@ jQuery(document).ready(function($) {
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
   <ul class="powerpress_settings_tabs"> 
-		<li><a href="#tab1"><span><?php echo __('Basic Settings', 'powerpress'); ?></span></a></li> 
-		<li><a href="#tab2"><span><?php echo htmlspecialchars(__('Services & Statistics', 'powerpress')); ?></span></a></li>
-		<li><a href="#tab3"><span><?php echo __('Media Appearance', 'powerpress'); ?></span></a></li>
-		<li><a href="#tab4"><span><?php echo __('Feeds', 'powerpress'); ?></span></a></li>
-		<li><a href="#tab5"><span><?php echo __('iTunes', 'powerpress'); ?></span></a></li>
+		<li><a href="#tab1"><span><?php echo htmlspecialchars(__('Basic Settings', 'powerpress')); ?></span></a></li> 
+		<li><a href="#tab2"><span><?php echo htmlspecialchars(__('Services & Stats', 'powerpress')); ?></span></a></li>
+		<li><a href="#tab3"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
+		<li><a href="#tab4"><span><?php echo htmlspecialchars(__('Feeds', 'powerpress')); ?></span></a></li>
+		<li><a href="#tab5"><span><?php echo htmlspecialchars(__('iTunes', 'powerpress')); ?></span></a></li>
 		<li><a href="#tab6"><span><?php echo htmlspecialchars(__('T.V. & Video', 'powerpress')); ?></span></a></li>
   </ul>
 	
@@ -222,6 +222,8 @@ function powerpressadmin_edit_entry_options($General)
 		$General['set_size'] = 0;
 	if( !isset($General['auto_enclose']) )
 		$General['auto_enclose'] = 0;
+	if( !isset($General['episode_box_player_size']) )
+		$General['episode_box_player_size'] = 0;
 ?>
 <h3><?php echo __('Episode Entry Options', 'powerpress'); ?></h3>
 
@@ -275,8 +277,12 @@ function powerpressadmin_edit_entry_options($General)
 						
 					</div>
 				
-					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( @$General['episode_box_cover_image'] ) echo ' checked'; ?> /> <?php echo __('Video Cover Image', 'powerpress'); ?>
-						(<?php echo __('specify URL to image to display in place of QuickTime video', 'powerpress'); ?>)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( @$General['episode_box_cover_image'] ) echo ' checked'; ?> /> <?php echo __('Video Poster Image', 'powerpress'); ?>
+						(<?php echo __('Specify URL to poster artwork specific to each episode', 'powerpress'); ?>)</p>
+						
+					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( @$General['episode_box_player_size'] ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?>
+						(<?php echo __('Customize player width and height on a per episode basis', 'powerpress'); ?>)</p>
+					
 					
 					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( !empty($General['episode_box_keywords']) ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use your blog post tags', 'powerpress'); ?>)</p>
@@ -881,7 +887,7 @@ function powerpressadmin_appearance($General=false)
 			</ul>
 		</li>
 	</ul>
-	<p style="margin-left: 35px;"><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
+	<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
 </td>
 </tr>
 
@@ -908,9 +914,10 @@ function powerpressadmin_appearance($General=false)
 <td>
 
 <p><label><input type="checkbox" name="PlayerSettings[display_media_player]" value="2" <?php if( $General['player_function'] == 1 || $General['player_function'] == 2 ) echo 'checked '; ?>/> <?php echo __('Display Player', 'powerpress'); ?></label></p>
-
+<?php /* ?>
 <p style="margin-left: 35px;"><input type="checkbox" name="General[display_player_disable_mobile]" value="1" <?php if( !empty($General['display_player_disable_mobile']) ) echo 'checked '; ?>/> <?php echo __('Disable Media Player for known mobile devices.', 'powerpress'); ?></p>
-
+<?php */ ?>
+<p><?php echo __('Detected mobile and tablet devices use an HTML5 player with a fallback link to download the media.', 'powerpress'); ?></p>
 </td>
 </tr>
 </table>

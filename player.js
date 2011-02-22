@@ -8,6 +8,7 @@
  * Released under Aoache 2 license:
  * http://www.apache.org/licenses/LICENSE-2.0
  *
+ * versoin 1.3.0 02/18/2011 - Adding HTML5 audio/video tags if format possibly supported around default video embed.
  * versoin 1.2.0 - 07/20/2009 - Major rewrite, we're now replying less upon this javascript to make way for flexibility for adding future players.
  * versoin 1.1.3 - 03/23/2009 - Added code to support FlowPlayer v3.
  * versoin 1.1.2 - 03/04/2009 - Added options to set the width for audio, width and height for video.
@@ -35,6 +36,8 @@ function powerpress_embed_quicktime(div,media_url,width,height,scale)
 		var contentType = 'video/mpeg'; // Default content type
 		if( media_url.indexOf('.m4v') > -1 )
 			contentType = 'video/x-m4v';
+		if( media_url.indexOf('.mp4') > -1 )
+			contentType = 'video/mp4';
 		else if( media_url.indexOf('.m4a') > -1 )
 			contentType = 'audio/x-m4a';
 		else if( media_url.indexOf('.avi') > -1 )
@@ -45,6 +48,8 @@ function powerpress_embed_quicktime(div,media_url,width,height,scale)
 			contentType = 'video/quicktime';
 		
 		var Html = '';
+		if( contentType == 'video/mp4' || contentType == 'video/x-m4v' )
+			Html += '<video src="'+ media_url +'" width="'+ width +'" height="'+ height +'" controls autoplay>';
 		Html += '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="'+ width +'" height="'+ height +'" codebase="http://www.apple.com/qtactivex/qtplugin.cab">\n';
 		Html += '	<param name="src" value="'+ media_url +'" />\n';
 		Html += '	<param name="href" value="'+ media_url +'" />\n';
@@ -54,7 +59,163 @@ function powerpress_embed_quicktime(div,media_url,width,height,scale)
 		Html += '	<param name="pluginspage" value="http://www.apple.com/quicktime/download/" />\n';
 		Html += '	<embed type="'+ contentType +'" src="'+ media_url +'" width="'+ width +'" height="'+ height +'" scale="'+ scale +'" correction="full" cache="true" autoplay="true" controller="true" pluginspage="http://www.apple.com/quicktime/download/"></embed>';
 		Html += '</object>\n';
+		if( contentType == 'video/mp4' || contentType == 'video/x-m4v' )
+			Html += '</video>';
 		document.getElementById(div).innerHTML = Html;
+		return false; // stop the default link from proceeding
+	}
+	
+	return true; // let the default link to the media open...
+}
+
+
+function powerpress_embed_html5iframe(id, url, width, height)
+{
+	if( document.getElementById('powerpress_player_'+id) ) {
+		var Html = '';
+		Html += '<iframe';
+		Html += ' class="powerpress-player-embed"';
+		Html += ' width="' + width +'"';
+		Html += ' height="'+ height +'"';
+		Html += ' src="'+ url +'"';
+		Html += ' frameborder="0"';
+		Html += '></iframe>';
+		document.getElementById('powerpress_player_'+id).innerHTML = Html;
+		alert('good');
+		return false;
+	}
+	return true;
+}
+
+/**
+	Insert embed for H.264 mp4 video, with fallback to WebM
+	
+	@div - specific div to insert embed into
+	@media_url - URL of media file to play
+	@width - width of player
+	@height - height of player
+	@webm_media_url - Alternative WebM media URL
+*/
+function powerpress_embed_html5v(id,media_url,width,height,webm_media_url)
+{
+	if( document.getElementById('powerpress_player_'+id) )
+	{
+		var poster = '';
+		if( document.getElementById('powerpress_player_'+id).getElementsByTagName ) {
+			var images = document.getElementById('powerpress_player_'+id).getElementsByTagName('img');
+			if( images.length && images[0].src )
+				poster = images[0].src;
+		}
+		
+		var contentType = 'video/mp4'; // Default content type
+		if( media_url.indexOf('.webm') > -1 )
+			contentType = 'video/webm';
+		if( media_url.indexOf('.ogg') > -1 || media_url.indexOf('.ogv') > -1 )
+			contentType = 'video/ogg';
+		
+		var v = document.createElement("video");
+		var html5 = false;
+		if( !!v.canPlayType ) {
+			var status = v.canPlayType(contentType);
+			if( status == 'probably' || status == 'maybe' ) {
+				html5 = true;
+			}
+			else if( webm_media_url )
+			{
+				status = v.canPlayType('video/webm');
+				if( status == 'probably' || status == 'maybe' ) {
+					html5 = true;
+				}
+			}
+		}
+		
+		if( html5 ) {
+			var s = document.createElement('source');
+			v.width = width; v.height = height; v.controls = true;
+			if( poster ) v.poster = poster;
+			s.src = media_url; s.type = contentType;
+			v.appendChild(s);
+			if( webm_media_url ) {
+				var s_webm = document.createElement('source');
+				s_webm.src = webm_media_url; s_webm.type = 'video/webm; codecs="vp8, vorbis"';
+				v.appendChild(s_webm);
+			}
+			
+			document.getElementById('powerpress_player_'+id).innerHTML = '';
+			document.getElementById('powerpress_player_'+id).appendChild(v);
+			v.play();
+		} else {
+			delete(v);
+			pp_flashembed(
+				'powerpress_player_'+id,
+			{src: powerpress_url +'FlowPlayerClassic.swf', width: width, height: height, wmode: 'transparent' },
+				{config: { autoPlay: true, autoBuffering: true, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: media_url, loop: false, autoRewind: true, splashImageFile: poster } }
+			);
+		}
+		
+		return false; // stop the default link from proceeding
+	}
+	
+	return true; // let the default link to the media open...
+}
+
+
+/**
+	Insert embed for audio, with fallback to flash (m4a/mp3/ogg)
+	
+	@div - specific div to insert embed into
+	@media_url - URL of media file to play
+	@width - width of player
+	@height - height of player
+	@webm_media_url - Alternative WebM media URL
+*/
+function powerpress_embed_html5a(id,media_url)
+{
+	if( document.getElementById('powerpress_player_'+id) )
+	{
+		var poster = '';
+		if( document.getElementById('powerpress_player_'+id).getElementsByTagName ) {
+			var images = document.getElementById('powerpress_player_'+id).getElementsByTagName('img');
+			if( images.length && images[0].src )
+				poster = images[0].src;
+		}
+		
+		var contentType = 'audio/mpeg3'; // Default content type
+		if( media_url.indexOf('.m4a') > -1 )
+			contentType = 'audio/x-m4a';
+		if( media_url.indexOf('.ogg') > -1 || media_url.indexOf('.oga') > -1 )
+			contentType = 'audio/ogg';
+		
+		var a = document.createElement("audio");
+		var html5 = false;
+		if( !!a.canPlayType ) {
+			var status = a.canPlayType(contentType);
+			if( status == 'probably' || status == 'maybe' ) {
+				html5 = true;
+			}
+		}
+		
+		if( html5 ) {
+			var s = document.createElement('source');
+			a.controls = true;
+			if( poster ) v.poster = poster;
+			s.src = media_url; s.type = contentType;
+			a.appendChild(s);
+			
+			document.getElementById('powerpress_player_'+id).innerHTML = '';
+			document.getElementById('powerpress_player_'+id).appendChild(a);
+			a.play();
+		} else {
+			delete(v);
+			if( contentType != 'audio/ogg') {
+				pp_flashembed(
+					'powerpress_player_'+id,
+					{src: powerpress_url +'FlowPlayerClassic.swf', width: 320, height: 24, wmode: 'transparent' },
+						{config: { autoPlay: true, autoBuffering: true, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: media_url, loop: false, autoRewind: true } }
+					);
+			} else { return true; }
+		}
+		
 		return false; // stop the default link from proceeding
 	}
 	

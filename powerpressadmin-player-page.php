@@ -141,6 +141,7 @@ input#colorpicker-value-input {
 <th scope="row">&nbsp;</th>  
 <td>
 	<ul>
+	<?php /* ?>
 		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_flare_player" value="flare-player" <?php if( @$General['video_player'] == 'flare-player' ) echo 'checked'; ?> /> <?php echo __('Flare Player', 'powerpress'); ?></label>
 			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_flare_player" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
@@ -157,8 +158,7 @@ input#colorpicker-value-input {
 				<?php echo __('Flare Player was chosen as the default video player in Blubrry PowerPress because it supports HTML5 video and also includes backwards compatibility with Flash.', 'powerpress'); ?>
 			</p>
 		</li>
-		
-		
+		<?php */ ?>
 		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_flow_player_classic_player" value="flow-player-classic" <?php if( @$General['video_player'] == 'flow-player-classic' ) echo 'checked'; ?> />
 		<?php echo __('Flow Player Classic', 'powerpress'); ?></label>
 			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_flow_player_classic_player" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
@@ -172,13 +172,72 @@ input#colorpicker-value-input {
 			<p>
 				<?php echo __('Flow Player Classic is an open source flash player that supports both audio (mp3 only) and video (flv only) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control.', 'powerpress'); ?>
 			</p>
-			<!--
+			
 			<p>
 				<?php echo __('Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and flash video.', 'powerpress'); ?>
-			</p> -->
+			</p>
+			
+			<p>
+				<?php echo __('If Flash is not installed, Flow Player includes HTML5 Video support as an alternative.', 'powerpress'); ?>
+			</p>
 		</li>
 		
-		
+		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_html5video" value="html5video" <?php if( @$General['video_player'] == 'html5video' ) echo 'checked'; ?> /> <?php echo __('HTML5 Video Player', 'powerpress'); ?></label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_html5video" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		</li>
+		<li style="margin-left: 30px; margin-bottom:16px;">
+			<p>
+            <?php
+						echo powerpressplayer_build_posterplayer('html5video', $Video['flare-player'] );
+					?>
+			</p>
+			<p>
+				<?php echo __('HTML5 Video Player only works in browsers that support the given video format. See Table below.', 'powerpress'); ?>
+			</p>
+			<table>
+				<tr>
+					<th>Browser</th>
+					<th>H.264 (.mp4/.m4v)</th>
+					<th>WebM (.webm)</th>
+					<th>Theora (.ogg/.ogv)</th>
+				</tr>
+				<tr>
+					<td>IE</td>
+					<td>9.0+</td>
+					<td>n/a</td>
+					<td>n/a</td>
+				</tr>
+				<tr>
+					<td>Firefox</td>
+					<td>n/a</td>
+					<td>4.0+</td>
+					<td>3.5+</td>
+				</tr>
+				<tr>
+					<td>Chrome (1)</td>
+					<td>n/a</td>
+					<td>6.0+</td>
+					<td>5.0+</td>
+				</tr>
+				<tr>
+					<td>Opera</td>
+					<td>n/a</td>
+					<td>10.6+</td>
+					<td>10.5+</td>
+				</tr>
+				<tr>
+					<td>Safari (2)</td>
+					<td>3.0</td>
+					<td>n/a</td>
+					<td>n/a</td>
+				</tr>
+			</table>
+			<p>Note 1: Chrome supported H.264 in previous versions, but no longer supports the format.</p>
+			<p>Note 2: Safari requires QuickTime installed for HTML5 playback.</p>
+			<p>
+				<?php // echo __('Flare Player was chosen as the default video player in Blubrry PowerPress because it supports HTML5 video and also includes backwards compatibility with Flash.', 'powerpress'); ?>
+			</p>
+		</li>
 		
 		
 	</ul>

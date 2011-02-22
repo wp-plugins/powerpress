@@ -23,6 +23,8 @@ function powerpress_meta_box($object, $box)
 	$NoLinks = false;
 	$IsHD = false;
 	$IsVideo = false;
+	$Width = false;
+	$Height = false;
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['set_size']) )
 		$GeneralSettings['set_size'] = 0;
@@ -90,6 +92,10 @@ function powerpress_meta_box($object, $box)
 					$CoverImage = $ExtraData['image'];
 				if( isset($ExtraData['ishd']) )	
 					$IsHD = $ExtraData['ishd'];
+				if( isset($ExtraData['height']) )	
+					$Height = $ExtraData['height'];
+				if( isset($ExtraData['width']) )	
+					$Width = $ExtraData['width'];
 			}
 		}
 		
@@ -246,14 +252,14 @@ function powerpress_meta_box($object, $box)
 	if( $GeneralSettings['episode_box_mode'] == 2 )
 	{
 		// Video Coverart Image (Poster)
-		if( @$GeneralSettings['episode_box_cover_image'] )
+		if( @$GeneralSettings['episode_box_cover_image'] || $CoverImage )
 		{
 			$form_action_url = admin_url("media-upload.php?type=powerpress_image&tab=type&post_id={$object->ID}&powerpress_feed={$FeedSlug}&TB_iframe=true&width=450&height=200");
 ?>
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 90%; font-size: 90%;" size="250" />
+				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 70%; font-size: 90%;" size="250" />
 				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-image-browser" id="powerpress_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select Poster Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 			<div class="powerpress_row_content">
@@ -263,8 +269,23 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 
+		// Player width/height
+		if( $GeneralSettings['episode_box_player_size'] || $Width || $Height )
+		{
+?>
+		<div class="powerpress_row">
+			<label><?php echo __('Player Size', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_player_width_<?php echo $FeedSlug; ?>" class="powerpress-player-width" name="Powerpress[<?php echo $FeedSlug; ?>][width]" value="<?php echo htmlspecialchars($Width); ?>" style="width: 50px; font-size: 90%;" size="5" />
+				x
+				<input id="powerpress_player_height_<?php echo $FeedSlug; ?>" class="powerpress-player-height" name="Powerpress[<?php echo $FeedSlug; ?>][height]" value="<?php echo htmlspecialchars($Height); ?>" style="width: 50px; font-size: 90%;" size="5" />
+			</div>
+		</div>
+<?php
+		}
+		
 		// Embed option, enter your own embed code provided by sites such as YouTube, Viddler and Blip.tv
-		if( $GeneralSettings['episode_box_embed'] )
+		if( $GeneralSettings['episode_box_embed'] || $Embed )
 		{
 ?>
 		<div class="powerpress_row">
@@ -276,7 +297,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_keywords'] )
+		if( $GeneralSettings['episode_box_keywords'] || $iTunesKeywords )
 		{
 ?>
 		<div class="powerpress_row">
@@ -291,7 +312,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_subtitle'] )
+		if( $GeneralSettings['episode_box_subtitle'] || $iTunesSubtitle )
 		{
 ?>
 		<div class="powerpress_row">
@@ -306,7 +327,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( !empty($GeneralSettings['episode_box_summary']) )
+		if( !empty($GeneralSettings['episode_box_summary']) || $iTunesSummary )
 		{
 ?>
 		<div class="powerpress_row">
@@ -321,7 +342,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( !empty($GeneralSettings['episode_box_author']) )
+		if( !empty($GeneralSettings['episode_box_author']) || $iTunesAuthor )
 		{
 ?>
 		<div class="powerpress_row">
@@ -336,7 +357,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_explicit'] )
+		if( $GeneralSettings['episode_box_explicit'] || $iTunesExplicit )
 		{
 ?>
 		<div class="powerpress_row">
