@@ -146,10 +146,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
-= 2.0 =
-* Beta 2.0.0 Released on 2/17/2011
-* Flare Video HTML5 video player with Flash 9 fallback added
-* Ogg/WebM HTML5 Audio and Video player support added
+= 2.0.1 =
+* Beta 2.0.1 Released on 2/23/2011
+* HTML5 video player with Flow Player Classic fallback added
+* HTML5 audio player with Flow Player Classic fallback added
+* Ogg/WebM support added
+* Flow Player Classic can now play m4a audio
 * Elimation of Simple Mode
 * Video default size is now 400 wide by 225 high (a 16:9 ratio)
 * New Video Player settings pages added.
