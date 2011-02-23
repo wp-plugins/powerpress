@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '2.0.0 beta' );
+define('POWERPRESS_VERSION', '2.0.1 beta' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your

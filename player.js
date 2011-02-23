@@ -81,7 +81,6 @@ function powerpress_embed_html5iframe(id, url, width, height)
 		Html += ' frameborder="0"';
 		Html += '></iframe>';
 		document.getElementById('powerpress_player_'+id).innerHTML = Html;
-		alert('good');
 		return false;
 	}
 	return true;
@@ -159,7 +158,6 @@ function powerpress_embed_html5v(id,media_url,width,height,webm_media_url)
 	return true; // let the default link to the media open...
 }
 
-
 /**
 	Insert embed for audio, with fallback to flash (m4a/mp3/ogg)
 	
@@ -180,7 +178,7 @@ function powerpress_embed_html5a(id,media_url)
 				poster = images[0].src;
 		}
 		
-		var contentType = 'audio/mpeg3'; // Default content type
+		var contentType = 'audio/mpeg'; // Default content type
 		if( media_url.indexOf('.m4a') > -1 )
 			contentType = 'audio/x-m4a';
 		if( media_url.indexOf('.ogg') > -1 || media_url.indexOf('.oga') > -1 )
@@ -198,7 +196,6 @@ function powerpress_embed_html5a(id,media_url)
 		if( html5 ) {
 			var s = document.createElement('source');
 			a.controls = true;
-			if( poster ) v.poster = poster;
 			s.src = media_url; s.type = contentType;
 			a.appendChild(s);
 			
@@ -206,7 +203,7 @@ function powerpress_embed_html5a(id,media_url)
 			document.getElementById('powerpress_player_'+id).appendChild(a);
 			a.play();
 		} else {
-			delete(v);
+			delete(a);
 			if( contentType != 'audio/ogg') {
 				pp_flashembed(
 					'powerpress_player_'+id,
