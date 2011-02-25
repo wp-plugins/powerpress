@@ -1,8 +1,8 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast
-Requires at least: 2.6.0
-Tested up to: 3.0.4
+Requires at least: 2.8.0
+Tested up to: 3.1
 Stable tag: 1.0.13
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
@@ -146,23 +146,26 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
-= 2.0.1 =
-* Beta 2.0.1 Released on 2/23/2011
+= 2.0.2 =
+* Beta 2.0.2 Released on 2/25/2011
+* PowerPress now requires WordPress version 2.8 or newer.
 * HTML5 video player with Flow Player Classic fallback added
 * HTML5 audio player with Flow Player Classic fallback added
-* Ogg/WebM support added
+* WebM video support added
+* Ogg audio/video support improved
 * For mp4/m4v video, a new alternative WebM URL field has been added. This is ideal for supporting all browser based HTML5 video players.
-* Flow Player Classic can now play m4a audio
+* Flow Player Classic can now play m4a audio and mp4/m4v video
 * Elimation of Simple Mode
 * Video default size is now 400 wide by 225 high (a 16:9 ratio)
-* New Video Player settings pages added.
+* New Video Player settings page added
 * Settings pages enhanced with new options such as location, frequency and T.V. options added
 * Episode Entry box enhanced with new 'isHD' option when video entered into Media URL box
+* Episode Entry box now includes option to configure video player width/height on a per-episode basis.
 * New RawVoice RSS namespace added
 * Player logic has been moved to powerpress-player.php, and a new option is available to disable player options completely. When player options disabled completely, the powerpress-player.php is not included in normal page loads.
 * PowerPress updated to be able to import episodes from latest versions of PodPress (change made in February, 2011 in PodPress how episodes are stored in WordPress).
 * New watarmarks added to Episode Entry Box for HH:MM:SS. Watermarks will be incorporated in additional fields in the future.
-* iTunes Update Directory feature (pingPodcast) is slated for removal in next release. Apple no longer supports this feature.
+* iTunes Update Directory feature (pingPodcast) is slated for removal in next release. Apple no longer supports this feature. Read more here: [Apple Drops iTunes Podcast Directory Update Listing/Ping (pingPodcast) Function](http://blog.blubrry.com/2011/02/11/apple-drops-itunes-podcast-directory-update-listing-ping-functionality/)
 * Upload image option added to supplement the video poster image field. Images are uploaded to the built-in image gallery in WordPress.
 * Option added to include play icon over poster image where applicable (such as HTML5 Video)
 * Error message displayed if another plugin is including a different version of the getid3 library.
