@@ -497,26 +497,10 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	// Head specific settings for player
 	switch( $player )
 	{
-		case 'flare-player': {
-			
-			// Head settings that make flare player work...
-			$content .= '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<link rel="stylesheet" href="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.css" type="text/css">' . PHP_EOL;
-			$content .= '<link rel="stylesheet" href="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.default.css" type="text/css">' . PHP_EOL;
-			$content .= '<script src="'. powerpress_get_root_url() .'3rdparty/flare_player/jquery.flash.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<script src="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.js" type="text/javascript"></script> ' . PHP_EOL;
-		}; break;
 		case 'html5video': {
 			
 			// TODO: Need to include javascript to insert HTML5 player (with FlowPlayer Classic fallback for mp4)
-			// Head settings that make flare player work...
-			$content .= '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<link rel="stylesheet" href="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.css" type="text/css">' . PHP_EOL;
-			$content .= '<link rel="stylesheet" href="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.default.css" type="text/css">' . PHP_EOL;
-			$content .= '<script src="'. powerpress_get_root_url() .'3rdparty/flare_player/jquery.flash.js" type="text/javascript"></script>' . PHP_EOL;
-			$content .= '<script src="'. powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.js" type="text/javascript"></script> ' . PHP_EOL;
+
 		}; break;
 	}
 	
@@ -529,6 +513,12 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	// Body specific content for player
 	switch( $player )
 	{
+		case 'default': {
+		
+		}; break;
+		case 'flow-player-classic': {
+		
+		}; break;
 		case 'flashmp3-maxi': {
 			
 			$content .= powerpressplayer_build_flashmp3maxi($media_url, $EpisodeData);
@@ -1087,7 +1077,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 		$autoplay = true;
 	
 	$content = '';
-	if( $embed || $autoplay )
+	if( $embed )
 	{
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
 		$content .= '<video width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
@@ -1135,6 +1125,13 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 		}
 		$content .= '</a>';
 		$content .= "</div>\n";
+		
+		if( $autoplay )
+		{
+			$content .= '<script type="text/javascript">'.PHP_EOL;
+			$content .= "powerpress_embed_html5v('{$player_id}','{$media_url}',{$player_width},{$player_height},'{$webm_src}');\n";
+			$content .= "</script>\n";
+		}
 	}
 	return $content;
 }
@@ -1150,7 +1147,7 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 	if( !empty($EpisodeData['autoplay']) )
 		$autoplay = true;
 	$content = '';
-	if( $embed || $autoplay )
+	if( $embed )
 	{
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
 		$content .= '<audio controls="controls"';
@@ -1175,6 +1172,13 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 		$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
 		$content .= '</a>';
 		$content .= "</div>\n";
+		
+		if( $autoplay )
+		{
+			$content .= '<script type="text/javascript">'.PHP_EOL;
+			$content .= "powerpress_embed_html5a('{$player_id}','{$media_url}');\n";
+			$content .= "</script>\n";
+		}
 	}
 	
 	return $content;

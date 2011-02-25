@@ -194,7 +194,7 @@ function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
   <ul class="powerpress_settings_tabs">
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
-		<li><a href="#feed_tab_tv"><span><?php echo htmlspecialchars(__('T.V. & Video', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_tv"><span><?php echo htmlspecialchars(__('T.V.', 'powerpress')); ?></span></a></li>
 	<?php if( $feed_slug ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_other"><span><?php echo htmlspecialchars(__('Other Settings', 'powerpress')); ?></span></a></li> 
@@ -329,13 +329,14 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <?php echo __('Main Site Feed', 'powerpress'); ?></th> 
 <td>
 	<p style="margin-top: 5px; margin-bottom: 0;"><?php echo __('Main RSS2 Feed', 'powerpress'); ?>: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="<?php echo __('Main RSS 2 Feed', 'powerpress'); ?>" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
+	<p><?php echo __('Note: We do not recommend submitting your main site feed to podcast directories such as iTunes. iTunes and many other podcast directories work best with feeds that do not have regular blog posts mixed in.', 'powerpress');  ?></p>
 </td>
 </tr>
 
 <tr valign="top">
 <th scope="row">
 
-<?php echo __('Podcast Channel Feeds', 'powerpress'); ?></th> 
+<?php echo __('Podcast Feeds', 'powerpress'); ?></th> 
 <td>
 <?php
 	
@@ -559,14 +560,14 @@ if( isset($Languages[ $rss_language ]) )
 <div id="rawvoice_basic_options">
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Location', 'powerpress'); ?></th> 
+<th scope="row"><?php echo __('Location', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
 <td>
 	<input type="text" style="width: 300px;" name="Feed[location]" value="<?php echo $FeedSettings['location']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Cleveland, Ohio', 'powerpress'); ?></p>
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?></th> 
+<th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
 <td>
 	<input type="text" style="width: 300px;" name="Feed[frequency]" value="<?php echo $FeedSettings['frequency']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Weekly', 'powerpress'); ?></p>
@@ -997,6 +998,14 @@ while( list($value,$desc) = each($explicit) )
 	<td>
 		<div id="new_feed_url_step_1" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'none':'block'); ?>;">
 			 <p style="margin-top: 5px;"><strong><a href="#" onclick="return powerpress_new_feed_url_prompt();"><?php echo __('Set iTunes New Feed URL', 'powerpress'); ?></a></strong></p>
+			 <p><strong>
+			 <?php echo __('The iTunes New Feed URL option works primarily for Apple\'s iTunes application only, and should only be used if you are unable to implement a HTTP 301 redirect.', 'powerpress'); ?>
+			 <?php echo __('A 301 redirect will route <u>all podcast clients including iTunes</u> to your new feed address.', 'powerpress'); ?>
+			 </strong> 
+			 </p>
+			 <p>
+			 <?php echo __('Learn more:', 'powerpress'); ?> <a href="http://www.podcastfaq.com/syndicating-your-podcast/changing-your-podcast-rss-feed-address-url/" target="_blank"><?php echo __('Changing Your Podcast RSS Feed Address (URL)', 'powerpress'); ?></a>
+			</p>
 		</div>
 		<div id="new_feed_url_step_2" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'block':'none'); ?>;">
 			<p style="margin-top: 5px;"><strong><?php echo __('WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.', 'powerpress'); ?></strong></p>

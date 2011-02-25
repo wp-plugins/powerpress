@@ -3010,6 +3010,11 @@ function powerpressadmin_support_uploads()
 	return $g_SupportUploads;
 }
 
+function powerpressadmin_new()
+{
+	return '<sup style="color: #CC0000; font-weight: bold;">'. __('new!', 'powerpress') .'</sup>';
+}
+
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');
