@@ -478,6 +478,36 @@
 				$LocalFile = $File;
 			}
 			
+			if( class_exists('getID3') && !defined('POWERPRESS_GETID3_LOADED') )
+			{
+				$pre_msg = __('PowerPress is unable to detect media information.', 'powerpress') .'<br />';
+				$getID3 = new getID3;
+				if( defined('GETID3_INCLUDEPATH') ) {
+					$plugin_title = '';
+					$plugins_path = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR;
+					$path = substr(GETID3_INCLUDEPATH, strlen($plugins_path));
+					if( preg_match('/^([^\\/\\\\]*)/i', $path, $matches) )
+					{
+						$plugin_folder = $matches[1];
+						$current_plugins = get_option('active_plugins');
+						while( list($null,$plugin_local_path) = each($current_plugins) )
+						{
+							if( substr($plugin_local_path, 0, strpos($plugin_local_path, '/') ) != $plugin_folder )
+								continue;
+							$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/\\'). '/'. rtrim($plugin_local_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
+							$plugin_title = $plugin_data['Title'];
+						}
+					}
+					if( $plugin_title )
+						$this->SetError( $pre_msg. sprintf(__('Plugin \'%s\' has included a different version of the GetID3 library located in %s', 'powerpress'), $plugin_title, $path) );
+					else
+						$this->SetError( $pre_msg. sprintf(__('Another plugin has included a different version of the GetID3 library located in %s', 'powerpress'), $path) );
+				} else {
+					$this->SetError( $pre_msg. __('Another plugin has included a different version of the GetID3 library.', 'powerpress') );
+				}
+				return false;
+			}
+			
 			if( !is_file($LocalFile) )
 			{
 				$this->SetError( __('Error occurred downloading media file.', 'powerpress') );
@@ -502,6 +532,8 @@
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
+			define('POWERPRESS_GETID3_LOADED', true);
+			
 			$getID3 = new getID3;
 			$FileInfo = $getID3->analyze( $LocalFile, $this->m_ContentLength );
 			if( $DeleteFile )

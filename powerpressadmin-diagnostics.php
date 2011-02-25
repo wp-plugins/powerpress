@@ -308,7 +308,7 @@
 			$message .= '<strong>'.__('Active Plugins', 'powerpress') ."</strong><br />\n";
 			while( list($null,$plugin_path) = each($current_plugins) )
 			{
-				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/'). '/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
+				$plugin_data = get_plugin_data( rtrim(WP_PLUGIN_DIR, '/\\'). '/'. rtrim($plugin_path, '\\/'), false, false ); //Do not apply markup/translate as it'll be cached.
 				
 				$message .= " &nbsp; \t &nbsp; " . __('Title:', 'powerpress') .' '. $plugin_data['Title']. "<br />\n";
 				$message .= " &nbsp; \t &nbsp; " . __('Relative Path:', 'powerpress') .' '. $plugin_path. "<br />\n";

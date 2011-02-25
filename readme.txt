@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * iTunes Update Directory feature (pingPodcast) is slated for removal in next release. Apple no longer supports this feature.
 * Upload image option added to supplement the video poster image field. Images are uploaded to the built-in image gallery in WordPress.
 * Option added to include play icon over poster image where applicable (such as HTML5 Video)
+* Error message displayed if another plugin is including a different version of the getid3 library.
 
 
 =  1.0.13 =
