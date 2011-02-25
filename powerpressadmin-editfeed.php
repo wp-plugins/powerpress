@@ -134,26 +134,7 @@ function powerpress_admin_capabilities()
 	asort($capnames);
 	return $capnames;
 }
-$g_SupportUploads = null;
-function powerpressadmin_support_uploads()
-{
-	global $g_SupportUploads;
-	if( $g_SupportUploads != null )
-		return $g_SupportUploads;
-	
-	$g_SupportUploads = false;
-	$UploadArray = wp_upload_dir();
-	if( false === $UploadArray['error'] )
-	{
-		$upload_path =  $UploadArray['basedir'].'/powerpress/';
-		
-		if( !file_exists($upload_path) )
-			$g_SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
-		else
-			$g_SupportUploads = true;
-	}
-	return $g_SupportUploads;
-}
+
 
 // powerpressadmin_editfeed.php
 function powerpress_admin_editfeed($feed_slug=false, $cat_ID =false)
@@ -967,7 +948,7 @@ while( list($value,$desc) = each($explicit) )
 </th>
 <td>
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo @$FeedSettings['itunes_image']; ?>" maxlength="250" />
-<a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;">preview</a>
+<a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://mysite.com/images/itunes.jpg<br /><br />
 <?php echo __('iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.', 'powerpress'); ?></p>
@@ -977,7 +958,7 @@ while( list($value,$desc) = each($explicit) )
 <?php if( $SupportUploads ) { ?>
 <p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
 <div style="display:none" id="itunes_image_upload">
-	<label for="itunes_image"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  />
+	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  />
 </div>
 <?php } ?>
 </td>

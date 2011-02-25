@@ -185,6 +185,32 @@ function powerpress_admin_init()
 			}
 		}
 		
+		// New poster image
+		if( @$_POST['poster_image_checkbox'] == 1 )
+		{
+			$filename = str_replace(" ", "_", basename($_FILES['poster_image_file']['name']) );
+			$temp = $_FILES['poster_image_file']['tmp_name'];
+			
+			if( file_exists($upload_path . $filename ) )
+			{
+				$filenameParts = pathinfo($filename);
+				do {
+					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+				} while( file_exists($upload_path . $filename ) );
+			}
+			
+			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+			{
+				move_uploaded_file($temp, $upload_path . $filename);
+				$General['poster_image'] = $upload_url . $filename;
+			}
+			else
+			{
+				powerpress_page_message_add_error( __('Invalid poster image', 'powerpress') .': ' . htmlspecialchars($_FILES['poster_image_file']['name']) );
+			}
+		}
+		
 		if( isset($_POST['UpdateDisablePlayer']) )
 		{
 			$player_feed_slug = $_POST['UpdateDisablePlayer'];
@@ -336,6 +362,12 @@ function powerpress_admin_init()
 						powerpress_page_message_add_error( __('Coverart Image was not uploaded to your Blubrry Services Account. It will NOT be added to your mp3s.', 'powerpress') );
 					}
 				}
+			}
+			
+			if( $_POST['action'] == 'powerpress-save-videocommon' )
+			{
+				if( !isset($General['poster_play_image'] ) )
+					$General['poster_play_image'] = 0;
 			}
 			
 			// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...
@@ -981,14 +1013,14 @@ function powerpress_edit_post($post_ID, $post)
 				$MediaURL = $Powerpress['url'];
 				if( defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
 				{
-					if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
+					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
 					{
 						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				else
 				{
-					if( strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
+					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 					{
 						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
@@ -1060,13 +1092,13 @@ function powerpress_edit_post($post_ID, $post)
 						{
 							$error = __('Error', 'powerpress') ." ({$MediaURL}): {$MediaInfo['error']}";
 							powerpress_add_error($error);
-							continue;
+							//continue;
 						}
 						else if( empty($MediaInfo['length']) )
 						{
 							$error = __('Error', 'powerpress') ." ({$MediaURL}): ". __('Unable to obtain size of media.', 'powerpress');
 							powerpress_add_error($error);
-							continue;
+							//continue;
 						}
 						else
 						{
@@ -1130,6 +1162,34 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['no_player'] = 1;
 					$ToSerialize['no_links'] = 1;
 				}
+				
+				// WebM Support:
+				if( !empty($Powerpress['webm_src']) )
+				{
+					$WebMSrc = $Powerpress['webm_src'];
+					if( !empty($GeneralSettings['default_url']) && strpos($WebMSrc, 'http://') !== 0 ) // && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
+					{
+						$WebMSrc = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($WebMSrc, '/');
+					}
+					$ToSerialize['webm_src'] = $WebMSrc;
+					
+					$MediaInfo = powerpress_get_media_info_local($WebMSrc, 'video/webm', 0, '');
+					if( isset($MediaInfo['error']) )
+					{
+						$error = __('Error', 'powerpress') ." ({$WebMSrc}): {$MediaInfo['error']}";
+						powerpress_add_error($error);
+					}
+					else if( empty($MediaInfo['length']) )
+					{
+						$error = __('Error', 'powerpress') ." ({$WebMSrc}): ". __('Unable to obtain size of media.', 'powerpress');
+						powerpress_add_error($error);
+					}
+					else
+					{
+						$ToSerialize['webm_length'] = $MediaInfo['length'];
+					}
+				}
+				
 				if( $Powerpress['set_duration'] == -1 )
 					unset($ToSerialize['duration']);
 				if( count($ToSerialize) > 0 ) // Lets add the serialized data
@@ -1546,6 +1606,16 @@ function powerpress_update_for_video(media_url, FeedSlug)
 	{
 		jQuery('#powerpress_ishd_'+ FeedSlug +'_span').css('display','none');
 		jQuery('#powerpress_ishd_'+ FeedSlug +'_span').removeAttr('checked');
+	}
+	
+		
+	if (media_url.search(/\.(mp4|m4v)$/) > -1)
+	{
+		jQuery('#powerpress_webm_'+ FeedSlug ).css('display', 'block');
+	}
+	else
+	{
+		jQuery('#powerpress_webm_'+ FeedSlug ).css('display', 'none');
 	}
 }
 
@@ -2990,6 +3060,27 @@ function powerpress_help_link($link, $title = false )
 		$title = __('Learn More', 'powerpress');
 	
 	return ' [<a href="'. $link .'" title="'. htmlspecialchars($title) .'" target="_blank">'. htmlspecialchars($title) .'</a>] ';
+}
+
+$g_SupportUploads = null;
+function powerpressadmin_support_uploads()
+{
+	global $g_SupportUploads;
+	if( $g_SupportUploads != null )
+		return $g_SupportUploads;
+	
+	$g_SupportUploads = false;
+	$UploadArray = wp_upload_dir();
+	if( false === $UploadArray['error'] )
+	{
+		$upload_path =  $UploadArray['basedir'].'/powerpress/';
+		
+		if( !file_exists($upload_path) )
+			$g_SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
+		else
+			$g_SupportUploads = true;
+	}
+	return $g_SupportUploads;
 }
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');

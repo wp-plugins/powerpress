@@ -25,6 +25,7 @@ function powerpress_meta_box($object, $box)
 	$IsVideo = false;
 	$Width = false;
 	$Height = false;
+	$WebMSrc = false;
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['set_size']) )
 		$GeneralSettings['set_size'] = 0;
@@ -96,6 +97,8 @@ function powerpress_meta_box($object, $box)
 					$Height = $ExtraData['height'];
 				if( isset($ExtraData['width']) )	
 					$Width = $ExtraData['width'];
+				if( isset($ExtraData['webm_src']) )	
+					$WebMSrc = $ExtraData['webm_src'];
 			}
 		}
 		
@@ -142,7 +145,7 @@ function powerpress_meta_box($object, $box)
 	{
 ?>
 	<div class="powerpress_row">
-		<label>Remove</label>
+		<label><?php echo __('Remove', 'powerpress'); ?></label>
 		<div class="powerpress_row_content">
 			<input type="checkbox" name="Powerpress[<?php echo $FeedSlug; ?>][remove_podcast]" id="powerpress_remove" value="1"  onchange="javascript:document.getElementById('powerpress_podcast_edit_<?php echo $FeedSlug; ?>').style.display=(this.checked?'none':'block');" />
 			<?php echo __('Podcast episode will be removed from this post upon save', 'powerpress'); ?>
@@ -199,6 +202,15 @@ function powerpress_meta_box($object, $box)
 				</div>
 			</div><!-- end powerpress_row_content -->
 		</div><!-- end powerpress_row -->
+		<div class="powerpress_row" id="powerpress_webm_<?php echo $FeedSlug; ?>" style="display: <?php echo ($WebMSrc != '' || (preg_match('/\.(mp4|m4v)$/i', $EnclosureURL) ) ?'block':'none'); ?>;">
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][webm_src]"><?php echo __('Alt WebM URL', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_webm_src_<?php echo $FeedSlug; ?>" class="powerpress-webm-src" name="Powerpress[<?php echo $FeedSlug; ?>][webm_src]" value="<?php echo $WebMSrc; ?>" style="width: 70%; font-size: 90%;" />
+			</div>
+			<div class="powerpress_row_content">
+				<em><?php echo __('For HTML5 Video fallback, enter an alternative WebM media URL above. (optional)', 'powerpress'); ?></em>
+			</div>
+		</div>
 <?php
 	if( $GeneralSettings['episode_box_mode'] != 1 )
 	{

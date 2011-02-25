@@ -13,10 +13,6 @@ function powerpressplayer_flowplayer_info()
 	<p>
 		<?php echo __('Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and video.', 'powerpress'); ?>
 	</p>
-	
-	<p>
-		<?php echo __('The HTML5 Player is used when Flash is not available.', 'powerpress'); ?>
-	</p>
 <?php
 }
 	
@@ -1465,6 +1461,14 @@ function audio_player_defaults()
 			}; break;
 			
 			case 'audioplay': {
+				$PlayerSettings = powerpress_get_settings('powerpress_audioplay');
+				if( empty($PlayerSettings) ) {
+					$PlayerSettings = array(
+						'bgcolor' => '',
+						'buttondir' => 'negative',
+						'mode' => 'playpause'
+					);
+				}
 ?>
         	<input type="hidden" name="action" value="powerpress-audioplay" />
 	<?php echo __('Configure the AudioPlay Player', 'powerpress'); ?><br clear="all" />
@@ -1670,8 +1674,12 @@ function audio_player_defaults()
 					<?php
 				}; break;
 			}
+			
+			if( !isset($General['poster_play_image']) )
+				$General['poster_play_image'] = 1;
 ?>
 <!-- Global Video Player settings (Appy to all video players -->
+<input type="hidden" name="action" value="powerpress-save-videocommon" />
 <h3><?php echo __('Common Settings', 'powerpress'); ?></h3>
 <p><?php echo __('The following video settings apply to the video player above as well as to classic video &lt;embed&gt; formats such as Microsoft Windows Media (.wmv), QuickTime (.mov) and RealPlayer.', 'powerpress'); ?></p>
 <table class="form-table">
@@ -1715,6 +1723,7 @@ function audio_player_defaults()
 while( list($value,$desc) = each($scale_options) )
 	echo "\t<option value=\"$value\"". ($General['player_scale']==$value?' selected':''). ">$desc</option>\n";
 	
+	$SupportUploads = powerpressadmin_support_uploads();
 ?>
 </select>
 <span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
@@ -1723,6 +1732,27 @@ while( list($value,$desc) = each($scale_options) )
 <p style="margin-top: 5px; margin-bottom: 0;">
 	<?php echo __('If you do not see video, adjust the width, height and scale settings above.', 'powerpress'); ?>
 </p>
+</td>
+</tr>
+
+<tr>
+<th scope="row">
+<?php echo __('Default Poster Image', 'powerpress'); ?></th>
+<td>
+
+<input type="text" id="poster_image" name="General[poster_image]" style="width: 60%;" value="<?php echo @$General['poster_image']; ?>" maxlength="250" />
+<a href="#" onclick="javascript: window.open( document.getElementById('poster_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
+
+<p><?php echo __('Place the URL to the poster image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/poster.jpg<br /><br />
+<?php echo __('Image should be at minimum the same width/height as the player above. Leave blank to use default black background image.', 'powerpress'); ?></p>
+
+<?php if( $SupportUploads ) { ?>
+<p><input name="poster_image_checkbox" type="checkbox" onchange="powerpress_show_field('poster_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
+<div style="display:none" id="poster_image_upload">
+	<label for="poster_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="poster_image_file"  />
+</div>
+<?php } ?>
+<p><input name="General[poster_play_image]" type="checkbox" value="1" <?php echo ($General['poster_play_image']?'checked':''); ?> /> <?php echo __('Include play icon over poster image when applicable.', 'powerpress'); ?> </p>
 </td>
 </tr>
 
