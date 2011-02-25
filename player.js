@@ -68,6 +68,14 @@ function powerpress_embed_quicktime(div,media_url,width,height,scale)
 	return true; // let the default link to the media open...
 }
 
+function powerpress_show_embed(id)
+{
+	if( document.getElementById('powerpress_embed_'+id) ) {
+		document.getElementById('powerpress_embed_'+id).style.display = 'block';
+		document.getElementById('powerpress_embed_'+id +'_t').select();
+	}
+	return false;
+}
 
 function powerpress_embed_html5iframe(id, url, width, height)
 {
@@ -151,6 +159,9 @@ function powerpress_embed_html5v(id,media_url,width,height,webm_media_url)
 				{config: { autoPlay: true, autoBuffering: true, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: media_url, loop: false, autoRewind: true, splashImageFile: poster } }
 			);
 		}
+		
+		if( window.powerpress_resize_player )
+			powerpress_resize_player();
 		
 		return false; // stop the default link from proceeding
 	}

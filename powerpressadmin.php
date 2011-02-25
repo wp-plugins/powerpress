@@ -310,6 +310,9 @@ function powerpress_admin_init()
 							$PlayerSettings['podcast_link'] = 3;
 					}
 				}
+				
+				if( !isset($General['podcast_embed'] ) )
+					$General['podcast_embed'] = 0;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )

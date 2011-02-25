@@ -952,6 +952,7 @@ function powerpressadmin_appearance($General=false)
 	<input type="checkbox" style="margin-left: 30px;" id="display_download_duration" name="PlayerSettings[display_download_duration]" value="1" <?php if( $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( this.checked ) { jQuery('#display_download_size').attr('checked','checked'); }" /> <?php echo __('Include file size and duration', 'powerpress'); ?></p>
 	
 	<p><label><input type="checkbox" name="General[podcast_embed]" value="1" <?php if( $General['podcast_embed'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Player Embed Link', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></label></p>
+	<p><?php echo __('Embed option only works for Flow Player Classic and HTML5 Video player.', 'powerpress'); ?></p>
 </td>
 </tr>
 </table>
