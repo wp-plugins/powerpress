@@ -64,19 +64,8 @@ function powerpress_admin_categoryfeeds()
 
 	<tfoot>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_categoryfeeds', false);
-	}
-	else // WordPress 2.6 or older
-	{
-	?>
-	<th scope="col" class="manage-column column-name"><?php echo __('Category Name', 'powerpress'); ?></th>
-	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
-	<th scope="col" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
-	<?php
-	}
 ?>
 	</tr>
 	</tfoot>
@@ -127,10 +116,10 @@ function powerpress_admin_categoryfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
-					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-delete-category-feed&amp;cat=$cat_ID", 'powerpress-delete-category-feed-' . $cat_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to remove podcast settings for category feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove', 'powerpress') . "</a>";
+					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-delete-category-feed&amp;cat=$cat_ID", 'powerpress-delete-category-feed-' . $cat_ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to remove podcast settings for category feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove', 'powerpress') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';
@@ -146,7 +135,7 @@ function powerpress_admin_categoryfeeds()
 					
 				case 'url': {
 				
-					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
+					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
 							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
 						echo '</div>';
@@ -188,7 +177,7 @@ function powerpress_admin_categoryfeeds()
 	<select name="cat" id="cat_id" style="width: 100%;">
 		<option value=""><?php echo __('Select Category', 'powerpress'); ?></option>
 <?php
-	wp_dropdown_cats();
+	wp_dropdown_categories();
 ?>
 	</select>
     

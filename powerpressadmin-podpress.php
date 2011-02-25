@@ -329,18 +329,6 @@ if( !function_exists('add_action') )
 	
 	add_filter('manage_powerpressadmin_importpodpress_columns', 'powerpressadmin_importpodpress_columns');
 	
-	function powerpressadmin_importpodpress_columns_print($include_ids=true)
-	{
-		$Columns = powerpressadmin_importpodpress_columns();
-		while( list($key,$title) = each($Columns) )
-		{
-			if( $include_ids )
-				echo  '<th scope="col" id="'. $key .'" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
-			else
-				echo  '<th scope="col" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
-		}
-	}
-	
 	function powerpress_admin_podpress()
 	{
 		$results = powerpress_get_podpress_episodes(false);
@@ -485,30 +473,16 @@ function select_all(index,value)
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_importpodpress');
-	}
-	else // WordPress 2.6 or older
-	{
-		powerpressadmin_importpodpress_columns_print();
-	}
 ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_importpodpress', false);
-	}
-	else // WordPress 2.6 or older
-	{
-		powerpressadmin_importpodpress_columns_print(false);
-	}
 ?>
 	</tr>
 	</tfoot>
@@ -595,7 +569,7 @@ function select_all(index,value)
 					echo '<td '.$class.'><strong>';
 					if ( current_user_can( 'edit_post', $post_id ) )
 					{
-					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
+					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
 					}
 					else
 					{

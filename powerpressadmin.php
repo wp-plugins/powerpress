@@ -48,8 +48,8 @@ function powerpress_admin_init()
 	
 	add_thickbox(); // we use the thckbox for some settings
 	wp_enqueue_script('jquery');
-	//wp_enqueue_script('jquery-ui-core'); // Now including the library at Google
-	//wp_enqueue_script('jquery-ui-tabs');
+	wp_enqueue_script('jquery-ui-core'); // Now including the library at Google
+	wp_enqueue_script('jquery-ui-tabs');
 	
 	// For nice watermarks in admin area
 	wp_enqueue_script('jquery-watermark', powerpress_get_root_url() .'3rdparty/jquery.watermark.min.js');
@@ -57,9 +57,7 @@ function powerpress_admin_init()
 	// Powerpress page
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
-		wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
-		wp_enqueue_script('jquery-flash', powerpress_get_root_url() .'3rdparty/flare_player/jquery.flash.jss');
-		wp_enqueue_script('jquery-flare-player', powerpress_get_root_url() .'3rdparty/flare_player/flarevideo.js');
+		//wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
 	}
 	
 	
@@ -77,9 +75,9 @@ function powerpress_admin_init()
 		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.', 'powerpress') );
 	
 	global $wp_version;
-	$VersionDiff = version_compare($wp_version, 2.6);
+	$VersionDiff = version_compare($wp_version, 2.8);
 	if( $VersionDiff < 0 )
-		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.6 or greater.', 'powerpress') );
+		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.8 or greater.', 'powerpress') );
 	
 	// Check for incompatible plugins:
 	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
@@ -2219,101 +2217,30 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		return $content;
 	}
 	
-	global $wp_version;
-	if( version_compare('2.7', $wp_version, '<=') ) // Lets us specify the user agent and set the basic auth string...
-	{
-		$options = array();
-		$options['timeout'] = $timeout;
-		$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
-		if( $basic_auth )
-			$options['headers']['Authorization'] = 'Basic '.$basic_auth;
-		
-		if( count($post_args) > 0 )
-		{
-			$options['body'] = $post_args;
-			$response = wp_remote_post( $url, $options );
-		}
-		else
-		{
-			$response = wp_remote_get( $url, $options );
-		}
-		
-		if ( is_wp_error( $response ) )
-		{
-			global $g_powerpress_remote_error;
-			$g_powerpress_remote_error = $response->get_error_message();
-			return false;
-		}
-
-		return $response['body'];
-	}
+	$options = array();
+	$options['timeout'] = $timeout;
+	$options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
+	if( $basic_auth )
+		$options['headers']['Authorization'] = 'Basic '.$basic_auth;
 	
-	// Try the fopen way:
-	if( count($post_args) > 0 && ini_get( 'allow_url_fopen' ) && function_exists('fsockopen') )
-	{
-		$post_query = '';
-		while( list($name,$value) = each($post_args) )
-		{
-			if( $post_query != '' )
-				$post_query .= '&';
-			$post_query .= $name;
-			$post_query .= '=';
-			$post_query .= urlencode($value);
-		}
-		$url_parts = parse_url($url);
-		$host = $url_parts['host'];
-		$port = ($url_parts['scheme']=='https'?443:80);
-		if( isset($url_parts['port']) )
-			$port = $url_parts['port'];
-
-		$http_request  = "POST {$url_parts['path']} HTTP/1.0\r\n";
-		$http_request .= "Host: $host\r\n";
-		if( $basic_auth )
-			$http_request .= 'Authorization: Basic '. $basic_auth ."\r\n";
-		$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
-		$http_request .= 'Content-Length: ' . strlen($post_query) . "\r\n";
-		$http_request .= 'User-Agent: Blubrry PowerPress/'.POWERPRESS_VERSION. "\r\n";
-		$http_request .= "\r\n";
-		$http_request .= $post_query;
-
-		$response = '';
-		$fp = @fsockopen($host, $port, $errno, $errstr, 5);
-		if( $fp )
-		{
-			fwrite($fp, $http_request);
-			while ( !feof($fs) )
-				$response .= fgets($fs, 1160); // One TCP-IP packet
-			fclose($fs);
-		}
-		
-		$response = explode("\r\n\r\n", $response, 2);
-		if( count($response) > 1 )
-			return $response[1];
-			
-		global $g_powerpress_remote_error;
-		$g_powerpress_remote_error = __('Unable to parse response from server.', 'powerpress');
-		return false;
-	}
-	
-	// If we made it this far then we got a different problem.
 	if( count($post_args) > 0 )
 	{
+		$options['body'] = $post_args;
+		$response = wp_remote_post( $url, $options );
+	}
+	else
+	{
+		$response = wp_remote_get( $url, $options );
+	}
+	
+	if ( is_wp_error( $response ) )
+	{
 		global $g_powerpress_remote_error;
-		$g_powerpress_remote_error = __('Your version of WordPress is too outdated for this function.', 'powerpress');
+		$g_powerpress_remote_error = $response->get_error_message();
 		return false;
 	}
-	
-	// Last ditch attempt using Pre WP2.7 helper function
-	if( $basic_auth )
-	{
-		$UserPassDecoded = base64_decode($basic_auth);
-		list($User, $Pass) = explode(':', $UserPassDecoded, 2);
-		$url_prefix = sprintf('http://%s:%s@', str_replace('@', '$', $User), $Pass);
-		$url = $url_prefix . substr($url, 7);
-	}
-	
-	// Use the bullt-in remote_fopen...
-	return wp_remote_fopen($url);
+
+	return $response['body'];
 }
 
 // Process any episodes for the specified post that have been marked for hosting and that do not have full URLs...

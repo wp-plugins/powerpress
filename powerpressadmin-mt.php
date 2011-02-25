@@ -297,18 +297,6 @@ if( !function_exists('add_action') )
 	
 	add_filter('manage_powerpressadmin_importmt_columns', 'powerpressadmin_importmt_columns');
 	
-	function powerpressadmin_importmt_columns_print($include_ids=true)
-	{
-		$Columns = powerpressadmin_importmt_columns();
-		while( list($key,$title) = each($Columns) )
-		{
-			if( $include_ids )
-				echo  '<th scope="col" id="'. $key .'" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
-			else
-				echo  '<th scope="col" class="manage-column column-'. $key .'" style="">'. $title .'</th>';
-		}
-	}
-	
 	function powerpress_admin_mt()
 	{
 		$results = powerpress_get_mt_episodes();
@@ -454,30 +442,16 @@ else
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_importmt');
-	}
-	else // WordPress 2.6 or older
-	{
-		powerpressadmin_importmt_columns_print();
-	}
 ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_importmt', false);
-	}
-	else // WordPress 2.6 or older
-	{
-		powerpressadmin_importmt_columns_print(false);
-	}
 ?>
 	</tr>
 	</tfoot>

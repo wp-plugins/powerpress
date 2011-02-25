@@ -50,40 +50,16 @@ function powerpress_admin_customfeeds()
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_customfeeds');
-	}
-	else // WordPress 2.6 or older
-	{
-	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Name', 'powerpress'); ?></th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
-	<th scope="col" id="episode-count" class="manage-column column-episode-count"><?php echo __('Episodes', 'powerpress'); ?></th>
-	<th scope="col" id="url" class="manage-column column-url"><?php echo __('URL', 'powerpress'); ?></th>
-	<?php
-	}
 ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php 
-	if( function_exists('print_column_headers') )
-	{
+<?php
 		print_column_headers('powerpressadmin_customfeeds', false);
-	}
-	else // WordPress 2.6 or older
-	{
-	?>
-	<th scope="col" class="manage-column column-name"><?php echo __('Name', 'powerpress'); ?></th>
-	<th scope="col" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
-	<th scope="col" class="manage-column column-episode-count"><?php echo __('Episodes', 'powerpress'); ?></th>
-	<th scope="col" class="manage-column column-url"><?php echo __('URL', 'powerpress'); ?></th>
-	<?php
-	}
 ?>
 	</tr>
 	</tfoot>
@@ -137,10 +113,10 @@ function powerpress_admin_customfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . attribute_escape(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel', 'powerpress') .')':'').'<br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel', 'powerpress') .')':'').'<br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
-					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete', 'powerpress') . "</a>";
+					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete', 'powerpress') . "</a>";
 					if( !isset($General['custom_feeds'][ $feed_slug ]) )
 					{
 						unset($actions['delete']);
@@ -160,7 +136,7 @@ function powerpress_admin_customfeeds()
 					
 				case 'url': {
 				
-					echo "<td $class><a href='$url' title='". attribute_escape(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
+					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
 							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
 						echo '</div>';
