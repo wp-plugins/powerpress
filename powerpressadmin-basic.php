@@ -5,22 +5,8 @@ function powerpress_admin_basic()
 	$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'basic');
 	
-	// Default setings for advanced mode:
-	if( @$General['episode_box_mode'] != 2 )
-	{
-	/*
-		$General['episode_box_embed'] = 0;
-		$General['episode_box_no_player'] = 0;
-		$General['episode_box_keywords'] = 0;
-		$General['episode_box_subtitle'] = 0;
-		$General['episode_box_summary'] = 0;
-		*/
-	}
-	
 	$FeedSettings = powerpress_get_settings('powerpress_feed');
 	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
-		
-		
 ?>
 <script type="text/javascript">
 function CheckRedirect(obj)
@@ -38,13 +24,6 @@ function CheckRedirect(obj)
 		}
 	}
 	return true;
-}
-function SelectEntryBox(mode)
-{
-	if( mode==2 )
-		jQuery('.episode_box_option').removeAttr("disabled");
-	else
-		jQuery('.episode_box_option').attr("disabled","disabled");
 }
 
 function SelectEmbedField(checked)
@@ -218,7 +197,7 @@ function powerpressadmin_edit_entry_options($General)
 	if( !isset($General['default_url']) )
 		$General['default_url'] = '';
 	if( !isset($General['episode_box_mode']) )
-		$General['episode_box_mode'] = 0;
+		$General['episode_box_mode'] = 0; // Default not set, 1 = no duration/file size, 2 = yes duration/file size (default if not set)
 	if( !isset($General['episode_box_embed']) )
 		$General['episode_box_embed'] = 0;
 	if( !isset($General['set_duration']) )
@@ -242,26 +221,14 @@ function powerpressadmin_edit_entry_options($General)
 	<p style="margin-top: 5px;">
 		<?php echo __('Configure your podcast episode entry box with the options that fit your needs.', 'powerpress'); ?>
 	</p>
-	<ul>
-		<li><label><input type="radio" name="General[episode_box_mode]" value="1" <?php if( $General['episode_box_mode'] == 1 ) echo 'checked'; ?> onclick="SelectEntryBox(1);" /> <?php echo __('Simple', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('Episode entry box includes Media URL field only. File Size and Duration will be auto detected upon saving the post.', 'powerpress'); ?></li>
-			</ul>
-		</li>
-		
-		<li><label><input type="radio" name="General[episode_box_mode]" value="0" <?php if( $General['episode_box_mode'] == 0 ) echo 'checked'; ?> onclick="SelectEntryBox(0);" /> <?php echo __('Normal', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
-		<li>
-			<ul>
-				<li><?php echo __('Episode entry box includes Media URL, File Size and Duration fields.', 'powerpress'); ?></li>
-			</ul>
-		</li>
-		
-				<li><label><input type="radio" name="General[episode_box_mode]" value="2" <?php if( $General['episode_box_mode'] == 2 ) echo 'checked'; ?> onclick="SelectEntryBox(2);" /> <?php echo __('Custom', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('Episode entry box includes Media URL, File Size and Duration fields, plus:', 'powerpress'); ?>
 				<div id="episode_box_mode_adv">
+				
+					<p style="margin-top: 15px;"><input class="episode_box_option" name="Null[ignore]" type="checkbox" value="1" checked onclick="return false" onkeydown="return false" /> <?php echo __('Media URL', 'powerpress'); ?>
+						(<?php echo __('Specify URL to episode\'s media file', 'powerpress'); ?>)</p>
+					
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_mode]" type="checkbox" value="2" <?php if( @$General['episode_box_mode'] != 1 ) echo ' checked'; ?> /> <?php echo __('Media File Size and Duration', 'powerpress'); ?>
+						(<?php echo __('Specify episode\'s media file size and duration', 'powerpress'); ?>)</p>
+						
 					<p style="margin-top: 15px; margin-bottom: 0;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( !empty($General['episode_box_embed']) ) echo ' checked'; ?> onclick="SelectEmbedField(this.checked);"  /> <?php echo __('Embed Field', 'powerpress'); ?>
 						(<?php echo __('Enter embed code from sites such as YouTube, Viddler and Blip.tv', 'powerpress'); ?>)</p>
 							<p style="margin-top: 5px; margin-left: 20px; font-size: 90%;"><input id="embed_replace_player" class="episode_box_option" name="General[embed_replace_player]" type="checkbox" value="1"<?php if( !empty($General['embed_replace_player']) ) echo ' checked'; ?> /> <?php echo __('Replace Player with Embed', 'powerpress'); ?>
@@ -304,16 +271,12 @@ function powerpressadmin_edit_entry_options($General)
 					<em><?php echo __('NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.', 'powerpress'); ?></em><br />
 					<em><strong><?php echo __('USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.', 'powerpress'); ?></strong></em>
 				</div>
-				</li>
-			</ul>
-		</li>
-	</ul>
+				
 
 </td>
 </tr>
 </table>
 <script language="javascript">
-SelectEntryBox(<?php echo $General['episode_box_mode']; ?>);
 SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 </script>
 
@@ -350,7 +313,7 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 </tr>
 </table>
 
-<div id="episode_entry_settings" style="<?php if( $General['episode_box_mode'] == 1 ) echo 'display:none;'; ?>">
+<div id="episode_entry_settings">
 <table class="form-table">
 <tr valign="top">
 <th scope="row">

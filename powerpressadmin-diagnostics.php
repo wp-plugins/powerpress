@@ -254,7 +254,7 @@
 		$message .= "<br />\n";
 		$message .= '<strong>'. __('Important PowerPress Settings', 'powerpress') ."</strong><br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('PowerPress version:', 'powerpress') .' '. POWERPRESS_VERSION ."<br />\n";
-		$message .= " &nbsp; \t &nbsp; ". __('episode box mode:', 'powerpress') .' '. ( empty($SettingsGeneral['episode_box_mode']) ?__('normal', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('simple', 'powerpress'):__('advanced', 'powerpress')) ) ."<br />\n";
+		$message .= " &nbsp; \t &nbsp; ". __('episode box file size/duration fields:', 'powerpress') .' '. ( empty($SettingsGeneral['episode_box_mode']) ?__('yes', 'powerpress'): ($SettingsGeneral['episode_box_mode']==1?__('no', 'powerpress'):__('yes', 'powerpress')) ) ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('Podcasting capability:', 'powerpress') .' '. ( empty($SettingsGeneral['use_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('Feed capability:', 'powerpress') .' '. ( empty($SettingsGeneral['feed_caps'])?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('Category Podcasting:', 'powerpress') .' '. ( empty($SettingsGeneral['cat_casting']) ?__('Disabled (default)', 'powerpress'): __('Enabled', 'powerpress')) ."<br />\n";

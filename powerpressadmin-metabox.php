@@ -177,7 +177,7 @@ function powerpress_meta_box($object, $box)
 					<span id="powerpress_ishd_<?php echo $FeedSlug; ?>_span" style="margin-left: 20px; display: <?php echo ($IsVideo?'inline':'none'); ?>; "><input id="powerpress_ishd_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][ishd]" value="1" type="checkbox" <?php echo ($IsHD==1?'checked':''); ?> /> <?php echo __('Video is HD (720p/1080i/1080p)', 'powerpress'); ?></span>
 <?php
 
-	if( $GeneralSettings['episode_box_mode'] == 2 && ( !empty($GeneralSettings['episode_box_no_player']) || !empty($GeneralSettings['episode_box_no_links']) || !empty($GeneralSettings['episode_box_no_player_and_links']) ) )
+	if( !empty($GeneralSettings['episode_box_no_player']) || !empty($GeneralSettings['episode_box_no_links']) || !empty($GeneralSettings['episode_box_no_player_and_links']) )
 	{
 		if( $GeneralSettings['episode_box_no_player_and_links'] )
 		{
@@ -212,7 +212,7 @@ function powerpress_meta_box($object, $box)
 			</div>
 		</div>
 <?php
-	if( $GeneralSettings['episode_box_mode'] != 1 )
+	if( $GeneralSettings['episode_box_mode'] != 1 ) // If not simple mode
 	{
 ?>
 		<div class="powerpress_row">
@@ -260,9 +260,6 @@ function powerpress_meta_box($object, $box)
 <?php
 	}
 
-	
-	if( $GeneralSettings['episode_box_mode'] == 2 )
-	{
 		// Video Coverart Image (Poster)
 		if( @$GeneralSettings['episode_box_cover_image'] || $CoverImage )
 		{
@@ -388,7 +385,6 @@ while( list($value,$desc) = each($explicit_array) )
 		</div>
 <?php
 		}
-	}
 ?>
 	</div>
 </div>

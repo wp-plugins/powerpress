@@ -2,6 +2,34 @@
 
 if( !function_exists('add_action') )
 	die("access denied.");
+
+define('POWERPRESS_FEED_HIGHLIGHTED', 'http://www.powerpresspodcast.com/category/highlighted/feed/?order=ASC');
+define('POWERPRESS_FEED_NEWS', 'http://www.powerpresspodcast.com/feed/');
+
+function powerpress_get_news($feed_url, $limit=10)
+{
+	include_once(ABSPATH . WPINC . '/feed.php');
+	$rss = fetch_feed( $feed_url );
+	
+	// Bail if feed doesn't work
+	if ( is_wp_error($rss) )
+		return false;
+	
+	$rss_items = $rss->get_items( 0, $rss->get_item_quantity( $limit ) );
+	
+	// If the feed was erroneously 
+	if ( !$rss_items ) {
+		$md5 = md5( $this->feed );
+		delete_transient( 'feed_' . $md5 );
+		delete_transient( 'feed_mod_' . $md5 );
+		$rss = fetch_feed( $this->feed );
+		$rss_items = $rss->get_items( 0, $rss->get_item_quantity( $num ) );
+	}
+	
+	return $rss_items;
+
+}
+
 	
 function powerpress_dashboard_head()
 {
@@ -46,6 +74,12 @@ function powerpress_dashboard_head()
 .blubrry_stats_updated {
 	font-size: 80%;
 }
+.powerpress-news-dashboard {
+/*	background-image:url(http://images.blubrry.com/powerpress/blubrry_logo.png);
+	background-repeat: no-repeat;
+	background-position: top right; */
+}
+
 </style>
 <?php
 }
@@ -106,7 +140,58 @@ function powerpress_dashboard_stats_content()
 </div>
 <?php
 }
-	 
+
+
+function powerpress_dashboard_news_content()
+{
+	$Settings = get_option('powerpress_general');
+	
+	if( isset($Settings['disable_dashboard_news']) && $Settings['disable_dashboard_news'] == 1 )
+		return; // Lets not do anything to the dashboard for PowerPress News
+		
+	$rss_items = powerpress_get_news(POWERPRESS_FEED_NEWS, 3);
+	echo '<div class="powerpress-news-dashboard">';	
+	echo '<ul>';
+
+	if ( !$rss_items ) {
+			echo '<li>'. __('Error occurred retrieving news.' , 'powerpress') .'</li>';
+	} else {
+			foreach ( $rss_items as $item ) {
+			echo '<li>';
+			echo '<a class="rsswidget" href="'.esc_url( $item->get_permalink(), $protocolls=null, 'display' ).'">'. esc_html( $item->get_title() ) .'</a>';
+			echo ' <span class="rss-date">'. $item->get_date('F j, Y') .'</span>';
+			echo '<div class="rssSummary">'. esc_html( powerpress_feed_text_limit( strip_tags( $item->get_description() ), 150 ) ).'</div>';
+			echo '</li>';
+			}
+	}						
+
+	echo '</ul>';
+	echo '<br class="clear"/>';
+	echo '<div style="margin-top:10px;border-top: 1px solid #ddd; padding-top: 10px; text-align:center;">';
+	echo  __('Subscribe:', 'powerpress');
+	echo ' &nbsp; ';
+	echo '<a href="http://www.powerpresspodcast.com/feed/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Blog', 'powerpress') .'</a>';
+	echo ' &nbsp; &nbsp; ';
+	echo '<a href="http://www.powerpresspodcast.com/feed/podcast/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Podcast', 'powerpress') .'</a>';
+	echo ' &nbsp; &nbsp; ';
+	echo '<a href="itpc://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/itunes_modern.png" />'. __('iTunes', 'powerpress') .'</a>';
+	echo ' &nbsp; &nbsp; ';
+	echo '<a href="zune://subscribe/?Blubrry+PowerPress+and+Community+Podcast=http://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/zune.png" /> '. __('Zune', 'powerpress') .'</a>';
+	//echo ' &nbsp; &nbsp; ';
+	
+	echo '</div>';
+	echo '</div>';
+}
+
+
+function powerpress_feed_text_limit( $text, $limit, $finish = '&hellip;') {
+	if( strlen( $text ) > $limit ) {
+			$text = substr( $text, 0, $limit );
+		$text = substr( $text, 0, - ( strlen( strrchr( $text,' ') ) ) );
+		$text .= $finish;
+	}
+	return $text;
+}
 
 function powerpress_dashboard_setup()
 {
@@ -114,16 +199,25 @@ function powerpress_dashboard_setup()
 		return;
 	
 	$Settings = get_option('powerpress_general');
+	$StatsDashboard = true;
+	$NewsDashboard = true;
 	
 	if( isset($Settings['disable_dashboard_widget']) && $Settings['disable_dashboard_widget'] == 1 )
-		return; // Lets not do anythign to the dashboard for PowerPress Statistics
+		$StatsDashboard = false; // Lets not do anythign to the dashboard for PowerPress Statistics
+	
+	if( isset($Settings['disable_dashboard_news']) && $Settings['disable_dashboard_news'] == 1 )
+		$NewsDashboard = false; // Lets not do anythign to the dashboard for PowerPress Statistics
 		
 	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
-		return;
+		$StatsDashboard = false;
 		
 	if( $Settings )
 	{
-		wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
+		if( $StatsDashboard )
+			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
+		
+		if( $NewsDashboard )
+			wp_add_dashboard_widget( 'powerpress_dashboard_news', __( 'Blubrry PowerPress & Community Podcast', 'powerpress'), 'powerpress_dashboard_news_content' );
 	}
 }
 	 

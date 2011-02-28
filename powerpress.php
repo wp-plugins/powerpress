@@ -355,16 +355,7 @@ function powerpress_rss2_head()
 	$General = get_option('powerpress_general');
 	
 	// We made it this far, lets write stuff to the feed!
-	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" ';
-	
-	if( $General['episode_box_mode'] == 0 )
-		echo 'entry="normal" ';
-	else if( $General['episode_box_mode'] == 1)
-		echo 'entry="simple" ';
-	else
-		echo 'entry="advanced" ';
-	
-	echo '-->'.PHP_EOL;
+	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
 		
 	// add the itunes:new-feed-url tag to feed
 	if( powerpress_is_custom_podcast_feed() )
@@ -606,26 +597,23 @@ function powerpress_rss2_item()
 	$keywords = false;
 	$block = false;
 	
-	if( $powerpress_feed['itunes_custom'] )
+	if( isset( $EpisodeData['summary'] )  && strlen($EpisodeData['summary']) > 1 )
+		$summary = $EpisodeData['summary'];
+	if( isset( $EpisodeData['subtitle'] )  && strlen($EpisodeData['subtitle']) > 1 )
+		$subtitle = $EpisodeData['subtitle'];
+	if( isset( $EpisodeData['keywords'] ) && strlen($EpisodeData['keywords']) > 1 )
+		$keywords = $EpisodeData['keywords'];
+	if( isset( $EpisodeData['explicit'] ) && is_numeric($EpisodeData['explicit']) )
 	{
-		if( isset( $EpisodeData['summary'] )  && strlen($EpisodeData['summary']) > 1 )
-			$summary = $EpisodeData['summary'];
-		if( isset( $EpisodeData['subtitle'] )  && strlen($EpisodeData['subtitle']) > 1 )
-			$subtitle = $EpisodeData['subtitle'];
-		if( isset( $EpisodeData['keywords'] ) && strlen($EpisodeData['keywords']) > 1 )
-			$keywords = $EpisodeData['keywords'];
-		if( isset( $EpisodeData['explicit'] ) && is_numeric($EpisodeData['explicit']) )
-		{
-			$explicit_array = array("no", "yes", "clean");
-			$explicit = $explicit_array[$EpisodeData['explicit']];
-		}
-		
-		// Code for future use:
-		if( !empty( $EpisodeData['author'] ) )
-			$author = $EpisodeData['author'];
-		if( !empty( $EpisodeData['block'] ) )
-			$block = 'yes';
+		$explicit_array = array("no", "yes", "clean");
+		$explicit = $explicit_array[$EpisodeData['explicit']];
 	}
+	
+	// Code for future use:
+	if( !empty( $EpisodeData['author'] ) )
+		$author = $EpisodeData['author'];
+	if( !empty( $EpisodeData['block'] ) )
+		$block = 'yes';
 		
 	if( $custom_enclosure ) // We need to add the enclosure tag here...
 	{
@@ -1055,7 +1043,6 @@ function powerpress_load_general_feed_settings()
 				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
-				$powerpress_feed['itunes_custom'] = ($GeneralSettings['episode_box_mode'] == 2);
 				$powerpress_feed['category'] = $cat_ID;
 				$powerpress_feed['process_podpress'] = !empty($GeneralSettings['process_podpress']); // Category feeds could originate from Podpress
 				$powerpress_feed['rss_language'] = ''; // default, let WordPress set the language
@@ -1088,9 +1075,6 @@ function powerpress_load_general_feed_settings()
 				
 				$powerpress_feed = array();
 				$powerpress_feed['is_custom'] = true;
-				$powerpress_feed['itunes_custom'] = false;
-				if( isset($GeneralSettings['episode_box_mode']) && $GeneralSettings['episode_box_mode'] == 2 )
-					$powerpress_feed['itunes_custom'] = (@$GeneralSettings['episode_box_mode'] == 2);
 				$powerpress_feed['feed-slug'] = $feed_slug;
 				$powerpress_feed['process_podpress'] = ($feed_slug=='podcast'? !empty($GeneralSettings['process_podpress']): false); // We don't touch podpress data for custom feeds
 				$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
@@ -1144,9 +1128,6 @@ function powerpress_load_general_feed_settings()
 				{
 					$powerpress_feed = array(); // Only store what's needed for each feed item
 					$powerpress_feed['is_custom'] = false; // ($feed_slug == 'podcast'?true:false);
-					$powerpress_feed['itunes_custom'] = false;
-					if( isset($GeneralSettings['episode_box_mode']) && $GeneralSettings['episode_box_mode'] == 2)
-						$powerpress_feed['itunes_custom'] = true;
 					$powerpress_feed['feed-slug'] = $feed_slug;
 					$powerpress_feed['process_podpress'] = !empty($GeneralSettings['process_podpress']); // We don't touch podpress data for custom feeds
 					$powerpress_feed['default_url'] = '';
