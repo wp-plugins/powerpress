@@ -169,7 +169,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Upload image option added to supplement the video poster image field. Images are uploaded to the built-in image gallery in WordPress.
 * Option added to include play icon over poster image where applicable (such as HTML5 Video)
 * Error message displayed if another plugin is including a different version of the getid3 library.
-
+* New Blubrry PowerPress and Community Podcast added to welcome tab and dashboard.
 
 =  1.0.13 =
 * Released on 1/10/2011

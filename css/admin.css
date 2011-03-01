@@ -132,7 +132,7 @@ padding-bottom: 15px;
 }
 
 .powerpress-welcome-news {
-	margin: 10px 0;
+	margin: 10px 0 0 0;
 	float: left;
 	width: 60%;
 	border-right: 1px solid #CCCCCC;
@@ -158,7 +158,7 @@ padding-bottom: 15px;
 	margin-top: 5px;
 }
 .powerpress-welcome-highlighted {
-	margin: 10px 0;
+	margin: 10px 0 0 0;
 	float: left;
 	width: 39%;
 }
@@ -175,7 +175,9 @@ padding-bottom: 15px;
 .powerpress-welcome-highlighted .rssSummary {
 	font-size: 95%;
 }
+.powerpress-welcome-news ul li, .powerpress-welcome-highlighted ul li {
+	margin: 15px 0 10px 0;
+}
 .powerpress-welcome-news h2, .powerpress-welcome-highlighted h2 {
-
-	padding-top: 0;
+	padding: 0;
 }

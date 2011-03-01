@@ -256,6 +256,8 @@ function powerpress_admin_init()
 				$General['disable_dashboard_widget'] = 0;
 				if( !isset($_POST['StatsInDashboard'] ) )
 					$General['disable_dashboard_widget'] = 1;
+				if( !isset($General['disable_dashboard_news'] ) )
+					$General['disable_dashboard_news'] = 0;
 					
 				if( !isset($General['episode_box_embed'] ) )
 					$General['episode_box_embed'] = 0;
