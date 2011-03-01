@@ -313,6 +313,8 @@ function powerpress_admin_init()
 				
 				if( !isset($General['podcast_embed'] ) )
 					$General['podcast_embed'] = 0;
+				if( !isset($General['podcast_embed_in_feed'] ) )
+					$General['podcast_embed_in_feed'] = 0;
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
@@ -3016,6 +3018,106 @@ function powerpressadmin_support_uploads()
 function powerpressadmin_new()
 {
 	return '<sup style="color: #CC0000; font-weight: bold;">'. __('new!', 'powerpress') .'</sup>';
+}
+
+
+function powerpressadmin_community_news($items=3)
+{
+	$rss_items = powerpress_get_news(POWERPRESS_FEED_NEWS, $items);
+	echo '<div class="powerpress-news-dashboard">';	
+	echo '<ul>';
+
+	if ( !$rss_items )
+	{
+		echo '<li>'. __('Error occurred retrieving news.' , 'powerpress') .'</li>';
+	}
+	else
+	{
+	
+		while( list($null,$item) = each($rss_items) )
+		{
+			$enclosure = $item->get_enclosure();
+			echo '<li>';
+			echo '<a class="rsswidget" href="'.esc_url( $item->get_permalink(), $protocolls=null, 'display' ).'" target="_blank">'. esc_html( $item->get_title() ) .'</a>';
+			echo ' <span class="rss-date">'. $item->get_date('F j, Y') .'</span>';
+			echo '<div class="rssSummary">'. esc_html( powerpress_feed_text_limit( strip_tags( $item->get_description() ), 150 ) ).'</div>';
+			if( $enclosure && !empty($enclosure->link) )
+			{
+				$poster_image = '';
+				$poster_tag = $item->get_item_tags('http://www.rawvoice.com/rawvoiceRssModule/', 'poster');
+				if( $poster_tag && !empty($poster_tag[0]['attribs']['']['url']) )
+					$poster_image = $item->sanitize($poster_tag[0]['attribs']['']['url'], SIMPLEPIE_CONSTRUCT_TEXT);
+				
+				$embed = '';
+				$embed_tag = $item->get_item_tags('http://www.rawvoice.com/rawvoiceRssModule/', 'embed');
+				if( $embed_tag && !empty($embed_tag[0]['data']) )
+					$embed = $embed_tag[0]['data'];
+				
+				echo '<div class="powerpressNewsPlayer">';
+				
+				if( $embed )
+				{
+					$embed = preg_replace('/width="(\d{1,4})"/i', 'width="80%"', $embed );
+					echo $embed;
+				}
+				else
+				{
+					$EpisodeData = array();
+					$EpisodeData['type'] = $enclosure->type;
+					$EpisodeData['duration'] = $enclosure->duration;
+					$EpisodeData['poster'] = $poster_image;
+					$EpisodeData['width'] = '80%';
+					echo powerpressplayer_build_flowplayerclassic($enclosure->link, $EpisodeData);
+				}
+				echo '</div>';
+			}
+			echo '</li>';
+		}
+	}						
+
+	echo '</ul>';
+	echo '<br class="clear"/>';
+	echo '<div style="margin-top:10px;border-top: 1px solid #ddd; padding-top: 10px; text-align:center;">';
+	echo  __('Subscribe:', 'powerpress');
+	echo ' &nbsp; ';
+	echo '<a href="http://www.powerpresspodcast.com/feed/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Blog', 'powerpress') .'</a>';
+	echo ' &nbsp; ';
+	echo '<a href="http://www.powerpresspodcast.com/feed/podcast/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Podcast', 'powerpress') .'</a>';
+	echo ' &nbsp; ';
+	echo '<a href="itpc://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/itunes_modern.png" /> '. __('iTunes', 'powerpress') .'</a>';
+	echo ' &nbsp; ';
+	echo '<a href="zune://subscribe/?Blubrry+PowerPress+and+Community+Podcast=http://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/zune.png" /> '. __('Zune', 'powerpress') .'</a>';
+	//echo ' &nbsp; &nbsp; ';
+	
+	echo '</div>';
+	echo '</div>';
+}
+
+function powerpressadmin_community_highlighted($items=8)
+{
+	$rss_items = powerpress_get_news(POWERPRESS_FEED_HIGHLIGHTED, $items);
+	echo '<div class="powerpress-highlighted-dashboard">';	
+	echo '<ul>';
+
+	if ( !$rss_items )
+	{
+		echo '<li>'. __('Error occurred retrieving highlighted items.' , 'powerpress') .'</li>';
+	}
+	else
+	{
+	
+		while( list($null,$item) = each($rss_items) )
+		{
+			echo '<li>';
+			echo '<a class="rsswidget" href="'.esc_url( $item->get_permalink(), $protocolls=null, 'display' ).'" target="_blank">'. esc_html( $item->get_title() ) .'</a>';
+			//echo ' <span class="rss-date">'. $item->get_date('F j, Y') .'</span>';
+			echo '<div class="rssSummary">'. esc_html( powerpress_feed_text_limit( strip_tags( $item->get_description() ), 150 ) ).'</div>';
+			echo '</li>';
+		}
+	}						
+
+	echo '</ul>';
+	echo '</div>';
 }
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');

@@ -33,6 +33,7 @@ function powerpress_get_news($feed_url, $limit=10)
 	
 function powerpress_dashboard_head()
 {
+	echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
 ?>
 <style type="text/css">
 #blubrry_stats_summary {
@@ -79,7 +80,9 @@ function powerpress_dashboard_head()
 	background-repeat: no-repeat;
 	background-position: top right; */
 }
-
+.powerpress-news-dashboard .powerpressNewsPlayer {
+	margin-top: 5px;
+}
 </style>
 <?php
 }
@@ -149,38 +152,7 @@ function powerpress_dashboard_news_content()
 	if( isset($Settings['disable_dashboard_news']) && $Settings['disable_dashboard_news'] == 1 )
 		return; // Lets not do anything to the dashboard for PowerPress News
 		
-	$rss_items = powerpress_get_news(POWERPRESS_FEED_NEWS, 3);
-	echo '<div class="powerpress-news-dashboard">';	
-	echo '<ul>';
-
-	if ( !$rss_items ) {
-			echo '<li>'. __('Error occurred retrieving news.' , 'powerpress') .'</li>';
-	} else {
-			foreach ( $rss_items as $item ) {
-			echo '<li>';
-			echo '<a class="rsswidget" href="'.esc_url( $item->get_permalink(), $protocolls=null, 'display' ).'">'. esc_html( $item->get_title() ) .'</a>';
-			echo ' <span class="rss-date">'. $item->get_date('F j, Y') .'</span>';
-			echo '<div class="rssSummary">'. esc_html( powerpress_feed_text_limit( strip_tags( $item->get_description() ), 150 ) ).'</div>';
-			echo '</li>';
-			}
-	}						
-
-	echo '</ul>';
-	echo '<br class="clear"/>';
-	echo '<div style="margin-top:10px;border-top: 1px solid #ddd; padding-top: 10px; text-align:center;">';
-	echo  __('Subscribe:', 'powerpress');
-	echo ' &nbsp; ';
-	echo '<a href="http://www.powerpresspodcast.com/feed/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Blog', 'powerpress') .'</a>';
-	echo ' &nbsp; &nbsp; ';
-	echo '<a href="http://www.powerpresspodcast.com/feed/podcast/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Podcast', 'powerpress') .'</a>';
-	echo ' &nbsp; &nbsp; ';
-	echo '<a href="itpc://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/itunes_modern.png" />'. __('iTunes', 'powerpress') .'</a>';
-	echo ' &nbsp; &nbsp; ';
-	echo '<a href="zune://subscribe/?Blubrry+PowerPress+and+Community+Podcast=http://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/zune.png" /> '. __('Zune', 'powerpress') .'</a>';
-	//echo ' &nbsp; &nbsp; ';
-	
-	echo '</div>';
-	echo '</div>';
+	powerpressadmin_community_news();
 }
 
 

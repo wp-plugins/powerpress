@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
   </ul>
 	
 	<div id="tab0" class="powerpress_tab">
-		Welcome to Blubrry PowerPress!
+	<?php	powerpressadmin_welcome($General); ?>
 	</div>
 	
   <div id="tab1" class="powerpress_tab">
@@ -915,6 +915,9 @@ function powerpressadmin_appearance($General=false)
 	<input type="checkbox" style="margin-left: 30px;" id="display_download_duration" name="PlayerSettings[display_download_duration]" value="1" <?php if( $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( this.checked ) { jQuery('#display_download_size').attr('checked','checked'); }" /> <?php echo __('Include file size and duration', 'powerpress'); ?></p>
 	
 	<p><label><input type="checkbox" name="General[podcast_embed]" value="1" <?php if( $General['podcast_embed'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Player Embed Link', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></label></p>
+	<p style="margin-left: 35px;">
+		<input type="checkbox" name="General[podcast_embed_in_feed]" value="1" <?php if( !empty($General['podcast_embed_in_feed']) ) echo 'checked'; ?>  /> <?php echo __('Include embed in feeds', 'powerpress'); ?>
+	</p>
 	<p><?php echo __('Embed option only works for Flow Player Classic and HTML5 Video player.', 'powerpress'); ?></p>
 </td>
 </tr>
@@ -978,6 +981,28 @@ while( list($value,$desc) = each($linkoptions) )
 <!-- end presentation settings -->
 <?php  
 } // End powerpress_admin_appearance()
+
+
+function powerpressadmin_welcome($GeneralSettings)
+{
+?>
+<div>
+	<div class="powerpress-welcome-news">
+		<h2><?php echo __('Blubrry PowerPress and Community Podcast', 'powerpress'); ?></h2>
+		<?php powerpressadmin_community_news(); ?>
+	</div>
+	<div class="powerpress-welcome-highlighted">
+		<div>
+			<h2><?php echo __('Highlighted Topics', 'powerpress'); ?></h2>
+			<?php powerpressadmin_community_highlighted(); ?>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+<?php
+} // End powerpressadmin_welcome()
 
 function powerpressadmin_edit_tv($FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
 {

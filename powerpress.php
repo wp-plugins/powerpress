@@ -698,6 +698,16 @@ function powerpress_rss2_item()
 			echo "\t\t<rawvoice:poster url=\"". $EpisodeData['image'] ."\" />".PHP_EOL;
 		if( !empty($EpisodeData['embed']) )
 			echo "\t\t<rawvoice:embed>". htmlspecialchars($EpisodeData['embed']) ."</rawvoice:embed>".PHP_EOL;
+		else if( !empty($powerpress_feed['podcast_embed_in_feed']) && function_exists('powerpress_generate_embed') )
+		{
+			$player = powerpressplayer_embedable($EpisodeData['url'], $EpisodeData);
+			$embed_content = '';
+			// TODO:
+			if( $player )
+				$embed_content = powerpress_generate_embed($player, $EpisodeData);
+			if( $embed_content )
+				echo "\t\t<rawvoice:embed>". htmlspecialchars( $embed_content ) ."</rawvoice:embed>".PHP_EOL;
+		}
 			
 		if( !empty($EpisodeData['webm_src']) )
 		{
@@ -1063,6 +1073,9 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['itunes_author_post'] = true;
 				if( $Feed['rss_language'] != '' )
 					$powerpress_feed['rss_language'] = $Feed['rss_language'];
+				
+				if( !empty($GeneralSettings['podcast_embed_in_feed']) )
+					$powerpress_feed['podcast_embed_in_feed'] = true;
 				return;
 			}
 			
@@ -1099,8 +1112,13 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['itunes_author_post'] = true;
 				if( !empty($Feed['rss_language']) )
 					$powerpress_feed['rss_language'] = $Feed['rss_language'];
+				if( !empty($GeneralSettings['podcast_embed_in_feed']) )
+					$powerpress_feed['podcast_embed_in_feed'] = true;
 				return;
 			}
+			
+			if( !isset($FeedSettingsBasic['apply_to']) )
+				$FeedSettingsBasic['apply_to'] = 1;
 
 			// We fell this far,we must be in simple mode or the user never saved customized their custom feed settings
 			switch( $FeedSettingsBasic['apply_to'] )
@@ -1150,6 +1168,8 @@ function powerpress_load_general_feed_settings()
 					if( !empty($FeedSettingsBasic['itunes_author_post']) )
 						$powerpress_feed['itunes_author_post'] = true;
 					$powerpress_feed['rss_language'] = ''; // Cannot set the language setting in simple mode
+					if( !empty($GeneralSettings['podcast_embed_in_feed']) )
+						$powerpress_feed['podcast_embed_in_feed'] = true;
 				}; break;
 				// All other cases we let fall through
 			}

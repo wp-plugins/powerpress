@@ -392,6 +392,12 @@ function powerpress_generate_embed($player, $EpisodeData) // $post_id, $feed_slu
 			if( !empty($GeneralSettings['player_height']) )
 				$height = $GeneralSettings['player_height'];
 		}
+		
+		$extension = powerpressplayer_get_extension($EpisodeData['url']);
+		if( $extension == 'mp3' || $extension == 'm4a' )
+		{
+			$height = 24; // Hack for audio to only include the player without the poster art
+		}
 	}
 	
 	$embed = '';
@@ -1361,7 +1367,10 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 			$player_width = $EpisodeData['width'];
 		
 		$cover_image = ''; // Audio should not have a cover image
-		$player_height = 24;
+		if( empty($cover_image) )
+		{
+			$player_height = 24;
+		}
 	}
 	
 	// Build player...
@@ -1379,7 +1388,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	}
 	$content .= "pp_flashembed(\n";
 	$content .= "	'powerpress_player_{$player_id}',\n";
-	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: {$player_width}, height: {$player_height}, wmode: 'transparent' },\n";
+	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: '{$player_width}', height: '{$player_height}', wmode: 'transparent' },\n";
 	if( $cover_image )
 		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
 	else
