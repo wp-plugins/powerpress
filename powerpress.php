@@ -21,7 +21,7 @@ Credits:
 	flashembed(), License: MIT by Tero Piirainen (tipiirai [at] gmail.com)
 		Note: code found at bottom of player.js
 	
-Copyright 2008-2010 RawVoice Inc. (http://www.rawvoice.com)
+Copyright 2008-2011 RawVoice Inc. (http://www.rawvoice.com)
 
 License: GPL (http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
 
@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '2.0.3 beta' );
+define('POWERPRESS_VERSION', '2.0.4 beta' );
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
