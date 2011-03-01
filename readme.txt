@@ -146,8 +146,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
-= 2.0.2 =
-* Beta 2.0.2 Released on 2/25/2011
+= 2.0.4 =
+* Beta 2.0.4 Released on 3/1/2011
 * PowerPress now requires WordPress version 2.8 or newer.
 * HTML5 video player with Flow Player Classic fallback added
 * HTML5 audio player with Flow Player Classic fallback added
