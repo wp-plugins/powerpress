@@ -170,6 +170,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Option added to include play icon over poster image where applicable (such as HTML5 Video)
 * Error message displayed if another plugin is including a different version of the getid3 library.
 * New Blubrry PowerPress and Community Podcast added to welcome tab and dashboard.
+* By default, media files with extension .ogg are treated as audio. Video ogg files should use the .ogv extension. If you wish to override this behavior, add the following define to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);`
 
 =  1.0.13 =
 * Released on 1/10/2011

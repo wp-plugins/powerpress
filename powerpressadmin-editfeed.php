@@ -951,7 +951,7 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo @$FeedSettings['itunes_image']; ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://mysite.com/images/itunes.jpg<br /><br />
+<p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg<br /><br />
 <?php echo __('iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.', 'powerpress'); ?></p>
 
 <p><?php echo __('Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory.', 'powerpress'); ?>

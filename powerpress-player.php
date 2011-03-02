@@ -24,10 +24,6 @@ function powerpressplayer_get_extension($media_url, $EpisodeData = array() )
 	if( isset($EpisodeData['type']) && $EpisodeData['type'] == 'audio/mpeg' && $extension != 'mp3' )
 		$extension = 'mp3';
 	
-	// Hack to make sure we play ogg as audio:
-	if( $extension == 'ogg' && defined('POWERPRESS_OGG_AUDIO') && POWERPRESS_OGG_AUDIO )
-		$extension = 'oga';
-		
 	return $extension;
 }
 
@@ -666,7 +662,7 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 			// Use Flow player if configured
 		}; break;
 		case 'ogg': {
-			if( !defined('POWERPRESS_OGG_AUDIO') || POWERPRESS_OGG_AUDIO == false )
+			if( defined('POWERPRESS_OGG_VIDEO') && POWERPRESS_OGG_VIDEO )
 				return $content; // Ogg is handled as video
 		}
 		case 'oga': {
@@ -690,8 +686,8 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 	{
 		// OGG (audio or video)
 		case 'ogg': {
-			// Ogg special case, we treat as video unless specified otherwise
-			if( defined('POWERPRESS_OGG_AUDIO') && POWERPRESS_OGG_AUDIO == true )
+			// Ogg special case, we treat as audio unless specified otherwise
+			if( !defined('POWERPRESS_OGG_VIDEO') || POWERPRESS_OGG_VIDEO == false )
 				return $content;
 		}
 		// OGG Video / WebM
