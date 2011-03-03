@@ -587,6 +587,14 @@ function powerpress_rss2_item()
 	if( !$EpisodeData || !$EpisodeData['url'] )
 		return;
 	
+	// If enclosure not added, check to see why...
+	if( defined('POWERPRESS_ENCLOSURE_FIX') && POWERPRESS_ENCLOSURE_FIX && !$custom_enclosure && $GLOBALS['powerpress_rss_enclosure_post_id'] != $post->ID )
+	{
+		$enclosure_in_wp = apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($EpisodeData['url']) . '" length="' . $EpisodeData['size'] . '" type="' . $EpisodeData['type'] . '" />' . "\n") );
+		if( !$enclosure_in_wp )
+			$custom_enclosure = true;
+	}
+	
 	$author = $powerpress_feed['itunes_talent_name'];
 	if( isset($powerpress_feed['itunes_author_post']) )
 		$author = get_the_author();
@@ -770,7 +778,7 @@ function powerpress_filter_rss_enclosure($content)
 }
 
 
-add_filter('rss_enclosure', 'powerpress_filter_rss_enclosure');
+add_filter('rss_enclosure', 'powerpress_filter_rss_enclosure', 11);
 
 function powerpress_bloginfo_rss($content, $field = '')
 {
@@ -1999,11 +2007,6 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 		$Data['type'] = trim($MetaParts[2]);
 	if( count($MetaParts) > 3 )
 		$Serialized = $MetaParts[3];
-		
-	//list($url, $size, $type, $Serialized) = explode("\n", $MetaData, 4);
-	//$Data['url'] = powerpress_add_redirect_url( trim($url) );
-	//$Data['size'] = trim($size);
-	//$Data['type'] = trim($type);
 	
 	if( $Serialized )
 	{

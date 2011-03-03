@@ -151,6 +151,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress now requires WordPress version 2.8 or newer.
 * HTML5 video player with Flow Player Classic fallback added
 * HTML5 audio player with Flow Player Classic fallback added
+* Embed Episode feature added
 * WebM video support added
 * Ogg audio/video support improved
 * For mp4/m4v video, a new alternative WebM URL field has been added. This is ideal for supporting all browser based HTML5 video players.
@@ -171,6 +172,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Error message displayed if another plugin is including a different version of the getid3 library.
 * New Blubrry PowerPress and Community Podcast added to welcome tab and dashboard.
 * By default, media files with extension .ogg are treated as audio. Video ogg files should use the .ogv extension. If you wish to override this behavior, add the following define to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);`
+* Added define option `define('POWERPRESS_ENCLOSURE_FIX', true);` that can be added to your wp-config.php to fix missing enclosures in feeds when using plugins such as WishList Member. (Thanks Patrick for helping us fix this issue)
 
 =  1.0.13 =
 * Released on 1/10/2011
