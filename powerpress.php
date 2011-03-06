@@ -35,6 +35,15 @@ if( !function_exists('add_action') )
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
 define('POWERPRESS_VERSION', '2.0.4 beta' );
 
+// Translation support:
+if ( !defined('POWERPRESS_ABSPATH') )
+	define('POWERPRESS_ABSPATH', dirname(__FILE__) );
+
+// Translation support loaded:
+load_plugin_textdomain('powerpress', // domain / keyword name of plugin
+		POWERPRESS_ABSPATH .'/languages', // Absolute path
+		basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
+
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
 // wp-config.php file so the setting is not disrupted when
@@ -81,15 +90,6 @@ if( !defined('POWERPRESS_MOBILE_REGEX') )
 	define('POWERPRESS_MOBILE_REGEX', 'iphone|ipod|aspen|android|blackberry|opera mini|webos|incognito|webmate');
 	
 $powerpress_feed = NULL; // DO NOT CHANGE
-
-
-if ( !defined('POWERPRESS_ABSPATH') )
-	define('POWERPRESS_ABSPATH', dirname(__FILE__) );
-
-// Translation support loaded:
-load_plugin_textdomain('powerpress', // domain / keyword name of plugin
-		POWERPRESS_ABSPATH .'/languages', // Absolute path
-		basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
 
 function powerpress_content($content)
 {

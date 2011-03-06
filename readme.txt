@@ -173,6 +173,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * New Blubrry PowerPress and Community Podcast added to welcome tab and dashboard.
 * By default, media files with extension .ogg are treated as audio. Video ogg files should use the .ogv extension. If you wish to override this behavior, add the following define to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);`
 * Added define option `define('POWERPRESS_ENCLOSURE_FIX', true);` that can be added to your wp-config.php to fix missing enclosures in feeds when using plugins such as WishList Member. (Thanks Patrick for helping us fix this issue)
+* Fixed bug with download and play in new window text not getting translated for non-english languages. (Thanks infusiastic for bringing to our attention).
 
 =  1.0.13 =
 * Released on 1/10/2011
