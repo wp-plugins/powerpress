@@ -182,7 +182,7 @@ function powerpress_dashboard_setup()
 		
 	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
 		$StatsDashboard = false;
-		
+
 	if( $Settings )
 	{
 		if( $NewsDashboard )
@@ -192,18 +192,56 @@ function powerpress_dashboard_setup()
 			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
 	}
 	
-	if( !isset($Settings['dashboard_installed']) )
+	$user_options = get_user_option('powerpress_user');
+	if( empty($user_options) || empty($user_options['dashboard_installed']) || $user_options['dashboard_installed'] < 2 )
 	{
+		if( !is_array($user_options) )
+			$user_options = array();
+		$user = wp_get_current_user();
+		
 		// First time we've seen this setting, so must be first time we've added the widgets, lets stack them at the top for convenience.
-		powerpressadmin_add_dashboard_widgets();
-		$NewSettings = array();
-		$NewSettings['dashboard_installed'] = 1;
-		powerpress_save_settings($NewSettings);
+		powerpressadmin_add_dashboard_widgets($user->ID);
+		$user_options['dashboard_installed'] = 2; // version of PowerPress
+		update_user_option($user->ID, "powerpress_user", $user_options, true);
+	}
+	else
+	{
+		powerpressadmin_add_dashboard_widgets(false);
 	}
 }
 
-function powerpressadmin_add_dashboard_widgets()
+function powerpressadmin_add_dashboard_widgets( $check_user_id = false)
 {
+	// Only re-order the powerpress widgets if they aren't already on the dashboard:
+	if( $check_user_id )
+	{
+		$user_options = get_user_option('meta-box-order_dashboard', $check_user_id);
+		if( $user_options )
+		{
+			$save = false;
+			if( !preg_match('/powerpress_dashboard_stats/', $user_options['normal']) && !preg_match('/powerpress_dashboard_stats/', $user_options['side']) && !preg_match('/powerpress_dashboard_stats/', $user_options['column3']) && !preg_match('/powerpress_dashboard_stats/', $user_options['column4']) )
+			{	
+				$save = true;
+				if( !empty($user_options['side']) )
+					$user_options['side'] = 'powerpress_dashboard_stats,'.$user_options['side'];
+				else
+					$user_options['normal'] = 'powerpress_dashboard_stats,'.$user_options['normal'];
+			}
+			
+			if( !preg_match('/powerpress_dashboard_news/', $user_options['normal']) && !preg_match('/powerpress_dashboard_news/', $user_options['side']) && !preg_match('/powerpress_dashboard_news/', $user_options['column3']) && !preg_match('/powerpress_dashboard_news/', $user_options['column4']) )
+			{	
+				$save = true;
+				$user_options['normal'] = 'powerpress_dashboard_news,'.$user_options['normal'];
+			}
+			
+			if( $save )
+			{
+				update_user_option($check_user_id, "meta-box-order_dashboard", $user_options, true);
+			}
+		}
+	}
+	
+	// Reorder for all future users
 	global $wp_meta_boxes;
 	$dashboard_current = $wp_meta_boxes['dashboard']['normal']['core'];
 	
