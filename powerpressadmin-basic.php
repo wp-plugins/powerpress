@@ -626,9 +626,45 @@ function powerpressadmin_edit_blubrry_services($General)
 		$StatsInDashboard = false;
 		
 ?>
-<h3><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h3>
+<h3><?php echo __('Integrate Blubrry Services', 'powerpress'); ?>  &nbsp; <span style="color: #CC0000; font-size: 11px;"><?php echo __('optional', 'powerpress'); ?></span></h3>
+<p style="margin-bottom: 0;">
+	<?php echo __('Add Blubrry Media Statistics to your WordPress dashboard.','powerpress'); ?>
+</p>
+<p style="margin-top: 5px;">
+	<?php echo __('Blubrry Media Hosting users can also quickly upload and publish media directly from their blog.','powerpress'); ?>
+</p>
+
+<div style="margin-left: 40px;">
+	<p>
+		<?php echo __('Have an account on Blubrry.com?','powerpress'); ?>
+	</p>
+	<p style="font-size: 110%;">
+		<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=500&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;"><?php echo __('Click here to configure your Blubrry settings', 'powerpress'); ?></a></strong>
+	</p>
+	<p style="margin-left: 40px;">
+		<input name="StatsInDashboard" type="checkbox" value="1"<?php if( $StatsInDashboard == true ) echo ' checked'; ?> /> 
+		<?php echo __('Display Blubrry Media Statistics in your dashboard', 'powerpress'); ?>
+	</p>
+	<p style="margin-bottom: 0;">
+		<?php echo __('Don\'t have an account at Blubrry.com?','powerpress'); ?>
+	</p>
+	<p style="margin-top: 5px;">
+		<?php
+		echo sprintf(__('%s offers an array of services to media creators including a %s %s. Our %s, which includes U.S. downloads, trending, exporting, is available for $5 month. Need a reliable place to host your media? %s media hosting packages start at $12. %s', 'powerpress'),
+			'<a href="http://www.blubrry.com/" target="_blank">Blubrry.com</a>',
+			'<strong style="color: #CC0000;">'.__('FREE','powerpress').'</strong>',
+			'<a href="http://www.blubrry.com/podcast_statistics/" target="_blank">'. __('Basic Stats Service', 'powerpress') .'</a>',
+			'<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank">'. __('Premium Media Statistics', 'powerpress') .'</a>',
+			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank" style="text-decoration: none;">'. __('Blubrry Media Hosting', 'powerpress') .'</a>',
+			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">'. __('Learn More', 'powerpress') .'</a>'
+		);
+		?>
+	</p>
+</div>
+
+<?php /*  ?>
 <p>
-	<?php echo sprintf(
+	<?php //echo sprintf(
 		__('Adds %s to your blog\'s %s plus features for %s users to quickly upload and publish media directly from their blog.', 'powerpress'),
 		'<a href="http://www.blubrry.com/podcast_statistics/" target="_blank">'. __('Blubrry Media Statistics', 'powerpress') .'</a>',
 		'<a href="'. admin_url() .'">'. __('WordPress Dashboard', 'powerpress') .'</a>',
@@ -666,6 +702,7 @@ which includes U.S. downloads, trending and exporting, is available for $5 month
 packages start at $12.</em>
 </p>
 <?php
+	*/
 }
 
 function powerpressadmin_edit_media_statistics($General)
@@ -676,96 +713,93 @@ function powerpressadmin_edit_media_statistics($General)
 		$General['redirect2'] = '';
 	if( !isset($General['redirect3']) )
 		$General['redirect3'] = '';
-	if( !isset($General['hide_free_stats']) )
-		$General['hide_free_stats'] = 0;
-	
 ?>
-<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
-<p>
-<?php echo __('Enter your Redirect URL issued by your media statistics service provider below.', 'powerpress'); ?>
-</p>
+<h3><?php echo __('Media Statistics', 'powerpress'); ?>  &nbsp; <span style="color: #CC0000; font-size: 11px;"><?php echo __('optional', 'powerpress'); ?></span></h3>
+<div style="margin-left: 40px;">
+	<p>
+	<?php echo __('Enter your Redirect URL issued by your media statistics service provider below.', 'powerpress'); ?>
+	</p>
 
-<div style="position: relative;">
-	<table class="form-table">
-	<tr valign="top">
-	<th scope="row">
-	<?php echo __('Redirect URL 1', 'powerpress'); ?> 
-	</th>
-	<td>
-	<input type="text" style="width: 60%;" name="General[redirect1]" value="<?php echo $General['redirect1']; ?>" onChange="return CheckRedirect(this);" maxlength="250" /> 
-	</td>
-	</tr>
-	</table>
-	<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) { ?>
-	<div style="position: absolute;bottom: 0px;right: 10px;font-size: 85%;" id="powerpress_redirect2_showlink">
-		<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect2_table').style.display='block';document.getElementById('powerpress_redirect2_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
-	</div>
-<?php } ?>
-</div>
-	
-<div id="powerpress_redirect2_table" style="position: relative;<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) echo 'display:none;'; ?>">
-	<table class="form-table">
-	<tr valign="top">
-	<th scope="row">
-	<?php echo __('Redirect URL 2', 'powerpress'); ?> 
-	</th>
-	<td>
-	<input type="text"  style="width: 60%;" name="General[redirect2]" value="<?php echo $General['redirect2']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
-	</td>
-	</tr>
-	</table>
-	<?php if( $General['redirect3'] == '' ) { ?>
-	<div style="position: absolute;bottom: 0px;right: 10px;font-size: 85%;" id="powerpress_redirect3_showlink">
-		<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect3_table').style.display='block';document.getElementById('powerpress_redirect3_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
-	</div>
-	<?php } ?>
-</div>
-
-<div id="powerpress_redirect3_table" style="<?php if( empty($General['redirect3']) ) echo 'display:none;'; ?>">
-	<table class="form-table">
-	<tr valign="top">
-	<th scope="row">
-	<?php echo __('Redirect URL 3', 'powerpress'); ?> 
-	</th>
-	<td>
-	<input type="text" style="width: 60%;" name="General[redirect3]" value="<?php echo $General['redirect3']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
-	</td>
-	</tr>
-	</table>
-</div>
-<style type="text/css">
-#TB_window {
-	border: solid 1px #3D517E;
-}
-</style>
-<input type="hidden" id="hide_free_stats" name="General[hide_free_stats]" value="<?php echo (empty($General['hide_free_stats'])?0:1); ?>" />
-
-<div id="blubrry_stats_box" style="<?php if( !empty($General['hide_free_stats']) ) echo 'display:none;'; ?>">
-	<div style="font-family: Arial, Helvetica, sans-serif; border: solid 1px #3D517E; background-color:#D2E9FF;padding:10px; margin-left:10px;margin-right:10px;margin-top:10px;">
-		<div style="color: #3D517E; font-weight: bold; font-size: 18px;"><?php echo __('Free Access to the Best Media Statistics!', 'powerpress'); ?></div>
-		<div style="font-size: 14px;margin-top: 10px; margin-bottom: 10px;">
-			<?php echo sprintf( __('Get %s Media Statistics by taking a few minutes and adding your podcast to Blubrry.com. What\'s the catch? Nothing! For many, our free service is all you will need. But if you\'re looking to further your abilities with media download information, we hope you consider upgrading to our paid Premium Statistics service. ', 'powerpress'),
-				'<span style="color: #990000; font-weight: bold;">'. __('FREE', 'powerpress') .'</span>' );
-			 ?>
+	<div style="position: relative; margin-left: 40px; padding-bottom: 10px;">
+		<table class="form-table">
+		<tr valign="top">
+		<th scope="row">
+		<?php echo __('Redirect URL 1', 'powerpress'); ?> 
+		</th>
+		<td>
+		<input type="text" style="width: 60%;" name="General[redirect1]" value="<?php echo $General['redirect1']; ?>" onChange="return CheckRedirect(this);" maxlength="250" /> 
+		</td>
+		</tr>
+		</table>
+		<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) { ?>
+		<div style="position: absolute;bottom: -2px;left: -40px;" id="powerpress_redirect2_showlink">
+			<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect2_table').style.display='block';document.getElementById('powerpress_redirect2_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
 		</div>
-		<div style="text-align: center; font-size: 16px; font-weight: bold;"><a href="http://www.blubrry.com/addpodcast.php?feed=<?php echo urlencode(get_feed_link('podcast')); ?>" target="_blank" style="color: #3D517E;"><?php echo __('Sign Up For Free Media Statistics Now', 'powerpress'); ?></a></div>
+		<?php } ?>
 	</div>
-	<div style="font-size: 10px;margin-left: 10px;">
-		<a href="javascript:void();" onclick="javascript:document.getElementById('blubrry_stats_box').style.display='none';document.getElementById('hide_free_stats').value=1;document.getElementById('show_free_stats').style.display='block';return false;"><?php echo __('hide','powerpress'); ?></a>
+	
+		
+	<div id="powerpress_redirect2_table" style="position: relative;<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) echo 'display:none;'; ?> margin-left: 40px; padding-bottom: 10px;">
+		<table class="form-table">
+		<tr valign="top">
+		<th scope="row">
+		<?php echo __('Redirect URL 2', 'powerpress'); ?> 
+		</th>
+		<td>
+		<input type="text"  style="width: 60%;" name="General[redirect2]" value="<?php echo $General['redirect2']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
+		</td>
+		</tr>
+		</table>
+		<?php if( $General['redirect3'] == '' ) { ?>
+		<div style="position: absolute;bottom: -2px;left: -40px;" id="powerpress_redirect3_showlink">
+			<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect3_table').style.display='block';document.getElementById('powerpress_redirect3_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
+		</div>
+		<?php } ?>
 	</div>
-</div>
 
-<div id="show_free_stats" style="<?php if( $General['hide_free_stats'] != 1 ) echo 'display:none;'; ?>">
-	<table class="form-table">
-	<tr valign="top">
-	<th scope="row">
-	&nbsp;
-	</th>
-	<td>
-	<p style="margin: 0;"><a href="javascript:void();" onclick="javascript:document.getElementById('blubrry_stats_box').style.display='block';document.getElementById('hide_free_stats').value=0;document.getElementById('show_free_stats').style.display='none';return false;"><?php echo __('Learn About Free Blubrry Statistics', 'powerpress'); ?></a></p>
-	</td>
-	</tr>
-	</table>
+	<div id="powerpress_redirect3_table" style="<?php if( empty($General['redirect3']) ) echo 'display:none;'; ?> margin-left: 40px;">
+		<table class="form-table">
+		<tr valign="top">
+		<th scope="row">
+		<?php echo __('Redirect URL 3', 'powerpress'); ?> 
+		</th>
+		<td>
+		<input type="text" style="width: 60%;" name="General[redirect3]" value="<?php echo $General['redirect3']; ?>" onblur="return CheckRedirect(this);" maxlength="250" />
+		</td>
+		</tr>
+		</table>
+	</div>
+	<style type="text/css">
+	#TB_window {
+		border: solid 1px #3D517E;
+	}
+	</style>
+	
+	<p>
+		<?php echo __('Need a media statistics provider?', 'powerpress'); ?> 
+		<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank" style="text-decoration: none;">
+		<?php
+			echo sprintf( __('Blubrry.com offers %s access to the best statistics!', 'powerpress'),
+				'<strong style="color: #CC0000;">'.__('FREE', 'powerpress').'</strong>' );
+		?>
+		</a>
+	</p>
+
+	<div id="blubrry_stats_box">
+		<div style="font-family: Arial, Helvetica, sans-serif; border: solid 1px #ADDA13; background-color:#DFF495;padding:10px; margin-top:10px; position: relative;">
+			<p style="font-size: 14px; margin-top: 0;">
+			<?php echo __('Blubrry brings you the most all-inclusive digital media statistics service available. Gain unsurpassed insights into your audience. Find out who is linking to you, listener-base demographics and geographical data with worldwide mapping. Try us! You\'ll find our custom reports and daily email summaries are info you can trust, track and build your media program on.', 'powerpress'); ?>
+			</p>
+			<p style="font-size: 14px;">
+			<?php echo sprintf(__('* Get %s Media Statistics by taking a few minutes and adding your podcast to Blubrry.com. What\'s the catch? Nothing! For many, our free service is all you will need. But if you\'re looking to further your abilities with media download information, we hope you consider upgrading to our paid Premium Statistics Service.', 'powerpress'),
+				'<strong style="color: #990000;">'. __('FREE', 'powerpress') .'</strong>'
+				); ?>
+			</p>
+		
+			<div style="text-align: center; font-size: 24px; font-weight: normal; margin-bottom: 8px;"><a href="http://www.blubrry.com/addpodcast.php?feed=<?php echo urlencode(get_feed_link('podcast')); ?>" target="_blank" style="color: #3D517E;"><?php echo __('Sign Up Now!', 'powerpress'); ?></a></div>
+			<div style="font-size: 85%; position: absolute; bottom: 4px; right: 8px;"><i><?php echo __('* some restrictions apply', 'powerpress'); ?> <a href="http://www.blubrry.com/podcast_statistics/" target="_blank"><?php echo __('learn more', 'powerpress'); ?></a></i></div>
+		</div>
+	</div>
 </div>
 <?php
 }
@@ -991,7 +1025,7 @@ function powerpressadmin_welcome($GeneralSettings)
 		<h2><?php echo __('Blubrry PowerPress and Community Podcast', 'powerpress'); ?></h2>
 		<?php powerpressadmin_community_news(); ?>
 		<p style="margin-bottom: 0; font-size: 85%;">
-			<input type="checkbox" name="General[disable_dashboard_news]" value="1" <?php echo (empty($GeneralSettings['disable_dashboard_news'])?'':'checked'); ?> /> <?php echo __('Remove from Dashboard', 'powerpress'); ?>
+			<input type="checkbox" name="General[disable_dashboard_news]" value="1" <?php echo (empty($GeneralSettings['disable_dashboard_news'])?'':'checked'); ?> /> <?php echo __('Remove from dashboard', 'powerpress'); ?>
 		</p>
 	</div>
 	<div class="powerpress-welcome-highlighted">

@@ -1859,7 +1859,7 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 <input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="<?php echo __('Save Changes', 'powerpress') ?>" />
 </p>
 <?php } ?>
-<p style="font-size: 85%; text-align: center; padding-bottom: 25px;">
+<p style="font-size: 85%; text-align: center; padding-bottom: 35px;">
 	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress', 'powerpress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
 	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com', 'powerpress'); ?>"><?php echo __('PodcastFAQ.com', 'powerpress'); ?></a> |
 	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation', 'powerpress'); ?>"><?php echo __('Documentation', 'powerpress'); ?></a> |
@@ -2214,11 +2214,13 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		$content = curl_exec($curl);
 		$error = curl_errno($curl);
 		$error_msg = curl_error($curl);
+		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 		if( $error )
 		{
-			global $g_powerpress_remote_error;
+			global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
 			$g_powerpress_remote_error = $error_msg;
+			$g_powerpress_remote_errorno = $http_code;
 			return false;
 		}
 		return $content;
@@ -2242,7 +2244,8 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	
 	if ( is_wp_error( $response ) )
 	{
-		global $g_powerpress_remote_error;
+		global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
+		$g_powerpress_remote_errorno = $response->get_error_code();
 		$g_powerpress_remote_error = $response->get_error_message();
 		return false;
 	}

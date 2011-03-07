@@ -357,7 +357,19 @@ function DeleteMedia(File)
 					{
 						$Error = $results['error'];
 						if( strstr($Error, __('currently not available', 'powerpress') ) )
+						{
 							$Error = __('Unable to find podcasts for this account.', 'powerpress');
+							$Error .= '<br /><span style="font-weight: normal; font-size: 12px;">';
+							if( $SaveSettings['blubrry_hosting'] == 0 )
+								$Error .= 'Verify that the email address you enter here matches the email address you used when you listed your podcast on blubrry.com.</span>';
+							else
+								$Error .= 'Media hosting customers are encouraged to <a href="http://www.blubrry.com/contact.php" target="_blank">contact blubrry</a> for support.</span>';
+						}
+						else if( preg_match('/No programs found.*media hosting/i', $results['error']) )
+						{
+							$Error .= '<br/><span style="font-weight: normal; font-size: 12px;">';
+							$Error .= 'Service may take up to 48 hours to activate upon receiving payment.</span>';
+						}
 					}
 					else if( !is_array($results) )
 					{
@@ -407,8 +419,10 @@ function DeleteMedia(File)
 				}
 				else
 				{
-					global $g_powerpress_remote_error;
-					if( !empty($g_powerpress_remote_error) )
+					global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
+					if( !empty($g_powerpress_remote_errorno) && $g_powerpress_remote_errorno == 401 )
+						$Error = 'Incorrect user email address or password.  <br /><span style="font-weight: normal; font-size: 12px;">Verify your account settings and try again.</span>';
+					else if( !empty($g_powerpress_remote_error) )
 						$Error = __('Error:', 'powerpress') .' '.$g_powerpress_remote_error;
 					else
 						$Error = __('Authentication failed.', 'powerpress');
