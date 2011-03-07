@@ -185,11 +185,44 @@ function powerpress_dashboard_setup()
 		
 	if( $Settings )
 	{
-		if( $StatsDashboard )
-			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
-		
 		if( $NewsDashboard )
 			wp_add_dashboard_widget( 'powerpress_dashboard_news', __( 'Blubrry PowerPress & Community Podcast', 'powerpress'), 'powerpress_dashboard_news_content' );
+			
+		if( $StatsDashboard )
+			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
+	}
+	
+	if( !isset($Settings['dashboard_installed']) )
+	{
+		// First time we've seen this setting, so must be first time we've added the widgets, lets stack them at the top for convenience.
+		powerpressadmin_add_dashboard_widgets();
+		$NewSettings = array();
+		$NewSettings['dashboard_installed'] = 1;
+		powerpress_save_settings($NewSettings);
+	}
+}
+
+function powerpressadmin_add_dashboard_widgets()
+{
+	global $wp_meta_boxes;
+	$dashboard_current = $wp_meta_boxes['dashboard']['normal']['core'];
+	
+	$dashboard_powerpress = array();
+	if( isset( $dashboard_current['powerpress_dashboard_news'] ) )
+	{
+		$dashboard_powerpress['powerpress_dashboard_news'] = $dashboard_current['powerpress_dashboard_news'];
+		unset($dashboard_current['powerpress_dashboard_news']);
+	}
+	
+	if( isset( $dashboard_current['powerpress_dashboard_stats'] ) )
+	{
+		$dashboard_powerpress['powerpress_dashboard_stats'] = $dashboard_current['powerpress_dashboard_stats'];
+		unset($dashboard_current['powerpress_dashboard_stats']);
+	}
+	
+	if( count($dashboard_powerpress) > 0 )
+	{
+		$wp_meta_boxes['dashboard']['normal']['core'] = array_merge($dashboard_powerpress, $dashboard_current);
 	}
 }
 	 
