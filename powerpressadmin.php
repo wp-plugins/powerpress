@@ -3062,7 +3062,12 @@ function powerpressadmin_community_news($items=3)
 				
 				if( $embed )
 				{
-					$embed = preg_replace('/width="(\d{1,4})"/i', 'width="80%"', $embed );
+					if( preg_match('/width="(\d{1,4})"/i', $embed, $matches ) && count($matches) > 1 )
+					{
+						$max_width = $matches[1];
+						$embed = preg_replace('/width="/i', 'style="max-width: '.$max_width.'px;" width="', $embed );
+					}
+					$embed = preg_replace('/width="(\d{1,4})"/i', 'width="95%"', $embed );
 					echo $embed;
 				}
 				else

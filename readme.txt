@@ -1,6 +1,6 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
-Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast
+Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 2.8.0
 Tested up to: 3.1
 Stable tag: 1.0.13
@@ -14,14 +14,15 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 *PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
 
 =  Key Features  =
+- HTML5 video support: Add both mp4 and webm media to each episode for maximum platform compatibility
 - Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
-- Integrated Media Players: Audio/video web players with video embed support from sites such as YouTube and Ustream.tv.
+- Integrated HTML5 and Flash Media Players: Audio/video web players with embed support from sites such as YouTube and Ustream.tv.
 - Media Modifiers: Easily add, modify and remove podcasts form blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
-- Multi-podcast support: Create separate podcasts by category (category casting) or by media format.
-- Supported Media Formats: mp3, m4a, ogg, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r.
+- Multi-podcast support: Create separate podcasts by category (category casting) or by media format (Podcast Channels).
+- Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-* Languages supported: English, Danish, French ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
+* Languages supported: English, Danish, French, Simplified Chinese ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -30,19 +31,18 @@ iTunes can make up between 50 and 95 percent of a podcaster's audience. PowerPre
 
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
 * Optimized iTunes Summary: Converts your blog post content to a format suited for viewing in iTunes ([learn more](http://help.blubrry.com/blubrry-powerpress/powerpress-settings/enhanced-itunes-summary/))
-* Update iTunes Listing: Notify (ping) iTunes when you publish new episodes.
-* Update iTunes Listing Logging: Check the status of your last iTunes listing update.
 * Upload iTunes Artwork: Upload and change your iTunes artwork directly from within PowerPress settings.
 
 =  Integrated Media Players  =
 Blubrry PowerPress includes extensive web player options to display your podcast audio and video in your web pages.
 
-* Pick from five mp3 players including the latest version of the popular [1 Pixel Out Player](http://wpaudioplayer.com/whatsnew).
-* Position player above or below your post content.
+* 6 Audio Players: Pick from 6 audio players including the popular [1 Pixel Out Player](http://wpaudioplayer.com/whatsnew) and HTML5 audio player.
+* 2 Video Players: Pick between HTML5 video or Flow Player Classic Flash player.
+* Position player above or below your post content or use the`[powerpress]` shortcode and position the player where you want.
 * Place the player exactly where you want by adding the [powerpress] shortcode tag directly in your post content.
 * Add video embeds from sites such as YouTube, Viddler, Blip.tv and Ustream.tv.
-* Provides download and play in new window links.
-* Formats supported: mp3, m4v, m4a, ogg, mp4, wma, mov, pdf, swf, avi, mpeg and more.
+* Provides download, play in new window and embed links.
+* Formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, wma, mov, pdf, swf, avi, mpeg and more.
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid services to streamline your podcast productivity.
@@ -57,6 +57,7 @@ The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](h
 = Advanced Features =
 Want more? Check out the advanced features.
 
+* Embeds! Provide embeds your audience can take with them (just like YouTube embeds)
 * Media size and duration detection: Enter your media URL and let the PowerPress do the rest.
 * Category Casting: Add podcast support to your WordPress category feeds.
 * Custom Podcast Channels: Distribute multiple formats (audio/video) and versions (short/full length).
@@ -142,16 +143,16 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* Future versions of PowerPress will no longer be compatible with WordPress 2.6.x and 2.7.x. Please upgrade to WordPress 2.8 or newer to install future versions of PowerPress.
+* The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
-= 2.0.4 =
-* Beta 2.0.4 Released on 3/1/2011
+= 2.0 =
+* Released on 3/7/2011
 * PowerPress now requires WordPress version 2.8 or newer.
 * HTML5 video player with Flow Player Classic fallback added
 * HTML5 audio player with Flow Player Classic fallback added
-* Embed Episode feature added
+* Embed Episode feature, embeds your audience can take with them (just like YouTube embeds)
 * WebM video support added
 * Ogg audio/video support improved
 * For mp4/m4v video, a new alternative WebM URL field has been added. This is ideal for supporting all browser based HTML5 video players.
