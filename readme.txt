@@ -1,7 +1,7 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
-Requires at least: 2.8.0
+Requires at least: 2.8
 Tested up to: 3.1
 Stable tag: 2.0
 
@@ -146,6 +146,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+
+= 2.0.1 =
+* Released on 3/11/2011
+* Fixed bug where media links did not appear for theme functions `get_the_powerpress_content()` and `the_powerpress_content()`. (Thanks Douglas for bringing to our attention)
+* Fixed download link not appearing after saving settings in 2.0. Download link setting was not getting saved correctly.
 
 = 2.0 =
 * Released on 3/7/2011

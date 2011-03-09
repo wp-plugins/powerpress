@@ -618,6 +618,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 		case 'mp3':
 		{
 			$Settings = get_option('powerpress_general');
+			if( !isset($Settings['player']) )
+				$Settings['player'] = 'default';
+			
 			switch( $Settings['player'] )
 			{
 				case 'default':
@@ -645,6 +648,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 		case 'm4a': {
 		
 			$Settings = get_option('powerpress_general');
+			if( !isset($Settings['player']) )
+				$Settings['player'] = 'default';
+			
 			switch( $Settings['player'] )
 			{
 				case 'default':
@@ -704,7 +710,9 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 		{
 			
 			$Settings = get_option('powerpress_general');
-			//die($Settings['video_player']);
+			if( !isset($Settings['video_player']) )
+				$Settings['video_player'] = 'flow-player-classic';
+			
 			switch( $Settings['video_player'] )
 			{
 				case 'default':
@@ -934,6 +942,8 @@ Filters for media links, appear below the selected player
 function powerpressplayer_link_download($content, $media_url, $ExtraData = array() )
 {
 	$GeneralSettings = get_option('powerpress_general');
+	if( !isset($GeneralSettings['podcast_link']) )
+		$GeneralSettings['podcast_link'] = 1;
 	
 	$player_links = '';
 	if( $GeneralSettings['podcast_link'] == 1 )
@@ -961,6 +971,8 @@ function powerpressplayer_link_download($content, $media_url, $ExtraData = array
 function powerpressplayer_link_pinw($content, $media_url, $ExtraData = array() )
 {
 	$GeneralSettings = get_option('powerpress_general');
+	if( !isset($GeneralSettings['player_function']) )
+		$GeneralSettings['player_function'] = 1;
 	$is_pdf = (strtolower( substr($media_url, -3) ) == 'pdf' );
 	
 	$player_links = '';
@@ -996,6 +1008,11 @@ function powerpressplayer_embedable($media_url, $ExtraData = array())
 		$GeneralSettings = get_option('powerpress_general');
 		if( empty($GeneralSettings['podcast_embed']) )
 			return false;
+		if( !isset($GeneralSettings['player']) )
+			$GeneralSettings['player'] = 'default';
+		if( !isset($GeneralSettings['video_player']) )
+			$GeneralSettings['video_player'] = 'flow-player-classic';
+		
 		switch( $extension )
 		{
 			case 'mp3':
@@ -1005,11 +1022,14 @@ function powerpressplayer_embedable($media_url, $ExtraData = array())
 			
 			}; break;
 			case 'mp4':
-			case 'm4v':
+			case 'm4v': {
+				if( $GeneralSettings['video_player'] == 'flow-player-classic' || $GeneralSettings['video_player'] == 'html5video' )
+					$player = $GeneralSettings['video_player'];
+			}; break;
 			case 'webm':
 			case 'ogg':
 			case 'ogv': {
-				if( $GeneralSettings['video_player'] == 'flow-player-classic' || $GeneralSettings['video_player'] == 'html5video' )
+				if( $GeneralSettings['video_player'] == 'html5video' )
 					$player = $GeneralSettings['video_player'];
 			}; break;
 		}

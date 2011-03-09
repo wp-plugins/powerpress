@@ -301,15 +301,15 @@ function powerpress_admin_init()
 				if( empty($PlayerSettings['display_media_player']) )
 					$PlayerSettings['display_media_player'] = 0;
 				$General['player_function'] = abs( @$PlayerSettings['display_pinw'] - @$PlayerSettings['display_media_player'] );
-				$PlayerSettings['podcast_link'] = 0;
+				$General['podcast_link'] = 0;
 				if( !empty($PlayerSettings['display_download']) )
 				{
-					$PlayerSettings['podcast_link'] = 1;
+					$General['podcast_link'] = 1;
 					if( !empty($PlayerSettings['display_download_size']) )
 					{
-						$PlayerSettings['podcast_link'] = 2;
+						$General['podcast_link'] = 2;
 						if( !empty($PlayerSettings['display_download_duration']) )
-							$PlayerSettings['podcast_link'] = 3;
+							$General['podcast_link'] = 3;
 					}
 				}
 				

@@ -1450,8 +1450,7 @@ function get_the_powerpress_content()
 				}
 				
 				if( !isset($EpisodeData['no_links']) )
-					$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
-				//	$new_content .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData);
+					$new_content .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
 		}
 	}
