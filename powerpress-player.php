@@ -1041,12 +1041,11 @@ function powerpressplayer_embedable($media_url, $ExtraData = array())
 function powerpressplayer_link_embed($content, $media_url, $ExtraData = array() )
 {
 	$player_links = '';
-	// TODO: add code to provide embed to media episode
 	
 	$player = powerpressplayer_embedable($media_url, $ExtraData);
 	if( $player )
 	{
-		$player_links .= "<a href=\"#\" class=\"powerpress_link_e\" title=\"". __('Embed', 'powerpress') ."\" onclick=\"return powerpress_show_embed('{$ExtraData['id']}-{$ExtraData['feed']}');\">". __('Embed', 'powerpress') ."</a>";
+		$player_links .= "<a href=\"#\" class=\"powerpress_link_e\" title=\"". htmlspecialchars(POWERPRESS_EMBED_TEXT) ."\" onclick=\"return powerpress_show_embed('{$ExtraData['id']}-{$ExtraData['feed']}');\">". htmlspecialchars(POWERPRESS_EMBED_TEXT) ."</a>";
 	}
 	
 	if( $player_links && !empty($content) )
