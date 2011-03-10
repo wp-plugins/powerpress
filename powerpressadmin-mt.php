@@ -164,11 +164,35 @@ if( !function_exists('add_action') )
 				//$headers = wp_remote_head($url);
 				//$response = wp_remote_request($url, $options);
 				$response = wp_remote_head( $url );
+				// Redirect 1
+				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+				{
+					$headers = wp_remote_retrieve_headers( $response );
+					$response = wp_remote_head( $headers['location'] );
+				}
+				// Redirect 2
+				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+				{
+					$headers = wp_remote_retrieve_headers( $response );
+					$response = wp_remote_head( $headers['location'] );
+				}
+				// Redirect 3
+				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+				{
+					$headers = wp_remote_retrieve_headers( $response );
+					$response = wp_remote_head( $headers['location'] );
+				}
+				// Redirect 4
+				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+				{
+					$headers = wp_remote_retrieve_headers( $response );
+					$response = wp_remote_head( $headers['location'] );
+				}
 				$headers = wp_remote_retrieve_headers( $response );
 
 				if ( is_wp_error( $response ) )
 				{
-					powerpressadmin_mt_import_log($Titles[ $post_id ], $EpisodeData['url'], $feed_slug, 'A system error occurred.');
+					powerpressadmin_mt_import_log($Titles[ $post_id ], $url, $feed_slug, 'A system error occurred.');
 				}
 				else if( $headers && $response['response']['code'] >= 200 && $response['response']['code'] < 300 )
 				{
@@ -196,7 +220,7 @@ if( !function_exists('add_action') )
 					$EnclosureData = $EpisodeData['url'] . "\n" . $EpisodeData['size'] . "\n". $EpisodeData['type'];
 					if( $EpisodeData['duration'] )
 						$EnclosureData .= "\n".serialize( array('duration'=>$EpisodeData['duration']) );
-						
+					
 					// Save it here...
 					if( $feed_slug == 'podcast' )
 						add_post_meta($post_id, 'enclosure', $EnclosureData, true);
@@ -207,7 +231,7 @@ if( !function_exists('add_action') )
 				}
 				else
 				{
-					powerpressadmin_mt_import_log($Titles[ $post_id ], $EpisodeData['url'], $feed_slug, __('HTTP return code', 'powerpress')  .' '. $response['response']['code'] .'.');
+					powerpressadmin_mt_import_log($Titles[ $post_id ], $url, $feed_slug, __('HTTP return code', 'powerpress')  .' '. $response['response']['code'] .'.');
 				}
 			}
 		}

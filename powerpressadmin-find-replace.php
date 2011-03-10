@@ -67,7 +67,34 @@
 						$good = true;
 						if( @$FindReplace['verify'] )
 						{
-							$response = @wp_remote_head( $new_url );
+							$response = wp_remote_head( $new_url );
+							// Redirect 1
+							if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+							{
+								$headers = wp_remote_retrieve_headers( $response );
+								$response = wp_remote_head( $headers['location'] );
+							}
+							// Redirect 2
+							if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+							{
+								$headers = wp_remote_retrieve_headers( $response );
+								$response = wp_remote_head( $headers['location'] );
+							}
+							// Redirect 3
+							if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+							{
+								$headers = wp_remote_retrieve_headers( $response );
+								$response = wp_remote_head( $headers['location'] );
+							}
+							// Redirect 4
+							if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
+							{
+								$headers = wp_remote_retrieve_headers( $response );
+								$response = wp_remote_head( $headers['location'] );
+							}
+							//$headers = wp_remote_retrieve_headers( $response );
+				
+							//$response = @wp_remote_head( $new_url );
 							if ( is_wp_error( $response ) )
 							{
 								$g_FindReplaceResults[ $meta_id ]['error'] = $response->get_error_message();

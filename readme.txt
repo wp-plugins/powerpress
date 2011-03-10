@@ -151,6 +151,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 3/11/2011
 * Fixed bug where media links did not appear for theme functions `get_the_powerpress_content()` and `the_powerpress_content()`. (Thanks Douglas for bringing to our attention)
 * Fixed download link not appearing after saving settings in 2.0. Download link setting was not getting saved correctly.
+* Fixed bug with Verify button failing with error 302 or 301 when URL has more than 1 redirect.
 
 = 2.0 =
 * Released on 3/7/2011
