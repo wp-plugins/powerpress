@@ -1213,10 +1213,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 			$content .='<source src="'. $EpisodeData['webm_src'] .'" type="video/webm" />';
 		}
 		
-		if( !empty($EpisodeData['image']) )
-			$content .= powerpressplayer_build_playimage($media_url, $EpisodeData);
-		else
-			$content .= powerpressplayer_build_playlink($media_url);
+		$content .= powerpressplayer_build_playimage($media_url, $EpisodeData);
 		$content .= '</video>'.PHP_EOL;
 		$content .= '</div>'.PHP_EOL;
 	}
@@ -1277,7 +1274,7 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 			$content .= ' preload="none"';
 		$content .= '>'.PHP_EOL;
 		
-		$content .= powerpressplayer_build_playlink($media_url);
+		$content .= powerpressplayer_build_playimageaudio($media_url);
 		$content .= '</audio>'.PHP_EOL;
 		$content .= '</div>'.PHP_EOL;
 	}
@@ -1474,19 +1471,6 @@ function powerpressplayer_build_playimageaudio($media_url, $include_div = false)
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
 	$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" target="_blank">';
 	$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="border:0;" />';
-	$content .= '</a>';
-	if( $include_div )
-		$content .= "</div>\n";
-	return $content;
-}
-
-function powerpressplayer_build_playlink($media_url, $include_div = false)
-{
-	$content = '';
-	if( $include_div )
-		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
-	$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" target="_blank">';
-	$content .= htmlspecialchars(POWERPRESS_PLAY_TEXT);
 	$content .= '</a>';
 	if( $include_div )
 		$content .= "</div>\n";
