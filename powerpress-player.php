@@ -1226,6 +1226,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 	}
 	else
 	{
+		
 		if( !$cover_image )
 			$cover_image = powerpress_get_root_url() . 'black.png';
 		$webm_src = '';
@@ -1233,7 +1234,17 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 			$webm_src = $EpisodeData['webm_src'];
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
 		$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="return powerpress_embed_html5v(\''.$player_id.'\',\''.$media_url.'\',\''. $player_width .'\',\''. $player_height .'\', \''. $webm_src .'\');" target="_blank" style="position: relative;">';
-		$content .= '<img class="powerpress-player-poster" src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="width: '. $player_width .'px; height: '. $player_height .'px;" />';
+		if( !empty($EpisodeData['custom_play_button']) )
+		{
+			$cover_image = $EpisodeData['custom_play_button'];
+			$Settings['poster_play_image'] = false;
+			$content .= '<img class="powerpress-player-poster" src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
+		}
+		else
+		{
+			$content .= '<img class="powerpress-player-poster" src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="width: '. $player_width .'px; height: '. $player_height .'px;" />';
+		}
+		
 		if(!isset($Settings['poster_play_image']) || $Settings['poster_play_image'] )
 		{
 			$bottom = floor(($player_height/2)-30);
@@ -1288,6 +1299,10 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 	else
 	{
 		$cover_image = powerpress_get_root_url() . 'play_audio.png';
+		if( !empty($EpisodeData['custom_play_button']) )
+		{
+			$cover_image = $EpisodeData['custom_play_button'];
+		}
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
 		$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="return powerpress_embed_html5a(\''.$player_id.'\',\''.$media_url.'\');" target="_blank">';
 		$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="border:0;" />';
@@ -1410,9 +1425,9 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	$content .= "	'powerpress_player_{$player_id}',\n";
 	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: '{$player_width}', height: '{$player_height}', wmode: 'transparent' },\n";
 	if( $cover_image )
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
+		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
 	else
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, initialScale: 'scale', showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
+		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
 	$content .= ");\n";
 	$content .= "</script>\n";
 	return $content;

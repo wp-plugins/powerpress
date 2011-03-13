@@ -1676,10 +1676,15 @@ function powerpress_send_to_poster_image(url)
 </script>
 <?php
 	}
-	else
+	else if( $page_name == 'index' )
 	{
-		// Print this line for debugging when loooking for other pages to include header data for
+		// Print this line for debugging when looking for other pages to include header data for
 		//echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
+?>
+<script type="text/javascript">
+powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
+</script>
+<?php
 	}
 }
 
@@ -3065,7 +3070,7 @@ function powerpressadmin_community_news($items=3)
 	}
 	else
 	{
-	
+		$first_item = true;
 		while( list($null,$item) = each($rss_items) )
 		{
 			$enclosure = $item->get_enclosure();
@@ -3087,7 +3092,7 @@ function powerpressadmin_community_news($items=3)
 				
 				echo '<div class="powerpressNewsPlayer">';
 				
-				if( $embed )
+				if( $first_item && $embed )
 				{
 					if( preg_match('/width="(\d{1,4})"/i', $embed, $matches ) && count($matches) > 1 )
 					{
@@ -3103,12 +3108,26 @@ function powerpressadmin_community_news($items=3)
 					$EpisodeData['type'] = $enclosure->type;
 					$EpisodeData['duration'] = $enclosure->duration;
 					$EpisodeData['poster'] = $poster_image;
-					$EpisodeData['width'] = '80%';
-					echo powerpressplayer_build_flowplayerclassic($enclosure->link, $EpisodeData);
+					$EpisodeData['width'] = '100%';
+					$EpisodeData['custom_play_button'] = powerpress_get_root_url() . 'play_audio.png';
+					$ext = powerpressplayer_get_extension($enclosure->link);
+					switch($ext)
+					{
+						case 'mp4':
+						case 'm4v':
+						case 'webm': {
+							echo powerpressplayer_build_html5video($enclosure->link, $EpisodeData);
+						}; break;
+						case 'mp3':
+						case 'm4a': {
+							echo powerpressplayer_build_html5audio($enclosure->link, $EpisodeData);
+						}; break;
+					}
 				}
 				echo '</div>';
 			}
 			echo '</li>';
+			$first_item = false;
 		}
 	}						
 
