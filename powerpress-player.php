@@ -648,6 +648,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 		case 'm4a': {
 		
 			$Settings = get_option('powerpress_general');
+			if( empty($Settings['m4a']) || $Settings['m4a'] != 'use_players' )
+				break;
+			
 			if( !isset($Settings['player']) )
 				$Settings['player'] = 'default';
 			
@@ -755,7 +758,6 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 		case 'mp3':
 		case 'mp4':
 		case 'm4v':
-		case 'm4a':
 		case 'webm';
 		case 'ogg':
 		case 'ogv':
@@ -766,6 +768,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 		case 'flv': {
 			$content .= powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData);
 		}; break;
+		case 'm4a': // Special case for thos audiobook folks (could be modern player, could be old embed)
 		// Old Quicktime formats:
 		case 'avi':
 		case 'mpg':
@@ -776,6 +779,11 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 		case 'mov': {
 			
 			$Settings = get_option('powerpress_general');
+			
+			// Special case for thos audiobook folks
+			if( $extension == 'm4a' && !empty($Settings['m4a']) && $Settings['m4a'] == 'use_players' )
+				break;
+			
 			$player_id = powerpressplayer_get_next_id();
 			$player_width = 400;
 			$player_height = 225;
@@ -809,7 +817,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
 				$content .= "return powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$scale}' );";
 				$content .= '">';
-				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
+				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="width: '. $player_width .'px; height: '.$player_height .'px;" />';
 				$content .= '</a>';
 				$content .= "</div>\n";
 			}

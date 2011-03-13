@@ -1011,6 +1011,26 @@ while( list($value,$desc) = each($linkoptions) )
 </div>
 <!-- end advanced features -->
 
+<h3><?php echo __('Media Format Settings', 'powerpress'); ?></h3>
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row">
+<?php echo __('AAC Audio (.m4a)', 'powerpress'); ?>
+</th>
+<td>
+
+	<p style="margin: 8px 0 0 0;">
+		<input type="checkbox" name="General[m4a]" value="use_players" <?php if( !empty($General['m4a']) && $General['m4a'] == 'use_players' ) echo 'checked'; ?>  /> <?php echo __('Use Flow Player Classic / HTML5 Audio player', 'powerpress'); ?>
+	</p>
+	<div style="margin-left: 20px;"><?php echo __('Leave this option unchecked if you want m4a chapter markers, images and information displayed.', 'powerpress'); ?></div>
+	<div style="margin: 10px 0 0 20px;"><?php echo __('When unchecked, m4a will be played with the quicktime video embed. Video player width/height settings apply.', 'powerpress'); ?></div>
+
+</td>
+</tr>
+</table>
+
+
 </div>
 <!-- end presentation settings -->
 <?php  

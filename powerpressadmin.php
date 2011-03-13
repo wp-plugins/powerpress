@@ -317,6 +317,8 @@ function powerpress_admin_init()
 					$General['podcast_embed'] = 0;
 				if( !isset($General['podcast_embed_in_feed'] ) )
 					$General['podcast_embed_in_feed'] = 0;
+				if( !isset($General['m4a'] ) )
+					$General['m4a'] = '';
 			}
 			
 			if( $_POST['action'] == 'powerpress-save-tags' )
