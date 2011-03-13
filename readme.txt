@@ -151,12 +151,13 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 3/13/2011
 * Fixed bug where media links did not appear for theme functions `get_the_powerpress_content()` and `the_powerpress_content()`. (Thanks Douglas for bringing to our attention)
 * Fixed download link not appearing after saving settings in 2.0. Download link setting was not getting saved correctly.
-* Fixed bug where player does not appear if PowerPrses was prevoiusly in Simple Mode.
+* Fixed bug where player does not appear if PowerPress was previously in Simple Mode.
 * Fixed bug with Verify button failing with HTTP error 302 or 301 when URL has more than 1 redirect.
 * Added `POWERPRESS_EMBED_TEXT` define option so the embed text can be changed. Just add `define("POWERPRESS_EMBED_TEXT", "Your Embed Text");` above the include line in your wp-config.php.
 * Restored quicktime as default player for m4a files, for those who need quicktime to display chapter info. To play m4a with FlowPlayerClassic/HTML5, go to PowerPress Settings > Appearance tab.
 * Fixed FlowPlayerClassic scaling, video now maintains aspect ratio when displayed in player.
 * Blubrry Community News now only shows latest video embed, all others minimized with small play button.
+* Media statistics redirect URLs now applied to alternative webm URLs when specified with mp4/m4v video.
 
 = 2.0 =
 * Released on 3/7/2011

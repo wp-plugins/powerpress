@@ -2019,6 +2019,9 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 				
 			if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
 				$Data['duration'] = powerpress_readable_duration($Data['length'], true);
+				
+			if( isset($Data['webm_src']) )
+				$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']) );
 		}
 	}
 	

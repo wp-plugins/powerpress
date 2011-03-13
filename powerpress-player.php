@@ -519,33 +519,6 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	$content .= '}'. PHP_EOL;
 	$content .= '</script>'. PHP_EOL;
 	
-	/*
-	
-	if( jQuery("#powerpress_settings_page").length > 0 )
-	{
-		var tabs = jQuery("#powerpress_settings_page").tabs();
-		tabs.tabs('select', <?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>);
-		jQuery('form').submit(function() {
-			var selectedTemp = tabs.tabs('option', 'selected');
-			jQuery('#save_tab_pos').val(selectedTemp);
-		});
-	}
-	
-	jQuery('.powerpress-parental-rating-tip').click( function() {
-		jQuery('.powerpress-parental-rating-tip-p').css('display', 'none');
-		jQuery('#'+this.id +'_p').css('display', 'block');
-	});
-	jQuery('.activate-player').click( function(event) {
-		var PlayerName = this.id.replace(/(activate_)(.*)$/, "$2");
-		if( !PlayerName )
-			return;
-		
-		jQuery('#player_'+PlayerName).attr('checked', true);
-		jQuery("form:first").submit();
-		event.preventDefault();
-	});
-
-	*/
 	// Head specific settings for player
 	switch( $player )
 	{
@@ -1217,6 +1190,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 		
 		if( !empty($EpisodeData['webm_src']) )
 		{
+			$EpisodeData['webm_src'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
 			$content .='<source src="'. $EpisodeData['webm_src'] .'" type="video/webm" />';
 		}
 		
@@ -1231,7 +1205,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 			$cover_image = powerpress_get_root_url() . 'black.png';
 		$webm_src = '';
 		if( !empty($EpisodeData['webm_src']) )
-			$webm_src = $EpisodeData['webm_src'];
+			$webm_src = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
 		$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="return powerpress_embed_html5v(\''.$player_id.'\',\''.$media_url.'\',\''. $player_width .'\',\''. $player_height .'\', \''. $webm_src .'\');" target="_blank" style="position: relative;">';
 		if( !empty($EpisodeData['custom_play_button']) )
