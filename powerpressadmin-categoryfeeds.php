@@ -38,6 +38,9 @@ function powerpress_admin_categoryfeeds()
 .column-episode-count {
 	width: 15%;
 }
+.category-list {
+	width: 100%;
+}
 </style>
 <div id="col-container">
 
@@ -174,12 +177,10 @@ function powerpress_admin_categoryfeeds()
 
 <div class="form-field form-required">
 	<label for="feed_name"><?php echo __('Category', 'powerpress') ?></label>
-	<select name="cat" id="cat_id" style="width: 100%;">
-		<option value=""><?php echo __('Select Category', 'powerpress'); ?></option>
 <?php
-	wp_dropdown_categories();
+	wp_dropdown_categories(  array('class'=>'category-list', 'show_option_none'=>__('Select Category', 'powerpress'), 'orderby'=>'name', 'hide_empty'=>0, 'hierarchical'=>1, 'name'=>'cat', 'id'=>'cat_id' ) );
 ?>
-	</select>
+	
     
 </div>
 

@@ -147,6 +147,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 2.0.2 =
+* Released on 3/??/2011
+* Fixed bug with Category Podcastding screen not displaying categories correctly. We are now calling the `wp_dropdown_categories()` function with the appropirate parameters.
+
 = 2.0.1 =
 * Released on 3/13/2011
 * Fixed bug where media links did not appear for theme functions `get_the_powerpress_content()` and `the_powerpress_content()`. (Thanks Douglas for bringing to our attention)
