@@ -1310,6 +1310,7 @@ function powerpress_admin_head()
 	// Powerpress page
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
+		echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
 ?>
 <script type="text/javascript">
 function powerpress_show_field(id, show) {
@@ -1355,7 +1356,8 @@ jQuery(document).ready(function($) {
 	});
 });
 
-	
+powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
+
 </script>
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/admin.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>3rdparty/flare_player/flarevideo.css" type="text/css" media="screen" />
@@ -3060,6 +3062,7 @@ function powerpressadmin_new()
 
 function powerpressadmin_community_news($items=3)
 {
+	require_once( POWERPRESS_ABSPATH. '/powerpress-player.php'); // Include, if not included already
 	$rss_items = powerpress_get_news(POWERPRESS_FEED_NEWS, $items);
 	echo '<div class="powerpress-news-dashboard">';	
 	echo '<ul>';
@@ -3151,6 +3154,7 @@ function powerpressadmin_community_news($items=3)
 
 function powerpressadmin_community_highlighted($items=8)
 {
+	require_once( POWERPRESS_ABSPATH. '/powerpress-player.php'); // Include, if not included already
 	$rss_items = powerpress_get_news(POWERPRESS_FEED_HIGHLIGHTED, $items);
 	echo '<div class="powerpress-highlighted-dashboard">';	
 	echo '<ul>';

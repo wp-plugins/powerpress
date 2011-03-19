@@ -150,6 +150,8 @@ To install Blubrry PowerPress manually, follow these steps:
 = 2.0.2 =
 * Released on 3/??/2011
 * Fixed bug with Category Podcastding screen not displaying categories correctly. We are now calling the `wp_dropdown_categories()` function with the appropirate parameters.
+* Fixed fatal error `Call to undefined function powerpressplayer_get_extension()` in dashboard when option 'Disable PowerPress Media Players and Links' is selected.
+
 
 = 2.0.1 =
 * Released on 3/13/2011
