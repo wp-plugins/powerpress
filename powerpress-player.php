@@ -244,8 +244,9 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			if( $autoplay )
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'"></div>'.PHP_EOL;
-				$content .= '<script type="text/javascript">'.PHP_EOL;
+				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 				$content .= "powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$GeneralSettings['player_scale']}');\n";
+				$content .= "//-->\n";
 				$content .= "</script>\n";
 			}
 			else
@@ -328,8 +329,9 @@ function powerpress_player_filter($content, $media_url, $ExtraData = array() )
 			$content .= "</div>\n";
 			if( $autoplay )
 			{
-				$content .= '<script type="text/javascript">'.PHP_EOL;
+				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 				$content .= "powerpress_embed_swf('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );\n";
+				$content .= "//-->\n";
 				$content .= "</script>\n";
 			}
 			
@@ -498,7 +500,7 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.js"></script>'. PHP_EOL;
 	// Include jQuery for convenience
 	$content .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>'. PHP_EOL;
-	$content .= '<script language="javascript" type="text/javascript">'. PHP_EOL;
+	$content .= '<script language="javascript" type="text/javascript"><!--'. PHP_EOL;
 	$content .= 'powerpress_url = \''. powerpress_get_root_url() .'\''. PHP_EOL;
 	$content .= 'jQuery(document).ready(function($) {'. PHP_EOL;
 	$content .= '  powerpress_resize_player();'. PHP_EOL;
@@ -517,6 +519,7 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	$content .= '  jQuery(\'embed\').css(\'width\', jQuery(window).width() );'. PHP_EOL;
 	$content .= '  jQuery(\'embed\').css(\'height\', jQuery(window).height() );'. PHP_EOL;
 	$content .= '}'. PHP_EOL;
+	$content .= "//-->\n";
 	$content .= '</script>'. PHP_EOL;
 	
 	// Head specific settings for player
@@ -780,8 +783,9 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			if( $autoplay )
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'"></div>'.PHP_EOL;
-				$content .= '<script type="text/javascript">'.PHP_EOL;
+				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 				$content .= "powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$scale}');\n";
+				$content .= "//-->\n";
 				$content .= "</script>\n";
 			}
 			else
@@ -895,8 +899,9 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			$content .= "</div>\n";
 			if( $autoplay )
 			{
-				$content .= '<script type="text/javascript">'.PHP_EOL;
+				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 				$content .= "powerpress_embed_swf('powerpress_player_{$player_id}','{$media_url}',{$player_width},{$player_height});\n";
+				$content .= "//-->\n";
 				$content .= "</script>\n";
 			}
 			
@@ -1234,8 +1239,9 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 		
 		if( $autoplay )
 		{
-			$content .= '<script type="text/javascript">'.PHP_EOL;
+			$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 			$content .= "powerpress_embed_html5v('{$player_id}','{$media_url}',{$player_width},{$player_height},'{$webm_src}');\n";
+			$content .= "//-->\n";
 			$content .= "</script>\n";
 		}
 	}
@@ -1285,8 +1291,9 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 		
 		if( $autoplay )
 		{
-			$content .= '<script type="text/javascript">'.PHP_EOL;
+			$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 			$content .= "powerpress_embed_html5a('{$player_id}','{$media_url}');\n";
+			$content .= "//-->\n";
 			$content .= "</script>\n";
 		}
 	}
@@ -1386,7 +1393,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	$player_id = powerpressplayer_get_next_id();
 	$content = '';
 	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'"></div>'.PHP_EOL;
-	$content .= '<script type="text/javascript">'.PHP_EOL;
+	$content .= '<script type="text/javascript"><!--'.PHP_EOL;
 	if( !empty($EpisodeData['jquery_autowidth']) )
 	{
 		$player_width = 'jQuery(window).width()';
@@ -1403,6 +1410,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	else
 		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
 	$content .= ");\n";
+	$content .= "//-->\n";
 	$content .= "</script>\n";
 	return $content;
 }

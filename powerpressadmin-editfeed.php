@@ -665,7 +665,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 </tr>
 </table>
 <div id="protected_content_message" style="display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;">
-<script language="Javascript" type="text/javascript">
+<script language="Javascript" type="text/javascript"><!--
 function powerpress_toggle_premium_content(enabled)
 {
 	jQuery('#premium_role').css('display', (enabled?'block':'none') );
@@ -688,6 +688,7 @@ function powerpress_default_premium_label(event)
 	}
 	return true;
 }
+//-->
 </script>
 	<table class="form-table">
 	<tr valign="top">

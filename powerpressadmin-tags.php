@@ -8,12 +8,12 @@ function powerpress_admin_tags()
 	$General = powerpress_get_settings('powerpress_general');
 	$TagSettings = powerpress_default_settings($General, 'tags');
 ?>
-<script language="javascript">
+<script language="javascript"><!--
 function ToggleID3Tags(Obj)
 {
 	document.getElementById('edit_id3_tags').style.display=(Obj.checked?'block':'none');
 }
-
+//-->
 </script>
 <input type="hidden" name="action" value="powerpress-save-tags" />
 <h2><?php echo __('MP3 Tags', 'powerpress'); ?></h2>

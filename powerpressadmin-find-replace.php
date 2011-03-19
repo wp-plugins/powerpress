@@ -171,7 +171,7 @@
 		}
 ?>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 function VerifyCheck(obj)
 {
 	if( !obj.checked && !confirm('<?php echo __('WARNING: Verification prevents changes if the URL entered is invalid.\n\nAre you sure you do not want to verify the URLs?', 'powerpress'); ?>') )
@@ -187,6 +187,7 @@ function ConfirmReplace()
 	}
 	return false;
 }
+//-->
 </script>
 <style type="text/css">
 .find_string {

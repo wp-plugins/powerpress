@@ -58,7 +58,7 @@ function powerpress_admin_players($type='audio')
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>3rdparty/colorpicker/css/colorpicker.css" type="text/css" />
 <script type="text/javascript" src="<?php echo powerpress_get_root_url(); ?>3rdparty/colorpicker/js/colorpicker.js"></script>
 <script type="text/javascript" src="<?php echo powerpress_get_root_url(); ?>player.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 
@@ -119,7 +119,7 @@ jQuery(document).ready(function($) {
 	});
 
 });
-	
+//-->
 </script>
 
 
@@ -463,7 +463,7 @@ table.html5formats tr > td:first-child {
 				if( !isset($PlayerSettings['buffer']) )
 					$PlayerSettings['buffer'] = ''; // New default setting	
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
 function update_audio_player()
 {
@@ -611,7 +611,7 @@ function audio_player_defaults()
 		update_audio_player();
 	}
 }
-
+//-->
 </script>
 	<input type="hidden" name="action" value="powerpress-audio-player" />
 	<?php echo __('Configure the 1 pixel out Audio Player', 'powerpress'); ?>
@@ -999,7 +999,7 @@ function audio_player_defaults()
 					);
 				}
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
 function audio_player_defaults()
 {
@@ -1085,7 +1085,7 @@ function audio_player_defaults()
 		generator.updatePlayer();
 	}
 }
-
+//-->
 </script>
 	<input type="hidden" name="action" value="powerpress-flashmp3-maxi" />
 	<p><?php echo __('Configure Flash Mp3 Maxi Player', 'powerpress'); ?></p>
@@ -1426,7 +1426,7 @@ function audio_player_defaults()
 </div> <!-- end tab -->
 </div><!-- end tab container -->
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
 	generator.player = '<?php echo powerpress_get_root_url(); ?>player_mp3_maxi.swf';
 	generator.addParam("gen_mp3", "mp3", "url", '');
@@ -1455,8 +1455,8 @@ function audio_player_defaults()
 	generator.addParam("sliderwidth", "sliderwidth", "int", "20");
 	
 	generator.updatePlayer();
+//-->
 </script>
-
 <?php
 			}; break;
 			

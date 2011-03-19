@@ -179,7 +179,7 @@ if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
 			$FeedSlug = $_GET['podcast-feed'];
 			powerpress_admin_jquery_header( __('Select Media', 'powerpress'), true );
 ?>
-<script language="JavaScript" type="text/javascript">
+<script language="JavaScript" type="text/javascript"><!--
 
 function SelectMedia(File)
 {
@@ -205,6 +205,7 @@ function DeleteMedia(File)
 {
 	return confirm('<?php echo __('Delete', 'powerpress'); ?>: '+File+'\n\n<?php echo __('Are you sure you want to delete this media file?', 'powerpress'); ?>');
 }
+//-->
 </script>
 		<div id="media-header">
 			<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
@@ -643,10 +644,11 @@ while( list($value,$desc) = each($Programs) )
 			if( $Message == '' )
 			{
 ?>
-<script language="JavaScript" type="text/javascript">
+<script language="JavaScript" type="text/javascript"><!--
 <?php if( $File != '' ) { ?>
 self.parent.SelectMedia('<?php echo $File ; ?>'); <?php } ?>
 self.parent.tb_remove();
+//-->
 </script>
 <?php
 			}

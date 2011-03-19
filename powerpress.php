@@ -289,7 +289,7 @@ function powerpress_header()
 			echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
 		}
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 <?php
 		$new_window_width = 420;
 		$new_window_height = 240;
@@ -301,6 +301,7 @@ function powerpress_header()
 ?>
 function powerpress_pinw(pinw){window.open('<?php echo get_bloginfo('url'); ?>/?powerpress_pinw='+pinw, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=<?php echo ($new_window_width + 40); ?>,height=<?php echo ($new_window_height + 80); ?>');	return false;}
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
+//-->
 </script>
 <?php
 	}

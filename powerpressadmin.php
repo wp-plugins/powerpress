@@ -1312,7 +1312,7 @@ function powerpress_admin_head()
 	{
 		echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 function powerpress_show_field(id, show) {
 	if( document.getElementById(id).nodeName == "SPAN" )
 	 document.getElementById(id).style.display = (show?"inline":"none");
@@ -1357,7 +1357,7 @@ jQuery(document).ready(function($) {
 });
 
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
-
+//-->
 </script>
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/admin.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>3rdparty/flare_player/flarevideo.css" type="text/css" media="screen" />
@@ -1444,7 +1444,7 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 	color: #666666;
 }
 </style>
-<script language="javascript">
+<script language="javascript"><!--
 
 g_powerpress_last_selected_channel = '';
 
@@ -1674,7 +1674,7 @@ function powerpress_send_to_poster_image(url)
 	}
 	tb_remove();
 }
-
+//-->
 </script>
 <?php
 	}
@@ -1683,8 +1683,9 @@ function powerpress_send_to_poster_image(url)
 		// Print this line for debugging when looking for other pages to include header data for
 		//echo "<!-- WP Page Name: $page_name; Hook Suffix: $hook_suffix -->\n";
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
+//-->
 </script>
 <?php
 	}

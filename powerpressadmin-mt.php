@@ -366,7 +366,7 @@ label {
 	width: 160px;
 }
 </style>
-<script language="javascript">
+<script language="javascript"><!--
 
 function check_radio_selection(obj, PostID, FileIndex)
 {
@@ -447,7 +447,7 @@ function select_all(index,value)
 		}
 	}
 }
-
+//-->
 </script>
 <h2><?php echo __('Import Episodes', 'powerpress'); ?></h2>
 <?php

@@ -8,7 +8,7 @@ function powerpress_admin_basic()
 	$FeedSettings = powerpress_get_settings('powerpress_feed');
 	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
 ?>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 function CheckRedirect(obj)
 {
 	if( obj.value )
@@ -61,7 +61,7 @@ jQuery(document).ready(function($) {
 		}
 	} );
 } );
-
+//-->
 </script>
 
 <input type="hidden" name="action" value="powerpress-save-settings" />
@@ -276,8 +276,9 @@ function powerpressadmin_edit_entry_options($General)
 </td>
 </tr>
 </table>
-<script language="javascript">
+<script language="javascript"><!--
 SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
+//-->
 </script>
 
 <?php
