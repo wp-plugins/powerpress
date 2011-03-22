@@ -375,6 +375,8 @@ function powerpress_admin_init()
 			{
 				if( !isset($General['poster_play_image'] ) )
 					$General['poster_play_image'] = 0;
+				if( !isset($General['poster_image_audio'] ) )
+					$General['poster_image_audio'] = 0;
 			}
 			
 			// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...

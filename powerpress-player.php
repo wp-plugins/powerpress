@@ -1372,7 +1372,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 		$cover_image = $EpisodeData['image'];
 		
 	$extension = powerpressplayer_get_extension($media_url, $EpisodeData);
-	if( $extension == 'mp3' || $extension == 'm4a' )
+	if( ($extension == 'mp3' || $extension == 'm4a') && empty($Settings['poster_image_audio']) )
 	{
 		// FlowPlayer has differeent sizes for audio than for video
 		$player_width = 320;
@@ -1383,10 +1383,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 			$player_width = $EpisodeData['width'];
 		
 		$cover_image = ''; // Audio should not have a cover image
-		if( empty($cover_image) )
-		{
-			$player_height = 24;
-		}
+		$player_height = 24;
 	}
 	
 	// Build player...

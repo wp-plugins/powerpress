@@ -1752,7 +1752,8 @@ while( list($value,$desc) = each($scale_options) )
 	<label for="poster_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="poster_image_file"  />
 </div>
 <?php } ?>
-<p><input name="General[poster_play_image]" type="checkbox" value="1" <?php echo ($General['poster_play_image']?'checked':''); ?> /> <?php echo __('Include play icon over poster image when applicable.', 'powerpress'); ?> </p>
+<p><input name="General[poster_play_image]" type="checkbox" value="1" <?php echo ($General['poster_play_image']?'checked':''); ?> /> <?php echo __('Include play icon over poster image when applicable', 'powerpress'); ?> </p>
+<p><input name="General[poster_image_audio]" type="checkbox" value="1" <?php echo ($General['poster_image_audio']?'checked':''); ?> /> <?php echo __('Use poster image, player width and height above for audio (Flow Player only)', 'powerpress'); ?> </p>
 </td>
 </tr>
 

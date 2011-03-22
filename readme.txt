@@ -152,6 +152,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with Category Podcastding screen not displaying categories correctly. We are now calling the `wp_dropdown_categories()` function with the appropirate parameters.
 * Fixed fatal error `Call to undefined function powerpressplayer_get_extension()` in dashboard when option 'Disable PowerPress Media Players and Links' is selected.
 * Added `<!-- ... // -->` within `<script>` code for all javascript in PowerPress. (Thanks UnderwoodNC for submitting code!)
+* Added option under 'Video Player' Common Settings section for using the poster image, video player width and height for audio, applies to Flow Player only.
 
 = 2.0.1 =
 * Released on 3/13/2011
