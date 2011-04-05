@@ -1465,8 +1465,6 @@ function powerpressplayer_build_playimageaudio($media_url, $include_div = false)
 {
 	$content = '';
 	$cover_image = powerpress_get_root_url() . 'play_audio.png';
-	if( !empty($EpisodeData['image']) )
-		$cover_image = $EpisodeData['image'];
 	
 	if( $include_div )
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
@@ -1554,7 +1552,8 @@ function powerpressplayer_build_1pxoutplayer($media_url, $EpisodeData = array())
 	$content .= '<param name="quality" value="high" />'.PHP_EOL;
 	$content .= '<param name="menu" value="false" />'.PHP_EOL;
 	$content .= '<param name="wmode" value="transparent" />'.PHP_EOL;
-	$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);
+	// $content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true); // Feature removed since it causes double players to be insrted in Safari/Firefox
+	$content .=  powerpressplayer_build_playimageaudio($media_url);
 	$content .= '</object>'.PHP_EOL;
 	if( empty($EpisodeData['nodiv']) )
 		$content .= '</div>'.PHP_EOL;
@@ -1679,7 +1678,8 @@ function powerpressplayer_build_flashmp3maxi($media_url, $EpisodeData = array())
 	$content .=  '<param name="movie" value="'. powerpress_get_root_url().'player_mp3_maxi.swf" />'.PHP_EOL;
 	$content .= $transparency.PHP_EOL;
 	$content .= '<param name="FlashVars" value="'. $flashvars .'" />'.PHP_EOL;
-	$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);
+	// $content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);  // Feature removed since it causes double players to be insrted in Safari/Firefox
+	$content .=  powerpressplayer_build_playimageaudio($media_url);
 	$content .= '</object>'.PHP_EOL;
 	$content .= '</div>'.PHP_EOL;
 	return $content;
@@ -1741,7 +1741,8 @@ function powerpressplayer_build_audioplay($media_url, $EpisodeData = array())
 	$content .= $transparency.PHP_EOL;
 	$content .= '<param name="FlashVars" value="'.$flashvars.'" />'.PHP_EOL;
 	$content .= '<embed src="'. powerpress_get_root_url().'audioplay.swf?'.$flashvars.'" quality="high"  width="30" height="30" type="application/x-shockwave-flash">'.PHP_EOL;
-	$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);
+	// $content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);  // Feature removed since it causes double players to be insrted in Safari/Firefox
+	$content .=  powerpressplayer_build_playimageaudio($media_url);
 	$content .= "</embed>\n		</object>\n";
 	$content .= "</div>\n";
 	return $content;
@@ -1765,7 +1766,8 @@ function powerpressplayer_build_simpleflash($media_url, $EpisodeData = array())
 	$content .= '<param name="FlashVars" value="'. get_bloginfo('url') .'?url='. urlencode($media_url).'&amp;autostart='. ($autoplay?'true':'false') .'" />';
 	$content .= '<param name="quality" value="high" />';
 	$content .= '<embed wmode="transparent" src="'. get_bloginfo('url') .'?url='.urlencode($media_url).'&amp;autostart='. ($autoplay?'true':'false') .'" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="150" height="50">';
-	$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);
+	// $content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);  // Feature removed since it causes double players to be insrted in Safari/Firefox
+	$content .=  powerpressplayer_build_playimageaudio($media_url);
 	$content .= '</embed>';
 	$content .= '</object>';
 	$content .= "</div>\n";
