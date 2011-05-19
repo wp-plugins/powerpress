@@ -723,7 +723,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 	if( isset($EpisodeData['autoplay']) && $EpisodeData['autoplay'] )
 		$autoplay = true;
 	$cover_image = '';
-	if( $EpisodeData['image'] )
+	if( !empty($EpisodeData['image']) )
 		$cover_image = $EpisodeData['image'];
 	
 	$extension = powerpressplayer_get_extension($media_url);
@@ -1082,6 +1082,11 @@ Do Play in new Window
 */
 function powerpress_do_pinw($pinw, $process_podpress)
 {
+	if( !WP_DEBUG && defined('POWERPRESS_FIX_WARNINGS') )
+	{
+		@error_reporting( E_ALL | E_CORE_ERROR | E_COMPILE_ERROR  | E_PARSE );
+	}
+	
 	list($post_id, $feed_slug) = explode('-', $pinw, 2);
 	$EpisodeData = powerpress_get_enclosure_data($post_id, $feed_slug);
 	
@@ -1097,6 +1102,10 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
 <?php 
+
+	if( defined('POWERPRESS_ENQUEUE_SCRIPTS') )
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	
 	wp_head();
 ?>
 <style type="text/css">
@@ -1368,7 +1377,7 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 		$player_width = $EpisodeData['width'];
 	if( !empty($EpisodeData['height']) )
 		$player_height = $EpisodeData['height'];
-	if( $EpisodeData['image'] )
+	if( !empty($EpisodeData['image']) )
 		$cover_image = $EpisodeData['image'];
 		
 	$extension = powerpressplayer_get_extension($media_url, $EpisodeData);

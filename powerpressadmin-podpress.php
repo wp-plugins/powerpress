@@ -726,7 +726,7 @@ function select_all(index,value)
 
 		}
 		
-		if( $StrandedEpisodes )
+		if( !empty($StrandedEpisodes) )
 		{
 ?>
 <p><?php echo sprintf(__('There are %d PodPress media files that can be imported.', 'powerpress'),

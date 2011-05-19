@@ -543,6 +543,7 @@ else
 			reset($Settings['custom_feeds']);
 		}
 		
+		$feed_title = '';
 		if( $feed_slug == 'podcast' )
 			$feed_title = __('Podcast Feed (default)', 'powerpress');
 		$feed_title = esc_html($feed_title);
@@ -589,7 +590,7 @@ else
 						echo '<input type="hidden" name="Media['.$post_id.']['.$episode_index.']" value="'. htmlspecialchars($episode_data['url']) .'" />';
 						
 						
-						if( !$episode_data['imported'] )
+						if( empty($episode_data['imported']) )
 						{
 							echo '<span style="color: #CC0000; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
 							$StrandedEpisodes++;
@@ -599,7 +600,7 @@ else
 							echo '<span style="color: green; font-weight: bold; cursor:pointer;" onclick="alert(\'File: '. $filename .'\nURL: '. $episode_data['url'] .'\')">';
 						}
 						
-						if( !$episode_data['imported'] )
+						if( empty($episode_data['imported']) )
 							echo '*';
 						echo $filename;
 						echo '</span>';
@@ -648,7 +649,7 @@ else
 							echo "File $index: ";
 							if( $CurrentEnclosures[$feed_slug]['url'] == $episode_data['url'] )
 							{
-								if( $CurrentEnclosures[$feed_slug]['present'] )
+								if( !empty($CurrentEnclosures[$feed_slug]['present']) )
 									echo '<strong style="color: green;">'.  __('present', 'powerpress') .'</strong>';
 								else
 									echo '<strong style="color: green;">'.  __('imported', 'powerpress') .'</strong>';
@@ -777,7 +778,7 @@ else
 <input type="hidden" name="page" value="powerpress/powerpressadmin_tools.php" />
 <input type="hidden" name="action" value="powerpress-mt-epiosdes" />
 <h2><?php echo __('Filter Results', 'powerpress'); ?></h2>
-<p><label><?php echo __('Include Only', 'powerpress'); ?></label><input type="text" name="include_only_ext" value="<?php if( $_GET['include_only_ext'] ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" />
+<p><label><?php echo __('Include Only', 'powerpress'); ?></label><input type="text" name="include_only_ext" value="<?php if( !empty($_GET['include_only_ext']) ) echo htmlspecialchars($_GET['include_only_ext']); ?>" style="width: 240px;" />
 (<?php echo __('leave blank for all media', 'powerpress'); ?>) <br />
 <label>&nbsp;</label><?php echo __('Specify the file extensions to include separated by commas (e.g. mp3, m4v).', 'powerpress'); ?>
 </p>

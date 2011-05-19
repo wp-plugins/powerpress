@@ -120,7 +120,7 @@ jQuery(document).ready(function($) {
 	
 	<div id="tab6" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
+		powerpressadmin_edit_tv($FeedSettings);
 		?>
 	</div>
 	

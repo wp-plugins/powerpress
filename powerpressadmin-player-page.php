@@ -41,6 +41,7 @@ function powerpress_admin_players($type='audio')
 	$Audio['flashmp3-maxi'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/Flash_Maxi_Player.mp3';
 	$Audio['simple_flash'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/Simple_Flash_MP3_Player.mp3';
 	$Audio['audioplay'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/AudioPlay.mp3';
+	$Audio['html5audio'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/HTML5Audio.mp3';
 		
 	
 	$Video = array();
@@ -972,10 +973,12 @@ function audio_player_defaults()
 				
 				//set PlayerSettings as blank array for initial setup
 						//This keeps the foreach loop from returning an error
+						
 				if( empty($PlayerSettings) ){
 					$PlayerSettings = array(
 						'bgcolor1'=>'#7c7c7c',
 						'bgcolor2'=>'#333333',
+						'bgcolor'=>'',
 						'textcolor' => '#FFFFFF',
 						'buttoncolor' => '#FFFFFF',
 						'buttonovercolor' => '#FFFF00',
@@ -1595,6 +1598,9 @@ function audio_player_defaults()
 			}; break;
 		
 			default: {
+			
+				if( empty($General['player_width_audio']) )
+					$General['player_width_audio'] = '';
 			
 ?>
 <p><?php echo __('Configure Flow Player Classic', 'powerpress'); ?></p>

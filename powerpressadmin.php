@@ -245,7 +245,7 @@ function powerpress_admin_init()
 		// Update the settings in the database:
 		if( $General )
 		{
-			if( $_POST['action'] == 'powerpress-save-settings' )
+			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-settings' )
 			{
 				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
 					$General['display_player_excerpt'] = 0; // Set it to zero.
@@ -321,7 +321,7 @@ function powerpress_admin_init()
 					$General['m4a'] = '';
 			}
 			
-			if( $_POST['action'] == 'powerpress-save-tags' )
+			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
 			{
 				if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
 					$General['write_tags'] = 0; // Set it to zero.
@@ -371,7 +371,7 @@ function powerpress_admin_init()
 				}
 			}
 			
-			if( $_POST['action'] == 'powerpress-save-videocommon' )
+			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-videocommon' )
 			{
 				if( !isset($General['poster_play_image'] ) )
 					$General['poster_play_image'] = 0;
@@ -416,33 +416,36 @@ function powerpress_admin_init()
 		$wp_rewrite->flush_rules();
 		
 		// Settings saved successfully
-		switch( $_POST['action'] )
+		if( !empty($_POST['action']) )
 		{
-			case 'powerpress-save-settings': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.', 'powerpress') );
-			}; break;
-			case 'powerpress-save-customfeed': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.', 'powerpress') );
-			}; break;
-			case 'powerpress-save-categoryfeedsettings': {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.', 'powerpress') );
-			}; break;
-			case 'powerpress-save-tags': {
-				$General = get_option('powerpress_general');
-				if( !@$General['blubrry_hosting'] )
-					powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
-				else
-					powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
-			}; break;
-			case 'powerpress-save-mode': {
-				// TODO:
-			}; break;
-			default: {
-				powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
-			}; break;
+			switch( $_POST['action'] )
+			{
+				case 'powerpress-save-settings': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-customfeed': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-categoryfeedsettings': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-tags': {
+					$General = get_option('powerpress_general');
+					if( !@$General['blubrry_hosting'] )
+						powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
+					else
+						powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-mode': {
+					// TODO:
+				}; break;
+				default: {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
+				}; break;
+			}
 		}
 		
-		if( @$_POST['TestiTunesPing'] == 1 )
+		if( !empty($_POST['TestiTunesPing'])  &&$_POST['TestiTunesPing'] == 1 )
 		{
 			if( $_POST['action'] == 'powerpress-save-settings' )
 				$PingResults = powerpress_ping_itunes($General['itunes_url']);

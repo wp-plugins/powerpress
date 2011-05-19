@@ -373,6 +373,8 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 		$FeedSettings['rss2_image'] = '';
 	if( !isset($FeedSettings['copyright']) )
 		$FeedSettings['copyright'] = '';
+	if( !isset($FeedSettings['title']) )
+		$FeedSettings['title'] = '';
 	
 	if( $cat_ID || $feed_slug )
 	{
@@ -581,6 +583,8 @@ if( isset($Languages[ $rss_language ]) )
 
 function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID = false)
 {
+	if( !isset($FeedSettings['redirect']) )
+		$FeedSettings['redirect'] = '';
 
 	if( $cat_ID )
 	{

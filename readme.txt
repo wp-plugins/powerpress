@@ -147,8 +147,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 2.0.3 =
-* Released on 4/??/2011
+* Released on 5/??/2011
 * Fixed bug with Flash players configured with auto play in new window also included and auto-played the HTML5 audio player.
+* Fixed bug intruduced in PowerPress 2.0.1 where classic Quicktime and Windows Media player embeds failed when using `POWERPRESS_ENQUEUE_SCRIPTS` define option.
+* Added new `POWERPRESS_FIX_WARNINGS` define option, simply add `define('POWERPRESS_FIX_WARNINGS', true);` to your wp-config.php if you see warning messages in your play in new window player.
+* Fixed a handful of PHP notice messages when in `WP_DEBUG` mode.
 
 
 = 2.0.2 =
