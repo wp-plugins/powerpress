@@ -459,6 +459,7 @@
 	<?php powerpressadmin_diagnostics_status($powerpress_diags['system_info']['success'], $powerpress_diags['system_info']['warning']); ?>
 </th> 
 <td>
+	<p><?php echo htmlspecialchars( sprintf(__('WordPress Version %s'), $GLOBALS['wp_version']) ); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message2']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message3']); ?></p>

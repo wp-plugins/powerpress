@@ -152,7 +152,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug intruduced in PowerPress 2.0.1 where classic Quicktime and Windows Media player embeds failed when using `POWERPRESS_ENQUEUE_SCRIPTS` define option.
 * Added new `POWERPRESS_FIX_WARNINGS` define option, simply add `define('POWERPRESS_FIX_WARNINGS', true);` to your wp-config.php if you see warning messages in your play in new window player.
 * Fixed a handful of PHP notice messages when in `WP_DEBUG` mode.
-
+* Including version of WordPress in diagnostics report, diagnostic report found under Tools menu.
 
 = 2.0.2 =
 * Released on 3/29/2011
