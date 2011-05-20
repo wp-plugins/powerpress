@@ -1833,7 +1833,7 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 
 function powerpress_add_flag_to_redirect_url($MediaURL, $Flag)
 {
-	return preg_replace('/(media\.(blubrry|techpodcasts|rawvoice|podcasternews)\.com\/[A-Za-z0-9-_]+\/)/i', '$1'."$Flag/", $MediaURL);
+	return preg_replace('/(media\.(blubrry|techpodcasts|rawvoice|podcasternews)\.com\/[A-Za-z0-9-_]+\/)('.$Flag.'\/)?/i', '$1'."$Flag/", $MediaURL);
 }
 
 /*
