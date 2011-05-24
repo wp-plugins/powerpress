@@ -28,14 +28,9 @@
 		$ping_sites = get_option('ping_sites');
 		$BlogSites = array('http://rpc.pingomatic.com/'=> __('Ping-o-Matic!', 'powerpress'),
 			'http://blogsearch.google.com/ping/RPC2'=> __('Google Blog Search', 'powerpress'),
-			'http://rssrpc.weblogs.com/RPC2'=> __('WebLogs', 'powerpress'),
-			'http://rpc.technorati.com/rpc/ping'=> __('Technorati', 'powerpress') );
+			'http://rssrpc.weblogs.com/RPC2'=> __('WebLogs', 'powerpress')  );
 			
-		$PodcastSites = array('http://audiorpc.weblogs.com/RPC2'=> __('WebLogs Audio', 'powerpress'),
-			'http://www.allpodcasts.com/Ping.aspx'=>'AllPodcasts.com',
-			'http://www.podnova.com/xmlrpc.srf'=>'PodNova.com',
-			'http://ping.podcast.com/ping.php'=>'Podcasts.com',
-			'http://ping.syndic8.com/xmlrpc.php'=>'Syndic8.com');
+		$PodcastSites = array('http://audiorpc.weblogs.com/RPC2'=> __('WebLogs Audio', 'powerpress') );
 ?>
 
 
