@@ -147,14 +147,15 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 2.0.3 =
-* Released on 5/??/2011
-* Fixed bug with Flash players configured with auto play in new window also included and auto-played the HTML5 audio player.
+* Released on 5/27/2011
+* Fixed bug with Flash players configured with auto play in new window at the same time as auto-played HTML5 audio player (2 players playing at same time in new window problem).
 * Fixed bug intruduced in PowerPress 2.0.1 where classic Quicktime and Windows Media player embeds failed when using `POWERPRESS_ENQUEUE_SCRIPTS` define option.
 * Added new `POWERPRESS_FIX_WARNINGS` define option, simply add `define('POWERPRESS_FIX_WARNINGS', true);` to your wp-config.php if you see warning messages in your play in new window player.
 * Fixed a handful of PHP notice messages when in `WP_DEBUG` mode.
 * Including version of WordPress in diagnostics report, diagnostic report found under Tools menu.
 * Removed syndic8, AllPodcast, Podnova, Podcasts.com and Technorati from ping list in Tools. These services no longer have ping sites. 
 * Added new link for help for Blubrry Services Integration errors.
+* Updated po files for translation.
 
 = 2.0.2 =
 * Released on 3/29/2011

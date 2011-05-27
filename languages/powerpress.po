@@ -20,7 +20,7 @@ msgstr ""
 "X-Textdomain-Support: yes"
 
 #: mp3info.class.php:103
-#: powerpressadmin-jquery.php:455
+#: powerpressadmin-jquery.php:479
 #@ powerpress
 msgid "Your server must either have the php.ini setting 'allow_url_fopen' enabled or have the PHP cURL library installed in order to continue."
 msgstr ""
@@ -96,23 +96,45 @@ msgid "Retrieving file info:"
 msgstr ""
 
 #: mp3info.class.php:483
-#: mp3info.class.php:489
+#@ powerpress
+msgid "PowerPress is unable to detect media information."
+msgstr ""
+
+#: mp3info.class.php:502
+#, php-format
+#@ powerpress
+msgid "Plugin '%s' has included a different version of the GetID3 library located in %s"
+msgstr ""
+
+#: mp3info.class.php:504
+#, php-format
+#@ powerpress
+msgid "Another plugin has included a different version of the GetID3 library located in %s"
+msgstr ""
+
+#: mp3info.class.php:506
+#@ powerpress
+msgid "Another plugin has included a different version of the GetID3 library."
+msgstr ""
+
+#: mp3info.class.php:513
+#: mp3info.class.php:519
 #@ powerpress
 msgid "Error occurred downloading media file."
 msgstr ""
 
-#: mp3info.class.php:498
+#: mp3info.class.php:528
 #@ powerpress
 msgid "Downloaded media file is empty."
 msgstr ""
 
-#: mp3info.class.php:536
+#: mp3info.class.php:568
 #, php-format
 #@ powerpress
 msgid "Sample Rate %dKhz may cause playback issues, we recommend 22Khz or 44Khz for maximum player compatibility."
 msgstr ""
 
-#: mp3info.class.php:542
+#: mp3info.class.php:574
 #, php-format
 #@ powerpress
 msgid "Channel Mode '%s' may cause playback issues, we recommend 'joint stereo' for maximum player compatibility."
@@ -133,1109 +155,1189 @@ msgstr ""
 msgid "Unauthorized"
 msgstr ""
 
-#: powerpress-player.php:82
-#: powerpressadmin-player-page.php:577
+#: powerpress-player.php:304
+#: powerpress-player.php:861
+#@ powerpress
+msgid "Best viewed with"
+msgstr ""
+
+#: powerpress-player.php:306
+#: powerpress-player.php:863
+#@ powerpress
+msgid "Windows Media Player plugin for Firefox"
+msgstr ""
+
+#: powerpress-player.php:499
+#: powerpress-player.php:1103
+#@ powerpress
+msgid "Blubrry PowerPress Player"
+msgstr ""
+
+#: powerpress-player.php:565
+#@ powerpress
+msgid "Player Not Available"
+msgstr ""
+
+#: powerpress-player.php:971
+#@ powerpress
+msgid "Open in New Window"
+msgstr ""
+
+#: powerpress-player.php:1053
+#@ powerpress
+msgid "E-Book PDF"
+msgstr ""
+
+#: powerpress-player.php:1121
+#@ powerpress
+msgid "Unable to retrieve media information."
+msgstr ""
+
+#: powerpress-player.php:1526
+#: powerpressadmin-player-page.php:726
 #@ powerpress
 msgid "TRACK"
 msgstr ""
 
-#: powerpress.php:46
-#: powerpressadmin-customfeeds.php:94
-#: powerpressadmin-customfeeds.php:109
-#: powerpressadmin-editfeed.php:1000
+#: powerpress.php:55
+#: powerpressadmin-customfeeds.php:70
+#: powerpressadmin-customfeeds.php:85
+#: powerpressadmin-editfeed.php:1036
+#: powerpressadmin.php:3154
 #@ powerpress
 msgid "Podcast"
 msgstr ""
 
-#: powerpress.php:48
-#: powerpressadmin-metabox.php:196
+#: powerpress.php:57
+#: powerpressadmin-metabox.php:234
 #@ powerpress
 msgid "Duration"
 msgstr ""
 
-#: powerpress.php:50
+#: powerpress.php:59
 #@ powerpress
 msgid "Play in new window"
 msgstr ""
 
-#: powerpress.php:52
+#: powerpress.php:61
 #@ powerpress
 msgid "Download"
 msgstr ""
 
-#: powerpress.php:54
+#: powerpress.php:63
 #: powerpressadmin-podpress-stats.php:24
 #: powerpressadmin-podpress-stats.php:28
 #@ powerpress
 msgid "Play"
 msgstr ""
 
-#: powerpress.php:1450
+#: powerpress.php:65
 #@ powerpress
-msgid "Best viewed with"
+msgid "Embed"
 msgstr ""
 
-#: powerpress.php:1452
-#@ powerpress
-msgid "Windows Media Player plugin for Firefox"
-msgstr ""
-
-#: powerpress.php:1754
-#@ powerpress
-msgid "Blubrry PowerPress Player"
-msgstr ""
-
-#: powerpress.php:1766
-#@ powerpress
-msgid "Unable to retrieve media information."
-msgstr ""
-
-#: powerpress.php:2462
-#@ powerpress
-msgid "Open in New Window"
-msgstr ""
-
-#: powerpress.php:2504
-#@ powerpress
-msgid "E-Book PDF"
-msgstr ""
-
-#: powerpressadmin-basic.php:33
+#: powerpressadmin-basic.php:19
 #@ powerpress
 msgid "The redirect entered is not recongized as a supported statistics redirect service."
 msgstr ""
 
-#: powerpressadmin-basic.php:33
+#: powerpressadmin-basic.php:19
 #@ powerpress
 msgid "Are you sure you wish to continue with this redirect url?"
 msgstr ""
 
-#: powerpressadmin-basic.php:90
+#: powerpressadmin-basic.php:70
 #@ powerpress
 msgid "Blubrry PowerPress Settings"
 msgstr ""
 
-#: powerpressadmin-basic.php:94
-#: powerpressadmin-player-page.php:492
+#: powerpressadmin-basic.php:74
+#@ powerpress
+msgid "Welcome"
+msgstr ""
+
+#: powerpressadmin-basic.php:75
+#: powerpressadmin-player-page.php:641
+#: powerpressadmin-player-page.php:1117
 #@ powerpress
 msgid "Basic Settings"
 msgstr ""
 
-#: powerpressadmin-basic.php:95
+#: powerpressadmin-basic.php:76
 #@ powerpress
-msgid "Services & Statistics"
+msgid "Services & Stats"
 msgstr ""
 
-#: powerpressadmin-basic.php:96
-#: powerpressadmin-editfeed.php:215
+#: powerpressadmin-basic.php:77
+#: powerpressadmin-editfeed.php:199
 #@ powerpress
-msgid "Appearance"
+msgid "Media Appearance"
 msgstr ""
 
-#: powerpressadmin-basic.php:97
+#: powerpressadmin-basic.php:78
 #@ powerpress
 msgid "Feeds"
 msgstr ""
 
-#: powerpressadmin-basic.php:98
+#: powerpressadmin-basic.php:79
+#: powerpressadmin.php:3156
 #@ powerpress
 msgid "iTunes"
 msgstr ""
 
-#: powerpressadmin-basic.php:141
+#: powerpressadmin-basic.php:80
+#: powerpressadmin-editfeed.php:197
+#@ powerpress
+msgid "T.V."
+msgstr ""
+
+#: powerpressadmin-basic.php:133
 #@ powerpress
 msgid "You must delete all of the Podcast Channels to disable this option."
 msgstr ""
 
-#: powerpressadmin-basic.php:151
-#: powerpressadmin-mode.php:29
-#@ powerpress
-msgid "Advanced Mode"
-msgstr ""
-
-#: powerpressadmin-basic.php:152
-#@ powerpress
-msgid "Uncheck to display only the essential settings for podcasting."
-msgstr ""
-
-#: powerpressadmin-basic.php:156
+#: powerpressadmin-basic.php:143
 #@ powerpress
 msgid "Audio Player Options"
 msgstr ""
 
-#: powerpressadmin-basic.php:157
+#: powerpressadmin-basic.php:144
 #@ powerpress
-msgid "Select from 5 different web based audio flash players."
+msgid "Select from 6 different web based audio players."
 msgstr ""
 
-#: powerpressadmin-basic.php:158
-#: powerpressadmin-basic.php:164
-#: powerpressadmin-basic.php:170
+#: powerpressadmin-basic.php:145
+#: powerpressadmin-basic.php:151
+#: powerpressadmin-basic.php:157
+#: powerpressadmin-basic.php:163
 #@ powerpress
 msgid "feature will appear in left menu when enabled"
 msgstr ""
 
-#: powerpressadmin-basic.php:162
+#: powerpressadmin-basic.php:149
+#@ powerpress
+msgid "Video Player Options"
+msgstr ""
+
+#: powerpressadmin-basic.php:150
+#@ powerpress
+msgid "Select from 2 different web based video players."
+msgstr ""
+
+#: powerpressadmin-basic.php:155
 #: powerpressadmin-categoryfeeds.php:27
 #: powerpressadmin-customfeeds.php:23
-#: powerpressadmin-podpress.php:833
+#: powerpressadmin-podpress.php:807
 #@ powerpress
 #@ default
 msgid "Custom Podcast Channels"
 msgstr ""
 
-#: powerpressadmin-basic.php:163
+#: powerpressadmin-basic.php:156
 #@ powerpress
 msgid "Manage multiple media files and/or formats to one blog post."
 msgstr ""
 
-#: powerpressadmin-basic.php:168
+#: powerpressadmin-basic.php:161
 #: powerpressadmin-categoryfeeds.php:21
-#: powerpressadmin.php:897
+#: powerpressadmin.php:972
 #@ powerpress
 msgid "Category Podcasting"
 msgstr ""
 
-#: powerpressadmin-basic.php:169
+#: powerpressadmin-basic.php:162
 #@ powerpress
 msgid "Manage category podcast feeds."
 msgstr ""
 
-#: powerpressadmin-basic.php:180
+#: powerpressadmin-basic.php:173
 #@ powerpress
 msgid "Like The Plugin?"
 msgstr ""
 
-#: powerpressadmin-basic.php:182
+#: powerpressadmin-basic.php:175
 #@ powerpress
 msgid "This plugin is great, don't you think? If you like the plugin we'd be ever so grateful if you'd give it your support. Here's how:"
 msgstr ""
 
-#: powerpressadmin-basic.php:185
+#: powerpressadmin-basic.php:178
 #, php-format
 #@ powerpress
 msgid "Rate this plugin 5 stars in the %s."
 msgstr ""
 
-#: powerpressadmin-basic.php:186
+#: powerpressadmin-basic.php:179
 #@ powerpress
 msgid "WordPress Plugins Directory"
 msgstr ""
 
-#: powerpressadmin-basic.php:190
+#: powerpressadmin-basic.php:183
 #@ powerpress
 msgid "Tell the world about PowerPress by writing about it on your blog"
 msgstr ""
 
-#: powerpressadmin-basic.php:191
+#: powerpressadmin-basic.php:184
 #@ powerpress
 msgid "I'm podcasting with Blubrry PowerPress (http://blubrry.com/powerpress/) #powerpress #wordpress"
 msgstr ""
 
-#: powerpressadmin-basic.php:191
+#: powerpressadmin-basic.php:184
 #@ powerpress
 msgid "Twitter"
 msgstr ""
 
-#: powerpressadmin-basic.php:192
+#: powerpressadmin-basic.php:185
 #@ powerpress
 msgid "I podcast with Blubrry PowerPress"
 msgstr ""
 
-#: powerpressadmin-basic.php:192
+#: powerpressadmin-basic.php:185
 #@ powerpress
 msgid "Facebook"
 msgstr ""
 
-#: powerpressadmin-basic.php:193
+#: powerpressadmin-basic.php:186
 #@ powerpress
 msgid "Blubrry PowerPress Podcasting Plugin for WordPress"
 msgstr ""
 
-#: powerpressadmin-basic.php:193
+#: powerpressadmin-basic.php:186
 #@ powerpress
 msgid "Digg"
 msgstr ""
 
-#: powerpressadmin-basic.php:195
+#: powerpressadmin-basic.php:188
 #@ powerpress
 msgid "Send us feedback"
 msgstr ""
 
-#: powerpressadmin-basic.php:195
+#: powerpressadmin-basic.php:188
 #@ powerpress
 msgid "we love getting suggestions for new features!"
 msgstr ""
 
-#: powerpressadmin-basic.php:219
+#: powerpressadmin-basic.php:212
 #@ powerpress
 msgid "Episode Entry Options"
 msgstr ""
 
-#: powerpressadmin-basic.php:227
-#@ powerpress
-msgid "Default Media URL"
-msgstr ""
-
-#: powerpressadmin-basic.php:230
-#@ powerpress
-msgid "e.g. http://example.com/mediafolder/"
-msgstr ""
-
-#: powerpressadmin-basic.php:231
-#@ powerpress
-msgid "URL above will prefix entered file names that do not start with 'http://'. URL above must end with a trailing slash. You may leave blank if you always enter the complete URL to your media when creating podcast episodes."
-msgstr ""
-
-#: powerpressadmin-basic.php:241
+#: powerpressadmin-basic.php:219
 #@ powerpress
 msgid "Podcast Entry Box"
 msgstr ""
 
-#: powerpressadmin-basic.php:245
+#: powerpressadmin-basic.php:222
 #@ powerpress
-msgid "Simple"
+msgid "Configure your podcast episode entry box with the options that fit your needs."
 msgstr ""
 
-#: powerpressadmin-basic.php:248
+#: powerpressadmin-basic.php:226
+#: powerpressadmin-metabox.php:161
 #@ powerpress
-msgid "Episode entry box includes Media URL field only. File Size and Duration will be auto detected upon saving the post."
+msgid "Media URL"
 msgstr ""
 
-#: powerpressadmin-basic.php:252
+#: powerpressadmin-basic.php:227
 #@ powerpress
-msgid "Normal"
+msgid "Specify URL to episode's media file"
 msgstr ""
 
-#: powerpressadmin-basic.php:252
+#: powerpressadmin-basic.php:229
 #@ powerpress
-msgid "default"
+msgid "Media File Size and Duration"
 msgstr ""
 
-#: powerpressadmin-basic.php:255
+#: powerpressadmin-basic.php:230
 #@ powerpress
-msgid "Episode entry box includes Media URL, File Size and Duration fields."
+msgid "Specify episode's media file size and duration"
 msgstr ""
 
-#: powerpressadmin-basic.php:259
-#: powerpressadmin-basic.php:977
-#: powerpressadmin-basic.php:979
-#@ powerpress
-msgid "Custom"
-msgstr ""
-
-#: powerpressadmin-basic.php:262
-#@ powerpress
-msgid "Episode entry box includes Media URL, File Size and Duration fields, plus:"
-msgstr ""
-
-#: powerpressadmin-basic.php:264
+#: powerpressadmin-basic.php:232
 #@ powerpress
 msgid "Embed Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:265
+#: powerpressadmin-basic.php:233
 #@ powerpress
 msgid "Enter embed code from sites such as YouTube, Viddler and Blip.tv"
 msgstr ""
 
-#: powerpressadmin-basic.php:266
+#: powerpressadmin-basic.php:234
 #@ powerpress
 msgid "Replace Player with Embed"
 msgstr ""
 
-#: powerpressadmin-basic.php:267
+#: powerpressadmin-basic.php:235
 #@ powerpress
 msgid "Do not display default player if embed present for episode."
 msgstr ""
 
-#: powerpressadmin-basic.php:269
+#: powerpressadmin-basic.php:237
 #@ powerpress
 msgid "Display Player and Links Options"
 msgstr ""
 
-#: powerpressadmin-basic.php:273
+#: powerpressadmin-basic.php:241
 #@ powerpress
 msgid "No Player & Links Option"
 msgstr ""
 
-#: powerpressadmin-basic.php:274
+#: powerpressadmin-basic.php:242
 #@ powerpress
 msgid "Disable media player and links on a per episode basis"
 msgstr ""
 
-#: powerpressadmin-basic.php:276
+#: powerpressadmin-basic.php:244
 #@ powerpress
 msgid "- or -"
 msgstr ""
 
-#: powerpressadmin-basic.php:278
+#: powerpressadmin-basic.php:246
 #@ powerpress
 msgid "No Player Option"
 msgstr ""
 
-#: powerpressadmin-basic.php:279
+#: powerpressadmin-basic.php:247
 #@ powerpress
 msgid "Disable media player on a per episode basis"
 msgstr ""
 
-#: powerpressadmin-basic.php:281
+#: powerpressadmin-basic.php:249
 #@ powerpress
 msgid "No Links Option"
 msgstr ""
 
-#: powerpressadmin-basic.php:282
+#: powerpressadmin-basic.php:250
 #@ powerpress
 msgid "Disable media links on a per episode basis"
 msgstr ""
 
-#: powerpressadmin-basic.php:286
+#: powerpressadmin-basic.php:254
 #@ powerpress
-msgid "Video Cover Image"
+msgid "Video Poster Image"
 msgstr ""
 
-#: powerpressadmin-basic.php:287
+#: powerpressadmin-basic.php:255
 #@ powerpress
-msgid "specify URL to image to display in place of QuickTime video"
+msgid "Specify URL to poster artwork specific to each episode"
 msgstr ""
 
-#: powerpressadmin-basic.php:289
+#: powerpressadmin-basic.php:257
+#@ powerpress
+msgid "Player Width and Height"
+msgstr ""
+
+#: powerpressadmin-basic.php:258
+#@ powerpress
+msgid "Customize player width and height on a per episode basis"
+msgstr ""
+
+#: powerpressadmin-basic.php:260
 #@ powerpress
 msgid "iTunes Keywords Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:290
+#: powerpressadmin-basic.php:261
 #@ powerpress
 msgid "Leave unchecked to use your blog post tags"
 msgstr ""
 
-#: powerpressadmin-basic.php:291
+#: powerpressadmin-basic.php:262
 #@ powerpress
 msgid "iTunes Subtitle Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:292
+#: powerpressadmin-basic.php:263
 #@ powerpress
 msgid "Leave unchecked to use the first 250 characters of your blog post"
 msgstr ""
 
-#: powerpressadmin-basic.php:293
+#: powerpressadmin-basic.php:264
 #@ powerpress
 msgid "iTunes Summary Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:294
+#: powerpressadmin-basic.php:265
 #@ powerpress
 msgid "Leave unchecked to use your blog post"
 msgstr ""
 
-#: powerpressadmin-basic.php:295
+#: powerpressadmin-basic.php:266
 #@ powerpress
 msgid "iTunes Author Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:296
+#: powerpressadmin-basic.php:267
 #@ powerpress
 msgid "Leave unchecked to the post author name"
 msgstr ""
 
-#: powerpressadmin-basic.php:297
+#: powerpressadmin-basic.php:268
 #@ powerpress
 msgid "iTunes Explicit Field"
 msgstr ""
 
-#: powerpressadmin-basic.php:298
+#: powerpressadmin-basic.php:269
 #@ powerpress
 msgid "Leave unchecked to use your feed's explicit setting"
 msgstr ""
 
-#: powerpressadmin-basic.php:300
+#: powerpressadmin-basic.php:271
 #@ powerpress
 msgid "NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above."
 msgstr ""
 
-#: powerpressadmin-basic.php:301
+#: powerpressadmin-basic.php:272
 #@ powerpress
 msgid "USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK."
 msgstr ""
 
-#: powerpressadmin-basic.php:325
+#: powerpressadmin-basic.php:301
+#@ powerpress
+msgid "Show Advanced Episode Entry Settings"
+msgstr ""
+
+#: powerpressadmin-basic.php:307
+#@ powerpress
+msgid "Default Media URL"
+msgstr ""
+
+#: powerpressadmin-basic.php:310
+#@ powerpress
+msgid "e.g. http://example.com/mediafolder/"
+msgstr ""
+
+#: powerpressadmin-basic.php:311
+#@ powerpress
+msgid "URL above will prefix entered file names that do not start with 'http://'. URL above must end with a trailing slash. You may leave blank if you always enter the complete URL to your media when creating podcast episodes."
+msgstr ""
+
+#: powerpressadmin-basic.php:322
 #@ powerpress
 msgid "File Size Default"
 msgstr ""
 
-#: powerpressadmin-basic.php:329
-#: powerpressadmin-metabox.php:185
+#: powerpressadmin-basic.php:326
+#: powerpressadmin-metabox.php:223
 #@ powerpress
 msgid "Auto detect file size"
 msgstr ""
 
-#: powerpressadmin-basic.php:329
-#: powerpressadmin-basic.php:345
+#: powerpressadmin-basic.php:326
+#: powerpressadmin-basic.php:342
 #@ powerpress
 msgid "User specify"
 msgstr ""
 
-#: powerpressadmin-basic.php:335
+#: powerpressadmin-basic.php:332
 #@ powerpress
 msgid "specify default file size option when creating a new episode"
 msgstr ""
 
-#: powerpressadmin-basic.php:341
+#: powerpressadmin-basic.php:338
 #@ powerpress
 msgid "Duration Default"
 msgstr ""
 
-#: powerpressadmin-basic.php:345
-#: powerpressadmin-metabox.php:200
+#: powerpressadmin-basic.php:342
+#: powerpressadmin-metabox.php:238
 #@ powerpress
 msgid "Auto detect duration (mp3's only)"
 msgstr ""
 
-#: powerpressadmin-basic.php:345
+#: powerpressadmin-basic.php:342
 #@ powerpress
 msgid "Not specified (not recommended)"
 msgstr ""
 
-#: powerpressadmin-basic.php:351
+#: powerpressadmin-basic.php:348
 #@ powerpress
 msgid "specify default duration option when creating a new episode"
 msgstr ""
 
-#: powerpressadmin-basic.php:360
+#: powerpressadmin-basic.php:357
 #@ powerpress
 msgid "Auto Add Media"
 msgstr ""
 
-#: powerpressadmin-basic.php:364
+#: powerpressadmin-basic.php:361
+#: powerpressadmin-diagnostics.php:258
 #: powerpressadmin-diagnostics.php:259
 #: powerpressadmin-diagnostics.php:260
 #: powerpressadmin-diagnostics.php:261
 #: powerpressadmin-diagnostics.php:262
-#: powerpressadmin-diagnostics.php:263
 #@ powerpress
 msgid "Disabled (default)"
 msgstr ""
 
-#: powerpressadmin-basic.php:364
+#: powerpressadmin-basic.php:361
 #@ powerpress
 msgid "First media link found in post content"
 msgstr ""
 
-#: powerpressadmin-basic.php:364
+#: powerpressadmin-basic.php:361
 #@ powerpress
 msgid "Last media link found in post content"
 msgstr ""
 
-#: powerpressadmin-basic.php:371
+#: powerpressadmin-basic.php:368
 #@ powerpress
 msgid "When enabled, the first or last media link found in the post content is automatically added as your podcast episode."
 msgstr ""
 
-#: powerpressadmin-basic.php:372
+#: powerpressadmin-basic.php:369
 #@ powerpress
 msgid "NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes."
 msgstr ""
 
-#: powerpressadmin-basic.php:373
+#: powerpressadmin-basic.php:370
 #@ powerpress
 msgid "WARNING: Episodes created with this feature will <u>not</u> include Duration (total play time) information."
 msgstr ""
 
-#: powerpressadmin-basic.php:383
+#: powerpressadmin-basic.php:380
 #@ powerpress
 msgid "Podcast Permalinks"
 msgstr ""
 
-#: powerpressadmin-basic.php:387
+#: powerpressadmin-basic.php:384
 #@ powerpress
 msgid "Default WordPress Behavior"
 msgstr ""
 
-#: powerpressadmin-basic.php:387
+#: powerpressadmin-basic.php:384
 #@ powerpress
 msgid "Match Feed Name to Page/Category"
 msgstr ""
 
-#: powerpressadmin-basic.php:394
+#: powerpressadmin-basic.php:391
 #, php-format
 #@ powerpress
 msgid "When configured, %s/podcast/ is matched to page/category named 'podcast'."
 msgstr ""
 
-#: powerpressadmin-basic.php:416
+#: powerpressadmin-basic.php:415
 #@ powerpress
 msgid "PodPress Options"
 msgstr ""
 
-#: powerpressadmin-basic.php:421
+#: powerpressadmin-basic.php:420
 #@ powerpress
 msgid "PodPress Episodes"
 msgstr ""
 
-#: powerpressadmin-basic.php:425
+#: powerpressadmin-basic.php:424
 #@ powerpress
 msgid "Ignore"
 msgstr ""
 
-#: powerpressadmin-basic.php:425
+#: powerpressadmin-basic.php:424
 #@ powerpress
 msgid "Include in Posts and Feeds"
 msgstr ""
 
-#: powerpressadmin-basic.php:431
+#: powerpressadmin-basic.php:430
 #@ powerpress
 msgid "includes podcast episodes previously created in PodPress"
 msgstr ""
 
-#: powerpressadmin-basic.php:438
+#: powerpressadmin-basic.php:437
 #@ powerpress
 msgid "PodPress Stats Archive"
 msgstr ""
 
-#: powerpressadmin-basic.php:442
+#: powerpressadmin-basic.php:441
 #@ powerpress
 msgid "Hide"
 msgstr ""
 
-#: powerpressadmin-basic.php:442
-#: powerpressadmin-basic.php:874
+#: powerpressadmin-basic.php:441
 #@ powerpress
 msgid "Display"
 msgstr ""
 
-#: powerpressadmin-basic.php:448
+#: powerpressadmin-basic.php:447
 #@ powerpress
 msgid "display archive of old PodPress statistics"
 msgstr ""
 
-#: powerpressadmin-basic.php:484
+#: powerpressadmin-basic.php:483
 #@ powerpress
 msgid "Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module."
 msgstr ""
 
-#: powerpressadmin-basic.php:487
+#: powerpressadmin-basic.php:486
 #@ powerpress
 msgid "iTunes Listing Information"
 msgstr ""
 
-#: powerpressadmin-basic.php:490
+#: powerpressadmin-basic.php:489
 #@ powerpress
 msgid "iTunes Subscription URL"
 msgstr ""
 
-#: powerpressadmin-basic.php:499
+#: powerpressadmin-basic.php:498
 #, php-format
 #@ powerpress
 msgid "e.g. %s"
 msgstr ""
 
-#: powerpressadmin-basic.php:501
+#: powerpressadmin-basic.php:500
 #, php-format
 #@ powerpress
 msgid "You may use the older style Subscription URL: %s"
 msgstr ""
 
-#: powerpressadmin-basic.php:503
+#: powerpressadmin-basic.php:502
 #, php-format
 #@ powerpress
 msgid "Click the following link to %s."
 msgstr ""
 
-#: powerpressadmin-basic.php:503
+#: powerpressadmin-basic.php:502
 #@ powerpress
 msgid "Publish a Podcast on iTunes"
 msgstr ""
 
-#: powerpressadmin-basic.php:504
+#: powerpressadmin-basic.php:503
 #@ powerpress
 msgid "iTunes will email your Subscription URL to the <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory."
 msgstr ""
 
-#: powerpressadmin-basic.php:507
+#: powerpressadmin-basic.php:506
 #@ powerpress
 msgid "Recommended feed to submit to iTunes: "
 msgstr ""
 
-#: powerpressadmin-basic.php:530
+#: powerpressadmin-basic.php:528
 #@ powerpress
 msgid "Update iTunes Listing"
 msgstr ""
 
-#: powerpressadmin-basic.php:541
-#: powerpressadmin-player-page.php:540
-#: powerpressadmin-player-page.php:589
-#: powerpressadmin-player-page.php:604
-#: powerpressadmin-player-page.php:1178
-#: powerpressadmin-player-page.php:1193
-#: powerpressadmin-player-page.php:1215
-#: powerpressadmin-player-page.php:1272
+#: powerpressadmin-basic.php:530
 #@ powerpress
-msgid "No"
+msgid "This option is no longer available."
 msgstr ""
 
-#: powerpressadmin-basic.php:541
-#: powerpressadmin-player-page.php:540
-#: powerpressadmin-player-page.php:589
-#: powerpressadmin-player-page.php:604
-#: powerpressadmin-player-page.php:1178
-#: powerpressadmin-player-page.php:1193
-#: powerpressadmin-player-page.php:1215
-#: powerpressadmin-player-page.php:1272
+#: powerpressadmin-basic.php:531
+#: powerpressadmin-editfeed.php:1012
 #@ powerpress
-msgid "Yes"
+msgid "Learn more:"
 msgstr ""
 
-#: powerpressadmin-basic.php:551
+#: powerpressadmin-basic.php:531
 #@ powerpress
-msgid "Notify (ping) iTunes when you publish a new episode."
-msgstr ""
-
-#: powerpressadmin-basic.php:552
-#@ powerpress
-msgid "Test Update iTunes Listing (recommended)"
-msgstr ""
-
-#: powerpressadmin-basic.php:561
-#@ powerpress
-msgid "You may also update your iTunes listing by using the following link:"
-msgstr ""
-
-#: powerpressadmin-basic.php:561
-#@ powerpress
-msgid "Ping iTunes in New Window"
-msgstr ""
-
-#: powerpressadmin-basic.php:573
-#@ powerpress
-msgid "Latest Update iTunes Listing Status:"
-msgstr ""
-
-#: powerpressadmin-basic.php:573
-#@ powerpress
-msgid "Successful"
-msgstr ""
-
-#: powerpressadmin-basic.php:573
-#: powerpressadmin.php:982
-#: powerpressadmin.php:1015
-#: powerpressadmin.php:1030
-#: powerpressadmin.php:1036
-#@ powerpress
-msgid "Error"
-msgstr ""
-
-#: powerpressadmin-basic.php:576
-#, php-format
-#@ powerpress
-msgid "iTunes notified on %s at %s"
-msgstr ""
-
-#: powerpressadmin-basic.php:582
-#@ powerpress
-msgid "for post:"
-msgstr ""
-
-#: powerpressadmin-basic.php:587
-#@ powerpress
-msgid "Feed pulled by iTunes:"
-msgstr ""
-
-#: powerpressadmin-basic.php:593
-#: powerpressadmin-diagnostics.php:217
-#: powerpressadmin-diagnostics.php:226
-#: powerpressadmin-jquery.php:408
-#@ powerpress
-msgid "Error:"
-msgstr ""
-
-#: powerpressadmin-basic.php:626
-#: powerpressadmin-jquery.php:425
-#: powerpressadmin-jquery.php:429
-#: powerpressadmin-jquery.php:445
-#: powerpressadmin-jquery.php:454
-#: powerpressadmin-jquery.php:473
-#: powerpressadmin-jquery.php:480
-#@ powerpress
-msgid "Blubrry Services Integration"
-msgstr ""
-
-#: powerpressadmin-basic.php:629
-#, php-format
-#@ powerpress
-msgid "Adds %s to your blog's %s plus features for %s users to quickly upload and publish media directly from their blog."
+msgid "Apple Drops iTunes Podcast Directory Update Listing/Ping (pingPodcast) Function"
 msgstr ""
 
 #: powerpressadmin-basic.php:630
-#: powerpressadmin-jquery.php:78
-#: powerpressadmin-jquery.php:80
-#: powerpressadmin-jquery.php:89
-#: powerpressadmin-jquery.php:98
-#: powerpressadmin-jquery.php:100
 #@ powerpress
-msgid "Blubrry Media Statistics"
+msgid "Integrate Blubrry Services"
 msgstr ""
 
-#: powerpressadmin-basic.php:631
+#: powerpressadmin-basic.php:630
+#: powerpressadmin-basic.php:718
+#: powerpressadmin-editfeed.php:567
+#: powerpressadmin-editfeed.php:574
 #@ powerpress
-msgid "WordPress Dashboard"
+msgid "optional"
 msgstr ""
 
 #: powerpressadmin-basic.php:632
 #@ powerpress
-msgid "Blubrry Media Hosting"
+msgid "Add Blubrry Media Statistics to your WordPress dashboard."
 msgstr ""
 
-#: powerpressadmin-basic.php:636
+#: powerpressadmin-basic.php:635
 #@ powerpress
-msgid "Note: <b>No membership or service is required</b> to use this free open source podcasting plugin."
+msgid "Blubrry Media Hosting users can also quickly upload and publish media directly from their blog."
 msgstr ""
 
-#: powerpressadmin-basic.php:641
+#: powerpressadmin-basic.php:640
 #@ powerpress
-msgid "Blubrry Services"
+msgid "Have an account on Blubrry.com?"
 msgstr ""
 
-#: powerpressadmin-basic.php:644
+#: powerpressadmin-basic.php:643
 #@ powerpress
-msgid "Click here to configure Blubrry Services"
+msgid "Click here to configure your Blubrry settings"
+msgstr ""
+
+#: powerpressadmin-basic.php:647
+#@ powerpress
+msgid "Display Blubrry Media Statistics in your dashboard"
 msgstr ""
 
 #: powerpressadmin-basic.php:650
 #@ powerpress
-msgid "Dashboard Integration"
+msgid "Don't have an account at Blubrry.com?"
 msgstr ""
 
 #: powerpressadmin-basic.php:654
-#@ powerpress
-msgid "Display Statistics in WordPress Dashboard"
-msgstr ""
-
-#: powerpressadmin-basic.php:680
-#: powerpressadmin-editfeed.php:581
-#@ powerpress
-msgid "Media Statistics"
-msgstr ""
-
-#: powerpressadmin-basic.php:682
-#: powerpressadmin-editfeed.php:583
-#@ powerpress
-msgid "Enter your Redirect URL issued by your media statistics service provider below."
-msgstr ""
-
-#: powerpressadmin-basic.php:689
-#@ powerpress
-msgid "Redirect URL 1"
-msgstr ""
-
-#: powerpressadmin-basic.php:698
-#: powerpressadmin-basic.php:716
-#@ powerpress
-msgid "Add Another Redirect"
-msgstr ""
-
-#: powerpressadmin-basic.php:707
-#@ powerpress
-msgid "Redirect URL 2"
-msgstr ""
-
-#: powerpressadmin-basic.php:725
-#@ powerpress
-msgid "Redirect URL 3"
-msgstr ""
-
-#: powerpressadmin-basic.php:742
-#@ powerpress
-msgid "Free Access to the Best Media Statistics!"
-msgstr ""
-
-#: powerpressadmin-basic.php:744
 #, php-format
 #@ powerpress
-msgid "Get %s Media Statistics by taking a few minutes and adding your podcast to Blubrry.com. What's the catch? Nothing! For many, our free service is all you will need. But if you're looking to further your abilities with media download information, we hope you consider upgrading to our paid Premium Statistics service. "
+msgid "%s offers an array of services to media creators including a %s %s. Our %s, which includes U.S. downloads, trending, exporting, is available for $5 month. Need a reliable place to host your media? %s media hosting packages start at $12. %s"
 msgstr ""
 
-#: powerpressadmin-basic.php:745
+#: powerpressadmin-basic.php:656
+#: powerpressadmin-basic.php:784
+#: powerpressadmin-basic.php:796
 #@ powerpress
 msgid "FREE"
 msgstr ""
 
-#: powerpressadmin-basic.php:748
+#: powerpressadmin-basic.php:657
 #@ powerpress
-msgid "Sign Up For Free Media Statistics Now"
+msgid "Basic Stats Service"
 msgstr ""
 
-#: powerpressadmin-basic.php:751
+#: powerpressadmin-basic.php:658
 #@ powerpress
-msgid "hide"
+msgid "Premium Media Statistics"
 msgstr ""
 
-#: powerpressadmin-basic.php:762
+#: powerpressadmin-basic.php:659
 #@ powerpress
-msgid "Learn About Free Blubrry Statistics"
+msgid "Blubrry Media Hosting"
 msgstr ""
 
-#: powerpressadmin-basic.php:791
+#: powerpressadmin-basic.php:660
+#: powerpressadmin.php:3041
+#@ powerpress
+msgid "Learn More"
+msgstr ""
+
+#: powerpressadmin-basic.php:718
+#: powerpressadmin-editfeed.php:592
+#@ powerpress
+msgid "Media Statistics"
+msgstr ""
+
+#: powerpressadmin-basic.php:721
+#: powerpressadmin-editfeed.php:594
+#@ powerpress
+msgid "Enter your Redirect URL issued by your media statistics service provider below."
+msgstr ""
+
+#: powerpressadmin-basic.php:728
+#@ powerpress
+msgid "Redirect URL 1"
+msgstr ""
+
+#: powerpressadmin-basic.php:737
+#: powerpressadmin-basic.php:756
+#@ powerpress
+msgid "Add Another Redirect"
+msgstr ""
+
+#: powerpressadmin-basic.php:747
+#@ powerpress
+msgid "Redirect URL 2"
+msgstr ""
+
+#: powerpressadmin-basic.php:765
+#@ powerpress
+msgid "Redirect URL 3"
+msgstr ""
+
+#: powerpressadmin-basic.php:780
+#@ powerpress
+msgid "Need a media statistics provider?"
+msgstr ""
+
+#: powerpressadmin-basic.php:783
+#, php-format
+#@ powerpress
+msgid "Blubrry.com offers %s access to the best statistics!"
+msgstr ""
+
+#: powerpressadmin-basic.php:792
+#@ powerpress
+msgid "Blubrry brings you the most all-inclusive digital media statistics service available. Gain unsurpassed insights into your audience. Find out who is linking to you, listener-base demographics and geographical data with worldwide mapping. Try us! You'll find our custom reports and daily email summaries are info you can trust, track and build your media program on."
+msgstr ""
+
+#: powerpressadmin-basic.php:795
+#, php-format
+#@ powerpress
+msgid "* Get %s Media Statistics by taking a few minutes and adding your podcast to Blubrry.com. What's the catch? Nothing! For many, our free service is all you will need. But if you're looking to further your abilities with media download information, we hope you consider upgrading to our paid Premium Statistics Service."
+msgstr ""
+
+#: powerpressadmin-basic.php:800
+#@ powerpress
+msgid "Sign Up Now!"
+msgstr ""
+
+#: powerpressadmin-basic.php:801
+#@ powerpress
+msgid "* some restrictions apply"
+msgstr ""
+
+#: powerpressadmin-basic.php:801
+#@ powerpress
+msgid "learn more"
+msgstr ""
+
+#: powerpressadmin-basic.php:831
 #@ powerpress
 msgid "Default Podcast (podcast)"
 msgstr ""
 
-#: powerpressadmin-basic.php:804
-#: powerpressadmin-editfeed.php:723
+#: powerpressadmin-basic.php:844
 #@ powerpress
-msgid "Appearance Settings"
+msgid "Media Appearance Settings"
 msgstr ""
 
-#: powerpressadmin-basic.php:813
+#: powerpressadmin-basic.php:853
 #@ powerpress
-msgid "Media Presentation"
+msgid "Enable PowerPress Media Players and Links"
 msgstr ""
 
-#: powerpressadmin-basic.php:816
+#: powerpressadmin-basic.php:853
+#: powerpressadmin-basic.php:880
 #@ powerpress
-msgid "Below Post"
+msgid "default"
 msgstr ""
 
-#: powerpressadmin-basic.php:816
+#: powerpressadmin-basic.php:856
 #@ powerpress
-msgid "Above Post"
+msgid "PowerPress will add media players and links to your site."
 msgstr ""
 
-#: powerpressadmin-basic.php:816
+#: powerpressadmin-basic.php:860
 #@ powerpress
-msgid "None"
+msgid "Disable PowerPress Media Players and Links"
 msgstr ""
 
-#: powerpressadmin-basic.php:822
+#: powerpressadmin-basic.php:863
 #@ powerpress
-msgid "where media player and download links will be displayed"
+msgid "PowerPress will <u>not</u> add any media players or media links to your site. PowerPress will only be used to add podcasting support to your feeds."
 msgstr ""
 
-#: powerpressadmin-basic.php:823
+#: powerpressadmin-basic.php:873
+#@ powerpress
+msgid "Blog Posts and Pages"
+msgstr ""
+
+#: powerpressadmin-basic.php:877
+#@ powerpress
+msgid "Display Media & Links"
+msgstr ""
+
+#: powerpressadmin-basic.php:880
+#@ powerpress
+msgid "Below page content"
+msgstr ""
+
+#: powerpressadmin-basic.php:883
+#@ powerpress
+msgid "Player and media links will appear <u>below</u> your post and page content."
+msgstr ""
+
+#: powerpressadmin-basic.php:887
+#@ powerpress
+msgid "Above page content"
+msgstr ""
+
+#: powerpressadmin-basic.php:890
+#@ powerpress
+msgid "Player and media links will appear <u>above</u> your post and page content."
+msgstr ""
+
+#: powerpressadmin-basic.php:893
+#@ powerpress
+msgid "Disable"
+msgstr ""
+
+#: powerpressadmin-basic.php:896
+#@ powerpress
+msgid "Player and media links will <u>NOT</u> appear in your post and page content. Media player and links can be added manually by using the <i>shortcode</i> below."
+msgstr ""
+
+#: powerpressadmin-basic.php:900
 #@ powerpress
 msgid "Display media / links in:"
 msgstr ""
 
-#: powerpressadmin-basic.php:823
+#: powerpressadmin-basic.php:900
 #@ powerpress
 msgid "WordPress Excerpts"
 msgstr ""
 
-#: powerpressadmin-basic.php:823
+#: powerpressadmin-basic.php:900
 #@ powerpress
 msgid "e.g. search results"
 msgstr ""
 
-#: powerpressadmin-basic.php:829
-#: powerpressadmin-basic.php:839
+#: powerpressadmin-basic.php:906
+#: powerpressadmin-basic.php:916
 #@ powerpress
 msgid "PowerPress Shortcode"
 msgstr ""
 
-#: powerpressadmin-basic.php:832
+#: powerpressadmin-basic.php:909
 #, php-format
 #@ powerpress
-msgid "The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your Post or Page."
+msgid "The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your post or page content."
 msgstr ""
 
-#: powerpressadmin-basic.php:833
+#: powerpressadmin-basic.php:910
 #@ powerpress
-msgid "Simply insert the code on a new line in your content like this:"
+msgid "Simply insert the following code on a new line in your content."
 msgstr ""
 
-#: powerpressadmin-basic.php:839
+#: powerpressadmin-basic.php:916
 #, php-format
 #@ powerpress
 msgid "Please visit the %s page for additional options."
 msgstr ""
 
-#: powerpressadmin-basic.php:846
+#: powerpressadmin-basic.php:923
 #@ powerpress
-msgid "Display Media Player"
+msgid "Media Player"
 msgstr ""
 
-#: powerpressadmin-basic.php:849
+#: powerpressadmin-basic.php:926
 #@ powerpress
-msgid "On Page & New Window"
-msgstr ""
-
-#: powerpressadmin-basic.php:849
-#@ powerpress
-msgid "On Page Only"
-msgstr ""
-
-#: powerpressadmin-basic.php:849
-#@ powerpress
-msgid "New Window Only"
-msgstr ""
-
-#: powerpressadmin-basic.php:849
-#: powerpressadmin-basic.php:874
-#@ powerpress
-msgid "Disable"
-msgstr ""
-
-#: powerpressadmin-basic.php:856
-#@ powerpress
-msgid "select where to display media flash player or embed code"
-msgstr ""
-
-#: powerpressadmin-basic.php:857
-#@ powerpress
-msgid "Disable Media Player for known mobile devices."
-msgstr ""
-
-#: powerpressadmin-basic.php:870
-#@ powerpress
-msgid "Download Link"
-msgstr ""
-
-#: powerpressadmin-basic.php:874
-#@ powerpress
-msgid "Display with file size"
-msgstr ""
-
-#: powerpressadmin-basic.php:874
-#@ powerpress
-msgid "Display with file size and duration"
-msgstr ""
-
-#: powerpressadmin-basic.php:892
-#@ powerpress
-msgid "Having Theme Issues?"
-msgstr ""
-
-#: powerpressadmin-basic.php:896
-#@ powerpress
-msgid "No, everything is working"
-msgstr ""
-
-#: powerpressadmin-basic.php:896
-#@ powerpress
-msgid "Yes, please try to fix"
-msgstr ""
-
-#: powerpressadmin-basic.php:904
-#@ powerpress
-msgid "Use this option if you are having problems with the players not appearing in your pages."
-msgstr ""
-
-#: powerpressadmin-basic.php:915
-#@ powerpress
-msgid "Play in New Window Settings"
-msgstr ""
-
-#: powerpressadmin-basic.php:920
-#@ powerpress
-msgid "New Window Width"
-msgstr ""
-
-#: powerpressadmin-basic.php:924
-#@ powerpress
-msgid "Width of new window (leave blank for 320 default)"
+msgid "Display Player"
 msgstr ""
 
 #: powerpressadmin-basic.php:930
 #@ powerpress
-msgid "New Window Height"
-msgstr ""
-
-#: powerpressadmin-basic.php:934
-#@ powerpress
-msgid "Height of new window (leave blank for 240 default)"
+msgid "Detected mobile and tablet devices use an HTML5 player with a fallback link to download the media."
 msgstr ""
 
 #: powerpressadmin-basic.php:943
 #@ powerpress
-msgid "Video Player Settings"
+msgid "Media Links"
 msgstr ""
 
-#: powerpressadmin-basic.php:948
+#: powerpressadmin-basic.php:945
 #@ powerpress
-msgid "Player Width"
+msgid "Display Play in new Window Link"
+msgstr ""
+
+#: powerpressadmin-basic.php:947
+#@ powerpress
+msgid "Display Download Link"
+msgstr ""
+
+#: powerpressadmin-basic.php:949
+#@ powerpress
+msgid "Include file size"
+msgstr ""
+
+#: powerpressadmin-basic.php:950
+#@ powerpress
+msgid "Include file size and duration"
 msgstr ""
 
 #: powerpressadmin-basic.php:952
 #@ powerpress
-msgid "Width of player (leave blank for 320 default)"
+msgid "Display Player Embed Link"
 msgstr ""
 
-#: powerpressadmin-basic.php:958
+#: powerpressadmin-basic.php:954
 #@ powerpress
-msgid "Player Height"
+msgid "Include embed in feeds"
 msgstr ""
 
-#: powerpressadmin-basic.php:962
+#: powerpressadmin-basic.php:956
 #@ powerpress
-msgid "Height of player (leave blank for 240 default)"
+msgid "Embed option only works for Flow Player Classic and HTML5 Video player."
 msgstr ""
 
 #: powerpressadmin-basic.php:968
 #@ powerpress
-msgid "QuickTime Scale"
+msgid "Having Theme Issues?"
 msgstr ""
 
 #: powerpressadmin-basic.php:972
 #@ powerpress
-msgid "ToFit (default)"
+msgid "No, everything is working"
 msgstr ""
 
 #: powerpressadmin-basic.php:972
 #@ powerpress
-msgid "Aspect"
+msgid "Yes, please try to fix"
+msgstr ""
+
+#: powerpressadmin-basic.php:980
+#@ powerpress
+msgid "Use this option if you are having problems with the players not appearing in your pages."
 msgstr ""
 
 #: powerpressadmin-basic.php:989
 #@ powerpress
-msgid "Scale:"
+msgid "Play in New Window Settings"
 msgstr ""
 
-#: powerpressadmin-basic.php:989
+#: powerpressadmin-basic.php:994
 #@ powerpress
-msgid "e.g."
+msgid "New Window Width"
 msgstr ""
 
-#: powerpressadmin-basic.php:992
+#: powerpressadmin-basic.php:998
 #@ powerpress
-msgid "If you do not see video, adjust the width, height and scale settings above."
+msgid "Width of new window (leave blank for 420 default)"
 msgstr ""
 
-#: powerpressadmin-basic.php:999
+#: powerpressadmin-basic.php:1004
 #@ powerpress
-msgid "Audio Player Settings"
+msgid "New Window Height"
 msgstr ""
 
-#: powerpressadmin-basic.php:1003
+#: powerpressadmin-basic.php:1008
 #@ powerpress
-msgid "Default Player Width"
+msgid "Height of new window (leave blank for 240 default)"
 msgstr ""
 
-#: powerpressadmin-basic.php:1007
+#: powerpressadmin-basic.php:1015
 #@ powerpress
-msgid "Width of Audio mp3 player (leave blank for 320 default)"
+msgid "Media Format Settings"
+msgstr ""
+
+#: powerpressadmin-basic.php:1020
+#@ powerpress
+msgid "AAC Audio (.m4a)"
+msgstr ""
+
+#: powerpressadmin-basic.php:1025
+#@ powerpress
+msgid "Use Flow Player Classic / HTML5 Audio player"
+msgstr ""
+
+#: powerpressadmin-basic.php:1027
+#@ powerpress
+msgid "Leave this option unchecked if you want m4a chapter markers, images and information displayed."
+msgstr ""
+
+#: powerpressadmin-basic.php:1028
+#@ powerpress
+msgid "When unchecked, m4a will be played with the quicktime video embed. Video player width/height settings apply."
+msgstr ""
+
+#: powerpressadmin-basic.php:1046
+#@ powerpress
+msgid "Blubrry PowerPress and Community Podcast"
+msgstr ""
+
+#: powerpressadmin-basic.php:1049
+#@ powerpress
+msgid "Remove from dashboard"
+msgstr ""
+
+#: powerpressadmin-basic.php:1054
+#@ powerpress
+msgid "Highlighted Topics"
+msgstr ""
+
+#: powerpressadmin-basic.php:1069
+#@ powerpress
+msgid "T.V. Settings"
+msgstr ""
+
+#: powerpressadmin-basic.php:1073
+#@ powerpress
+msgid "Parental Rating"
+msgstr ""
+
+#: powerpressadmin-basic.php:1075
+#, php-format
+#@ powerpress
+msgid "A parental rating is used to display your content on %s applications available on Internet connected TV's. The TV Parental Rating applies to both audio and video media."
+msgstr ""
+
+#: powerpressadmin-basic.php:1077
+#@ powerpress
+msgid "No rating specified"
+msgstr ""
+
+#: powerpressadmin-basic.php:1078
+#@ powerpress
+msgid "Children of all ages"
+msgstr ""
+
+#: powerpressadmin-basic.php:1079
+#@ powerpress
+msgid "Children 7 years and older"
+msgstr ""
+
+#: powerpressadmin-basic.php:1080
+#@ powerpress
+msgid "Children 7 years and older [fantasy violence]"
+msgstr ""
+
+#: powerpressadmin-basic.php:1081
+#@ powerpress
+msgid "General audience"
+msgstr ""
+
+#: powerpressadmin-basic.php:1082
+#@ powerpress
+msgid "Parental guidance suggested"
+msgstr ""
+
+#: powerpressadmin-basic.php:1083
+#@ powerpress
+msgid "May be unsuitable for children under 14 years of age"
+msgstr ""
+
+#: powerpressadmin-basic.php:1084
+#@ powerpress
+msgid "Mature audience - may be unsuitable for children under 17"
+msgstr ""
+
+#: powerpressadmin-basic.php:1087
+#@ powerpress
+msgid "Whether animated or live-action, the themes and elements in this program are specifically designed for a very young audience, including children from ages 2-6. These programs are not expected to frighten younger children.  Examples of programs issued this rating include Sesame Street, Barney & Friends, Dora the Explorer, Go, Diego, Go! and The Backyardigans."
+msgstr ""
+
+#: powerpressadmin-basic.php:1088
+#@ powerpress
+msgid "These shows may or may not be appropriate for some children under the age of 7. This rating may include crude, suggestive humor, mild fantasy violence, or content considered too scary or controversial to be shown to children under seven. Examples include Foster's Home for Imaginary Friends, Johnny Test, and SpongeBob SquarePants."
+msgstr ""
+
+#: powerpressadmin-basic.php:1089
+#@ powerpress
+msgid "When a show has noticeably more fantasy violence, it is assigned the TV-Y7-FV rating. Action-adventure shows such Pokemon series and the Power Rangers series are assigned a TV-Y7-FV rating."
+msgstr ""
+
+#: powerpressadmin-basic.php:1090
+#@ powerpress
+msgid "Although this rating does not signify a program designed specifically for children, most parents may let younger children watch this program unattended. It contains little or no violence, no strong language and little or no sexual dialogue or situation. Networks that air informational, how-to content, or generally inoffensive content."
+msgstr ""
+
+#: powerpressadmin-basic.php:1091
+#@ powerpress
+msgid "This rating signifies that the program may be unsuitable for younger children without the guidance of a parent. Many parents may want to watch it with their younger children. Various game shows and most reality shows are rated TV-PG for their suggestive dialog, suggestive humor, and/or coarse language. Some prime-time sitcoms such as Everybody Loves Raymond, Fresh Prince of Bel-Air, The Simpsons, Futurama, and Seinfeld  usually air with a TV-PG rating."
+msgstr ""
+
+#: powerpressadmin-basic.php:1092
+#@ powerpress
+msgid "Parents are strongly urged to exercise greater care in monitoring this program and are cautioned against letting children of any age watch unattended. This rating may be accompanied by any of the following sub-ratings:"
+msgstr ""
+
+#: powerpressadmin-basic.php:1093
+#@ powerpress
+msgid "A TV-MA rating means the program may be unsuitable for those below 17. The program may contain extreme graphic violence, strong profanity, overtly sexual dialogue, very coarse language, nudity and/or strong sexual content. The Sopranos is a popular example."
 msgstr ""
 
 #: powerpressadmin-categoryfeeds.php:8
-#: powerpressadmin-categoryfeeds.php:56
-#: powerpressadmin-categoryfeeds.php:75
+#: powerpressadmin-categoryfeeds.php:59
 #@ powerpress
 msgid "Category Name"
 msgstr ""
 
 #: powerpressadmin-categoryfeeds.php:9
-#: powerpressadmin-categoryfeeds.php:57
-#: powerpressadmin-categoryfeeds.php:76
+#: powerpressadmin-categoryfeeds.php:60
 #: powerpressadmin-customfeeds.php:9
-#: powerpressadmin-customfeeds.php:62
-#: powerpressadmin-customfeeds.php:82
 #@ powerpress
 msgid "Slug"
 msgstr ""
 
 #: powerpressadmin-categoryfeeds.php:10
-#: powerpressadmin-categoryfeeds.php:58
-#: powerpressadmin-categoryfeeds.php:77
-#: powerpressadmin-editfeed.php:400
+#: powerpressadmin-categoryfeeds.php:61
+#: powerpressadmin-editfeed.php:386
 #@ powerpress
 msgid "Feed URL"
 msgstr ""
@@ -1251,23 +1353,23 @@ msgstr ""
 msgid "If you are looking to organize episodes by file or format, please use %s."
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:130
-#: powerpressadmin-customfeeds.php:140
-#: powerpressadmin-mt.php:568
-#: powerpressadmin-podpress.php:598
+#: powerpressadmin-categoryfeeds.php:122
+#: powerpressadmin-customfeeds.php:116
+#: powerpressadmin-mt.php:569
+#: powerpressadmin-podpress.php:572
 #, php-format
 #@ powerpress
 msgid "Edit \"%s\""
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:132
-#: powerpressadmin-customfeeds.php:142
-#: powerpressadmin-customfeeds.php:190
+#: powerpressadmin-categoryfeeds.php:124
+#: powerpressadmin-customfeeds.php:118
+#: powerpressadmin-customfeeds.php:166
 #@ powerpress
 msgid "Edit"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:133
+#: powerpressadmin-categoryfeeds.php:125
 #, php-format
 #@ powerpress
 msgid ""
@@ -1275,82 +1377,77 @@ msgid ""
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:133
+#: powerpressadmin-categoryfeeds.php:125
+#: powerpressadmin-metabox.php:148
 #@ powerpress
 msgid "Remove"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:149
-#: powerpressadmin-customfeeds.php:163
+#: powerpressadmin-categoryfeeds.php:141
+#: powerpressadmin-customfeeds.php:139
 #, php-format
 #@ powerpress
 msgid "Visit %s"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:151
-#: powerpressadmin-customfeeds.php:165
+#: powerpressadmin-categoryfeeds.php:143
+#: powerpressadmin-customfeeds.php:141
 #@ powerpress
 msgid "Validate Feed"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:179
+#: powerpressadmin-categoryfeeds.php:171
 #@ powerpress
 msgid "Add Podcast Settings to existing Category Feed"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:187
+#: powerpressadmin-categoryfeeds.php:179
 #@ powerpress
 msgid "Category"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:189
-#: powerpressadmin-editfeed.php:842
-#: powerpressadmin-editfeed.php:866
-#: powerpressadmin-editfeed.php:886
+#: powerpressadmin-categoryfeeds.php:181
+#: powerpressadmin-editfeed.php:869
+#: powerpressadmin-editfeed.php:898
+#: powerpressadmin-editfeed.php:918
 #@ powerpress
 msgid "Select Category"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:197
+#: powerpressadmin-categoryfeeds.php:187
 #@ powerpress
 msgid "Add Podcast Settings to Category Feed"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:206
-#: powerpressadmin-customfeeds.php:226
+#: powerpressadmin-categoryfeeds.php:196
+#: powerpressadmin-customfeeds.php:202
 #@ powerpress
 msgid "Example Usage"
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:208
+#: powerpressadmin-categoryfeeds.php:198
 #@ powerpress
 msgid "Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics \tand use category feeds to distribute topic specific episodes."
 msgstr ""
 
-#: powerpressadmin-categoryfeeds.php:211
+#: powerpressadmin-categoryfeeds.php:201
 #@ powerpress
 msgid "Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed combining all categories to provide a network feed."
 msgstr ""
 
 #: powerpressadmin-customfeeds.php:8
-#: powerpressadmin-customfeeds.php:61
-#: powerpressadmin-customfeeds.php:81
 #@ powerpress
 msgid "Name"
 msgstr ""
 
 #: powerpressadmin-customfeeds.php:10
-#: powerpressadmin-customfeeds.php:63
-#: powerpressadmin-customfeeds.php:83
 #@ powerpress
 msgid "Episodes"
 msgstr ""
 
 #: powerpressadmin-customfeeds.php:11
-#: powerpressadmin-customfeeds.php:64
-#: powerpressadmin-customfeeds.php:84
-#: powerpressadmin-podpress.php:616
-#: powerpressadmin-podpress.php:621
+#: powerpressadmin-podpress.php:590
+#: powerpressadmin-podpress.php:595
 #@ powerpress
 msgid "URL"
 msgstr ""
@@ -1371,12 +1468,12 @@ msgstr ""
 msgid "Category Podcast Feeds"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:140
+#: powerpressadmin-customfeeds.php:116
 #@ powerpress
 msgid "default channel"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:143
+#: powerpressadmin-customfeeds.php:119
 #, php-format
 #@ powerpress
 msgid ""
@@ -1384,103 +1481,109 @@ msgid ""
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:143
-#: powerpressadmin-jquery.php:202
-#: powerpressadmin-jquery.php:255
+#: powerpressadmin-customfeeds.php:119
+#: powerpressadmin-jquery.php:206
+#: powerpressadmin-jquery.php:260
 #@ powerpress
 msgid "Delete"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:189
+#: powerpressadmin-customfeeds.php:165
 #, php-format
 #@ powerpress
 msgid "Note: The default channel \"Podcast\" is currently using global PowerPress settings. Click %s to customize the default \"Podcast\" channel."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:197
-#: powerpressadmin-customfeeds.php:217
+#: powerpressadmin-customfeeds.php:173
+#: powerpressadmin-customfeeds.php:193
 #@ powerpress
 msgid "Add Podcast Channel"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:206
+#: powerpressadmin-customfeeds.php:182
 #@ powerpress
 msgid "Feed Name"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:208
+#: powerpressadmin-customfeeds.php:184
 #@ powerpress
 msgid "The name is used for use within the administration area only."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:212
+#: powerpressadmin-customfeeds.php:188
 #@ powerpress
 msgid "Feed Slug"
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:214
+#: powerpressadmin-customfeeds.php:190
 #@ powerpress
 msgid "The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:228
+#: powerpressadmin-customfeeds.php:204
 #@ powerpress
 msgid "Example 1: You want to distribute both an mp3 and an ogg version of your podcast. Use the default podcast channel for your mp3 media and create a custom channel for your ogg media."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:231
+#: powerpressadmin-customfeeds.php:207
 #@ powerpress
 msgid "Example 2: You have a video podcast with multiple file formats. Use the default podcast channel for the main media that you want to appear on your blog (e.g. m4v). Create additional channels for the remaining formats (e.g. wmv, mov, mpeg)."
 msgstr ""
 
-#: powerpressadmin-customfeeds.php:234
+#: powerpressadmin-customfeeds.php:210
 #@ powerpress
-msgid "Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channels for your full length episodes."
+msgid "Example 3: You create two versions of your podcast, a 20 minute summary and a full 2 hour episode. Use the default channel for your 20 minute summary episodes and create a new custom channel for your full length episodes."
 msgstr ""
 
-#: powerpressadmin-dashboard.php:75
+#: powerpressadmin-dashboard.php:112
 #, php-format
 #@ powerpress
 msgid "Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable %s."
 msgstr ""
 
-#: powerpressadmin-dashboard.php:76
+#: powerpressadmin-dashboard.php:113
 #@ powerpress
 msgid "Services"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:78
+#: powerpressadmin-dashboard.php:115
 #, php-format
 #@ powerpress
 msgid "Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:79
+#: powerpressadmin-dashboard.php:116
 #@ powerpress
 msgid "Podcast Hosting"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:80
+#: powerpressadmin-dashboard.php:117
 #@ powerpress
 msgid "Video"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:91
+#: powerpressadmin-dashboard.php:128
 #@ powerpress
 msgid "Error: An error occurred authenticating user."
 msgstr ""
 
-#: powerpressadmin-dashboard.php:103
+#: powerpressadmin-dashboard.php:140
 #@ powerpress
 msgid "Blubrry Media statistics"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:103
+#: powerpressadmin-dashboard.php:140
+#: powerpressadmin-editfeed.php:879
 #@ powerpress
 msgid "more"
 msgstr ""
 
-#: powerpressadmin-dashboard.php:126
+#: powerpressadmin-dashboard.php:189
+#@ powerpress
+msgid "Blubrry PowerPress & Community Podcast"
+msgstr ""
+
+#: powerpressadmin-dashboard.php:192
 #@ powerpress
 msgid "Blubrry Podcast Statistics"
 msgstr ""
@@ -1621,6 +1724,13 @@ msgid "We recommend that you have at least %dM (4M more that what is currently u
 msgstr ""
 
 #: powerpressadmin-diagnostics.php:217
+#: powerpressadmin-diagnostics.php:226
+#: powerpressadmin-jquery.php:427
+#@ powerpress
+msgid "Error:"
+msgstr ""
+
+#: powerpressadmin-diagnostics.php:217
 #@ powerpress
 msgid "No temporary directory available."
 msgstr ""
@@ -1690,253 +1800,230 @@ msgstr ""
 
 #: powerpressadmin-diagnostics.php:257
 #@ powerpress
-msgid "advanced mode:"
+msgid "episode box file size/duration fields:"
+msgstr ""
+
+#: powerpressadmin-diagnostics.php:257
+#@ powerpress
+msgid "yes"
+msgstr ""
+
+#: powerpressadmin-diagnostics.php:257
+#@ powerpress
+msgid "no"
 msgstr ""
 
 #: powerpressadmin-diagnostics.php:258
-#@ powerpress
-msgid "episode box mode:"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:258
-#@ powerpress
-msgid "normal"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:258
-#@ powerpress
-msgid "simple"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:258
-#@ powerpress
-msgid "advanced"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:259
 #@ powerpress
 msgid "Podcasting capability:"
 msgstr ""
 
+#: powerpressadmin-diagnostics.php:258
 #: powerpressadmin-diagnostics.php:259
 #: powerpressadmin-diagnostics.php:260
 #: powerpressadmin-diagnostics.php:261
 #: powerpressadmin-diagnostics.php:262
-#: powerpressadmin-diagnostics.php:263
 #@ powerpress
 msgid "Enabled"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:260
+#: powerpressadmin-diagnostics.php:259
 #@ powerpress
 msgid "Feed capability:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:261
+#: powerpressadmin-diagnostics.php:260
 #@ powerpress
 msgid "Category Podcasting:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:262
+#: powerpressadmin-diagnostics.php:261
 #@ powerpress
 msgid "Podcast Channels:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:263
+#: powerpressadmin-diagnostics.php:262
 #@ powerpress
 msgid "Additional Player Options:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:267
-#: powerpressadmin-diagnostics.php:402
+#: powerpressadmin-diagnostics.php:266
+#: powerpressadmin-diagnostics.php:401
 #@ powerpress
 msgid "Detecting Media Information"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:268
-#: powerpressadmin-diagnostics.php:278
-#: powerpressadmin-diagnostics.php:286
-#: powerpressadmin-diagnostics.php:295
+#: powerpressadmin-diagnostics.php:267
+#: powerpressadmin-diagnostics.php:285
+#: powerpressadmin-diagnostics.php:294
 #@ powerpress
 msgid "success:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:269
-#: powerpressadmin-diagnostics.php:296
+#: powerpressadmin-diagnostics.php:268
+#: powerpressadmin-diagnostics.php:295
 #@ powerpress
 msgid "warning:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:270
+#: powerpressadmin-diagnostics.php:269
 #@ powerpress
 msgid "allow_url_fopen:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:271
+#: powerpressadmin-diagnostics.php:270
 #@ powerpress
 msgid "curl:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:272
-#: powerpressadmin-diagnostics.php:281
-#: powerpressadmin-diagnostics.php:290
-#: powerpressadmin-diagnostics.php:301
+#: powerpressadmin-diagnostics.php:271
+#: powerpressadmin-diagnostics.php:289
+#: powerpressadmin-diagnostics.php:300
 #@ powerpress
 msgid "message:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:273
-#: powerpressadmin-diagnostics.php:302
+#: powerpressadmin-diagnostics.php:272
+#: powerpressadmin-diagnostics.php:301
 #@ powerpress
 msgid "message 2:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:277
-#: powerpressadmin-diagnostics.php:424
-#@ powerpress
-msgid "Pinging iTunes"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:279
-#@ powerpress
-msgid "curl_ssl:"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:280
-#@ powerpress
-msgid "openssl:"
-msgstr ""
-
-#: powerpressadmin-diagnostics.php:285
-#: powerpressadmin-diagnostics.php:440
+#: powerpressadmin-diagnostics.php:284
+#: powerpressadmin-diagnostics.php:441
 #@ powerpress
 msgid "Uploading Artwork"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:287
+#: powerpressadmin-diagnostics.php:286
 #@ powerpress
 msgid "file_uploads:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:288
+#: powerpressadmin-diagnostics.php:287
 #@ powerpress
 msgid "writable:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:289
+#: powerpressadmin-diagnostics.php:288
 #@ powerpress
 msgid "upload_path:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:294
-#: powerpressadmin-diagnostics.php:453
+#: powerpressadmin-diagnostics.php:293
+#: powerpressadmin-diagnostics.php:454
 #@ powerpress
 msgid "System Information"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:297
+#: powerpressadmin-diagnostics.php:296
 #@ powerpress
 msgid "php_version:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:298
+#: powerpressadmin-diagnostics.php:297
 #@ powerpress
 msgid "memory_limit:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:299
+#: powerpressadmin-diagnostics.php:298
 #@ powerpress
 msgid "memory_used:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:300
+#: powerpressadmin-diagnostics.php:299
 #@ powerpress
 msgid "temp directory:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:303
+#: powerpressadmin-diagnostics.php:302
 #@ powerpress
 msgid "message 3:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:309
+#: powerpressadmin-diagnostics.php:308
 #@ powerpress
 msgid "Active Plugins"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:314
+#: powerpressadmin-diagnostics.php:313
 #@ powerpress
 msgid "Title:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:315
+#: powerpressadmin-diagnostics.php:314
 #@ powerpress
 msgid "Relative Path:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:316
+#: powerpressadmin-diagnostics.php:315
 #@ powerpress
 msgid "Version:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:317
+#: powerpressadmin-diagnostics.php:316
 #@ powerpress
 msgid "Web Site:"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:338
+#: powerpressadmin-diagnostics.php:337
 #, php-format
 #@ powerpress
 msgid "Blubrry PowerPress diagnostic results for %s"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:356
-#: powerpressadmin-find-replace.php:290
+#: powerpressadmin-diagnostics.php:355
+#: powerpressadmin-find-replace.php:318
 #@ powerpress
 msgid "Success"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:361
-#: powerpressadmin-find-replace.php:295
+#: powerpressadmin-diagnostics.php:360
+#: powerpressadmin-find-replace.php:323
 #@ powerpress
 msgid "Failed"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:367
+#: powerpressadmin-diagnostics.php:366
 #@ powerpress
 msgid "Warning"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:387
+#: powerpressadmin-diagnostics.php:386
 #@ powerpress
 msgid "Blubrry PowerPress Diagnostics"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:389
-#: powerpressadmin-tools.php:220
+#: powerpressadmin-diagnostics.php:388
+#: powerpressadmin-tools.php:193
 #@ powerpress
 msgid "The Diagnostics page checks to see if your server is configured to support all of the available features in Blubrry PowerPress."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:396
+#: powerpressadmin-diagnostics.php:395
 #@ powerpress
 msgid "Diagnostics Email Message"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:404
+#: powerpressadmin-diagnostics.php:403
 #@ powerpress
 msgid "The following test checks to see if your web server can make connections with other web servers to obtain file size and media duration information. The test checks to see if either the PHP cURL library is installed or the php.ini setting 'allow_url_fopen' enabled."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:416
+#: powerpressadmin-diagnostics.php:415
 #@ powerpress
 msgid "If you are still having problems detecting media information, check with your web hosting provider if there is a firewall blocking your server."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:418
+#: powerpressadmin-diagnostics.php:417
 #: powerpressadmin-diagnostics.php:434
 #@ powerpress
 msgid "Contact your web hosting provider with the information above."
+msgstr ""
+
+#: powerpressadmin-diagnostics.php:424
+#@ powerpress
+msgid "Pinging iTunes"
 msgstr ""
 
 #: powerpressadmin-diagnostics.php:425
@@ -1944,37 +2031,43 @@ msgstr ""
 msgid "The following test checks to see that your web server can make connections with Apple's secure ping server."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:441
+#: powerpressadmin-diagnostics.php:442
 #@ powerpress
 msgid "The following test checks to see that you can upload and store files on your web server."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:454
+#: powerpressadmin-diagnostics.php:455
 #@ powerpress
 msgid "The following test checks your version of PHP, memory usage and temporary directory access."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:465
+#: powerpressadmin-diagnostics.php:462
+#, php-format
+#@ default
+msgid "WordPress Version %s"
+msgstr ""
+
+#: powerpressadmin-diagnostics.php:467
 #@ powerpress
 msgid "Contact your web hosting provider to inquire how to increase the PHP memory limit on your web server."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:479
+#: powerpressadmin-diagnostics.php:481
 #@ powerpress
 msgid "Email Results"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:480
+#: powerpressadmin-diagnostics.php:482
 #@ powerpress
 msgid "Send the results above to the specified Email address."
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:484
+#: powerpressadmin-diagnostics.php:486
 #@ powerpress
 msgid "Email"
 msgstr ""
 
-#: powerpressadmin-diagnostics.php:495
+#: powerpressadmin-diagnostics.php:497
 #@ powerpress
 msgid "Include list of active plugins in diagnostics results."
 msgstr ""
@@ -2220,7 +2313,6 @@ msgid "Gaelic"
 msgstr ""
 
 #: powerpressadmin-editfeed.php:58
-#: powerpressadmin-tools.php:193
 #@ powerpress
 msgid "German"
 msgstr ""
@@ -2281,7 +2373,6 @@ msgid "Irish"
 msgstr ""
 
 #: powerpressadmin-editfeed.php:70
-#: powerpressadmin-tools.php:200
 #@ powerpress
 msgid "Italian"
 msgstr ""
@@ -2506,674 +2597,734 @@ msgstr ""
 msgid "Ukranian"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:176
+#: powerpressadmin-editfeed.php:159
 #@ powerpress
 msgid "Podcast (default)"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:189
-#: powerpressadmin-editfeed.php:212
-#: powerpressadmin-editfeed.php:414
+#: powerpressadmin-editfeed.php:172
+#: powerpressadmin-editfeed.php:195
+#: powerpressadmin-editfeed.php:400
 #@ powerpress
 msgid "Feed Settings"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:198
+#: powerpressadmin-editfeed.php:181
 #, php-format
 #@ powerpress
 msgid "Edit Category Feed: %s"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:213
+#: powerpressadmin-editfeed.php:196
 #@ powerpress
 msgid "iTunes Settings"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:216
-#: powerpressadmin-editfeed.php:219
+#: powerpressadmin-editfeed.php:200
+#: powerpressadmin-editfeed.php:203
 #@ powerpress
 msgid "Other Settings"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:285
+#: powerpressadmin-editfeed.php:275
 #@ powerpress
 msgid "Configure your custom podcast feed."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:295
+#: powerpressadmin-editfeed.php:285
 #@ powerpress
 msgid "Configure your category feed to support podcasting."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:314
+#: powerpressadmin-editfeed.php:299
 #@ powerpress
 msgid "Enhance Feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:317
+#: powerpressadmin-editfeed.php:302
 #@ powerpress
 msgid "Enhance All Feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:317
+#: powerpressadmin-editfeed.php:302
 #@ powerpress
 msgid "Recommended"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:320
+#: powerpressadmin-editfeed.php:305
 #@ powerpress
 msgid "Adds podcasting support to all feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:321
+#: powerpressadmin-editfeed.php:306
 #@ powerpress
 msgid "Allows for Category Podcasting"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:321
+#: powerpressadmin-editfeed.php:306
 #@ powerpress
 msgid "Visitors may subscribe to your categories as a podcast"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:322
+#: powerpressadmin-editfeed.php:307
 #@ powerpress
 msgid "Allows for Tag/Keyword Casting"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:322
+#: powerpressadmin-editfeed.php:307
 #@ powerpress
 msgid "Visitors may subscribe to your tags as a podcast"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:325
+#: powerpressadmin-editfeed.php:310
 #@ powerpress
 msgid "Enhance Main Feed Only"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:328
+#: powerpressadmin-editfeed.php:313
 #@ powerpress
 msgid "Adds podcasting support to your main feed only"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:331
+#: powerpressadmin-editfeed.php:316
 #@ powerpress
 msgid "Do Not Enhance Feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:334
+#: powerpressadmin-editfeed.php:319
 #@ powerpress
 msgid "Feed Settings below will only apply to your podcast channel feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:344
+#: powerpressadmin-editfeed.php:329
 #@ powerpress
 msgid "Main Site Feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:346
+#: powerpressadmin-editfeed.php:331
 #@ powerpress
 msgid "Main RSS2 Feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:346
+#: powerpressadmin-editfeed.php:331
 #@ powerpress
 msgid "Main RSS 2 Feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:346
-#: powerpressadmin-editfeed.php:371
-#: powerpressadmin-editfeed.php:404
-#: powerpressadmin-editfeed.php:406
+#: powerpressadmin-editfeed.php:331
+#: powerpressadmin-editfeed.php:355
+#: powerpressadmin-editfeed.php:390
+#: powerpressadmin-editfeed.php:392
 #@ powerpress
 msgid "validate"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:355
+#: powerpressadmin-editfeed.php:332
 #@ powerpress
-msgid "Podcast Channel Feeds"
+msgid "Note: We do not recommend submitting your main site feed to podcast directories such as iTunes. iTunes and many other podcast directories work best with feeds that do not have regular blog posts mixed in."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:360
+#: powerpressadmin-editfeed.php:339
+#@ powerpress
+msgid "Podcast Feeds"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:344
 #@ powerpress
 msgid "Special Podcast only Feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:373
+#: powerpressadmin-editfeed.php:357
 #@ powerpress
 msgid "Edit Podcast Channel"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:373
+#: powerpressadmin-editfeed.php:357
 #@ powerpress
 msgid "edit"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:396
+#: powerpressadmin-editfeed.php:382
 #@ powerpress
 msgid "Feed Information"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:423
+#: powerpressadmin-editfeed.php:409
 #@ powerpress
 msgid "Feed Title"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:428
+#: powerpressadmin-editfeed.php:414
 #@ powerpress
 msgid "leave blank to use default category title"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:430
+#: powerpressadmin-editfeed.php:416
 #@ powerpress
 msgid "leave blank to use blog title"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:436
+#: powerpressadmin-editfeed.php:422
 #@ powerpress
 msgid "Default Category title:"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:438
+#: powerpressadmin-editfeed.php:424
 #@ powerpress
 msgid "Blog title:"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:444
+#: powerpressadmin-editfeed.php:430
 #@ powerpress
 msgid "Feed Description"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:449
+#: powerpressadmin-editfeed.php:435
 #@ powerpress
 msgid "leave blank to use category description"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:451
+#: powerpressadmin-editfeed.php:437
 #@ powerpress
 msgid "leave blank to use blog description"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:458
+#: powerpressadmin-editfeed.php:444
 #@ powerpress
 msgid "Feed Landing Page URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:463
+#: powerpressadmin-editfeed.php:449
 #@ powerpress
 msgid "leave blank to use category page"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:465
+#: powerpressadmin-editfeed.php:451
 #@ powerpress
 msgid "leave blank to use home page"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:468
+#: powerpressadmin-editfeed.php:454
 #@ powerpress
 msgid "Category page URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:477
+#: powerpressadmin-editfeed.php:463
 #@ powerpress
 msgid "FeedBurner Feed URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:480
+#: powerpressadmin-editfeed.php:466
 #@ powerpress
 msgid "leave blank to use current feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:481
+#: powerpressadmin-editfeed.php:467
 #@ powerpress
 msgid "Use this option to redirect this feed to a hosted feed service such as FeedBurner."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:493
+#: powerpressadmin-editfeed.php:479
 #@ powerpress
 msgid "Bypass Redirect URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:501
+#: powerpressadmin-editfeed.php:487
 #@ powerpress
 msgid "Show the most recent"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:504
+#: powerpressadmin-editfeed.php:490
 #@ powerpress
 msgid "episodes / posts per feed (leave blank to use blog default"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:506
+#: powerpressadmin-editfeed.php:492
 #@ powerpress
 msgid "Note: Setting above applies only to podcast channel feeds"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:513
+#: powerpressadmin-editfeed.php:499
 #@ powerpress
 msgid "RSS2 Image"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:517
+#: powerpressadmin-editfeed.php:503
+#: powerpressadmin-editfeed.php:957
+#: powerpressadmin-player-page.php:1750
 #: powerpressadmin-tags.php:144
 #@ powerpress
 msgid "preview"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:519
+#: powerpressadmin-editfeed.php:505
 #@ powerpress
 msgid "Place the URL to the RSS image above."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:519
-#: powerpressadmin-editfeed.php:925
-#: powerpressadmin-find-replace.php:202
-#: powerpressadmin-find-replace.php:210
+#: powerpressadmin-editfeed.php:505
+#: powerpressadmin-editfeed.php:959
+#: powerpressadmin-find-replace.php:230
+#: powerpressadmin-find-replace.php:238
+#: powerpressadmin-player-page.php:1752
 #@ powerpress
 msgid "Example"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:520
+#: powerpressadmin-editfeed.php:506
 #@ powerpress
 msgid "RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:523
-#: powerpressadmin-editfeed.php:931
+#: powerpressadmin-editfeed.php:509
+#: powerpressadmin-editfeed.php:965
+#: powerpressadmin-player-page.php:1756
 #: powerpressadmin-tags.php:156
 #@ powerpress
 msgid "Upload new image"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:525
-#: powerpressadmin-editfeed.php:933
+#: powerpressadmin-editfeed.php:511
+#: powerpressadmin-editfeed.php:967
+#: powerpressadmin-player-page.php:1758
 #: powerpressadmin-tags.php:158
 #@ powerpress
 msgid "Choose file"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:538
+#: powerpressadmin-editfeed.php:521
 #@ powerpress
 msgid "Feed Language"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:544
+#: powerpressadmin-editfeed.php:527
 #@ powerpress
 msgid "Blog Default Language"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:554
+#: powerpressadmin-editfeed.php:537
 #@ powerpress
 msgid "Blog Default"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:561
+#: powerpressadmin-editfeed.php:544
 #@ powerpress
 msgid "Copyright"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:589
+#: powerpressadmin-editfeed.php:561
+#@ powerpress
+msgid "Basic Show Information"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:565
+#@ powerpress
+msgid "Location"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:568
+#@ powerpress
+msgid "e.g. Cleveland, Ohio"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:572
+#@ powerpress
+msgid "Episode Frequency"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:575
+#@ powerpress
+msgid "e.g. Weekly"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:600
 #@ powerpress
 msgid "Redirect URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:593
+#: powerpressadmin-editfeed.php:604
 #@ powerpress
 msgid "Note: Category Media Redirect URL is applied to category feeds and pages only. The redirect will also apply to single pages if this is the only category associated with the blog post."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:603
+#: powerpressadmin-editfeed.php:614
 #@ powerpress
 msgid "Episode Entry Box"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:607
-#: powerpressadmin-player-page.php:1089
-#: powerpressadmin-player-page.php:1469
+#: powerpressadmin-editfeed.php:618
+#: powerpressadmin-player-page.php:1156
+#: powerpressadmin-player-page.php:1500
 #@ powerpress
 msgid "Background Color"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:619
+#: powerpressadmin-editfeed.php:630
 #@ powerpress
 msgid "leave blank for default"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:621
+#: powerpressadmin-editfeed.php:632
 #@ powerpress
 msgid "Use a distinctive background color for this podcast channel's episode box."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:632
+#: powerpressadmin-editfeed.php:643
 #@ powerpress
 msgid "Password Protect Podcast Channel"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:634
+#: powerpressadmin-editfeed.php:645
 #@ powerpress
 msgid "Require visitors to have membership to your blog in order to gain access to this channel's Premium Content."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:640
+#: powerpressadmin-editfeed.php:651
 #@ powerpress
 msgid "Protect Content"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:642
+#: powerpressadmin-editfeed.php:653
 #@ powerpress
 msgid "Require user to be signed-in to access feed."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:644
+#: powerpressadmin-editfeed.php:655
 #@ powerpress
 msgid "User must have the following capability"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:669
+#: powerpressadmin-editfeed.php:680
 #@ powerpress
 msgid "Sign In"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:673
+#: powerpressadmin-editfeed.php:684
 #@ powerpress
 msgid "Use default label, are you sure?"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:688
+#: powerpressadmin-editfeed.php:700
 #@ powerpress
 msgid "Unauthorized Label"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:692
+#: powerpressadmin-editfeed.php:704
 #@ powerpress
 msgid "Use default label"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:695
+#: powerpressadmin-editfeed.php:707
 #@ powerpress
 msgid "Protected Content"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:698
+#: powerpressadmin-editfeed.php:710
 #@ powerpress
 msgid "Use a custom label"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:704
+#: powerpressadmin-editfeed.php:716
 #@ powerpress
 msgid "Add sign in link to message"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:707
+#: powerpressadmin-editfeed.php:719
 #@ powerpress
 msgid "Label above appears in place of the in-page player and links when the current signed-in user does not have access to the protected content."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:727
+#: powerpressadmin-editfeed.php:735
+#@ powerpress
+msgid "Appearance Settings"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:739
 #@ powerpress
 msgid "Disable Player"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:730
+#: powerpressadmin-editfeed.php:742
 #@ powerpress
 msgid "Do not display web player or links for this podcast channel."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:766
+#: powerpressadmin-editfeed.php:778
 #@ powerpress
 msgid "iTunes Feed Settings"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:775
+#: powerpressadmin-editfeed.php:787
+#@ powerpress
+msgid "Show Advanced iTunes Settings"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:794
 #@ powerpress
 msgid "iTunes Program Subtitle"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:785
+#: powerpressadmin-editfeed.php:804
 #@ powerpress
 msgid "iTunes Program Summary"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:787
+#: powerpressadmin-editfeed.php:806
 #@ powerpress
 msgid "Your summary may not contain HTML and cannot exceed 4,000 characters in length."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:796
+#: powerpressadmin-editfeed.php:815
 #@ powerpress
 msgid "iTunes Episode Summary"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:800
+#: powerpressadmin-editfeed.php:819
 #@ powerpress
 msgid "Optimize iTunes Summary from Blog Posts"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:800
+#: powerpressadmin-editfeed.php:819
 #@ powerpress
 msgid "We no longer recommend using this setting, see note below"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:803
+#: powerpressadmin-editfeed.php:822
 #@ powerpress
 msgid "Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:806
+#: powerpressadmin-editfeed.php:825
 #@ powerpress
-msgid "Note: With the recent laungh of iTunes web site during the summer of 2010, Optimize iTunes Summary's clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature."
+msgid "Note: With the recent launch of iTunes web site during the summer of 2010, Optimize iTunes Summary's clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:810
+#: powerpressadmin-editfeed.php:829
 #@ powerpress
 msgid "Option Not Available"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:813
+#: powerpressadmin-editfeed.php:832
 #@ powerpress
 msgid "This feature requires PHP version 5 or newer."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:814
+#: powerpressadmin-editfeed.php:833
 #, php-format
 #@ powerpress
 msgid "Your server's version of PHP is %s"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:824
+#: powerpressadmin-editfeed.php:845
 #@ powerpress
 msgid "iTunes Program Keywords"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:828
+#: powerpressadmin-editfeed.php:849
 #@ powerpress
 msgid "Enter up to 12 keywords separated by commas."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:834
+#: powerpressadmin-editfeed.php:855
 #@ powerpress
 msgid "iTunes Category"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:859
+#: powerpressadmin-editfeed.php:891
 #@ powerpress
 msgid "iTunes Category 2"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:880
+#: powerpressadmin-editfeed.php:912
 #@ powerpress
 msgid "iTunes Category 3"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:902
-#: powerpressadmin-metabox.php:320
+#: powerpressadmin-editfeed.php:936
+#: powerpressadmin-metabox.php:373
 #@ powerpress
 msgid "iTunes Explicit"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:907
+#: powerpressadmin-editfeed.php:941
 #@ powerpress
 msgid "No - display nothing"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:907
+#: powerpressadmin-editfeed.php:941
 #@ powerpress
 msgid "Yes - explicit content"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:907
+#: powerpressadmin-editfeed.php:941
 #@ powerpress
 msgid "Clean - no explicit content"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:919
+#: powerpressadmin-editfeed.php:953
 #@ powerpress
 msgid "iTunes Image"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:925
+#: powerpressadmin-editfeed.php:959
 #@ powerpress
 msgid "Place the URL to the iTunes image above."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:926
+#: powerpressadmin-editfeed.php:960
 #@ powerpress
 msgid "iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:928
+#: powerpressadmin-editfeed.php:962
 #@ powerpress
 msgid "Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:929
+#: powerpressadmin-editfeed.php:963
 #, php-format
 #@ powerpress
 msgid "Please contact %s if you are having issues with your image changes not appearing in iTunes."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:929
+#: powerpressadmin-editfeed.php:963
 #@ powerpress
 msgid "iTunes Support"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:945
+#: powerpressadmin-editfeed.php:977
 #@ powerpress
 msgid "iTunes Talent Name"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:949
+#: powerpressadmin-editfeed.php:981
 #@ powerpress
 msgid "Use blog post author's name for individual episodes."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:959
+#: powerpressadmin-editfeed.php:990
 #@ powerpress
 msgid "iTunes Email"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:963
+#: powerpressadmin-editfeed.php:994
 #@ powerpress
 msgid "iTunes will email this address when your podcast is accepted into the iTunes Directory."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:974
+#: powerpressadmin-editfeed.php:1002
 #@ powerpress
 msgid "iTunes New Feed URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:977
+#: powerpressadmin-editfeed.php:1005
 #@ powerpress
 msgid "Set iTunes New Feed URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:980
+#: powerpressadmin-editfeed.php:1007
+#@ powerpress
+msgid "The iTunes New Feed URL option works primarily for Apple's iTunes application only, and should only be used if you are unable to implement a HTTP 301 redirect."
+msgstr ""
+
+#: powerpressadmin-editfeed.php:1008
+#@ powerpress
+msgid "A 301 redirect will route <u>all podcast clients including iTunes</u> to your new feed address."
+msgstr ""
+
+#: powerpressadmin-editfeed.php:1012
+#@ powerpress
+msgid "Changing Your Podcast RSS Feed Address (URL)"
+msgstr ""
+
+#: powerpressadmin-editfeed.php:1016
 #@ powerpress
 msgid "WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:981
+#: powerpressadmin-editfeed.php:1017
 #@ powerpress
 msgid "DO NOT MODIFY THIS SETTING UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:983
+#: powerpressadmin-editfeed.php:1019
 #, php-format
 #@ powerpress
 msgid "Apple recommends you maintain the %s tag in your feed for at least two weeks to ensure that most subscribers will receive the new New Feed URL."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:987
+#: powerpressadmin-editfeed.php:1023
 #@ powerpress
 msgid "Main RSS2 feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:992
+#: powerpressadmin-editfeed.php:1028
 #, php-format
 #@ powerpress
 msgid "%s category feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1001
+#: powerpressadmin-editfeed.php:1037
 #@ powerpress
 msgid "feed"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1005
+#: powerpressadmin-editfeed.php:1041
 #, php-format
 #@ powerpress
 msgid "The New Feed URL value below will be applied to the %s (%s)."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1009
+#: powerpressadmin-editfeed.php:1045
 #@ powerpress
 msgid "New Feed URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1012
+#: powerpressadmin-editfeed.php:1048
 #@ powerpress
 msgid "Leave blank for no New Feed URL"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1014
+#: powerpressadmin-editfeed.php:1050
 #@ powerpress
 msgid "More information regarding the iTunes New Feed URL is available here."
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1020
+#: powerpressadmin-editfeed.php:1056
 #, php-format
 #@ powerpress
 msgid "Please activate the 'Custom Podcast Channels' Advanced Option to set the new-feed-url for your podcast only feed (%s)"
 msgstr ""
 
-#: powerpressadmin-editfeed.php:1022
+#: powerpressadmin-editfeed.php:1058
 #, php-format
 #@ powerpress
 msgid "Please navigate to the 'Custom Podcast Channels' section to set the new-feed-url for your podcast only feed (%s)"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:107
+#: powerpressadmin-find-replace.php:134
 #, php-format
 #@ powerpress
 msgid "%d URLs updated successfully."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:109
+#: powerpressadmin-find-replace.php:136
 #, php-format
 #@ powerpress
 msgid "%d URLs were not updated."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:111
+#: powerpressadmin-find-replace.php:138
 #@ powerpress
 msgid "Nothing specified to find."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:118
+#: powerpressadmin-find-replace.php:145
 #@ powerpress
 msgid "WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsibile for any lost or damaged data resulting from this Find and Replace tool."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:150
+#: powerpressadmin-find-replace.php:177
 #@ powerpress
 msgid ""
 "WARNING: Verification prevents changes if the URL entered is invalid.\n"
@@ -3181,7 +3332,7 @@ msgid ""
 "Are you sure you do not want to verify the URLs?"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:158
+#: powerpressadmin-find-replace.php:185
 #@ powerpress
 msgid ""
 "WARNING: You are about to make permanent changes to your database.\n"
@@ -3189,102 +3340,111 @@ msgid ""
 "Are you sure you wish to continue?"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:192
+#: powerpressadmin-find-replace.php:220
 #@ powerpress
 msgid "Find and Replace Episode URLs"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:194
+#: powerpressadmin-find-replace.php:222
 #: powerpressadmin-tools.php:77
 #@ powerpress
 msgid "Find and replace complete or partial segments of media URLs. Useful if you move your media to a new web site or service."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:198
+#: powerpressadmin-find-replace.php:226
 #@ powerpress
 msgid "Find in URL"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:201
-#: powerpressadmin-find-replace.php:209
+#: powerpressadmin-find-replace.php:229
+#: powerpressadmin-find-replace.php:237
 #@ powerpress
 msgid "Modify"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:206
+#: powerpressadmin-find-replace.php:234
 #@ powerpress
 msgid "Replace with"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:222
+#: powerpressadmin-find-replace.php:250
 #@ powerpress
 msgid "Preview Changes"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:222
+#: powerpressadmin-find-replace.php:250
 #@ powerpress
 msgid "Change Results"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:224
+#: powerpressadmin-find-replace.php:252
 #, php-format
 #@ powerpress
 msgid "Found %d results with \"%s\""
 msgstr ""
 
-#: powerpressadmin-find-replace.php:231
+#: powerpressadmin-find-replace.php:259
 #@ powerpress
 msgid "Edit Post"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:249
+#: powerpressadmin-find-replace.php:277
 #@ powerpress
 msgid "Found"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:252
+#: powerpressadmin-find-replace.php:280
 #@ powerpress
 msgid "Replace"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:253
+#: powerpressadmin-find-replace.php:281
 #@ powerpress
 msgid "test link"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:272
+#: powerpressadmin-find-replace.php:300
 #@ powerpress
 msgid "Verify modified URLs"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:273
+#: powerpressadmin-find-replace.php:301
 #@ powerpress
 msgid "Does not change media URL if link is not found or invalid"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:277
+#: powerpressadmin-find-replace.php:305
 #: powerpressadmin-tools.php:8
-#: powerpressadmin.php:904
+#: powerpressadmin.php:979
 #@ powerpress
 msgid "PowerPress Tools"
 msgstr ""
 
-#: powerpressadmin-find-replace.php:281
+#: powerpressadmin-find-replace.php:309
 #, php-format
 #@ powerpress
 msgid "We recommend using the %s plugin to backup your database before using this Find and Replace tool."
 msgstr ""
 
-#: powerpressadmin-find-replace.php:281
+#: powerpressadmin-find-replace.php:309
 #@ powerpress
 msgid "WP-DB-Backup"
 msgstr ""
 
+#: powerpressadmin-jquery.php:78
+#: powerpressadmin-jquery.php:80
+#: powerpressadmin-jquery.php:89
+#: powerpressadmin-jquery.php:98
+#: powerpressadmin-jquery.php:100
+#@ powerpress
+msgid "Blubrry Media Statistics"
+msgstr ""
+
 #: powerpressadmin-jquery.php:81
 #: powerpressadmin-jquery.php:128
-#: powerpressadmin-jquery.php:307
-#: powerpressadmin-jquery.php:446
-#: powerpressadmin.php:61
+#: powerpressadmin-jquery.php:312
+#: powerpressadmin-jquery.php:470
+#: powerpressadmin.php:69
 #@ powerpress
 msgid "You do not have sufficient permission to manage options."
 msgstr ""
@@ -3292,11 +3452,11 @@ msgstr ""
 #: powerpressadmin-jquery.php:82
 #: powerpressadmin-jquery.php:129
 #: powerpressadmin-jquery.php:152
-#: powerpressadmin-jquery.php:295
-#: powerpressadmin-jquery.php:428
-#: powerpressadmin-jquery.php:432
-#: powerpressadmin-jquery.php:591
-#: powerpressadmin-jquery.php:622
+#: powerpressadmin-jquery.php:300
+#: powerpressadmin-jquery.php:452
+#: powerpressadmin-jquery.php:456
+#: powerpressadmin-jquery.php:615
+#: powerpressadmin-jquery.php:646
 #@ powerpress
 msgid "Close"
 msgstr ""
@@ -3307,8 +3467,8 @@ msgid "You do not have sufficient permission to view media statistics."
 msgstr ""
 
 #: powerpressadmin-jquery.php:111
-#: powerpressadmin-jquery.php:528
-#: powerpressadmin-jquery.php:601
+#: powerpressadmin-jquery.php:552
+#: powerpressadmin-jquery.php:625
 #@ powerpress
 msgid "You do not have sufficient permission to upload media."
 msgstr ""
@@ -3318,7 +3478,7 @@ msgstr ""
 #: powerpressadmin-jquery.php:137
 #: powerpressadmin-jquery.php:139
 #: powerpressadmin-jquery.php:180
-#: powerpressadmin-jquery.php:206
+#: powerpressadmin-jquery.php:211
 #@ powerpress
 msgid "Select Media"
 msgstr ""
@@ -3360,348 +3520,388 @@ msgstr ""
 msgid "An unknown error occurred deleting media file."
 msgstr ""
 
-#: powerpressadmin-jquery.php:202
+#: powerpressadmin-jquery.php:206
 #@ powerpress
 msgid "Are you sure you want to delete this media file?"
 msgstr ""
 
-#: powerpressadmin-jquery.php:211
-#: powerpressadmin-jquery.php:268
+#: powerpressadmin-jquery.php:216
+#: powerpressadmin-jquery.php:273
 #@ powerpress
 msgid "Upload Media File"
 msgstr ""
 
-#: powerpressadmin-jquery.php:212
+#: powerpressadmin-jquery.php:217
 #@ powerpress
 msgid "Select from media files uploaded to blubrry.com"
 msgstr ""
 
-#: powerpressadmin-jquery.php:237
+#: powerpressadmin-jquery.php:242
 #@ powerpress
 msgid "Media Published within the past 30 days"
 msgstr ""
 
-#: powerpressadmin-jquery.php:248
+#: powerpressadmin-jquery.php:253
 #@ powerpress
 msgid "Published on"
 msgstr ""
 
-#: powerpressadmin-jquery.php:252
 #: powerpressadmin-jquery.php:257
+#: powerpressadmin-jquery.php:262
 #@ powerpress
 msgid "Select"
 msgstr ""
 
-#: powerpressadmin-jquery.php:274
+#: powerpressadmin-jquery.php:279
 #, php-format
 #@ powerpress
 msgid "You have uploaded %s (%s available) of your %s limit."
 msgstr ""
 
-#: powerpressadmin-jquery.php:281
+#: powerpressadmin-jquery.php:286
 #, php-format
 #@ powerpress
 msgid "You are hosting %s (%s available) of your %s/30 day limit."
 msgstr ""
 
-#: powerpressadmin-jquery.php:288
+#: powerpressadmin-jquery.php:293
 #, php-format
 #@ powerpress
 msgid "Your limit will adjust on %s to %s (%s available)."
 msgstr ""
 
-#: powerpressadmin-jquery.php:355
+#: powerpressadmin-jquery.php:360
 #@ powerpress
 msgid "currently not available"
 msgstr ""
 
-#: powerpressadmin-jquery.php:356
-#: powerpressadmin-jquery.php:556
+#: powerpressadmin-jquery.php:362
+#: powerpressadmin-jquery.php:580
 #@ powerpress
 msgid "Unable to find podcasts for this account."
 msgstr ""
 
-#: powerpressadmin-jquery.php:380
+#: powerpressadmin-jquery.php:397
 #@ powerpress
 msgid "You must select a program to continue."
 msgstr ""
 
-#: powerpressadmin-jquery.php:392
+#: powerpressadmin-jquery.php:409
 #@ powerpress
 msgid "Please select your podcast program to continue."
 msgstr ""
 
-#: powerpressadmin-jquery.php:400
+#: powerpressadmin-jquery.php:417
 #@ powerpress
 msgid "No podcasts for this account are listed on blubrry.com."
 msgstr ""
 
-#: powerpressadmin-jquery.php:410
+#: powerpressadmin-jquery.php:429
 #@ powerpress
 msgid "Authentication failed."
 msgstr ""
 
-#: powerpressadmin-jquery.php:430
+#: powerpressadmin-jquery.php:434
+#@ powerpress
+msgid "Click Here For Help"
+msgstr ""
+
+#: powerpressadmin-jquery.php:449
+#: powerpressadmin-jquery.php:453
+#: powerpressadmin-jquery.php:469
+#: powerpressadmin-jquery.php:478
+#: powerpressadmin-jquery.php:497
+#: powerpressadmin-jquery.php:504
+#@ powerpress
+msgid "Blubrry Services Integration"
+msgstr ""
+
+#: powerpressadmin-jquery.php:454
 #@ powerpress
 msgid "Settings Saved Successfully!"
 msgstr ""
 
-#: powerpressadmin-jquery.php:483
+#: powerpressadmin-jquery.php:507
 #@ powerpress
 msgid "Blubrry User Name (Email)"
 msgstr ""
 
-#: powerpressadmin-jquery.php:487
+#: powerpressadmin-jquery.php:511
 #@ powerpress
 msgid "Blubrry Password"
 msgstr ""
 
-#: powerpressadmin-jquery.php:490
+#: powerpressadmin-jquery.php:514
 #@ powerpress
 msgid "Select Blubrry Services"
 msgstr ""
 
-#: powerpressadmin-jquery.php:492
+#: powerpressadmin-jquery.php:516
 #@ powerpress
 msgid "Statistics Integration only"
 msgstr ""
 
-#: powerpressadmin-jquery.php:495
+#: powerpressadmin-jquery.php:519
 #@ powerpress
 msgid "Statistics and Hosting Integration (Requires Blubrry Hosting Account)"
 msgstr ""
 
-#: powerpressadmin-jquery.php:502
+#: powerpressadmin-jquery.php:526
 #@ powerpress
 msgid "Blubrry Program Keyword"
 msgstr ""
 
-#: powerpressadmin-jquery.php:504
+#: powerpressadmin-jquery.php:528
 #@ powerpress
 msgid "Select Program"
 msgstr ""
 
-#: powerpressadmin-jquery.php:513
+#: powerpressadmin-jquery.php:537
 #@ powerpress
 msgid "Remove Blubrry Services Integration, are you sure?"
 msgstr ""
 
-#: powerpressadmin-jquery.php:514
+#: powerpressadmin-jquery.php:538
 #@ powerpress
 msgid "Save"
 msgstr ""
 
-#: powerpressadmin-jquery.php:515
-#: powerpressadmin-jquery.php:675
+#: powerpressadmin-jquery.php:539
+#: powerpressadmin-jquery.php:700
 #@ powerpress
 msgid "Cancel"
 msgstr ""
 
-#: powerpressadmin-jquery.php:527
-#: powerpressadmin-jquery.php:585
-#: powerpressadmin-jquery.php:586
-#: powerpressadmin-jquery.php:611
+#: powerpressadmin-jquery.php:551
+#: powerpressadmin-jquery.php:609
+#: powerpressadmin-jquery.php:610
+#: powerpressadmin-jquery.php:635
 #@ powerpress
 msgid "Uploader"
 msgstr ""
 
-#: powerpressadmin-jquery.php:540
+#: powerpressadmin-jquery.php:564
 #@ powerpress
 msgid "This feature is available to Blubrry Hosting users only."
 msgstr ""
 
-#: powerpressadmin-jquery.php:582
+#: powerpressadmin-jquery.php:606
 #@ powerpress
 msgid "Unable to obtain upload session."
 msgstr ""
 
-#: powerpressadmin-jquery.php:610
+#: powerpressadmin-jquery.php:634
 #@ powerpress
 msgid "Upload Complete"
 msgstr ""
 
-#: powerpressadmin-jquery.php:615
-#: powerpressadmin-mt.php:724
+#: powerpressadmin-jquery.php:639
+#: powerpressadmin-mt.php:725
 #: powerpressadmin-podpress-stats.php:23
 #: powerpressadmin-podpress-stats.php:27
-#: powerpressadmin-podpress.php:616
-#: powerpressadmin-podpress.php:621
-#: powerpressadmin-podpress.php:686
+#: powerpressadmin-podpress.php:590
+#: powerpressadmin-podpress.php:595
+#: powerpressadmin-podpress.php:660
 #@ powerpress
 msgid "File"
 msgstr ""
 
-#: powerpressadmin-jquery.php:652
+#: powerpressadmin-jquery.php:677
 #@ powerpress
 msgid "WordPress"
 msgstr ""
 
-#: powerpressadmin-metabox.php:102
+#: powerpressadmin-metabox.php:132
 #@ powerpress
 msgid "Modify existing podcast episode"
 msgstr ""
 
-#: powerpressadmin-metabox.php:121
+#: powerpressadmin-metabox.php:151
 #@ powerpress
 msgid "Podcast episode will be removed from this post upon save"
 msgstr ""
 
-#: powerpressadmin-metabox.php:131
-#@ powerpress
-msgid "Media URL"
-msgstr ""
-
-#: powerpressadmin-metabox.php:135
+#: powerpressadmin-metabox.php:165
 #@ powerpress
 msgid "Browse Media File"
 msgstr ""
 
-#: powerpressadmin-metabox.php:135
+#: powerpressadmin-metabox.php:165
 #@ powerpress
 msgid "Browse Media Files"
 msgstr ""
 
-#: powerpressadmin-metabox.php:137
+#: powerpressadmin-metabox.php:167
 #@ powerpress
 msgid "Verify"
 msgstr ""
 
-#: powerpressadmin-metabox.php:137
+#: powerpressadmin-metabox.php:167
 #@ powerpress
 msgid "Verify Media"
 msgstr ""
 
-#: powerpressadmin-metabox.php:138
+#: powerpressadmin-metabox.php:168
 #@ powerpress
 msgid "Checking Media"
 msgstr ""
 
-#: powerpressadmin-metabox.php:141
+#: powerpressadmin-metabox.php:171
 #@ powerpress
 msgid "Media file hosted by blubrry.com."
 msgstr ""
 
-#: powerpressadmin-metabox.php:142
+#: powerpressadmin-metabox.php:172
 #@ powerpress
 msgid "Remove Blubrry.com hosted media file"
 msgstr ""
 
-#: powerpressadmin-metabox.php:142
+#: powerpressadmin-metabox.php:172
 #@ powerpress
 msgid "remove"
 msgstr ""
 
-#: powerpressadmin-metabox.php:154
+#: powerpressadmin-metabox.php:177
+#@ powerpress
+msgid "Video is HD (720p/1080i/1080p)"
+msgstr ""
+
+#: powerpressadmin-metabox.php:185
 #@ powerpress
 msgid "Do not display player and media links"
 msgstr ""
 
-#: powerpressadmin-metabox.php:160
+#: powerpressadmin-metabox.php:191
 #@ powerpress
 msgid "Do not display player"
 msgstr ""
 
-#: powerpressadmin-metabox.php:166
+#: powerpressadmin-metabox.php:197
 #@ powerpress
 msgid "Do not display media links"
 msgstr ""
 
-#: powerpressadmin-metabox.php:181
+#: powerpressadmin-metabox.php:206
+#@ powerpress
+msgid "Alt WebM URL"
+msgstr ""
+
+#: powerpressadmin-metabox.php:211
+#@ powerpress
+msgid "For HTML5 Video fallback, enter an alternative WebM media URL above. (optional)"
+msgstr ""
+
+#: powerpressadmin-metabox.php:219
 #@ powerpress
 msgid "File Size"
 msgstr ""
 
-#: powerpressadmin-metabox.php:189
-#: powerpressadmin-metabox.php:204
+#: powerpressadmin-metabox.php:227
+#: powerpressadmin-metabox.php:242
 #: powerpressadmin-tags.php:168
 #: powerpressadmin-tags.php:177
 #@ powerpress
 msgid "Specify"
 msgstr ""
 
-#: powerpressadmin-metabox.php:191
+#: powerpressadmin-metabox.php:229
 #@ powerpress
 msgid "in bytes"
 msgstr ""
 
-#: powerpressadmin-metabox.php:211
+#: powerpressadmin-metabox.php:249
 #@ powerpress
 msgid "Not specified"
 msgstr ""
 
-#: powerpressadmin-metabox.php:233
+#: powerpressadmin-metabox.php:269
 #@ powerpress
-msgid "Media Embed"
+msgid "Poster Image"
 msgstr ""
 
-#: powerpressadmin-metabox.php:245
+#: powerpressadmin-metabox.php:272
 #@ powerpress
-msgid "Cover Image"
-msgstr ""
-
-#: powerpressadmin-metabox.php:250
-#@ powerpress
-msgid "Cover image for Quicktime (m4v, mov, etc..) video only. e.g. http://example.com/path/to/image.jpg"
-msgstr ""
-
-#: powerpressadmin-metabox.php:260
-#@ powerpress
-msgid "iTunes Keywords"
-msgstr ""
-
-#: powerpressadmin-metabox.php:265
-#@ powerpress
-msgid "Enter up to 12 keywords separated by commas. Leave blank to use your blog post tags."
+msgid "Select Poster Image"
 msgstr ""
 
 #: powerpressadmin-metabox.php:275
 #@ powerpress
+msgid "Poster image for video (m4v, mp4, ogv, webm, etc..). e.g. http://example.com/path/to/image.jpg"
+msgstr ""
+
+#: powerpressadmin-metabox.php:286
+#@ powerpress
+msgid "Player Size"
+msgstr ""
+
+#: powerpressadmin-metabox.php:301
+#@ powerpress
+msgid "Media Embed"
+msgstr ""
+
+#: powerpressadmin-metabox.php:313
+#@ powerpress
+msgid "iTunes Keywords"
+msgstr ""
+
+#: powerpressadmin-metabox.php:318
+#@ powerpress
+msgid "Enter up to 12 keywords separated by commas. Leave blank to use your blog post tags."
+msgstr ""
+
+#: powerpressadmin-metabox.php:328
+#@ powerpress
 msgid "iTunes Subtitle"
 msgstr ""
 
-#: powerpressadmin-metabox.php:280
+#: powerpressadmin-metabox.php:333
 #@ powerpress
 msgid "Your subtitle may not contain HTML and cannot exceed 250 characters in length. Leave blank to use the first 250 characters of your blog post."
 msgstr ""
 
-#: powerpressadmin-metabox.php:290
+#: powerpressadmin-metabox.php:343
 #@ powerpress
 msgid "iTunes Summary"
 msgstr ""
 
-#: powerpressadmin-metabox.php:295
+#: powerpressadmin-metabox.php:348
 #@ powerpress
 msgid "Your summary may not contain HTML and cannot exceed 4,000 characters in length. Leave blank to use your blog post."
 msgstr ""
 
-#: powerpressadmin-metabox.php:305
+#: powerpressadmin-metabox.php:358
 #@ powerpress
 msgid "iTunes Author"
 msgstr ""
 
-#: powerpressadmin-metabox.php:310
+#: powerpressadmin-metabox.php:363
 #@ powerpress
 msgid "Leave blank to use post author name."
 msgstr ""
 
-#: powerpressadmin-metabox.php:324
+#: powerpressadmin-metabox.php:377
 #@ powerpress
 msgid "Use feed's explicit setting"
 msgstr ""
 
-#: powerpressadmin-metabox.php:324
+#: powerpressadmin-metabox.php:377
 #@ powerpress
 msgid "no - display nothing"
 msgstr ""
 
-#: powerpressadmin-metabox.php:324
+#: powerpressadmin-metabox.php:377
 #@ powerpress
 msgid "yes - explicit content"
 msgstr ""
 
-#: powerpressadmin-metabox.php:324
+#: powerpressadmin-metabox.php:377
 #@ powerpress
 msgid "clean - no explicit content"
+msgstr ""
+
+#: powerpressadmin-metabox.php:499
+#@ powerpress
+msgid "Select poster image from your computer."
 msgstr ""
 
 #: powerpressadmin-mode.php:10
@@ -3750,6 +3950,11 @@ msgstr ""
 msgid "Player and download links added to bottom of episode posts"
 msgstr ""
 
+#: powerpressadmin-mode.php:29
+#@ powerpress
+msgid "Advanced Mode"
+msgstr ""
+
 #: powerpressadmin-mode.php:30
 #@ powerpress
 msgid "Advanced Mode gives you all of the features packaged in Blubrry PowerPress. This mode is perfect for someone who may want to distribute multiple versions of their podcast, customize the web player and download links, or import data from a previous podcasting platform."
@@ -3790,57 +3995,57 @@ msgstr ""
 msgid "Set Mode and Continue"
 msgstr ""
 
-#: powerpressadmin-mt.php:208
+#: powerpressadmin-mt.php:234
 #@ powerpress
 msgid "HTTP return code"
 msgstr ""
 
-#: powerpressadmin-mt.php:222
+#: powerpressadmin-mt.php:248
 #, php-format
 #@ powerpress
 msgid "Error importing %s for blog post %s:"
 msgstr ""
 
-#: powerpressadmin-mt.php:230
+#: powerpressadmin-mt.php:256
 #, php-format
 #@ powerpress
 msgid "Episode %s for blog post %s imported to feed %s."
 msgstr ""
 
-#: powerpressadmin-mt.php:264
+#: powerpressadmin-mt.php:290
 #@ powerpress
 msgid "Duration of each mp3 detected."
 msgstr ""
 
-#: powerpressadmin-mt.php:269
+#: powerpressadmin-mt.php:295
 #, php-format
 #@ powerpress
 msgid "Imported %d episode(s)."
 msgstr ""
 
-#: powerpressadmin-mt.php:271
+#: powerpressadmin-mt.php:297
 #, php-format
 #@ powerpress
 msgid "Found %d error(s)."
 msgstr ""
 
-#: powerpressadmin-mt.php:278
+#: powerpressadmin-mt.php:304
 #@ powerpress
 msgid "Episode Title"
 msgstr ""
 
-#: powerpressadmin-mt.php:279
+#: powerpressadmin-mt.php:305
 #@ powerpress
 msgid "Date"
 msgstr ""
 
-#: powerpressadmin-mt.php:281
+#: powerpressadmin-mt.php:307
 #: powerpressadmin-podpress.php:315
 #@ powerpress
 msgid "Feed: (podcast)"
 msgstr ""
 
-#: powerpressadmin-mt.php:288
+#: powerpressadmin-mt.php:314
 #: powerpressadmin-podpress-stats.php:23
 #: powerpressadmin-podpress-stats.php:27
 #: powerpressadmin-podpress.php:322
@@ -3848,771 +4053,1001 @@ msgstr ""
 msgid "Feed"
 msgstr ""
 
-#: powerpressadmin-mt.php:291
-#: powerpressadmin-mt.php:732
+#: powerpressadmin-mt.php:317
+#: powerpressadmin-mt.php:733
 #: powerpressadmin-podpress.php:325
-#: powerpressadmin-podpress.php:747
+#: powerpressadmin-podpress.php:721
 #@ powerpress
 msgid "No Import"
 msgstr ""
 
-#: powerpressadmin-mt.php:315
-#: powerpressadmin-mt.php:317
-#: powerpressadmin-mt.php:547
-#: powerpressadmin-podpress.php:349
+#: powerpressadmin-mt.php:329
+#: powerpressadmin-mt.php:331
+#: powerpressadmin-mt.php:548
+#: powerpressadmin-podpress.php:337
 #@ powerpress
 msgid "Podcast Feed (default)"
 msgstr ""
 
-#: powerpressadmin-mt.php:323
+#: powerpressadmin-mt.php:337
 #, php-format
 #@ powerpress
 msgid "We found blog posts that have as many as %d media files. You may need to create %d more Custom Feed%s in order to import all of the media."
 msgstr ""
 
-#: powerpressadmin-mt.php:381
-#: powerpressadmin-podpress.php:409
+#: powerpressadmin-mt.php:395
+#: powerpressadmin-podpress.php:397
 #@ powerpress
 msgid "Sorry, you may only select one media file per post per feed."
 msgstr ""
 
-#: powerpressadmin-mt.php:395
-#: powerpressadmin-podpress.php:423
+#: powerpressadmin-mt.php:409
+#: powerpressadmin-podpress.php:411
 #@ powerpress
 msgid "Select \"No Import\" option for all media files?"
 msgstr ""
 
-#: powerpressadmin-mt.php:438
-#: powerpressadmin-podpress.php:770
-#: powerpressadmin-podpress.php:778
-#: powerpressadmin-podpress.php:839
+#: powerpressadmin-mt.php:452
+#: powerpressadmin-podpress.php:744
+#: powerpressadmin-podpress.php:752
+#: powerpressadmin-podpress.php:813
 #: powerpressadmin-tools.php:47
 #@ powerpress
 msgid "Import Episodes"
 msgstr ""
 
-#: powerpressadmin-mt.php:444
+#: powerpressadmin-mt.php:458
 #@ powerpress
 msgid "No episodes found to import."
 msgstr ""
 
-#: powerpressadmin-mt.php:451
-#: powerpressadmin-podpress.php:484
+#: powerpressadmin-mt.php:465
+#: powerpressadmin-podpress.php:472
 #@ powerpress
 msgid "Select the media file under each feed for each episode you wish to import."
 msgstr ""
 
-#: powerpressadmin-mt.php:652
-#: powerpressadmin-podpress.php:670
+#: powerpressadmin-mt.php:653
+#: powerpressadmin-podpress.php:644
 #@ powerpress
 msgid "present"
 msgstr ""
 
-#: powerpressadmin-mt.php:654
-#: powerpressadmin-podpress.php:672
+#: powerpressadmin-mt.php:655
+#: powerpressadmin-podpress.php:646
 #@ powerpress
 msgid "imported"
 msgstr ""
 
-#: powerpressadmin-mt.php:711
-#: powerpressadmin-podpress.php:728
+#: powerpressadmin-mt.php:712
+#: powerpressadmin-podpress.php:702
 #, php-format
 #@ powerpress
 msgid "Importable episodes highlighted in %s with asterisks *."
 msgstr ""
 
-#: powerpressadmin-mt.php:712
-#: powerpressadmin-podpress.php:729
+#: powerpressadmin-mt.php:713
+#: powerpressadmin-podpress.php:703
 #@ powerpress
 msgid "red"
 msgstr ""
 
-#: powerpressadmin-mt.php:715
+#: powerpressadmin-mt.php:716
 #@ powerpress
 msgid "Select Only:"
 msgstr ""
 
-#: powerpressadmin-mt.php:737
+#: powerpressadmin-mt.php:738
 #@ powerpress
 msgid "Types of media found:"
 msgstr ""
 
-#: powerpressadmin-mt.php:761
+#: powerpressadmin-mt.php:762
 #, php-format
 #@ powerpress
 msgid "There are %s media files that can be imported with a total of %d blog post podcast episodes."
 msgstr ""
 
-#: powerpressadmin-mt.php:772
+#: powerpressadmin-mt.php:773
 #@ powerpress
 msgid "Detect duration for mp3 media. (expect script to take a while with this option)"
 msgstr ""
 
-#: powerpressadmin-mt.php:779
-#: powerpressadmin-podpress.php:856
+#: powerpressadmin-mt.php:780
+#: powerpressadmin-podpress.php:830
 #@ powerpress
 msgid "Filter Results"
 msgstr ""
 
-#: powerpressadmin-mt.php:780
-#: powerpressadmin-podpress.php:857
+#: powerpressadmin-mt.php:781
+#: powerpressadmin-podpress.php:831
 #@ powerpress
 msgid "Include Only"
 msgstr ""
 
-#: powerpressadmin-mt.php:781
+#: powerpressadmin-mt.php:782
 #@ powerpress
 msgid "leave blank for all media"
 msgstr ""
 
-#: powerpressadmin-mt.php:782
+#: powerpressadmin-mt.php:783
 #@ powerpress
 msgid "Specify the file extensions to include separated by commas (e.g. mp3, m4v)."
 msgstr ""
 
-#: powerpressadmin-mt.php:785
+#: powerpressadmin-mt.php:786
 #@ powerpress
 msgid "Filter Episodes"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:15
+#: powerpressadmin-ping-sites.php:18
 #@ powerpress
 msgid "Update services added successfully."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:19
+#: powerpressadmin-ping-sites.php:22
 #@ powerpress
 msgid "No update services selected to add."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:26
+#: powerpressadmin-ping-sites.php:29
 #@ powerpress
 msgid "Ping-o-Matic!"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:27
+#: powerpressadmin-ping-sites.php:30
 #@ powerpress
 msgid "Google Blog Search"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:28
+#: powerpressadmin-ping-sites.php:31
 #@ powerpress
 msgid "WebLogs"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:29
-#@ powerpress
-msgid "Technorati"
-msgstr ""
-
-#: powerpressadmin-ping-sites.php:31
+#: powerpressadmin-ping-sites.php:33
 #@ powerpress
 msgid "WebLogs Audio"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:40
+#: powerpressadmin-ping-sites.php:38
 #@ powerpress
 msgid "Add Update services / Ping Sites"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:42
+#: powerpressadmin-ping-sites.php:40
 #@ powerpress
 msgid "Notify the following Update Services / Ping Sites when you create a new blog post / podcast episode."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:46
+#: powerpressadmin-ping-sites.php:44
 #@ powerpress
 msgid "Update Blog Searvices"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:48
+#: powerpressadmin-ping-sites.php:46
 #@ powerpress
 msgid "Select the blog service you would like to notify."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:70
+#: powerpressadmin-ping-sites.php:68
 #@ powerpress
 msgid "Update Podcast Searvices"
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:72
+#: powerpressadmin-ping-sites.php:70
 #@ powerpress
 msgid "Select the podcasting service you would like to notify."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:95
+#: powerpressadmin-ping-sites.php:93
 #@ powerpress
 msgid "You can manually add ping services by going to the to the \"Update Services\" section found in the <b>WordPress Settings</b> &gt; <b>Writing</b> page."
 msgstr ""
 
-#: powerpressadmin-ping-sites.php:98
+#: powerpressadmin-ping-sites.php:96
 #@ powerpress
 msgid "Add Selected Update Services"
 msgstr ""
 
-#: powerpressadmin-player-page.php:125
-#: powerpressadmin-player.php:66
-#: powerpressadmin-player.php:77
+#: powerpressadmin-player-page.php:10
+#@ powerpress
+msgid "Flow Player Classic is an open source flash player that supports both audio (mp3 and m4a) and video (mp4, m4v and flv) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control."
+msgstr ""
+
+#: powerpressadmin-player-page.php:14
+#@ powerpress
+msgid "Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and video."
+msgstr ""
+
+#: powerpressadmin-player-page.php:177
 #@ powerpress
 msgid "Blubrry PowerPress Player Options"
 msgstr ""
 
-#: powerpressadmin-player-page.php:126
+#: powerpressadmin-player-page.php:178
 #@ powerpress
 msgid "Select the media player you would like to use."
 msgstr ""
 
-#: powerpressadmin-player-page.php:129
+#: powerpressadmin-player-page.php:190
 #@ powerpress
-msgid "Select Player"
+msgid "Flow Player Classic"
 msgstr ""
 
-#: powerpressadmin-player-page.php:134
-#@ powerpress
-msgid "Flow Player Classic (default)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:135
-#: powerpressadmin-player-page.php:162
-#: powerpressadmin-player-page.php:180
-#: powerpressadmin-player-page.php:196
-#: powerpressadmin-player-page.php:215
+#: powerpressadmin-player-page.php:191
+#: powerpressadmin-player-page.php:205
+#: powerpressadmin-player-page.php:282
+#: powerpressadmin-player-page.php:294
+#: powerpressadmin-player-page.php:306
+#: powerpressadmin-player-page.php:318
+#: powerpressadmin-player-page.php:332
+#: powerpressadmin-player-page.php:346
 #@ powerpress
 msgid "Activate and Configure Now"
 msgstr ""
 
-#: powerpressadmin-player-page.php:154
+#: powerpressadmin-player-page.php:204
 #@ powerpress
-msgid "Flow Player Classic is an open source flash player that supports both audio (mp3 only) and video (flv only) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control."
-msgstr ""
-
-#: powerpressadmin-player-page.php:157
-#@ powerpress
-msgid "Flow Player Classic was chosen as the default player in Blubrry PowerPress because if its backwards compatibility with older versions of Flash and support for both audio and flash video."
-msgstr ""
-
-#: powerpressadmin-player-page.php:161
-#@ powerpress
-msgid "1 Pixel Out Audio Player"
-msgstr ""
-
-#: powerpressadmin-player-page.php:175
-#@ powerpress
-msgid "1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player. Features include an animated play/pause button, scrollable position bar, ellapsed/remaining time, volume control and color styling options."
-msgstr ""
-
-#: powerpressadmin-player-page.php:179
-#@ powerpress
-msgid "Mp3 Player Maxi"
-msgstr ""
-
-#: powerpressadmin-player-page.php:191
-#@ powerpress
-msgid "Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options."
-msgstr ""
-
-#: powerpressadmin-player-page.php:195
-#@ powerpress
-msgid "Simple Flash MP3 Player"
-msgstr ""
-
-#: powerpressadmin-player-page.php:210
-#@ powerpress
-msgid "Simple Flash MP3 Player is a free and simple audio (mp3 only) flash player. Features include play/pause and stop buttons."
+msgid "HTML5 Video Player"
 msgstr ""
 
 #: powerpressadmin-player-page.php:214
 #@ powerpress
+msgid "HTML5 Video is an element introduced in the latest HTML specification (HTML5) for the purpose of playing videos."
+msgstr ""
+
+#: powerpressadmin-player-page.php:217
+#@ powerpress
+msgid "HTML5 Video Player is not format specific. See table below for a list of browsers and supported formats."
+msgstr ""
+
+#: powerpressadmin-player-page.php:221
+#: powerpressadmin-player-page.php:362
+#@ powerpress
+msgid "Browser"
+msgstr ""
+
+#: powerpressadmin-player-page.php:227
+#: powerpressadmin-player-page.php:368
+#@ powerpress
+msgid "Internet Explorer"
+msgstr ""
+
+#: powerpressadmin-player-page.php:233
+#: powerpressadmin-player-page.php:374
+#@ powerpress
+msgid "Firefox"
+msgstr ""
+
+#: powerpressadmin-player-page.php:239
+#: powerpressadmin-player-page.php:380
+#@ powerpress
+msgid "Chrome"
+msgstr ""
+
+#: powerpressadmin-player-page.php:245
+#: powerpressadmin-player-page.php:386
+#@ powerpress
+msgid "Opera"
+msgstr ""
+
+#: powerpressadmin-player-page.php:251
+#: powerpressadmin-player-page.php:392
+#@ powerpress
+msgid "Safari"
+msgstr ""
+
+#: powerpressadmin-player-page.php:257
+#@ powerpress
+msgid "Chrome supported H.264 in previous versions, but no longer supports the format."
+msgstr ""
+
+#: powerpressadmin-player-page.php:258
+#: powerpressadmin-player-page.php:399
+#@ powerpress
+msgid "Safari requires QuickTime installed for HTML5 playback."
+msgstr ""
+
+#: powerpressadmin-player-page.php:260
+#: powerpressadmin-player-page.php:401
+#@ powerpress
+msgid "Flow Player Classic is used when HTML5 support is not available."
+msgstr ""
+
+#: powerpressadmin-player-page.php:281
+#@ powerpress
+msgid "Flow Player Classic (default)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:293
+#@ powerpress
+msgid "1 Pixel Out Audio Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:301
+#@ powerpress
+msgid "1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player. Features include an animated play/pause button, scrollable position bar, ellapsed/remaining time, volume control and color styling options."
+msgstr ""
+
+#: powerpressadmin-player-page.php:305
+#@ powerpress
+msgid "Mp3 Player Maxi"
+msgstr ""
+
+#: powerpressadmin-player-page.php:313
+#@ powerpress
+msgid "Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options."
+msgstr ""
+
+#: powerpressadmin-player-page.php:317
+#@ powerpress
+msgid "Simple Flash MP3 Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:327
+#@ powerpress
+msgid "Simple Flash MP3 Player is a free and simple audio (mp3 only) flash player. Features include play/pause and stop buttons."
+msgstr ""
+
+#: powerpressadmin-player-page.php:331
+#@ powerpress
 msgid "AudioPlay"
 msgstr ""
 
-#: powerpressadmin-player-page.php:234
+#: powerpressadmin-player-page.php:341
 #@ powerpress
 msgid "AudioPlay is one button freeware audio (mp3 only) flash player. Features include a play/stop or play/pause button available in two sizes in either black or white."
 msgstr ""
 
-#: powerpressadmin-player-page.php:244
+#: powerpressadmin-player-page.php:345
+#@ powerpress
+msgid "HTML5 Audio Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:355
+#@ powerpress
+msgid "HTML5 audio is an element introduced in the latest HTML specification (HTML5) for the purpose of playing audio."
+msgstr ""
+
+#: powerpressadmin-player-page.php:358
+#@ powerpress
+msgid "HTML5 Audio Player is not format specific. See table below for a list of browsers and supported formats."
+msgstr ""
+
+#: powerpressadmin-player-page.php:398
+#@ powerpress
+msgid "Chrome supported AAC in previous versions, but no longer supports the format."
+msgstr ""
+
+#: powerpressadmin-player-page.php:413
 #@ powerpress
 msgid "Click 'Save Changes' to activate and configure selected player."
 msgstr ""
 
-#: powerpressadmin-player-page.php:250
+#: powerpressadmin-player-page.php:419
 #@ powerpress
 msgid "Configure Player"
 msgstr ""
 
-#: powerpressadmin-player-page.php:251
+#: powerpressadmin-player-page.php:421
 #@ powerpress
-msgid "Select a different flash player"
+msgid "Select a different audio player"
 msgstr ""
 
-#: powerpressadmin-player-page.php:372
+#: powerpressadmin-player-page.php:423
 #@ powerpress
-msgid ""
-"Set defaults, are you sure?\n"
-"\n"
-"All of the current settings will be overwritten!"
-msgstr ""
-
-#: powerpressadmin-player-page.php:464
-#@ powerpress
-msgid "Configure the 1 pixel out Audio Player"
-msgstr ""
-
-#: powerpressadmin-player-page.php:471
-#: powerpressadmin-player-page.php:795
-#: powerpressadmin-player-page.php:1021
-#: powerpressadmin-player-page.php:1444
-#: powerpressadmin-player-page.php:1547
-#@ powerpress
-msgid "Preview of Player"
-msgstr ""
-
-#: powerpressadmin-player-page.php:489
-#: powerpressadmin-player-page.php:1047
-#@ powerpress
-msgid "Set Defaults"
-msgstr ""
-
-#: powerpressadmin-player-page.php:493
-#: powerpressadmin-player-page.php:631
-#@ powerpress
-msgid "Progress Bar"
-msgstr ""
-
-#: powerpressadmin-player-page.php:494
-#@ powerpress
-msgid "Volume Button"
-msgstr ""
-
-#: powerpressadmin-player-page.php:495
-#@ powerpress
-msgid "Play / Pause Button"
-msgstr ""
-
-#: powerpressadmin-player-page.php:499
-#: powerpressadmin-player-page.php:1057
-#: powerpressadmin-player-page.php:1465
-#@ powerpress
-#@ default
-msgid "General Settings"
-msgstr ""
-
-#: powerpressadmin-player-page.php:503
-#@ powerpress
-msgid "Page Background Color"
-msgstr ""
-
-#: powerpressadmin-player-page.php:511
-#: powerpressadmin-player-page.php:1097
-#: powerpressadmin-player-page.php:1477
-#@ powerpress
-msgid "leave blank for transparent"
-msgstr ""
-
-#: powerpressadmin-player-page.php:515
-#@ powerpress
-msgid "Player Background Color"
+msgid "Select a different video player"
 msgstr ""
 
 #: powerpressadmin-player-page.php:526
 #@ powerpress
+msgid ""
+"Set defaults, are you sure?\\\n"
+"\\\n"
+"All of the current settings will be overwritten!"
+msgstr ""
+
+#: powerpressadmin-player-page.php:618
+#@ powerpress
+msgid "Configure the 1 pixel out Audio Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:625
+#: powerpressadmin-player-page.php:944
+#: powerpressadmin-player-page.php:1099
+#: powerpressadmin-player-page.php:1483
+#: powerpressadmin-player-page.php:1577
+#: powerpressadmin-player-page.php:1610
+#: powerpressadmin-player-page.php:1648
+#: powerpressadmin-player-page.php:1668
+#@ powerpress
+msgid "Preview of Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:638
+#: powerpressadmin-player-page.php:1114
+#@ powerpress
+msgid "Set Defaults"
+msgstr ""
+
+#: powerpressadmin-player-page.php:642
+#: powerpressadmin-player-page.php:780
+#@ powerpress
+msgid "Progress Bar"
+msgstr ""
+
+#: powerpressadmin-player-page.php:643
+#@ powerpress
+msgid "Volume Button"
+msgstr ""
+
+#: powerpressadmin-player-page.php:644
+#@ powerpress
+msgid "Play / Pause Button"
+msgstr ""
+
+#: powerpressadmin-player-page.php:648
+#: powerpressadmin-player-page.php:1124
+#: powerpressadmin-player-page.php:1496
+#: powerpressadmin-player-page.php:1622
+#@ powerpress
+msgid "General Settings"
+msgstr ""
+
+#: powerpressadmin-player-page.php:652
+#@ powerpress
+msgid "Page Background Color"
+msgstr ""
+
+#: powerpressadmin-player-page.php:660
+#: powerpressadmin-player-page.php:1164
+#: powerpressadmin-player-page.php:1508
+#@ powerpress
+msgid "leave blank for transparent"
+msgstr ""
+
+#: powerpressadmin-player-page.php:664
+#@ powerpress
+msgid "Player Background Color"
+msgstr ""
+
+#: powerpressadmin-player-page.php:675
+#@ powerpress
 msgid "Width (in pixels)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:530
+#: powerpressadmin-player-page.php:679
 #@ powerpress
 msgid "width of the player. e.g. 290 (290 pixels) or 100%"
 msgstr ""
 
-#: powerpressadmin-player-page.php:535
+#: powerpressadmin-player-page.php:684
 #@ powerpress
 msgid "Right-to-Left"
 msgstr ""
 
-#: powerpressadmin-player-page.php:543
+#: powerpressadmin-player-page.php:689
+#: powerpressadmin-player-page.php:738
+#: powerpressadmin-player-page.php:753
+#: powerpressadmin-player-page.php:1245
+#: powerpressadmin-player-page.php:1260
+#: powerpressadmin-player-page.php:1282
+#: powerpressadmin-player-page.php:1339
+#@ powerpress
+msgid "Yes"
+msgstr ""
+
+#: powerpressadmin-player-page.php:689
+#: powerpressadmin-player-page.php:738
+#: powerpressadmin-player-page.php:753
+#: powerpressadmin-player-page.php:1245
+#: powerpressadmin-player-page.php:1260
+#: powerpressadmin-player-page.php:1282
+#: powerpressadmin-player-page.php:1339
+#@ powerpress
+msgid "No"
+msgstr ""
+
+#: powerpressadmin-player-page.php:692
 #@ powerpress
 msgid "switches the layout to animate from the right to the left"
 msgstr ""
 
-#: powerpressadmin-player-page.php:549
+#: powerpressadmin-player-page.php:698
 #@ powerpress
 msgid "Loading Bar Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:561
-#: powerpressadmin-player-page.php:1102
+#: powerpressadmin-player-page.php:710
+#: powerpressadmin-player-page.php:1169
 #@ powerpress
 msgid "Text Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:573
+#: powerpressadmin-player-page.php:722
 #@ powerpress
 msgid "Text In Player"
 msgstr ""
 
-#: powerpressadmin-player-page.php:577
+#: powerpressadmin-player-page.php:726
 #, php-format
 #@ powerpress
 msgid "Enter '%s' to display track name from mp3. Only works if media is hosted on same server as blog."
 msgstr ""
 
-#: powerpressadmin-player-page.php:583
+#: powerpressadmin-player-page.php:732
 #@ powerpress
 msgid "Play Animation"
 msgstr ""
 
-#: powerpressadmin-player-page.php:592
+#: powerpressadmin-player-page.php:741
 #@ powerpress
 msgid "if no, player is always open"
 msgstr ""
 
-#: powerpressadmin-player-page.php:598
+#: powerpressadmin-player-page.php:747
 #@ powerpress
 msgid "Display Remaining Time"
 msgstr ""
 
-#: powerpressadmin-player-page.php:607
+#: powerpressadmin-player-page.php:756
 #@ powerpress
 msgid "if yes, shows remaining track time rather than ellapsed time (default: no)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:613
+#: powerpressadmin-player-page.php:762
 #@ powerpress
 msgid "Buffering Time"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "No buffering"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "Default (5 seconds)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "10 seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "15 seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "20 seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "30 seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:619
+#: powerpressadmin-player-page.php:768
 #@ powerpress
 msgid "60 seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:622
+#: powerpressadmin-player-page.php:771
 #@ powerpress
 msgid "buffering time in seconds"
 msgstr ""
 
-#: powerpressadmin-player-page.php:635
+#: powerpressadmin-player-page.php:784
 #@ powerpress
 msgid "Progress Bar Background"
 msgstr ""
 
-#: powerpressadmin-player-page.php:646
+#: powerpressadmin-player-page.php:795
 #@ powerpress
 msgid "Progress Bar Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:657
+#: powerpressadmin-player-page.php:806
 #@ powerpress
 msgid "Progress Bar Border"
 msgstr ""
 
-#: powerpressadmin-player-page.php:671
+#: powerpressadmin-player-page.php:820
 #@ powerpress
 msgid "Volume Button Settings"
 msgstr ""
 
-#: powerpressadmin-player-page.php:675
+#: powerpressadmin-player-page.php:824
 #@ powerpress
 msgid "Initial Volume"
 msgstr ""
 
-#: powerpressadmin-player-page.php:686
+#: powerpressadmin-player-page.php:835
 #@ powerpress
 msgid "initial volume level (default: 60)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:692
+#: powerpressadmin-player-page.php:841
 #@ powerpress
 msgid "Volumn Background Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:703
+#: powerpressadmin-player-page.php:852
 #@ powerpress
 msgid "Speaker Icon Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:714
+#: powerpressadmin-player-page.php:863
 #@ powerpress
 msgid "Volume Icon Background"
 msgstr ""
 
-#: powerpressadmin-player-page.php:725
+#: powerpressadmin-player-page.php:874
 #@ powerpress
 msgid "Volume Slider Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:738
+#: powerpressadmin-player-page.php:887
 #@ powerpress
 msgid "Play / Pause Button Settings"
 msgstr ""
 
-#: powerpressadmin-player-page.php:742
+#: powerpressadmin-player-page.php:891
 #@ powerpress
 msgid "Play/Pause Background Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:753
+#: powerpressadmin-player-page.php:902
 #@ powerpress
 msgid "Play/Pause Hover Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:764
+#: powerpressadmin-player-page.php:913
 #@ powerpress
 msgid "Play/Pause Icon Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:775
+#: powerpressadmin-player-page.php:924
 #@ powerpress
 msgid "Play/Pause Icon Hover Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:816
+#: powerpressadmin-player-page.php:960
 #@ powerpress
 msgid "Simple Flash Player has no additional settings."
 msgstr ""
 
-#: powerpressadmin-player-page.php:931
+#: powerpressadmin-player-page.php:1009
 #@ powerpress
 msgid ""
-"Set defaults, are you sure?\n"
-"\n"
+"Set defaults, are you sure?\\\n"
+"\\\n"
 "All of the current settings will be overwritten!'"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1062
+#: powerpressadmin-player-page.php:1094
 #@ powerpress
-msgid "leave blank for default values"
+msgid "Configure Flash Mp3 Maxi Player"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1067
-#@ powerpress
-msgid "Player Gradient Color Top"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1078
-#@ powerpress
-msgid "Player Gradient Color Bottom"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1114
-#@ powerpress
-msgid "Player Height (in pixels)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1124
-#@ powerpress
-msgid "Player Width (in pixels)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1136
+#: powerpressadmin-player-page.php:1118
+#: powerpressadmin-player-page.php:1203
 #@ powerpress
 msgid "Button Settings"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1140
-#@ powerpress
-msgid "Button Color"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1151
-#@ powerpress
-msgid "Button Hover Color"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1162
-#@ powerpress
-msgid "Button Width (in pixels)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1172
-#@ powerpress
-msgid "Show Stop Button"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1187
-#@ powerpress
-msgid "Show Info"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1204
+#: powerpressadmin-player-page.php:1119
+#: powerpressadmin-player-page.php:1271
 #@ powerpress
 msgid "Volume Settings"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1209
-#@ powerpress
-msgid "Show Volume"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1224
-#@ powerpress
-msgid "Volume"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1238
-#@ powerpress
-msgid "Volume Height (in pixels)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1248
-#@ powerpress
-msgid "Volume Width (in pixels)"
-msgstr ""
-
-#: powerpressadmin-player-page.php:1261
+#: powerpressadmin-player-page.php:1120
+#: powerpressadmin-player-page.php:1328
 #@ powerpress
 msgid "Slider Settings"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1266
+#: powerpressadmin-player-page.php:1129
 #@ powerpress
-msgid "Show Slider"
+msgid "leave blank for default values"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1282
+#: powerpressadmin-player-page.php:1134
 #@ powerpress
-msgid "Slider Color Top"
+msgid "Player Gradient Color Top"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1293
+#: powerpressadmin-player-page.php:1145
 #@ powerpress
-msgid "Slider Color Bottom"
+msgid "Player Gradient Color Bottom"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1181
+#@ powerpress
+msgid "Player Height (in pixels)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1191
+#@ powerpress
+msgid "Player Width (in pixels)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1207
+#@ powerpress
+msgid "Button Color"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1218
+#@ powerpress
+msgid "Button Hover Color"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1229
+#@ powerpress
+msgid "Button Width (in pixels)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1239
+#@ powerpress
+msgid "Show Stop Button"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1254
+#@ powerpress
+msgid "Show Info"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1276
+#@ powerpress
+msgid "Show Volume"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1291
+#@ powerpress
+msgid "Volume"
 msgstr ""
 
 #: powerpressadmin-player-page.php:1305
 #@ powerpress
+msgid "Volume Height (in pixels)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1315
+#@ powerpress
+msgid "Volume Width (in pixels)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1333
+#@ powerpress
+msgid "Show Slider"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1349
+#@ powerpress
+msgid "Slider Color Top"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1360
+#@ powerpress
+msgid "Slider Color Bottom"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1372
+#@ powerpress
 msgid "Slider Hover Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1316
+#: powerpressadmin-player-page.php:1383
 #@ powerpress
 msgid "Slider Height (in pixels)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1326
+#: powerpressadmin-player-page.php:1393
 #@ powerpress
 msgid "Slider Width (in pixels)"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1337
+#: powerpressadmin-player-page.php:1404
 #@ powerpress
 msgid "Show Loading Buffer"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1351
+#: powerpressadmin-player-page.php:1418
 #@ powerpress
 msgid "Loading Buffer Color"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1438
+#: powerpressadmin-player-page.php:1477
 #@ powerpress
 msgid "Configure the AudioPlay Player"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1482
+#: powerpressadmin-player-page.php:1513
 #@ powerpress
 msgid "Player Mode"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1488
+#: powerpressadmin-player-page.php:1519
 #@ powerpress
 msgid "Play/Pause"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1488
+#: powerpressadmin-player-page.php:1519
 #@ powerpress
 msgid "Play/Stop"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1497
+#: powerpressadmin-player-page.php:1528
 #@ powerpress
 msgid "Player Button"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1513
+#: powerpressadmin-player-page.php:1544
 #@ powerpress
 msgid "Small White"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1515
+#: powerpressadmin-player-page.php:1546
 #@ powerpress
 msgid "Large White"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1522
+#: powerpressadmin-player-page.php:1553
 #@ powerpress
 msgid "Small Black"
 msgstr ""
 
-#: powerpressadmin-player-page.php:1524
+#: powerpressadmin-player-page.php:1555
 #@ powerpress
 msgid "Large Black"
 msgstr ""
 
 #: powerpressadmin-player-page.php:1573
 #@ powerpress
-msgid "Flow Player Classic has no additional settings."
+msgid "Configure HTML5 Audio Player"
 msgstr ""
 
-#: powerpressadmin-player.php:25
+#: powerpressadmin-player-page.php:1592
+#@ powerpress
+msgid "HTML5 Audio Player has no additional settings."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1606
+#: powerpressadmin-player-page.php:1644
+#@ powerpress
+msgid "Configure Flow Player Classic"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1626
+#: powerpressadmin.php:1656
+#@ powerpress
+msgid "Width"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1630
+#@ powerpress
+msgid "Width of Audio mp3 player (leave blank for 320 default)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1664
+#@ powerpress
+msgid "Configure HTML5 Video Player"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1689
+#@ powerpress
+msgid "Common Settings"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1690
+#@ powerpress
+msgid "The following video settings apply to the video player above as well as to classic video &lt;embed&gt; formats such as Microsoft Windows Media (.wmv), QuickTime (.mov) and RealPlayer."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1694
+#@ powerpress
+msgid "Player Width"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1698
+#@ powerpress
+msgid "Width of player (leave blank for 400 default)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1704
+#@ powerpress
+msgid "Player Height"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1708
+#@ powerpress
+msgid "Height of player (leave blank for 225 default)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1714
+#@ powerpress
+msgid "QuickTime Scale"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1718
+#@ powerpress
+msgid "ToFit (default)"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1718
+#@ powerpress
+msgid "Aspect"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1723
+#: powerpressadmin-player-page.php:1725
+#@ powerpress
+msgid "Custom"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1736
+#@ powerpress
+msgid "Scale:"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1736
+#@ powerpress
+msgid "e.g."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1739
+#@ powerpress
+msgid "If you do not see video, adjust the width, height and scale settings above."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1746
+#@ powerpress
+msgid "Default Poster Image"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1752
+#@ powerpress
+msgid "Place the URL to the poster image above."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1753
+#@ powerpress
+msgid "Image should be at minimum the same width/height as the player above. Leave blank to use default black background image."
+msgstr ""
+
+#: powerpressadmin-player-page.php:1761
+#@ powerpress
+msgid "Include play icon over poster image when applicable"
+msgstr ""
+
+#: powerpressadmin-player-page.php:1762
+#@ powerpress
+msgid "Use poster image, player width and height above for audio (Flow Player only)"
+msgstr ""
+
+#: powerpressadmin-player.php:31
 #@ powerpress
 msgid "Player activated successfully."
 msgstr ""
 
-#: powerpressadmin-player.php:32
+#: powerpressadmin-player.php:38
 #@ powerpress
 msgid "Audio Player settings saved successfully."
 msgstr ""
 
-#: powerpressadmin-player.php:39
+#: powerpressadmin-player.php:45
 #@ powerpress
 msgid "Flash Mp3 Maxi settings saved successfully."
 msgstr ""
 
-#: powerpressadmin-player.php:46
+#: powerpressadmin-player.php:52
 #@ powerpress
 msgid "AudioPlay settings saved successfully."
-msgstr ""
-
-#: powerpressadmin-player.php:67
-#@ powerpress
-msgid "You must have the Blubrry PowerPress version 1.0 or newer installed for this plugin to work."
-msgstr ""
-
-#: powerpressadmin-player.php:78
-#@ powerpress
-msgid "Your copy of Blubrry PowerPress is out of date. You must have Blubrry PowerPress version 1.0 or newer installed for this plugin to work."
 msgstr ""
 
 #: powerpressadmin-podpress-stats.php:19
@@ -4708,103 +5143,103 @@ msgstr ""
 msgid "Imported %d PodPress episode(s)."
 msgstr ""
 
-#: powerpressadmin-podpress.php:358
+#: powerpressadmin-podpress.php:346
 #, php-format
 #@ powerpress
 msgid "We found blog posts that have %d media files. You will need to create %d more Custom Feed%s in order to continue."
 msgstr ""
 
-#: powerpressadmin-podpress.php:466
+#: powerpressadmin-podpress.php:454
 #: powerpressadmin-tools.php:50
 #@ powerpress
 msgid "Import PodPress Episodes"
 msgstr ""
 
-#: powerpressadmin-podpress.php:477
+#: powerpressadmin-podpress.php:465
 #@ powerpress
 msgid "No PodPress episodes found to import."
 msgstr ""
 
-#: powerpressadmin-podpress.php:731
+#: powerpressadmin-podpress.php:705
 #@ powerpress
 msgid "Select Only"
 msgstr ""
 
-#: powerpressadmin-podpress.php:758
+#: powerpressadmin-podpress.php:732
 #, php-format
 #@ powerpress
 msgid "There are %d PodPress media files that can be imported."
 msgstr ""
 
-#: powerpressadmin-podpress.php:778
+#: powerpressadmin-podpress.php:752
 #@ powerpress
 msgid "There are no PodPress episodes found to import."
 msgstr ""
 
-#: powerpressadmin-podpress.php:813
-#: powerpressadmin-podpress.php:840
+#: powerpressadmin-podpress.php:787
+#: powerpressadmin-podpress.php:814
 #, php-format
 #@ powerpress
 msgid "We found blog posts that have %d media files."
 msgstr ""
 
-#: powerpressadmin-podpress.php:816
+#: powerpressadmin-podpress.php:790
 #, php-format
 #@ powerpress
 msgid "You will need to create %d Podcast Channels to continue."
 msgstr ""
 
-#: powerpressadmin-podpress.php:823
+#: powerpressadmin-podpress.php:797
 #@ powerpress
 msgid "Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post)."
 msgstr ""
 
-#: powerpressadmin-podpress.php:824
+#: powerpressadmin-podpress.php:798
 #@ powerpress
 msgid "This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest."
 msgstr ""
 
-#: powerpressadmin-podpress.php:825
+#: powerpressadmin-podpress.php:799
 #@ powerpress
 msgid "Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item."
 msgstr ""
 
-#: powerpressadmin-podpress.php:826
+#: powerpressadmin-podpress.php:800
 #, php-format
 #@ powerpress
 msgid "This inconsistency combined with the fact that Dave Winer does not recommend multiple enclosures (%s) and FeedValidator.org (%s) recommendation against it is why Blubrry PowerPress does not support them."
 msgstr ""
 
-#: powerpressadmin-podpress.php:827
-#: powerpressadmin-podpress.php:828
+#: powerpressadmin-podpress.php:801
+#: powerpressadmin-podpress.php:802
 #@ powerpress
 msgid "Link"
 msgstr ""
 
-#: powerpressadmin-podpress.php:832
+#: powerpressadmin-podpress.php:806
 #, php-format
 #@ powerpress
 msgid "As a alternative, PowerPress allows you to create additional %s to associate additional media files in a blog post to specific feed channels."
 msgstr ""
 
-#: powerpressadmin-podpress.php:842
+#: powerpressadmin-podpress.php:816
 #, php-format
 #@ powerpress
 msgid "You will need to create %d additional Podcast Channels in order to continue."
 msgstr ""
 
-#: powerpressadmin-podpress.php:857
+#: powerpressadmin-podpress.php:831
 #@ powerpress
 msgid "(leave blank for all media)"
 msgstr ""
 
-#: powerpressadmin-podpress.php:858
+#: powerpressadmin-podpress.php:832
 #@ powerpress
 msgid "specify the file extensions to include separated by commas (e.g. mp3, m4v)."
 msgstr ""
 
 #: powerpressadmin-tags.php:19
-#: powerpressadmin.php:903
+#: powerpressadmin.php:978
 #@ powerpress
 msgid "MP3 Tags"
 msgstr ""
@@ -4989,7 +5424,7 @@ msgid "learn more about PowerPress."
 msgstr ""
 
 #: powerpressadmin-tools.php:23
-#: powerpressadmin.php:1673
+#: powerpressadmin.php:1885
 #@ powerpress
 msgid "Blubrry Forum"
 msgstr ""
@@ -5148,7 +5583,7 @@ msgid "To use this feature, go to %s and create a new custom podcast channel. In
 msgstr ""
 
 #: powerpressadmin-tools.php:122
-#: powerpressadmin.php:895
+#: powerpressadmin.php:970
 #@ powerpress
 msgid "Podcast Channels"
 msgstr ""
@@ -5238,313 +5673,318 @@ msgstr ""
 
 #: powerpressadmin-tools.php:182
 #@ powerpress
-msgid "Blubrry would like to thank the following for translating PowerPress."
+msgid "Translate PowerPress to your language"
 msgstr ""
 
-#: powerpressadmin-tools.php:187
-#@ powerpress
-msgid "Translations coming soon"
-msgstr ""
-
-#: powerpressadmin-tools.php:194
-#: powerpressadmin-tools.php:201
-#, php-format
-#@ powerpress
-msgid "versions %s by"
-msgstr ""
-
-#: powerpressadmin-tools.php:216
+#: powerpressadmin-tools.php:189
 #@ powerpress
 msgid "Diagnostics"
 msgstr ""
 
-#: powerpressadmin-tools.php:218
+#: powerpressadmin-tools.php:191
 #@ powerpress
 msgid "Diagnose Your PowerPress Installation"
 msgstr ""
 
-#: powerpressadmin.php:67
+#: powerpressadmin.php:75
 #@ powerpress
 msgid "Another podcasting plugin has been detected, PowerPress is currently disabled."
 msgstr ""
 
-#: powerpressadmin.php:72
+#: powerpressadmin.php:80
 #@ powerpress
-msgid "Blubrry PowerPress requires Wordpress version 2.6 or greater."
+msgid "Blubrry PowerPress requires Wordpress version 2.8 or greater."
 msgstr ""
 
-#: powerpressadmin.php:119
+#: powerpressadmin.php:84
+#: powerpressadmin.php:2866
+#@ powerpress
+msgid "The WP OS FLV plugin is not compatible with Blubrry PowerPress."
+msgstr ""
+
+#: powerpressadmin.php:130
 #@ powerpress
 msgid "Invalid iTunes image"
 msgstr ""
 
-#: powerpressadmin.php:145
+#: powerpressadmin.php:156
 #@ powerpress
 msgid "Invalid RSS image"
 msgstr ""
 
-#: powerpressadmin.php:171
+#: powerpressadmin.php:182
 #@ powerpress
 msgid "Invalid Coverat image"
 msgstr ""
 
-#: powerpressadmin.php:292
+#: powerpressadmin.php:208
+#@ powerpress
+msgid "Invalid poster image"
+msgstr ""
+
+#: powerpressadmin.php:359
 #@ powerpress
 msgid "Blubrry Hosting Error (updating coverart)"
 msgstr ""
 
-#: powerpressadmin.php:296
+#: powerpressadmin.php:363
 #@ powerpress
 msgid "An error occurred updating the coverart with your Blubrry Services Account."
 msgstr ""
 
-#: powerpressadmin.php:302
+#: powerpressadmin.php:369
 #@ powerpress
 msgid "Coverart Image was not uploaded to your Blubrry Services Account. It will NOT be added to your mp3s."
 msgstr ""
 
-#: powerpressadmin.php:347
+#: powerpressadmin.php:424
 #@ powerpress
 msgid "Blubrry PowerPress settings saved successfully."
 msgstr ""
 
-#: powerpressadmin.php:350
+#: powerpressadmin.php:427
 #@ powerpress
 msgid "Blubrry PowerPress Custom Feed settings saved."
 msgstr ""
 
-#: powerpressadmin.php:353
+#: powerpressadmin.php:430
 #@ powerpress
 msgid "Blubrry PowerPress Category Feed settings saved."
 msgstr ""
 
-#: powerpressadmin.php:358
+#: powerpressadmin.php:435
 #@ powerpress
 msgid "ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature."
 msgstr ""
 
-#: powerpressadmin.php:360
+#: powerpressadmin.php:437
 #@ powerpress
 msgid "Blubrry PowerPress MP3 Tag settings saved."
 msgstr ""
 
-#: powerpressadmin.php:364
-#@ powerpress
-msgid "You are now in Advanced Mode."
-msgstr ""
-
-#: powerpressadmin.php:366
-#@ powerpress
-msgid "You are now in Simple Mode."
-msgstr ""
-
-#: powerpressadmin.php:369
+#: powerpressadmin.php:443
 #@ powerpress
 msgid "Blubrry PowerPress settings saved."
 msgstr ""
 
-#: powerpressadmin.php:384
+#: powerpressadmin.php:459
 #@ powerpress
 msgid "iTunes Ping Successful. Podcast Feed URL"
 msgstr ""
 
-#: powerpressadmin.php:413
+#: powerpressadmin.php:488
 #, php-format
 #@ powerpress
 msgid "Feed slug \"%s\" is not valid."
 msgstr ""
 
-#: powerpressadmin.php:417
+#: powerpressadmin.php:492
 #, php-format
 #@ powerpress
 msgid "Feed slug \"%s\" is not available."
 msgstr ""
 
-#: powerpressadmin.php:427
+#: powerpressadmin.php:502
 #, php-format
 #@ powerpress
 msgid "Podcast Feed \"%s\" added, please configure your new feed now."
 msgstr ""
 
-#: powerpressadmin.php:451
+#: powerpressadmin.php:526
 #@ powerpress
 msgid "You must select a category to continue."
 msgstr ""
 
-#: powerpressadmin.php:455
-#: powerpressadmin.php:549
+#: powerpressadmin.php:530
+#: powerpressadmin.php:624
 #@ powerpress
 msgid "Error obtaining category information."
 msgstr ""
 
-#: powerpressadmin.php:468
-#: powerpressadmin.php:562
+#: powerpressadmin.php:543
+#: powerpressadmin.php:637
 #@ powerpress
 msgid "Please configure your category podcast feed now."
 msgstr ""
 
-#: powerpressadmin.php:516
-#@ powerpress
-msgid "You must select a Mode to continue."
-msgstr ""
-
-#: powerpressadmin.php:577
+#: powerpressadmin.php:652
 #@ powerpress
 msgid "Cannot delete default podcast feed."
 msgstr ""
 
-#: powerpressadmin.php:581
+#: powerpressadmin.php:656
 #, php-format
 #@ powerpress
 msgid "Cannot delete feed. Feed contains %d episode(s)."
 msgstr ""
 
-#: powerpressadmin.php:603
+#: powerpressadmin.php:678
 #@ powerpress
 msgid "Feed deleted successfully."
 msgstr ""
 
-#: powerpressadmin.php:619
+#: powerpressadmin.php:694
 #@ powerpress
 msgid "Removed podcast settings for category feed successfully."
 msgstr ""
 
-#: powerpressadmin.php:626
+#: powerpressadmin.php:701
 #@ powerpress
 msgid "Podpress settings imported successfully."
 msgstr ""
 
-#: powerpressadmin.php:628
+#: powerpressadmin.php:703
 #@ powerpress
 msgid "No Podpress settings found."
 msgstr ""
 
-#: powerpressadmin.php:636
+#: powerpressadmin.php:711
 #@ powerpress
 msgid "Settings imported from the plugin \"Podcasting\" successfully."
 msgstr ""
 
-#: powerpressadmin.php:638
+#: powerpressadmin.php:713
 #@ powerpress
 msgid "No settings found for the plugin \"Podcasting\"."
 msgstr ""
 
-#: powerpressadmin.php:656
+#: powerpressadmin.php:731
 #@ powerpress
 msgid "PowerPress Roles and Capabilities added to WordPress Blog."
 msgstr ""
 
-#: powerpressadmin.php:673
+#: powerpressadmin.php:748
 #@ powerpress
 msgid "PowerPress Roles and Capabilities removed from WordPress Blog"
 msgstr ""
 
-#: powerpressadmin.php:682
+#: powerpressadmin.php:757
 #@ powerpress
 msgid "Premium Subscriber"
 msgstr ""
 
-#: powerpressadmin.php:698
+#: powerpressadmin.php:773
 #@ powerpress
 msgid "Podcast Password Protection Capabilities for Custom Channel Feeds added successfully."
 msgstr ""
 
-#: powerpressadmin.php:716
+#: powerpressadmin.php:791
 #@ powerpress
 msgid "Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully."
 msgstr ""
 
-#: powerpressadmin.php:723
+#: powerpressadmin.php:798
 #, php-format
 #@ powerpress
 msgid "Plugins Update Cache cleared successfully. You may now to go the %s page to see the latest plugin versions."
 msgstr ""
 
-#: powerpressadmin.php:723
+#: powerpressadmin.php:798
 #@ powerpress
 msgid "Manage Plugins"
 msgstr ""
 
-#: powerpressadmin.php:861
-#: powerpressadmin.php:881
+#: powerpressadmin.php:932
+#: powerpressadmin.php:954
 #@ powerpress
 msgid "Podcast Episode"
 msgstr ""
 
-#: powerpressadmin.php:867
+#: powerpressadmin.php:938
 #@ powerpress
 msgid "Podcast Episode (default)"
 msgstr ""
 
-#: powerpressadmin.php:875
+#: powerpressadmin.php:947
 #@ powerpress
 msgid "Podcast Episode for Custom Channel"
 msgstr ""
 
-#: powerpressadmin.php:889
+#: powerpressadmin.php:962
 #@ powerpress
 msgid "PowerPress"
 msgstr ""
 
-#: powerpressadmin.php:890
+#: powerpressadmin.php:963
 #@ powerpress
 msgid "PowerPress Settings"
 msgstr ""
 
-#: powerpressadmin.php:890
+#: powerpressadmin.php:963
 #@ powerpress
 msgid "Settings"
 msgstr ""
 
-#: powerpressadmin.php:892
+#: powerpressadmin.php:966
 #@ powerpress
 msgid "PowerPress Audio Player Options"
 msgstr ""
 
-#: powerpressadmin.php:892
+#: powerpressadmin.php:966
 #@ powerpress
 msgid "Audio Player"
 msgstr ""
 
-#: powerpressadmin.php:895
+#: powerpressadmin.php:967
+#@ powerpress
+msgid "PowerPress Video Player Options"
+msgstr ""
+
+#: powerpressadmin.php:967
+#@ powerpress
+msgid "Video Player"
+msgstr ""
+
+#: powerpressadmin.php:970
 #@ powerpress
 msgid "PowerPress Custom Podcast Channels"
 msgstr ""
 
-#: powerpressadmin.php:897
-#: powerpressadmin.php:1624
-#: powerpressadmin.php:1631
+#: powerpressadmin.php:972
+#: powerpressadmin.php:1836
+#: powerpressadmin.php:1843
 #@ powerpress
 #@ default
 msgid "PowerPress Category Podcasting"
 msgstr ""
 
-#: powerpressadmin.php:899
+#: powerpressadmin.php:974
 #@ powerpress
 msgid "PodPress Stats"
 msgstr ""
 
-#: powerpressadmin.php:903
+#: powerpressadmin.php:978
 #@ powerpress
 msgid "PowerPress MP3 Tags"
 msgstr ""
 
-#: powerpressadmin.php:904
+#: powerpressadmin.php:979
 #@ powerpress
 msgid "Tools"
 msgstr ""
 
-#: powerpressadmin.php:982
+#: powerpressadmin.php:1057
+#: powerpressadmin.php:1090
+#: powerpressadmin.php:1105
+#: powerpressadmin.php:1111
+#: powerpressadmin.php:1191
+#: powerpressadmin.php:1196
+#@ powerpress
+msgid "Error"
+msgstr ""
+
+#: powerpressadmin.php:1057
 #@ powerpress
 msgid "Unable to determine content type of media (e.g. audio/mpeg). Verify file extension is correct and try again."
 msgstr ""
 
-#: powerpressadmin.php:1036
+#: powerpressadmin.php:1111
+#: powerpressadmin.php:1196
 #@ powerpress
 msgid "Unable to obtain size of media."
 msgstr ""
 
-#: powerpressadmin.php:1217
+#: powerpressadmin.php:1328
 #@ powerpress
 msgid ""
 "WARNING: Changes made here are permanent. If the New Feed URL entered is incorrect, you will lose subscribers and will no longer be able to update your listing in the iTunes Store.\n"
@@ -5554,235 +5994,260 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: powerpressadmin.php:1331
+#: powerpressadmin.php:1475
 #@ powerpress
 msgid "Media URL contains characters that may cause problems for some clients. For maximum compatibility, only use letters, numbers, dash - and underscore _ characters only."
 msgstr ""
 
-#: powerpressadmin.php:1346
+#: powerpressadmin.php:1490
 #@ powerpress
 msgid "PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://."
 msgstr ""
 
-#: powerpressadmin.php:1355
+#: powerpressadmin.php:1499
 #@ powerpress
 msgid "Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience."
 msgstr ""
 
-#: powerpressadmin.php:1430
+#: powerpressadmin.php:1574
 #@ powerpress
 msgid "Media verified successfully."
 msgstr ""
 
-#: powerpressadmin.php:1446
+#: powerpressadmin.php:1590
 #@ powerpress
 msgid "Unknown error occurred while checking Media URL."
 msgstr ""
 
-#: powerpressadmin.php:1459
+#: powerpressadmin.php:1603
 #@ powerpress
 msgid "Operation timed out."
 msgstr ""
 
-#: powerpressadmin.php:1461
-#: powerpressadmin.php:1463
-#: powerpressadmin.php:1465
+#: powerpressadmin.php:1605
+#: powerpressadmin.php:1607
+#: powerpressadmin.php:1609
 #@ powerpress
 msgid "AJAX Error"
 msgstr ""
 
-#: powerpressadmin.php:1465
+#: powerpressadmin.php:1609
 #@ powerpress
 msgid "Unknown"
 msgstr ""
 
-#: powerpressadmin.php:1475
+#: powerpressadmin.php:1642
 #@ powerpress
 msgid "Are you sure you want to remove this media file?"
 msgstr ""
 
-#: powerpressadmin.php:1545
+#: powerpressadmin.php:1657
+#@ powerpress
+msgid "Height"
+msgstr ""
+
+#: powerpressadmin.php:1672
+#@ powerpress
+msgid "Add Poster Image"
+msgstr ""
+
+#: powerpressadmin.php:1754
 #@ powerpress
 msgid "Unknown error occurred looking up media information."
 msgstr ""
 
-#: powerpressadmin.php:1580
+#: powerpressadmin.php:1789
 #@ powerpress
 msgid "Edit Blubrry PowerPress Podcast Settings"
 msgstr ""
 
-#: powerpressadmin.php:1580
+#: powerpressadmin.php:1789
 #@ powerpress
 msgid "Podcast Settings"
 msgstr ""
 
-#: powerpressadmin.php:1585
+#: powerpressadmin.php:1794
 #@ powerpress
 msgid "Add Blubrry PowerPress Podcasting Settings"
 msgstr ""
 
-#: powerpressadmin.php:1585
+#: powerpressadmin.php:1794
 #@ powerpress
 msgid "Add Podcasting"
 msgstr ""
 
-#: powerpressadmin.php:1625
+#: powerpressadmin.php:1837
 #@ powerpress
 msgid "Enable Category Podcasting"
 msgstr ""
 
-#: powerpressadmin.php:1625
+#: powerpressadmin.php:1837
 #@ powerpress
 msgid "if you would like to add specific podcasting settings to your blog categories."
 msgstr ""
 
-#: powerpressadmin.php:1632
+#: powerpressadmin.php:1844
 #@ powerpress
 msgid "PowerPress Category Podcasting is enabled. Select 'Add Podcasting' to add podcasting settings. Select <u>Podcast Settings</u> to edit existing podcast settings."
 msgstr ""
 
-#: powerpressadmin.php:1666
+#: powerpressadmin.php:1878
 #@ powerpress
 msgid "Save Changes"
 msgstr ""
 
-#: powerpressadmin.php:1670
+#: powerpressadmin.php:1882
 #@ powerpress
 msgid "Blubrry PowerPress"
 msgstr ""
 
-#: powerpressadmin.php:1671
+#: powerpressadmin.php:1883
 #@ powerpress
 msgid "PodcastFAQ.com"
 msgstr ""
 
-#: powerpressadmin.php:1672
+#: powerpressadmin.php:1884
 #@ powerpress
 msgid "Blubrry PowerPress Documentation"
 msgstr ""
 
-#: powerpressadmin.php:1672
+#: powerpressadmin.php:1884
 #@ powerpress
 msgid "Documentation"
 msgstr ""
 
-#: powerpressadmin.php:1673
+#: powerpressadmin.php:1885
 #@ powerpress
 msgid "Forum"
 msgstr ""
 
-#: powerpressadmin.php:1674
+#: powerpressadmin.php:1886
 #@ powerpress
 msgid "Follow Blubrry on Twitter"
 msgstr ""
 
-#: powerpressadmin.php:1915
+#: powerpressadmin.php:2140
 #@ powerpress
 msgid "iTunes URL required to ping iTunes."
 msgstr ""
 
-#: powerpressadmin.php:1926
+#: powerpressadmin.php:2151
 #@ powerpress
 msgid "Unable to connect to iTunes ping server."
 msgstr ""
 
-#: powerpressadmin.php:1930
+#: powerpressadmin.php:2155
 #@ powerpress
 msgid "No Podcast Found from iTunes ping request."
 msgstr ""
 
-#: powerpressadmin.php:2093
-#@ powerpress
-msgid "Unable to parse response from server."
-msgstr ""
-
-#: powerpressadmin.php:2101
-#@ powerpress
-msgid "Your version of WordPress is too outdated for this function."
-msgstr ""
-
-#: powerpressadmin.php:2170
+#: powerpressadmin.php:2344
 #@ powerpress
 msgid "Blubrry Hosting Error (media info)"
 msgstr ""
 
-#: powerpressadmin.php:2175
+#: powerpressadmin.php:2349
 #, php-format
 #@ powerpress
 msgid "Blubrry Hosting Error (media info): An error occurred publishing media %s."
 msgstr ""
 
-#: powerpressadmin.php:2177
-#: powerpressadmin.php:2207
+#: powerpressadmin.php:2351
+#: powerpressadmin.php:2381
 #@ powerpress
 msgid "Display Error"
 msgstr ""
 
-#: powerpressadmin.php:2200
-#: powerpressadmin.php:2206
+#: powerpressadmin.php:2374
+#: powerpressadmin.php:2380
 #@ powerpress
 msgid "Blubrry Hosting Error (publish)"
 msgstr ""
 
-#: powerpressadmin.php:2206
+#: powerpressadmin.php:2380
 #, php-format
 #@ powerpress
 msgid "An error occurred publishing media '%s'."
 msgstr ""
 
-#: powerpressadmin.php:2624
+#: powerpressadmin.php:2798
 #@ powerpress
 msgid "Error occurred writing MP3 ID3 Tags."
 msgstr ""
 
-#: powerpressadmin.php:2641
-#: powerpressadmin.php:2736
-#: powerpressadmin.php:2780
+#: powerpressadmin.php:2815
+#: powerpressadmin.php:2912
+#: powerpressadmin.php:2958
 #@ powerpress
 msgid "Error occurred obtaining media information."
 msgstr ""
 
-#: powerpressadmin.php:2692
-#@ powerpress
-msgid "Unable to detect content type."
-msgstr ""
-
-#: powerpressadmin.php:2704
-#: powerpressadmin.php:2758
+#: powerpressadmin.php:2880
+#: powerpressadmin.php:2936
 #, php-format
 #@ powerpress
 msgid "Warning, the Media URL %s contains %d redirects."
 msgstr ""
 
-#: powerpressadmin.php:2705
-#: powerpressadmin.php:2723
-#: powerpressadmin.php:2759
-#: powerpressadmin.php:2772
+#: powerpressadmin.php:2881
+#: powerpressadmin.php:2899
+#: powerpressadmin.php:2937
+#: powerpressadmin.php:2950
 #@ powerpress
 #@ default
 msgid "Help"
 msgstr ""
 
-#: powerpressadmin.php:2723
-#: powerpressadmin.php:2772
+#: powerpressadmin.php:2899
+#: powerpressadmin.php:2950
 #, php-format
 #@ powerpress
 msgid "Warning, Media URL %s"
 msgstr ""
 
-#: powerpressadmin.php:2740
-#: powerpressadmin.php:2806
+#: powerpressadmin.php:2916
+#: powerpressadmin.php:3009
 #@ powerpress
 msgid "Error occurred obtaining media file size."
 msgstr ""
 
-#: powerpressadmin.php:2794
+#: powerpressadmin.php:2997
 #@ powerpress
 msgid "Error, HTTP"
 msgstr ""
 
-#: powerpressadmin.php:2802
+#: powerpressadmin.php:3005
 #@ powerpress
 msgid "Unable to obtain file size of media file."
+msgstr ""
+
+#: powerpressadmin.php:3069
+#@ powerpress
+msgid "new!"
+msgstr ""
+
+#: powerpressadmin.php:3082
+#@ powerpress
+msgid "Error occurred retrieving news."
+msgstr ""
+
+#: powerpressadmin.php:3150
+#@ powerpress
+msgid "Subscribe:"
+msgstr ""
+
+#: powerpressadmin.php:3152
+#@ powerpress
+msgid "Blog"
+msgstr ""
+
+#: powerpressadmin.php:3158
+#@ powerpress
+msgid "Zune"
+msgstr ""
+
+#: powerpressadmin.php:3174
+#@ powerpress
+msgid "Error occurred retrieving highlighted items."
 msgstr ""
 
