@@ -369,7 +369,7 @@ function DeleteMedia(File)
 						else if( preg_match('/No programs found.*media hosting/i', $results['error']) )
 						{
 							$Error .= '<br/><span style="font-weight: normal; font-size: 12px;">';
-							$Error .= 'Service may take up to 48 hours to activate upon receiving payment.</span>';
+							$Error .= 'Service may take up to 48 hours to activate.</span>';
 						}
 					}
 					else if( !is_array($results) )
@@ -427,6 +427,11 @@ function DeleteMedia(File)
 						$Error = __('Error:', 'powerpress') .' '.$g_powerpress_remote_error;
 					else
 						$Error = __('Authentication failed.', 'powerpress');
+				}
+				
+				if( $Error )
+				{
+					$Error .= '<p style="text-align: center;"><a href="http://help.blubrry.com/blubrry-powerpress/blubrry-services-integration/authentication-help/" target="_blank">'. __('Click Here For Help','powerpress') .'</a></p>';
 				}
 			}
 			
