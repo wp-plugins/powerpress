@@ -2,7 +2,7 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 2.8
-Tested up to: 3.1.3
+Tested up to: 3.2.1
 Stable tag: 2.0.3
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
@@ -145,6 +145,11 @@ To install Blubrry PowerPress manually, follow these steps:
 = Announcement =
 * The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+
+= 2.0.4 =
+* Released on 7/??/2011
+* Added partially completed Italian translation
+* Incremented supported WordPress version number.
 
 = 2.0.3 =
 * Released on 5/27/2011
