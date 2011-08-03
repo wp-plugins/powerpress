@@ -1312,7 +1312,8 @@ function powerpress_future_to_publish($post)
 	}
 }
 
-add_action('future_to_publish', 'powerpress_future_to_publish');
+// This option disabled as of PowerPress 2.0.4 - Was only necessary to ping iTunes
+//add_action('future_to_publish', 'powerpress_future_to_publish');
 
 /*
 Helper functions:

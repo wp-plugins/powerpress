@@ -148,8 +148,12 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 2.0.4 =
 * Released on 7/??/2011
-* Added partially completed Italian translation
+* NOTE: There is no need to update to this version unless you can benefit from the changes or new Italian translation listed below.
+* Added partially completed Italian translation. (Thanks Umberto!)
 * Incremented supported WordPress version number.
+* Changed action hook for `powerpress_admin_init` hook to use '`admin_init`' rather than 'init', an extra precaution in case other plugins invoke admin mode in WordPress.
+* Disabled the `future_to_publish` hook, the logic was there for pinging iTunes, which Apple took offline earlier this year.
+
 
 = 2.0.3 =
 * Released on 5/27/2011

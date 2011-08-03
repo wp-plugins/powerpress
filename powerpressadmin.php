@@ -816,7 +816,7 @@ function powerpress_admin_init()
 	powerpress_admin_players_init();
 }
 
-add_action('init', 'powerpress_admin_init');
+add_action('admin_init', 'powerpress_admin_init');
 
 function powerpress_admin_notices()
 {
