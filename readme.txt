@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 2.8
 Tested up to: 3.2.1
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -148,13 +148,13 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 2.0.4 =
 * Released on 8/23/2011
-* NOTE: There is no need to update to this version unless you can benefit from the changes or new Italian translation listed below.
+* NOTE: There is no need to update to this version unless you can benefit from the bug fixes, changes or new Italian translation listed below.
 * Added partially completed Italian translation. (Thanks Umberto!)
 * Incremented supported WordPress version number.
 * Changed action hook for `powerpress_admin_init` hook to use '`admin_init`' rather than 'init', an extra precaution in case other plugins invoke admin mode in WordPress.
 * Disabled the `future_to_publish` hook, the logic was there for pinging iTunes, which Apple took offline earlier this year.
-* Fixed bug with "Display player and Link Options" not working in WordPress 3.2 (Thanks Cliff from [GSPN.tv](http://GSPN.tv) for reporting the problem)
-* Fixed bug with Podcast Channels background color not appearing in edit post screen in WordPress 3.2.
+* Fixed bug with "Display player and Link Options" setting not working in WordPress 3.2. (Thanks Cliff from [GSPN.tv](http://GSPN.tv) for reporting the problem)
+* Fixed bug with Podcast Channels background color setting not appearing in edit post screen in WordPress 3.2.
 * Changes made to support latest versions of jQuery.
 
 
