@@ -390,7 +390,10 @@ while( list($value,$desc) = each($explicit_array) )
 </div>
 <?php if( !empty($GeneralSettings['episode_box_background_color'][$FeedSlug]) ) { ?>
 <script type="text/javascript"><!--
-jQuery('#powerpress-<?php echo $FeedSlug; ?>').css( {'background-color' : '<?php echo $GeneralSettings['episode_box_background_color'][$FeedSlug]; ?>' });
+jQuery(document).ready(function($) {
+	jQuery('#powerpress-<?php echo $FeedSlug; ?>').css( {'background-color' : '<?php echo $GeneralSettings['episode_box_background_color'][$FeedSlug]; ?>' });
+	jQuery('#powerpress-<?php echo $FeedSlug; ?>').css( {'background-image' : '-moz-linear-gradient(center top , <?php echo $GeneralSettings['episode_box_background_color'][$FeedSlug]; ?>, <?php echo $GeneralSettings['episode_box_background_color'][$FeedSlug]; ?>)' });
+});
 //-->
 </script><?php } ?>
 <?php

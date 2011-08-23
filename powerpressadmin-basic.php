@@ -38,26 +38,51 @@ jQuery(document).ready(function($) {
 	
 	jQuery('#episode_box_player_links_options').change(function () {
 		
-		if( jQuery(this).attr("checked") == true ) {
+		var objectChecked = jQuery('#episode_box_player_links_options').attr('checked');
+		if(typeof jQuery.prop === 'function') {
+			objectChecked = jQuery('#episode_box_player_links_options').prop('checked');
+		}
+		
+		if( objectChecked == true ) {
 			jQuery('#episode_box_player_links_options_div').css("display", 'block' );
 		}
 		else {
 			jQuery('#episode_box_player_links_options_div').css("display", 'none' );
 			jQuery('.episode_box_no_player_or_links').attr("checked", false );
 			jQuery('#episode_box_no_player_and_links').attr("checked", false );
+			if(typeof jQuery.prop === 'function') {
+				jQuery('.episode_box_no_player_or_links').prop("checked", false );
+				jQuery('#episode_box_no_player_and_links').prop("checked", false );
+			}
 		}
 	} );
 	
 	jQuery('#episode_box_no_player_and_links').change(function () {
 		
-		if( jQuery(this).attr("checked") == true ) {
+		var objectChecked = jQuery(this).attr("checked");
+		if(typeof jQuery.prop === 'function') {
+			objectChecked = jQuery(this).prop("checked");
+		}
+		
+		if( objectChecked == true ) {
 			jQuery('.episode_box_no_player_or_links').attr("checked", false );
+			if(typeof jQuery.prop === 'function') {
+				jQuery('.episode_box_no_player_or_links').prop("checked", false );
+			}
 		}
 	} );
 
 	jQuery('.episode_box_no_player_or_links').change(function () {
-		if( jQuery(this).attr("checked") == true) {
+		var objectChecked = jQuery(this).attr("checked");
+		if(typeof jQuery.prop === 'function') {
+			objectChecked = jQuery(this).prop("checked");
+		}
+		
+		if( objectChecked == true) {
 			jQuery('#episode_box_no_player_and_links').attr("checked", false );
+			if(typeof jQuery.prop === 'function') {
+				jQuery('#episode_box_no_player_and_links').prop("checked", false );
+			}
 		}
 	} );
 } );
@@ -234,7 +259,7 @@ function powerpressadmin_edit_entry_options($General)
 							<p style="margin-top: 5px; margin-left: 20px; font-size: 90%;"><input id="embed_replace_player" class="episode_box_option" name="General[embed_replace_player]" type="checkbox" value="1"<?php if( !empty($General['embed_replace_player']) ) echo ' checked'; ?> /> <?php echo __('Replace Player with Embed', 'powerpress'); ?>
 								(<?php echo __('Do not display default player if embed present for episode.', 'powerpress'); ?>)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_player_links_options" class="episode_box_option" name="episode_box_player_links_options" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_player_and_links']) || !empty($General['episode_box_no_player']) || !empty($General['episode_box_no_links']) ) echo ' checked'; ?> /> <?php echo __('Display Player and Links Options', 'powerpress'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_player_links_options" class="episode_box_option" name="NULL[episode_box_player_links_options]" type="checkbox" value="1"<?php if( !empty($General['episode_box_no_player_and_links']) || !empty($General['episode_box_no_player']) || !empty($General['episode_box_no_links']) ) echo ' checked'; ?> /> <?php echo __('Display Player and Links Options', 'powerpress'); ?>
 					</p>
 					<div id="episode_box_player_links_options_div" style="margin-left: 20px;<?php if( empty($General['episode_box_no_player_and_links']) && empty($General['episode_box_no_player']) && empty($General['episode_box_no_links']) ) echo 'display:none;'; ?>">
 						

@@ -1355,7 +1355,11 @@ jQuery(document).ready(function($) {
 		if( !PlayerName )
 			return;
 		
-		jQuery('#player_'+PlayerName).attr('checked', true);
+		if(typeof jQuery.prop === 'function') {
+			jQuery('#player_'+PlayerName).prop('checked', true);
+		} else {
+			jQuery('#player_'+PlayerName).attr('checked', true);
+		}
 		jQuery("form:first").submit();
 		event.preventDefault();
 	});
@@ -1540,19 +1544,34 @@ function powerpress_get_media_info(FeedSlug)
 					
 					if( FeedSlug == FinishFeedSlug && Parts[1] == 'OK' )
 					{
+						var durationChecked = jQuery('#powerpress_set_duration_0_'+FeedSlug).attr('checked');
+						if(typeof jQuery.prop === 'function') {
+							durationChecked = jQuery('#powerpress_set_duration_0_'+FeedSlug).prop('checked');
+						}
+						
 						jQuery('#powerpress_set_size_1_'+FeedSlug).attr('checked', true);
 						jQuery('#powerpress_size_'+FeedSlug).val( Parts[2] );
 						if( Parts[3] )
 						{
-							jQuery('#powerpress_set_duration_1_'+FeedSlug).attr('checked', true);
+							if(typeof jQuery.prop === 'function') {
+								jQuery('#powerpress_set_duration_1_'+FeedSlug).prop('checked', true);
+							} else {
+								jQuery('#powerpress_set_duration_1_'+FeedSlug).attr('checked', true);
+							}
+							
 							var Duration = Parts[3].split(':');
 							jQuery('#powerpress_duration_hh_'+FeedSlug).val( Duration[0] );
 							jQuery('#powerpress_duration_mm_'+FeedSlug).val( Duration[1] );
 							jQuery('#powerpress_duration_ss_'+FeedSlug).val( Duration[2] );
 						}
-						else if( jQuery('#powerpress_set_duration_0_'+FeedSlug).attr('checked') )
+						else if( durationChecked )
 						{
-							jQuery('#powerpress_set_duration_2_'+FeedSlug).attr('checked', true);
+							if(typeof jQuery.prop === 'function') {
+								jQuery('#powerpress_set_duration_2_'+FeedSlug).prop('checked', true);
+							} else {
+								jQuery('#powerpress_set_duration_2_'+FeedSlug).attr('checked', true);
+							}
+							
 							jQuery('#powerpress_duration_hh_'+FeedSlug).val( '' );
 							jQuery('#powerpress_duration_mm_'+FeedSlug).val( '' );
 							jQuery('#powerpress_duration_ss_'+FeedSlug).val( '' );
@@ -1620,6 +1639,9 @@ function powerpress_update_for_video(media_url, FeedSlug)
 	{
 		jQuery('#powerpress_ishd_'+ FeedSlug +'_span').css('display','none');
 		jQuery('#powerpress_ishd_'+ FeedSlug +'_span').removeAttr('checked');
+		if(typeof jQuery.removeProp === 'function') {
+			jQuery('#powerpress_ishd_'+ FeedSlug +'_span').removeProp('checked');
+		}
 	}
 	
 		

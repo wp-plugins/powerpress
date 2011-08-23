@@ -147,12 +147,15 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 2.0.4 =
-* Released on 7/??/2011
+* Released on 8/23/2011
 * NOTE: There is no need to update to this version unless you can benefit from the changes or new Italian translation listed below.
 * Added partially completed Italian translation. (Thanks Umberto!)
 * Incremented supported WordPress version number.
 * Changed action hook for `powerpress_admin_init` hook to use '`admin_init`' rather than 'init', an extra precaution in case other plugins invoke admin mode in WordPress.
 * Disabled the `future_to_publish` hook, the logic was there for pinging iTunes, which Apple took offline earlier this year.
+* Fixed bug with "Display player and Link Options" not working in WordPress 3.2 (Thanks Cliff from [GSPN.tv](http://GSPN.tv) for reporting the problem)
+* Fixed bug with Podcast Channels background color not appearing in edit post screen in WordPress 3.2.
+* Changes made to support latest versions of jQuery.
 
 
 = 2.0.3 =
