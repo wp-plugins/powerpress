@@ -148,7 +148,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 2.0.5 =
 * Released on 8/??/2011
-* Fixed bug with ID3 tag writing feature not functioning correctly (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
+* Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
 
 
 = 2.0.4 =
