@@ -158,7 +158,7 @@ function powerpress_admin_init()
 		}
 		
 		// New mp3 coverart image
-		if( @$_POST['coverart_image_checkbox'] == 1 )
+		if( !empty($_POST['coverart_image_checkbox']) )
 		{
 			$filename = str_replace(" ", "_", basename($_FILES['coverart_image_file']['name']) );
 			$temp = $_FILES['coverart_image_file']['tmp_name'];
@@ -176,6 +176,7 @@ function powerpress_admin_init()
 			{
 				move_uploaded_file($temp, $upload_path . $filename);
 				$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
+				$General['tag_coverart'] = $upload_url . $filename;
 			}
 			else
 			{
@@ -184,7 +185,7 @@ function powerpress_admin_init()
 		}
 		
 		// New poster image
-		if( @$_POST['poster_image_checkbox'] == 1 )
+		if( !empty($_POST['poster_image_checkbox']) )
 		{
 			$filename = str_replace(" ", "_", basename($_FILES['poster_image_file']['name']) );
 			$temp = $_FILES['poster_image_file']['tmp_name'];
@@ -327,19 +328,25 @@ function powerpress_admin_init()
 					$General['write_tags'] = 0; // Set it to zero.
 					
 				$TagValues = $_POST['TagValues'];
+				$GeneralPosted = $_POST['General'];
+				
 				// Set all the tag values...
-				while( list($key,$value) = each($General) )
+				while( list($key,$value) = each($GeneralPosted) )
 				{
 					if( substr($key, 0, 4) == 'tag_' )
 					{
-						if( $value )
+						// Special case, we are uploading new coverart image
+						if( !empty($_POST['coverart_image_checkbox']) && $key == 'tag_coverart' )
+							continue;
+						
+						if( !empty($value) )
 							$General[$key] = $TagValues[$key];
 						else
 							$General[$key] = '';
 					}
 				}
 				
-				if( $TagValues['tag_coverart'] != '' )
+				if( !empty($General['tag_coverart']) ) // $TagValues['tag_coverart'] != '' )
 				{
 					$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
 					if( isset($GeneralSettingsTemp['blubrry_hosting']) && $GeneralSettingsTemp['blubrry_hosting'] )
@@ -353,16 +360,18 @@ function powerpress_admin_init()
 						if( is_array($results) && !isset($results['error']) )
 						{
 							// Good!
+							powerpress_page_message_add_notice( __('Coverart image updated successfully.', 'powerpress') );
 						}
 						else if( isset($results['error']) )
 						{
 							$error = __('Blubrry Hosting Error (updating coverart)', 'powerpress') .': '. $results['error'];
+							powerpress_page_message_add_error($error);
 						}
 						else
 						{
 							$error = __('An error occurred updating the coverart with your Blubrry Services Account.', 'powerpress');
+							powerpress_page_message_add_error($error);
 						}
-						
 					}
 					else
 					{
@@ -2322,15 +2331,23 @@ function powerpress_process_hosting($post_ID, $post_title)
 			$EnclosureURL = '';
 			if( count($MetaParts) > 0 )
 				$EnclosureURL = trim($MetaParts[0]);
-			$EnclosureType = '';
-			if( count($MetaParts) > 1 )
-				$EnclosureType = trim($MetaParts[1]);
+			
 			$EnclosureSize = '';
+			if( count($MetaParts) > 1 )
+				$EnclosureSize = trim($MetaParts[1]);
+			$EnclosureType = '';
 			if( count($MetaParts) > 2 )
-				$EnclosureSize = trim($MetaParts[2]);
+				$EnclosureType = trim($MetaParts[2]);
+				
 			$EpisodeData = false;
 			if( count($MetaParts) > 3 )
 				$EpisodeData = unserialize($MetaParts[3]);
+				
+			if( $EnclosureType == '' )
+			{
+				$error = __('Blubrry Hosting Error (publish)', 'powerpress') .': '. __('Error occurred obtaining enclosure content type.', 'powerpress');
+				powerpress_add_error($error);
+			}
 			
 			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
 			{

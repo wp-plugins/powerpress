@@ -146,6 +146,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+= 2.0.5 =
+* Released on 8/??/2011
+* Fixed bug with ID3 tag writing feature not functioning correctly (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
+
+
 = 2.0.4 =
 * Released on 8/23/2011
 * NOTE: There is no need to update to this version unless you can benefit from the bug fixes, changes or new Italian translation listed below.
