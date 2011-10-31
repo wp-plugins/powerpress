@@ -210,6 +210,64 @@ function powerpress_admin_init()
 			}
 		}
 		
+		
+		// New audio play icon image
+		if( !empty($_POST['audio_custom_play_button_checkbox']) )
+		{
+			$filename = str_replace(" ", "_", basename($_FILES['audio_custom_play_button_file']['name']) );
+			$temp = $_FILES['audio_custom_play_button_file']['tmp_name'];
+			
+			if( file_exists($upload_path . $filename ) )
+			{
+				$filenameParts = pathinfo($filename);
+				do {
+					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+				} while( file_exists($upload_path . $filename ) );
+			}
+			
+			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+			{
+				move_uploaded_file($temp, $upload_path . $filename);
+				$General['audio_custom_play_button'] = $upload_url . $filename;
+			}
+			else
+			{
+				powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['audio_custom_play_button_file']['name']) );
+			}
+		}
+		
+		// New video play icon image
+		if( !empty($_POST['video_custom_play_button_checkbox']) )
+		{
+			$filename = str_replace(" ", "_", basename($_FILES['video_custom_play_button_file']['name']) );
+			$temp = $_FILES['video_custom_play_button_file']['tmp_name'];
+			
+			if( file_exists($upload_path . $filename ) )
+			{
+				$filenameParts = pathinfo($filename);
+				do {
+					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+				} while( file_exists($upload_path . $filename ) );
+			}
+			
+			$imageInfo = @getimagesize($temp);
+			if( $imageInfo && $imageInfo[0] == $imageInfo[1] && $imageInfo[0] == 60 )  // Just check that it is an image, we may add more to this later
+			{
+				move_uploaded_file($temp, $upload_path . $filename);
+				$General['video_custom_play_button'] = $upload_url . $filename;
+			}
+			else if( $imageInfo )
+			{
+				powerpress_page_message_add_error( __('Invalid play icon image size', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
+			}
+			else
+			{
+				powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
+			}
+		}
+		
 		if( isset($_POST['UpdateDisablePlayer']) )
 		{
 			$player_feed_slug = $_POST['UpdateDisablePlayer'];

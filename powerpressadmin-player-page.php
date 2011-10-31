@@ -1568,7 +1568,7 @@ function audio_player_defaults()
 <?php
 			}; break;
 			case 'html5audio': {
-			
+				$SupportUploads = powerpressadmin_support_uploads();
 ?>
 <p><?php echo __('Configure HTML5 Audio Player', 'powerpress'); ?></p>
 <table class="form-table">
@@ -1584,13 +1584,26 @@ function audio_player_defaults()
 			</p>
 		</td>
 	</tr>
-		<tr valign="top">
-		<th scope="row">
-			&nbsp;
-		</th>
-		<td>
-			<p><?php echo __('HTML5 Audio Player has no additional settings.', 'powerpress'); ?></p>
-		</td>
+
+	
+	<tr>
+	<th scope="row">
+	<?php echo __('Play Icon', 'powerpress'); ?></th>
+	<td>
+
+	<input type="text" id="audio_custom_play_button" name="General[audio_custom_play_button]" style="width: 60%;" value="<?php echo @$General['audio_custom_play_button']; ?>" maxlength="250" />
+	<a href="#" onclick="javascript: window.open( document.getElementById('audio_custom_play_button').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
+
+	<p><?php echo __('Place the URL to the play icon above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/audio_play_icon.jpg<br /><br />
+	<?php echo __('Leave blank to use default play icon image.', 'powerpress'); ?></p>
+
+	<?php if( $SupportUploads ) { ?>
+	<p><input name="audio_custom_play_button_checkbox" type="checkbox" onchange="powerpress_show_field('audio_custom_play_button_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
+	<div style="display:none" id="audio_custom_play_button_upload">
+		<label for="audio_custom_play_button_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="audio_custom_play_button_file"  />
+	</div>
+	<?php } ?>
+	</td>
 	</tr>
 </table>
 
@@ -1760,6 +1773,27 @@ while( list($value,$desc) = each($scale_options) )
 <?php } ?>
 <p><input name="General[poster_play_image]" type="checkbox" value="1" <?php echo ($General['poster_play_image']?'checked':''); ?> /> <?php echo __('Include play icon over poster image when applicable', 'powerpress'); ?> </p>
 <p><input name="General[poster_image_audio]" type="checkbox" value="1" <?php echo ($General['poster_image_audio']?'checked':''); ?> /> <?php echo __('Use poster image, player width and height above for audio (Flow Player only)', 'powerpress'); ?> </p>
+</td>
+</tr>
+
+
+<tr>
+<th scope="row">
+<?php echo __('Play Icon', 'powerpress'); ?></th>
+<td>
+
+<input type="text" id="video_custom_play_button" name="General[video_custom_play_button]" style="width: 60%;" value="<?php echo @$General['video_custom_play_button']; ?>" maxlength="250" />
+<a href="#" onclick="javascript: window.open( document.getElementById('video_custom_play_button').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
+
+<p><?php echo __('Place the URL to the play icon above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/video_play_icon.jpg<br /><br />
+<?php echo __('Image should 60 pixels by 60 pixels. Leave blank to use default play icon image.', 'powerpress'); ?></p>
+
+<?php if( $SupportUploads ) { ?>
+<p><input name="video_custom_play_button_checkbox" type="checkbox" onchange="powerpress_show_field('video_custom_play_button_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
+<div style="display:none" id="video_custom_play_button_upload">
+	<label for="video_custom_play_button_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="video_custom_play_button_file"  />
+</div>
+<?php } ?>
 </td>
 </tr>
 
