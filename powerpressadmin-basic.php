@@ -484,15 +484,11 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 	// Set default settings (if not set)
 	if( $FeedSettings )
 	{
-		if( !isset($FeedSettings['ping_itunes']) )
-			$FeedSettings['ping_itunes'] = 0;
 		if( !isset($FeedSettings['itunes_url']) )
 			$FeedSettings['itunes_url'] = '';
 	}
 	if( !isset($General['itunes_url']) )
 		$General['itunes_url'] = '';
-	if( !isset($General['ping_itunes']) )	
-		$General['ping_itunes'] = 0;
 		
 	
 	$OpenSSLSupport = extension_loaded('openssl');
@@ -555,80 +551,7 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 <p style="margin-top: 5px;"><?php echo __('This option is no longer available.', 'powerpress'); ?> 
 	<?php echo __('Learn more:', 'powerpress'); ?> <a href="http://blog.blubrry.com/2011/02/11/apple-drops-itunes-podcast-directory-update-listing-ping-functionality/" target="_blank"><?php echo __('Apple Drops iTunes Podcast Directory Update Listing/Ping (pingPodcast) Function', 'powerpress'); ?></a>
 </p>
-<?php
-/*
-	if( $FeedSettings )
-	{
-?>
-<select name="Feed[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
-<?php } else { ?>
-<select name="General[ping_itunes]"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> class="bpp_input_sm">
-<?php
-	}
-$options = array(0=>__('No', 'powerpress'), 1=>__('Yes', 'powerpress') );
 
-$ping_itunes = ($FeedSettings?$FeedSettings['ping_itunes']:$General['ping_itunes']);
-if( $OpenSSLSupport == false )
-	$value = 0;
-	
-while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($ping_itunes==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-</select>  <?php echo __('Notify (ping) iTunes when you publish a new episode.', 'powerpress'); ?>
-<p><input name="TestiTunesPing" type="checkbox" value="1"<?php if( $OpenSSLSupport == false ) echo ' disabled'; ?> /> <?php echo __('Test Update iTunes Listing (recommended)', 'powerpress'); ?></p>
-<?php 
-	$itunes_subscribe_url = ($FeedSettings?$FeedSettings['itunes_url']:$General['itunes_url']);
-	if( !empty($itunes_subscribe_url) )
-	{
-		$AppleID = powerpress_get_apple_id($itunes_subscribe_url);
-		if( $AppleID )
-			$ping_url = 'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id='. $AppleID;
-?>
-<p><?php echo __('You may also update your iTunes listing by using the following link:', 'powerpress'); ?> <a href="#" onclick="javascript: window.open('<?php echo $ping_url; ?>'); return false;"><?php echo __('Ping iTunes in New Window', 'powerpress'); ?></a></p>
-
-<?php
-		if( preg_match('/id=(\d+)/', $itunes_subscribe_url, $matches) )
-		{
-			$FEEDID = $matches[1];
-			$Logging = get_option('powerpress_log');
-			
-			if( isset($Logging['itunes_ping_'. $FEEDID ]) )
-			{
-				$PingLog = $Logging['itunes_ping_'. $FEEDID ];
-?>
-		<h3><?php echo __('Latest Update iTunes Listing Status:', 'powerpress'); ?> <?php if( $PingLog['success'] ) echo '<span style="color: #006505;">'. __('Successful', 'powerpress') .'</span>'; else echo '<span style="color: #f00;">'. __('Error', 'powerpress') .'</span>';  ?></h3>
-		<div style="font-size: 85%; margin-left: 20px;">
-			<p>
-				<?php echo sprintf( __('iTunes notified on %s at %s', 'powerpress'), date(get_option('date_format'), $PingLog['timestamp']), date(get_option('time_format'), $PingLog['timestamp'])); ?>
-<?php
-					if( $PingLog['post_id'] )
-					{
-						$post = get_post($PingLog['post_id']);
-						if( $post )
-							echo ' '. __('for post:', 'powerpress') .' '. htmlspecialchars($post->post_title); 
-					}
-?>
-			</p>
-<?php if( $PingLog['success'] ) { ?>
-			<p><?php echo __('Feed pulled by iTunes:', 'powerpress'); ?> <?php echo $PingLog['feed_url']; ?>
-			</p>
-			<?php
-				
-			?>
-<?php } else { ?>
-			<p><?php echo __('Error:', 'powerpress'); ?> <?php echo htmlspecialchars($PingLog['content']); ?></p>
-<?php } ?>
-		</div>
-<?php
-			}
-		}
-?>
-
-
-<?php }
-*/
-?>
 </td>
 </tr>
 </table>

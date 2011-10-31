@@ -1299,22 +1299,6 @@ function powerpress_do_all_pings()
 remove_action('do_pings', 'do_all_pings');
 add_action('do_pings', 'powerpress_do_all_pings', 1, 1);
 
-function powerpress_future_to_publish($post)
-{
-	// Perform iTunes ping here if configured...
-	if( !is_admin() )
-	{ // If the future_to_publish is fired by a web visitor, we need to include the administration code so the iTunes ping goes as planned.
-		$Settings = get_option('powerpress_general');
-		if( isset($Settings['ping_itunes']) && $Settings['ping_itunes'] )
-		{
-			require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
-		}
-	}
-}
-
-// This option disabled as of PowerPress 2.0.4 - Was only necessary to ping iTunes
-//add_action('future_to_publish', 'powerpress_future_to_publish');
-
 /*
 Helper functions:
 */

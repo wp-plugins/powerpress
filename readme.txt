@@ -150,6 +150,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 8/??/2011
 * Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
 
+= 3.0 =
+* Released on 11/??/2011
+* Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
+* Removed third party JSON library, no longer needed for WP versions 2.9+.
+
 
 = 2.0.4 =
 * Released on 8/23/2011

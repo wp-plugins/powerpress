@@ -453,25 +453,6 @@ function powerpress_admin_init()
 				}; break;
 			}
 		}
-		
-		if( !empty($_POST['TestiTunesPing'])  &&$_POST['TestiTunesPing'] == 1 )
-		{
-			if( $_POST['action'] == 'powerpress-save-settings' )
-				$PingResults = powerpress_ping_itunes($General['itunes_url']);
-			else
-				$PingResults = powerpress_ping_itunes($Feed['itunes_url']);
-			
-			powerpress_ping_itunes_log($PingResults);
-			
-			if( @$PingResults['success'] )
-			{
-				powerpress_page_message_add_notice( __('iTunes Ping Successful. Podcast Feed URL', 'powerpress') .': '. $PingResults['feed_url'] );
-			}
-			else
-			{
-				powerpress_page_message_add_error( htmlspecialchars($PingResults['content']) );
-			}
-		}
 	}
 	
 	// Handle POST actions...
@@ -1296,11 +1277,6 @@ function powerpress_publish_post($post_id)
 		$post = &get_post($post_id);
 		powerpress_do_enclose($post->post_content, $post_id, ($GeneralSettings['auto_enclose']==2) );
 	}
-	
-	if( isset($GeneralSettings['ping_itunes']) && $GeneralSettings['ping_itunes'] )
-	{
-		powerpress_do_ping_itunes($post_id);
-	}
 }
 
 add_action('publish_post', 'powerpress_publish_post');
@@ -2102,108 +2078,6 @@ function powerpress_podpress_stats_exist()
 /*
 // Helper functions:
 */
-function powerpress_do_ping_itunes($post_id)
-{
-	$Settings = get_option('powerpress_general');
-	if( isset($Settings['ping_itunes']) && $Settings['ping_itunes'] )
-	{
-		$Enclosure = get_post_meta($post_id, 'enclosure', true);
-		if( $Enclosure )
-		{
-			if( $Settings['ping_itunes'] && $Settings['itunes_url'] )
-			{
-				$PingResults = powerpress_ping_itunes($Settings['itunes_url']);
-				powerpress_ping_itunes_log($PingResults, $post_id);
-			}
-		}
-	}
-	
-	// Category feeds
-	if( isset($Settings['custom_cat_feeds']) )
-	{
-		$post_categories = wp_get_post_categories($post_id);
-		while( list($null, $cat_id) = each($post_categories) )
-		{
-			if( !in_array($cat_id, $Settings['custom_cat_feeds']) )
-				continue; // This isn't a podcast category, so skip it...
-			
-			$FeedSettings = get_option('powerpress_cat_feed_'.$cat_id);
-			if( $FeedSettings && @$FeedSettings['ping_itunes'] && $FeedSettings['itunes_url'] )
-			{
-				$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
-				powerpress_ping_itunes_log($PingResults, $post_id);
-			}
-		}
-	}
-	
-	// Custom Podcast Channels
-	if( isset($Settings['custom_feeds']) )
-	{
-		while( list($feed_slug,$null) = each($Settings['custom_feeds']) )
-		{
-			if( $feed_slug == 'podcast' )
-				continue;
-			
-			// Next double check we're looking at a podcast episode...
-			$Enclosure = get_post_meta($post_id, '_'.$feed_slug.':enclosure', true);
-			if( $Enclosure )
-			{
-				$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
-				if( $FeedSettings && @$FeedSettings['ping_itunes'] && $FeedSettings['itunes_url'] )
-				{
-					$PingResults = powerpress_ping_itunes($FeedSettings['itunes_url']);
-					powerpress_ping_itunes_log($PingResults, $post_id);
-				}
-			}
-		}
-	}
-}
-
-function powerpress_ping_itunes($iTunes_url)
-{
-	// Pull the iTunes FEEDID from the URL...
-	$AppleID = powerpress_get_apple_id($iTunes_url);
-	if( !$AppleID )
-		return array('error'=>true, 'content'=>__('iTunes URL required to ping iTunes.', 'powerpress'), 'podcast_id'=>0 );
-	
-	$ping_url = 'https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id='. $AppleID;
-	$tempdata = powerpress_remote_fopen($ping_url);
-	
-	if( $tempdata == false )
-	{
-		// Simetimes this happens, lets try again...
-		sleep(1); // wait just a second :)
-		$tempdata = powerpress_remote_fopen($ping_url);
-		if( $tempdata == false )
-			return array('error'=>true, 'content'=>__('Unable to connect to iTunes ping server.', 'powerpress'), 'podcast_id'=>trim($PodcastID));
-	}
-	
-	if( stristr($tempdata, 'No Podcast Found') )
-		return array('error'=>true, 'content'=>__('No Podcast Found from iTunes ping request.', 'powerpress'), 'podcast_id'=>trim($PodcastID));
-		
-	// Parse the data into something readable
-	$results = trim( str_replace('Podcast Ping Received', '', strip_tags($tempdata) ) );
-	list($null, $FeedURL, $null, $null, $null, $PodcastID) = explode("\n", $results );
-	
-	return array('success'=>true, 'content'=>$tempdata, 'feed_url'=>trim($FeedURL), 'podcast_id'=>trim($PodcastID) );
-}
-
-function powerpress_ping_itunes_log($Data, $post_id = 0)
-{
-	if( $Data['podcast_id'] )
-	{
-		$Log = array();
-		$Log['timestamp'] = time();
-		$Log['feed_url'] = $Data['feed_url'];
-		$Log['success'] = (isset($Data['error'])?0:1);
-		$Log['content'] = $Data['content'];
-		$Log['post_id'] = $post_id;
-		$Save = array();
-		$Save['itunes_ping_'.$Data['podcast_id'] ] = $Log;
-		powerpress_save_settings($Save, 'powerpress_log');
-	}
-}
-
 function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 15, $custom_request = false )
 {
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
@@ -2431,7 +2305,7 @@ function powerpress_json_decode($value)
 	if( function_exists('json_decode') && version_compare($wp_version, '2.8.9', '>') ) // WordPress 2.9+ json_decode function
 		$null = json_decode('{"a":1}'); // Hack, includes the class-json.php from within the wp-includes folder
 	if( !class_exists('Services_JSON') )
-		require_once( POWERPRESS_ABSPATH .'/3rdparty/JSON.php');
+		false;
 	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 	return $json->decode($value);
 }
@@ -2451,7 +2325,6 @@ function powerpress_admin_import_podpress_settings()
 	$General['display_player'] = 1;
 	$General['player_function'] = 1;
 	$General['podcast_link'] = 1;
-	$General['ping_itunes'] = 1;
 	// Lets try to copy settings from podpress
 	$General['default_url'] = $PodpressData['mediaWebPath'];
 	if( substr($General['default_url'], 0, -1) != '/' )
@@ -2559,7 +2432,6 @@ function powerpress_admin_import_podcasting_settings()
 		$General['display_player'] = 1;
 		$General['player_function'] = 1;
 		$General['podcast_link'] = 1;
-		$General['ping_itunes'] = 1;
 	}
 
 	$pod_player_location = get_option('pod_player_location');
