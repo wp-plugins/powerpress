@@ -154,6 +154,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 11/??/2011
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
+* Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 
 
 = 2.0.4 =

@@ -924,17 +924,33 @@ function powerpress_admin_menu()
 		$post_types = powerpress_admin_get_post_types_by_capability_type('post');
 		if( isset($Powerpress['custom_feeds']) )
 		{
+			$FeedDefaultPodcast = get_option('powerpress_feed_podcast');
+			
 			while( list($null,$post_type) = each($post_types) )
+			{
+				// Make sure this post type can edit the default podcast channel...
+				if( !empty($FeedDefaultPodcast['custom_post_type']) && $FeedDefaultPodcast['custom_post_type'] != $post_type )
+					continue;
+				
 				add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
+			}
 			
 			while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )
 			{
 				if( $feed_slug == 'podcast' )
 					continue;
 				
+				$FeedCustom = get_option('powerpress_feed_'.$feed_slug);
+						
 				reset($post_types);
 				while( list($null,$post_type) = each($post_types) )
+				{
+					// Make sure this post type can edit the default podcast channel...
+					if( !empty($FeedCustom['custom_post_type']) && $FeedCustom['custom_post_type'] != $post_type )
+						continue;
+					
 					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
+				}
 			}
 		}
 		else

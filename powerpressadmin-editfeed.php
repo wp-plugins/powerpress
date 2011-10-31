@@ -660,7 +660,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 			if( !isset($FeedSettings['premium']) || $FeedSettings['premium'] == '' )
 				$actual_premium_value = 'premium_content';
 			
-			echo '<option value="">None</option>';
+			echo '<option value="">'.  __('None', 'powerpress') .'</option>';
 			while( list($value,$desc) = each($caps) )
 				echo "\t<option value=\"$value\"". ($actual_premium_value==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 ?>
@@ -725,6 +725,56 @@ function powerpress_default_premium_label(event)
 </div>
 <?php
 		}
+		else if( @$General['premium_caps'] && $feed_slug )
+		{
+?>
+<h3><?php echo __('Password Protect Podcast Channel', 'powerpress'); ?></h3>
+<p>
+	<?php echo __('This feature is not available for the default podcast channel.', 'powerpress'); ?>
+</p>
+<?php
+		}
+		
+		// Podcast Channels and Custom Post Types...
+		?>
+<h3><?php echo __('Custom Post Types', 'powerpress'); ?></h3>
+<p>
+	<?php echo __('Set whether all post types or a specific custom post type may use this podcast channel. Custom post type must be of type \'Posts\'. Other post types such as \'Pages\' or \'Categories\' do not apply.', 'powerpress'); ?>
+</p>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+
+<?php echo __('Custom Post Type', 'powerpress'); ?></th>
+<td>
+<?php ?>
+<select name="Feed[custom_post_type]" class="bpp_input_med">
+<?php
+			$post_types = powerpress_admin_get_post_types_by_capability_type('post');
+			$custom_post_type = '';
+			if( !empty($FeedSettings['custom_post_type']) )
+				$custom_post_type = $FeedSettings['custom_post_type'];
+			
+			echo '<option value="">'. __('All Post Types (default)', 'powerpress') .'</option>';
+			while( list($index,$value) = each($post_types) )
+			{
+				$desc = $value;
+				// TODO: See if we can get a post type label somehow
+				$postTypeObj = get_post_type_object($value);
+				if( !empty($postTypeObj->labels->name ) )
+					$desc = $postTypeObj->labels->name . ' ('. $value .')';
+				echo "\t<option value=\"$value\"". ($custom_post_type==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+			}
+?>
+</select>
+<p>
+	<?php echo __('Use the default setting if you do not understand custom post types.', 'powerpress'); ?>
+</p>
+</td>
+</tr>
+</table>
+		<?php
+		
 	} // else if channel
 }
 
