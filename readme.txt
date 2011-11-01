@@ -152,6 +152,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
+* Added link to WordPress Settings to PowerPress basic setings, This is to resolve the many complains we receive by new users who cannot find PowerPress settings menu.
 
 
 = 2.0.5 =

@@ -1025,6 +1025,8 @@ function powerpress_admin_menu()
 		
 		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
+			
+			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 10, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
 			//if( @$Powerpress['player_options'] )
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
@@ -1405,11 +1407,13 @@ jQuery(document).ready(function($) {
 		});
 	}
 	
-	jQuery('.powerpress-parental-rating-tip').click( function() {
+	jQuery('.powerpress-parental-rating-tip').click( function(event) {
+		event.preventDefault();
 		jQuery('.powerpress-parental-rating-tip-p').css('display', 'none');
 		jQuery('#'+this.id +'_p').css('display', 'block');
 	});
 	jQuery('.activate-player').click( function(event) {
+		event.preventDefault();
 		var PlayerName = this.id.replace(/(activate_)(.*)$/, "$2");
 		if( !PlayerName )
 			return;
@@ -1420,7 +1424,6 @@ jQuery(document).ready(function($) {
 			jQuery('#player_'+PlayerName).attr('checked', true);
 		}
 		jQuery("form:first").submit();
-		event.preventDefault();
 	});
 });
 
