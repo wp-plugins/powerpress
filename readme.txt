@@ -146,10 +146,6 @@ To install Blubrry PowerPress manually, follow these steps:
 * The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
-= 2.0.5 =
-* Released on 8/??/2011
-* Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
-
 = 3.0 =
 * Released on 11/??/2011
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
@@ -157,6 +153,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
 
+
+= 2.0.5 =
+* Released on 8/??/2011
+* Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
 
 = 2.0.4 =
 * Released on 8/23/2011
