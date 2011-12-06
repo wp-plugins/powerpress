@@ -153,7 +153,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
 * Added link to WordPress Settings to PowerPress basic setings, This is to resolve the many complains we receive by new users who cannot find PowerPress settings menu.
-* Fixed bug detected latest version of iPad for displaying the HTML5 player.
+* Fixed bug detected latest versoin of iPad for displaying the HTML5 player.
+* Romanian translation for v2.0.4+ by Alexander Ovsov (Thanks Alexander!)
 
 
 = 2.0.5 =
@@ -710,6 +711,8 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 * Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
 * French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
 * Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - From webmote: Welcome to use the plugin. Very good! and then hope you to access my site.
+* Italian translation for v2.0.4+ by Umberto
+* Romanian translation for v2.0.4+ by Alexander Ovsov (Web Geek Sciense: http://webhostinggeeks.com/science/)
 
 
 == Tips and Tutorials ==
