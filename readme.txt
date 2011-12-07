@@ -155,6 +155,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added link to WordPress Settings to PowerPress basic setings, This is to resolve the many complains we receive by new users who cannot find PowerPress settings menu.
 * Fixed bug detected latest versoin of iPad for displaying the HTML5 player.
 * Romanian translation for v2.0.4+ by Alexander Ovsov (Thanks Alexander!)
+* Italian translation updated (thanks Umberto!)
 
 
 = 2.0.5 =
