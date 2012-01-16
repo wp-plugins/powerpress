@@ -709,7 +709,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 
 
 == Translators ==
-* Danish translation for v1.0.11+ by [GeorgWP](http://wordpress.blogos.dk/)
+* Danish translation for v1.0.11+ by [Team Blogos](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=280) - Latest translation available [here](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=280)
 * French translation for v1.0.11+ by [Aureien Denis](http://wpchannel.com/) - Aurélien is looking for assistance maintaining the French translation, email wpchannel [at] gmail.com if interested.
 * Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - From webmote: Welcome to use the plugin. Very good! and then hope you to access my site.
 * Italian translation for v2.0.4+ by [Umberto Sartori](http://veneziadoc.net/)
