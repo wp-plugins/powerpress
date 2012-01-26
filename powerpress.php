@@ -727,6 +727,14 @@ function powerpress_rss2_item()
 				echo " length=\"". $EpisodeData['webm_length'] ."\"";
 			echo " type=\"video/webm\" />".PHP_EOL;
 		}
+		
+		$GeneralSettings = get_option('powerpress_general');
+		
+		if( !empty($GeneralSettings) && !empty($GeneralSettings['metamarks']) )
+		{
+			require_once(POWERPRESS_ABSPATH .'/powerpressadmin-metamarks.php');
+			powerpress_metamarks_print_rss2($EpisodeData);
+		}
 	}
 }
 

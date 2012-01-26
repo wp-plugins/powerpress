@@ -1,6 +1,8 @@
 <?php
 // powerpressadmin-metabox.php
 
+if( !empty($Powerpress) && !empty($Powerpress['metamarks']) )
+	require_once(POWERPRESS_ABSPATH .'/powerpressadmin-metamarks.php');
 
 function powerpress_meta_box($object, $box)
 {
@@ -370,7 +372,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][summary]"><?php echo __('iTunes Explicit', 'powerpress'); ?></label>
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][explicit]"><?php echo __('iTunes Explicit', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][explicit]" style="width: 200px;">
 <?php
@@ -385,9 +387,12 @@ while( list($value,$desc) = each($explicit_array) )
 		</div>
 <?php
 		}
+		
+		// Added filter for other plugins to add fields on a per podcast feed slug basis
+		echo apply_filters('powerpress_metabox', '', $object, $FeedSlug);
 ?>
-	</div>
-</div>
+	</div><!-- end powerpress_podcast_edit_<?php echo $FeedSlug; ?> -->
+</div><!-- end powerpress_podcast_box -->
 <?php if( !empty($GeneralSettings['episode_box_background_color'][$FeedSlug]) ) { ?>
 <script type="text/javascript"><!--
 jQuery(document).ready(function($) {

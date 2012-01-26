@@ -147,7 +147,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 3.0 =
-* Released on 11/??/2011
+* Released on 2/??/2012
+* New Meta Marks feature [learn more](http://www.powerpresspodcast.com/metamarks/)
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
@@ -159,7 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 2.0.5 =
-* Released on 8/??/2011
+* Released on 8/30/2011
 * Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
 
 

@@ -350,6 +350,9 @@ function powerpress_admin_init()
 					$General['cat_casting'] = 0;
 				if( !isset($General['channels'] ) )
 					$General['channels'] = 0;
+				if( !isset($General['metamarks'] ) )
+					$General['metamarks'] = 0;
+					
 					
 					// Media Presentation Settings
 				$PlayerSettings = array();
@@ -1055,7 +1058,7 @@ add_action('admin_menu', 'powerpress_admin_menu');
 function powerpress_edit_post($post_ID, $post)
 {
 	if ( !current_user_can('edit_post', $post_ID) )
-		return $postID;
+		return $post_ID;
 		
 	$GeneralSettings = get_option('powerpress_general');
 	
@@ -1285,6 +1288,12 @@ function powerpress_edit_post($post_ID, $post)
 				}
 			}
 		} // Loop through posted episodes...
+		
+		if( !empty($GeneralSettings['metamarks']) )
+		{
+			require_once(POWERPRESS_ABSPATH .'/powerpressadmin-metamarks.php');
+			powerpress_metabox_save($post_ID);
+		}
 	}
 	
 	// Anytime the post is marked published, private or scheduled for the future we need to make sure we're making the media available for hosting
@@ -1295,6 +1304,7 @@ function powerpress_edit_post($post_ID, $post)
 	}
 		
 	// And we're done!
+	return $post_ID;
 }
 
 add_action('edit_post', 'powerpress_edit_post', 10, 2);
@@ -1837,6 +1847,13 @@ function powerpress_media_info_ajax()
 }
  
 add_action('wp_ajax_powerpress_media_info', 'powerpress_media_info_ajax');
+
+function powerpress_metamarks_addrow_ajax()
+{
+	require_once(POWERPRESS_ABSPATH .'/powerpressadmin-metamarks.php');
+	powerpress_metamarks_addrow();
+}
+add_action('wp_ajax_powerpress_metamarks_addrow', 'powerpress_metamarks_addrow_ajax');
 
 
 function powerpress_cat_row_actions($actions, $object)
@@ -3004,9 +3021,21 @@ function powerpress_add_error($error)
 	update_option('powerpress_errors',  $Errors);
 }
 	
-function powerpress_print_options($options,$selected=null)
+function powerpress_print_options($options,$selected=null, $return=false)
 {
 	reset($options);
+	if( $return )
+	{
+		$html = '';
+		while( list($key,$value) = each($options) )
+		{
+			$html .= '<option value="'. htmlspecialchars($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
+			$html .= htmlspecialchars($value);
+			$html .= "</option>\n";
+		}
+		
+		return $html;
+	}
 	while( list($key,$value) = each($options) )
 	{
 		echo '<option value="'. htmlspecialchars($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';

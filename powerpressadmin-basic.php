@@ -161,7 +161,7 @@ jQuery(document).ready(function($) {
 	//	$CategoryCheckbox = ' onclick="alert(\'You must remove podcasting from the categories to disable this option.\');return false;"';
 ?>
 <div style="margin-left: 10px;">
-	<h3>Advanced Options</h3>
+	<h3><?php echo __('Advanced Options', 'powerpress'); ?></h3>
 	<div style="margin-left: 50px;">
 		<div>
 			<input type="checkbox" name="NULL[player_options]" value="1" checked disabled /> 
@@ -186,6 +186,12 @@ jQuery(document).ready(function($) {
 			<strong><?php echo __('Category Podcasting', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage category podcast feeds.', 'powerpress'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+		</div>
+		<div>
+			<input type="checkbox" name="General[metamarks]" value="1" <?php echo ($General['metamarks']?' checked':'');  ?> /> 
+			<strong><?php echo __('Meta Marks', 'powerpress'); ?></strong><?php echo ' '. powerpressadmin_new(); ?> - 
+			<?php echo __('Add additional meta information to your media for syndication.', 'powerpress'); ?> 
+			<span style="font-size: 85%;">(<?php echo __('feature will appear in episode entry box', 'powerpress'); ?>)</span>
 		</div>
 	</div>
 </div>
