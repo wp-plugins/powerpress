@@ -401,11 +401,33 @@ while( list($value,$desc) = each($options) )
 		<p><em><?php echo __('WARNING: Episodes created with this feature will <u>not</u> include Duration (total play time) information.', 'powerpress'); ?></em></p>
 </td>
 </tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Disable Warnings', 'powerpress'); ?></th> 
+<td>
+		<select name="General[hide_warnings]" class="bpp_input_med">
+<?php
+$options = array(0=>__('No (default)', 'powerpress'), 1=>__('Yes', 'powerpress') );
+	
+while( list($value,$desc) = each($options) )
+	echo "\t<option value=\"$value\"". ($General['hide_warnings']==$value?' selected':''). ">$desc</option>\n";
+	
+?>
+		</select>
+		<p><?php echo __('Disable warning messages displayed in episode entry box.', 'powerpress'); ?></p>
+</td>
+</tr>
+</table>
+</div>
+<!-- end advanced features -->
+
 <?php
 		global $wp_rewrite;
 		if( $wp_rewrite->permalink_structure ) // Only display if permalinks is enabled in WordPress
 		{
 ?>
+<h3><?php echo __('Permalinks', 'powerpress'); ?></h3>
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('Podcast Permalinks', 'powerpress'); ?></th> 
@@ -422,13 +444,11 @@ while( list($value,$desc) = each($options) )
 		<p><?php echo sprintf(__('When configured, %s/podcast/ is matched to page/category named \'podcast\'.', 'powerpress'), get_bloginfo('url') ); ?></p>
 </td>
 </tr>
+</table>
 <?php
 		}
 ?>
 
-</table>
-</div>
-<!-- end advanced features -->
 
 <?php
 }
