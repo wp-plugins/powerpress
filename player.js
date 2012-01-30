@@ -156,7 +156,7 @@ function powerpress_embed_html5v(id,media_url,width,height,webm_media_url)
 			pp_flashembed(
 				'powerpress_player_'+id,
 			{src: powerpress_url +'FlowPlayerClassic.swf', width: width, height: height, wmode: 'transparent' },
-				{config: { autoPlay: true, autoBuffering: true, showFullScreenButton: false, showMenu: false, videoFile: media_url, loop: false, autoRewind: true, splashImageFile: poster } }
+				{config: { autoPlay: true, autoBuffering: true, showFullScreenButton: true, showMenu: false, videoFile: media_url, loop: false, autoRewind: true, splashImageFile: poster } }
 			);
 		}
 		

@@ -1422,9 +1422,9 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	$content .= "	'powerpress_player_{$player_id}',\n";
 	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: '{$player_width}', height: '{$player_height}', wmode: 'transparent' },\n";
 	if( $cover_image )
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
+		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: ". (preg_match('/audio\//', $EpisodeData['type'])?'false':'true' ) .", showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
 	else
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: false, showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
+		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: ". (preg_match('/audio\//', $EpisodeData['type'])?'false':'true' ) .", showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
 	$content .= ");\n";
 	$content .= "//-->\n";
 	$content .= "</script>\n";

@@ -154,8 +154,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
 * Added link to WordPress Settings to PowerPress basic setings, This is to resolve the many complains we receive by new users who cannot find PowerPress settings menu.
-* Fixed bug detected latest versoin of iPad for displaying the HTML5 player.
 * Fixed bug with ID3 tag writing feature not functioning correctly. (Thanks Dave from [School of Podcasting](http://www.schoolofpodcasting.com) for reporting the problem)
+* Fixed bug detected latest versoin of iPad for displaying the HTML5 player.
+* Flow Player Classic now displays full screen button when playing video.
 * Romanian translation for v2.0.4+ added by Alexander Ovsov (Thanks Alexander!)
 * Italian translation for v2.0.4+ by Umberto (thanks Umberto!)
 
