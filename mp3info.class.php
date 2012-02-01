@@ -572,11 +572,11 @@
 						$this->AddWarning( sprintf(__('Sample Rate %dKhz may cause playback issues, we recommend 22Khz or 44Khz for maximum player compatibility.', 'powerpress'), $Audio['sample_rate']/1000  ) );
 					}
 					
-					if( stristr($Audio['channelmode'], 'stereo' ) === false )
-					{
-						// Add warning here
-						$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.', 'powerpress'), trim($Audio['channelmode']) ) );
-					}
+					//if( stristr($Audio['channelmode'], 'stereo' ) === false )
+					//{
+					//	// Add warning here
+					//	$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.', 'powerpress'), trim($Audio['channelmode']) ) );
+					//}
 				}
 				
 				return $FileInfo;

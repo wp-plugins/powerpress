@@ -191,7 +191,9 @@ jQuery(document).ready(function($) {
 			<input type="checkbox" name="General[metamarks]" value="1" <?php echo ($General['metamarks']?' checked':'');  ?> /> 
 			<strong><?php echo __('Meta Marks', 'powerpress'); ?></strong><?php echo ' '. powerpressadmin_new(); ?> - 
 			<?php echo __('Add additional meta information to your media for syndication.', 'powerpress'); ?> 
+			<?php echo powerpress_help_link('http://www.powerpresspodcast.com/metamarks/'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in episode entry box', 'powerpress'); ?>)</span>
+			
 		</div>
 	</div>
 </div>
@@ -325,6 +327,8 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 		$AdvanecdOptions = true;
 	if( !empty($General['permalink_feeds_only']) )
 		$AdvanecdOptions = true;
+	if( !empty($General['hide_warnings']) )
+		$AdvanecdOptions = true;
 		
 
 	if( !$AdvanecdOptions ) {
@@ -414,7 +418,7 @@ while( list($value,$desc) = each($options) )
 	
 ?>
 		</select>
-		<p><?php echo __('Disable warning messages displayed in episode entry box.', 'powerpress'); ?></p>
+		<p><?php echo __('Disable warning messages displayed in episode entry box. Errors are still displayed.', 'powerpress'); ?></p>
 </td>
 </tr>
 </table>

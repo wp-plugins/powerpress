@@ -77,7 +77,7 @@ function powerpress_admin_init()
 	global $wp_version;
 	$VersionDiff = version_compare($wp_version, 2.8);
 	if( $VersionDiff < 0 )
-		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 2.8 or greater.', 'powerpress') );
+		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 3.0 or greater.', 'powerpress') );
 	
 	// Check for incompatible plugins:
 	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
@@ -2892,7 +2892,8 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( $get_duration_info )
 			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
 		
-		if( count( $Mp3Info->GetWarnings() ) > 0 )
+		$GeneralSettings = get_option('powerpress_general');
+		if( empty($GeneralSettings['hide_warnings']) && count( $Mp3Info->GetWarnings() ) > 0 )
 		{
 			$Warnings = $Mp3Info->GetWarnings();
 			while( list($null, $warning) = each($Warnings) )
