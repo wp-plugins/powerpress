@@ -456,6 +456,10 @@
 		function GetMp3Info($File, $file_size_only = false)
 		{
 			$this->m_file_size_only = $file_size_only;
+			
+			if( version_compare(phpversion(), '5.0.5') < 0 ) // If version less than 5.0.5...
+				$this->m_file_size_only = true; // we can only get file size info if using older versions of PHP
+			
 			$DeleteFile = false;
 			if( strtolower( substr($File, 0, 7) ) == 'http://' )
 			{
@@ -463,14 +467,14 @@
 				if( $LocalFile === false )
 					return false;
 					
-				if( $file_size_only )
+				if( $this->m_file_size_only )
 					return true;
 					
 				$DeleteFile = true;
 			}
 			else
 			{
-				if( $file_size_only )
+				if( $this->m_file_size_only )
 				{
 					$this->m_ContentLength = filesize($File);
 					return true;

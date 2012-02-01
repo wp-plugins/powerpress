@@ -143,12 +143,14 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* The future major release of PowerPress (3.x) will no longer be compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install future versions of PowerPress.
+* PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 3.0 =
 * Released on 2/??/2012
+* PowerPress now requires WordPress version 3.0 or newer.
 * New Meta Marks feature [learn more](http://www.powerpresspodcast.com/metamarks/)
+* Media duration detection and verification now supports AAC .m4a audio and H.264 .mp4/.m4v video (in addition to mpeg3 .mp3). Media duration detection now requires PHP 5.0.5 or newer.
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.

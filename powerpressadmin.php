@@ -2866,7 +2866,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
 		return array('error'=>__('The WP OS FLV plugin is not compatible with Blubrry PowerPress.', 'powerpress') );
 		
-	$get_duration_info = ($content_type == 'audio/mpeg' && $duration === '');
+	$get_duration_info = ( ($content_type == 'audio/mpeg' || $content_type == 'audio/x-m4a' || $content_type == 'video/x-m4v' || $content_type == 'video/mp4' ) && $duration === '');
 	// Lets use the mp3info class:
 	require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 	$Mp3Info = new Mp3Info();
