@@ -2863,6 +2863,25 @@ function powerpress_do_enclose( $content, $post_ID, $use_last_media_link = false
 	}
 }
 
+function powerpress_get_episode_count($feed_slug, $post_type = 'post')
+{
+	global $wpdb;
+	$custom_field = 'enclosure';
+	if( $feed_slug != 'podcast' )
+		$custom_field = '_'. $feed_slug .':enclosure';
+		
+	$query = "SELECT COUNT( * ) AS num_posts FROM {$wpdb->posts} ";
+	$query .= "INNER JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id ";
+	$query .= "WHERE {$wpdb->postmeta}.meta_key = '". $custom_field ."' AND post_type = %s AND post_status = 'publish' ";
+	
+	$results = $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A );
+	if( !empty($results[0]['num_posts']) )
+	{
+		return $results[0]['num_posts'];
+	}
+	return 0;
+}
+
 function powerpress_get_media_info_local($media_file, $content_type='', $file_size=0, $duration='', $return_warnings=false)
 {
 	$error_msg = '';

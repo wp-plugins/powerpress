@@ -289,6 +289,12 @@ function powerpressadmin_edit_category_feed($FeedSettings, $General)
 
 function powerpressadmin_edit_feed_general($FeedSettings, $General)
 {
+	$warning = '';
+	$episode_count = powerpress_get_episode_count('podcast');
+	if( $episode_count == 0 )
+	{
+		$warning = __('WARNING: You must create at least one podcast episode for your podcast feed to be valid.', 'powerpress');
+	}
 ?>
 <h3>Podcast Feeds</h3>
 <table class="form-table">
@@ -323,21 +329,25 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 </td>
 </tr>
 
+<?php /* ?>
 <tr valign="top">
 <th scope="row">
-
 <?php echo __('Main Site Feed', 'powerpress'); ?></th> 
 <td>
 	<p style="margin-top: 5px; margin-bottom: 0;"><?php echo __('Main RSS2 Feed', 'powerpress'); ?>: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="<?php echo __('Main RSS 2 Feed', 'powerpress'); ?>" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 	<p><?php echo __('Note: We do not recommend submitting your main site feed to podcast directories such as iTunes. iTunes and many other podcast directories work best with feeds that do not have regular blog posts mixed in.', 'powerpress');  ?></p>
 </td>
 </tr>
+<?php */ ?>
 
 <tr valign="top">
 <th scope="row">
 
 <?php echo __('Podcast Feeds', 'powerpress'); ?></th> 
 <td>
+<?php if( $warning ) { ?>
+<span class="powerpress-error" style="background-color: #FFEBE8; border-color: #CC0000; padding: 6px 10px;"><?php echo $warning; ?></span>
+<?php } ?>
 <?php
 	
 	//$General = get_option('powerpress_general');
@@ -358,6 +368,9 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 	<?php } ?>
 </p>
 <?php } ?>
+<p><?php echo __('These are podcast only feeds suitable for submission podcast directories such as iTunes.', 'powerpress'); ?></p>
+<p><?php echo __('Note: We do not recommend submitting your main site feed to podcast directories such as iTunes. iTunes and many other podcast directories work best with feeds that do not have regular blog posts mixed in.', 'powerpress');  ?></p>
+
 </td>
 </tr>
 
@@ -366,7 +379,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <?php echo __('Feed Discovery', 'powerpress'); ?></th>
 <td>
 
-<p><label><input type="checkbox" name="General[feed_links]" value="1" <?php if( $General['feed_links'] == 1 ) echo 'checked '; ?>/> <?php echo __('Include feed links in HTML headers.', 'powerpress'); ?></label></p>
+<p><label><input type="checkbox" name="General[feed_links]" value="1" <?php if( $General['feed_links'] == 1 ) echo 'checked '; ?>/> <?php echo __('Include podcast feed links in HTML headers.', 'powerpress'); ?></label></p>
 <p><?php echo __('Adds "feed discovery" links to your web site\'s headers allowing web browsers and feed readers to auto-detect your podcast feeds.', 'powerpress'); ?></p>
 </td>
 </tr>

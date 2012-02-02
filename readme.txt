@@ -157,6 +157,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Media verification (`Verify` button) now displays the link to the media upon error so user can test URL manually.
 * Added new `Feed Discovery` option, Adds "feed discovery" links to your web site's headers allowing web browsers and feed readers to auto-detect your podcast feeds.
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
+* Added warning in settings that podcast feed is invalid until create at least one podcast episode.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
