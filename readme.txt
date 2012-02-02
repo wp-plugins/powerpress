@@ -153,6 +153,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Media duration detection and verification now supports AAC .m4a audio and H.264 .mp4/.m4v video (in addition to mpeg3 .mp3). Media duration detection now requires PHP 5.0.5 or newer.
 * Added new 'Disable Warnings' option for Podcast Entry Box. Errors are still displayed.
 * Media verification (`Verify` button) no longer warns if mp3 Channel mode is mono.
+* Media verification (`Verify` button) now verifies that the media URL's content type is valid when detecting duration information.
+* Media verification (`Verify` button) now displays the link to the media upon error so user can test URL manually.
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.

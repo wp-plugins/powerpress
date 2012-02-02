@@ -1171,13 +1171,13 @@ function powerpress_edit_post($post_ID, $post)
 						
 						if( isset($MediaInfo['error']) )
 						{
-							$error = __('Error', 'powerpress') ." ({$MediaURL}): {$MediaInfo['error']}";
+							$error = __('Error', 'powerpress') ." (<a href=\"$MediaURL\" target=\"_blank\">{$MediaURL}</a>): {$MediaInfo['error']}";
 							powerpress_add_error($error);
 							//continue;
 						}
 						else if( empty($MediaInfo['length']) )
 						{
-							$error = __('Error', 'powerpress') ." ({$MediaURL}): ". __('Unable to obtain size of media.', 'powerpress');
+							$error = __('Error', 'powerpress') ." (<a href=\"$MediaURL\" target=\"_blank\">{$MediaURL}</a>): ". __('Unable to obtain size of media.', 'powerpress');
 							powerpress_add_error($error);
 							//continue;
 						}
@@ -1839,7 +1839,7 @@ function powerpress_media_info_ajax()
 	
 	echo "$feed_slug\n";
 	if( $MediaInfo['error'] )
-		echo $MediaInfo['error'];
+		echo $MediaInfo['error'] . '<br />'. sprintf('Test: %s', "<a href=\"$media_url\" target=\"_blank\">{$media_url}</a>");
 	else
 		echo __('Unknown error occurred looking up media information.', 'powerpress');
 	echo "\n";

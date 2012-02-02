@@ -15,6 +15,7 @@
 		var $m_error = '';
 		var $m_warnings = array();
 		var $m_ContentLength = false;
+		var $m_ContentType = '';
 		var $m_RedirectCount = 0;
 		Var $m_file_size_only = false;
 		
@@ -86,6 +87,14 @@
 		}
 		
 		/*
+		Get the content type of the file to download.
+		*/
+		function GetContentType()
+		{
+			return $this->m_ContentType;
+		}
+		
+		/*
 		Get the number of times we followed 30x header redirects
 		*/
 		function GetRedirectCount()
@@ -115,6 +124,7 @@
 			}
 			
 			$this->m_ContentLength = false;
+			$this->m_ContentType = '';
 			$this->m_RedirectCount = $RedirectCount;
 			
 			$urlParts = parse_url($url);
@@ -189,6 +199,9 @@
 							case 'content-length': {
 								$ContentLength = $value;
 							}; break;
+							case 'content-type' : {
+								$this->m_ContentType = $value;
+							}
 						}
 					}
         }
@@ -290,6 +303,7 @@
 			}
 			$Headers = curl_exec($curl);
 			$ContentLength = curl_getinfo($curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			$this->m_ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 			$HttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			$ContentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 			$ErrorMsg = curl_error($curl);
@@ -533,6 +547,12 @@
 				return false;
 			}
 			
+			//if( !preg_match('/(audio|video)/i', $this->GetContentType() ) )
+			//{
+			//	$this->SetError( sprintf(__('URL is reporting incorrect content type: %s', 'powerpress'), $this->GetContentType()) );
+			//	return false;
+			//}
+			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
@@ -547,6 +567,14 @@
 			{
 				if( isset($FileInfo['error']) )
 				{
+					// Speical case, if the content type does not include audio or video, report that as possible error...
+					
+					if( !preg_match('/(audio|video)/i', $this->GetContentType() ) )
+					{
+						$this->SetError( sprintf(__('Media URL reporting incorrect content type: %s', 'powerpress'), $this->GetContentType()) );
+						return false;
+					}
+					
 					$errors = '';
 					while( list($null,$error) = each($FileInfo['error']) )
 						$errors .= " $error.";
