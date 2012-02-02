@@ -155,6 +155,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Media verification (`Verify` button) no longer warns if mp3 Channel mode is mono.
 * Media verification (`Verify` button) now verifies that the media URL's content type is valid when detecting duration information.
 * Media verification (`Verify` button) now displays the link to the media upon error so user can test URL manually.
+* Added new `Feed Discovery` option, Adds "feed discovery" links to your web site's headers allowing web browsers and feed readers to auto-detect your podcast feeds.
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.

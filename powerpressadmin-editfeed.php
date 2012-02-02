@@ -360,6 +360,18 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <?php } ?>
 </td>
 </tr>
+
+<tr valign="top">
+<th scope="row">
+<?php echo __('Feed Discovery', 'powerpress'); ?></th>
+<td>
+
+<p><label><input type="checkbox" name="General[feed_links]" value="1" <?php if( $General['feed_links'] == 1 ) echo 'checked '; ?>/> <?php echo __('Include feed links in HTML headers.', 'powerpress'); ?></label></p>
+<p><?php echo __('Adds "feed discovery" links to your web site\'s headers allowing web browsers and feed readers to auto-detect your podcast feeds.', 'powerpress'); ?></p>
+</td>
+</tr>
+
+
 </table>
 <?php
 }

@@ -342,6 +342,8 @@ function powerpress_admin_init()
 					$General['episode_box_author'] = 0;	
 				if( !isset($General['episode_box_explicit'] ) )
 					$General['episode_box_explicit'] = 0;
+				if( !isset($General['feed_links']) )
+					$General['feed_links'] = 0;
 				
 				// Advanced Features
 				if( !isset($General['player_options'] ) )
@@ -899,6 +901,11 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 			$Settings[$key] = $value;
 		if( $field == 'powerpress_general' && !isset($Settings['timestamp']) )
 			$Settings['timestamp'] = time();
+			
+		// Special case fields, if they are empty, we can delete them., this will keep the Settings array uncluttered
+		if( isset($Settings['feed_links']) && $Settings['feed_links'] == 0 ) // If set to default value, no need to save it in the database
+			unset($Settings['feed_links']);
+		
 		update_option($field,  $Settings);
 	}
 }

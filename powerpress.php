@@ -305,6 +305,18 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 </script>
 <?php
 	}
+	
+	if( !empty($Powerpress['feed_links']) )
+	{
+		// Loop through podcast feeds and display them here 
+		while( list($feed_slug, $title) = each($Powerpress['custom_feeds']) )
+		{
+			$href = get_feed_link($feed_slug);
+			if ( isset($title) && isset($href) )
+				echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
+		}
+		reset($Powerpress['custom_feeds']);
+	}
 }
 
 add_action('wp_head', 'powerpress_header');
