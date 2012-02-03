@@ -1418,6 +1418,9 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 			$player_height = 'jQuery(window).height()';
 		}
 	}
+	if( empty($EpisodeData['type']) )
+		$EpisodeData['type']  = '';
+	
 	$content .= "pp_flashembed(\n";
 	$content .= "	'powerpress_player_{$player_id}',\n";
 	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: '{$player_width}', height: '{$player_height}', wmode: 'transparent' },\n";

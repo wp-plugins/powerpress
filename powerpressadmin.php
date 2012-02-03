@@ -1036,7 +1036,7 @@ function powerpress_admin_menu()
 		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			
-			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 10, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
+			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
 			//if( @$Powerpress['player_options'] )
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
