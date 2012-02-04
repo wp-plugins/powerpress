@@ -95,7 +95,7 @@ function powerpress_dashboard_stats_content()
 		return; // Lets not do anythign to the dashboard for PowerPress Statistics
 	
 	// If using user capabilities...
-	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+	if( !empty($Settings['use_caps']) && !current_user_can('view_podcast_stats') )
 		return;
 		
 	$content = false;
@@ -174,13 +174,13 @@ function powerpress_dashboard_setup()
 	$StatsDashboard = true;
 	$NewsDashboard = true;
 	
-	if( isset($Settings['disable_dashboard_widget']) && $Settings['disable_dashboard_widget'] == 1 )
-		$StatsDashboard = false; // Lets not do anythign to the dashboard for PowerPress Statistics
+	if( !empty($Settings['disable_dashboard_widget']) )
+		$StatsDashboard = false; // Lets not do anything to the dashboard for PowerPress Statistics
 	
-	if( isset($Settings['disable_dashboard_news']) && $Settings['disable_dashboard_news'] == 1 )
-		$NewsDashboard = false; // Lets not do anythign to the dashboard for PowerPress Statistics
+	if( !empty($Settings['disable_dashboard_news']) )
+		$NewsDashboard = false; // Lets not do anything to the dashboard for PowerPress News
 		
-	if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+	if( !empty($Settings['use_caps']) && !current_user_can('view_podcast_stats') )
 		$StatsDashboard = false;
 
 	if( $Settings )

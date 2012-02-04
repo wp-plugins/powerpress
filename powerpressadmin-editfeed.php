@@ -729,7 +729,7 @@ function powerpress_default_premium_label(event)
 		<?php echo __('Use default label', 'powerpress'); ?>:
 	</p>
 	<p style="margin-left: 20px;">
-	<?php echo $FeedSettings['title']; ?>: <a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" target="_blank" title="Protected Content">(<?php echo __('Protected Content', 'powerpress'); ?>)</a>
+	<?php echo $FeedSettings['title']; ?>: <a href="<?php echo get_option('siteurl'); ?>/wp-login.php" target="_blank" title="Protected Content">(<?php echo __('Protected Content', 'powerpress'); ?>)</a>
 	</p>
 	<p style="margin-top: 5px;"><input type="radio" name="PremiumLabel" id="premium_label_1" value="1" <?php echo ($FeedSettings['premium_label']!=''?'checked ':''); ?> onchange="jQuery('#premium_label_custom').css('display', (this.checked?'block':'none') );" />
 		<?php echo __('Use a custom label', 'powerpress'); ?>:

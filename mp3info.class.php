@@ -147,7 +147,7 @@
 			if ($fp)
 			{
 				// Create and send the request headers
-				$RequestHeaders = ($this->m_file_size_only?'HEAD ':'GET ').$urlParts['path'].(isset($urlParts['query']) ? '?'.@$urlParts['query'] : '')." HTTP/1.0\r\n";
+				$RequestHeaders = ($this->m_file_size_only?'HEAD ':'GET ').$urlParts['path'].(isset($urlParts['query']) ? '?'.$urlParts['query'] : '')." HTTP/1.0\r\n";
 				$RequestHeaders .= 'Host: '.$urlParts['host'].($urlParts['port'] != 80 ? ':'.$urlParts['port'] : '')."\r\n";
 				$RequestHeaders .= "Connection: Close\r\n";
 				$RequestHeaders .= "User-Agent: {$this->m_UserAgent}\r\n";

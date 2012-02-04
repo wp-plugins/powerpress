@@ -162,15 +162,15 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][url]"><?php echo __('Media URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo (@$ExtraData['hosting']==1?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
-				<?php if( @$GeneralSettings['blubrry_hosting'] == 1 ) { ?>
+				<input id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
+				<?php if( !empty($GeneralSettings['blubrry_hosting']) ) { ?>
 				<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
 				<?php } ?>
 				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" />
 				<img id="powerpress_check_<?php echo $FeedSlug; ?>" src="<?php echo admin_url(); ?>images/loading.gif" style="vertical-align:text-top; display: none;" alt="<?php echo __('Checking Media', 'powerpress'); ?>" />
 				
-				<input type="hidden" id="powerpress_hosting_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][hosting]" value="<?php echo (@$ExtraData['hosting']==1?'1':'0'); ?>" />
-				<div id="powerpress_hosting_note_<?php echo $FeedSlug; ?>" style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px; display: <?php echo (@$ExtraData['hosting']==1?'block':'none'); ?>"><em><?php echo __('Media file hosted by blubrry.com.', 'powerpress'); ?>
+				<input type="hidden" id="powerpress_hosting_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][hosting]" value="<?php echo ( !empty($ExtraData['hosting'])?'1':'0'); ?>" />
+				<div id="powerpress_hosting_note_<?php echo $FeedSlug; ?>" style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px; display: <?php echo ( !empty($ExtraData['hosting'])?'block':'none'); ?>"><em><?php echo __('Media file hosted by blubrry.com.', 'powerpress'); ?>
 					(<a href="javascript:void();" title="<?php echo __('Remove Blubrry.com hosted media file', 'powerpress'); ?>" onclick="powerpress_remove_hosting('<?php echo $FeedSlug; ?>');return false;"><?php echo __('remove', 'powerpress'); ?></a>)
 				</em></div>
 				

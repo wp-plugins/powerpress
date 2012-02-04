@@ -104,7 +104,7 @@ function powerpress_admin_init()
 		$Category = (isset($_POST['cat'])?$_POST['cat']:false);
 		
 		// New iTunes image
-		if( @$_POST['itunes_image_checkbox'] == 1 )
+		if( !empty($_POST['itunes_image_checkbox']) )
 		{
 			$filename = str_replace(" ", "_", basename($_FILES['itunes_image_file']['name']) );
 			$temp = $_FILES['itunes_image_file']['tmp_name'];
@@ -132,7 +132,7 @@ function powerpress_admin_init()
 		}
 		
 		// New RSS2 image
-		if( @$_POST['rss2_image_checkbox'] == 1 )
+		if( !empty($_POST['rss2_image_checkbox']) )
 		{
 			$filename = str_replace(" ", "_", basename($_FILES['rss2_image_file']['name']) );
 			$temp = $_FILES['rss2_image_file']['tmp_name'];
@@ -364,7 +364,10 @@ function powerpress_admin_init()
 					$PlayerSettings['display_pinw'] = 0;
 				if( empty($PlayerSettings['display_media_player']) )
 					$PlayerSettings['display_media_player'] = 0;
-				$General['player_function'] = abs( @$PlayerSettings['display_pinw'] - @$PlayerSettings['display_media_player'] );
+				if( empty($PlayerSettings['display_pinw']) ) $PlayerSettings['display_pinw'] = 0;
+				if( empty($PlayerSettings['display_media_player']) ) $PlayerSettings['display_media_player'] = 0;
+				
+				$General['player_function'] = abs( $PlayerSettings['display_pinw'] - $PlayerSettings['display_media_player'] );
 				$General['podcast_link'] = 0;
 				if( !empty($PlayerSettings['display_download']) )
 				{
@@ -503,7 +506,7 @@ function powerpress_admin_init()
 				}; break;
 				case 'powerpress-save-tags': {
 					$General = get_option('powerpress_general');
-					if( !@$General['blubrry_hosting'] )
+					if( empty($General['blubrry_hosting']) )
 						powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
 					else
 						powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
@@ -587,7 +590,7 @@ function powerpress_admin_init()
 					if( !is_array($Settings['custom_cat_feeds']) )
 						$Settings['custom_cat_feeds'] = array();
 					
-					if( !in_array($cat_ID, @$Settings['custom_cat_feeds']) )
+					if( !in_array($cat_ID, $Settings['custom_cat_feeds']) )
 					{
 						$Settings['custom_cat_feeds'][] = $cat_ID;
 						powerpress_save_settings($Settings);
@@ -681,7 +684,7 @@ function powerpress_admin_init()
 					if( !is_array($Settings['custom_cat_feeds']) )
 						$Settings['custom_cat_feeds'] = array();
 					
-					if( !in_array($cat_ID, @$Settings['custom_cat_feeds']) )
+					if( !in_array($cat_ID, $Settings['custom_cat_feeds']) )
 					{
 						$Settings['custom_cat_feeds'][] = $cat_ID;
 						powerpress_save_settings($Settings);
@@ -695,7 +698,7 @@ function powerpress_admin_init()
 			}; break;
 			case 'powerpress-delete-feed': {
 				$delete_slug = $_GET['feed_slug'];
-				$force_deletion = @$_GET['force'];
+				$force_deletion = !empty($_GET['force']);
 				check_admin_referer('powerpress-delete-feed-'.$delete_slug);
 				
 				$Episodes = powerpress_admin_episodes_per_feed($delete_slug);
@@ -981,7 +984,7 @@ function powerpress_admin_menu()
 	{
 		// CRAP
 	}
-	else if( function_exists('add_meta_box') && (!@$Powerpress['use_caps'] || current_user_can('edit_podcast') ) )
+	else if( function_exists('add_meta_box') && ( empty($Powerpress['use_caps']) || current_user_can('edit_podcast') ) )
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
@@ -1037,20 +1040,17 @@ function powerpress_admin_menu()
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			
 			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
-			//if( @$Powerpress['player_options'] )
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
 			
-			if( $Powerpress['channels'] )
+			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
-			if( $Powerpress['cat_casting'] )	
+			if( !empty($Powerpress['cat_casting']) )	
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-			if( @$Powerpress['podpress_stats'] )
+			if( !empty($Powerpress['podpress_stats']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
-			
-			
-			if( isset($Powerpress['blubrry_hosting']) && $Powerpress['blubrry_hosting'] )
+			if( !empty($Powerpress['blubrry_hosting']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress MP3 Tags', 'powerpress'), __('MP3 Tags', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tags.php', 'powerpress_admin_page_tags');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Tools', 'powerpress'), __('Tools', 'powerpress'), 'edit_pages', 'powerpress/powerpressadmin_tools.php', 'powerpress_admin_page_tools');
 	}
@@ -1074,7 +1074,7 @@ function powerpress_edit_post($post_ID, $post)
 		powerpress_do_enclose($post->post_content, $post_ID, ($GeneralSettings['auto_enclose']==2) );
 	}
 		
-	$Episodes = $_POST['Powerpress'];
+	$Episodes = ( isset($_POST['Powerpress'])? $_POST['Powerpress'] : false);
 	
 	if( $Episodes )
 	{
@@ -1091,7 +1091,7 @@ function powerpress_edit_post($post_ID, $post)
 				if( $feed_slug == 'podcast' ) // Clean up the old data
 					delete_post_meta( $post_ID, 'itunes:duration');
 			}
-			else if( @$Powerpress['change_podcast'] == 1 || @$Powerpress['new_podcast'] == 1 )
+			else if( !empty($Powerpress['change_podcast']) || !empty($Powerpress['new_podcast']) )
 			{
 				// No URL specified, then it's not really a podcast to save
 				if( $Powerpress['url'] == '' )
@@ -1103,14 +1103,14 @@ function powerpress_edit_post($post_ID, $post)
 				{
 					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
 					{
-						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
+						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				else
 				{
 					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 					{
-						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
+						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				
@@ -1151,14 +1151,14 @@ function powerpress_edit_post($post_ID, $post)
 				{
 					if( $Powerpress['hosting'] == 1 )
 					{
-						if( @$Powerpress['set_size'] == 0 || @$Powerpress['set_duration'] == 0 )
+						if( $Powerpress['set_size'] == 0 || $Powerpress['set_duration'] == 0 )
 						{
 							$MediaInfo = powerpress_get_media_info($Powerpress['url']);
 							if( !isset($MediaInfo['error']) )
 							{
-								if( @$Powerpress['set_size'] == 0 )
+								if( $Powerpress['set_size'] == 0 )
 									$FileSize = $MediaInfo['length'];
-								if( @$Powerpress['set_duration'] == 0 && !empty($MediaInfo['duration']) )
+								if( $Powerpress['set_duration'] == 0 && !empty($MediaInfo['duration']) )
 									$Duration = powerpress_readable_duration($MediaInfo['duration'], true);
 							}
 							else
@@ -1257,7 +1257,7 @@ function powerpress_edit_post($post_ID, $post)
 					$WebMSrc = $Powerpress['webm_src'];
 					if( !empty($GeneralSettings['default_url']) && strpos($WebMSrc, 'http://') !== 0 ) // && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
 					{
-						$WebMSrc = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($WebMSrc, '/');
+						$WebMSrc = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($WebMSrc, '/');
 					}
 					$ToSerialize['webm_src'] = $WebMSrc;
 					
@@ -1283,7 +1283,7 @@ function powerpress_edit_post($post_ID, $post)
 				if( count($ToSerialize) > 0 ) // Lets add the serialized data
 					$EnclosureData .= "\n".serialize( $ToSerialize );
 				
-				if( @$Powerpress['new_podcast'] )
+				if( !empty($Powerpress['new_podcast']) )
 				{
 					add_post_meta($post_ID, $field, $EnclosureData, true);
 				}
@@ -1306,7 +1306,7 @@ function powerpress_edit_post($post_ID, $post)
 	// Anytime the post is marked published, private or scheduled for the future we need to make sure we're making the media available for hosting
 	if( $post->post_status == 'publish' || $post->post_status == 'private' || $post->post_status == 'future' )
 	{
-		if( isset($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting'] )
+		if( !empty($GeneralSettings['blubrry_hosting']) )
 			powerpress_process_hosting($post_ID, $post->post_title); // Call anytime blog post is in the published state
 	}
 		
@@ -1327,11 +1327,11 @@ if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
 			$data['post_content'] = preg_replace('/\<!--.*added by PowerPress.*-->/im', '', $data['post_content']);
 			
 			$Powerpress = $_POST['Powerpress']['podcast'];
-			if( @$Powerpress['remove_podcast'] == 1 )
+			if( !empty($Powerpress['remove_podcast']) )
 			{
 				// Do nothing
 			}
-			else if( @$Powerpress['change_podcast'] == 1 || @$Powerpress['new_podcast'] == 1 )
+			else if( !empty($Powerpress['change_podcast']) || !empty($Powerpress['new_podcast']) )
 			{
 				$MediaURL = $Powerpress['url'];
 				if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
@@ -1339,7 +1339,7 @@ if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
 					// Only glitch here is if the media url had an error, and if that's the case then there are other issues the user needs to worry about.
 					$GeneralSettings = get_option('powerpress_general');
 					if( $GeneralSettings && isset($GeneralSettings['default_url']) )
-						$MediaURL = rtrim(@$GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
+						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 				}
 					
 				$data['post_content'] .= "<!-- DO NOT DELETE href=\"$MediaURL\" added by PowerPress to fix WordPress 2.8+ bug -->";
@@ -1810,18 +1810,18 @@ function powerpress_media_info_ajax()
 	$status = 'OK';
 	$GeneralSettings = get_option('powerpress_general');
 
-	if( defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
+	if( !empty($GeneralSettings['default_url']) && defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
 	{
 		if( strpos($media_url, 'http://') !== 0 && strpos($media_url, 'https://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http:// or https://
 		{
-			$media_url = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $media_url;
+			$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
 		}
 	}
 	else
 	{
 		if( strpos($media_url, 'http://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http://
 		{
-			$media_url = rtrim(@$GeneralSettings['default_url'], '/') .'/'. $media_url;
+			$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
 		}
 	}
 	
@@ -2059,7 +2059,8 @@ function powerpress_admin_page_tags()
 // Admin page, advanced mode: custom feeds
 function powerpress_admin_page_customfeeds()
 {
-	switch( @$_GET['action'] )
+	$Action = (!empty($_GET['action'])? $_GET['action'] : false);
+	switch( $Action )
 	{
 		case 'powerpress-editfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_customfeeds.php');
@@ -2080,7 +2081,8 @@ function powerpress_admin_page_customfeeds()
 // Category feeds
 function powerpress_admin_page_categoryfeeds()
 {
-	switch( @$_GET['action'] )
+	$Action = (!empty($_GET['action'])? $_GET['action'] : false);
+	switch( $Action )
 	{
 		case 'powerpress-editcategoryfeed' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php');
@@ -2101,7 +2103,8 @@ function powerpress_admin_page_categoryfeeds()
 // Admin page, advanced mode: tools
 function powerpress_admin_page_tools()
 {
-	switch( @$_GET['action'] )
+	$Action = (!empty($_GET['action'])? $_GET['action'] : false);
+	switch( $Action )
 	{
 		case 'powerpress-podpress-epiosdes' : {
 			powerpress_admin_page_header('powerpress/powerpressadmin_tools.php', 'powerpress-import-podpress');
@@ -2331,7 +2334,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 				// First we need to get media information...
 				
 				// If we are working with an Mp3, we can write id3 tags and get the info returned...
-				if( ($EnclosureType == 'audio/mpg' || $EnclosureType == 'audio/mpeg') && @$Settings['write_tags'] )
+				if( ($EnclosureType == 'audio/mpg' || $EnclosureType == 'audio/mpeg') && !empty($Settings['write_tags']) )
 				{
 					$results = powerpress_write_tags($EnclosureURL, $post_title);
 				}
@@ -2753,7 +2756,7 @@ function powerpress_write_tags($file, $post_title)
 	$Fields = array('title','artist','album','genre','year','track','composer','copyright','url');
 	while( list($null,$field) = each($Fields) )
 	{
-		if( @$Settings[ 'tag_'.$field ] != '' )
+		if( !empty($Settings[ 'tag_'.$field ]) )
 		{
 			$PostArgs[ $field ] = $Settings[ 'tag_'.$field ];
 			if( $field == 'track' )
@@ -2777,11 +2780,11 @@ function powerpress_write_tags($file, $post_title)
 				}; break;
 				case 'artist':
 				case 'composer': {
-					if( @$Settings['itunes_talent_name'] )
+					if( !empty($Settings['itunes_talent_name']) )
 						$PostArgs[ $field ] = $Settings['itunes_talent_name'];
 				}; break;
 				case 'copyright': {
-					if( @$Settings['itunes_talent_name'] )
+					if( !empty($Settings['itunes_talent_name']) )
 						$PostArgs['copyright'] = '(c) '.$Settings['itunes_talent_name'];
 				}; break;
 				case 'url': {

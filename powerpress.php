@@ -119,7 +119,7 @@ function powerpress_content($content)
 	if( !empty($GeneralSettings['disable_appearance']) )
 		return $content;
 	
-	if( @$GeneralSettings['player_aggressive'] )
+	if( !empty($GeneralSettings['player_aggressive']) )
 	{
 		if( strstr($content, '<!--powerpress_player-->') !== false )
 			return $content; // The players were already added to the content
@@ -174,7 +174,7 @@ function powerpress_content($content)
 	if( isset($GeneralSettings['disable_player']) )
 		$ExcludePlayers = $GeneralSettings['disable_player']; // automatically disable the players configured
 		
-	if( @$GeneralSettings['process_podpress'] && strstr($content, '[display_podcast]') )
+	if( !empty($GeneralSettings['process_podpress']) && strstr($content, '[display_podcast]') )
 		return $content;
 	
 	if( preg_match_all('/(.?)\[(powerpress)\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', $content, $matches) )
@@ -263,10 +263,10 @@ function powerpress_content($content)
 	switch( $GeneralSettings['display_player'] )
 	{
 		case 1: { // Below posts
-			return $content.$new_content.(@$GeneralSettings['player_aggressive']?'<!--powerpress_player-->':'');
+			return $content.$new_content.( !empty($GeneralSettings['player_aggressive']) ?'<!--powerpress_player-->':'');
 		}; break;
 		case 2: { // Above posts
-			return (@$GeneralSettings['player_aggressive']?'<!--powerpress_player-->':'').$new_content.$content;
+			return ( !empty($GeneralSettings['player_aggressive']) ?'<!--powerpress_player-->':'').$new_content.$content;
 		}; break;
 	}
 	return $content;
@@ -772,6 +772,9 @@ function powerpress_filter_rss_enclosure($content)
 		return ''; // The URL value is invalid
 		
 	global $post, $powerpress_rss_enclosure_post_id;
+	if( empty($powerpress_rss_enclosure_post_id) )
+		$powerpress_rss_enclosure_post_id = -1;
+	
 	if( @$powerpress_rss_enclosure_post_id == $post->ID )
 		return ''; // we've already included one enclosure, lets not allow anymore
 	$powerpress_rss_enclosure_post_id = $post->ID;
@@ -894,7 +897,7 @@ function powerpress_do_podcast_feed($for_comments=false)
 		if( $feed_slug != 'podcast' )
 		{
 			$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
-			if( @$FeedSettings['premium'] )
+			if( !empty($FeedSettings['premium']) )
 			{
 				require_once( POWERPRESS_ABSPATH.'/powerpress-feed-auth.php');
 				powerpress_feed_auth( $feed_slug );
@@ -912,8 +915,10 @@ function powerpress_template_redirect()
 	{
 		remove_action('template_redirect', 'ol_feed_redirect'); // Remove this action so feedsmith doesn't redirect
 		global $powerpress_feed;
+		if( !isset($powerpress_feed['feed_redirect_url']) )
+			$powerpress_feed['feed_redirect_url'] = '';
 		
-		if( is_array($powerpress_feed) && trim(@$powerpress_feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) && @$_GET['redirect'] != 'no' )
+		if( is_array($powerpress_feed) && trim($powerpress_feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) && @$_GET['redirect'] != 'no' )
 		{
 			if (function_exists('status_header'))
 				status_header( 302 );
@@ -1124,7 +1129,7 @@ function powerpress_load_general_feed_settings()
 				$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
 				$powerpress_feed['default_url'] = '';
 				if( !empty($powerpress_feed['default_url']) )
-					$powerpress_feed['default_url'] = rtrim(@$GeneralSettings['default_url'], '/') .'/';
+					$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
 				$explicit = array("no", "yes", "clean");
 				$powerpress_feed['explicit'] ='no';
 				if( !empty($Feed['itunes_explicit']) )
