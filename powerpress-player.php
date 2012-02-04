@@ -1418,9 +1418,10 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 			$player_height = 'jQuery(window).height()';
 		}
 	}
+	
 	if( empty($EpisodeData['type']) )
 	{
-		$EpisodeData['type']  = '';
+		$EpisodeData['type']  = powerpress_get_contenttype('test.'.$extension);
 	}
 	
 	$content .= "pp_flashembed(\n";
