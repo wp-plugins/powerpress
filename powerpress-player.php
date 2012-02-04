@@ -1419,7 +1419,9 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 		}
 	}
 	if( empty($EpisodeData['type']) )
+	{
 		$EpisodeData['type']  = '';
+	}
 	
 	$content .= "pp_flashembed(\n";
 	$content .= "	'powerpress_player_{$player_id}',\n";

@@ -193,7 +193,7 @@ function powerpress_meta_box($object, $box)
 		<span style="margin-left: 20px;"><input id="powerpress_no_player_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player]" value="1" type="checkbox" <?php echo ($NoPlayer==1?'checked':''); ?> /> <?php echo __('Do not display player', 'powerpress'); ?></span>
 		<?php
 		}
-		if( @$GeneralSettings['episode_box_no_links']  )
+		if( !empty($GeneralSettings['episode_box_no_links'])  )
 		{
 		?>
 		<span style="margin-left: 20px;"><input id="powerpress_no_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_links]" value="1" type="checkbox" <?php echo ($NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display media links', 'powerpress'); ?></span>
@@ -214,7 +214,7 @@ function powerpress_meta_box($object, $box)
 			</div>
 		</div>
 <?php
-	if( $GeneralSettings['episode_box_mode'] != 1 ) // If not simple mode
+	if( empty($GeneralSettings['episode_box_mode']) || $GeneralSettings['episode_box_mode'] != 1 ) // If not simple mode
 	{
 ?>
 		<div class="powerpress_row">
@@ -263,7 +263,7 @@ function powerpress_meta_box($object, $box)
 	}
 
 		// Video Coverart Image (Poster)
-		if( @$GeneralSettings['episode_box_cover_image'] || $CoverImage )
+		if( !empty($GeneralSettings['episode_box_cover_image']) || $CoverImage )
 		{
 			$form_action_url = admin_url("media-upload.php?type=powerpress_image&tab=type&post_id={$object->ID}&powerpress_feed={$FeedSlug}&TB_iframe=true&width=450&height=200");
 ?>
@@ -281,7 +281,7 @@ function powerpress_meta_box($object, $box)
 		}
 
 		// Player width/height
-		if( $GeneralSettings['episode_box_player_size'] || $Width || $Height )
+		if( !empty($GeneralSettings['episode_box_player_size']) || $Width || $Height )
 		{
 ?>
 		<div class="powerpress_row">
@@ -296,7 +296,7 @@ function powerpress_meta_box($object, $box)
 		}
 		
 		// Embed option, enter your own embed code provided by sites such as YouTube, Viddler and Blip.tv
-		if( $GeneralSettings['episode_box_embed'] || $Embed )
+		if( !empty($GeneralSettings['episode_box_embed']) || $Embed )
 		{
 ?>
 		<div class="powerpress_row">
@@ -308,7 +308,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_keywords'] || $iTunesKeywords )
+		if( !empty($GeneralSettings['episode_box_keywords']) || $iTunesKeywords )
 		{
 ?>
 		<div class="powerpress_row">
@@ -323,7 +323,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_subtitle'] || $iTunesSubtitle )
+		if( !empty($GeneralSettings['episode_box_subtitle']) || $iTunesSubtitle )
 		{
 ?>
 		<div class="powerpress_row">
@@ -368,7 +368,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( $GeneralSettings['episode_box_explicit'] || $iTunesExplicit )
+		if( !empty($GeneralSettings['episode_box_explicit']) || $iTunesExplicit )
 		{
 ?>
 		<div class="powerpress_row">

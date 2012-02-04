@@ -188,7 +188,7 @@ jQuery(document).ready(function($) {
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="General[metamarks]" value="1" <?php echo ($General['metamarks']?' checked':'');  ?> /> 
+			<input type="checkbox" name="General[metamarks]" value="1" <?php echo ( !empty($General['metamarks']) ?' checked':'');  ?> /> 
 			<strong><?php echo __('Meta Marks', 'powerpress'); ?></strong><?php echo ' '. powerpressadmin_new(); ?> - 
 			<?php echo __('Add additional meta information to your media for syndication.', 'powerpress'); ?> 
 			<?php echo powerpress_help_link('http://www.powerpresspodcast.com/metamarks/'); ?> 
@@ -199,7 +199,7 @@ jQuery(document).ready(function($) {
 </div>
 
 <?php
-	if( $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
+	if( isset($General['timestamp']) && $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
 	{
 ?>
 <div style="margin-left: 10px;">
@@ -412,9 +412,9 @@ while( list($value,$desc) = each($options) )
 		<select name="General[hide_warnings]" class="bpp_input_med">
 <?php
 $options = array(0=>__('No (default)', 'powerpress'), 1=>__('Yes', 'powerpress') );
-	
+$current_value = (!empty($General['hide_warnings'])?$General['hide_warnings']:0);
 while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['hide_warnings']==$value?' selected':''). ">$desc</option>\n";
+	echo "\t<option value=\"$value\"". ($current_value==$value?' selected':''). ">$desc</option>\n";
 	
 ?>
 		</select>
@@ -439,9 +439,10 @@ while( list($value,$desc) = each($options) )
 		<select name="General[permalink_feeds_only]" class="bpp_input_med">
 <?php
 $options = array(0=>__('Default WordPress Behavior', 'powerpress'), 1=>__('Match Feed Name to Page/Category', 'powerpress') );
-	
+$current_value = (!empty($General['permalink_feeds_only'])?$General['permalink_feeds_only']:0);
+
 while( list($value,$desc) = each($options) )
-	echo "\t<option value=\"$value\"". ($General['permalink_feeds_only']==$value?' selected':''). ">$desc</option>\n";
+	echo "\t<option value=\"$value\"". ($current_value==$value?' selected':''). ">$desc</option>\n";
 	
 ?>
 		</select>
@@ -927,7 +928,7 @@ function powerpressadmin_appearance($General=false)
 	<p style="margin-left: 35px;"><input type="checkbox" id="display_download_size" name="PlayerSettings[display_download_size]" value="1" <?php if( $General['podcast_link'] == 2 || $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( !this.checked ) { jQuery('#display_download_duration').removeAttr('checked'); }" /> <?php echo __('Include file size', 'powerpress'); ?>
 	<input type="checkbox" style="margin-left: 30px;" id="display_download_duration" name="PlayerSettings[display_download_duration]" value="1" <?php if( $General['podcast_link'] == 3 ) echo 'checked'; ?> onclick="if( this.checked ) { jQuery('#display_download_size').attr('checked','checked'); }" /> <?php echo __('Include file size and duration', 'powerpress'); ?></p>
 	
-	<p><label><input type="checkbox" name="General[podcast_embed]" value="1" <?php if( $General['podcast_embed'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Player Embed Link', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></label></p>
+	<p><label><input type="checkbox" name="General[podcast_embed]" value="1" <?php if( !empty($General['podcast_embed']) ) echo 'checked '; ?>/> <?php echo __('Display Player Embed Link', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></label></p>
 	<p style="margin-left: 35px;">
 		<input type="checkbox" name="General[podcast_embed_in_feed]" value="1" <?php if( !empty($General['podcast_embed_in_feed']) ) echo 'checked'; ?>  /> <?php echo __('Include embed in feeds', 'powerpress'); ?>
 	</p>
