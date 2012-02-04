@@ -99,8 +99,8 @@ function powerpress_dashboard_stats_content()
 		return;
 		
 	$content = false;
-	$UserPass = $Settings['blubrry_auth'];
-	$Keyword = $Settings['blubrry_program_keyword'];
+	$UserPass = ( !empty($Settings['blubrry_auth']) ? $Settings['blubrry_auth']:'');
+	$Keyword = ( !empty($Settings['blubrry_program_keyword']) ? $Settings['blubrry_program_keyword']:'');
 	$StatsCached = get_option('powerpress_stats');
 	if( $StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
 		$content = $StatsCached['content'];
