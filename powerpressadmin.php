@@ -1084,7 +1084,7 @@ function powerpress_edit_post($post_ID, $post)
 			if( $feed_slug != 'podcast' )
 				$field = '_'.$feed_slug.':enclosure';
 			
-			if( $Powerpress['remove_podcast'] == 1 )
+			if( !empty($Powerpress['remove_podcast']) )
 			{
 				delete_post_meta( $post_ID, $field);
 				
@@ -1817,7 +1817,7 @@ function powerpress_media_info_ajax()
 			$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
 		}
 	}
-	else
+	else if( !empty($GeneralSettings['default_url']) )
 	{
 		if( strpos($media_url, 'http://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http://
 		{

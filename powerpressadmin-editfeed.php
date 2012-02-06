@@ -400,6 +400,8 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 		$FeedSettings['copyright'] = '';
 	if( !isset($FeedSettings['title']) )
 		$FeedSettings['title'] = '';
+	if( !isset($FeedSettings['rss_language']) )
+		$FeedSettings['rss_language'] = '';	
 	
 	if( $cat_ID || $feed_slug )
 	{

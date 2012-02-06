@@ -189,6 +189,7 @@ function powerpress_metamarks_deleterow(div)
 		$types['video'] = 'Video';
 		$types['image'] = 'Image';
 		$types['comment'] = 'Comment';
+		$types['tag'] = 'Tag';
 		$types['ad'] = 'Advertisement';
 		$types['lowerthird'] = 'Lower Third';
 		return $types;

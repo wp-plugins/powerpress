@@ -284,7 +284,7 @@ function powerpressadmin_edit_entry_options($General)
 						
 					</div>
 				
-					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( @$General['episode_box_cover_image'] ) echo ' checked'; ?> /> <?php echo __('Video Poster Image', 'powerpress'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( !empty($General['episode_box_cover_image']) ) echo ' checked'; ?> /> <?php echo __('Video Poster Image', 'powerpress'); ?>
 						(<?php echo __('Specify URL to poster artwork specific to each episode', 'powerpress'); ?>)</p>
 						
 					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( @$General['episode_box_player_size'] ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
