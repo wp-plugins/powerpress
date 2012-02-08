@@ -775,7 +775,7 @@ function powerpress_filter_rss_enclosure($content)
 	if( empty($powerpress_rss_enclosure_post_id) )
 		$powerpress_rss_enclosure_post_id = -1;
 	
-	if( @$powerpress_rss_enclosure_post_id == $post->ID )
+	if( $powerpress_rss_enclosure_post_id == $post->ID )
 		return ''; // we've already included one enclosure, lets not allow anymore
 	$powerpress_rss_enclosure_post_id = $post->ID;
 	
@@ -917,8 +917,8 @@ function powerpress_template_redirect()
 		global $powerpress_feed;
 		if( !isset($powerpress_feed['feed_redirect_url']) )
 			$powerpress_feed['feed_redirect_url'] = '';
-		
-		if( is_array($powerpress_feed) && trim($powerpress_feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) && @$_GET['redirect'] != 'no' )
+		$redirect_value = ( !empty($_GET['redirect'])? $_GET['redirect'] : false );
+		if( is_array($powerpress_feed) && trim($powerpress_feed['feed_redirect_url']) != '' && !preg_match("/feedburner|feedsqueezer|feedvalidator/i", $_SERVER['HTTP_USER_AGENT'] ) && $redirect_value != 'no' )
 		{
 			if (function_exists('status_header'))
 				status_header( 302 );

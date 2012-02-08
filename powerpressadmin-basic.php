@@ -259,7 +259,7 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input class="episode_box_option" name="Null[ignore]" type="checkbox" value="1" checked onclick="return false" onkeydown="return false" /> <?php echo __('Media URL', 'powerpress'); ?>
 						(<?php echo __('Specify URL to episode\'s media file', 'powerpress'); ?>)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_mode]" type="checkbox" value="2" <?php if( @$General['episode_box_mode'] != 1 ) echo ' checked'; ?> /> <?php echo __('Media File Size and Duration', 'powerpress'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_mode]" type="checkbox" value="2" <?php if( empty($General['episode_box_mode']) || $General['episode_box_mode'] != 1 ) echo ' checked'; ?> /> <?php echo __('Media File Size and Duration', 'powerpress'); ?>
 						(<?php echo __('Specify episode\'s media file size and duration', 'powerpress'); ?>)</p>
 						
 					<p style="margin-top: 15px; margin-bottom: 0;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( !empty($General['episode_box_embed']) ) echo ' checked'; ?> onclick="SelectEmbedField(this.checked);"  /> <?php echo __('Embed Field', 'powerpress'); ?>
@@ -287,7 +287,7 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_cover_image]" type="checkbox" value="1"<?php if( !empty($General['episode_box_cover_image']) ) echo ' checked'; ?> /> <?php echo __('Video Poster Image', 'powerpress'); ?>
 						(<?php echo __('Specify URL to poster artwork specific to each episode', 'powerpress'); ?>)</p>
 						
-					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( @$General['episode_box_player_size'] ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( !empty($General['episode_box_player_size']) ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
 						(<?php echo __('Customize player width and height on a per episode basis', 'powerpress'); ?>)</p>
 					
 					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( !empty($General['episode_box_keywords']) ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
@@ -486,7 +486,7 @@ while( list($value,$desc) = each($options) )
 </select>  (<?php echo __('includes podcast episodes previously created in PodPress', 'powerpress'); ?>)
 </td>
 </tr>
-	<?php if( @$General['podpress_stats'] || powerpress_podpress_stats_exist() ) { ?>
+	<?php if( !empty($General['podpress_stats']) || powerpress_podpress_stats_exist() ) { ?>
 	<tr valign="top">
 	<th scope="row">
 

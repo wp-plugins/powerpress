@@ -535,7 +535,7 @@ function powerpress_admin_init()
 				$value = powerpress_stripslashes($value);
 				
 				/*
-				if( isset($Settings['custom_feeds'][ $key ]) && @$_POST['overwrite'] != 1 )
+				if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
 				{
 					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
 				} else */
@@ -573,7 +573,7 @@ function powerpress_admin_init()
 				
 				$category = get_category($cat_ID);
 				/*
-				if( isset($Settings['custom_feeds'][ $key ]) && @$_POST['overwrite'] != 1 )
+				if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
 				{
 					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
 				} else */
@@ -836,8 +836,11 @@ function powerpress_admin_init()
 				while( list($null,$user) = each($users) )
 				{
 					$role = get_role($user);
-					if( $role->has_cap('premium_content') )
-						$role->remove_cap('premium_content');
+					if( !empty($role) )
+					{
+						if( $role->has_cap('premium_content') )
+							$role->remove_cap('premium_content');
+					}
 				}
 				
 				remove_role('premium_subscriber');
@@ -2493,11 +2496,14 @@ function powerpress_admin_import_podpress_settings()
 	// Categories are tricky...
 	$iTunesCategories = powerpress_itunes_categories(true);
 	for( $x = 0; $x < 3; $x++ )
-	{
-		$CatDesc = str_replace(':', ' > ', $PodpressData['iTunes']['category'][$x]);
-		$CatKey = array_search($CatDesc, $iTunesCategories);
-		if( $CatKey )
-			$FeedSettings['itunes_cat_'.($x+1)] = $CatKey;
+	{	
+		if( isset($PodpressData['iTunes']['category'][$x]) )
+		{
+			$CatDesc = str_replace(':', ' > ', $PodpressData['iTunes']['category'][$x]);
+			$CatKey = array_search($CatDesc, $iTunesCategories);
+			if( $CatKey )
+				$FeedSettings['itunes_cat_'.($x+1)] = $CatKey;
+		}
 	}
 	
 	if( $PodpressData['iTunes']['explicit'] == 'No' )
@@ -2899,8 +2905,24 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	// Lets use the mp3info class:
 	require_once( POWERPRESS_ABSPATH .'/mp3info.class.php');
 	$Mp3Info = new Mp3Info();
-	if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT') )
-		$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT);
+	
+	if( $get_duration_info )
+	{
+		
+		if( preg_match('/video/i', $content_type) )
+		{
+			if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT_VIDEO') )
+				$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT_VIDEO);
+			else
+				$Mp3Info->SetDownloadBytesLimit(1024*1024); // 1MB (1024*1024)
+		}
+		else
+		{
+			if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT') )
+				$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT);
+		}
+	}
+
 	$Mp3Data = $Mp3Info->GetMp3Info($media_file, !$get_duration_info);
 	if( $Mp3Data )
 	{
@@ -2919,7 +2941,10 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			$file_size = $Mp3Info->GetContentLength();
 		
 		if( $get_duration_info )
-			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+		{
+			$playtime_string = ( !empty($Mp3Data['playtime_string']) ? $Mp3Data['playtime_string'] : '');
+			$duration = powerpress_readable_duration($playtime_string, true); // Fix so it looks better when viewed for editing
+		}
 		
 		$GeneralSettings = get_option('powerpress_general');
 		if( empty($GeneralSettings['hide_warnings']) && count( $Mp3Info->GetWarnings() ) > 0 )
@@ -2971,8 +2996,9 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			
 			if( $file_size == 0 )
 				$file_size = $Mp3Info->GetContentLength();
-				
-			$duration = powerpress_readable_duration($Mp3Data['playtime_string'], true); // Fix so it looks better when viewed for editing
+			
+			$playtime_string = ( !empty($Mp3Data['playtime_string']) ? $Mp3Data['playtime_string'] : '');
+			$duration = powerpress_readable_duration($playtime_string, true); // Fix so it looks better when viewed for editing
 			
 			if( count( $Mp3Info->GetWarnings() ) > 0 )
 			{

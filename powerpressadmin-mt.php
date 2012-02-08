@@ -43,10 +43,13 @@ if( !function_exists('add_action') )
 		global $g_import_mt_extensions;
 		
 		$partsURL = @parse_url( trim($url) );
-		if( !$partsURL )
+		if( empty($partsURL['path']) )
 			return false;
 		$filename = substr($partsURL['path'], strrpos($partsURL['path'], '/')+1 );
 		$partsFile = pathinfo($filename);
+				
+		if( empty($partsFile['extension']) )
+			return false;
 		
 		if( isset($_GET['include_only_ext']) && trim($_GET['include_only_ext']) != '' )
 		{
@@ -306,7 +309,7 @@ if( !function_exists('add_action') )
 		
 		$data['feed-podcast'] = __('Feed: (podcast)', 'powerpress');
 		
-		if( is_array($Settings['custom_feeds']) )
+		if( !empty($Settings['custom_feeds']) && is_array($Settings['custom_feeds']) )
 		{
 			while( list($feed_slug,$value) = each($Settings['custom_feeds']) )
 			{
@@ -667,7 +670,7 @@ else
 						while( list($episode_index,$episode_data) = each($import_data['enclosures']) )
 						{
 							echo "File&nbsp;$index:&nbsp;";
-							if( @$episode_data['imported'] )
+							if( !empty($episode_data['imported']) )
 							{
 									echo '&nbsp;X';
 							}

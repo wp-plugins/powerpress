@@ -588,8 +588,11 @@
 					unset($FileInfo['id3v2']);
 				if( isset($FileInfo['id3v1']) )
 					unset($FileInfo['id3v1']);
-					
-				$FileInfo['playtime_seconds'] = round($FileInfo['playtime_seconds']);
+				
+				if( !empty($FileInfo['playtime_seconds']) )
+					$FileInfo['playtime_seconds'] = round($FileInfo['playtime_seconds']);
+				else
+					$FileInfo['playtime_seconds'] = 0;
 				
 				if( isset($FileInfo['mpeg']['audio']) && $FileInfo['mpeg']['audio'] )
 				{

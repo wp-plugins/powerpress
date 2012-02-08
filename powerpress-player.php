@@ -690,7 +690,7 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 			
 			$Settings = get_option('powerpress_general');
 			if( !isset($Settings['video_player']) )
-				$Settings['video_player'] = 'flow-player-classic';
+				$Settings['video_player'] = 'html5video';
 			
 			switch( $Settings['video_player'] )
 			{
@@ -1544,7 +1544,7 @@ function powerpressplayer_build_1pxoutplayer($media_url, $EpisodeData = array())
 			'rtl' => 'no' );
 	}
 
-	if( $PlayerSettings['titles'] == '' )
+	if( empty($PlayerSettings['titles']) )
 		$PlayerSettings['titles'] = 'Blubrry PowerPress';
 	else if( strtoupper($PlayerSettings['titles']) == __('TRACK', 'powerpress') )
 		unset( $PlayerSettings['titles'] );

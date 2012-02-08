@@ -65,7 +65,7 @@
 					if( $FindReplace['step'] == 3 && $FindReplace['find_string'] != '' )
 					{
 						$good = true;
-						if( @$FindReplace['verify'] )
+						if( !empty($FindReplace['verify']) )
 						{
 							$response = wp_remote_head( $new_url );
 							// Redirect 1
@@ -261,7 +261,7 @@ dt {
 						echo '<div>';
 						powerpressadmin_find_replace_status($row['success']);
 						echo ' &nbsp; ';
-						if( @$row['error'] )
+						if( !empty($row['error']) )
 							echo $row['error'];
 						echo '</div>';
 					}
@@ -292,7 +292,7 @@ dt {
 <p class="submit">
 	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="Commit Changes" onclick="return ConfirmReplace()" />
 	&nbsp;
-	<input type="checkbox" name="FindReplace[verify]" value="1" <?php if( @$FindReplace['verify'] ) echo 'checked'; ?> onchange="return VerifyCheck(this)" />
+	<input type="checkbox" name="FindReplace[verify]" value="1" <?php if( !empty($FindReplace['verify']) ) echo 'checked'; ?> onchange="return VerifyCheck(this)" />
 	<strong><?php echo __('Verify modified URLs', 'powerpress'); ?></strong>
 		(<?php echo __('Does not change media URL if link is not found or invalid', 'powerpress'); ?>)</p>
 </p>

@@ -3,33 +3,36 @@
 
 	function powerpress_metabox_save($post_ID)
 	{
-		$MetaMarks = $_POST['MetaMarks'];
-		$Episodes = $_POST['Powerpress'];
-		while( list($feed_slug,$Powerpress) = each($Episodes) )
+		$MetaMarks = ( !empty($_POST['MetaMarks']) ? $_POST['MetaMarks'] : false);
+		$Episodes = ( !empty($_POST['Powerpress']) ? $_POST['Powerpress'] : false);
+		if( $Episodes )
 		{
-			$field = '_'.$feed_slug.':metamarks';
-			
-			if( !empty($Powerpress['remove_podcast']) )
+			while( list($feed_slug,$Powerpress) = each($Episodes) )
 			{
-				delete_post_meta( $post_ID, $field);
-			}
-			else if( !empty($Powerpress['change_podcast']) || !empty($Powerpress['new_podcast']) )
-			{
-				// No URL specified, then it's not really a podcast to save
-				if( $Powerpress['url'] == '' )
-					continue; // go to the next media file
-					
-				$MetaMarkData = $MetaMarks[ $feed_slug ];
-				if( !empty($Powerpress['new_podcast']) )
+				$field = '_'.$feed_slug.':metamarks';
+				
+				if( !empty($Powerpress['remove_podcast']) )
 				{
-					add_post_meta($post_ID, $field, $MetaMarkData, true);
+					delete_post_meta( $post_ID, $field);
 				}
-				else
+				else if( !empty($Powerpress['change_podcast']) || !empty($Powerpress['new_podcast']) )
 				{
-					update_post_meta($post_ID, $field, $MetaMarkData);
+					// No URL specified, then it's not really a podcast to save
+					if( $Powerpress['url'] == '' )
+						continue; // go to the next media file
+						
+					$MetaMarkData = $MetaMarks[ $feed_slug ];
+					if( !empty($Powerpress['new_podcast']) )
+					{
+						add_post_meta($post_ID, $field, $MetaMarkData, true);
+					}
+					else
+					{
+						update_post_meta($post_ID, $field, $MetaMarkData);
+					}
 				}
-			}
-		} // Loop through posted episodes...
+			} // Loop through posted episodes...
+		}
 		return $post_ID;
 	}
 	

@@ -3,8 +3,6 @@
 
 function powerpress_admin_tags()
 {
-	
-		
 	$General = powerpress_get_settings('powerpress_general');
 	$TagSettings = powerpress_default_settings($General, 'tags');
 ?>
@@ -30,7 +28,7 @@ function ToggleID3Tags(Obj)
 ?>
 </p>
 <?php
-	if( !@$General['blubrry_hosting'] )
+	if( empty($General['blubrry_hosting']) )
 	{
 ?>
 <table class="form-table">
@@ -65,18 +63,37 @@ function ToggleID3Tags(Obj)
 <table class="form-table" id="edit_id3_tags" style="display:<?php echo ( !empty($General['blubrry_hosting'])?( !empty($General['write_tags'])?'block':'none'):'block'); ?>;">
 
 <?php
+	if( empty($General['tag_title']) )
+		$General['tag_title'] = '';
+	if( empty($General['tag_artist']) )
+		$General['tag_artist'] = '';
+	if( empty($General['tag_album']) )
+		$General['tag_album'] = '';
+	if( empty($General['tag_genre']) )
+		$General['tag_genre'] = '';
+	if( empty($General['tag_year']) )
+		$General['tag_year'] = '';
+	if( empty($General['tag_track']) )
+		$General['tag_track'] = '';
+	if( empty($General['tag_composer']) )
+		$General['tag_composer'] = '';
+	if( empty($General['tag_copyright']) )
+		$General['tag_copyright'] = '';
+	if( empty($General['tag_url']) )
+		$General['tag_url'] = '';
+	if( empty($General['tag_coverart']) )
+		$General['tag_coverart'] = '';
 	
-	powerpressadmin_tag_option('tag_title', @$General['tag_title'], __('Title Tag', 'powerpress'), __('Use blog post title', 'powerpress') );
-	powerpressadmin_tag_option('tag_artist', @$General['tag_artist'], __('Artist Tag', 'powerpress'), __('Use Feed Talent Name', 'powerpress') );
-	powerpressadmin_tag_option('tag_album', @$General['tag_album'], __('Album Tag', 'powerpress'), __('Use blog title', 'powerpress') .': '.  get_bloginfo('name') .'' );
-	powerpressadmin_tag_option('tag_genre', @$General['tag_genre'], __('Genre Tag', 'powerpress'), __('Use genre \'Podcast\'', 'powerpress') );
-	powerpressadmin_tag_option('tag_year', @$General['tag_year'], __('Year Tag', 'powerpress'), __('Use current year', 'powerpress') );
-	//powerpressadmin_tag_option('tag_comment', $General['tag_comment'], 'Comment Tag', 'Use iTunes subtitle' ); // too compilcated at this point
-	powerpressadmin_tag_option('tag_track', @$General['tag_track'], __('Track Tag', 'powerpress'), __('Do not specify track number', 'powerpress') );
-	powerpressadmin_tag_option('tag_composer', @$General['tag_composer'], __('Composer Tag', 'powerpress'), __('Use Feed Talent Name', 'powerpress') );
-	powerpressadmin_tag_option('tag_copyright', @$General['tag_copyright'], __('Copyright Tag', 'powerpress'), __('Use &copy; Talent Name', 'powerpress') );
-	powerpressadmin_tag_option('tag_url', @$General['tag_url'], __('URL Tag', 'powerpress'), __('Use main blog URL', 'powerpress') .': '.  get_bloginfo('url') .'' );
-	powerpressadmin_tag_option('tag_coverart', @$General['tag_coverart'], __('Coverart Tag', 'powerpress'), '' );
+	powerpressadmin_tag_option('tag_title', $General['tag_title'], __('Title Tag', 'powerpress'), __('Use blog post title', 'powerpress') );
+	powerpressadmin_tag_option('tag_artist', $General['tag_artist'], __('Artist Tag', 'powerpress'), __('Use Feed Talent Name', 'powerpress') );
+	powerpressadmin_tag_option('tag_album', $General['tag_album'], __('Album Tag', 'powerpress'), __('Use blog title', 'powerpress') .': '.  get_bloginfo('name') .'' );
+	powerpressadmin_tag_option('tag_genre', $General['tag_genre'], __('Genre Tag', 'powerpress'), __('Use genre \'Podcast\'', 'powerpress') );
+	powerpressadmin_tag_option('tag_year', $General['tag_year'], __('Year Tag', 'powerpress'), __('Use current year', 'powerpress') );
+	powerpressadmin_tag_option('tag_track', $General['tag_track'], __('Track Tag', 'powerpress'), __('Do not specify track number', 'powerpress') );
+	powerpressadmin_tag_option('tag_composer', $General['tag_composer'], __('Composer Tag', 'powerpress'), __('Use Feed Talent Name', 'powerpress') );
+	powerpressadmin_tag_option('tag_copyright', $General['tag_copyright'], __('Copyright Tag', 'powerpress'), __('Use &copy; Talent Name', 'powerpress') );
+	powerpressadmin_tag_option('tag_url', $General['tag_url'], __('URL Tag', 'powerpress'), __('Use main blog URL', 'powerpress') .': '.  get_bloginfo('url') .'' );
+	powerpressadmin_tag_option('tag_coverart', $General['tag_coverart'], __('Coverart Tag', 'powerpress'), '' );
 	
 ?>
 

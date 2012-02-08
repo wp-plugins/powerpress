@@ -457,7 +457,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('Feed Description', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo @$FeedSettings['description']; ?>" maxlength="1000" /> 
+<input type="text" name="Feed[description]"style="width: 60%;"  value="<?php echo ( !empty($FeedSettings['description'])? $FeedSettings['description']:''); ?>" maxlength="1000" /> 
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category description', 'powerpress'); ?>)
 <?php } else { ?>
@@ -471,7 +471,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('Feed Landing Page URL', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo @$FeedSettings['url']; ?>" maxlength="250" />
+<input type="text" name="Feed[url]"style="width: 60%;"  value="<?php echo ( !empty($FeedSettings['url'])? $FeedSettings['url']:''); ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category page', 'powerpress'); ?>)
 <?php } else { ?>
@@ -490,7 +490,7 @@ if( $feed_slug || $cat_ID )
 <?php echo __('FeedBurner Feed URL', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo @$FeedSettings['feed_redirect_url']; ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
+<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo (!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
 <p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
 <?php
 if( $cat_ID )
@@ -514,7 +514,7 @@ else
 <?php echo __('Show the most recent', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo @$FeedSettings['posts_per_rss']; ?>" maxlength="5" /> <?php echo __('episodes / posts per feed (leave blank to use blog default', 'powerpress'); ?>: <?php form_option('posts_per_rss'); ?>)
+<input type="text" name="Feed[posts_per_rss]"style="width: 50px;"  value="<?php echo ( !empty($FeedSettings['posts_per_rss'])? $FeedSettings['posts_per_rss']:''); ?>" maxlength="5" /> <?php echo __('episodes / posts per feed (leave blank to use blog default', 'powerpress'); ?>: <?php form_option('posts_per_rss'); ?>)
 <?php if( !$feed_slug && !$cat_ID ) { ?>
 <p style="margin-top: 5px; margin-bottomd: 0;"><?php echo __('Note: Setting above applies only to podcast channel feeds', 'powerpress'); ?></p>
 <?php } ?>
@@ -526,7 +526,7 @@ else
 <?php echo __('RSS2 Image', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo @$FeedSettings['rss2_image']; ?>" maxlength="250" />
+<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['rss2_image'])? $FeedSettings['rss2_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>
@@ -553,7 +553,7 @@ $Languages = powerpress_languages();
 
 echo '<option value="">'. __('Blog Default Language', 'powerpress') .'</option>';
 while( list($value,$desc) = each($Languages) )
-	echo "\t<option value=\"$value\"". (@$FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 ?>
 </select>
 <?php
@@ -612,6 +612,8 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 {
 	if( !isset($FeedSettings['redirect']) )
 		$FeedSettings['redirect'] = '';
+	if( !isset($FeedSettings['premium_label']) )
+		$FeedSettings['premium_label'] = '';
 
 	if( $cat_ID )
 	{
@@ -738,7 +740,7 @@ function powerpress_default_premium_label(event)
 	</p>
 	
 	<div id="premium_label_custom" style="margin-left: 20px; display: <?php echo ($FeedSettings['premium_label']!=''?'block':'none'); ?>;">
-	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo htmlspecialchars(@$FeedSettings['premium_label']); ?></textarea>
+	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo htmlspecialchars($FeedSettings['premium_label']); ?></textarea>
 		<div style="width: 80%; font-size: 85%; text-align: right;">
 			<a href="#" onclick="powerpress_premium_label_append_signin_link();return false;"><?php echo __('Add sign in link to message', 'powerpress'); ?></a>
 		</div>
@@ -752,7 +754,7 @@ function powerpress_default_premium_label(event)
 </div>
 <?php
 		}
-		else if( @$General['premium_caps'] && $feed_slug )
+		else if( !empty($General['premium_caps']) && $feed_slug )
 		{
 ?>
 <h3><?php echo __('Password Protect Podcast Channel', 'powerpress'); ?></h3>
@@ -1030,7 +1032,7 @@ while( list($value,$desc) = each($explicit) )
 <?php echo __('iTunes Image', 'powerpress'); ?> 
 </th>
 <td>
-<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo @$FeedSettings['itunes_image']; ?>" maxlength="250" />
+<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg<br /><br />

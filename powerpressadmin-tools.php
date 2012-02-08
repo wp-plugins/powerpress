@@ -35,9 +35,9 @@
 	
 	<p style="margin-top: 5px;"><strong>
 		<a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-podcasting-settings", 'powerpress-podcasting-settings'); ?>" 
-			onclick="return confirm('<?php echo __('Import Podcasting plugin settings, are you sure?', 'powerpress') .'\n\n'. __('Existing PowerPress settings will be overwritten.', 'powerpress'); ?>');"><?php echo htmlspecialchars(__('Import plugin "Podcasting" Settings', 'powerpress')); ?></a></strong></p>
-	<p><?php echo htmlspecialchars(__('Import settings from the plugin "Podcasting" into PowerPress.', 'powerpress')); ?></p>
-	<p><?php echo htmlspecialchars(__('Note: Episodes created using the plugin "Podcasting" do not require importing.', 'powerpress')); ?></p>
+			onclick="return confirm('<?php echo __('Import Podcasting plugin settings, are you sure?', 'powerpress') .'\n\n'. __('Existing PowerPress settings will be overwritten.', 'powerpress'); ?>');"><?php echo htmlspecialchars(__('Import TSG\'s Podcasting Plugin Settings', 'powerpress')); ?></a></strong></p>
+	<p><?php echo htmlspecialchars(__('Import settings from the plugin "Podcasting Plugin by TSG" into PowerPress.', 'powerpress')); ?></p>
+	<p><?php echo htmlspecialchars(__('Note: Episodes created using the plugin "Podcasting Plugin by TSG" do not require importing.', 'powerpress')); ?></p>
 </td>
 </tr>
 
@@ -110,7 +110,7 @@
 <?php
 	}
 	
-	if( @$General['premium_caps'] )
+	if( !empty($General['premium_caps']) )
 	{
 ?>
 	<p style="margin-top: 5px;"><strong><a href="<?php echo admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_tools.php&amp;action=powerpress-remove-feed-caps", 'powerpress-remove-feed-caps'); ?>"><?php echo __('Remove Password Protection Capabilities for Control of Which Users can Access Your Podcasts', 'powerpress'); ?></a></strong>  (<?php echo __('Also kown as Premium Content', 'powerpress'); ?>)</p>

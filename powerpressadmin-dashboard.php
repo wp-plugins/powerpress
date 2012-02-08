@@ -183,14 +183,14 @@ function powerpress_dashboard_setup()
 	if( !empty($Settings['use_caps']) && !current_user_can('view_podcast_stats') )
 		$StatsDashboard = false;
 
-	if( $Settings )
-	{
+	//if( $Settings )
+	//{
 		if( $NewsDashboard )
 			wp_add_dashboard_widget( 'powerpress_dashboard_news', __( 'Blubrry PowerPress & Community Podcast', 'powerpress'), 'powerpress_dashboard_news_content' );
 			
 		if( $StatsDashboard )
 			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
-	}
+	//}
 	
 	$user_options = get_user_option('powerpress_user');
 	if( empty($user_options) || empty($user_options['dashboard_installed']) || $user_options['dashboard_installed'] < 2 )

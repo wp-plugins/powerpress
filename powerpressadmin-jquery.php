@@ -73,7 +73,7 @@ function powerpress_admin_jquery_init()
 		case 'powerpress-jquery-stats': {
 		
 			// Make sure users have permission to access this
-			if( @$Settings['use_caps'] && !current_user_can('view_podcast_stats') )
+			if( !empty($Settings['use_caps']) && !current_user_can('view_podcast_stats') )
 			{
 				powerpress_admin_jquery_header( __('Blubrry Media Statistics', 'powerpress') );
 ?>
