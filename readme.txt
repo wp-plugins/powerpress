@@ -158,6 +158,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added new `Feed Discovery` option, Adds "feed discovery" links to your web site's headers allowing web browsers and feed readers to auto-detect your podcast feeds.
 * Removed iTunes update iTunes listing logic, it is pretty obvious Apple does not plan on restoring the ping which Apple took offline in February of 2011.
 * Added warning in settings that podcast feed is invalid until create at least one podcast episode.
+* Warning now displayed if a Media Embed is entered but no Media URL is present.
 * Removed third party JSON library, no longer needed for WP versions 2.9+.
 * Podcast Channels can now be associated with specific Custom Post Types of type 'post'.
 * Added option to upload/change HTML5 audio and video play icons. Video play icon must be 60 x 60 pixels in size. Audio play icon has no size restrictions.
@@ -167,6 +168,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Flow Player Classic now displays full screen button when playing video.
 * Romanian translation for v2.0.4+ added by Alexander Ovsov (Thanks Alexander!)
 * Italian translation for v2.0.4+ by Umberto (thanks Umberto!)
+* Fixed a number of PHP notice messages when in `WP_DEBUG` mode. (Thanks Jeremy Clarke for introducing us to the Debug Bar plugin!)
 
 
 = 2.0.4 =

@@ -170,8 +170,10 @@
 					
 					$headers .= $line;
 					$line = rtrim($line); // Clean out the new line characters
-
-					list($key, $value) = explode(':', $line, 2);
+					$key = '';
+					$value = '';
+					if( strstr($line, ':') )
+						list($key, $value) = explode(':', $line, 2);
 					$key = trim($key);
 					$value = trim($value);
 					
@@ -185,7 +187,10 @@
 						if( $ReturnCode < 200 || $ReturnCode > 206 )
 						{
 							fclose($fp);
-							$this->SetError('HTTP '.$ReturnCode.$matches[2]);
+							if( $ReturnCode == 404 )
+								$this->SetError( __('The requested URL returned error code 404, file not found.', 'powerpress') );
+							else
+								$this->SetError( sprintf(__('The requested URL returned error code %d','powerpress'), $ReturnCode.$matches[2]) );
 							return false;
 						}
 					}
@@ -337,6 +342,9 @@
 								$this->SetError( sprintf(__('Unable to obtain HTTP %d redirect URL.', 'powerpress'), $HttpCode) );
 							}
 						}
+					}; break;
+					case '404': {
+						$this->SetError( __('The requested URL returned error code 404, file not found.', 'powerpress') );
 					}; break;
 					default: {
 						$this->SetError( curl_error($curl) );
@@ -490,8 +498,12 @@
 			{
 				if( $this->m_file_size_only )
 				{
-					$this->m_ContentLength = filesize($File);
-					return true;
+					if( file_exists($File) )
+					{
+						$this->m_ContentLength = filesize($File);
+						return true;
+					}
+					return false;
 				}
 				$LocalFile = $File;
 			}

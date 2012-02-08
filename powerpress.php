@@ -1477,90 +1477,93 @@ function get_the_powerpress_content()
 function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 {
 	$parts = pathinfo($file);
-	switch( strtolower($parts['extension']) )
+	if( !empty($parts['extension']) )
 	{
-		// Audio formats
-		case 'mp3': // most common
-		case 'mpga':
-		case 'mp2':
-		case 'mp2a':
-		case 'm2a':
-		case 'm3a':
-			return 'audio/mpeg';
-		case 'm4a':
-			return 'audio/x-m4a';
-		case 'm4b': // Audio book format
-			return 'audio/m4b';
-		case 'm4r': // iPhone ringtone format
-			return 'audio/m4r';
-		// OGG Internet contnet types as set forth by rfc5334 (http://tools.ietf.org/html/rfc5334)
-		case 'oga':
-		case 'spx':
-			return 'audio/ogg';
-		case 'wma':
-			return 'audio/x-ms-wma';
-		case 'wax':
-			return 'audio/x-ms-wax';
-		case 'ra':
-		case 'ram':
-			return 'audio/x-pn-realaudio';
-		case 'mp4a':
-			return 'audio/mp4';
-			
-		// Video formats
-		case 'm4v':
-			return 'video/x-m4v';
-		case 'mpeg':
-		case 'mpg':
-		case 'mpe':
-		case 'm1v':
-		case 'm2v':
-			return 'video/mpeg';
-		case 'mp4':
-		case 'mp4v':
-		case 'mpg4':
-			return 'video/mp4';
-		case 'asf':
-		case 'asx':
-			return 'video/x-ms-asf';
-		case 'wmx':
-			return 'video/x-ms-wmx';
-		case 'avi':
-			return 'video/x-msvideo';
-		case 'wmv':
-			return 'video/x-ms-wmv'; // Check this
-		case 'flv':
-			return 'video/x-flv';
-		case 'mov':
-		case 'qt':
-			return 'video/quicktime';
-		case 'divx':
-			return 'video/divx';
-		case '3gp':
-			return 'video/3gpp';
-		case 'webm':
-			return 'video/webm';
-		case 'ogg':
-		case 'ogv':
-			return 'video/ogg';
-			
-		// rarely used
-		case 'mid':
-		case 'midi':
-			return'audio/midi';
-		case 'wav':
-			return 'audio/wav';
-		case 'aa':
-			return 'audio/audible';
-		case 'pdf':
-			return 'application/pdf';
-		case 'torrent':
-			return 'application/x-bittorrent';
-		case 'swf':
-			return 'application/x-shockwave-flash';
-		case 'ogx':
-			return 'application/ogg';
-		default: // Let it fall through
+		switch( strtolower($parts['extension']) )
+		{
+			// Audio formats
+			case 'mp3': // most common
+			case 'mpga':
+			case 'mp2':
+			case 'mp2a':
+			case 'm2a':
+			case 'm3a':
+				return 'audio/mpeg';
+			case 'm4a':
+				return 'audio/x-m4a';
+			case 'm4b': // Audio book format
+				return 'audio/m4b';
+			case 'm4r': // iPhone ringtone format
+				return 'audio/m4r';
+			// OGG Internet contnet types as set forth by rfc5334 (http://tools.ietf.org/html/rfc5334)
+			case 'oga':
+			case 'spx':
+				return 'audio/ogg';
+			case 'wma':
+				return 'audio/x-ms-wma';
+			case 'wax':
+				return 'audio/x-ms-wax';
+			case 'ra':
+			case 'ram':
+				return 'audio/x-pn-realaudio';
+			case 'mp4a':
+				return 'audio/mp4';
+				
+			// Video formats
+			case 'm4v':
+				return 'video/x-m4v';
+			case 'mpeg':
+			case 'mpg':
+			case 'mpe':
+			case 'm1v':
+			case 'm2v':
+				return 'video/mpeg';
+			case 'mp4':
+			case 'mp4v':
+			case 'mpg4':
+				return 'video/mp4';
+			case 'asf':
+			case 'asx':
+				return 'video/x-ms-asf';
+			case 'wmx':
+				return 'video/x-ms-wmx';
+			case 'avi':
+				return 'video/x-msvideo';
+			case 'wmv':
+				return 'video/x-ms-wmv'; // Check this
+			case 'flv':
+				return 'video/x-flv';
+			case 'mov':
+			case 'qt':
+				return 'video/quicktime';
+			case 'divx':
+				return 'video/divx';
+			case '3gp':
+				return 'video/3gpp';
+			case 'webm':
+				return 'video/webm';
+			case 'ogg':
+			case 'ogv':
+				return 'video/ogg';
+				
+			// rarely used
+			case 'mid':
+			case 'midi':
+				return'audio/midi';
+			case 'wav':
+				return 'audio/wav';
+			case 'aa':
+				return 'audio/audible';
+			case 'pdf':
+				return 'application/pdf';
+			case 'torrent':
+				return 'application/x-bittorrent';
+			case 'swf':
+				return 'application/x-shockwave-flash';
+			case 'ogx':
+				return 'application/ogg';
+			default: // Let it fall through
+		}
 	}
 	
 	// Last case let wordpress detect it:

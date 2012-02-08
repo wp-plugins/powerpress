@@ -167,25 +167,36 @@ jQuery(document).ready(function($) {
 			<input type="checkbox" name="NULL[player_options]" value="1" checked disabled /> 
 			<strong><?php echo __('Audio Player Options', 'powerpress'); ?></strong> - 
 			<?php echo __('Select from 6 different web based audio players.', 'powerpress'); ?> 
-			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_player.php'); ?>"><?php echo __('configure audio player', 'powerpress'); ?></a>)</span>
+			
+			
 		</div>
 		<div>
 			<input type="checkbox" name="NULL[video_player_options]" value="1" checked disabled /> 
 			<strong><?php echo __('Video Player Options', 'powerpress'); ?></strong> - 
 			<?php echo __('Select from 2 different web based video players.', 'powerpress'); ?> 
-			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_videoplayer.php'); ?>"><?php echo __('configure video player', 'powerpress'); ?></a>)</span>
+			
 		</div>
 		<div>
-			<input type="checkbox" name="General[channels]" value="1" <?php echo ($General['channels']?' checked':''); echo $ChannelsCheckbox; ?> /> 
+			<input type="checkbox" name="General[channels]" value="1" <?php echo ( !empty($General['channels']) ?' checked':''); echo $ChannelsCheckbox; ?> /> 
 			<strong><?php echo __('Custom Podcast Channels', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage multiple media files and/or formats to one blog post.', 'powerpress'); ?> 
+			<?php if( empty($General['channels']) ) { ?>
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<?php } else { ?>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php'); ?>"><?php echo __('configure podcast channels', 'powerpress'); ?></a>)</span>
+			<?php } ?>
 		</div>
 		<div>
-			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ($General['cat_casting']?' checked':'');  echo $CategoryCheckbox;  ?> /> 
+			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ( !empty($General['cat_casting']) ?' checked':'');  echo $CategoryCheckbox;  ?> /> 
 			<strong><?php echo __('Category Podcasting', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage category podcast feeds.', 'powerpress'); ?> 
+			<?php if( empty($General['cat_casting']) ) { ?>
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<?php } else { ?>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php'); ?>"><?php echo __('configure podcast categories', 'powerpress'); ?></a>)</span>
+			<?php } ?>
 		</div>
 		<div>
 			<input type="checkbox" name="General[metamarks]" value="1" <?php echo ( !empty($General['metamarks']) ?' checked':'');  ?> /> 

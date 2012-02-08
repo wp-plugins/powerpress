@@ -1771,7 +1771,21 @@ jQuery(document).ready(function($) {
 		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_image_browser_)(.*)$/, "$2");
 		tb_show('<?php echo __('Add Poster Image', 'powerpress'); ?>', jQuery(this).attr('href') );
 		return false;
-	});	
+	});
+	jQuery('.powerpress-embed').change( function() {
+		// if there is a value in the embed box, but there is no value in the url box, then we need to display a warning...
+		var FeedSlug = this.id.replace(/(powerpress_embed_)(.*)$/, "$2");
+		if( !FeedSlug )
+			return;
+		
+		var MediaURL = jQuery('#powerpress_url_'+FeedSlug).val();
+		if( !MediaURL )
+		{
+			jQuery('#powerpress_warning_'+FeedSlug ).text( '<?php echo __('You must enter a Media URL in order to save Media Embed.', 'powerpress'); ?>');
+			jQuery('#powerpress_warning_'+FeedSlug ).css('display', 'block');
+			jQuery('#powerpress_url_'+FeedSlug).focus();
+		}
+	});
 });
 
 function powerpress_send_to_poster_image(url)
@@ -1828,6 +1842,22 @@ function powerpress_media_info_ajax()
 		}
 	}
 	
+	$ContentType = false;
+	$UrlParts = parse_url($media_url);
+	if( !empty($UrlParts['path']) )
+	{
+		// using functions that already exist in WordPress when possible:
+		$ContentType = powerpress_get_contenttype($UrlParts['path'], false);
+	}
+
+	if( !$ContentType )
+	{
+		$error = __('Unable to determine content type of media (e.g. audio/mpeg). Verify file extension is correct and try again.', 'powerpress');
+		echo "$feed_slug\n";
+		echo $error;
+		exit;
+	}
+	
 	// Get media info here...
 	if( $hosting )
 		$MediaInfo = powerpress_get_media_info($media_url);
@@ -1848,10 +1878,13 @@ function powerpress_media_info_ajax()
 	}
 	
 	echo "$feed_slug\n";
-	if( $MediaInfo['error'] )
-		echo $MediaInfo['error'] . '<br />'. sprintf('Test: %s', "<a href=\"$media_url\" target=\"_blank\">{$media_url}</a>");
-	else
+	if( $MediaInfo['error'] ) {
+		echo $MediaInfo['error'];
+		if( preg_match('/^https?\:\/\//i', $media_url) )
+			echo '<br />'. sprintf('Test: %s', "<a href=\"$media_url\" target=\"_blank\">{$media_url}</a>");
+	} else {
 		echo __('Unknown error occurred looking up media information.', 'powerpress');
+	}
 	echo "\n";
 	exit;
 }
