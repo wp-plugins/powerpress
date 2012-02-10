@@ -1,9 +1,9 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
-Requires at least: 2.8
-Tested up to: 3.2.1
-Stable tag: 2.0.4
+Requires at least: 3.0
+Tested up to: 3.3.1
+Stable tag: 3.0
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -147,7 +147,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 3.0 =
-* Released on 2/??/2012
+* Released on 2/10/2012
 * PowerPress now requires WordPress version 3.0 or newer.
 * New Meta Marks feature [learn more](http://www.powerpresspodcast.com/metamarks/)
 * Media duration detection and verification now supports AAC .m4a audio and H.264 .mp4/.m4v video (in addition to mpeg3 .mp3). Media duration detection now requires PHP 5.0.5 or newer.
