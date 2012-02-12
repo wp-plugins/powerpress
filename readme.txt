@@ -146,6 +146,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+= 3.0.1 =
+* Released on 2/?/2012
+* Fixed bug with lines 318 and 312 of powerpress.php when Feed Discovery option is enabled but custom podcast channels are not activated.
+
+
 = 3.0 =
 * Released on 2/10/2012
 * PowerPress now requires WordPress version 3.0 or newer.

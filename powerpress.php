@@ -280,7 +280,9 @@ function powerpress_header()
 {
 	// PowerPress settings:
 	$Powerpress = get_option('powerpress_general');
-	
+	if( !isset($Powerpress['custom_feeds']) )
+    $Powerpress['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
+		
 	if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
 	{
 		$PowerpressPluginURL = powerpress_get_root_url();
