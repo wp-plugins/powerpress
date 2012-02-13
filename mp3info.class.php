@@ -10,6 +10,7 @@
 		//var $m_DownloadBytesLimit = 204800; // 200K (200*1024) bytes file
 		var $m_DownloadBytesLimit = 327680; // 320K (320*1024) bytes file
 		//var $m_DownloadBytesLimit = 409600; // 400K (400*1024) bytes file
+		//var $m_DownloadBytesLimit = 1048576; // 1MB (1024*1024) bytes file
 		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress';
 		var $m_error = '';
@@ -589,10 +590,25 @@
 					
 					$errors = '';
 					while( list($null,$error) = each($FileInfo['error']) )
+					{
+						if( strstr($error, 'error parsing') )
+							continue;
 						$errors .= " $error.";
-					$this->SetError( trim($errors) );
-					return false;
+					}
+					if( !empty($errors) )
+					{
+						$this->SetError( trim($errors) );
+						return false;
+					}
 				}
+				
+				if( false && isset($FileInfo['warning']) )
+				{
+					$errors = '';
+					while( list($null,$warning) = each($FileInfo['warning']) )
+						$this->AddWarning($warning );
+				}
+				
 				// Remove extra data that is not necessary for us to return...
 				//unset($FileInfo['mpeg']);
 				unset($FileInfo['audio']);
@@ -600,6 +616,11 @@
 					unset($FileInfo['id3v2']);
 				if( isset($FileInfo['id3v1']) )
 					unset($FileInfo['id3v1']);
+					
+				if( !isset($FileInfo['playtime_seconds']) )
+					$FileInfo['playtime_seconds'] = '';
+				if( !isset($FileInfo['playtime_string']) )
+					$FileInfo['playtime_string'] = '';
 				
 				if( !empty($FileInfo['playtime_seconds']) )
 					$FileInfo['playtime_seconds'] = round($FileInfo['playtime_seconds']);

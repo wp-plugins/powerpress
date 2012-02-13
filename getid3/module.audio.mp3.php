@@ -1613,9 +1613,9 @@ class getid3_mp3 extends getid3_handler
 			}
 
 		}
-		$info['audio']['channels']        = $info['mpeg']['audio']['channels'];
-		$info['audio']['channelmode']     = $info['mpeg']['audio']['channelmode'];
-		$info['audio']['sample_rate']     = $info['mpeg']['audio']['sample_rate'];
+		$info['audio']['channels']        = ( !empty($info['mpeg']['audio']['channels']) ? $info['mpeg']['audio']['channels']:''); // FIX BY POWERPRESS
+		$info['audio']['channelmode']     = ( !empty($info['mpeg']['audio']['channelmode']) ? $info['mpeg']['audio']['channelmode']:''); // FIX BY POWERPRESS
+		$info['audio']['sample_rate']     = ( !empty($info['mpeg']['audio']['sample_rate']) ? $info['mpeg']['audio']['sample_rate']:''); // FIX BY POWERPRESS
 		return true;
 	}
 
