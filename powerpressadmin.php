@@ -2945,8 +2945,6 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		{
 			if( defined('POWERPRESS_DOWNLOAD_BYTE_LIMIT_VIDEO') )
 				$Mp3Info->SetDownloadBytesLimit(POWERPRESS_DOWNLOAD_BYTE_LIMIT_VIDEO);
-			else
-				$Mp3Info->SetDownloadBytesLimit(512*1024); // 1/2MB (512*1024)
 		}
 		else
 		{
