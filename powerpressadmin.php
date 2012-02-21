@@ -681,7 +681,7 @@ function powerpress_admin_init()
 				}
 				else
 				{
-					if( !is_array($Settings['custom_cat_feeds']) )
+					if( empty($Settings['custom_cat_feeds']) || !is_array($Settings['custom_cat_feeds']) )
 						$Settings['custom_cat_feeds'] = array();
 					
 					if( !in_array($cat_ID, $Settings['custom_cat_feeds']) )
