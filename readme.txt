@@ -151,6 +151,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with lines 318 and 312 of powerpress.php when Feed Discovery option is enabled but custom podcast channels are not activated.
 * Tweaked latest version of getid3 library so it is not as strict when detecting mp3 media with oversized or incorrect ID3 headers.
 * Increased verification (`Verify` button) cache from 400k to 600k for detecting ID3 information. This accommodates poster artwork in ID3 tags that exceeds 512K in size.
+* Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 
 
 = 3.0 =
