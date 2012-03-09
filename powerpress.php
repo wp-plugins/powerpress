@@ -1932,6 +1932,24 @@ function powerpress_readable_duration($duration, $include_hour=false)
 	return sprintf('%d:%02d', $minutes, $seconds); // X:XX or 0:XX (readable)
 }
 
+// Duratoin in form of seconds (parses hh:mm:ss)
+function powerpress_raw_duration($duration)
+{
+	$duration = trim($duration);
+	$Parts = explode(':',$duration);
+	if( empty($Parts) )
+		return $duration;
+	
+	if( count($Parts) == 3 )
+		return (($Parts[0]*60*60) + ($Parts[1]*60) +$Parts[2]);
+	else if( count($Parts) == 2 )
+		return (($Parts[0]*60) +$Parts[1]);
+	//else if( count($Parts) == 1 )
+	//	return ($Parts[0]);
+ 
+	// We never found any colons, so we assume duration is seconds
+	return $duration;
+}
 
 // For grabbing data from Podpress data stored serialized, the strings for some values can sometimes get corrupted, so we fix it...
 function powerpress_repair_serialize($string)

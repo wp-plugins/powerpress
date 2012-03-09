@@ -22,6 +22,15 @@
 						continue; // go to the next media file
 						
 					$MetaMarkData = $MetaMarks[ $feed_slug ];
+					// Loop through, and convert position and duration to seconds, if specified with 00:00:00
+					while( list($index,$row) = each($MetaMarkData) )
+					{
+						$MetaMarkData[ $index ]['position'] = powerpress_raw_duration( $row['position'] );
+						$MetaMarkData[ $index ]['duration'] = powerpress_raw_duration( $row['duration'] );
+					}
+					reset($MetaMarkData);
+					
+					
 					if( !empty($Powerpress['new_podcast']) )
 					{
 						add_post_meta($post_ID, $field, $MetaMarkData, true);
@@ -78,6 +87,13 @@
 	{
 ?>
 <script language="javascript"><!--
+
+jQuery(document).ready(function($) {
+		jQuery(".pp-metamark-position").watermark('<?php echo __('Position', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+		jQuery(".pp-metamark-duration").watermark('<?php echo __('Duration', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+		jQuery(".pp-metamark-link").watermark('<?php echo __('Link', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+		jQuery(".pp-metamark-value").watermark('<?php echo __('Value', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+});
 
 function powerpress_metamarks_addrow(FeedSlug)
 {
@@ -211,7 +227,14 @@ function powerpress_metamarks_deleterow(div)
 			$data['link'] = '';
 			$data['value'] = '';
 		}
-			
+		
+		$data['position'] = powerpress_readable_duration($data['position']);
+		$data['duration'] = powerpress_readable_duration($data['duration']);
+		if( $data['position'] == '0:00' )
+			$data['position'] = '';
+		if( $data['duration'] == '0:00' )
+			$data['duration'] = '';
+		
 			$html .= '<select class="pp-metamark-type" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][type]" style="width: 18%;">';
 			$html .= powerpress_print_options( array(''=>'Select Type')+ $MarkTypes, $data['type'], true);
 			$html .= '</select>';

@@ -147,10 +147,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 3.0.1 =
-* Released on 2/?/2012
+* Released on 3/9/2012
 * Fixed bug with lines 318 and 312 of powerpress.php when Feed Discovery option is enabled but custom podcast channels are not activated.
 * Tweaked latest version of getid3 library so it is not as strict when detecting mp3 media with oversized or incorrect ID3 headers.
 * Increased verification (`Verify` button) cache from 400k to 600k for detecting ID3 information. This accommodates poster artwork in ID3 tags that exceeds 512K in size.
+* Metamark duration and seconds can now be entered with colons to separate hour, minute and second. e.g. 1:23:45
+* Metamark watermark labels for empty fields fixed when fields already existed.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 
 
