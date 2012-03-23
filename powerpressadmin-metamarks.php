@@ -21,23 +21,41 @@
 					if( $Powerpress['url'] == '' )
 						continue; // go to the next media file
 						
-					$MetaMarkData = $MetaMarks[ $feed_slug ];
-					// Loop through, and convert position and duration to seconds, if specified with 00:00:00
-					while( list($index,$row) = each($MetaMarkData) )
+					if( !empty($MetaMarks[ $feed_slug ]) )
 					{
-						$MetaMarkData[ $index ]['position'] = powerpress_raw_duration( $row['position'] );
-						$MetaMarkData[ $index ]['duration'] = powerpress_raw_duration( $row['duration'] );
-					}
-					reset($MetaMarkData);
-					
-					
-					if( !empty($Powerpress['new_podcast']) )
-					{
-						add_post_meta($post_ID, $field, $MetaMarkData, true);
-					}
-					else
-					{
-						update_post_meta($post_ID, $field, $MetaMarkData);
+						$MetaMarkData = $MetaMarks[ $feed_slug ];
+						// Loop through, and convert position and duration to seconds, if specified with 00:00:00
+						while( list($index,$row) = each($MetaMarkData) )
+						{
+							$MetaMarkData[ $index ]['position'] = powerpress_raw_duration( $row['position'] );
+							$MetaMarkData[ $index ]['duration'] = powerpress_raw_duration( $row['duration'] );
+						}
+						reset($MetaMarkData);
+						
+						while( list($index,$row) = each($MetaMarkData) )
+						{
+							if( empty($MetaMarkData[ $index ]['type']) && empty($MetaMarkData[ $index ]['position']) && empty($MetaMarkData[ $index ]['duration']) && empty($MetaMarkData[ $index ]['link']) && empty($MetaMarkData[ $index ]['value']) )
+							{
+								unset($MetaMarkData[ $index ]);
+							}
+						}
+						reset($MetaMarkData);
+						
+						if( count($MetaMarkData) > 0 )
+						{
+							if( !empty($Powerpress['new_podcast']) )
+							{
+								add_post_meta($post_ID, $field, $MetaMarkData, true);
+							}
+							else
+							{
+								update_post_meta($post_ID, $field, $MetaMarkData);
+							}
+						}
+						else // Delete them from the database...
+						{
+							delete_post_meta($post_ID, $field );
+						}
 					}
 				}
 			} // Loop through posted episodes...
