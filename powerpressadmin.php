@@ -1229,6 +1229,9 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes Explicit
 				if( isset($Powerpress['explicit']) && trim($Powerpress['explicit']) != '' ) 
 					$ToSerialize['explicit'] = $Powerpress['explicit'];
+				// iTunes CC
+				if( isset($Powerpress['cc']) && trim($Powerpress['cc']) != '' ) 
+					$ToSerialize['cc'] = $Powerpress['cc'];	
 				// iTunes Block (FUTURE USE)
 				if( isset($Powerpress['block']) && (trim($Powerpress['block']) == 'yes' || trim($Powerpress['block']) == 'no') ) 
 					$ToSerialize['block'] = ($Powerpress['block']=='yes'?'yes':'');

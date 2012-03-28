@@ -621,6 +621,7 @@ function powerpress_rss2_item()
 	$subtitle = false;
 	$keywords = false;
 	$block = false;
+	$cc = false;
 	
 	if( isset( $EpisodeData['summary'] )  && strlen($EpisodeData['summary']) > 1 )
 		$summary = $EpisodeData['summary'];
@@ -639,6 +640,8 @@ function powerpress_rss2_item()
 		$author = $EpisodeData['author'];
 	if( !empty( $EpisodeData['block'] ) )
 		$block = 'yes';
+	if( !empty( $EpisodeData['cc'] ) )
+		$cc = 'yes';
 		
 	if( $custom_enclosure ) // We need to add the enclosure tag here...
 	{
@@ -712,7 +715,11 @@ function powerpress_rss2_item()
 		echo "\t\t<itunes:duration>" . ltrim($EpisodeData['duration'], '0:') . '</itunes:duration>'.PHP_EOL;
 		
 	if( $block && $block == 'yes' )
-		echo "\t\t<itunes:block>yes</itunes:block>".PHP_EOL;;
+		echo "\t\t<itunes:block>yes</itunes:block>".PHP_EOL;
+	
+	if( $cc && $cc == 'yes' )
+		echo "\t\t<itunes:isClosedCaptioned>yes</itunes:isClosedCaptioned>".PHP_EOL;	
+	
 	
 	// RawVoice RSS Tags
 	if( !defined('POWERPRESS_RAWVOICE_RSS') || POWERPRESS_RAWVOICE_RSS != false )

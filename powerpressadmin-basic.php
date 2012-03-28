@@ -252,6 +252,9 @@ function powerpressadmin_edit_entry_options($General)
 		$General['auto_enclose'] = 0;
 	if( !isset($General['episode_box_player_size']) )
 		$General['episode_box_player_size'] = 0;
+	if( !isset($General['episode_box_closed_captioned']) )
+		$General['episode_box_closed_captioned'] = 0;
+		
 ?>
 <h3><?php echo __('Episode Entry Options', 'powerpress'); ?></h3>
 
@@ -311,6 +314,10 @@ function powerpressadmin_edit_entry_options($General)
 						(<?php echo __('Leave unchecked to the post author name', 'powerpress'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( !empty($General['episode_box_explicit']) ) echo ' checked'; ?> /> <?php echo __('iTunes Explicit Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use your feed\'s explicit setting', 'powerpress'); ?>)</p>	
+						
+					<p style="margin-top: 15px;"><input id="episode_box_closed_captioned" class="episode_box_option" name="General[episode_box_closed_captioned]" type="checkbox" value="1"<?php if( !empty($General['episode_box_closed_captioned']) ) echo ' checked'; ?> /> <?php echo __('iTunes Closed Captioned', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
+						(<?php echo __('Leave unchecked if you do not distribute closed captioned media', 'powerpress'); ?>)</p>	
+						
 					
 					<em><?php echo __('NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.', 'powerpress'); ?></em><br />
 					<em><strong><?php echo __('USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.', 'powerpress'); ?></strong></em>

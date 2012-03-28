@@ -21,6 +21,7 @@ function powerpress_meta_box($object, $box)
 	$iTunesSummary = '';
 	$iTunesAuthor = '';
 	$iTunesExplicit = '';
+	$iTunesCC = false;
 	$NoPlayer = false;
 	$NoLinks = false;
 	$IsHD = false;
@@ -91,6 +92,8 @@ function powerpress_meta_box($object, $box)
 					$NoLinks = $ExtraData['no_links'];	
 				if( isset($ExtraData['explicit']) )	
 					$iTunesExplicit = $ExtraData['explicit'];
+				if( isset($ExtraData['cc']) )		
+					$iTunesCC = $ExtraData['cc'];
 				if( isset($ExtraData['image']) )	
 					$CoverImage = $ExtraData['image'];
 				if( isset($ExtraData['ishd']) )	
@@ -380,6 +383,26 @@ $explicit_array = array(''=>__('Use feed\'s explicit setting', 'powerpress'), 0=
 
 while( list($value,$desc) = each($explicit_array) )
 	echo "\t<option value=\"$value\"". ($iTunesExplicit==$value?' selected':''). ">$desc</option>\n";
+
+?>
+					</select>
+			</div>	
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_closed_captioned']) || $iTunesCC )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][cc]"><?php echo __('iTunes CC', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 200px;">
+<?php
+$explicit_array = array(''=>__('No Closed Captioning', 'powerpress'), 1=>__('Yes, Closed Captioned media', 'powerpress') );
+
+while( list($value,$desc) = each($explicit_array) )
+	echo "\t<option value=\"$value\"". ($iTunesCC==$value?' selected':''). ">$desc</option>\n";
 
 ?>
 					</select>
