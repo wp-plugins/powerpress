@@ -402,6 +402,9 @@ function powerpress_rss2_head()
 		
 	if( !empty($Feed['itunes_block']) )
 		echo "\t\t<itunes:block>yes</itunes:block>\n";
+	
+	if( !empty($Feed['itunes_complete']) )
+		echo "\t\t<itunes:complete>yes</itunes:complete>\n";
 		
 	if( !empty($Feed['itunes_image']) )
 	{

@@ -1141,9 +1141,37 @@ while( list($value,$desc) = each($explicit) )
 		</div>
 	</td>
 	</tr>
-	<!-- end advanced features -->
-
 </table>
+	<!-- end advanced features -->
+	
+<?php
+	if( empty($FeedSettings['itunes_block']) && empty($FeedSettings['itunes_complete']) ) {
+?>
+	<div style="margin-left: 230px; margin-bottom: 10px; font-weight: bold;"><a href="#" onclick="if( confirm('Are you sure?') ) {document.getElementById('permanent_itunes_settings').style.display='block';} return false;"><?php echo __('Notify iTunes to either remove or no longer update podcast listing in the iTunes Podcast directory', 'powerpress'); ?></a></div>
+<?php } ?>
+<!-- start advanced features -->
+<div id="permanent_itunes_settings" style="display: <?php echo ( !empty($FeedSettings['itunes_block']) || !empty($FeedSettings['itunes_complete'])  ?'block':'none'); ?>">
+<table class="form-table">
+	
+	<tr valign="top">
+	<th scope="row" >
+
+<?php echo __('iTunes Block', 'powerpress'); ?></th> 
+	<td>
+		Prevent the entire podcast from appearing in the iTunes Podcast directory.
+	</td>
+	</tr>
+	
+	<tr valign="top">
+	<th scope="row" >
+
+<?php echo __('iTunes Complete', 'powerpress'); ?></th> 
+	<td>
+		Indicate the completion of a podcast. iTunes will no longer update your listing in the iTunes Podcast directory.
+	</td>
+	</tr>
+</table>
+</div>
 <?php
 }
 	
