@@ -22,6 +22,9 @@ function powerpress_meta_box($object, $box)
 	$iTunesAuthor = '';
 	$iTunesExplicit = '';
 	$iTunesCC = false;
+	$iTunesOrder = false;
+	$FeedAlways = false;
+	$iTunesBlock = false;
 	$NoPlayer = false;
 	$NoLinks = false;
 	$IsHD = false;
@@ -94,6 +97,12 @@ function powerpress_meta_box($object, $box)
 					$iTunesExplicit = $ExtraData['explicit'];
 				if( isset($ExtraData['cc']) )		
 					$iTunesCC = $ExtraData['cc'];
+				if( isset($ExtraData['order']) )		
+					$iTunesOrder = $ExtraData['order'];
+				if( isset($ExtraData['always']) )		
+					$FeedAlways = $ExtraData['always'];
+				if( isset($ExtraData['block']) )		
+					$iTunesBlock = $ExtraData['block'];	
 				if( isset($ExtraData['image']) )	
 					$CoverImage = $ExtraData['image'];
 				if( isset($ExtraData['ishd']) )	
@@ -397,13 +406,45 @@ while( list($value,$desc) = each($explicit_array) )
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][cc]"><?php echo __('iTunes CC', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 200px;">
+				<select id="powerpress_cc_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 200px;">
 <?php
-$explicit_array = array(''=>__('No Closed Captioning', 'powerpress'), 1=>__('Yes, Closed Captioned media', 'powerpress') );
+$cc_array = array(''=>__('No Closed Captioning', 'powerpress'), 1=>__('Yes, Closed Captioned media', 'powerpress') );
 
-while( list($value,$desc) = each($explicit_array) )
+while( list($value,$desc) = each($cc_array) )
 	echo "\t<option value=\"$value\"". ($iTunesCC==$value?' selected':''). ">$desc</option>\n";
+unset($cc_array);
+?>
+					</select>
+			</div>	
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_order']) || $iTunesOrder )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][order]"><?php echo __('iTunes Order', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_order_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][order]" value="<?php echo htmlspecialchars($iTunesOrder); ?>" style="width: 60px; font-size: 90%;" size="250" />
+			</div>	
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_block']) || $iTunesBlock )
+		{
+?>
+		<div class="powerpress_row">
+			<label for "Powerpress[<?php echo $FeedSlug; ?>][block]"><?php echo __('iTunes Block', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<select id="powerpress_block_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][block]" style="width: 200px;">
+<?php
+$block_array = array(''=>__('No', 'powerpress'), 1=>__('Yes, Block episode from iTunes Directory', 'powerpress') );
 
+while( list($value,$desc) = each($block_array) )
+	echo "\t<option value=\"$value\"". ($iTunesBlock==$value?' selected':''). ">$desc</option>\n";
+unset($block_array);
 ?>
 					</select>
 			</div>	

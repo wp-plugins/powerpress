@@ -112,22 +112,47 @@ function powerpress_admin_init()
 			if( file_exists($upload_path . $filename ) )
 			{
 				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
+				if( !empty($filenameParts['extension']) ) {
+					do {
+						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+					} while( file_exists($upload_path . $filename ) );
+				}
 			}
 			
 			// Check the image...
-			$ImageData = @getimagesize($temp);
-			if( $ImageData && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] ) // Just check that it is an image, the correct image type and that the image is square
+			if( file_exists($temp) )
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$Feed['itunes_image'] = $upload_url . $filename;
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
+				$ImageData = @getimagesize($temp);
+			
+				if( $ImageData )
+				{
+					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1200 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					{
+						move_uploaded_file($temp, $upload_path . $filename);
+						$Feed['itunes_image'] = $upload_url . $filename;
+						if( !empty($_POST['itunes_image_checkbox_as_rss']) )
+						{
+							$Feed['rss2_image'] = $upload_url . $filename;
+						}
+					}
+					else if( $ImageData['channels'] != 3 )
+					{
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
+					}
+					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1200 )
+					{
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square 1200 x 1200 pixels or larger.', 'powerprss') );
+					}
+					else
+					{
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
+					}
+				}
+				else
+				{
+					powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
+				}
 			}
 		}
 		
@@ -1231,7 +1256,13 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['explicit'] = $Powerpress['explicit'];
 				// iTunes CC
 				if( isset($Powerpress['cc']) && trim($Powerpress['cc']) != '' ) 
-					$ToSerialize['cc'] = $Powerpress['cc'];	
+					$ToSerialize['cc'] = $Powerpress['cc'];
+				// order
+				if( isset($Powerpress['order']) && trim($Powerpress['order']) != '' ) 
+					$ToSerialize['order'] = $Powerpress['order'];
+				// always
+				if( isset($Powerpress['always']) && trim($Powerpress['always']) != '' ) 
+					$ToSerialize['always'] = $Powerpress['always'];
 				// iTunes Block (FUTURE USE)
 				if( isset($Powerpress['block']) && (trim($Powerpress['block']) == 'yes' || trim($Powerpress['block']) == 'no') ) 
 					$ToSerialize['block'] = ($Powerpress['block']=='yes'?'yes':'');
@@ -3171,6 +3202,10 @@ function powerpressadmin_new()
 	return '<sup style="color: #CC0000; font-weight: bold;">'. __('new!', 'powerpress') .'</sup>';
 }
 
+function powerpressadmin_updated($updated_message)
+{
+	return '<sup style="color: #CC0000; font-weight: bold;">'. htmlspecialchars($updated_message) .'</sup>';
+}
 
 function powerpressadmin_community_news($items=3)
 {

@@ -518,6 +518,7 @@ else
 <?php if( !$feed_slug && !$cat_ID ) { ?>
 <p style="margin-top: 5px; margin-bottomd: 0;"><?php echo __('Note: Setting above applies only to podcast channel feeds', 'powerpress'); ?></p>
 <?php } ?>
+<p style="margin-top: 5px; margin-bottomd: 0;"><?php echo __('WARNING: Setting this value larger than 10 may cause feed timeout errors and delay podcast directory listings from updating.', 'powerpress'); ?></p>
 </td>
 </tr>
 
@@ -530,7 +531,9 @@ else
 <a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>
-<p><?php echo __('RSS image should be at least 88 and at most 144 pixels wide and at least 31 and at most 400 pixels high in either .gif, .jpg and .png format. A square 144 x 144 pixel image is recommended.', 'powerpress'); ?></p>
+
+<p><?php echo __('RSS image should be at least 88 pixels wide and at least 31 pixels high in either .gif, .jpg and .png format.', 'powerpress'); ?></p>
+<p><strong><?php echo __('A square image that is 300 x 300 pixel or larger in .jpg format is recommended.', 'powerpress'); ?></strong></p>
 
 <?php if( $SupportUploads ) { ?>
 <p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?></p>
@@ -1035,15 +1038,26 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo __('Place the URL to the iTunes image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg<br /><br />
-<?php echo __('iTunes prefers square .jpg or .png images that are at 600 x 600 pixels (prevously 300 x 300), which is different than what is specified for the standard RSS image.', 'powerpress'); ?></p>
+<p><?php echo powerpressadmin_updated( __('iTunes image specifications changed in March, 2012', 'powerpress') ); ?></p>
+<p><?php echo __('iTunes image should be at least 1200 x 1200 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
+ </p>
 
-<p><?php echo __('Note: It may take some time (days or even a month) for iTunes to cache modified or replaced iTunes images in the iTunes Podcast Directory.', 'powerpress'); ?>
+<p><strong><?php echo __('A square image that is 1200 x 1200 pixels in .jpg format is recommended.', 'powerpress'); ?></strong></p>
+
+<p>
+<?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories such as Zune and Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
+</p>
+
+<p><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 
 <?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
 <?php if( $SupportUploads ) { ?>
-<p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> </p>
+
+<p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> &nbsp; 
+	<span style="font-size:85%;">(<?php echo __('Using this option should update your image on iTunes within 24 hours', 'powerpress'); ?>)</span>
+</p>
 <div style="display:none" id="itunes_image_upload">
-	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  />
+	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  /><br />
+	<div style="margin-left: 85px;"><input name="itunes_image_checkbox_as_rss" type="checkbox" value="1" /> <?php echo __('Also use as RSS image', 'powerpress'); ?></div>
 </div>
 <?php } ?>
 </td>
@@ -1143,7 +1157,7 @@ while( list($value,$desc) = each($explicit) )
 	</tr>
 </table>
 	<!-- end advanced features -->
-	
+<?php if( defined('POWERPRESS_NOT_SUPPORTED') ) { // start powerpress not supported features ?>
 <?php
 	if( empty($FeedSettings['itunes_block']) && empty($FeedSettings['itunes_complete']) ) {
 ?>
@@ -1172,6 +1186,7 @@ while( list($value,$desc) = each($explicit) )
 	</tr>
 </table>
 </div>
+<?php } // End PowerPress not supported features ?>
 <?php
 }
 	

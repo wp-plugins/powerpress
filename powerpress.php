@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '3.0.1' );
+define('POWERPRESS_VERSION', '4.0 beta' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -723,6 +723,8 @@ function powerpress_rss2_item()
 	if( $cc && $cc == 'yes' )
 		echo "\t\t<itunes:isClosedCaptioned>yes</itunes:isClosedCaptioned>".PHP_EOL;	
 	
+	if( isset( $EpisodeData['order'] ) && is_numeric($EpisodeData['order']) )
+		echo "\t\t<itunes:order>". $EpisodeData['order'] ."</itunes:order>".PHP_EOL;	
 	
 	// RawVoice RSS Tags
 	if( !defined('POWERPRESS_RAWVOICE_RSS') || POWERPRESS_RAWVOICE_RSS != false )
