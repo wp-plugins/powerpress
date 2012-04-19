@@ -1158,13 +1158,19 @@ while( list($value,$desc) = each($explicit) )
 </table>
 	<!-- end advanced features -->
 <?php if( defined('POWERPRESS_NOT_SUPPORTED') ) { // start powerpress not supported features ?>
-<?php
-	if( empty($FeedSettings['itunes_block']) && empty($FeedSettings['itunes_complete']) ) {
-?>
-	<div style="margin-left: 230px; margin-bottom: 10px; font-weight: bold;"><a href="#" onclick="if( confirm('Are you sure?') ) {document.getElementById('permanent_itunes_settings').style.display='block';} return false;"><?php echo __('Notify iTunes to either remove or no longer update podcast listing in the iTunes Podcast directory', 'powerpress'); ?></a></div>
-<?php } ?>
+<fieldset style="border: 1px dashed #333333;">
+<legend style="margin: 0 20px; padding: 0 5px; font-weight: bold;"><?php echo __('Features Not Supported by PowerPress', 'powerpress');  ?></legend>
+
+	<div style="margin-left: 230px; margin-bottom: 10px;">
+		<p>
+			<strong style="color: #CC0000; font-weight: bold;"><?php echo __('USE THE FOLLOWING SETTINGS AT YOUR OWN RISK.', 'powerpress'); ?></strong>
+		</p>
+		<p>
+			<?php echo __('Feeds affected', 'powerpress'); ?>: <br />
+		</p>
+	</div>
 <!-- start advanced features -->
-<div id="permanent_itunes_settings" style="display: <?php echo ( !empty($FeedSettings['itunes_block']) || !empty($FeedSettings['itunes_complete'])  ?'block':'none'); ?>">
+<div id="permanent_itunes_settings">
 <table class="form-table">
 	
 	<tr valign="top">
@@ -1186,6 +1192,7 @@ while( list($value,$desc) = each($explicit) )
 	</tr>
 </table>
 </div>
+</fieldset>
 <?php } // End PowerPress not supported features ?>
 <?php
 }

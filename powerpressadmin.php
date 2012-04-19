@@ -367,6 +367,14 @@ function powerpress_admin_init()
 					$General['episode_box_author'] = 0;	
 				if( !isset($General['episode_box_explicit'] ) )
 					$General['episode_box_explicit'] = 0;
+				if( !isset($General['episode_box_order'] ) )
+					$General['episode_box_order'] = 0;
+				
+				if( !isset($General['episode_box_feature_in_itunes'] ) )
+					$General['episode_box_feature_in_itunes'] = 0;	
+				else
+					$General['episode_box_order'] = 0;
+					
 				if( !isset($General['feed_links']) )
 					$General['feed_links'] = 0;
 				
@@ -902,6 +910,15 @@ function powerpress_admin_init()
 
 add_action('admin_init', 'powerpress_admin_init');
 
+// Function that beeng used in the action hook
+function powerpress_add_dashboard_widgets() {
+	// TODO:
+	//wp_add_dashboard_widget( 'dashboard_browser_nag', __( 'Apple iTunes Specifications Changed!' ), 'powerpress_wp_dashboard_nag' );
+}
+
+// Register the new dashboard widget into the 'wp_dashboard_setup' action
+add_action('wp_dashboard_setup', 'powerpress_add_dashboard_widgets' );
+
 function powerpress_admin_notices()
 {
 	$errors = get_option('powerpress_errors');
@@ -936,6 +953,39 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 		// Special case fields, if they are empty, we can delete them., this will keep the Settings array uncluttered
 		if( isset($Settings['feed_links']) && $Settings['feed_links'] == 0 ) // If set to default value, no need to save it in the database
 			unset($Settings['feed_links']);
+			
+		// We can unset settings that are set to their defaults to save database size...
+		if( $field == 'powerpress_general' )
+		{
+			if( isset($Settings['episode_box_embed'] ) && $Settings['episode_box_embed'] == 0 )
+				unset($Settings['episode_box_embed']);
+			if( isset($Settings['embed_replace_player'] ) && $Settings['embed_replace_player'] == 0 )
+				unset($Settings['embed_replace_player']);
+			if( isset($Settings['episode_box_no_player'] ) && $Settings['episode_box_no_player'] == 0 )
+				unset($Settings['episode_box_no_player']);
+			if( isset($Settings['episode_box_no_links'] ) && $Settings['episode_box_no_links'] == 0 )
+				unset($Settings['episode_box_no_links']);
+			if( isset($Settings['episode_box_no_player_and_links'] ) && $Settings['episode_box_no_player_and_links'] == 0 )
+				unset($Settings['episode_box_no_player_and_links']);
+			if( isset($Settings['episode_box_cover_image'] ) && $Settings['episode_box_cover_image'] == 0 )
+				unset($Settings['episode_box_cover_image']);
+			if( isset($Settings['episode_box_player_size'] ) && $Settings['episode_box_player_size'] == 0 )
+				unset($Settings['episode_box_player_size']);
+			if( isset($Settings['episode_box_keywords'] ) && $Settings['episode_box_keywords'] == 0 )
+				unset($Settings['episode_box_keywords']);
+			if( isset($Settings['episode_box_subtitle'] ) && $Settings['episode_box_subtitle'] == 0 )
+				unset($Settings['episode_box_subtitle']);
+			if( isset($Settings['episode_box_summary'] ) && $Settings['episode_box_summary'] == 0 )
+				unset($Settings['episode_box_summary']);
+			if( isset($Settings['episode_box_author'] ) && $Settings['episode_box_author'] == 0 )
+				unset($Settings['episode_box_author']);
+			if( isset($Settings['episode_box_explicit'] ) && $Settings['episode_box_explicit'] == 0 )
+				unset($Settings['episode_box_explicit']);
+			if( isset($Settings['episode_box_order'] ) && $Settings['episode_box_order'] == 0 )
+				unset($Settings['episode_box_order']);
+			if( isset($Settings['episode_box_feature_in_itunes'] ) && $Settings['episode_box_feature_in_itunes'] == 0 )
+				unset($Settings['episode_box_feature_in_itunes']);
+		}
 		
 		update_option($field,  $Settings);
 	}
@@ -1264,8 +1314,8 @@ function powerpress_edit_post($post_ID, $post)
 				if( isset($Powerpress['always']) && trim($Powerpress['always']) != '' ) 
 					$ToSerialize['always'] = $Powerpress['always'];
 				// iTunes Block (FUTURE USE)
-				if( isset($Powerpress['block']) && (trim($Powerpress['block']) == 'yes' || trim($Powerpress['block']) == 'no') ) 
-					$ToSerialize['block'] = ($Powerpress['block']=='yes'?'yes':'');
+				if( isset($Powerpress['block']) && $Powerpress['block'] == '1' ) 
+					$ToSerialize['block'] = 1;
 				// Player Embed
 				if( isset($Powerpress['embed']) && trim($Powerpress['embed']) != '' )
 					$ToSerialize['embed'] = stripslashes($Powerpress['embed']); // we have to strip slahes if they are present befure we serialize the data

@@ -267,4 +267,33 @@ function powerpressadmin_add_dashboard_widgets( $check_user_id = false)
 add_action('admin_head-index.php', 'powerpress_dashboard_head');
 add_action('wp_dashboard_setup', 'powerpress_dashboard_setup');
 
+
+// Display Browser Nag Meta Box
+function powerpress_wp_dashboard_nag() {
+	$notice = '';
+	$response = true; // wp_check_browser_version();
+
+	if ( $response ) {
+		if ( $response['insecure'] ) {
+			$msg = sprintf( __( "It looks like you're using an insecure version of <a href='%s'>%s</a>. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+		} else {
+			$msg = sprintf( __( "It looks like you're using an old version of <a href='%s'>%s</a>. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+		}
+
+		$browser_nag_class = 'powerpress';
+		if ( !empty( $response['img_src'] ) ) {
+			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) )? $response['img_src_ssl'] : $response['img_src'];
+
+			$notice .= '<div class="alignright browser-icon"><a href="' . esc_attr($response['update_url']) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
+			$browser_nag_class = ' has-browser-icon';
+		}
+		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
+		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), 'http://browsehappy.com/' ) . '</p>';
+		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
+		$notice .= '<div class="clear"></div>';
+	}
+
+	echo apply_filters( 'browse-happy-notice', $notice, $response );
+}
+
 ?>

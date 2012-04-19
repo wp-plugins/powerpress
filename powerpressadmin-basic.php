@@ -85,6 +85,18 @@ jQuery(document).ready(function($) {
 			}
 		}
 	} );
+	
+	jQuery('#episode_box_feature_in_itunes').change( function() {
+		var objectChecked = jQuery('#episode_box_feature_in_itunes').attr('checked');
+		if(typeof jQuery.prop === 'function') {
+			objectChecked = jQuery('#episode_box_feature_in_itunes').prop('checked');
+		}
+		if( objectChecked ) {
+			$("#episode_box_order").attr("disabled", true);
+		} else {
+			$("#episode_box_order").removeAttr("disabled");
+		}
+	});
 } );
 //-->
 </script>
@@ -256,8 +268,8 @@ function powerpressadmin_edit_entry_options($General)
 		$General['episode_box_closed_captioned'] = 0;
 	if( !isset($General['episode_box_order']) )
 		$General['episode_box_order'] = 0;	
-	if( !isset($General['episode_box_always']) )
-		$General['episode_box_always'] = 0;
+	if( !isset($General['episode_box_feature_in_itunes']) )
+		$General['episode_box_feature_in_itunes'] = 0;
 		
 ?>
 <h3><?php echo __('Episode Entry Options', 'powerpress'); ?></h3>
@@ -308,6 +320,7 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( !empty($General['episode_box_player_size']) ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
 						(<?php echo __('Customize player width and height on a per episode basis', 'powerpress'); ?>)</p>
 					
+					<em><strong><?php echo __('USE THE ITUNES FIELDS BELOW AT YOUR OWN RISK.', 'powerpress'); ?></strong></em>
 					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( !empty($General['episode_box_keywords']) ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use your blog post tags', 'powerpress'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( !empty($General['episode_box_subtitle']) ) echo ' checked'; ?> /> <?php echo __('iTunes Subtitle Field', 'powerpress'); ?>
@@ -322,26 +335,30 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input id="episode_box_closed_captioned" class="episode_box_option" name="General[episode_box_closed_captioned]" type="checkbox" value="1"<?php if( !empty($General['episode_box_closed_captioned']) ) echo ' checked'; ?> /> <?php echo __('iTunes Closed Captioned', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
 						(<?php echo __('Leave unchecked if you do not distribute closed captioned media', 'powerpress'); ?>)</p>
 						
-					<p style="margin-top: 15px;"><input id="episode_box_order" class="episode_box_option" name="General[episode_box_order]" type="checkbox" value="1"<?php if( !empty($General['episode_box_order']) ) echo ' checked'; ?> /> <?php echo __('iTunes Order', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_order" class="episode_box_option" name="General[episode_box_order]" type="checkbox" value="1"<?php if( !empty($General['episode_box_order']) ) echo ' checked'; ?> <?php if( !empty($General['episode_box_feature_in_itunes']) ) echo ' disabled'; ?> /> <?php echo __('iTunes Order', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
 						(<?php echo __('Override the default ordering of episodes on the iTunes podcast directory', 'powerpress'); ?>)</p>
 						<em><strong><?php echo __('If conflicting values are present the iTunes directory will use the default ordering.', 'powerpress'); ?></strong></em><br />
 						<em><strong><?php echo __('This feature only applies to the default podcast feed and Custom Podcast Channel feeds added by PowerPress.', 'powerpress'); ?></strong></em>
 					
-<?php if( defined('POWERPRESS_NOT_SUPPORTED') ) { ?>
-					<p style="margin-top: 15px;"><input id="episode_box_always" class="episode_box_option" name="General[episode_box_always]" type="checkbox" value="1"<?php if( !empty($General['episode_box_always']) ) echo ' checked'; ?> /> <?php echo __('iTunes Order', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
-						(<?php echo __('Always include episode in feed', 'powerpress'); ?>)</p>
-						<em><strong><?php echo __('Newer episodes will be rolled off the feed for these episodes.', 'powerpress'); ?></strong></em><br />
-						<em><strong><?php echo __('Used with the iTunes Order feature, you may be able to configure an introductoin episode that\'s always at the top of your iTunes directory listing.', 'powerpress'); ?></strong></em>
+					<p style="margin-top: 15px;"><input id="episode_box_feature_in_itunes" class="episode_box_option" name="General[episode_box_feature_in_itunes]" type="checkbox" value="1"<?php if( !empty($General['episode_box_feature_in_itunes']) ) echo ' checked'; ?> /> <?php echo __('Feature Episode in iTunes', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?>
+						(<?php echo __('Display selected episode at top of your iTunes Directory listing', 'powerpress'); ?>)</p>
+						<em><strong><?php echo __('All other episodes will be listed following the featured episode.', 'powerpress'); ?></strong></em><br />
+						<em><strong><?php echo __('This feature only applies to the default podcast feed and Custom Podcast Channel feeds added by PowerPress.', 'powerpress'); ?></strong></em>
 						
+<?php if( defined('POWERPRESS_NOT_SUPPORTED') ) { ?>
+<fieldset style="border: 1px dashed #333333; margin: 10px 0 10px -20px;">
+<legend style="margin: 0 20px; padding: 0 5px; font-weight: bold;"><?php echo __('Features Not Supported by PowerPress', 'powerpress');  ?></legend>
+					<p style="margin: 5px 10px 0 20px;">
+						<strong style="color: #CC0000;"><?php echo __('USE THE FOLLOWING SETTINGS AT YOUR OWN RISK.', 'powerpress'); ?></strong>
+					</p>
+					<p style="margin: 10px 10px 10px 20px;"><input id="episode_box_block" class="episode_box_option" name="General[episode_box_block]" type="checkbox" value="1"<?php if( !empty($General['episode_box_block']) ) echo ' checked'; ?> /> <?php echo __('iTunes Block', 'powerpress'); ?> 
+						(<?php echo __('Prevent episodes from appearing in iTunes. Feature only applies to iTunes, episodes will still appear in other directories and applications', 'powerpress'); ?>)</p>
 
-					<p style="margin-top: 15px;"><input id="episode_box_block" class="episode_box_option" name="General[episode_box_block]" type="checkbox" value="1"<?php if( !empty($General['episode_box_block']) ) echo ' checked'; ?> /> <?php echo __('iTunes Block', 'powerpress'); ?> 
-						(<?php echo __('Block episodes from iTunes Podcast Directory (only applies to iTunes, episodes will still appear in other directories and applications)', 'powerpress'); ?>)</p>
-
-					<em><?php echo __('NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.', 'powerpress'); ?></em><br />
-					<em><strong><?php echo __('USE THE ITUNES FIELDS ABOVE AT YOUR OWN RISK.', 'powerpress'); ?></strong></em>
+					
+</fieldset>
 <?php } ?>
+					<em><?php echo __('NOTE: An invalid entry into any of the iTunes fields may cause problems with your iTunes listing. It is highly recommended that you validate your feed using feedvalidator.org everytime you modify any of the iTunes fields listed above.', 'powerpress'); ?></em><br />
 				</div>
-				
 
 </td>
 </tr>

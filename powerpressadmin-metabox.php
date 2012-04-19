@@ -386,7 +386,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][explicit]"><?php echo __('iTunes Explicit', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][explicit]" style="width: 200px;">
+				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][explicit]" style="width: 220px;">
 <?php
 $explicit_array = array(''=>__('Use feed\'s explicit setting', 'powerpress'), 0=>__('no - display nothing', 'powerpress'), 1=>__('yes - explicit content', 'powerpress'), 2=>__('clean - no explicit content', 'powerpress') );
 
@@ -406,7 +406,7 @@ while( list($value,$desc) = each($explicit_array) )
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][cc]"><?php echo __('iTunes CC', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<select id="powerpress_cc_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 200px;">
+				<select id="powerpress_cc_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 220px;">
 <?php
 $cc_array = array(''=>__('No Closed Captioning', 'powerpress'), 1=>__('Yes, Closed Captioned media', 'powerpress') );
 
@@ -438,9 +438,9 @@ unset($cc_array);
 		<div class="powerpress_row">
 			<label for "Powerpress[<?php echo $FeedSlug; ?>][block]"><?php echo __('iTunes Block', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<select id="powerpress_block_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][block]" style="width: 200px;">
+				<select id="powerpress_block_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][block]" style="width: 220px;">
 <?php
-$block_array = array(''=>__('No', 'powerpress'), 1=>__('Yes, Block episode from iTunes Directory', 'powerpress') );
+$block_array = array(''=>__('No', 'powerpress'), 1=>__('Yes, Block episode from iTunes', 'powerpress') );
 
 while( list($value,$desc) = each($block_array) )
 	echo "\t<option value=\"$value\"". ($iTunesBlock==$value?' selected':''). ">$desc</option>\n";
