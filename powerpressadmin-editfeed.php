@@ -1165,9 +1165,50 @@ while( list($value,$desc) = each($explicit) )
 		<p>
 			<strong style="color: #CC0000; font-weight: bold;"><?php echo __('USE THE FOLLOWING SETTINGS AT YOUR OWN RISK.', 'powerpress'); ?></strong>
 		</p>
-		<p>
-			<?php echo __('Feeds affected', 'powerpress'); ?>: <br />
+		<p style="margin-bottom: 0;">
+			<?php echo __('Feeds affected', 'powerpress'); ?>: 
 		</p>
+		<div style="margin-left: 20px;">
+			<?php
+			// $General, $feed_slug=false, $cat_ID=false
+			
+			if( $feed_slug )
+			{
+				echo '<a href="';
+				echo get_feed_link($feed_slug);
+				echo '" target="_blank">';
+				echo get_feed_link($feed_slug);
+				echo '</a>';
+			}
+			else if( $cat_ID )
+			{
+				echo '<a href="';
+				echo get_category_feed_link( $cat_ID );
+				echo '" target="_blank">';
+				echo get_category_feed_link( $cat_ID );
+				echo '</a>';
+			}
+			else
+			{
+				echo '<a href="';
+				echo get_feed_link('feed');
+				echo '" target="_blank">';
+				echo get_feed_link('feed');
+				echo '</a>';
+				
+				if( empty($General['custom_feeds']['podcast']) )
+				{
+					echo '<br /><a href="';
+					echo get_feed_link('podcast');
+					echo '" target="_blank">';
+					echo get_feed_link('podcast');
+					echo '</a>';
+				}
+			}
+			
+			?>
+		</div>
+		
 	</div>
 <!-- start advanced features -->
 <div id="permanent_itunes_settings">
