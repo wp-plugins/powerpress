@@ -401,10 +401,10 @@ function powerpress_rss2_head()
 		echo "\t".'<itunes:explicit>' . $powerpress_feed['explicit'] . '</itunes:explicit>'.PHP_EOL;
 		
 	if( !empty($Feed['itunes_block']) )
-		echo "\t\t<itunes:block>yes</itunes:block>\n";
+		echo "\t<itunes:block>yes</itunes:block>".PHP_EOL;
 	
 	if( !empty($Feed['itunes_complete']) )
-		echo "\t\t<itunes:complete>yes</itunes:complete>\n";
+		echo "\t<itunes:complete>yes</itunes:complete>".PHP_EOL;
 		
 	if( !empty($Feed['itunes_image']) )
 	{
@@ -1897,6 +1897,8 @@ function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings
 	unset($FeedSettings['itunes_new_feed_url']);
 	unset($FeedSettings['apply_to']);
 	unset($FeedSettings['feed_redirect_url']);
+	unset($FeedSettings['itunes_complete']);
+	unset($FeedSettings['itunes_block']);
 	
 	// If the setting is not already set, set the enhnaced itunes setting if they have PHP5+ on by default
 	if( !isset($FeedSettings['enhance_itunes_summary']) )

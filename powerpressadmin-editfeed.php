@@ -1219,7 +1219,8 @@ while( list($value,$desc) = each($explicit) )
 
 <?php echo __('iTunes Block', 'powerpress'); ?></th> 
 	<td>
-		Prevent the entire podcast from appearing in the iTunes Podcast directory.
+		<input type="checkbox" name="Feed[itunes_block]" value="1" <?php if( !empty($FeedSettings['itunes_block']) ) echo 'checked'; ?> />
+		<?php echo __('Prevent the entire podcast from appearing in the iTunes Podcast directory.', 'powerpress'); ?>
 	</td>
 	</tr>
 	
@@ -1228,7 +1229,8 @@ while( list($value,$desc) = each($explicit) )
 
 <?php echo __('iTunes Complete', 'powerpress'); ?></th> 
 	<td>
-		Indicate the completion of a podcast. iTunes will no longer update your listing in the iTunes Podcast directory.
+		<input type="checkbox" name="Feed[itunes_complete]" value="1" <?php if( !empty($FeedSettings['itunes_complete']) ) echo 'checked'; ?> />
+		<?php echo __('Indicate the completion of a podcast. iTunes will no longer update your listing in the iTunes Podcast directory.', 'powerpress'); ?>
 	</td>
 	</tr>
 </table>

@@ -499,7 +499,12 @@ function powerpress_admin_init()
 			if( !isset($Feed['enhance_itunes_summary']) )
 				$Feed['enhance_itunes_summary'] = false;
 			if( !isset($Feed['itunes_author_post']) )
-				$Feed['itunes_author_post'] = false;	
+				$Feed['itunes_author_post'] = false;
+				
+			if( !isset($Feed['itunes_block']) )
+				$Feed['itunes_block'] = false;
+			if( !isset($Feed['itunes_complete']) )
+				$Feed['itunes_complete'] = false;
 			
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
@@ -985,6 +990,13 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_order']);
 			if( isset($Settings['episode_box_feature_in_itunes'] ) && $Settings['episode_box_feature_in_itunes'] == 0 )
 				unset($Settings['episode_box_feature_in_itunes']);
+		}
+		else // Feed or player settings...
+		{
+			if( isset($Settings['itunes_block'] ) && $Settings['itunes_block'] == 0 )
+				unset($Settings['itunes_block']);
+			if( isset($Settings['itunes_complete'] ) && $Settings['itunes_complete'] == 0 )
+				unset($Settings['itunes_complete']);
 		}
 		
 		update_option($field,  $Settings);
