@@ -927,7 +927,16 @@ function powerpress_do_podcast_feed($for_comments=false)
 	}
 	
 	//$wp_query->get_posts(); // No longer needed as it duplicates the existing get posts query already performed
-	do_feed_rss2($for_comments);
+	if( !empty($GeneralSettings['episode_box_feature_in_itunes']) ||  !empty($GeneralSettings['feature_in_itunes'])  )
+	{
+		// Use the template for the always featured option
+		load_template( POWERPRESS_ABSPATH . '/feed-podcast.php' );
+	}
+	else
+	{
+		do_feed_rss2($for_comments);
+	}
+	
 }
 
 function powerpress_template_redirect()

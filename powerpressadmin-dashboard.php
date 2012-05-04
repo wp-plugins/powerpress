@@ -192,6 +192,9 @@ function powerpress_dashboard_setup()
 			wp_add_dashboard_widget( 'powerpress_dashboard_stats', __( 'Blubrry Podcast Statistics', 'powerpress'), 'powerpress_dashboard_stats_content' );
 	//}
 	
+	// TODO:
+	//wp_add_dashboard_widget( 'powerpress_dashboard_notice_1', __( 'Blubrry PowerPress Notice May 2012', 'powerpress'), 'powerpress_dashboard_notice_1_content' );
+	
 	$user_options = get_user_option('powerpress_user');
 	if( empty($user_options) || empty($user_options['dashboard_installed']) || $user_options['dashboard_installed'] < 2 )
 	{
@@ -289,7 +292,7 @@ function powerpress_wp_dashboard_nag() {
 		}
 		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
 		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), 'http://browsehappy.com/' ) . '</p>';
-		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
+		//$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
 
