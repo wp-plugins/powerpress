@@ -158,6 +158,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * iTunes block episode feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
 * iTunes block feed feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
 * ref=Nofollow tags added to play in new window, download and embed links.
+* Increased the performance of the podcast only and podcast channel feeds.
 
 = 3.0.1 =
 * Released on 3/9/2012

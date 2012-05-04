@@ -723,8 +723,15 @@ function powerpress_rss2_item()
 	if( $cc && $cc == 'yes' )
 		echo "\t\t<itunes:isClosedCaptioned>yes</itunes:isClosedCaptioned>".PHP_EOL;	
 	
-	if( isset( $EpisodeData['order'] ) && is_numeric($EpisodeData['order']) )
-		echo "\t\t<itunes:order>". $EpisodeData['order'] ."</itunes:order>".PHP_EOL;	
+	if( !empty($powerpress_feed['itunes_feature']) ) // We are using the itunes:order option to feature a specific episode.
+	{
+		// TODO
+	}
+	else
+	{
+		if( isset( $EpisodeData['order'] ) && is_numeric($EpisodeData['order']) )
+			echo "\t\t<itunes:order>". $EpisodeData['order'] ."</itunes:order>".PHP_EOL;	
+	}
 	
 	// RawVoice RSS Tags
 	if( !defined('POWERPRESS_RAWVOICE_RSS') || POWERPRESS_RAWVOICE_RSS != false )
@@ -919,7 +926,7 @@ function powerpress_do_podcast_feed($for_comments=false)
 		}
 	}
 	
-	$wp_query->get_posts();
+	//$wp_query->get_posts(); // No longer needed as it duplicates the existing get posts query already performed
 	do_feed_rss2($for_comments);
 }
 
