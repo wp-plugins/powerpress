@@ -152,10 +152,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed warning message when metamark's default row is removed and does not exist upon saving.
 * New iTunes image requirements updated throughout plugin. RGB 1200x1200 jpg is recommended.
 * Enhanced support for uploading RSS/iTunes images, the iTunes image upload now checks for 1200x1200 or larger jpg/png image in RGB color space.
+* Notice
 * iTunes image can now also be used as the RSS image.
 * Additional information added to powerpress shortcode documentation.
 * iTunes block episode feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
 * iTunes block feed feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
+* ref=Nofollow tags added to play in new window, download and embed links.
 
 = 3.0.1 =
 * Released on 3/9/2012
