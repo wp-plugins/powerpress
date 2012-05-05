@@ -432,6 +432,23 @@ unset($cc_array);
 <?php
 		}
 		
+		if( !empty($GeneralSettings['episode_box_feature_in_itunes']) )
+		{
+			$iTunesFeatured = get_option('powerpress_itunes_featured');
+			$FeaturedChecked = false;
+			if( !empty($object->ID) && !empty($iTunesFeatured[ $FeedSlug ]) && $iTunesFeatured[ $FeedSlug ] == $object->ID ) {
+				$FeaturedChecked = true; }
+?>
+		<div class="powerpress_row">
+			<label for "PowerpressFeature[<?php echo $FeedSlug; ?>]"><?php echo __('Feature Episode', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input type="checkbox" id="powerpress_feature_<?php echo $FeedSlug; ?>" name="PowerpressFeature[<?php echo $FeedSlug; ?>]" value="1" <?php echo ($FeaturedChecked?'checked':''); ?> />
+				<?php echo __('Episode will appear at the top of your episode list in the iTunes directory.', 'powerpress'); ?>
+			</div>	
+		</div>
+<?php
+		}
+		
 		if( !empty($GeneralSettings['episode_box_block']) || $iTunesBlock )
 		{
 ?>

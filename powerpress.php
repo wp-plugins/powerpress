@@ -648,8 +648,8 @@ function powerpress_rss2_item()
 		
 	if( $custom_enclosure ) // We need to add the enclosure tag here...
 	{
-		if( !$EnclosureData['size'] )
-			$EnclosureData['size'] = 5242880; // Use the dummy 5MB size since we don't have a size to quote
+		if( empty($EpisodeData['size']) )
+			$EpisodeData['size'] = 5242880; // Use the dummy 5MB size since we don't have a size to quote
 			
 		echo "\t". sprintf('<enclosure url="%s" length="%d" type="%s" />%s',
 			trim($EpisodeData['url']),

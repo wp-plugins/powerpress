@@ -4,6 +4,20 @@
  *
  * @package WordPress
  */
+ 
+ $FeaturedPodcastID = 0;
+ $iTunesFeatured = get_option('powerpress_itunes_featured');
+ $feed_slug = get_query_var('feed');
+ if( !empty($iTunesFeatured[ $feed_slug ]) )
+ {
+		$FeaturedPodcastID = $iTunesFeatured[ $feed_slug ];
+ }
+ 
+ $TotalCount = $wp_query->post_count;
+ $OrderStart = $TotalCount;
+ $FeaturedOrder = $OrderStart + 1;
+ 
+ 
 
 header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
@@ -33,7 +47,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<?php
 		
 		//var_dump($wp_query);
-		$TotalCount = $wp_query->post_count;
+		
 		
 		//exit;
 	?>
@@ -62,17 +76,35 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
-	
+	if( $OrderStart )
+	{
+		echo "\t<itunes:order>";
+		if( $FeaturedPodcastID == get_the_ID() )
+		{
+			echo $FeaturedOrder;
+			$FeaturedPodcastID = 0;
+		}
+		else
+		{
+			echo $OrderStart;
+			$OrderStart--;
+		}
+		echo "</itunes:order>\n";
+	}
 	
 	?>
 	</item>
-	<?php endwhile; ?>
-	<?php 
+<?php endwhile; ?>
+<?php 
 	
-	if( false  ) {
-	
-	// TODO Query just this one featured podcast epiosde, give it the highest itunes:order value...
-	?>
+	if( !empty($FeaturedPodcastID) )
+	{
+		query_posts( array('p'=>$FeaturedPodcastID) );
+		if( have_posts())
+		{
+			the_post(); 
+	// Featured podcast epiosde, give it the highest itunes:order value...
+?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<link><?php the_permalink_rss() ?></link>
@@ -85,7 +117,16 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <?php endif; ?>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
+	<?php
+	echo "\t<itunes:order>";
+	echo $FeaturedOrder;
+	echo "</itunes:order>\n";
+	?>
 	</item>
-	<?php } ?>
+<?php 
+		}
+		wp_reset_query();
+	}
+?>
 </channel>
 </rss>

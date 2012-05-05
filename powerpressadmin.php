@@ -321,7 +321,10 @@ function powerpress_admin_init()
 			{
 				if( !$General )
 					$General = array();
-				$General['custom_feeds'] = $GeneralSettingsTemp['custom_feeds'];
+				if( !empty($GeneralSettingsTemp['custom_feeds']) )
+					$General['custom_feeds'] = $GeneralSettingsTemp['custom_feeds'];
+				else
+					$General['custom_feeds'] = array();
 				$General['custom_feeds'][$FeedSlug] = $Feed['title'];
 			}
 		}
@@ -1394,6 +1397,19 @@ function powerpress_edit_post($post_ID, $post)
 				}
 			}
 		} // Loop through posted episodes...
+		
+		// Check for PowerpressFeature for each channel...
+		if( !empty($_POST['PowerpressFeature']) )
+		{
+			$FeatureEpisodes = array();
+			$PowerpressFeature = $_POST['PowerpressFeature'];
+			while( list($feed_slug,$Powerpress) = each($PowerpressFeature) )
+			{
+				$FeatureEpisodes[ $feed_slug ] = $post_ID;
+			}
+			
+			powerpress_save_settings( $FeatureEpisodes, 'powerpress_itunes_featured');
+		}
 		
 		if( !empty($GeneralSettings['metamarks']) )
 		{
