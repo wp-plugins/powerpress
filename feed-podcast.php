@@ -12,13 +12,8 @@
  {
 		$FeaturedPodcastID = $iTunesFeatured[ $feed_slug ];
  }
+ $iTunesOrderNumber = 2; // One reserved for featured episode
  
- $TotalCount = $wp_query->post_count;
- $OrderStart = $TotalCount;
- $FeaturedOrder = $OrderStart + 1;
- 
- 
-
 header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
@@ -76,18 +71,18 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
-	if( $OrderStart )
+	if( !empty($iTunesFeatured[ $feed_slug ]) )
 	{
 		echo "\t<itunes:order>";
 		if( $FeaturedPodcastID == get_the_ID() )
 		{
-			echo $FeaturedOrder;
+			echo 1;
 			$FeaturedPodcastID = 0;
 		}
 		else
 		{
-			echo $OrderStart;
-			$OrderStart--;
+			echo $iTunesOrderNumber;
+			$iTunesOrderNumber++;
 		}
 		echo "</itunes:order>\n";
 	}
@@ -119,7 +114,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
 	echo "\t<itunes:order>";
-	echo $FeaturedOrder;
+	echo 1;
 	echo "</itunes:order>\n";
 	?>
 	</item>
