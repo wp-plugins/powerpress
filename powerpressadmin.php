@@ -508,6 +508,8 @@ function powerpress_admin_init()
 				$Feed['itunes_block'] = false;
 			if( !isset($Feed['itunes_complete']) )
 				$Feed['itunes_complete'] = false;
+			if( !isset($Feed['maximize_feed']) )
+				$Feed['maximize_feed'] = false;
 			
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
@@ -1000,6 +1002,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['itunes_block']);
 			if( isset($Settings['itunes_complete'] ) && $Settings['itunes_complete'] == 0 )
 				unset($Settings['itunes_complete']);
+			if( isset($Settings['maximize_feed'] ) && $Settings['maximize_feed'] == 0 )
+				unset($Settings['maximize_feed']);
 		}
 		
 		update_option($field,  $Settings);
@@ -3280,7 +3284,7 @@ function powerpressadmin_new()
 	return '<sup style="color: #CC0000; font-weight: bold;">'. __('new!', 'powerpress') .'</sup>';
 }
 
-function powerpressadmin_updated($updated_message)
+function powerpressadmin_notice($updated_message)
 {
 	return '<sup style="color: #CC0000; font-weight: bold;">'. htmlspecialchars($updated_message) .'</sup>';
 }

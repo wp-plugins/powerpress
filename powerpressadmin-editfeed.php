@@ -522,6 +522,27 @@ else
 </td>
 </tr>
 
+<?php
+	if( $feed_slug )
+	{
+?>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Feed Episode Maximizer', 'powerpress'); ?>  <?php echo powerpressadmin_new(); ?>
+</th>
+<td>
+<input type="checkbox" name="Feed[maximize_feed]" value="1" <?php if( !empty($FeedSettings['maximize_feed']) ) echo 'checked'; ?> />
+		<?php echo __('The latest 10 episodes in feed will remain as normal. The remaining 11+ older episodes in feed will have only the bare essential tags in order to maximize the number of episodes in the feed.', 'powerpress'); ?>
+		
+		<p style="margin-top: 0px; margin-bottomd: 0;"><?php echo powerpressadmin_notice( __('This feature is experimental, use at your own risk.', 'powerpress') ); ?></p>
+		
+
+<p style="margin-top: 0px; margin-bottomd: 0;"><?php echo __('NOTE: This feature may allow you to enter a larger value for the "Show the most recent" setting above. You must make sure that your feed does not exceed 512KB (1/2 MB) in size.', 'powerpress'); ?></p>
+</td>
+</tr>
+<?php
+	}
+?>
 <tr valign="top">
 <th scope="row">
 <?php echo __('RSS2 Image', 'powerpress'); ?> <br />
@@ -592,14 +613,14 @@ if( isset($Languages[ $rss_language ]) )
 <div id="rawvoice_basic_options">
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Location', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
+<th scope="row"><?php echo __('Location', 'powerpress'); ?></th> 
 <td>
 	<input type="text" style="width: 300px;" name="Feed[location]" value="<?php echo $FeedSettings['location']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Cleveland, Ohio', 'powerpress'); ?></p>
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
+<th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?></th> 
 <td>
 	<input type="text" style="width: 300px;" name="Feed[frequency]" value="<?php echo $FeedSettings['frequency']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Weekly', 'powerpress'); ?></p>
@@ -1038,7 +1059,7 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo powerpressadmin_updated( __('iTunes image specifications changed in March, 2012', 'powerpress') ); ?></p>
+<p><?php echo powerpressadmin_notice( __('iTunes image specifications changed in March, 2012', 'powerpress') ); ?></p>
 <p><?php echo __('iTunes image should be at least 1200 x 1200 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
  </p>
 

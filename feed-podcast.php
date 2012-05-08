@@ -11,6 +11,7 @@
  if( !empty($iTunesFeatured[ $feed_slug ]) )
  {
 		$FeaturedPodcastID = $iTunesFeatured[ $feed_slug ];
+		$GLOBALS['powerpress_feed']['itunes_feature'] = true; // So any custom order value is not used when looping through the feeds.
  }
  $iTunesOrderNumber = 2; // One reserved for featured episode
  
@@ -39,35 +40,44 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
 	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
 	<?php do_action('rss2_head'); ?>
-	<?php
+<?php
 		
-		//var_dump($wp_query);
-		
-		
-		//exit;
+		$ItemCount = 0;
 	?>
-	<?php while( have_posts()) : the_post(); ?>
+<?php while( have_posts()) : the_post(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<link><?php the_permalink_rss() ?></link>
-		<comments><?php comments_link_feed(); ?></comments>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
-		<dc:creator><?php the_author() ?></dc:creator>
-		<?php the_category_rss('rss2') ?>
-
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
+<?php
+		if( empty($GLOBALS['powerpress_feed']['feed_maximizer_on']) ) // If feed maximizer off
+		{
+		?>
+		<comments><?php comments_link_feed(); ?></comments>
+		<dc:creator><?php the_author() ?></dc:creator>
+<?php the_category_rss('rss2') ?>
 <?php if (get_option('rss_use_excerpt')) : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
-	<?php if ( strlen( $post->post_content ) > 0 ) : ?>
+<?php if ( strlen( $post->post_content ) > 0 ) : ?>
 		<content:encoded><![CDATA[<?php the_content_feed('rss2') ?>]]></content:encoded>
-	<?php else : ?>
+<?php else : ?>
 		<content:encoded><![CDATA[<?php the_excerpt_rss() ?>]]></content:encoded>
-	<?php endif; ?>
+<?php endif; ?>
 <?php endif; ?>
 		<wfw:commentRss><?php echo esc_url( get_post_comments_feed_link(null, 'rss2') ); ?></wfw:commentRss>
 		<slash:comments><?php echo get_comments_number(); ?></slash:comments>
+		<?php
+		}
+		else // If feed maximizer on
+		{ // itunes does not like CDATA, so we're changing it to the other method...
+		?>
+		<description><?php echo esc_html( get_the_excerpt() ); ?></description>
+		<?php
+		}
+		?>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
@@ -85,6 +95,14 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 			$iTunesOrderNumber++;
 		}
 		echo "</itunes:order>\n";
+	}
+	
+	// Decide based on count if we want to flip on the feed maximizer...
+	$ItemCount++;
+	
+	if( empty($GLOBALS['powerpress_feed']['feed_maximizer_on']) && $ItemCount >= 10 && !empty($GLOBALS['powerpress_feed']['maximize_feed']) )
+	{
+		$GLOBALS['powerpress_feed']['feed_maximizer_on'] = true; // All future items will be minimized in order to maximize episode count
 	}
 	
 	?>
@@ -105,11 +123,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<link><?php the_permalink_rss() ?></link>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
-<?php if (get_option('rss_use_excerpt')) : ?>
-		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
-<?php else : ?>
-		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
-<?php endif; ?>
+		<description><?php echo esc_html( get_the_excerpt() ); ?></description>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
