@@ -127,7 +127,7 @@ function powerpress_admin_init()
 			
 				if( $ImageData )
 				{
-					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1200 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
 						move_uploaded_file($temp, $upload_path . $filename);
 						$Feed['itunes_image'] = $upload_url . $filename;
@@ -140,9 +140,9 @@ function powerpress_admin_init()
 					{
 						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
 					}
-					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1200 )
+					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1400 )
 					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square 1200 x 1200 pixels or larger.', 'powerprss') );
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
 					}
 					else
 					{
@@ -1926,6 +1926,7 @@ function powerpress_send_to_poster_image(url)
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 //-->
 </script>
+<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/dashboard.css" type="text/css" media="screen" />
 <?php
 	}
 }

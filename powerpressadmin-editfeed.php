@@ -1059,11 +1059,11 @@ while( list($value,$desc) = each($explicit) )
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo powerpressadmin_notice( __('iTunes image specifications changed in March, 2012', 'powerpress') ); ?></p>
-<p><?php echo __('iTunes image should be at least 1200 x 1200 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
+<p><?php echo powerpressadmin_notice( __('iTunes image specifications changed in May, 2012', 'powerpress') ); ?></p>
+<p><?php echo __('iTunes image should be at least 1400 x 1400 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
  </p>
 
-<p><strong><?php echo __('A square image that is 1200 x 1200 pixels in .jpg format is recommended.', 'powerpress'); ?></strong></p>
+<p><strong><?php echo __('A square image that is 1400 x 1400 pixels in .jpg format is recommended.', 'powerpress'); ?></strong></p>
 
 <p>
 <?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories such as Zune and Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>

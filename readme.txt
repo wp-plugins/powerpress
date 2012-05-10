@@ -20,7 +20,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Media Modifiers: Easily add, modify and remove podcasts form blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (category casting) or by media format (Podcast Channels).
-- Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r.
+- Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
 * Languages supported: English, Danish, French, Simplified Chinese ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
 
@@ -42,7 +42,7 @@ Blubrry PowerPress includes extensive web player options to display your podcast
 * Place the player exactly where you want by adding the [powerpress] shortcode tag directly in your post content.
 * Add video embeds from sites such as YouTube, Viddler, Blip.tv and Ustream.tv.
 * Provides download, play in new window and embed links.
-* Formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, wma, mov, pdf, swf, avi, mpeg and more.
+* Formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, wma, mov, pdf, swf, avi, mpeg, epub and more.
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid services to streamline your podcast productivity.
@@ -150,9 +150,10 @@ To install Blubrry PowerPress manually, follow these steps:
 = 4.0 =
 * Released on TBD
 * Fixed warning message when metamark's default row is removed and does not exist upon saving.
-* New iTunes image requirements updated throughout plugin. RGB 1200x1200 jpg is recommended.
-* Enhanced support for uploading RSS/iTunes images, the iTunes image upload now checks for 1200x1200 or larger jpg/png image in RGB color space.
+* New iTunes image requirements updated throughout plugin. RGB 1400x1400 jpg is recommended.
+* Enhanced support for uploading RSS/iTunes images, the iTunes image upload now checks for 1400x1400 or larger jpg/png image in RGB color space.
 * Notice message regarding new iTunes image requirements added to dashboard.
+* Added .epub to list of file content types supported.
 * iTunes image can now also be used as the RSS image.
 * Additional information added to powerpress shortcode documentation.
 * iTunes block episode feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`

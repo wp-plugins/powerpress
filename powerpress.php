@@ -1600,6 +1600,11 @@ function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 				return 'application/x-shockwave-flash';
 			case 'ogx':
 				return 'application/ogg';
+				
+			// Most recently added by Apple:
+			case 'epub':
+				return 'document/x-epub';
+			
 			default: // Let it fall through
 		}
 	}
