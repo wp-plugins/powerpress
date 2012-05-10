@@ -168,7 +168,10 @@ function powerpress_dashboard_notice_1_content()
 
 function powerpress_dashboard_notice_message($message)
 {
-
+	// TODO:
+	// Link to: http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/
+	// link to settings page so user can change settings
+	// Add link to remove this notice.
 	echo "PowerPress Notice Message: TODO <a href=\"#\">link</a>";
 }
 
