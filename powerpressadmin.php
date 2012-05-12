@@ -920,15 +920,6 @@ function powerpress_admin_init()
 
 add_action('admin_init', 'powerpress_admin_init');
 
-// Function that beeng used in the action hook
-function powerpress_add_dashboard_widgets() {
-	// TODO:
-	//wp_add_dashboard_widget( 'dashboard_browser_nag', __( 'Apple iTunes Specifications Changed!' ), 'powerpress_wp_dashboard_nag' );
-}
-
-// Register the new dashboard widget into the 'wp_dashboard_setup' action
-add_action('wp_dashboard_setup', 'powerpress_add_dashboard_widgets' );
-
 function powerpress_admin_notices()
 {
 	$errors = get_option('powerpress_errors');
@@ -2017,6 +2008,12 @@ function powerpress_metamarks_addrow_ajax()
 }
 add_action('wp_ajax_powerpress_metamarks_addrow', 'powerpress_metamarks_addrow_ajax');
 
+function powerpress_dashboard_dismiss_ajax()
+{
+	require_once(POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');
+	powerpress_dashboard_dismiss();
+}
+add_action('wp_ajax_powerpress_dashboard_dismiss', 'powerpress_dashboard_dismiss_ajax');
 
 function powerpress_cat_row_actions($actions, $object)
 {

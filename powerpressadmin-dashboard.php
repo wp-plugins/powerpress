@@ -84,6 +84,23 @@ function powerpress_dashboard_head()
 	margin-top: 5px;
 }
 </style>
+<script type="text/javascript"><!--
+jQuery(document).ready(function($) {
+	jQuery('.powerpress-dashboard-notice').click( function(e) {
+		e.preventDefault();
+		var dash_id = jQuery(this).parents('.postbox').attr('id');
+		jQuery( '#' + dash_id + '-hide' ).prop('checked', false).triggerHandler('click');
+	
+		jQuery.ajax( {
+				type: 'POST',
+				url: '<?php echo admin_url(); ?>admin-ajax.php', 
+				data: { action: 'powerpress_dashboard_dismiss', dismiss_dash_id : dash_id },
+				success: function(response) {
+				}
+			});
+	});
+});
+// --></script>
 <?php
 }
 
@@ -157,22 +174,23 @@ function powerpress_dashboard_news_content()
 
 function powerpress_dashboard_notice_1_content()
 {
-	$Settings = get_option('powerpress_general');
+	$DismissedNotices = get_option('powerpress_dismissed_notices');
 	
-	if( isset($Settings['disable_dashboard_news']) && $Settings['disable_dashboard_news'] == 1 )
-		return; // Lets not do anything to the dashboard for PowerPress News
-		
-	powerpress_dashboard_notice_message( 'ok' ); // ADd information here with links and dismiss logic...
+	if( !empty($DismissedNotices[1]) )
+		return; // Lets not do anything to the dashboard for PowerPress Notice
+	
+	$message = '<p>'. __('Apple iTunes podcast specifications for show artwork have changed! Your iTunes image should now be 1400 x 1400 in jpg format.', 'powerpress') .'</p>';
+	$message .= '<p><a href="http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/" target="_blank">'. __('Learn more about iTunes podcasting changes', 'powerpress') .'</a></p>';
+	
+	powerpress_dashboard_notice_message(1, $message );
 }
 
 
-function powerpress_dashboard_notice_message($message)
+function powerpress_dashboard_notice_message($notice_id, $message)
 {
-	// TODO:
-	// Link to: http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/
-	// link to settings page so user can change settings
+	echo $message;
 	// Add link to remove this notice.
-	echo "PowerPress Notice Message: TODO <a href=\"#\">link</a>";
+	echo '<p><a href="#" id="powerpress_dashboard_notice_'. $notice_id .'_dismiss" class="powerpress-dashboard-notice">'. __('Dismiss', 'powerpress')  .'</a></p>';
 }
 
 
@@ -213,13 +231,13 @@ function powerpress_dashboard_setup()
 		if( !empty($DismissedNotices[1]) )
 			$Notice1Dashboard = false;
 	}
-	$Notice1Dashboard = false;// Temporary till release
+	//$Notice1Dashboard = false;// Temporary till release
 
 	if( $Notice1Dashboard )
 	{
 		$user = wp_get_current_user();
 		powerpressadmin_add_dashboard_notice_widget($user->ID, 1);
-		wp_add_dashboard_widget( 'powerpress_dashboard_notice_1', __( 'Blubrry PowerPress Notice May 2012', 'powerpress'), 'powerpress_dashboard_notice_1_content' );
+		wp_add_dashboard_widget( 'powerpress_dashboard_notice_1', __( 'Blubrry PowerPress Notice - May 2012', 'powerpress'), 'powerpress_dashboard_notice_1_content' );
 	}
 	
 	if( $NewsDashboard )
@@ -333,33 +351,19 @@ function powerpressadmin_add_dashboard_widgets( $check_user_id = false)
 add_action('admin_head-index.php', 'powerpress_dashboard_head');
 add_action('wp_dashboard_setup', 'powerpress_dashboard_setup');
 
-
-// Display Browser Nag Meta Box
-function powerpress_wp_dashboard_nag() {
-	$notice = '';
-	$response = true; // wp_check_browser_version();
-
-	if ( $response ) {
-		if ( $response['insecure'] ) {
-			$msg = sprintf( __( "It looks like you're using an insecure version of <a href='%s'>%s</a>. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
-		} else {
-			$msg = sprintf( __( "It looks like you're using an old version of <a href='%s'>%s</a>. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
-		}
-
-		$browser_nag_class = 'powerpress';
-		if ( !empty( $response['img_src'] ) ) {
-			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) )? $response['img_src_ssl'] : $response['img_src'];
-
-			$notice .= '<div class="alignright browser-icon"><a href="' . esc_attr($response['update_url']) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
-			$browser_nag_class = ' has-browser-icon';
-		}
-		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
-		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), 'http://browsehappy.com/' ) . '</p>';
-		//$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
-		$notice .= '<div class="clear"></div>';
-	}
-
-	echo apply_filters( 'browse-happy-notice', $notice, $response );
+function powerpress_dashboard_dismiss()  // Called by AJAX call
+{
+	$dismiss_dash_id = $_POST['dismiss_dash_id'];
+	preg_match('/^powerpress_dashboard_notice_(.*)$/i', $dismiss_dash_id, $match );
+	if( empty($match[1]) )
+		exit;
+	$DismissedNotices = get_option('powerpress_dismissed_notices');
+	if( !is_array($DismissedNotices) )
+		$DismissedNotices = array();
+	$DismissedNotices[ $match[1] ] = 1;
+	update_option('powerpress_dismissed_notices',  $DismissedNotices);
+	echo 'ok';
+	exit;
 }
 
 ?>
