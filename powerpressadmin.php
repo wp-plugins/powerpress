@@ -995,6 +995,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_order']);
 			if( isset($Settings['episode_box_feature_in_itunes'] ) && $Settings['episode_box_feature_in_itunes'] == 0 )
 				unset($Settings['episode_box_feature_in_itunes']);
+			if( isset($Settings['videojs_css_class']) && empty($Settings['videojs_css_class']) )
+				unset($Settings['videojs_css_class']);
 		}
 		else // Feed or player settings...
 		{

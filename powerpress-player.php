@@ -678,9 +678,20 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 		// OGG Video / WebM
 		case 'webm': 
 		case 'ogv': { // Use native player when possible
+			$Settings = get_option('powerpress_general');
+			if( !isset($Settings['video_player']) )
+				$Settings['video_player'] = 'html5video';
 			
 			// HTML5 Video as an embed
-			$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
+			switch( $Settings['video_player'] )
+			{
+				case 'videojs-html5-video-player-for-wordpress': {
+					$content .= powerpressplayer_build_videojs($media_url, $EpisodeData);
+				}; break;
+				default: {
+					$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
+				}; break;
+			}
 		}; break;
 		// H.264
 		case 'm4v':
@@ -698,6 +709,9 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 				case 'flow-player-classic': {
 					
 					$content .= powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData);
+				}; break;
+				case 'videojs-html5-video-player-for-wordpress': {
+					$content .= powerpressplayer_build_videojs($media_url, $EpisodeData);
 				}; break;
 				case 'html5video': {
 					// HTML5 Video as an embed
@@ -1807,14 +1821,82 @@ function powerpressplayer_build_simpleflash($media_url, $EpisodeData = array())
 }
 
 /*
-VideoJS for PowerPress 3.0
+VideoJS for PowerPress 4.0
 */
 function powerpressplayer_build_videojs($media_url, $EpisodeData = array())
 {
-	
-	
+	$content = '';
+	if( function_exists('add_videojs_header') )
+	{
+		// Global Settings
+		$Settings = get_option('powerpress_general');
+		
+		$player_id = powerpressplayer_get_next_id();
+		$cover_image = '';
+		$player_width = 400;
+		$player_height = 225;
+		$autoplay = false;
+		
+		if( !empty($Settings['player_width']) )
+			$player_width = $Settings['player_width'];
+		if( !empty($Settings['player_height']) )
+			$player_height = $Settings['player_height'];
+		if( !empty($Settings['poster_image']) )
+			$cover_image = $Settings['poster_image'];
+		
+		// Episode Settings
+		if( !empty($EpisodeData['image']) )
+			$cover_image = $EpisodeData['image'];
+		if( !empty($EpisodeData['width']) )
+			$player_width = $EpisodeData['width'];
+		if( !empty($EpisodeData['height']) )
+			$player_height = $EpisodeData['height'];
+		if( !empty($EpisodeData['autoplay']) )
+			$autoplay = true;
+
+		// Poster image supplied
+		$poster_attribute = '';
+		if ($cover_image)
+			$poster_attribute = ' poster="'.$cover_image.'"';
+
+		// Autoplay the video?
+		$autoplay_attribute = '';
+		if ( $autoplay )
+			$autoplay_attribute = ' autoplay';
+			
+		// We never do pre-poading for podcasting as it inflates statistics
+		
+		// Is there a custom class?
+		$class = '';
+		if ( !empty($Settings['videojs_css_class']) )
+			$class = ' '. $Settings['videojs_css_class'];
+
+		$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
+
+		$content .= '<video id="videojs_player_'. $player_id .'" class="video-js vjs-default-skin'. $class .'" width="'. $player_width .'" height="'. $player_height .'"'. $poster_attribute .' controls '. $autoplay_attribute .' data-setup="{}">';
+		
+		$content_type = powerpress_get_contenttype($media_url);
+		if( $content_type == 'video/x-m4v' )
+			$content_type = 'video/mp4'; // Mp4
+		$content .='<source src="'. $media_url .'" type="'. $content_type .'" />';
+		
+		if( !empty($EpisodeData['webm_src']) )
+		{
+			$EpisodeData['webm_src'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
+			$content .='<source src="'. $EpisodeData['webm_src'] .'" type="video/webm; codecs="vp8, vorbis" />';
+		}
+
+		$content .= '</video>';
+		$content .= "</div>\n";
+	}
+	else
+	{
+		$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
+	}
+
 	return $content;
 }
+
 
 
 ?>

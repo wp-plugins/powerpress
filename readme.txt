@@ -148,9 +148,10 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0 =
-* Released on TBD
-* Fixed warning message when metamark's default row is removed and does not exist upon saving.
+* Released on 5/11/2012
 * New iTunes image requirements updated throughout plugin. RGB 1400x1400 jpg is recommended.
+* Feed Episode Maximizer feature added, only applies to podcast channel feeds.
+* Added VideoJS video player option, requires "VideoJS - HTML5 Video Player for WordPress" plugin to be installed and activated.
 * Enhanced support for uploading RSS/iTunes images, the iTunes image upload now checks for 1400x1400 or larger jpg/png image in RGB color space.
 * Notice message regarding new iTunes image requirements added to dashboard.
 * Added .epub to list of file content types supported.
@@ -158,13 +159,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * Additional information added to powerpress shortcode documentation.
 * iTunes block episode feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
 * iTunes block feed feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
+* iTunes complete feed feature added, requires following define in wp-config.php: `define("POWERPRESS_NOT_SUPPORTED", true);`
 * iTunes order episode feature added.
 * Feature Episode in iTunes option added, allows you to put specific episode at the top of your iTunes podcast directory listing.
-* iTunes block episode feature added
 * ref=Nofollow tags added to play in new window, download and embed links.
+* Fixed warning message when metamark's default row is removed and does not exist upon saving.
 * Increased the performance of the podcast only and podcast channel feeds.
-* Feed Episode Maximizer feature added, only applies to podcast channel feeds.
 * Removed "new" from no longer new features.
+* iTunes default image updated to 1400 x 1400.
 
 
 = 3.0.1 =
