@@ -2,18 +2,22 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 Stable tag: 3.0.1
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
 == Description ==
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, the Update iTunes Listing feature, web audio/video media players and more. PowerPress is designed as an upgrade to PodPress.
+Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, web audio/video media players and more.
 
-*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
+= PowerPress 4.0 complies with the latest iTunes Specifications! =
+PowerPress 4.0 includes all of the latest [Apple iTunes podcasting specifications](http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/). Don't be left behind, upgrade to PowerPress 4.0 today!
 
-=  Key Features  =
+= Currently Using PodPress? =
+Switching to PowerPress is seamless, just enable PowerPress then disable PodPress and you're done! Switching plugins is that easy!
+
+=  PowerPress Key Features  =
 - HTML5 video support: Add both mp4 and webm media to each episode for maximum platform compatibility
 - Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
 - Integrated HTML5 and Flash Media Players: Audio/video web players with embed support from sites such as YouTube and Ustream.tv.
@@ -32,6 +36,7 @@ iTunes can make up between 50 and 95 percent of a podcaster's audience. PowerPre
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
 * Optimized iTunes Summary: Converts your blog post content to a format suited for viewing in iTunes ([learn more](http://help.blubrry.com/blubrry-powerpress/powerpress-settings/enhanced-itunes-summary/))
 * Upload iTunes Artwork: Upload and change your iTunes artwork directly from within PowerPress settings.
+* iTunes podcasting specifications fully supported.
 
 =  Integrated Media Players  =
 Blubrry PowerPress includes extensive web player options to display your podcast audio and video in your web pages.
@@ -72,22 +77,13 @@ Want more? Check out the advanced features.
 
 **Custom Post Types feature requires a separate plugin to manage custom post types.
 
-= Migrating from PodPress =
- We made it easy to migrate from PodPress to PowerPress.
+= Migrating from PodPress or "Podcasting Plugin by TSG"? =
+ We made it easy to switch to PowerPress.
  
 * Install and enable PowerPress
-* Configure the "PodPress Episodes" setting in PowerPress to "Include in Posts and Feeds"
-* Disable PodPress
+* Disable previous podcasting plugin
 
-PowerPress will continue where PodPress left off by including your previously created PodPress episodes in your feeds and web pages.
-
-= Migrating from plugin "Podcasting" =
- We made it easy to migrate from plugin "Podcasting" to PowerPress.
- 
-* Install and enable PowerPress
-* Disable plugin "Podcasting"
-
-PowerPress will continue where plugin "Podcasting" left off by including your previously created episodes in your feeds and web pages.
+PowerPress will continue where plugin your old plugin left off by including your previously created episodes in your feeds and web pages.
 
 = Need Help? =
 . . . or have some ideas that could improve the plugin?
@@ -96,6 +92,8 @@ PowerPress will continue where plugin "Podcasting" left off by including your pr
 * Use the Blubrry [Contact Us](http://www.blubrry.com/contact.php)  form
 * Blubrry [PowerPress Documentation](http://help.blubrry.com/blubrry-powerpress/)
 * Check out [PodcastFAQ.com](http://www.podcastfaq.com/) - everything you need to know about podcasting
+
+*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
 
 
 == Frequently Asked Questions ==
