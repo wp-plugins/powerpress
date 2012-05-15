@@ -145,6 +145,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 4.0.1 =
+* Released on TBD
+* Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.
+
+
 = 4.0 =
 * Released on 5/11/2012
 * New iTunes image requirements updated throughout plugin. RGB 1400x1400 jpg is recommended.

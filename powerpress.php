@@ -914,7 +914,9 @@ add_filter('option_rss_language', 'powerpress_rss_language');
 
 function powerpress_do_podcast_feed($for_comments=false)
 {
-	global $wp_query;
+	global $wp_query, $powerpress_feed;
+	
+	powerpress_is_podcast_feed(); // Loads the feed settings if not already loaded...
 	
 	$GeneralSettings = get_option('powerpress_general');
 	if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] )
@@ -933,7 +935,7 @@ function powerpress_do_podcast_feed($for_comments=false)
 	}
 	
 	//$wp_query->get_posts(); // No longer needed as it duplicates the existing get posts query already performed
-	if( !empty($GeneralSettings['episode_box_feature_in_itunes']) ||  !empty($GeneralSettings['feature_in_itunes'])  )
+	if( !empty($GeneralSettings['episode_box_feature_in_itunes']) ||  !empty($powerpress_feed['maximize_feed'])  )
 	{
 		// Use the template for the always featured option
 		load_template( POWERPRESS_ABSPATH . '/feed-podcast.php' );
