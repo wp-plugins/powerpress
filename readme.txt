@@ -148,6 +148,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 4.0.1 =
 * Released on TBD
 * Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.
+* Added Hebrew to list of feed languages.
 
 
 = 4.0 =

@@ -63,6 +63,7 @@ function powerpress_languages()
 	$langs['de-ch'] = __('German (Switzerland)', 'powerpress');
 	$langs['el'] = __('Greek', 'powerpress');
 	$langs['haw'] = __('Hawaiian', 'powerpress');
+	$langs['he_IL'] = __('Hebrew', 'powerpress');
 	$langs['hu'] = __('Hungarian', 'powerpress');
 	$langs['is'] = __('Icelandic', 'powerpress');
 	$langs['in'] = __('Indonesian', 'powerpress');
@@ -586,6 +587,8 @@ if( isset($Languages[ $rss_language ]) )
 {
 ?>
  <?php echo __('Blog Default', 'powerpress'); ?>: <?php echo $Languages[ $rss_language ]; ?>
+ <?php } else {  ?>
+<?php echo __('Blog Default', 'powerpress'); ?>: <?php echo $rss_language; ?>
  <?php } ?>
 </td>
 </tr>
