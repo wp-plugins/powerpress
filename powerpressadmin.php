@@ -1560,8 +1560,6 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 //-->
 </script>
 <link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>css/admin.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>3rdparty/flare_player/flarevideo.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="<?php echo powerpress_get_root_url(); ?>3rdparty/flare_player/flarevideo.default.css" type="text/css" media="screen" />
 <?php
 	}
 	else if( $page_name == 'edit' || $page_name == 'edit-pages' ) // || $page_name == '' ) // we don't know the page, we better include our CSS just in case
