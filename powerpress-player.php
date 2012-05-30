@@ -553,6 +553,9 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	{
 		case 'default':
 		case 'flow-player-classic': {
+		
+			if( !is_array($EpisodeData) )
+				$EpisodeData = array();
 
 			$content .= powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData + array('jquery_autowidth'=>true) );
 			
