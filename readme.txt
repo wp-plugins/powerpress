@@ -150,7 +150,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.
 * Added Hebrew to list of feed languages.
 * Fixed no longer needed javascript for flare player when in edit players PowerPress admin area, Flare player was abandoned in favor of VideoJS.
-* Fixed bug with embed HTML page having a fatal error if referencing an episode not originally saved by PowerPress.
+* Fixed bug with media embed HTML page having a fatal error if referencing an episode not originally saved by PowerPress.
 
 
 = 4.0 =
