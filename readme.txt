@@ -98,6 +98,13 @@ PowerPress will continue where plugin your old plugin left off by including your
 
 == Frequently Asked Questions ==
 
+
+ = Related Plugins =
+ The following plugins may be used in conjunction with PowerPress.
+ 
+ * [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widghet that lists your podcast episodes linked to the play in a new window.
+ * [Subscribe Sidebar plugin by Blubrry](http://wordpress.org/extend/plugins/subscribe-sidebar/) - A sidebar widget that provides a list of "Subscribe" links to your sidebar.
+ 
  = Why doesn't Blubrry PowerPress support multiple enclosures in one feed item/post? =
 Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post). This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry PowerPress does not support them.
 
@@ -106,7 +113,7 @@ As a alternative, PowerPress allows you to create additional Custom Podcast Feed
  = Why doesn't Blubrry PowerPress include media statistics built-in? =
  Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient WordPress podcasting plugin. We recommend using your media hosting's web statistics to give you basic download numbers and, if you are seeking more grandular measurements such as client and geographical information for each episode, you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
  
- As of Blubrry PowerPress version 0.8, you may now access your Blubrry Statistics from within your WordPress dashboard.
+ You may however access your Blubrry Statistics from within your WordPress dashboard.
  
  = How do you insert the player within a blog post? =
 You can insert the media player within yoru blog posts by using the WordPress shortcode feature. The shortcode for PowerPress is [powerpress] (all lowercase)
@@ -151,6 +158,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added Hebrew to list of feed languages.
 * Fixed no longer needed javascript for flare player when in edit players PowerPress admin area, Flare player was abandoned in favor of VideoJS.
 * Fixed bug with media embed HTML page having a fatal error if referencing an episode not originally saved by PowerPress.
+* Fixed bug with metamarks Javascript (jQuery) possibly causing javascript errors in some situations. Thanks Klyde and the folks from Gravity forms for bringing to our attention!
+* Added link to Eli's PowerPress Addon Widget.
 
 
 = 4.0 =
@@ -767,6 +776,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 
 == Tips and Tutorials ==
 * [Using PowerPress outside the Loop](http://blog.nicolasbouliane.com/?p=1695) - by [Nicolas Bouliane](http://blog.nicolasbouliane.com/)
+* [The PowerPress Podcast](http://www.powerpresspodcast.com/) - by [Blubrry](http://www.blubrry.com/)
 
 Please [contact blubrry](http://www.blubrry.com/contact.php) with the link to your tips or tutorial for PowerPress and we'll add them to the list above.
 

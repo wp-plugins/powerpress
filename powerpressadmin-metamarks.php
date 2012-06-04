@@ -107,10 +107,14 @@
 <script language="javascript"><!--
 
 jQuery(document).ready(function($) {
-		jQuery(".pp-metamark-position").watermark('<?php echo __('Position', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-		jQuery(".pp-metamark-duration").watermark('<?php echo __('Duration', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-		jQuery(".pp-metamark-link").watermark('<?php echo __('Link', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-		jQuery(".pp-metamark-value").watermark('<?php echo __('Value', 'powerpress'); ?>', {className: 'powerpress-watermark'});
+		if (jQuery(".pp-metamark-position").length > 0) {
+			jQuery(".pp-metamark-position").watermark('<?php echo __('Position', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
+		if (jQuery(".pp-metamark-duration").length > 0) {
+			jQuery(".pp-metamark-duration").watermark('<?php echo __('Duration', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
+		if (jQuery(".pp-metamark-link").length > 0) {
+			jQuery(".pp-metamark-link").watermark('<?php echo __('Link', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
+		if (jQuery(".pp-metamark-value").length > 0) {
+			jQuery(".pp-metamark-value").watermark('<?php echo __('Value', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
 });
 
 function powerpress_metamarks_addrow(FeedSlug)
