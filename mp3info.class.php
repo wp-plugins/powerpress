@@ -10,8 +10,8 @@
 		//var $m_DownloadBytesLimit = 204800; // 200K (200*1024) bytes file
 		//var $m_DownloadBytesLimit = 327680; // 320K (320*1024) bytes file
 		//var $m_DownloadBytesLimit = 409600; // 400K (400*1024) bytes file
-		var $m_DownloadBytesLimit = 614400; // 600K (600*1024) bytes file
-		//var $m_DownloadBytesLimit = 1048576; // 1MB (1024*1024) bytes file
+		// var $m_DownloadBytesLimit = 614400; // 600K (600*1024) bytes file
+		var $m_DownloadBytesLimit = 1048576; // 1MB (1024*1024) bytes file
 		var $m_RedirectLimit = 12; // Number of times to do the 302 redirect
 		var $m_UserAgent = 'Blubrry PowerPress';
 		var $m_error = '';

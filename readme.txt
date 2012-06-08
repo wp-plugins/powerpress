@@ -42,7 +42,7 @@ iTunes can make up between 50 and 95 percent of a podcaster's audience. PowerPre
 Blubrry PowerPress includes extensive web player options to display your podcast audio and video in your web pages.
 
 * 6 Audio Players: Pick from 6 audio players including the popular [1 Pixel Out Player](http://wpaudioplayer.com/whatsnew) and HTML5 audio player.
-* 2 Video Players: Pick between HTML5 video or Flow Player Classic Flash player.
+* 3 Video Players: Pick between HTML5 video, Flow Player Classic Flash player or [VideoJS](http://wordpress.org/extend/plugins/videojs-html5-video-player-for-wordpress/).
 * Position player above or below your post content or use the`[powerpress]` shortcode and position the player where you want.
 * Place the player exactly where you want by adding the [powerpress] shortcode tag directly in your post content.
 * Add video embeds from sites such as YouTube, Viddler, Blip.tv and Ustream.tv.
@@ -102,7 +102,8 @@ PowerPress will continue where plugin your old plugin left off by including your
  = Related Plugins =
  The following plugins may be used in conjunction with PowerPress.
  
- * [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widghet that lists your podcast episodes linked to the play in a new window.
+ * [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
+ * [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
  * [Subscribe Sidebar plugin by Blubrry](http://wordpress.org/extend/plugins/subscribe-sidebar/) - A sidebar widget that provides a list of "Subscribe" links to your sidebar.
  
  = Why doesn't Blubrry PowerPress support multiple enclosures in one feed item/post? =
@@ -159,6 +160,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed no longer needed javascript for flare player when in edit players PowerPress admin area, Flare player was abandoned in favor of VideoJS.
 * Fixed bug with media embed HTML page having a fatal error if referencing an episode not originally saved by PowerPress.
 * Fixed bug with metamarks Javascript (jQuery) possibly causing javascript errors in some situations. Thanks Klyde and the folks from Gravity forms for bringing to our attention!
+* Increased verification (Verify button) cache from 600k to 1024k (1MB) for detecting ID3 information using 1400x1400 images.  We recommend using images in jpg format as png requires way more space in most all cases.
+* Added link to plugin [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
+* Added link to plugin [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
 * Added link to Eli's PowerPress Addon Widget.
 
 
