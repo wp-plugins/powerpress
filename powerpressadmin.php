@@ -127,13 +127,18 @@ function powerpress_admin_init()
 			
 				if( $ImageData )
 				{
-					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 600 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
 						move_uploaded_file($temp, $upload_path . $filename);
 						$Feed['itunes_image'] = $upload_url . $filename;
 						if( !empty($_POST['itunes_image_checkbox_as_rss']) )
 						{
 							$Feed['rss2_image'] = $upload_url . $filename;
+						}
+						
+						if( $ImageData[0] < 1400 )
+						{
+							powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
 						}
 					}
 					else if( $ImageData['channels'] != 3 )

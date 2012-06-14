@@ -221,6 +221,16 @@ jQuery(document).ready(function($) {
 	</div>
 </div>
 
+<div style="margin-left: 10px;">
+	<h3 style="margin-bottom: 5px;"><?php echo __('Looking for Support, Consulting or Custom Development?', 'powerpress'); ?></h3>
+	<p style="margin-top: 0;">
+		<?php echo __('Blubrry offers a variety of options, both free and paid, to assist you with your podcasting and Internet media needs. Whether you need your theme customized for podcasting or you want consulting on which video format is best for your target audience, we have the staff and knowledge to assist you.', 'powerpress'); ?>
+	</p>
+	
+	<?php echo '<a href="http://www.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?>
+	
+</div>
+
 <?php
 	if( isset($General['timestamp']) && $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
 	{

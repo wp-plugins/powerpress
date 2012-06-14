@@ -154,9 +154,10 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.1 =
-* Released on TBD
+* Released on 6/14/2012
 * Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.
 * Added Hebrew to list of feed languages.
+* Changed logic that prevented uploading iTunes images smaller than 1400x1400. You can now upload an iTunes image that is 600x600 or larger and will receive a warning rather than an error.
 * Fixed no longer needed javascript for flare player when in edit players PowerPress admin area, Flare player was abandoned in favor of VideoJS.
 * Fixed bug with media embed HTML page having a fatal error if referencing an episode not originally saved by PowerPress.
 * Fixed bug with metamarks Javascript (jQuery) possibly causing javascript errors in some situations. Thanks Klyde and the folks from Gravity forms for bringing to our attention!
