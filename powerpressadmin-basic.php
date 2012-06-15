@@ -223,12 +223,12 @@ jQuery(document).ready(function($) {
 
 <div style="margin-left: 10px;">
 	<h3 style="margin-bottom: 5px;"><?php echo __('Looking for Support, Consulting or Custom Development?', 'powerpress'); ?></h3>
-	<p style="margin-top: 0;">
-		<?php echo __('Blubrry offers a variety of options, both free and paid, to assist you with your podcasting and Internet media needs. Whether you need your theme customized for podcasting or you want consulting on which video format is best for your target audience, we have the staff and knowledge to assist you.', 'powerpress'); ?>
+	<p style="margin: 0  0 0 50px; font-size: 115%;">
+		<?php echo __('Blubrry offers a variety of options, free and paid, to assist you with your podcasting and Internet media needs. Whether you need your theme customized for podcasting or you want consulting on what video format is best for your audience, we have the staff and knowledge to assist.', 'powerpress'); ?>
 	</p>
-	
-	<?php echo '<a href="http://www.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?>
-	
+	<p style="margin: 5px 0 0 50px; font-size: 115%;">
+	<strong><?php echo '<a href="http://www.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?></strong>
+	</p>
 </div>
 
 <?php

@@ -154,7 +154,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.1 =
-* Released on 6/14/2012
+* Released on 6/15/2012
 * Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.
 * Added Hebrew to list of feed languages.
 * Changed logic that prevented uploading iTunes images smaller than 1400x1400. You can now upload an iTunes image that is 600x600 or larger and will receive a warning rather than an error.
@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added link to plugin [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
 * Added link to plugin [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
 * Added link to Eli's PowerPress Addon Widget.
+* Updated support links.
 
 
 = 4.0 =
