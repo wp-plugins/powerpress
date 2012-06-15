@@ -2,8 +2,8 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 3.0
-Tested up to: 3.3.2
-Stable tag: 4.0
+Tested up to: 3.4
+Stable tag: 4.0.1
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -164,7 +164,6 @@ To install Blubrry PowerPress manually, follow these steps:
 * Increased verification (Verify button) cache from 600k to 1024k (1MB) for detecting ID3 information using 1400x1400 images.  We recommend using images in jpg format as png requires way more space in most all cases.
 * Added link to plugin [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
 * Added link to plugin [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
-* Added link to Eli's PowerPress Addon Widget.
 * Updated support links.
 
 
