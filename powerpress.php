@@ -121,6 +121,11 @@ function powerpress_content($content)
 	// No player or links to add to content...
 	if( !empty($GeneralSettings['disable_appearance']) )
 		return $content;
+		
+	// check for themes/plugins where we know we need to do this...
+	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
+		$GeneralSettings['player_aggressive'] = true;
+	}
 	
 	if( !empty($GeneralSettings['player_aggressive']) )
 	{

@@ -160,6 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Feed language logic for older versions of WordPress (versions < 3.4) remains for backwards compatibility.
 * PowerPress the_content filter now checks for a valid post before trying to do anything. This logic is in place to deal with poorly written plugins triggering the_content filter even when no post is loaded.
 * Updated logic for Custom Podcast Channels to work with WordPress 3.4+ Custom Post Types.
+* Auto enable the "fix theme for player" option when Facebook plugin version 1.0 is found.
 
 
 = 4.0.1 =
