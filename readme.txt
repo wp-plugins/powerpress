@@ -153,6 +153,15 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 4.0.2 =
+* Released on 6/19/2012
+* Fixed bug with feed language getting populated with podcast feed title.
+* Changed feed logic from using `get_option('rss_language')` to `bloginfo_rss('language')`.
+* Feed language logic for older versions of WordPress (versions < 3.4) remains for backwards compatibility.
+* PowerPress the_content filter now checks for a valid post before trying to do anything. This logic is in place to deal with poorly written plugins triggering the_content filter even when no post is loaded.
+* Updated logic for Custom Podcast Channels to work with WordPress 3.4+ Custom Post Types.
+
+
 = 4.0.1 =
 * Released on 6/15/2012
 * Fixed bug with "Feed Episode Maximizer" option only working if the "Feature Episode in iTunes" option was also turned on.

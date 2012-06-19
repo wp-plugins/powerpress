@@ -100,6 +100,9 @@ function powerpress_content($content)
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return $content;
 		
+	if( empty($post->ID) )
+		return $content;
+		
 	if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
 		$content = preg_replace('/\<!--.*added by PowerPress.*-->/im', '', $content );
 	
@@ -862,12 +865,17 @@ function powerpress_bloginfo_rss($content, $field = '')
 					else if( is_category() )
 						return get_category_link( get_query_var('cat') );
 				}; break;
-				case 'name':
-				default: {
+				case 'name': {
 					if( isset($Feed['title']) && $Feed['title'] != '' )
 						return $Feed['title'];
 				}; break;
-			
+				case 'language': {
+					if( isset($Feed['rss_language']) && $Feed['rss_language'] != '' )
+						$lang = $Feed['rss_language'];
+						if( strlen($lang) == 5 )
+							$lang = substr($lang,0,3) .  strtoupper( substr($lang, 3) );
+						return $lang;
+				}; break;
 			}
 		}
 	}
@@ -898,19 +906,23 @@ function powerpress_wp_title_rss($title)
 
 add_filter('wp_title_rss', 'powerpress_wp_title_rss');
 
-function powerpress_rss_language($value)
+
+// Following code only works for WP 3.3 or older. WP 3.4+ now uses the get_locale setting, so we have to override directly in the get_bloginfo_rss functoin.
+if( version_compare($GLOBALS['wp_version'], '3.4', '<') )
 {
-	if( powerpress_is_custom_podcast_feed() )
+	function powerpress_rss_language($value)
 	{
-		global $powerpress_feed;
-		if( $powerpress_feed && isset($powerpress_feed['rss_language']) && $powerpress_feed['rss_language'] != '' )
-			$value = $powerpress_feed['rss_language'];
+		if( powerpress_is_custom_podcast_feed() )
+		{
+			global $powerpress_feed;
+			if( $powerpress_feed && isset($powerpress_feed['rss_language']) && $powerpress_feed['rss_language'] != '' )
+				$value = $powerpress_feed['rss_language'];
+		}
+		return $value;
 	}
-	return $value;
+
+	add_filter('option_rss_language', 'powerpress_rss_language');
 }
-
-add_filter('option_rss_language', 'powerpress_rss_language');
-
 
 function powerpress_do_podcast_feed($for_comments=false)
 {
@@ -1089,6 +1101,42 @@ function powerpress_init()
 }
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
+
+function powerpress_request($qv)
+{
+	if( !empty($qv['feed']) )
+	{
+		$podcast_feed_slug = false;
+		if( $qv['feed'] == 'podcast' ) {
+			$podcast_feed_slug = 'podcast';
+		} else if( $qv['feed'] == 'rss' || $qv['feed'] == 'rss2' || $qv['feed'] == 'atom' || $qv['feed'] == 'rdf' || $qv['feed'] == 'feed' ) { //  'feed', 'rdf', 'rss', 'rss2', 'atom'
+			// Skip
+		} else {
+			$GeneralSettings = get_option('powerpress_general');
+			if( isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && !empty($GeneralSettings['custom_feeds'][ $qv['feed'] ] ) )
+				$podcast_feed_slug = $qv['feed'];
+		}
+		
+		if( $podcast_feed_slug )
+		{
+			if( $qv['feed'] == 'podcast' )
+				$qv['post_type'] = 'post';
+			else {
+				$qv['post_type'] = get_post_types( array('public'=> true, 'capability_type'=>'post') );
+				if( !empty($qv['post_type']['attachment']) )
+					unset($qv['post_type']['attachment']);
+			}
+			
+			$FeedCustom = get_option('powerpress_feed_'.$podcast_feed_slug); // Get custom feed specific settings
+			// See if the user set a custom post type only...
+			if( !empty($FeedCustom) && !empty( $FeedCustom['custom_post_type']) )
+				$qv['post_type'] = $FeedCustom['custom_post_type'];
+		}
+	}
+	return $qv;
+}
+
+add_filter('request', 'powerpress_request');
 
 // May be used for future use
 /*

@@ -582,7 +582,8 @@ while( list($value,$desc) = each($Languages) )
 ?>
 </select>
 <?php
-	$rss_language = get_option('rss_language');
+	$rss_language = get_bloginfo_rss('language');
+	$rss_language = strtolower($rss_language);
 if( isset($Languages[ $rss_language ]) )
 {
 ?>
