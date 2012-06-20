@@ -223,7 +223,7 @@ function powerpress_dashboard_setup()
 		
 	// PowerPress Dashboard Notice 1:
 	$Notice1Dashboard = false;
-	if( $Settings['timestamp'] < mktime(0, 0, 0, 5, 15, 2012) )
+	if( !empty($Settings['timestamp']) && $Settings['timestamp'] < mktime(0, 0, 0, 5, 15, 2012) )
 	{
 		$Notice1Dashboard = true;
 		// Now check if they dismissed the notice...

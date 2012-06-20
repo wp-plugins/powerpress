@@ -1172,7 +1172,7 @@ function powerpress_load_general_feed_settings()
 			$FeedSettingsBasic = get_option('powerpress_feed'); // Get overall feed settings
 				
 			// If we're in advanced mode and we're dealing with a category feed we're extending, lets work with it...
-			if( is_category() && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
+			if( is_category() && isset($GeneralSettings['custom_cat_feeds']) && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
 			{
 				$cat_ID = get_query_var('cat');
 				$FeedCustom = get_option('powerpress_cat_feed_'.$cat_ID); // Get custom feed specific settings

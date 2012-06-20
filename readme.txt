@@ -161,6 +161,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress the_content filter now checks for a valid post before trying to do anything. This logic is in place to deal with poorly written plugins triggering the_content filter even when no post is loaded.
 * Updated logic for Custom Podcast Channels to work with WordPress 3.4+ Custom Post Types.
 * Auto enable the "fix theme for player" option when Facebook plugin version 1.0 is found.
+* Fixed a number of new PHP notice messages when in `WP_DEBUG` mode. (Thanks Jeremy Clarke for bringing to our attention)
 
 
 = 4.0.1 =
