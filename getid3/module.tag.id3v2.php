@@ -869,6 +869,10 @@ class getid3_id3v2 extends getid3_handler
 			}
 			$frame_language = substr($parsedFrame['data'], $frame_offset, 3);
 			$frame_offset += 3;
+			// ADDED BY POWERPRESS: Added the following two lines prevent PHP warnings if offset larger than string length
+			if( strlen($parsedFrame['data']) < $frame_offset )
+				$frame_offset = strlen($parsedFrame['data']);
+			// END ADDED BY POWERPRESS
 			$frame_terminatorpos = strpos($parsedFrame['data'], $this->TextEncodingTerminatorLookup($frame_textencoding), $frame_offset);
 			if (ord(substr($parsedFrame['data'], $frame_terminatorpos + strlen($this->TextEncodingTerminatorLookup($frame_textencoding)), 1)) === 0) {
 				$frame_terminatorpos++; // strpos() fooled because 2nd byte of Unicode chars are often 0x00

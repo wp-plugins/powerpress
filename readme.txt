@@ -154,7 +154,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.2 =
-* Released on 6/19/2012
+* Released on 6/??/2012
 * Fixed bug with feed language getting populated with podcast feed title.
 * Changed feed logic from using `get_option('rss_language')` to `bloginfo_rss('language')`.
 * Feed language logic for older versions of WordPress (versions < 3.4) remains for backwards compatibility.
@@ -162,6 +162,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated logic for Custom Podcast Channels to work with WordPress 3.4+ Custom Post Types.
 * Auto enable the "fix theme for player" option when Facebook plugin version 1.0 is found.
 * Fixed a number of new PHP notice messages when in `WP_DEBUG` mode. (Thanks Jeremy Clarke for bringing to our attention)
+* Fix strpos getid3\module.tag.id3v2.php on line 876 PHP warning. (Thanks Zachary_DuBois for bringing to our attention)
 
 
 = 4.0.1 =
