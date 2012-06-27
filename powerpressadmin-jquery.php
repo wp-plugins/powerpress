@@ -210,6 +210,24 @@ function DeleteMedia(File)
 		<div id="media-header">
 			<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
 			<?php
+			
+				if(  !empty($results['quota']['expires'] ) )
+				{
+					$message = '';
+					if( !empty($results['quota']['expires']['expired']) )
+					{
+						$message = '<p>'. sprintf( __('Media hosting service expired on %s.', 'powerpress'), $results['quota']['expires']['readable_date']) . '</p>';
+					}
+					else
+					{
+						$message = '<p>'. sprintf( __('Media hosting service will expire on %s.', 'powerpress'), $results['quota']['expires']['readable_date']) . '</p>';
+					}
+					
+					$message .= '<p style="text-align: center;"><strong><a href="'. $results['quota']['expires']['renew_link'] .'" target="_blank" style="text-decoration: underline;">'. __('Renew Media Hosting Service', 'powerpress') . '</a></strong></p>';
+					powerpress_page_message_add_notice( $message );
+					powerpress_page_message_print();
+				}
+				
 				if( $Msg )
 				echo '<p>'. $Msg . '</p>';
 			?>
@@ -272,28 +290,51 @@ function DeleteMedia(File)
 	<div id="media-footer">
 		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
 		<?php
-		if( $QuotaData ) { 
+		if( $QuotaData ) {
+			
 			$NextDate = strtotime( $QuotaData['published']['next_date']);
 		?>
 			<p><?php
-			echo sprintf( __('You have uploaded %s (%s available) of your %s limit.', 'powerpress'),
-				'<em>'. powerpress_byte_size($QuotaData['unpublished']['used']) .'</em>',
-				'<em>'. powerpress_byte_size($QuotaData['unpublished']['available']) .'</em>',
-				'<em>'. powerpress_byte_size($QuotaData['unpublished']['total']) .'</em>' );
+			if( $QuotaData['unpublished']['available'] != $QuotaData['unpublished']['total'] )
+			{
+				echo sprintf( __('You have uploaded %s (%s available) of your %s upload limit.', 'powerpress'),
+					'<em>'. powerpress_byte_size($QuotaData['unpublished']['used']) .'</em>',
+					'<em>'. powerpress_byte_size($QuotaData['unpublished']['available']) .'</em>',
+					'<em>'. powerpress_byte_size($QuotaData['unpublished']['total']) .'</em>' );
+			}
+			else
+			{
+			
+			}
 			?>
 			</p>
 			<p><?php
-			echo sprintf( __('You are hosting %s (%s available) of your %s/30 day limit.', 'powerpress'),
-				'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
-				'<em>'. powerpress_byte_size($QuotaData['published']['available']) .'</em>',
-				'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
+			if( $QuotaData['published']['available'] != $QuotaData['published']['total'] )
+			{
+				echo sprintf( __('You have %s available (%s published in the last 30 days) of your %s publish limit.', 'powerpress'),
+					'<em>'. powerpress_byte_size($QuotaData['published']['available']) .'</em>',
+					'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
+					'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
+			}
+			else if( $QuotaData['published']['available'] == 0 ) // Hosting account frozen
+			{
+			
+			}
+			else
+			{
+				echo sprintf( __('You have %s publish space available.', 'powerpress'),
+					'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
+			}
 			?>
 			</p>
 			<p><?php
+			if( $QuotaData['published']['available'] != $QuotaData['published']['total'] )
+			{
 			echo sprintf( __('Your limit will adjust on %s to %s (%s available).', 'powerpress'),
 				date('m/d/Y', $NextDate),
 				'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['next_available']) .'</em>',
 				'<em>'. powerpress_byte_size($QuotaData['published']['next_available']) .'</em>' );
+			}
 			?>
 			</p>
 		<?php } ?>
@@ -487,6 +528,13 @@ function DeleteMedia(File)
 			if( !$Settings )
 				$Settings = get_option('powerpress_general');
 			
+			if( empty($Settings['blubrry_username']) )
+				$Settings['blubrry_username'] = '';
+			if( empty($Settings['blubrry_hosting']) )
+				$Settings['blubrry_hosting'] = 0;
+			if( empty($Settings['blubrry_program_keyword']) )
+				$Settings['blubrry_program_keyword'] = '';
+				
 			if( $Programs == false )
 				$Programs = array();
 			
@@ -559,6 +607,18 @@ while( list($value,$desc) = each($Programs) )
 			
 			$RedirectURL = false;
 			$Error = false;
+			
+			if( !$Settings )
+				$Settings = get_option('powerpress_general');
+			
+			if( empty($Settings['blubrry_hosting']) )
+				$Settings['blubrry_hosting'] = 0;
+			if( empty($Settings['blubrry_program_keyword']) )
+				$Settings['blubrry_program_keyword'] = '';
+			if( empty($Settings['blubrry_auth']) )
+				$Settings['blubrry_auth'] = '';	
+				
+				
 			if( $Settings['blubrry_hosting'] == 0 )
 			{
 				$Error = __('This feature is available to Blubrry Hosting users only.','powerpress');

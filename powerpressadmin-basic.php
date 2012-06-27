@@ -683,7 +683,7 @@ function powerpressadmin_edit_blubrry_services($General)
 		<?php echo __('Have an account on Blubrry.com?','powerpress'); ?>
 	</p>
 	<p style="font-size: 110%;">
-		<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=500&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;"><?php echo __('Click here to configure your Blubrry settings', 'powerpress'); ?></a></strong>
+		<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;"><?php echo __('Click here to configure your Blubrry settings', 'powerpress'); ?></a></strong>
 	</p>
 	<p style="margin-left: 40px;">
 		<input name="StatsInDashboard" type="checkbox" value="1"<?php if( $StatsInDashboard == true ) echo ' checked'; ?> /> 
@@ -724,7 +724,7 @@ function powerpressadmin_edit_blubrry_services($General)
 	<?php echo __('Blubrry Services', 'powerpress'); ?>*
 	</th>
 	<td>
-		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=500&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;"><?php echo __('Click here to configure Blubrry Services', 'powerpress'); ?></a></strong>)</p>
+		<p style="margin-top: 5px;"><span id="service_mode"><?php echo $ModeDesc; ?></span> (<strong><a href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank" class="thickbox" style="color: #3D517E;"><?php echo __('Click here to configure Blubrry Services', 'powerpress'); ?></a></strong>)</p>
 	</td>
 	</tr>
 	

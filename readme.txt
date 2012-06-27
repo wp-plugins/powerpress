@@ -163,6 +163,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Auto enable the "fix theme for player" option when Facebook plugin version 1.0 is found.
 * Fixed a number of new PHP notice messages when in `WP_DEBUG` mode. (Thanks Jeremy Clarke for bringing to our attention)
 * Fix strpos getid3\module.tag.id3v2.php on line 876 PHP warning. (Thanks Zachary_DuBois for bringing to our attention)
+* Added better reporting when paid services expire.
 
 
 = 4.0.1 =
