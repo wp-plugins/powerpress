@@ -164,6 +164,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed a number of new PHP notice messages when in `WP_DEBUG` mode. (Thanks Jeremy Clarke for bringing to our attention)
 * Fix strpos getid3\module.tag.id3v2.php on line 876 PHP warning. (Thanks Zachary_DuBois for bringing to our attention)
 * Added better reporting when paid services expire.
+* Added index.php files to thwart directory listing powerpress folders with PHP scripts.
 
 
 = 4.0.1 =
