@@ -392,9 +392,12 @@ function powerpress_generate_embed($player, $EpisodeData) // $post_id, $feed_slu
 		}
 		
 		$extension = powerpressplayer_get_extension($EpisodeData['url']);
-		if( $extension == 'mp3' || $extension == 'm4a' )
+		if(  ($extension == 'mp3' || $extension == 'm4a') && empty($Settings['poster_image_audio']) )
 		{
 			$height = 24; // Hack for audio to only include the player without the poster art
+			$width = 320;
+			if( !empty($GeneralSettings['player_width_audio']) )
+				$width = $GeneralSettings['player_width_audio'];
 		}
 	}
 	
@@ -1443,8 +1446,17 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 	
 	$content .= "pp_flashembed(\n";
 	$content .= "	'powerpress_player_{$player_id}',\n";
-	// TODO: only add single quotes if jQuery( ... is not in the value for $player_width and/or $player_height
-	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', width: '{$player_width}', height: '{$player_height}', wmode: 'transparent' },\n";
+	
+	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', ";
+	if( preg_match('/^jQuery\(/', $player_width) ) // Only add single quotes if jQuery( ... is not in the value
+		$content .= "width: {$player_width}, ";
+	else
+		$content .= "width: '{$player_width}', ";
+	if( preg_match('/^jQuery\(/', $player_height) ) // Only add single quotes if jQuery( ... is not in the value
+		$content .= "height: {$player_height}, ";
+	else
+		$content .= "height: '{$player_height}', ";
+	$content .= "wmode: 'transparent' },\n";
 	if( $cover_image )
 		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: ". (preg_match('/audio\//', $EpisodeData['type'])?'false':'true' ) .", showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
 	else

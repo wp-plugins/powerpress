@@ -152,6 +152,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+= 4.0.3 =
+* Released on 7/??/2012
+* Fixed bug with IE not displaying embeds correctly (Thanks johnb172 for bringing to our attention)
+* Audio embed width now uses audio player width instead of video width.
+
 
 = 4.0.2 =
 * Released on 6/29/2012
