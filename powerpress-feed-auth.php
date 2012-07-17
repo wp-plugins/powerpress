@@ -39,6 +39,7 @@
 <html>
 <head>
 	<title><?php echo $error; ?></title>
+	<meta name="robots" content="noindex" />
 </head>
 <body>
 	<p><?php echo $error; ?></p>

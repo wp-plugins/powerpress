@@ -500,6 +500,7 @@ function powerpressplayer_in_embed($player, $media_url, $EpisodeData = array())
 	$content .= '<head>'. PHP_EOL;
 	$content .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'. PHP_EOL;
 	$content .= '<title>'. __('Blubrry PowerPress Player', 'powerpress') .'</title>'. PHP_EOL;
+	$content .= '<meta name="robots" content="noindex" />'. PHP_EOL;
 	$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.js"></script>'. PHP_EOL;
 	// Include jQuery for convenience
 	$content .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>'. PHP_EOL;
@@ -1121,6 +1122,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
+	<meta name="robots" content="noindex" />
 <?php 
 
 	if( defined('POWERPRESS_ENQUEUE_SCRIPTS') )

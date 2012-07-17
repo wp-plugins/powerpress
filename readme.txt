@@ -131,6 +131,9 @@ You can insert the media player within yoru blog posts by using the WordPress sh
  = Will you be upgrading the version of Flow Player to 3.x? =
  Because of the feature restrictions and branding that FlowPlayer.org places on FlowPlayer 3.x versions, we do not plan on updating the player packaged with PowerPress. The **PAID open-source** FlowPlayer is not compatible with the **FREE open source** PowerPress plugin.
 
+
+
+
 == Installation ==
 To install Blubrry PowerPress manually, follow these steps:
 1. Copy the entire directory from the downloaded zip file into the /wp-content/plugins/ folder.
@@ -156,6 +159,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on 7/??/2012
 * Fixed bug with IE not displaying embeds correctly (Thanks johnb172 for bringing to our attention)
 * Audio embed width now uses audio player width instead of video width.
+* Added meta robots noindex HTML to play in new window and embed pages.
+
 
 
 = 4.0.2 =
