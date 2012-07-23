@@ -160,7 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with IE not displaying embeds correctly (Thanks johnb172 for bringing to our attention)
 * Audio embed width now uses audio player width instead of video width.
 * Added meta robots noindex HTML to play in new window and embed pages.
-
+* Change from using the `WP_PLUGIN_URL` define to `plugins_url()` function to better support sites in mixed SSL/non-SSL mode.
 
 
 = 4.0.2 =

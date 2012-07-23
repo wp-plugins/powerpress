@@ -1814,8 +1814,8 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 
 function powerpress_get_root_url()
 {
-	$powerpress_dirname = basename( POWERPRESS_ABSPATH );
-	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
+	$plugin_url = plugins_url('', __FILE__);
+	return $plugin_url . '/';
 }
 
 function powerpress_format_itunes_value($value, $tag)
