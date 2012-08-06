@@ -855,7 +855,7 @@ function powerpress_bloginfo_rss($content, $field = '')
 			switch( $field )
 			{
 				case 'description': {
-					if( isset($Feed['description']) && $Feed['description'] != '' )
+					if( !empty($Feed['description']) )
 						return $Feed['description'];
 					else if( is_category() )
 					{
@@ -865,20 +865,23 @@ function powerpress_bloginfo_rss($content, $field = '')
 					}
 				}; break;
 				case 'url': {
-					if( isset($Feed['url']) && $Feed['url'] != '' )
+					if( !empty($Feed['url']) )
 						return trim($Feed['url']);
 					else if( is_category() )
 						return get_category_link( get_query_var('cat') );
 				}; break;
 				case 'name': {
-					if( isset($Feed['title']) && $Feed['title'] != '' )
+					if( !empty($Feed['title']) )
 						return $Feed['title'];
 				}; break;
 				case 'language': {
+					// Get the feed language
+					$lang = '';
 					if( isset($Feed['rss_language']) && $Feed['rss_language'] != '' )
 						$lang = $Feed['rss_language'];
-						if( strlen($lang) == 5 )
-							$lang = substr($lang,0,3) .  strtoupper( substr($lang, 3) );
+					if( strlen($lang) == 5 )
+						$lang = substr($lang,0,3) .  strtoupper( substr($lang, 3) ); // Format example: en-US for English, United States
+					if( !empty($lang) )
 						return $lang;
 				}; break;
 			}
@@ -1814,7 +1817,16 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 
 function powerpress_get_root_url()
 {
-	$plugin_url = plugins_url('', __FILE__);
+	/*
+	// OLD CODE:
+	$powerpress_dirname = basename( POWERPRESS_ABSPATH );
+	return WP_PLUGIN_URL . '/'. $powerpress_dirname .'/';
+	*/
+	$local_path = __FILE__;
+	if( DIRECTORY_SEPARATOR == '\\' ) { // Win32 fix
+		$local_path = basename(dirname(__FILE__)) .'/'. basename(__FILE__);
+	}
+	$plugin_url = plugins_url('', $local_path);
 	return $plugin_url . '/';
 }
 
