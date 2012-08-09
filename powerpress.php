@@ -447,14 +447,19 @@ function powerpress_rss2_head()
 	if( !empty($Feed['itunes_keywords']) )
 		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords'], 'keywords') . '</itunes:keywords>'.PHP_EOL;
 		
-	if( !empty($Feed['rss2_image']) )
+	if( !empty($Feed['rss2_image']) || !empty($Feed['itunes_image']) )
 	{
+		if( !empty($Feed['rss2_image']) ) // If the RSS image is set, use it, otherwise use the iTunes image...
+			$rss_image = $Feed['rss2_image'];
+		else
+			$rss_image = $Feed['itunes_image'];
+		
 		echo "\t". '<image>' .PHP_EOL;
 		if( is_category() && !empty($Feed['title']) )
 			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
 			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
-		echo "\t\t".'<url>' . esc_html( str_replace(' ', '+', $Feed['rss2_image'])) . '</url>'.PHP_EOL;
+		echo "\t\t".'<url>' . esc_html( str_replace(' ', '+', $rss_image)) . '</url>'.PHP_EOL;
 		echo "\t\t".'<link>'. $Feed['url'] . '</link>' . PHP_EOL;
 		echo "\t".'</image>' . PHP_EOL;
 	}

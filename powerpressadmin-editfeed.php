@@ -417,7 +417,12 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 <?php if( $cat_ID ) { ?>
 <p style="margin-top: 0;"><a href="<?php echo get_category_feed_link($cat_ID); ?>" target="_blank"><?php echo get_category_feed_link($cat_ID); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode( str_replace('&amp;', '&', get_category_feed_link($cat_ID))); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
 <?php } else { ?>
-<p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
+<p style="margin-top: 0;"><a href="<?php echo get_feed_link($feed_slug); ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a><?php if( empty($FeedSettings['premium']) ) { ?> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a><?php } ?></p>
+	<?php
+		if( !empty($FeedSettings['premium']) )
+		{
+			echo __('WARNING: This feed is password protected, it cannot be accessed by public services such as feedvalidator.org or the iTunes podcast directory.', 'powerpress');
+		} ?>
 <?php } ?>
 </td>
 </tr>
@@ -707,15 +712,15 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 
 <?php echo __('Protect Content', 'powerpress'); ?></th>
 <td>
-	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectContent" value="1" <?php echo ($FeedSettings['premium']?'checked ':''); ?> onchange="powerpress_toggle_premium_content(this.checked);" /> <?php echo __('Require user to be signed-in to access feed.', 'powerpress'); ?></p>
+	<p style="margin-top: 5px;"><input type="checkbox" name="ProtectContent" value="1" <?php echo ( !empty($FeedSettings['premium']) ?'checked ':''); ?> onchange="powerpress_toggle_premium_content(this.checked);" /> <?php echo __('Require user to be signed-in to access feed.', 'powerpress'); ?></p>
 <?php ?>
-	<div style="margin-left: 20px; display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;" id="premium_role"><?php echo __('User must have the following capability', 'powerpress'); ?>:
+	<div style="margin-left: 20px; display: <?php echo ( !empty($FeedSettings['premium'])?'block':'none'); ?>;" id="premium_role"><?php echo __('User must have the following capability', 'powerpress'); ?>:
 <select name="Feed[premium]" class="bpp_input_med">
 <?php
 			$caps = powerpress_admin_capabilities();
-			$actual_premium_value = $FeedSettings['premium'];
-			if( !isset($FeedSettings['premium']) || $FeedSettings['premium'] == '' )
-				$actual_premium_value = 'premium_content';
+			$actual_premium_value = 'premium_content';
+			if( !empty($FeedSettings['premium']) )
+				$actual_premium_value = $FeedSettings['premium'];
 			
 			echo '<option value="">'.  __('None', 'powerpress') .'</option>';
 			while( list($value,$desc) = each($caps) )
@@ -725,7 +730,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 </td>
 </tr>
 </table>
-<div id="protected_content_message" style="display: <?php echo ($FeedSettings['premium']?'block':'none'); ?>;">
+<div id="protected_content_message" style="display: <?php echo ( !empty($FeedSettings['premium'])?'block':'none'); ?>;">
 <script language="Javascript" type="text/javascript"><!--
 function powerpress_toggle_premium_content(enabled)
 {
@@ -734,7 +739,7 @@ function powerpress_toggle_premium_content(enabled)
 }	
 function powerpress_premium_label_append_signin_link()
 {
-	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php" title="<?php echo __('Sign In', 'powerpress'); ?>"><?php echo __('Sign In', 'powerpress'); ?><\/a>'); 
+	jQuery('#premium_label').val( jQuery('#premium_label').val() + '<a href="<?php echo get_option('siteurl'); ?>/wp-login.php" title="<?php echo __('Sign In', 'powerpress'); ?>"><?php echo __('Sign In', 'powerpress'); ?><\/a>'); 
 }
 function powerpress_default_premium_label(event)
 {

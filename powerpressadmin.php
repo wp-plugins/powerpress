@@ -124,6 +124,9 @@ function powerpress_admin_init()
 			if( file_exists($temp) )
 			{
 				$ImageData = @getimagesize($temp);
+				
+				if( empty($ImageData['channels']) )
+					$ImageData['channels'] = 3; // Assume it's ok if we cannot detect it.
 			
 				if( $ImageData )
 				{

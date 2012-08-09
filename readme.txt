@@ -156,12 +156,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 4.0.3 =
-* Released on 8/??/2012
+* Released on 8/8/2012
 * Fixed bug with IE not displaying embeds correctly (Thanks johnb172 for bringing to our attention)
 * Fixed bug introduced in 4.0.2 where feed language was not getting set in some cases.
 * Audio embed width now uses audio player width instead of video width.
 * Added meta robots noindex HTML to play in new window and embed pages.
-* Change from using the `WP_PLUGIN_URL` define to `plugins_url()` function to better support sites in mixed SSL/non-SSL mode (please contact us if this is still a problem).
+* Change from using the `WP_PLUGIN_URL` define to `plugins_url()` function to better support sites in mixed SSL/non-SSL mode (please contact us if this is still a problem with combined HTTP/HTTPS sites).
+* The iTunes image is now also used as the RSS image if no RSS image is specified.
+* Warning message added to podcast channel feeds that are password protected. Warning: This feed is password protected, it cannot be accessed by public services such as feedvalidator.org or the iTunes podcast directory. (we're getting a lot of support questions about this recently. If your feed is is password protected, then services and directories can't access it by design.)
 
 
 = 4.0.2 =
