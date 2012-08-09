@@ -164,7 +164,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Change from using the `WP_PLUGIN_URL` define to `plugins_url()` function to better support sites in mixed SSL/non-SSL mode (please contact us if this is still a problem with combined HTTP/HTTPS sites).
 * The iTunes image is now also used as the RSS image if no RSS image is specified.
 * Warning message added to podcast channel feeds that are password protected. Warning: This feed is password protected, it cannot be accessed by public services such as feedvalidator.org or the iTunes podcast directory. (we're getting a lot of support questions about this recently. If your feed is is password protected, then services and directories can't access it by design.)
-
+* Translation powerpress-xx_XX.pot file updated for translators to update their language files with.
 
 = 4.0.2 =
 * Released on 6/29/2012
