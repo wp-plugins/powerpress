@@ -904,7 +904,8 @@ function powerpress_admin_init()
 			case 'powerpress-clear-update_plugins': {
 				check_admin_referer('powerpress-clear-update_plugins');
 				
-				delete_option('update_plugins');
+				delete_option('update_plugins'); // OLD method
+				delete_option('_site_transient_update_plugins'); // New method
 				powerpress_page_message_add_notice( sprintf( __('Plugins Update Cache cleared successfully. You may now to go the %s page to see the latest plugin versions.', 'powerpress'), '<a href="'. admin_url() .'plugins.php" title="'.  __('Manage Plugins', 'powerpress') .'">'.  __('Manage Plugins', 'powerpress') .'</a>') );
 				
 			}; break;

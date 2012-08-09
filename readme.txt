@@ -155,6 +155,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+= 4.0.5 =
+* Released on 
+* Updated the "Plugins Update Cache" logic for WordPress versions 3.4+
+
+
 = 4.0.4 =
 * Released on 8/8/2012
 * Fix bug with language not getting set if your using the Feed Episode Maximizer option with WordPress 3.4 or newer.
