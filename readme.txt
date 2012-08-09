@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * The iTunes image is now also used as the RSS image if no RSS image is specified.
 * Warning message added to podcast channel feeds that are password protected. Warning: This feed is password protected, it cannot be accessed by public services such as feedvalidator.org or the iTunes podcast directory. (we're getting a lot of support questions about this recently. If your feed is is password protected, then services and directories can't access it by design.)
 * Translation powerpress-xx_XX.pot file updated for translators to update their language files with.
+
 
 = 4.0.2 =
 * Released on 6/29/2012
