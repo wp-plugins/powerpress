@@ -615,7 +615,7 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 
 <p><?php echo sprintf(__('You may use the older style Subscription URL: %s', 'powerpress'), 'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=<strong>000000000</strong>'); ?></p>
 
-<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
+<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
  <?php echo __('iTunes will email your Subscription URL to the <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>
 </p>
 <p>
