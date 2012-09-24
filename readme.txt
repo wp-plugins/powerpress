@@ -26,7 +26,7 @@ Switching to PowerPress is seamless, just enable PowerPress then disable PodPres
 - Multi-podcast support: Create separate podcasts by category (category casting) or by media format (Podcast Channels).
 - Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-* Languages supported: English, Danish, French, Simplified Chinese ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
+* Languages supported: English, Danish, French, Simplified Chinese, Italian ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -156,9 +156,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 4.0.5 =
-* Released on 
+* Released on 9/??/2012
 * Updated the "Plugins Update Cache" logic for WordPress versions 3.4+
 * Updated link to add podcast to iTunes.
+* Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 
 
 = 4.0.4 =
