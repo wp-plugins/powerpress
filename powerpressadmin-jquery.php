@@ -347,7 +347,7 @@ function DeleteMedia(File)
 		}; break;
 		case 'powerpress-jquery-account-save': {
 		
-			if( !current_user_can('manage_options') )
+			if( !current_user_can(POWERPRESS_CAPABILITY_MANAGE_OPTIONS) )
 			{
 				powerpress_admin_jquery_header('Blubrry Services Integration', 'powerpress');
 				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );
@@ -505,7 +505,7 @@ function DeleteMedia(File)
 		} // no break here, let the next case catch it...
 		case 'powerpress-jquery-account':
 		{
-			if( !current_user_can('manage_options') )
+			if( !current_user_can(POWERPRESS_CAPABILITY_MANAGE_OPTIONS) )
 			{
 				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
 				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );

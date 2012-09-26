@@ -160,6 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated the "Plugins Update Cache" logic for WordPress versions 3.4+
 * Updated link to add podcast to iTunes.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
+* Added define options `POWERPRESS_CAPABILITY_MANAGE_OPTIONS` and `POWERPRESS_CAPABILITY_EDIT_PAGES` for administrators to customize PowerPress capabilities. (Thanks Kevin Doole for the contribution!)
 
 
 = 4.0.4 =

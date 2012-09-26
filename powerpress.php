@@ -72,7 +72,13 @@ if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 
 if( !defined('POWERPRESS_CONTENT_ACTION_PRIORITY') )
 	define('POWERPRESS_CONTENT_ACTION_PRIORITY', 10 );
-
+	
+// Added so administrators can customize what capability is needed for PowerPress
+if( !defined('POWERPRESS_CAPABILITY_MANAGE_OPTIONS') )
+	define('POWERPRESS_CAPABILITY_MANAGE_OPTIONS', 'manage_options');
+if( !defined('POWERPRESS_CAPABILITY_EDIT_PAGES') )
+	define('POWERPRESS_CAPABILITY_EDIT_PAGES', 'edit_pages');
+	
 //define('POWERPRESS_ENQUEUE_SCRIPTS', true); // Add this define to your wp-config.php if you want the audio.js enqueued with other plugin scripts in your blog.
 
 //define('POWERPRESS_ENABLE_HTTPS_MEDIA', true); // Add this define to your wp-config.php if you wnat to allow media URLs that begin with https://
