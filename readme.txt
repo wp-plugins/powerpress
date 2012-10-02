@@ -161,6 +161,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated link to add podcast to iTunes.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 * Added define options `POWERPRESS_CAPABILITY_MANAGE_OPTIONS` and `POWERPRESS_CAPABILITY_EDIT_PAGES` for administrators to customize PowerPress capabilities. (Thanks Kevin Doole for the contribution!)
+* Updated videos for previewing the PowerPress video players.
 
 
 = 4.0.4 =
