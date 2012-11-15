@@ -102,9 +102,11 @@ PowerPress will continue where plugin your old plugin left off by including your
  = Related Plugins =
  The following plugins may be used in conjunction with PowerPress.
  
+ * [Message Flow](http://wordpress.org/extend/plugins/message-flow/) - generates a CoverFlow-like interface for your blog posts with podcast episodes. For podcasts, use shortocde `[message-flow podcasts_only="true"]`.
  * [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
  * [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
  * [Subscribe Sidebar plugin by Blubrry](http://wordpress.org/extend/plugins/subscribe-sidebar/) - A sidebar widget that provides a list of "Subscribe" links to your sidebar.
+ 
  
  = Why doesn't Blubrry PowerPress support multiple enclosures in one feed item/post? =
 Blubrry PowerPress does not allow you to include multiple media files for one feed item (blog post). This is because each podcatcher handles multiple enclosures in feeds differently. iTunes will download the first enclosure that it sees in the feed ignoring the rest. Other podcatchers and podcasting directories either pick up the first enclosure or the last in each post item. This inconsistency combined with the fact that [Dave Winer does not recommend multiple enclosures](http://www.reallysimplesyndication.com/2004/12/21) and the [FeedValidator.org recommendation against it](http://www.feedvalidator.org/docs/warning/DuplicateEnclosure.html) is why the Blubrry PowerPress does not support them.
@@ -156,12 +158,16 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 4.0.5 =
-* Released on 9/??/2012
+* Released on 11/16/2012
 * Updated the "Plugins Update Cache" logic for WordPress versions 3.4+
 * Updated link to add podcast to iTunes.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 * Added define options `POWERPRESS_CAPABILITY_MANAGE_OPTIONS` and `POWERPRESS_CAPABILITY_EDIT_PAGES` for administrators to customize PowerPress capabilities. (Thanks Kevin Doole for the contribution!)
 * Updated videos for previewing the PowerPress video players.
+* Added logic to auto enable "fix theme" feature if JetPack 2.0 is used, solves issue where PowerPress player and links disappear using JetPack 2.0. (Thanks Brian from Handy Guys Podcast for diagnosing the problem)
+* Added `is_object` test in the `powerpress_content` function to prevent possible debug messages in development environments. (Thanks Curtis McHale for bringing to our attention)
+* Added link to [Message Flow](http://wordpress.org/extend/plugins/message-flow/) plugin, adds a CoverFlow-like interface for your blog posts with podcast episodes. For podcasts only, use shortocde: `[message-flow podcasts_only="true"]`
+* Added warning about FeedBurner is not required to podcast and note that iTunes 1400x1400 jpg image should be 72ppi format for viewing on the web.
 
 
 = 4.0.4 =

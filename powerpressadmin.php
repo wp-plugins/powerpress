@@ -3293,7 +3293,7 @@ function powerpressadmin_new()
 
 function powerpressadmin_notice($updated_message)
 {
-	return '<sup style="color: #CC0000; font-weight: bold;">'. htmlspecialchars($updated_message) .'</sup>';
+	return '<sup style="color: #CC0000; font-weight: bold; font-size: 105%;">'. htmlspecialchars($updated_message) .'</sup>';
 }
 
 function powerpressadmin_community_news($items=3)

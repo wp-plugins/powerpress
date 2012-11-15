@@ -106,7 +106,7 @@ function powerpress_content($content)
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return $content;
 		
-	if( empty($post->ID) )
+	if( empty($post->ID) || !is_object($post) )
 		return $content;
 		
 	if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
@@ -130,6 +130,9 @@ function powerpress_content($content)
 		
 	// check for themes/plugins where we know we need to do this...
 	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
+		$GeneralSettings['player_aggressive'] = true;
+	}
+	if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
 		$GeneralSettings['player_aggressive'] = true;
 	}
 	

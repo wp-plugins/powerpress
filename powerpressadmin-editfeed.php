@@ -493,10 +493,17 @@ if( $feed_slug || $cat_ID )
 
 <tr valign="top">
 <th scope="row">
-<?php echo __('FeedBurner Feed URL', 'powerpress'); ?>
+<?php echo __('FeedBurner Feed URL', 'powerpress'); ?><br />
+<span style="font-size: 85%; margin-left: 5px;">Recommendation: leave blank</span>
 </th>
 <td>
-<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo (!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use current feed', 'powerpress'); ?>)
+<input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo (!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use built-in feed', 'powerpress'); ?>)
+
+<p style="margin-top: 0px; margin-bottomd: 0;"><?php echo powerpressadmin_notice( __('NOTE: FeedBurner is not required for podcasting.', 'powerpress') ); ?> <br /> 
+<?php echo powerpressadmin_notice( __('No support is available from blubrry if you are using Feedburner or other feed hosted services.', 'powerpress') ); ?><br /> 
+<a href="http://www.podcastfaq.com/syndicating-your-podcast/feedburner-for-podcasting/" target="_blank"><?php echo __('Learn more about FeedBurner and Podcasitng', 'powerpress'); ?></a>
+</p>
+
 <p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
 <?php
 if( $cat_ID )
@@ -1072,7 +1079,7 @@ while( list($value,$desc) = each($explicit) )
 <p><?php echo __('iTunes image should be at least 1400 x 1400 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
  </p>
 
-<p><strong><?php echo __('A square image that is 1400 x 1400 pixels in .jpg format is recommended.', 'powerpress'); ?></strong></p>
+<p><strong><?php echo __('A square image that is 1400 x 1400 pixels in .jpg format for the web (72ppi) is recommended.', 'powerpress'); ?></strong></p>
 
 <p>
 <?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories such as Zune and Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
