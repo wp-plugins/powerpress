@@ -233,7 +233,7 @@ if( !function_exists('add_action') )
 	
 	function powerpressadmin_podpress_do_import()
 	{
-		$Import = $_POST['Import'];
+		$Import = ( !empty( $_POST['Import']) ? $_POST['Import'] : array() );
 		$PodPressData = powerpress_get_podpress_episodes(true);
 		
 		while( list($post_id, $podpress_episode_feeds) = each($Import) )

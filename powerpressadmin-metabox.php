@@ -193,13 +193,13 @@ function powerpress_meta_box($object, $box)
 
 	if( !empty($GeneralSettings['episode_box_no_player']) || !empty($GeneralSettings['episode_box_no_links']) || !empty($GeneralSettings['episode_box_no_player_and_links']) )
 	{
-		if( $GeneralSettings['episode_box_no_player_and_links'] )
+		if( !empty($GeneralSettings['episode_box_no_player_and_links']) )
 		{
 		?>
 		<span style="margin-left: 20px;"><input id="powerpress_no_player_and_links_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player_and_links]" value="1" type="checkbox" <?php echo ($NoPlayer==1&&$NoLinks==1?'checked':''); ?> /> <?php echo __('Do not display player and media links', 'powerpress'); ?></span>
 		<?php
 		}
-		if( $GeneralSettings['episode_box_no_player']  )
+		if( !empty($GeneralSettings['episode_box_no_player'])  )
 		{
 		?>
 		<span style="margin-left: 20px;"><input id="powerpress_no_player_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][no_player]" value="1" type="checkbox" <?php echo ($NoPlayer==1?'checked':''); ?> /> <?php echo __('Do not display player', 'powerpress'); ?></span>

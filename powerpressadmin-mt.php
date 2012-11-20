@@ -142,12 +142,12 @@ if( !function_exists('add_action') )
 	
 	function powerpressadmin_mt_do_import()
 	{
-		$Import = $_POST['Import'];
-		$Media = $_POST['Media'];
-		$Titles = $_POST['Titles'];
+		$Import = ( isset($_POST['Import']) ? $_POST['Import'] : array() );
+		$Media = ( isset($_POST['Media']) ? $_POST['Media'] : array() );
+		$Titles = ( isset($_POST['Titles']) ? $_POST['Titles'] : array() );
 		
 		set_time_limit(60 + (10* count($Import)) );
-		$DetectDuration = ($_POST['DetectDuration']?$_POST['DetectDuration']:0);
+		$DetectDuration = ( !empty($_POST['DetectDuration']) ? $_POST['DetectDuration'] : 0 );
 		
 		if( $DetectDuration )
 		{
@@ -287,7 +287,7 @@ if( !function_exists('add_action') )
 			return;
 		echo '<div style="" class="updated powerpress-notice">';
 		echo '<h3 style="margin-top: 2px; margin-bottom: 2px;">Import Log</h3>';
-		$DetectDuration = ($_POST['DetectDuration']?$_POST['DetectDuration']:0);
+		$DetectDuration = ( !empty($_POST['DetectDuration']) ?$_POST['DetectDuration']:0);
 		if( $DetectDuration )
 		{
 			echo '<p style="font-weight: normal;">'. __('Duration of each mp3 detected.', 'powerpress') .'</p>';
