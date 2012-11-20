@@ -169,6 +169,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added link to [Message Flow](http://wordpress.org/extend/plugins/message-flow/) plugin, adds a CoverFlow-like interface for your blog posts with podcast episodes. For podcasts only, use shortocde: `[message-flow podcasts_only="true"]`
 * Added warning about FeedBurner is not required to podcast and note that iTunes 1400x1400 jpg image should be 72ppi format for viewing on the web.
 * Removed possible notice messages in the importing tools pages or when metabox option player or links is configured.
+* Provide Embeds option now works no matter which players you configure. (Thanks Daniel Lewis for letting us know about the issue).
+
 
 
 = 4.0.4 =

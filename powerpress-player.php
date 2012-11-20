@@ -36,8 +36,11 @@ function powerpressplayer_init($GeneralSettings)
 		powerpress_do_pinw($_GET['powerpress_pinw'], !empty($GeneralSettings['process_podpress']) );
 		
 	if( isset($_GET['powerpress_embed']) )
-		powerpress_do_embed($_GET['powerpress_player'], $_GET['powerpress_embed'], !empty($GeneralSettings['process_podpress']) );
-		
+	{
+		$player = ( !empty($_GET['powerpress_player']) ? $_GET['powerpress_player'] : 'default' );
+		powerpress_do_embed($player, $_GET['powerpress_embed'], !empty($GeneralSettings['process_podpress']) );
+	}
+	
 	// If we are to process podpress data..
 	if( !empty($GeneralSettings['process_podpress']) )
 	{
@@ -1024,20 +1027,22 @@ function powerpressplayer_embedable($media_url, $ExtraData = array())
 		{
 			case 'mp3':
 			case 'm4a': {
-				if( $GeneralSettings['player'] == 'default' )
-					$player = $GeneralSettings['player'];
-			
+				//if( $GeneralSettings['player'] == 'default' )
+				//	$player = $GeneralSettings['player'];
+				$player = 'default';
 			}; break;
 			case 'mp4':
 			case 'm4v': {
-				if( $GeneralSettings['video_player'] == 'flow-player-classic' || $GeneralSettings['video_player'] == 'html5video' )
-					$player = $GeneralSettings['video_player'];
+				//if( $GeneralSettings['video_player'] == 'flow-player-classic' || $GeneralSettings['video_player'] == 'html5video' )
+				//	$player = $GeneralSettings['video_player'];
+				$player = 'html5video';
 			}; break;
 			case 'webm':
 			case 'ogg':
 			case 'ogv': {
-				if( $GeneralSettings['video_player'] == 'html5video' )
-					$player = $GeneralSettings['video_player'];
+				//if( $GeneralSettings['video_player'] == 'html5video' )
+				//	$player = $GeneralSettings['video_player'];
+				$player = 'html5video';
 			}; break;
 		}
 	}
