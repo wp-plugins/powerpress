@@ -463,7 +463,7 @@ function DeleteMedia(File)
 				{
 					global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
 					if( !empty($g_powerpress_remote_errorno) && $g_powerpress_remote_errorno == 401 )
-						$Error = 'Incorrect user email address or password.  <br /><span style="font-weight: normal; font-size: 12px;">Verify your account settings and try again.</span>';
+						$Error = 'Incorrect user email address or password, or no program was found signed-up for services.  <br /><span style="font-weight: normal; font-size: 12px;">Verify your account settings and try again.</span>';
 					else if( !empty($g_powerpress_remote_error) )
 						$Error = __('Error:', 'powerpress') .' '.$g_powerpress_remote_error;
 					else

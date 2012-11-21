@@ -164,13 +164,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 * Added define options `POWERPRESS_CAPABILITY_MANAGE_OPTIONS` and `POWERPRESS_CAPABILITY_EDIT_PAGES` for administrators to customize PowerPress capabilities. (Thanks Kevin Doole for the contribution!)
 * Updated videos for previewing the PowerPress video players.
+* Added preview media for hosting customers when media is not yet published.
 * Added logic to auto enable "fix theme" feature if JetPack 2.0 is used, solves issue where PowerPress player and links disappear using JetPack 2.0. (Thanks Brian from Handy Guys Podcast for diagnosing the problem)
 * Added `is_object` test in the `powerpress_content` function to prevent possible debug messages in development environments. (Thanks Curtis McHale for bringing to our attention)
 * Added link to [Message Flow](http://wordpress.org/extend/plugins/message-flow/) plugin, adds a CoverFlow-like interface for your blog posts with podcast episodes. For podcasts only, use shortocde: `[message-flow podcasts_only="true"]`
 * Added warning about FeedBurner is not required to podcast and note that iTunes 1400x1400 jpg image should be 72ppi format for viewing on the web.
 * Removed possible notice messages in the importing tools pages or when metabox option player or links is configured.
 * Provide Embeds option now works no matter which players you configure. (Thanks Daniel Lewis for letting us know about the issue).
-
+* Added better error message when users try to setup blubrry services integration.
 
 
 = 4.0.4 =

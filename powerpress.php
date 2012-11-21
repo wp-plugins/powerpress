@@ -2182,6 +2182,22 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 				
 			if( isset($Data['webm_src']) )
 				$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']) );
+				
+			if( strpos($MetaParts[0], 'http://') !== 0 && !empty($Data['hosting']) ) // if the URL is not set (just file name) and we're a hosting customer...
+			{
+				$post_status = get_post_status($post_id);
+				switch( $post_status )
+				{
+					case 'pending':
+					case 'draft':
+					case 'auto-draft': {
+						// Determine if audio or video, then set the demo episode here...
+						$Data['url'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/preview.mp3'; // audio
+						if( strstr($Data['type'], 'video') )
+							$Data['url'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/preview.mp4'; // video
+					}; break;
+				}
+			}
 		}
 	}
 	

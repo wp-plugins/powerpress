@@ -1200,14 +1200,14 @@ function powerpress_edit_post($post_ID, $post)
 				$MediaURL = $Powerpress['url'];
 				if( defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
 				{
-					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
+					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http:// or https://
 					{
 						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
 				}
 				else
 				{
-					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http://
+					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http://
 					{
 						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 					}
@@ -1248,7 +1248,7 @@ function powerpress_edit_post($post_ID, $post)
 				
 				if( $Powerpress['set_size'] == 0 || $Powerpress['set_duration'] == 0 )
 				{
-					if( $Powerpress['hosting'] == 1 )
+					if( !empty($Powerpress['hosting']) )
 					{
 						if( $Powerpress['set_size'] == 0 || $Powerpress['set_duration'] == 0 )
 						{
@@ -1304,7 +1304,7 @@ function powerpress_edit_post($post_ID, $post)
 				$EnclosureData = $MediaURL . "\n" . $FileSize . "\n". $ContentType;	
 				$ToSerialize = array();
 				
-				if( $Powerpress['hosting'] )
+				if( !empty($Powerpress['hosting']) )
 					$ToSerialize['hosting'] = 1;
 					
 				// iTunes duration
@@ -1455,7 +1455,7 @@ if( defined('POWERPRESS_DO_ENCLOSE_FIX') )
 			else if( !empty($Powerpress['change_podcast']) || !empty($Powerpress['new_podcast']) )
 			{
 				$MediaURL = $Powerpress['url'];
-				if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && $Powerpress['hosting'] != 1 ) // If the url entered does not start with a http:// or https://
+				if( strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http:// or https://
 				{
 					// Only glitch here is if the media url had an error, and if that's the case then there are other issues the user needs to worry about.
 					$GeneralSettings = get_option('powerpress_general');
@@ -2486,7 +2486,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 				powerpress_add_error($error);
 			}
 			
-			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && isset($EpisodeData['hosting']) && $EpisodeData['hosting'] )
+			if( strtolower(substr($EnclosureURL, 0, 7) ) != 'http://' && $EpisodeData && !empty($EpisodeData['hosting']) )
 			{
 				
 				$error = false;
