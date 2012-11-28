@@ -1011,7 +1011,7 @@ function powerpressadmin_appearance($General=false)
 <tr valign="top">
 <th scope="row" style="background-image: url(../wp-includes/images/smilies/icon_exclaim.gif); background-position: 10px 10px; background-repeat: no-repeat; ">
 
-<div style="margin-left: 24px;"><?php echo __('Having Theme Issues?', 'powerpress'); ?></div></th>
+<div style="margin-left: 24px;"><?php echo __('Having Issues?', 'powerpress'); ?></div></th>
 <td>
 	<select name="General[player_aggressive]" class="bpp_input_med">
 <?php
@@ -1022,8 +1022,11 @@ while( list($value,$desc) = each($linkoptions) )
 	
 ?>
 </select>
-<p style="margin-top: 5px; margin-bottom:0;">
-	<?php echo __('Use this option if you are having problems with the players not appearing in your pages.', 'powerpress'); ?>
+<p style="margin-top: 5px;">
+	<?php echo __('Use this option if you are having problems with the players not appearing on some or all of your pages.', 'powerpress'); ?>
+</p>
+<p style="margin-top: 20px; margin-bottom:0;">
+	<?php echo __('If the above option fixes the player issues, then you most likely have a conflicting theme or plugin activated. You can verify your theme is not causing the problem by testing your site using the default WordPress twentyelevent or twentytwelve theme. For plugins, disable them one by one until the player re-appears, which indicates the last plugin deactivated caused the conflict.', 'powerpress'); ?>
 </p>
 </td>
 </tr>
