@@ -2,7 +2,7 @@
 Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.5
 Stable tag: 4.0.4
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
@@ -158,7 +158,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 = 4.0.5 =
-* Released on 11/16/2012
+* Released on 11/28/2012
+* Tested with WordPress 3.5 Release Candidate 1
+* Updated button styling to fix styling issue for future release of WordPress 3.5
 * Updated the "Plugins Update Cache" logic for WordPress versions 3.4+
 * Updated link to add podcast to iTunes.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
@@ -172,6 +174,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Removed possible notice messages in the importing tools pages or when metabox option player or links is configured.
 * Provide Embeds option now works no matter which players you configure. (Thanks Daniel Lewis for letting us know about the issue).
 * Added better error message when users try to setup blubrry services integration.
+* Added note under RSS Image to remind new users to also configure their iTunes image, which is very important.
+* Removed mentions of Zune, that podcast directory is no longer available.
 
 
 = 4.0.4 =

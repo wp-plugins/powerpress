@@ -494,7 +494,7 @@ if( $feed_slug || $cat_ID )
 <tr valign="top">
 <th scope="row">
 <?php echo __('FeedBurner Feed URL', 'powerpress'); ?><br />
-<span style="font-size: 85%; margin-left: 5px;">Recommendation: leave blank</span>
+<span style="font-size: 85%; margin-left: 5px;"><?php echo __('Recommendation: leave blank', 'powerpress'); ?></span>
 </th>
 <td>
 <input type="text" name="Feed[feed_redirect_url]"style="width: 60%;"  value="<?php echo (!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use built-in feed', 'powerpress'); ?>)
@@ -559,6 +559,7 @@ else
 <tr valign="top">
 <th scope="row">
 <?php echo __('RSS2 Image', 'powerpress'); ?> <br />
+<span style="font-size: 85%; margin-left: 5px;"><?php echo __('Recommendation: Use iTunes image', 'powerpress'); ?></span>
 </th>
 <td>
 <input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['rss2_image'])? $FeedSettings['rss2_image']:''); ?>" maxlength="250" />
@@ -575,6 +576,9 @@ else
 	<label for="rss2_image"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="rss2_image_file"  />
 </div>
 <?php } ?>
+	<div>
+	<?php echo powerpressadmin_notice( __('Note: Do not forget to configure your iTunes image in the next tab, which may be used as your RSS image as well.', 'powerpress') ); ?>
+	</div>
 </td>
 </tr>
 
@@ -1082,7 +1086,7 @@ while( list($value,$desc) = each($explicit) )
 <p><strong><?php echo __('A square image that is 1400 x 1400 pixels in .jpg format for the web (72ppi) is recommended.', 'powerpress'); ?></strong></p>
 
 <p>
-<?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories such as Zune and Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
+<?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories like Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
 </p>
 
 <p><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 

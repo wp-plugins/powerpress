@@ -173,10 +173,13 @@ function powerpress_admin_init()
 			if( file_exists($upload_path . $filename ) )
 			{
 				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
+				if( !empty($filenameParts['basename']) && !empty($filenameParts['extension']) )
+				{
+					do {
+						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+					} while( file_exists($upload_path . $filename ) );
+				}
 			}
 			
 			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
@@ -1644,7 +1647,7 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 }
 .powerpress_podcast_box input[type="button"] {
 	height: 20px;
-	vertical-align: bottom;
+	vertical-align: top;
 	font-size: 90%;
 }
 .powerpress-watermark {
@@ -3379,9 +3382,7 @@ function powerpressadmin_community_news($items=3)
 	echo ' &nbsp; ';
 	echo '<a href="http://www.powerpresspodcast.com/feed/podcast/"><img src="'.get_bloginfo('wpurl').'/wp-includes/images/rss.png" /> '. __('Podcast', 'powerpress') .'</a>';
 	echo ' &nbsp; ';
-	echo '<a href="itpc://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/itunes_modern.png" /> '. __('iTunes', 'powerpress') .'</a>';
-	echo ' &nbsp; ';
-	echo '<a href="zune://subscribe/?Blubrry+PowerPress+and+Community+Podcast=http://www.powerpresspodcast.com/feed/podcast/"><img src="'.powerpress_get_root_url().'/images/zune.png" /> '. __('Zune', 'powerpress') .'</a>';
+	echo '<a href="https://itunes.apple.com/us/podcast/blubrry-powerpress-community/id430248099/"><img src="'.powerpress_get_root_url().'/images/itunes_modern.png" /> '. __('iTunes', 'powerpress') .'</a>';
 	//echo ' &nbsp; &nbsp; ';
 	
 	echo '</div>';

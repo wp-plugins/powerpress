@@ -94,7 +94,7 @@
 			}
 			
 		$html .= '</div>';
-		$html .= '<input style="cursor:pointer;" type="button" id="powerpress_check_'. $feed_slug .'_button" name="powerpress_check_'. $feed_slug .'_button" value="'. __('Add Meta Mark', 'powerpress') .'" onclick="powerpress_metamarks_addrow(\''. $feed_slug .'\');" />';
+		$html .= '<input style="cursor:pointer;" type="button" id="powerpress_check_'. $feed_slug .'_button" name="powerpress_check_'. $feed_slug .'_button" value="'. __('Add Meta Mark', 'powerpress') .'" onclick="powerpress_metamarks_addrow(\''. $feed_slug .'\');" class="button" />';
 		$html .= '	</div>';
 		$html .= '</div>';
 		return $value . $html;
