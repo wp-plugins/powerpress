@@ -157,10 +157,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
+
 = 4.0.6 =
 * Released on TBD
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
-
+* Added Russian translation. Thanks Igor Mercury for translating!
 
 
 = 4.0.5 =
@@ -840,6 +841,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 * Simplified Chinese for v1.0.12+ by [webmote](http://codeex.cn) - From webmote: Welcome to use the plugin. Very good! and then hope you to access my site.
 * Italian translation for v2.0.4+ by [Umberto Sartori](http://veneziadoc.net/)
 * Romanian translation for v2.0.4+ by Alexander Ovsov (Web Geek Sciense: http://webhostinggeeks.com/science/)
+* Russian translation for v4.0.5+ by  [Igor Mercury](http://www.nightdiary.ru/)
 
 
 == Tips and Tutorials ==
