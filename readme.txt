@@ -159,7 +159,11 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.6 =
-* Released on TBD
+* Released on 1/23/2013
+* Everyone is **strongly encouraged to update their copy of PowerPress immediately!**
+* Due to concerns of possible security exploits, the 1 Pixel Out Audio Player has been removed from PowerPress. [Learn More](http://blog.blubrry.com/?p=1163)
+* Notices added in both the WP dashboard and in the Audio player settings page that the 1 Pixel Out player has been removed.
+* If you've configured your web site with the 1 Pixel Out Audio Player, Flow Player Classic will be used. Go to the PowerPress > Audio Player settings page to change this player if you like.
 * Updated Danish translation. Thanks GeorgWP and Team Blogos for translating!
 * Added Russian translation. Thanks Igor Mercury for translating!
 
