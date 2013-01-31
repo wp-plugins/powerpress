@@ -63,7 +63,9 @@ if( !defined('POWERPRESS_PLAY_TEXT') )
 	define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );
 if( !defined('POWERPRESS_EMBED_TEXT') )	
 	define('POWERPRESS_EMBED_TEXT', __('Embed', 'powerpress') );
-
+if( !defined('POWERPRESS_READ_TEXT') )	
+	define('POWERPRESS_READ_TEXT', __('Read', 'powerpress') );
+	
 if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
 	

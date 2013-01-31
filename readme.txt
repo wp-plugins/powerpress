@@ -161,6 +161,12 @@ To install Blubrry PowerPress manually, follow these steps:
 = 4.0.7 =
 * Released on 2/1/2013
 * The 1 Pixel Out player is back!  [Learn More](http://blog.blubrry.com/?p=1188)
+* Added new define option `POWERPRESS_READ_TEXT` to customize the 'Read' label for pdf/epub books.
+* Player logic updated to display specific PDF/ePub images with links to the files.
+* PDF image from Hybrid Design.
+* ePub image from ThreePress.
+* Calls to wp_remote_head now set to use HTTP 1.1 protocol (WordPress defaults to HTTP 1.0 for what ever reason)
+* 
 
 
 = 4.0.6 =

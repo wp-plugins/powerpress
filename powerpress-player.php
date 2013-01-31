@@ -930,6 +930,13 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			}
 			
 		}; break;
+		
+		case 'pdf': {
+			$content .= powerpressplayer_build_playimagepdf($media_url, true);
+		}; break;
+		case 'epub': {
+			$content .= powerpressplayer_build_playimageepub($media_url, true);
+		}; break;
 			
 		// Default, just display the play image. 
 		default: {
@@ -1539,6 +1546,42 @@ function powerpressplayer_build_playimageaudio($media_url, $include_div = false)
 		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
 	$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" target="_blank">';
 	$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="border:0;" />';
+	$content .= '</a>';
+	if( $include_div )
+		$content .= "</div>\n";
+	return $content;
+}
+
+function powerpressplayer_build_playimagepdf($media_url, $include_div = false)
+{
+	$content = '';
+	$cover_image = powerpress_get_root_url() . 'play_pdf.png';
+	$GeneralSettings = get_option('powerpress_general');
+	if( !empty($GeneralSettings['pdf_custom_play_button']) )
+		$cover_image = $GeneralSettings['pdf_custom_play_button'];
+		
+	if( $include_div )
+		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
+	$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" target="_blank">';
+	$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" style="border:0;" />';
+	$content .= '</a>';
+	if( $include_div )
+		$content .= "</div>\n";
+	return $content;
+}
+
+function powerpressplayer_build_playimageepub($media_url, $include_div = false)
+{
+	$content = '';
+	$cover_image = powerpress_get_root_url() . 'play_epub.png';
+	$GeneralSettings = get_option('powerpress_general');
+	if( !empty($GeneralSettings['epub_custom_play_button']) )
+		$cover_image = $GeneralSettings['epub_custom_play_button'];
+		
+	if( $include_div )
+		$content .= '<div class="powerpress_player" id="powerpress_player_'. powerpressplayer_get_next_id() .'">';
+	$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" target="_blank">';
+	$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_READ_TEXT) .'" style="border:0;" />';
 	$content .= '</a>';
 	if( $include_div )
 		$content .= "</div>\n";

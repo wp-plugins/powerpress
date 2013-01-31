@@ -3174,30 +3174,30 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 	
 	if( $content_type != '' && $file_size == 0 )
 	{
-		$response = wp_remote_head( $media_file );
+		$response = wp_remote_head( $media_file, array('httpversion' => 1.1) );
 		// Redirect 1
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'] );
+			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
 		}
 		// Redirect 2
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'] );
+			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
 		}
 		// Redirect 3
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'] );
+			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
 		}
 		// Redirect 4
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'] );
+			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
 		}
 							
 		if ( is_wp_error( $response ) )
