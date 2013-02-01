@@ -132,16 +132,22 @@ function powerpress_admin_init()
 				{
 					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 600 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
-						move_uploaded_file($temp, $upload_path . $filename);
-						$Feed['itunes_image'] = $upload_url . $filename;
-						if( !empty($_POST['itunes_image_checkbox_as_rss']) )
+						if( !move_uploaded_file($temp, $upload_path . $filename) )
 						{
-							$Feed['rss2_image'] = $upload_url . $filename;
+							powerpress_page_message_add_error( __('Error saving iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the iTunes image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
 						}
-						
-						if( $ImageData[0] < 1400 )
+						else
 						{
-							powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
+							$Feed['itunes_image'] = $upload_url . $filename;
+							if( !empty($_POST['itunes_image_checkbox_as_rss']) )
+							{
+								$Feed['rss2_image'] = $upload_url . $filename;
+							}
+							
+							if( $ImageData[0] < 1400 )
+							{
+								powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
+							}
 						}
 					}
 					else if( $ImageData['channels'] != 3 )
@@ -184,8 +190,14 @@ function powerpress_admin_init()
 			
 			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$Feed['rss2_image'] = $upload_url . $filename;
+				if( !move_uploaded_file($temp, $upload_path . $filename) )
+				{
+					powerpress_page_message_add_error( __('Error saving RSS image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the RSS image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+				}
+				else
+				{
+					$Feed['rss2_image'] = $upload_url . $filename;
+				}
 			}
 			else
 			{
@@ -210,9 +222,15 @@ function powerpress_admin_init()
 			
 			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
-				$General['tag_coverart'] = $upload_url . $filename;
+				if( !move_uploaded_file($temp, $upload_path . $filename) )
+				{
+					powerpress_page_message_add_error( __('Error saving Coverart image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the coverart image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+				}
+				else
+				{
+					$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
+					$General['tag_coverart'] = $upload_url . $filename;
+				}
 			}
 			else
 			{
@@ -237,8 +255,14 @@ function powerpress_admin_init()
 			
 			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$General['poster_image'] = $upload_url . $filename;
+				if( !move_uploaded_file($temp, $upload_path . $filename) )
+				{
+					powerpress_page_message_add_error( __('Error saving Poster image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the poster image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+				}
+				else
+				{
+					$General['poster_image'] = $upload_url . $filename;
+				}
 			}
 			else
 			{
@@ -264,8 +288,14 @@ function powerpress_admin_init()
 			
 			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$General['audio_custom_play_button'] = $upload_url . $filename;
+				if( !move_uploaded_file($temp, $upload_path . $filename) )
+				{
+					powerpress_page_message_add_error( __('Error saving Play image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the play image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+				}
+				else
+				{
+					$General['audio_custom_play_button'] = $upload_url . $filename;
+				}
 			}
 			else
 			{
@@ -291,8 +321,14 @@ function powerpress_admin_init()
 			$imageInfo = @getimagesize($temp);
 			if( $imageInfo && $imageInfo[0] == $imageInfo[1] && $imageInfo[0] == 60 )  // Just check that it is an image, we may add more to this later
 			{
-				move_uploaded_file($temp, $upload_path . $filename);
-				$General['video_custom_play_button'] = $upload_url . $filename;
+				if( !move_uploaded_file($temp, $upload_path . $filename) )
+				{
+					powerpress_page_message_add_error( __('Error saving Video Play icon image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the Video Play icon image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+				}
+				else
+				{
+					$General['video_custom_play_button'] = $upload_url . $filename;
+				}
 			}
 			else if( $imageInfo )
 			{
@@ -3285,7 +3321,7 @@ function powerpressadmin_support_uploads()
 			$g_SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
 		else
 			$g_SupportUploads = true;
-	}
+		
 	return $g_SupportUploads;
 }
 

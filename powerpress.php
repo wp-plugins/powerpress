@@ -301,14 +301,16 @@ function powerpress_header()
 	$Powerpress = get_option('powerpress_general');
 	if( !isset($Powerpress['custom_feeds']) )
     $Powerpress['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
-		
-	if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
+	
+	if( empty($Powerpress['disable_appearance']) || $Powerpress['disable_appearance'] == false )
 	{
-		$PowerpressPluginURL = powerpress_get_root_url();
-		if( !defined('POWERPRESS_ENQUEUE_SCRIPTS') )
+		if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
 		{
-			echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
-		}
+			$PowerpressPluginURL = powerpress_get_root_url();
+			if( !defined('POWERPRESS_ENQUEUE_SCRIPTS') )
+			{
+				echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
+			}
 ?>
 <script type="text/javascript"><!--
 <?php
@@ -325,6 +327,7 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 //-->
 </script>
 <?php
+		}
 	}
 	
 	if( !empty($Powerpress['feed_links']) )

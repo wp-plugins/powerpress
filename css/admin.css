@@ -79,6 +79,7 @@ color:#999999;
 .powerpress_tabbed_content ul a:hover {
   }
 
+.powerpress_tabbed_content ul .ui-tabs-active a,
 .powerpress_tabbed_content ul .ui-tabs-selected a {
 	background-color:#FFFFFF;
 	border-bottom:0 none;
@@ -86,6 +87,8 @@ color:#999999;
 	cursor:default;
 	padding-bottom:3px;
 }
+
+
 
 .powerpress_tabbed_content > div {
   padding: 0px 10px 10px 10px;

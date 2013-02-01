@@ -167,6 +167,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * ePub image from ThreePress.
 * Calls to wp_remote_head now set to use HTTP 1.1 protocol (WordPress defaults to HTTP 1.0 for what ever reason. Thanks vinull for your bug fix!)
 * Added support for Kindle Fire in the list of detected mobile HTML5 players. (Thanks Chris Bockay for bringing to our attention and helpnig us diagnose!)
+* Added logic to not include header javascript in theme's if the Media Apperance option "Disable PowerPress Media Players and Links" is disabled.
 
 
 = 4.0.6 =
