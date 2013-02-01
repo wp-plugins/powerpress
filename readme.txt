@@ -165,8 +165,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Player logic updated to display specific PDF/ePub images with links to the files.
 * PDF image from Hybrid Design.
 * ePub image from ThreePress.
-* Calls to wp_remote_head now set to use HTTP 1.1 protocol (WordPress defaults to HTTP 1.0 for what ever reason)
-* 
+* Calls to wp_remote_head now set to use HTTP 1.1 protocol (WordPress defaults to HTTP 1.0 for what ever reason. Thanks vinull for your bug fix!)
+* Added support for Kindle Fire in the list of detected mobile HTML5 players. (Thanks Chris Bockay for bringing to our attention and helpnig us diagnose!)
 
 
 = 4.0.6 =
