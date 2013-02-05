@@ -3321,7 +3321,7 @@ function powerpressadmin_support_uploads()
 			$g_SupportUploads = @wp_mkdir_p( rtrim($upload_path, '/') );
 		else
 			$g_SupportUploads = true;
-		
+	}	
 	return $g_SupportUploads;
 }
 
