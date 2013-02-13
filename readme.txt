@@ -159,7 +159,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.7 =
-* Released on 2/1/2013
+* Released on 2/14/2013
 * The 1 Pixel Out player is back!  [Learn More](http://blog.blubrry.com/?p=1188)
 * Added new define option `POWERPRESS_READ_TEXT` to customize the 'Read' label for pdf/epub books.
 * Player logic updated to display specific PDF/ePub images with links to the files.
@@ -168,6 +168,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Calls to wp_remote_head now set to use HTTP 1.1 protocol (WordPress defaults to HTTP 1.0 for what ever reason. Thanks vinull for your bug fix!)
 * Added support for Kindle Fire in the list of detected mobile HTML5 players. (Thanks Chris Bockay for bringing to our attention and helpnig us diagnose!)
 * Added logic to not include header javascript in theme's if the Media Apperance option "Disable PowerPress Media Players and Links" is disabled.
+* Added logic to fix the play in new window and embed links if Joost de Valk's Google Analytics for WordPress plugin has "Track outbound clicks & downloads" enabled.
+
 
 
 = 4.0.6 =
