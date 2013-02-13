@@ -169,7 +169,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added support for Kindle Fire in the list of detected mobile HTML5 players. (Thanks Chris Bockay for bringing to our attention and helpnig us diagnose!)
 * Added logic to not include header javascript in theme's if the Media Apperance option "Disable PowerPress Media Players and Links" is disabled.
 * Added logic to fix the play in new window and embed links if Joost de Valk's Google Analytics for WordPress plugin has "Track outbound clicks & downloads" enabled.
-
+* Added logic to the getid3 library to use the WordPress temp folder path rather than use the system detected path. This should fix the verify problems a small portion of folks have when the /tmp folder not being writable.
 
 
 = 4.0.6 =
