@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -170,6 +170,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added logic to not include header javascript in theme's if the Media Apperance option "Disable PowerPress Media Players and Links" is disabled.
 * Added logic to fix the play in new window and embed links if Joost de Valk's Google Analytics for WordPress plugin has "Track outbound clicks & downloads" enabled.
 * Added logic to the getid3 library to use the WordPress temp folder path rather than use the system detected path. This should fix the verify problems a small portion of folks have when the /tmp folder not being writable.
+* Happy Valentines day!
 
 
 = 4.0.6 =
