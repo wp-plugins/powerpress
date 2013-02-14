@@ -206,7 +206,7 @@ function powerpress_dashboard_notice_3_content()
 		return; // Lets not do anything to the dashboard for PowerPress Notice
 	
 	$message = '<p>'. __('The 1 Pixel Out player is back! The security concerns have been addressed in this latest version.', 'powerpress') .'<br />';
-	$message .= '<a href="http://blog.blubrry.com/?p=1188" target="_blank">'. __("Learn More", "powerpress") .'</a></p>';
+	$message .= '<a href="http://blog.blubrry.com/2013/02/14/1-pixel-out-player-returns-to-powerpress/" target="_blank">'. __("Learn More", "powerpress") .'</a></p>';
 	
 	powerpress_dashboard_notice_message(3, $message );
 }
@@ -247,15 +247,15 @@ function powerpress_dashboard_setup()
 		$StatsDashboard = false;
 		
 	// PowerPress Dashboard Notice 3:
-	$Notice3Dashboard = true;
-	$DismissedNotices = get_option('powerpress_dismissed_notices');
-	if( time() > mktime(0, 0, 0, 3, 1, 2013) )
+	$Notice3Dashboard = false;
+	if( time() < mktime(0, 0, 0, 2, 21, 2013) ) // One week later after update, lets no longer but folks about the news
 	{
-		$Notice3Dashboard = false; // Month notice is over
-	}
-	else if( !empty($DismissedNotices[3]) )
-	{
-		$Notice3Dashboard = false;
+		$Notice3Dashboard = true;
+		$DismissedNotices = get_option('powerpress_dismissed_notices');
+		if( !empty($DismissedNotices[3]) )
+		{
+			$Notice3Dashboard = false; // Month notice is over
+		}
 	}
 	//$Notice1Dashboard = false;// Temporary till release
 
