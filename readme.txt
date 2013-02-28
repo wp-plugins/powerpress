@@ -158,6 +158,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
 
 
+= 4.0.8 =
+* Released on TBD
+* removed logic added in 4.0.7.
+
+
 = 4.0.7 =
 * Released on 2/14/2013
 * The 1 Pixel Out player is back!  [Learn More](http://blog.blubrry.com/2013/02/14/1-pixel-out-player-returns-to-powerpress/)
