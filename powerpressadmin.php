@@ -900,7 +900,7 @@ function powerpress_admin_init()
 				$ps_role = get_role('premium_subscriber');
 				if(!$ps_role)
 				{
-					add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'), $caps);
+					add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'));
 					$ps_role = get_role('premium_subscriber');
 					$ps_role->add_cap('read');
 					$ps_role->add_cap('premium_content');
