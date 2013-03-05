@@ -295,6 +295,14 @@ add_filter('get_the_excerpt', 'powerpress_content', (POWERPRESS_CONTENT_ACTION_P
 add_filter('the_content', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
 add_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
 
+
+/* Specail case fix Yoast bug which messes up the HTML */
+function powerpress_yoast_gawp_fix($content)
+{
+	$content= preg_replace('/return powerpress\_pinw\(\"/', 'return powerpress_pinw(\'', $content);
+	return $content;
+}
+
 function powerpress_header()
 {
 	// PowerPress settings:
@@ -1124,6 +1132,11 @@ function powerpress_init()
 		}
 	}
 
+	
+	if( defined('GAWP_VERSION') )
+	{
+		add_filter('the_content', 'powerpress_yoast_gawp_fix', 120 );
+	}
 	// CHECK if the Google Analytics for WordPress plugin is enabled, if so, lets add our players after it modifies the post content...
 	//~ if( defined('GAWP_VERSION') && POWERPRESS_CONTENT_ACTION_PRIORITY < 120 )
 	//~ {

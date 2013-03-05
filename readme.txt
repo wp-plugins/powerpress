@@ -160,7 +160,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 4.0.8 =
 * Released on TBD
-* removed logic added in 4.0.7.
+* Completely rewrote logic added in 4.0.7 to fix the conflict with Yoast Google Analytics plugin. This sholud solve the issues folks have been having when using this plugin with PowerPress.
 
 
 = 4.0.7 =
