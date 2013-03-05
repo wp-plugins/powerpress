@@ -1993,8 +1993,11 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 		if( !empty($GeneralSettings[ $key ]) )
 		{
 			$RedirectClean = str_replace('http://', '', trim($GeneralSettings[ $key ]) );
-			if( !strstr($NewURL, $RedirectClean) )
-				$NewURL = 'http://'. $RedirectClean . str_replace('http://', '', $NewURL);
+			if( !empty($RedirectClean) )
+			{
+				if( !strstr($NewURL, $RedirectClean) )
+					$NewURL = 'http://'. $RedirectClean . str_replace('http://', '', $NewURL);
+			}
 		}
 	}
 

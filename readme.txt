@@ -162,6 +162,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on TBD
 * Completely rewrote logic added in 4.0.7 to fix the conflict with Yoast Google Analytics plugin. This sholud solve the issues folks have been having when using this plugin with PowerPress.
 * Flow Player Classic audio player height changed from 24 to 22 when Firefox detected, displays correctly in Firefox with this custom height.
+* Added code to prevent possible "Empty delimiter" warning for strstr function calls in plugin.
 
 
 = 4.0.7 =
