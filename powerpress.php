@@ -299,7 +299,11 @@ add_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORI
 /* Specail case fix Yoast bug which messes up the HTML */
 function powerpress_yoast_gawp_fix($content)
 {
-	$content= preg_replace('/return powerpress\_pinw\(\"/', 'return powerpress_pinw(\'', $content);
+	$content= preg_replace(
+		array('/return powerpress\_pinw\(\"/', '/return powerpress\_embed\_quicktime\(\"/', '/return powerpress\_embed\_winplayer\(\"/', '/return powerpress\_embed\_swf\(\"/', '/return powerpress\_show\_embed\(\"/', '/return powerpress\_embed\_html5v\(\"/', '/return powerpress\_embed\_html5a\(\"/',  ),
+		array('return powerpress_pinw(\'', 'return powerpress_embed_quicktime(\'', 'return powerpress_embed_winplayer(\'', 'return powerpress_embed_swf(\'', 'return powerpress_show_embed(\'', 'return powerpress_embed_html5v(\'', 'return powerpress_embed_html5a(\'' ),
+		$content);
+	
 	return $content;
 }
 

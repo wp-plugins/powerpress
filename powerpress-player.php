@@ -1437,6 +1437,8 @@ function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = arr
 		
 		$cover_image = ''; // Audio should not have a cover image
 		$player_height = 24;
+		if(stristr($_SERVER['HTTP_USER_AGENT'], 'firefox') !== false )
+			$player_height = 22; // Firefox only
 	}
 	
 	// Build player...
