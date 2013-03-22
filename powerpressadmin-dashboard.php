@@ -154,7 +154,7 @@ function powerpress_dashboard_stats_content()
 	{
 ?>
 	<div id="blubrry_stats_media_show">
-		<a href="<?php echo admin_url(); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="<?php echo __('Blubrry Media statistics', 'powerpress'); ?>" class="thickbox"><?php echo __('more', 'powerpress'); ?></a>
+		<a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-stats&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" title="<?php echo __('Blubrry Media statistics', 'powerpress'); ?>" class="thickbox"><?php echo __('more', 'powerpress'); ?></a>
 	</div>
 <?php } ?>
 </div>

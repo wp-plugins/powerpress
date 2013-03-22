@@ -545,7 +545,7 @@ function DeleteMedia(File)
 			powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
 			powerpress_page_message_print();	
 ?>
-<form action="<?php echo admin_url(); ?>" enctype="multipart/form-data" method="post">
+<form action="<?php echo admin_url('admin.php'); ?>" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field('powerpress-jquery-account'); ?>
 <input type="hidden" name="action" value="powerpress-jquery-account-save" />
 <div id="accountinfo">

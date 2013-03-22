@@ -711,7 +711,7 @@ function powerpressadmin_edit_blubrry_services($General)
 	<?php //echo sprintf(
 		__('Adds %s to your blog\'s %s plus features for %s users to quickly upload and publish media directly from their blog.', 'powerpress'),
 		'<a href="http://www.blubrry.com/podcast_statistics/" target="_blank">'. __('Blubrry Media Statistics', 'powerpress') .'</a>',
-		'<a href="'. admin_url() .'">'. __('WordPress Dashboard', 'powerpress') .'</a>',
+		'<a href="'. admin_url('admin.php') .'">'. __('WordPress Dashboard', 'powerpress') .'</a>',
 		'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">'. __('Blubrry Media Hosting', 'powerpress') .'</a>' );
 	?>
 </p>
