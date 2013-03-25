@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added code to prevent possible "Empty delimiter" warning for strstr function calls in plugin.
 * Added admin.php to `admin_url()` function calls to get around issue when web hosting providoers do not provide DirectoryIndex support for index.php files.
 * Added `channel` as an option to the powerpress shortcode to clear up confusion, this option was previously currently called `feed` for specifying a specific custom podcast channel.
+* Added new define `POWERPRESS_CUSTOM_CAPABILITY_TYPE`, for setting an additional compatibility type other than "post" or "page". Only works for custom podcast channels, not the default podcast channel.
 
 
 = 4.0.7 =

@@ -1161,12 +1161,39 @@ function powerpress_admin_menu()
 					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 				}
 			}
+			reset($Powerpress['custom_feeds']);
 		}
 		else
 		{
 			reset($post_types);
 			while( list($null,$post_type) = each($post_types) )
 				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
+		}
+		
+		// For custom compatibility type set:
+		if( isset($Powerpress['custom_feeds']) && defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
+		{
+			$post_types = powerpress_admin_get_post_types_by_capability_type( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
+			if( !empty($post_types) )
+			{
+				while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )
+				{
+					if( $feed_slug == 'podcast' )
+						continue;
+					
+					$FeedCustom = get_option('powerpress_feed_'.$feed_slug);
+							
+					reset($post_types);
+					while( list($null,$post_type) = each($post_types) )
+					{
+						if( !empty($FeedCustom['custom_post_type']) && $FeedCustom['custom_post_type'] != $post_type )
+							continue;
+						
+						add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
+					}
+				}
+				reset($Powerpress['custom_feeds']);
+			}
 		}
 	}
 	

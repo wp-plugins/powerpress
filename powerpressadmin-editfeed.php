@@ -823,6 +823,7 @@ function powerpress_default_premium_label(event)
 <?php ?>
 <select name="Feed[custom_post_type]" class="bpp_input_med">
 <?php
+
 			$post_types = powerpress_admin_get_post_types_by_capability_type('post');
 			$custom_post_type = '';
 			if( !empty($FeedSettings['custom_post_type']) )
@@ -837,6 +838,23 @@ function powerpress_default_premium_label(event)
 				if( !empty($postTypeObj->labels->name ) )
 					$desc = $postTypeObj->labels->name . ' ('. $value .')';
 				echo "\t<option value=\"$value\"". ($custom_post_type==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+			}
+			
+			if( defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
+			{
+				$post_types = powerpress_admin_get_post_types_by_capability_type( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
+				if( !empty($post_types) )
+				{
+					while( list($index,$value) = each($post_types) )
+					{
+						$desc = $value;
+						// TODO: See if we can get a post type label somehow
+						$postTypeObj = get_post_type_object($value);
+						if( !empty($postTypeObj->labels->name ) )
+							$desc = $postTypeObj->labels->name . ' ('. $value .')';
+						echo "\t<option value=\"$value\"". ($custom_post_type==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+					}
+				}
 			}
 ?>
 </select>
