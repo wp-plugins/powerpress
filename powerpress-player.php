@@ -75,6 +75,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 	
 	$return = '';
 	$feed = '';
+	$channel = '';
 	$url = '';
 	$image = '';
 	$width = '';
@@ -83,10 +84,14 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 	extract( shortcode_atts( array(
 			'url' => '',
 			'feed' => '',
+			'channel' => '',
 			'image' => '',
 			'width' => '',
 			'height' => ''
 		), $attributes ) );
+		
+	if( empty($channel) && !empty($feed) ) // Feed for backward compat.
+		$channel = $feed;
 	
 	if( !$url && $content )
 	{
@@ -102,9 +107,9 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		// Handle the URL differently...
 		$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($url, 'p'), array('image'=>$image, 'type'=>$content_type,'width'=>$width, 'height'=>$height) );
 	}
-	else if( $feed )
+	else if( $channel )
 	{
-		$EpisodeData = powerpress_get_enclosure_data($post->ID, $feed);
+		$EpisodeData = powerpress_get_enclosure_data($post->ID, $channel);
 		if( !empty($EpisodeData['embed']) )
 			$return = $EpisodeData['embed'];
 		
@@ -118,14 +123,14 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		
 		if( !isset($EpisodeData['no_player']) )
 		{
-			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($feed) )
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($channel) )
 			{
-				$return .= powerpress_premium_content_message($post->ID, $feed, $EpisodeData);
+				$return .= powerpress_premium_content_message($post->ID, $channel, $EpisodeData);
 				continue;
 			}
 			
 			if( !isset($EpisodeData['no_player']) )
-				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$feed, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
+				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
 			if( empty($EpisodeData['no_links']) )
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 		}
