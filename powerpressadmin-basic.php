@@ -1057,6 +1057,19 @@ while( list($value,$desc) = each($linkoptions) )
 <?php echo __('Height of new window (leave blank for 240 default)', 'powerpress'); ?>
 </td>
 </tr>
+
+<tr valign="top">
+<th scope="row">
+&nbsp;
+</th>
+<td>
+
+	<p style="margin: 8px 0 0 0;">
+		<label><input type="checkbox" name="General[new_window_nofactor]" value="1" <?php if( !empty($General['new_window_nofactor']) ) echo 'checked'; ?>  /> <?php echo __('Do not factor in scroll bars', 'powerpress'); ?></label>
+	</p>
+	<div style="margin: 0 0 0 20px;"><?php echo __('By default, PowerPress adds to the width and height above to compensate for possible vertical and horizontal scroll bars. Check this option if you do not want PowerPress to compensate for browser scroll bars.', 'powerpress'); ?></div>
+</td>
+
 </table>
 </div>
 <!-- end advanced features -->
@@ -1071,7 +1084,7 @@ while( list($value,$desc) = each($linkoptions) )
 <td>
 
 	<p style="margin: 8px 0 0 0;">
-		<input type="checkbox" name="General[m4a]" value="use_players" <?php if( !empty($General['m4a']) && $General['m4a'] == 'use_players' ) echo 'checked'; ?>  /> <?php echo __('Use Flow Player Classic / HTML5 Audio player', 'powerpress'); ?>
+		<label><input type="checkbox" name="General[m4a]" value="use_players" <?php if( !empty($General['m4a']) && $General['m4a'] == 'use_players' ) echo 'checked'; ?>  /> <?php echo __('Use Flow Player Classic / HTML5 Audio player', 'powerpress'); ?></label>
 	</p>
 	<div style="margin-left: 20px;"><?php echo __('Leave this option unchecked if you want m4a chapter markers, images and information displayed.', 'powerpress'); ?></div>
 	<div style="margin: 10px 0 0 20px;"><?php echo __('When unchecked, m4a will be played with the quicktime video embed. Video player width/height settings apply.', 'powerpress'); ?></div>

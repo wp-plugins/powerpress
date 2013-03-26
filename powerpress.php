@@ -329,12 +329,24 @@ function powerpress_header()
 		$new_window_width = 420;
 		$new_window_height = 240;
 
-		if( isset($Powerpress['new_window_width']) && $Powerpress['new_window_width'] > 100 )
+		if( isset($Powerpress['new_window_width']) && $Powerpress['new_window_width'] > 0 )
 			$new_window_width = $Powerpress['new_window_width'];
-		if( isset($Powerpress['new_window_height']) && $Powerpress['new_window_height'] > 40 )
+		else if( isset($Powerpress['new_window_width']) )
+			$new_window_width = 50;
+			
+		if( isset($Powerpress['new_window_height']) && $Powerpress['new_window_height'] > 0 )
 			$new_window_height = $Powerpress['new_window_height'];
+		else if( isset($Powerpress['new_window_height']) )
+			$new_window_height = 20;
+			
+		if( empty($Powerpress['new_window_nofactor']) )
+		{
+			$new_window_width  += 40;
+			$new_window_height += 80;
+		}
+		
 ?>
-function powerpress_pinw(pinw){window.open('<?php echo get_bloginfo('url'); ?>/?powerpress_pinw='+pinw, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=<?php echo ($new_window_width + 40); ?>,height=<?php echo ($new_window_height + 80); ?>');	return false;}
+function powerpress_pinw(pinw){window.open('<?php echo get_bloginfo('url'); ?>/?powerpress_pinw='+pinw, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=<?php echo ($new_window_width); ?>,height=<?php echo ($new_window_height); ?>');	return false;}
 powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 //-->
 </script>

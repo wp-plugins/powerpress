@@ -469,6 +469,8 @@ function powerpress_admin_init()
 					$General['podcast_embed_in_feed'] = 0;
 				if( !isset($General['m4a'] ) )
 					$General['m4a'] = '';
+				if( !isset($General['new_window_nofactor'] ) )
+					$General['new_window_nofactor'] = '';
 			}
 			
 			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
