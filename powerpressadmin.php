@@ -2510,7 +2510,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 	$errors = array();
 	$Settings = get_option('powerpress_general');
 	$CustomFeeds = array();
-	if( is_array($Settings['custom_feeds']) )
+	if( !empty($Settings['custom_feeds']) && is_array($Settings['custom_feeds']) )
 		$CustomFeeds = $Settings['custom_feeds'];
 	if( !isset($CustomFeeds['podcast']) )
 		$CustomFeeds['podcast'] = 'podcast';
