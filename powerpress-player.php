@@ -121,19 +121,18 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( !empty($height) )
 			$EpisodeData['height'] = $height;
 		
-		if( !isset($EpisodeData['no_player']) )
+		
+		if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($channel) )
 		{
-			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($channel) )
-			{
-				$return .= powerpress_premium_content_message($post->ID, $channel, $EpisodeData);
-				continue;
-			}
-			
-			if( !isset($EpisodeData['no_player']) )
-				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
-			if( empty($EpisodeData['no_links']) )
-				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+			$return .= powerpress_premium_content_message($post->ID, $channel, $EpisodeData);
+			continue;
 		}
+		
+		// If the shortcode speciies a channel, than we definnitely wnat to include the player even if $EpisodeData['no_player'] is true...
+		if( !isset($EpisodeData['no_player']) )
+			$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
+		if( empty($EpisodeData['no_links']) )
+			$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 	}
 	else
 	{

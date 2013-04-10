@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added code to prevent possible "Empty delimiter" warning for strstr function calls in plugin.
 * Added admin.php to `admin_url()` function calls to get around issue when web hosting providoers do not provide DirectoryIndex support for index.php files.
 * Added `channel` as an option to the powerpress shortcode to clear up confusion, this option was previously currently called `feed` for specifying a specific custom podcast channel.
+* Changed logic for powerpress channel shortcode to always display the player and links even if no player configured in settings. (Thanks Daniel Lewis for pointing out the problem)
 * Added new define `POWERPRESS_CUSTOM_CAPABILITY_TYPE`, for setting an additional compatibility type other than "post" or "page". Only works for custom podcast channels, not the default podcast channel.
 * Modified logic to allow smaller open in new window sizes, height can now be as small as 20 pixels and width can be as small as 50 pixels. Any values smaller than this will default to height of 20 pixels and width of 50 pixels. We still add 40px width and 80px height padding for scroll bars.
 * Added new option "Do not factor in scroll bars" to the New Window settings. By default, PowerPress adds to the width and height above to compensate for possible vertical and horizontal scroll bars. Check this option if you do not want PowerPress to compensate for browser scroll bars.
