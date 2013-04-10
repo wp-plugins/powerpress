@@ -227,7 +227,7 @@ jQuery(document).ready(function($) {
 		<?php echo __('Blubrry offers a variety of options, free and paid, to assist you with your podcasting and Internet media needs. Whether you need your theme customized for podcasting or you want consulting on what video format is best for your audience, we have the staff and knowledge to assist.', 'powerpress'); ?>
 	</p>
 	<p style="margin: 5px 0 0 50px; font-size: 115%;">
-	<strong><?php echo '<a href="http://www.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?></strong>
+	<strong><?php echo '<a href="http://create.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?></strong>
 	</p>
 </div>
 
@@ -248,7 +248,7 @@ jQuery(document).ready(function($) {
 		</li>
 		<li><?php echo __('Tell the world about PowerPress by writing about it on your blog', 'powerpress'); ?>, 
 		<a href="http://twitter.com/home/?status=<?php echo urlencode( __('I\'m podcasting with Blubrry PowerPress (http://blubrry.com/powerpress/) #powerpress #wordpress', 'powerpress') ); ?>" target="_blank"><?php echo __('Twitter', 'powerpress'); ?></a>, 
-		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://www.blubrry.com/powerpress/'); ?>&t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
+		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://create.blubrry.com/resources/powerpress/'); ?>&t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
 		<a href="http://digg.com/submit?phase=2&url=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&title=<?php echo urlencode( __('Blubrry PowerPress Podcasting Plugin for WordPress', 'powerpress') ); ?>" target="_blank"><?php echo __('Digg', 'powerpress'); ?></a>,
 		etc...</li>
 		<li><a href="http://www.blubrry.com/contact.php" target="_blank"><?php echo __('Send us feedback', 'powerpress'); ?></a> (<?php echo __('we love getting suggestions for new features!', 'powerpress'); ?>)</li>
@@ -697,7 +697,7 @@ function powerpressadmin_edit_blubrry_services($General)
 		echo sprintf(__('%s offers an array of services to media creators including a %s %s. Our %s, which includes U.S. downloads, trending, exporting, is available for $5 month. Need a reliable place to host your media? %s media hosting packages start at $12. %s', 'powerpress'),
 			'<a href="http://www.blubrry.com/" target="_blank">Blubrry.com</a>',
 			'<strong style="color: #CC0000;">'.__('FREE','powerpress').'</strong>',
-			'<a href="http://www.blubrry.com/podcast_statistics/" target="_blank">'. __('Basic Stats Service', 'powerpress') .'</a>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank">'. __('Basic Stats Service', 'powerpress') .'</a>',
 			'<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank">'. __('Premium Media Statistics', 'powerpress') .'</a>',
 			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank" style="text-decoration: none;">'. __('Blubrry Media Hosting', 'powerpress') .'</a>',
 			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">'. __('Learn More', 'powerpress') .'</a>'
@@ -710,7 +710,7 @@ function powerpressadmin_edit_blubrry_services($General)
 <p>
 	<?php //echo sprintf(
 		__('Adds %s to your blog\'s %s plus features for %s users to quickly upload and publish media directly from their blog.', 'powerpress'),
-		'<a href="http://www.blubrry.com/podcast_statistics/" target="_blank">'. __('Blubrry Media Statistics', 'powerpress') .'</a>',
+		'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank">'. __('Blubrry Media Statistics', 'powerpress') .'</a>',
 		'<a href="'. admin_url('admin.php') .'">'. __('WordPress Dashboard', 'powerpress') .'</a>',
 		'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">'. __('Blubrry Media Hosting', 'powerpress') .'</a>' );
 	?>
@@ -841,7 +841,7 @@ function powerpressadmin_edit_media_statistics($General)
 			</p>
 		
 			<div style="text-align: center; font-size: 24px; font-weight: normal; margin-bottom: 8px;"><a href="http://www.blubrry.com/addpodcast.php?feed=<?php echo urlencode(get_feed_link('podcast')); ?>" target="_blank" style="color: #3D517E;"><?php echo __('Sign Up Now!', 'powerpress'); ?></a></div>
-			<div style="font-size: 85%; position: absolute; bottom: 4px; right: 8px;"><i><?php echo __('* some restrictions apply', 'powerpress'); ?> <a href="http://www.blubrry.com/podcast_statistics/" target="_blank"><?php echo __('learn more', 'powerpress'); ?></a></i></div>
+			<div style="font-size: 85%; position: absolute; bottom: 4px; right: 8px;"><i><?php echo __('* some restrictions apply', 'powerpress'); ?> <a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank"><?php echo __('learn more', 'powerpress'); ?></a></i></div>
 		</div>
 	</div>
 </div>
@@ -956,7 +956,7 @@ function powerpressadmin_appearance($General=false)
 	<code>[powerpress]</code>
 </div>
 <p>
-<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://help.blubrry.com/blubrry-powerpress/shortcode/" target="_blank">'. __('PowerPress Shortcode', 'powerpress') .'</a>' ); ?>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Shortcode', 'powerpress') .'</a>' ); ?>
 </p>
 <p>
 <?php echo __('Note: When specifying a URL to media in the powerpress shortcode, only the player is included. The Media Links will <u>NOT</u> be included since there is not enough meta information to display them.', 'powerpress'); ?>

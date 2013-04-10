@@ -22,8 +22,9 @@ function ToggleID3Tags(Obj)
 <?php
 		echo __('ID3 tags contain useful information (title, artist, album, year, etc...) about your podcast as well as an image for display during playback in most media players.', 'powerpress');
 		echo ' ';
-		echo sprintf( __('Please visit the ID3 Tags (%s) section on PodcastFAQ.com to learn more about MP3 ID3 tags.', 'powerpress'),
-				'<a href="http://www.podcastfaq.com/creating-podcast/audio/edit-id3-tags/" title="PodcastFAQ.com" target="_blank">'. __('link', 'powerpress') .'</a>' );
+		echo sprintf( __('Please visit the %s section of the %s to learn more about MP3 ID3 tags.', 'powerpress'),
+				'<a href="http://create.blubrry.com/manual/creating-podcast-media/audio/id3-tags-media-meta-data/" target="_blank">'. __('ID3 Tags and media meta data', 'powerpress') .'</a>',
+				'<a href="http://create.blubrry.com/manual/" target="_blank">' .  __('Podcasting Manual', 'powerpress') .'</a>'	);
 
 ?>
 </p>

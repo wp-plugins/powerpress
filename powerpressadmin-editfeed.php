@@ -501,7 +501,7 @@ if( $feed_slug || $cat_ID )
 
 <p style="margin-top: 0px; margin-bottomd: 0;"><?php echo powerpressadmin_notice( __('NOTE: FeedBurner is not required for podcasting.', 'powerpress') ); ?> <br /> 
 <?php echo powerpressadmin_notice( __('No support is available from blubrry if you are using Feedburner or other feed hosted services.', 'powerpress') ); ?><br /> 
-<a href="http://www.podcastfaq.com/syndicating-your-podcast/feedburner-for-podcasting/" target="_blank"><?php echo __('Learn more about FeedBurner and Podcasitng', 'powerpress'); ?></a>
+<a href="http://create.blubrry.com/manual/syndicating-your-podcast-rss-feeds/feedburner-for-podcasting/" target="_blank"><?php echo __('Learn more about FeedBurner and Podcasitng', 'powerpress'); ?></a>
 </p>
 
 <p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
@@ -1161,7 +1161,7 @@ while( list($value,$desc) = each($explicit) )
 			 </strong> 
 			 </p>
 			 <p>
-			 <?php echo __('Learn more:', 'powerpress'); ?> <a href="http://www.podcastfaq.com/syndicating-your-podcast/changing-your-podcast-rss-feed-address-url/" target="_blank"><?php echo __('Changing Your Podcast RSS Feed Address (URL)', 'powerpress'); ?></a>
+			 <?php echo __('Learn more:', 'powerpress'); ?> <a href="http://create.blubrry.com/manual/syndicating-your-podcast-rss-feeds/changing-your-podcast-rss-feed-address-url/" target="_blank"><?php echo __('Changing Your Podcast RSS Feed Address (URL)', 'powerpress'); ?></a>
 			</p>
 		</div>
 		<div id="new_feed_url_step_2" style="display: <?php echo ( !empty($FeedSettings['itunes_new_feed_url']) || !empty($FeedSettings['itunes_new_feed_url_podcast'])  ?'block':'none'); ?>;">

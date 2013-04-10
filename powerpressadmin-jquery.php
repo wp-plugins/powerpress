@@ -472,7 +472,7 @@ function DeleteMedia(File)
 				
 				if( $Error )
 				{
-					$Error .= '<p style="text-align: center;"><a href="http://help.blubrry.com/blubrry-powerpress/blubrry-services-integration/authentication-help/" target="_blank">'. __('Click Here For Help','powerpress') .'</a></p>';
+					$Error .= '<p style="text-align: center;"><a href="http://create.blubrry.com/resources/powerpress/powerpress-settings/services-stats/" target="_blank">'. __('Click Here For Help','powerpress') .'</a></p>';
 				}
 			}
 			

@@ -14,14 +14,17 @@
 <tr valign="top">
 <th scope="row"><?php echo __('Podcasting Resources', 'powerpress'); ?></th> 
 <td>
-	<p style="margin-top: 5px;"><strong><a href="http://www.podcastfaq.com">PodcastFAQ.com</a></strong>
-	- <?php echo __('everything you need to know about podcasting.', 'powerpress'); ?></p>
+	<p style="margin-top: 5px;"><strong><a href="http://create.blubrry.com/manual/"><?php echo __('Podcasting Manual', 'powerpress'); ?></a></strong>
+	- <?php echo __('Everything you need to know about podcasting.', 'powerpress'); ?></p>
 	
-	<p style="margin-top: 5px;"><strong><a href="http://help.blubrry.com/blubrry-powerpress/"><?php echo __('PowerPress Documentation', 'powerpress'); ?></a></strong>
-	- <?php echo __('learn more about PowerPress.', 'powerpress'); ?></p>
+	<p style="margin-top: 5px;"><strong><a href="http://create.blubrry.com/resources/"><?php echo __('Blubrry Resources', 'powerpress'); ?></a></strong>
+	- <?php echo __('Learn more about PowerPress and Blubrry services.', 'powerpress'); ?></p>
+	
+	<p style="margin-top: 5px;"><strong><a href="http://create.blubrry.com/support/"><?php echo __('Blubrry Support', 'powerpress'); ?></a></strong>
+	- <?php echo __('Get support for your podcast!', 'powerpress'); ?></p>
 	
 	<p style="margin-top: 5px;"><strong><a href="http://forum.blubrry.com/"><?php echo __('Blubrry Forum', 'powerpress'); ?></a></strong>
-	- <?php echo __('interact with other podcasters.', 'powerpress'); ?></p>
+	- <?php echo __('Interact with other podcasters, search the archive, or ask questions.', 'powerpress'); ?></p>
 </td>
 </tr>
 

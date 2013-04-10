@@ -2210,9 +2210,10 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 </p>
 <?php } ?>
 <p style="font-size: 85%; text-align: center; padding-bottom: 35px;">
-	<a href="http://www.blubrry.com/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress', 'powerpress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
-	<a href="http://www.podcastfaq.com/" target="_blank" title="<?php echo __('PodcastFAQ.com', 'powerpress'); ?>"><?php echo __('PodcastFAQ.com', 'powerpress'); ?></a> |
-	<a href="http://help.blubrry.com/blubrry-powerpress/" target="_blank" title="<?php echo __('Blubrry PowerPress Documentation', 'powerpress'); ?>"><?php echo __('Documentation', 'powerpress'); ?></a> |
+	<a href="http://create.blubrry.com/resources/powerpress/" title="Blubrry PowerPress" target="_blank"><?php echo __('Blubrry PowerPress', 'powerpress'); ?></a> <?php echo POWERPRESS_VERSION; ?> &#8212; 
+	<a href="http://create.blubrry.com/manual/" target="_blank" title="<?php echo __('Podcasting Manual', 'powerpress'); ?>"><?php echo __('Podcasting Manual', 'powerpress'); ?></a> |
+	<a href="http://create.blubrry.com/resources/" target="_blank" title="<?php echo __('Blubrry PowerPress and related Resources', 'powerpress'); ?>"><?php echo __('Resources', 'powerpress'); ?></a> |
+	<a href="http://create.blubrry.com/support/" target="_blank" title="<?php echo __('Blubrry Support', 'powerpress'); ?>"><?php echo __('Support', 'powerpress'); ?></a> |
 	<a href="http://forum.blubrry.com/" target="_blank" title="<?php echo __('Blubrry Forum', 'powerpress'); ?>"><?php echo __('Forum', 'powerpress'); ?></a> |
 	<a href="http://twitter.com/blubrry" target="_blank" title="<?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?>"><?php echo __('Follow Blubrry on Twitter', 'powerpress'); ?></a>
 </p>
@@ -3151,7 +3152,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		{
 			// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
 			$warning = sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() );
-			$warning .=	' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help', 'powerpress') .'" target="_blank">'. __('Help') .'</a>]';
+			$warning .=	' [<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/warning-messages-explained/" title="'. __('PowerPress Warnings Explained', 'powerpress') .'" target="_blank">'. __('PowerPress Warnings Explained') .'</a>]';
 			if( $return_warnings )
 				$warning_msg .= $warning;
 			else
@@ -3173,7 +3174,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			$Warnings = $Mp3Info->GetWarnings();
 			while( list($null, $warning) = each($Warnings) )
 			{
-				$warning = sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]';
+				$warning = sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/warning-messages-explained/" target="_blank">'. __('PowerPress Warnings Explained', 'powerpress') .'</a>]';
 				if( $return_warnings )
 					$warning_msg .= $warning;
 				else
@@ -3211,7 +3212,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				// Add a warning that the redirect count exceeded 5, which may prevent some podcatchers from downloading the media.
 				powerpress_add_error( sprintf( __('Warning, the Media URL %s contains %d redirects.', 'powerpress'), $media_file, $Mp3Info->GetRedirectCount() )
-					.' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]'
+					.' [<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/warning-messages-explained/" target="_blank">'. __('PowerPress Warnings Explained', 'powerpress') .'</a>]'
 					);
 			}
 			
@@ -3225,7 +3226,7 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 			{
 				$Warnings = $Mp3Info->GetWarnings();
 				while( list($null, $warning) = each($Warnings) )
-					powerpress_add_error(  sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://help.blubrry.com/blubrry-powerpress/errors-and-warnings/" title="'. __('Help') .'" target="_blank">'. __('Help', 'powerpress') .'</a>]' );
+					powerpress_add_error(  sprintf( __('Warning, Media URL %s', 'powerpress'), $media_file) .': '. $warning  .' [<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/warning-messages-explained/" target="_blank">'. __('PowerPress Warnings Explained', 'powerpress') .'</a>]' );
 			}
 		}
 		else

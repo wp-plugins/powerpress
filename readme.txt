@@ -26,7 +26,7 @@ Switching to PowerPress is seamless, just enable PowerPress then disable PodPres
 - Multi-podcast support: Create separate podcasts by category (category casting) or by media format (Podcast Channels).
 - Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-* Languages supported: English, Danish, French, Simplified Chinese, Italian ([Want to translate PowerPress?](http://www.blubrry.com/powerpress_translate/))
+* Languages supported: English, Danish, French, Simplified Chinese, Italian ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -34,7 +34,7 @@ Switching to PowerPress is seamless, just enable PowerPress then disable PodPres
 iTunes can make up between 50 and 95 percent of a podcaster's audience. PowerPress comes with the following iTunes specific features.
 
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
-* Optimized iTunes Summary: Converts your blog post content to a format suited for viewing in iTunes ([learn more](http://help.blubrry.com/blubrry-powerpress/powerpress-settings/enhanced-itunes-summary/))
+* Optimized iTunes Summary: Converts your blog post content to a format suited for viewing in iTunes ([learn more](http://create.blubrry.com/resources/powerpress/powerpress-settings/itunes/))
 * Upload iTunes Artwork: Upload and change your iTunes artwork directly from within PowerPress settings.
 * iTunes podcasting specifications fully supported.
 
@@ -88,10 +88,10 @@ PowerPress will continue where plugin your old plugin left off by including your
 = Need Help? =
 . . . or have some ideas that could improve the plugin?
 
-* Visit the Blubrry [Community Forum](http://forum.blubrry.com/)
-* Use the Blubrry [Contact Us](http://www.blubrry.com/contact.php)  form
-* Blubrry [PowerPress Documentation](http://help.blubrry.com/blubrry-powerpress/)
-* Check out [PodcastFAQ.com](http://www.podcastfaq.com/) - everything you need to know about podcasting
+* Visit the Blubrry [Community Forum](http://forum.blubrry.com/) and [Blubrry Resources](http://create.blubrry.com/resources/) 
+* Use the Blubrry [Contact Us](http://www.blubrry.com/contact.php) form
+* Blubrry [PowerPress Documentation](http://create.blubrry.com/resources/powerpress/)
+* Check out [The Podcasting Manual](http://create.blubrry.com/manual/) - everything you need to know about podcasting
 
 *PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
 
@@ -114,7 +114,7 @@ Blubrry PowerPress does not allow you to include multiple media files for one fe
 As a alternative, PowerPress allows you to create additional Custom Podcast Feeds to associate any magnitude of media format and/or length in a blog post to specific custom feeds. For example, you can create one blog post associated to separate video and audio podcast feeds saving you time from entering your show notes twice. 
 
  = Why doesn't Blubrry PowerPress include media statistics built-in? =
- Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient WordPress podcasting plugin. We recommend using your media hosting's web statistics to give you basic download numbers and, if you are seeking more grandular measurements such as client and geographical information for each episode, you're more than welcome to use the [Blubrry Statistics service](http://www.blubrry.com/podcast_statistics/) as well.
+ Blubrry PowerPress does not include media statistics built-in. This is not because Blubrry has its own statistics service, although that's a good reason by itself. Maintaining and calculating statistics is a resource and server intensive task that would add bloat to an otherwise efficient WordPress podcasting plugin. We recommend using your media hosting's web statistics to give you basic download numbers and, if you are seeking more grandular measurements such as client and geographical information for each episode, you're more than welcome to use the [Blubrry Statistics service](http://create.blubrry.com/resources/podcast-media-download-statistics/) as well.
  
  You may however access your Blubrry Statistics from within your WordPress dashboard.
  
@@ -155,7 +155,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = Announcement =
 * PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
-* Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://www.blubrry.com/powerpress_translate/](http://www.blubrry.com/powerpress_translate/)
+* Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
 
 = 4.0.8 =
@@ -566,7 +566,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Reorganized settings pages with tabbed sections.
 * Added new Video Scale setting, users can choose between 'scale', 'tofit, or enter their own scale value such as 1.5.
 * Added new 'E-Book PDF' label for download links of PDF files.
-* Added new CSS class to download links in the form of powerpress_links_EXTENSION, where EXTENSION is replaced with the media file extension in lower case. e.g. powerpress_links_mp3. Learn more: [PowerPress Advanced Tweaks](http://help.blubrry.com/blubrry-powerpress/advanced-tweaks/)
+* Added new CSS class to download links in the form of powerpress_links_EXTENSION, where EXTENSION is replaced with the media file extension in lower case. e.g. powerpress_links_mp3. Learn more: [PowerPress Advanced Tweaks](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/)
 * Update iTunes Listing option in Podcast Channels and Podcast Category Feeds is now independant of main Update iTunes Listing setting.
 * Made additional tweaks to further support the old PodPress [display_podcast] shortcode.
 
@@ -884,10 +884,11 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 Please [contact blubrry](http://www.blubrry.com/contact.php) with the link to your tips or tutorial for PowerPress and we'll add them to the list above.
 
 == Feedback == 
- http://www.blubrry.com/powerpress/
+ [http://create.blubrry.com/resources/powerpress/](http://create.blubrry.com/resources/powerpress/)
 
 == Support == 
- http://help.blubrry.com/blubrry-powerpress/
+ [http://create.blubrry.com/support/](http://create.blubrry.com/support/)
 
 == Twitter == 
- http://twitter.com/blubrry
+ 
+ [http://twitter.com/blubrry](http://twitter.com/blubrry)
