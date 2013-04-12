@@ -170,6 +170,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Modified logic to allow smaller open in new window sizes, height can now be as small as 20 pixels and width can be as small as 50 pixels. Any values smaller than this will default to height of 20 pixels and width of 50 pixels. We still add 40px width and 80px height padding for scroll bars.
 * Added new option "Do not factor in scroll bars" to the New Window settings. By default, PowerPress adds to the width and height above to compensate for possible vertical and horizontal scroll bars. Check this option if you do not want PowerPress to compensate for browser scroll bars.
 * Fixed a notice message from PHP when error reporting set to include notices, only occurred when hosting configured.
+* Added blubrry Podcast Media Hosting icon with link to disable icon from edit screen.
+* Updated thickbox logic for compatibility with WordPress 3.6+.
 
 
 = 4.0.7 =

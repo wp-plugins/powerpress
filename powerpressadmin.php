@@ -1605,10 +1605,10 @@ jQuery(document).ready(function($) {
 	
 	if( jQuery("#powerpress_settings_page").length > 0 )
 	{
-		var tabs = jQuery("#powerpress_settings_page").tabs();
-		tabs.tabs('select', <?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>);
+		var tabsCtl = jQuery("#powerpress_settings_page").tabs();
+		tabsCtl.tabs("option", "active", <?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>);
 		jQuery('form').submit(function() {
-			var selectedTemp = tabs.tabs('option', 'selected');
+			var selectedTemp = tabsCtl.tabs('option', 'active');
 			jQuery('#save_tab_pos').val(selectedTemp);
 		});
 	}

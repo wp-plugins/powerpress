@@ -697,10 +697,10 @@ function powerpressadmin_edit_blubrry_services($General)
 		echo sprintf(__('%s offers an array of services to media creators including a %s %s. Our %s, which includes U.S. downloads, trending, exporting, is available for $5 month. Need a reliable place to host your media? %s media hosting packages start at $12. %s', 'powerpress'),
 			'<a href="http://www.blubrry.com/" target="_blank">Blubrry.com</a>',
 			'<strong style="color: #CC0000;">'.__('FREE','powerpress').'</strong>',
-			'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank">'. __('Basic Stats Service', 'powerpress') .'</a>',
-			'<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank">'. __('Premium Media Statistics', 'powerpress') .'</a>',
-			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank" style="text-decoration: none;">'. __('Blubrry Media Hosting', 'powerpress') .'</a>',
-			'<a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">'. __('Learn More', 'powerpress') .'</a>'
+			'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/basic-statistics/" target="_blank">'. __('Basic Stats Service', 'powerpress') .'</a>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank">'. __('Premium Media Statistics', 'powerpress') .'</a>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank" style="text-decoration: none;">'. __('Blubrry Media Hosting', 'powerpress') .'</a>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Learn More', 'powerpress') .'</a>'
 		);
 		?>
 	</p>

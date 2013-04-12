@@ -103,6 +103,33 @@ function powerpress_admin_jquery_init()
 			powerpress_admin_jquery_footer();
 			exit;
 		}; break;
+		case 'powerpress-jquery-media-disable': {
+			
+			if( !current_user_can('edit_posts') )
+			{
+				powerpress_admin_jquery_header('Uploader');
+				powerpress_page_message_add_notice( __('You do not have sufficient permission to disable this option.', 'powerpress') );
+				powerpress_page_message_print();
+				powerpress_admin_jquery_footer();
+				exit;
+			}
+			
+			check_admin_referer('powerpress-jquery-media-disable');
+			
+			$DisableSetting = array();
+			$DisableSetting['no_media_url_folder'] = 1;
+			powerpress_save_settings($DisableSetting);
+			
+			powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
+?>
+<h2><?php echo __('Select Media', 'powerpress'); ?></h2>
+<p><?php echo __('Blubrry Media Hosting icon will no longer be displayed when editing posts and pages.', 'powerpress'); ?></p>
+<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
+<?php
+			powerpress_admin_jquery_footer();
+			exit;
+			
+		}; // No break here, let this fall thru..
 		case 'powerpress-jquery-media-delete': {
 			
 			if( !current_user_can('edit_posts') )
@@ -118,6 +145,7 @@ function powerpress_admin_jquery_init()
 			$DeleteFile = $_GET['delete'];
 			
 		}; // No break here, let this fall thru..
+		
 		case 'powerpress-jquery-media': {
 			
 			if( !current_user_can('edit_posts') )
@@ -137,18 +165,19 @@ function powerpress_admin_jquery_init()
 				powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
 ?>
 <h2><?php echo __('Select Media', 'powerpress'); ?></h2>
-<p><?php echo __('Wait a sec! This feature is only available to Blubrry Podcast paid hosting members.', 'powerpress');
-if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' )
+<p><?php echo __('Wait a sec! This feature is only available to Blubrry Media Podcast Hosting customers.', 'powerpress');
+if( !isset($Settings['blubrry_auth']) )
 	echo ' '. sprintf( __('Join our community to get free podcast statistics and access to other valuable %s.', 'powerpress'),
-	'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('services', 'powerpress') .'</a>');
+	'<a href="http://create.blubrry.com/resources/" target="_blank">'. __('services', 'powerpress') .'</a>');
 ?>
 </p>
 <p><?php 
-	echo sprintf( __('Our %s PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress'),
-		'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('podcast-hosting integrated', 'powerpress') .'</a>',
-		'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('video', 'powerpress') .'</a>' );
+	echo sprintf( __('Our %s integrated with PowerPress making podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress'),
+		'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Podcast Media Hosting', 'powerpress') .'</a>',
+		'<a href="http://create.blubrry.com/resources/podcast-media-hosting/blubrry-on-site-podcast-hosting-demo/" target="_blank">'. __('video', 'powerpress') .'</a>' );
 	?>
    </p>
+	 <p><a href="<?php echo wp_nonce_url("admin.php?action=powerpress-jquery-media-disable", 'powerpress-jquery-media-disable'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" onclick="return confirm('<?php echo __('Remove the Blubrry Media Hosting icon from the Media URL field?', 'powerpress'); ?>');"><?php echo __('Do not show this icon next to the Media URL field', 'powerpress'); ?></a></p>
 <p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 <?php
 				powerpress_admin_jquery_footer();

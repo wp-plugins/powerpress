@@ -180,7 +180,7 @@
 <th scope="row"><?php echo __('Translations', 'powerpress'); ?></th> 
 <td>
 	<p style="margin-top: 5px;"><strong>
-		<a href="http://www.blubrry.com/powerpress_translate/" target="_blank"><?php echo __('Translate PowerPress to your language', 'powerpress'); ?></a>
+		<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/" target="_blank"><?php echo __('Translate PowerPress to your language', 'powerpress'); ?></a>
 	</strong></p>
 </td>
 </tr>

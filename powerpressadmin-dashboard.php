@@ -126,12 +126,13 @@ function powerpress_dashboard_stats_content()
 	{
 		if( !$UserPass )
 		{
-			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get free podcast statistics and access to other valuable %s.', 'powerpress') .'</p>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Services', 'powerpress') . '</a>' );
+			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get %s and access to other valuable %s.', 'powerpress') .'</p>',
+					'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/basic-statistics/" target="_blank">'. __('Free Podcast Statistics') . '</a>',
+					'<a href="http://create.blubrry.com/resources/" target="_blank">'. __('Services', 'powerpress') . '</a>' );
 			$content .= ' ';
 			$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress') .'</p>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Podcast Hosting', 'powerpress') .'</a>',
-					'<a href="http://www.blubrry.com/powerpress_services/" target="_blank">'. __('Video', 'powerpress') .'</a>' );
+					'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Podcast Hosting', 'powerpress') .'</a>',
+					'<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/blubrry-hosting-with-powerpress/" target="_blank">'. __('Video', 'powerpress') .'</a>' );
 		}
 		else
 		{
