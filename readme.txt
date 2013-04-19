@@ -159,11 +159,12 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 4.0.8 =
-* Released on TBD
+* Released on 4/19/2013
+* [PowerPress Survey](https://docs.google.com/forms/d/1_sWoSwutK7VjvqaEQNV5Ww0-c0kVUUnDKqOtjbP-DXs/viewform?pli=1) - please participate, only 4 questions!
 * Completely rewrote logic added in 4.0.7 to fix the conflict with Yoast Google Analytics plugin. This sholud solve the issues folks have been having when using this plugin with PowerPress.
 * Flow Player Classic audio player height changed from 24 to 22 when Firefox detected, displays correctly in Firefox with this custom height.
 * Added code to prevent possible "Empty delimiter" warning for strstr function calls in plugin.
-* Added admin.php to `admin_url()` function calls to get around issue when web hosting providoers do not provide DirectoryIndex support for index.php files.
+* Added admin.php to `admin_url()` function calls to get around issue when web hosting providers do not provide DirectoryIndex support for index.php files.
 * Added `channel` as an option to the powerpress shortcode to clear up confusion, this option was previously currently called `feed` for specifying a specific custom podcast channel.
 * Changed logic for powerpress channel shortcode to always display the player and links even if no player configured in settings. (Thanks Daniel Lewis for pointing out the problem)
 * Added new define `POWERPRESS_CUSTOM_CAPABILITY_TYPE`, for setting an additional compatibility type other than "post" or "page". Only works for custom podcast channels, not the default podcast channel.
@@ -172,6 +173,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed a notice message from PHP when error reporting set to include notices, only occurred when hosting configured.
 * Added blubrry Podcast Media Hosting icon with link to disable icon from edit screen.
 * Updated thickbox logic for compatibility with WordPress 3.6+.
+* Added logic to stats redirect URL to prevent incorrect URLs from being used.
 
 
 = 4.0.7 =

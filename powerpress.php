@@ -1996,6 +1996,14 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 			$RedirectClean = str_replace('http://', '', trim($GeneralSettings[ $key ]) );
 			if( !empty($RedirectClean) )
 			{
+				if( strpos($RedirectClean, '/') == 0 ) // Not a valid redirect URL
+					continue;
+				// Check that redirect is either media..blubrry.com, media.techpodcasts.com, media.rawvoice.com, or www.podtrac.com
+				$ValidRedirectDomains = array('media.blubrry.com', 'media.rawvoice.com', 'media.techpodcasts.com', 'www.podtrac.com', 'podtrac.com');
+				$RedirectDomain = strtolower(substr($RedirectClean, 0, strpos($RedirectClean, '/') ));
+				if( !in_array($RedirectDomain, $ValidRedirectDomains) )
+					continue; // Not a valid domain so lets not add it
+				
 				if( !strstr($NewURL, $RedirectClean) )
 					$NewURL = 'http://'. $RedirectClean . str_replace('http://', '', $NewURL);
 			}
