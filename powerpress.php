@@ -1153,17 +1153,6 @@ function powerpress_init()
 	{
 		add_filter('the_content', 'powerpress_yoast_gawp_fix', 120 );
 	}
-	// CHECK if the Google Analytics for WordPress plugin is enabled, if so, lets add our players after it modifies the post content...
-	//~ if( defined('GAWP_VERSION') && POWERPRESS_CONTENT_ACTION_PRIORITY < 120 )
-	//~ {
-		//~ remove_filter('get_the_excerpt', 'powerpress_content', (POWERPRESS_CONTENT_ACTION_PRIORITY - 1) );
-		//~ remove_filter('the_content', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
-		//~ remove_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
-		
-		//~ add_filter('get_the_excerpt', 'powerpress_content', (120-1) );
-		//~ add_filter('the_content', 'powerpress_content', 120);
-		//~ add_filter('the_excerpt', 'powerpress_content', 120);
-	//~ }
 }
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
