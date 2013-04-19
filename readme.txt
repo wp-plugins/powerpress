@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 4.0.7
+Stable tag: 4.0.8
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -156,13 +156,13 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Announcement =
-* PowerPress 3.0 is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
+* PowerPress 3.0+ is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
 
 = 4.0.8 =
 * Released on 4/19/2013
-* **[PowerPress Survey](https://docs.google.com/forms/d/1_sWoSwutK7VjvqaEQNV5Ww0-c0kVUUnDKqOtjbP-DXs/viewform?pli=1)** - please participate, only 4 questions!
+* **[PowerPress Version Updates Survey](https://docs.google.com/forms/d/1_sWoSwutK7VjvqaEQNV5Ww0-c0kVUUnDKqOtjbP-DXs/viewform?pli=1)** - please participate, only 4 questions!
 * **[Blubrry Create](http://create.blubrry.com) site launched! Site includes our [Podcasting Manual](http://create.blubrry.com/manual/)**, [Blubrry Resources](http://create.blubrry.com/resources/) and [Support Options](http://create.blubrry.com/support/).
 * Completely rewrote logic added in 4.0.7 to fix the conflict with Yoast Google Analytics plugin. This sholud solve the issues folks have been having when using this plugin with PowerPress.
 * Flow Player Classic audio player height changed from 24 to 22 when Firefox detected, displays correctly in Firefox with this custom height.
