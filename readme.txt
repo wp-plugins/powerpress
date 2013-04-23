@@ -159,6 +159,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0+ is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
+= 4.0.9 =
+* Releaesd on TBD
+* Fixed logic for displaying statistics in dashboard to time out after 1 second (was previously 15 seconds) so if there's a network issue between the server and blubrry.com the dashboard still loads promptly. (Thanks Michael Hansen for bringing to our attention!)
 
 = 4.0.8 =
 * Released on 4/19/2013

@@ -115,37 +115,55 @@ function powerpress_dashboard_stats_content()
 	if( !empty($Settings['use_caps']) && !current_user_can('view_podcast_stats') )
 		return;
 		
-	$content = false;
+	$content = '';
 	$UserPass = ( !empty($Settings['blubrry_auth']) ? $Settings['blubrry_auth']:'');
 	$Keyword = ( !empty($Settings['blubrry_program_keyword']) ? $Settings['blubrry_program_keyword']:'');
 	$StatsCached = get_option('powerpress_stats');
-	if( $StatsCached && $StatsCached['updated'] > (time()-(60*60*3)) )
+	if( empty($StatsCached) )
+		$StatsCached = array();
+	if( !empty($StatsCached['content']) )
 		$content = $StatsCached['content'];
+	if( empty($StatsCached['updated']) )
+		$StatsCached['updated'] = 1; // Some time
 	
-	if( !$content )
+	// If no content or it's been over 3 hours...
+	if( $UserPass && time() > ($StatsCached['updated']+(60*60*3)) )
 	{
-		if( !$UserPass )
-		{
-			$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get %s and access to other valuable %s.', 'powerpress') .'</p>',
-					'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/basic-statistics/" target="_blank">'. __('Free Podcast Statistics') . '</a>',
-					'<a href="http://create.blubrry.com/resources/" target="_blank">'. __('Services', 'powerpress') . '</a>' );
-			$content .= ' ';
-			$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress') .'</p>',
-					'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Podcast Hosting', 'powerpress') .'</a>',
-					'<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/blubrry-hosting-with-powerpress/" target="_blank">'. __('Video', 'powerpress') .'</a>' );
-		}
-		else
-		{
 			$api_url = sprintf('%s/stats/%s/summary.html?nobody=1', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Keyword);
 			$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 
-			$content = powerpress_remote_fopen($api_url, $UserPass);
-			if( $content )
+			$new_content = powerpress_remote_fopen($api_url, $UserPass, array(), 1); // Only give this 1 second to return results
+			if( $new_content )
+			{
+				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$new_content) );
+				$content = $new_content;
+			}
+			else 
+			{
+				if( time() > ($StatsCached['updated']+(60*60*36)) ) // After 36 hours, if we keep failing to authenticate then lets clear the data and display the authentication notice.
+				{
+					$content = '';
+				}
+				// Update the updated flag so it will not try again for 3 hours...
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content) );
-			else
-				$content = __('Error: An error occurred authenticating user.', 'powerpress');
-		}
+			}
 	}
+	
+	if( !$UserPass )
+	{
+		$content = sprintf('<p>'. __('Wait a sec! This feature is only available to Blubrry Podcast Community members. Join our community to get %s and access to other valuable %s.', 'powerpress') .'</p>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/basic-statistics/" target="_blank">'. __('Free Podcast Statistics') . '</a>',
+			'<a href="http://create.blubrry.com/resources/" target="_blank">'. __('Services', 'powerpress') . '</a>' );
+		$content .= ' ';
+		$content .= sprintf('<p>'. __('Our %s integrated PowerPress makes podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress') .'</p>',
+			'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Podcast Hosting', 'powerpress') .'</a>',
+			'<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/blubrry-hosting-with-powerpress/" target="_blank">'. __('Video', 'powerpress') .'</a>' );
+	}
+	else if( empty($content) )
+	{
+		$content = sprintf(__('Error: A network or authentication error occurred. To verify your account, click the link &quot;click here to configure Blubrry Statistics and Hosting services&quot; found in the %s tab.', 'powerpress'), '<a href="'. admin_url("admin.php?page=powerpress/powerpressadmin_basic.php") .'#tab2">'.__('Services &amp; Statistics'.'</a>', 'powerprss') );
+	}
+	
 ?>
 <div>
 <?php
