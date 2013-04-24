@@ -132,7 +132,7 @@ function powerpress_dashboard_stats_content()
 			$api_url = sprintf('%s/stats/%s/summary.html?nobody=1', rtrim(POWERPRESS_BLUBRRY_API_URL, '/'), $Keyword);
 			$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 
-			$new_content = powerpress_remote_fopen($api_url, $UserPass, array(), 1); // Only give this 1 second to return results
+			$new_content = powerpress_remote_fopen($api_url, $UserPass, array(), 2); // Only give this 2 seconds to return results
 			if( $new_content )
 			{
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$new_content) );
@@ -140,12 +140,17 @@ function powerpress_dashboard_stats_content()
 			}
 			else 
 			{
-				if( time() > ($StatsCached['updated']+(60*60*36)) ) // After 36 hours, if we keep failing to authenticate then lets clear the data and display the authentication notice.
+				if( empty($StatsCached['retry_count']) )
+					$StatsCached['retry_count'] = 1;
+				else if( $StatsCached['retry_count'] < 24 )
+					$StatsCached['retry_count']++;
+					
+				if( $StatsCached['retry_count'] > 12 ) // After 36 hours, if we keep failing to authenticate then lets clear the data and display the authentication notice.
 				{
 					$content = '';
 				}
 				// Update the updated flag so it will not try again for 3 hours...
-				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content) );
+				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$content, 'retry_count'=>$StatsCached['retry_count'] ) );
 			}
 	}
 	
