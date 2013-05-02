@@ -3,29 +3,27 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
-function powerpress_admin_customfeeds_columns($data=array())
+function powerpress_admin_taxonomyfeeds_columns($data=array())
 {
-	$data['name'] = __('Category Name', 'powerpress');
+	$data['name'] = __('Term Name', 'powerpress');
+	$data['taxonomy'] = __('Taxonomy', 'powerpress');
 	$data['feed-slug'] = __('Slug', 'powerpress');
 	$data['url'] = __('Feed URL', 'powerpress');
 	return $data;
 }
 
-add_filter('manage_powerpressadmin_categoryfeeds_columns', 'powerpress_admin_customfeeds_columns');
+add_filter('manage_powerpressadmin_taxonomyfeeds_columns', 'powerpress_admin_taxonomyfeeds_columns');
 
-function powerpress_admin_categoryfeeds()
+function powerpress_admin_taxonomyfeeds()
 {
 	$General = powerpress_get_settings('powerpress_general');
 
 ?>
-<h2><?php echo __('Category Podcasting', 'powerpress'); ?></h2>
+<h2><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></h2>
 <p>
-	<?php echo __('Category Podcasting adds custom podcast settings to specific blog category feeds, allowing you to organize episodes by topic.', 'powerpress'); ?>
+	<?php echo __('Taxonomy Podcasting adds custom podcast settings to specific taxonomies feeds.', 'powerpress'); ?>
 </p>
-<p>
-	<?php echo sprintf( __('If you are looking to organize episodes by file or format, please use %s.', 'powerpress'),
-		'<a href="'. admin_url('admin.php?page=powerpress/powerpressadmin_customfeeds.php') .'" title="'. __('Custom Podcast Channels') .'">'. __('Custom Podcast Channels') .'</a>'); ?>
-</p><style type="text/css">
+<style type="text/css">
 .column-url {
 	width: 40%;
 }
@@ -51,12 +49,12 @@ function powerpress_admin_categoryfeeds()
 <?php 
 	if( function_exists('print_column_headers') )
 	{
-		print_column_headers('powerpressadmin_categoryfeeds');
+		print_column_headers('powerpressadmin_taxonomyfeeds');
 	}
 	else
 	{
 	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Category Name', 'powerpress'); ?></th>
+	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Term Name', 'powerpress'); ?></th>
 	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
 	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
 	<?php
@@ -68,32 +66,41 @@ function powerpress_admin_categoryfeeds()
 	<tfoot>
 	<tr>
 <?php
-		print_column_headers('powerpressadmin_categoryfeeds', false);
+		print_column_headers('powerpressadmin_taxonomyfeeds', false);
 ?>
 	</tr>
 	</tfoot>
 	<tbody>
 <?php
 	
+	$PowerPressTaxonomies = get_option('powerpress_taxonomy_podcasting');
+	if( empty($PowerPressTaxonomies) )
+		$PowerPressTaxonomies = array();
 	
-	$Feeds = array();
-	if( isset($General['custom_cat_feeds']) )
-		$Feeds = $General['custom_cat_feeds'];
-		
+
 	$count = 0;
-	while( list($null, $cat_ID) = each($Feeds) )
+	while( list($tt_id, $null) = each($PowerPressTaxonomies) )
 	{
-		if( empty($cat_ID) )
-			continue;
-		$category = get_category_to_edit($cat_ID);
-		if( is_wp_error($category) ) {
-			// $cat_ID does not existing
-			continue;
+		$taxonomy_type = '';
+		$term_ID = '';
+		
+		global $wpdb;
+		$term_info = $wpdb->get_results("SELECT term_id, taxonomy FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = $tt_id",  ARRAY_A);
+		if( !empty( $term_info[0]['term_id']) ) {
+			$term_ID = $term_info[0]['term_id'];
+			$taxonomy_type = $term_info[0]['taxonomy'];
 		}
-		//var_dump($category);
+		else
+		{
+			continue; // we didn't find this taxonomy relationship
+		}
+	 //	var_dump($term_info);
+		
+		//$category = get_category_to_edit($cat_ID);
+		$term_object = get_term( $term_ID,$taxonomy_type, OBJECT, 'edit');
 		
 		
-		$columns = powerpress_admin_customfeeds_columns();
+		$columns = powerpress_admin_taxonomyfeeds_columns();
 		$hidden = array();
 
 		if( $count % 2 == 0 )
@@ -101,10 +108,10 @@ function powerpress_admin_categoryfeeds()
 		else
 			echo '<tr valign="middle">';
 			
-		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-editcategoryfeed&amp;cat=') . $cat_ID;
+		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_taxonomyfeeds.php&amp;action=powerpress-edittaxonomyfeed&amp;term='. $term_ID .'&taxonomy='.$taxonomy_type) ;
 		
-		$feed_title = $category->name;
-		$url = get_category_feed_link($cat_ID);
+		$feed_title = $term_object->name;
+		$url = get_term_feed_link($term_ID, $taxonomy_type, 'rss2');
 		$short_url = str_replace('http://', '', $url);
 		$short_url = str_replace('www.', '', $short_url);
 		if (strlen($short_url) > 35)
@@ -120,7 +127,7 @@ function powerpress_admin_categoryfeeds()
 			switch($column_name) {
 				case 'feed-slug': {
 					
-					echo "<td $class>{$category->slug}";
+					echo "<td $class>{$term_object->slug}";
 					echo "</td>";
 					
 				}; break;
@@ -129,7 +136,7 @@ function powerpress_admin_categoryfeeds()
 					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
-					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_categoryfeeds.php&amp;action=powerpress-delete-category-feed&amp;cat=$cat_ID", 'powerpress-delete-category-feed-' . $cat_ID) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to remove podcast settings for category feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove', 'powerpress') . "</a>";
+					$actions['remove'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_taxonomyfeeds.php&amp;action=powerpress-delete-taxonomy-feed&amp;ttid=$tt_id", 'powerpress-delete-taxonomy-feed-' . $tt_id) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to remove podcast settings for taxonomy '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Remove', 'powerpress') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
 					echo '<div class="row-actions">';
@@ -159,6 +166,10 @@ function powerpress_admin_categoryfeeds()
 					echo "</td>";
 					
 				}; break;
+				case 'taxonomy': {
+					echo "<td $class>$taxonomy_type";
+					echo "</td>";
+				}; break;
 				default: {
 				
 				};	break;
@@ -175,24 +186,49 @@ function powerpress_admin_categoryfeeds()
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
+
+<pre>
+<?php
+$taxonomies=get_taxonomies('','names'); 
+foreach ($taxonomies as $taxonomy ) {
+  echo '<p>'. $taxonomy. '</p>';
+}
+?>
+</pre>
+
+<?php
+
+	if( !empty( $_GET['taxonomy']) && $_GET['taxonomy'] != '' )
+	{
+		$taxonomy = $_GET['taxonomy'];
+?>
 <h3><?php echo __('Add Podcast Settings to existing Category Feed', 'powerpress'); ?></h3>
-<input type="hidden" name="action" value="powerpress-addcategoryfeed" />
-<input type="hidden" name="taxonomy" value="category" />
+<input type="hidden" name="action" value="powerpress-addtaxonomyfeed" />
+<input type="hidden" name="taxonomy" value="<?php echo htmlspecialchars($taxonomy); ?>" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
 	wp_nonce_field('powerpress-add-taxonomy-feed');
 ?>
 
+<?php 
+
+	
+?>
+
 <div class="form-field form-required">
-	<label for="feed_name"><?php echo __('Category', 'powerpress') ?></label>
+	<label for="feed_name"><?php echo __('Taxonomy Term', 'powerpress') ?></label>
 <?php
-	wp_dropdown_categories(  array('class'=>'category-list', 'show_option_none'=>__('Select Category', 'powerpress'), 'orderby'=>'name', 'hide_empty'=>0, 'hierarchical'=>1, 'name'=>'term', 'id'=>'term_id' ) );
+	
+	wp_dropdown_categories(  array('class'=>'category-list', 'show_option_none'=>__('Select Term', 'powerpress'), 'orderby'=>'name', 'hide_empty'=>0, 'hierarchical'=>1, 'name'=>'term', 'id'=>'term_id', 'taxonomy'=>$taxonomy ) );
 ?>
 	
     
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Category Feed', 'powerpress'); ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Term', 'powerpress'); ?>" /></p>
+<?php
+	}
+?>
 
 </div>
 </div>
@@ -200,14 +236,6 @@ function powerpress_admin_categoryfeeds()
 </div> <!-- col-left -->
 
 </div> <!-- col-container -->
-
-<h3><?php echo __('Example Usage', 'powerpress'); ?></h3>
-<p>
-	<?php echo __('Example 1: You have a podcast that covers two topics that sometimes share same posts and sometimes do not. Use your main podcast feed as a combined feed of both topics 	and use category feeds to distribute topic specific episodes.', 'powerpress'); ?>
-</p>
-<p>
-	<?php echo __('Example 2: You want to use categories to keep episodes separate from each other. Each category can be used to distribute separate podcasts with the main podcast feed combining all categories to provide a network feed.', 'powerpress'); ?>
-</p>
 
 <?php
 	}
