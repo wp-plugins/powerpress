@@ -655,10 +655,19 @@ function powerpress_admin_init()
 					$_GET['feed_slug'] = $key;
 				}
 			}; break;
-			case 'powerpress-addtaxonomyfeed':
+			case 'powerpress-addtaxonomyfeed': {
+				if( !empty($_POST['cancel']) )
+					unset($_POST['taxonomy']);
+				
+				if( empty($_POST['add_podcasting']) )
+					break; // We do not handle this situation
+			}
 			case 'powerpress-addcategoryfeed': {
 			
 				check_admin_referer('powerpress-add-taxonomy-feed');
+				
+				
+				
 			
 				$taxonomy_type = ( isset($_POST['taxonomy'])? $_POST['taxonomy'] : $_GET['taxonomy'] );
 				$term_ID = ( isset($_POST['term'])? $_POST['term'] : $_GET['term'] );
@@ -675,7 +684,7 @@ function powerpress_admin_init()
 				}
 				else if( $term_object == false )
 				{
-					powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
+					powerpress_page_message_add_error( __('Error obtaining term information.', 'powerpress') );
 				}
 				else if( $taxonomy_type == 'category' )
 				{
@@ -723,6 +732,7 @@ function powerpress_admin_init()
 						
 						$_GET['action'] = 'powerpress-edittaxonomyfeed';
 						$_GET['term'] = $term_ID;
+						$_GET['ttid'] = $tt_id;
 					}
 				}
 			}; break;

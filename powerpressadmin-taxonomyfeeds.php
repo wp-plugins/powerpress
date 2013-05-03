@@ -21,7 +21,7 @@ function powerpress_admin_taxonomyfeeds()
 ?>
 <h2><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></h2>
 <p>
-	<?php echo __('Taxonomy Podcasting adds custom podcast settings to specific taxonomies feeds.', 'powerpress'); ?>
+	<?php echo __('Taxonomy Podcasting adds custom podcast settings to specific taxonomy feeds.', 'powerpress'); ?>
 </p>
 <style type="text/css">
 .column-url {
@@ -39,6 +39,9 @@ function powerpress_admin_taxonomyfeeds()
 .category-list {
 	width: 100%;
 }
+.form-field select {
+	width: 95%;
+}
 </style>
 <div id="col-container">
 
@@ -55,6 +58,7 @@ function powerpress_admin_taxonomyfeeds()
 	{
 	?>
 	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Term Name', 'powerpress'); ?></th>
+	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Taxonomy', 'powerpress'); ?></th>
 	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
 	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
 	<?php
@@ -66,7 +70,10 @@ function powerpress_admin_taxonomyfeeds()
 	<tfoot>
 	<tr>
 <?php
-		print_column_headers('powerpressadmin_taxonomyfeeds', false);
+		if( function_exists('print_column_headers') )
+		{
+			print_column_headers('powerpressadmin_taxonomyfeeds', false);
+		}
 ?>
 	</tr>
 	</tfoot>
@@ -97,7 +104,7 @@ function powerpress_admin_taxonomyfeeds()
 	 //	var_dump($term_info);
 		
 		//$category = get_category_to_edit($cat_ID);
-		$term_object = get_term( $term_ID,$taxonomy_type, OBJECT, 'edit');
+		$term_object = get_term( $term_ID, $taxonomy_type, OBJECT, 'edit');
 		
 		
 		$columns = powerpress_admin_taxonomyfeeds_columns();
@@ -186,46 +193,59 @@ function powerpress_admin_taxonomyfeeds()
 <div id="col-left">
 <div class="col-wrap">
 <div class="form-wrap">
-
-<pre>
+<h3><?php echo __('Add Podcasting to Existing Taxonomy Term', 'powerpress'); ?></h3>
 <?php
-$taxonomies=get_taxonomies('','names'); 
-foreach ($taxonomies as $taxonomy ) {
-  echo '<p>'. $taxonomy. '</p>';
+	$current_taxonomy = (isset($_GET['taxonomy'])?$_GET['taxonomy']: (isset($_POST['taxonomy'])?$_POST['taxonomy']:'') );
+	if( empty($current_taxonomy) )
+	{
+?>
+<div class="form-field form-required">
+<label><?php echo __('Step 1 - Select Taxonomy', 'powerpress'); ?></label>
+<select id="powerpress_taxonomy_select" name="taxonomy" style="width: 95%;">
+	<option value=""><?php echo __('Select Taxonomy', ''); ?></option>
+<?php
+$taxonomies=get_taxonomies('','names');
+
+
+while( list($null,$taxonomy) = each($taxonomies) ) {
+	if( $taxonomy == 'category' )
+		continue;
+	$taxonomy = htmlspecialchars($taxonomy);
+	
+	echo "\t<option value=\"$taxonomy\"". ($current_taxonomy==$taxonomy?' selected':''). ">$taxonomy</option>\n";
 }
 ?>
-</pre>
 
 <?php
 
-	if( !empty( $_GET['taxonomy']) && $_GET['taxonomy'] != '' )
-	{
-		$taxonomy = $_GET['taxonomy'];
 ?>
-<h3><?php echo __('Add Podcast Settings to existing Category Feed', 'powerpress'); ?></h3>
+</select>
+</div>
+<p class="submit"><input type="submit" class="button" name="select_taxonomy" value="<?php echo __('Select Taxonomy Term', 'powerpress'); ?>" /></p>
+
+<?php
+	}
+	if( !empty($current_taxonomy) )
+	{
+?>
 <input type="hidden" name="action" value="powerpress-addtaxonomyfeed" />
-<input type="hidden" name="taxonomy" value="<?php echo htmlspecialchars($taxonomy); ?>" />
+<input type="hidden" name="taxonomy" value="<?php echo htmlspecialchars($current_taxonomy); ?>" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
 	wp_nonce_field('powerpress-add-taxonomy-feed');
 ?>
-
-<?php 
-
-	
-?>
-
 <div class="form-field form-required">
-	<label for="feed_name"><?php echo __('Taxonomy Term', 'powerpress') ?></label>
+	<label for="term"><?php echo __('Step 2 - Select Taxonomy Term', 'powerpress'); ?></label>
 <?php
 	
-	wp_dropdown_categories(  array('class'=>'category-list', 'show_option_none'=>__('Select Term', 'powerpress'), 'orderby'=>'name', 'hide_empty'=>0, 'hierarchical'=>1, 'name'=>'term', 'id'=>'term_id', 'taxonomy'=>$taxonomy ) );
+	wp_dropdown_categories(  array('class'=>'', 'show_option_none'=>__('Select Term', 'powerpress'), 'orderby'=>'name', 'hide_empty'=>0, 'hierarchical'=>1, 'name'=>'term', 'id'=>'term_id', 'taxonomy'=>$current_taxonomy ) );
 ?>
-	
-    
 </div>
 
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo __('Add Podcast Settings to Term', 'powerpress'); ?>" /></p>
+<p class="submit">
+	<input type="submit" class="button" name="add_podcasting" value="<?php echo __('Add Podcast Settings to Term', 'powerpress'); ?>" /> &nbsp; 
+	<input type="submit" class="button" name="cancel" value="<?php echo __('Cancel', 'powerpress'); ?>" />
+</p>
 <?php
 	}
 ?>
