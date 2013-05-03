@@ -102,6 +102,7 @@ function powerpress_admin_init()
 		$General = (isset($_POST['General'])?$_POST['General']:false);
 		$FeedSlug = (isset($_POST['feed_slug'])?$_POST['feed_slug']:false);
 		$Category = (isset($_POST['cat'])?$_POST['cat']:false);
+		$term_taxonomy_id = (isset($_POST['ttid'])?$_POST['ttid']:false);
 		
 		// New iTunes image
 		if( !empty($_POST['itunes_image_checkbox']) )
@@ -563,6 +564,8 @@ function powerpress_admin_init()
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
 				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
+			else if ( $term_taxonomy_id )
+				powerpress_save_settings($Feed, 'powerpress_taxonomy_'.$term_taxonomy_id);
 			else
 				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
 		}
@@ -2360,7 +2363,7 @@ function powerpress_admin_page_customfeeds()
 			powerpress_admin_page_header('powerpress/powerpressadmin_customfeeds.php');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
-			powerpress_admin_editfeed($_GET['feed_slug']);
+			powerpress_admin_editfeed('channel', $_GET['feed_slug']);
 			powerpress_admin_page_footer();
 		}; break;
 		default: {
@@ -2382,7 +2385,7 @@ function powerpress_admin_page_categoryfeeds()
 			powerpress_admin_page_header('powerpress/powerpressadmin_categoryfeeds.php');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
-			powerpress_admin_editfeed(false, $_GET['cat']);
+			powerpress_admin_editfeed('category', $_GET['cat']);
 			powerpress_admin_page_footer();
 		}; break;
 		default: {
@@ -2400,12 +2403,15 @@ function powerpress_admin_page_taxonomyfeeds()
 	$Action = (!empty($_GET['action'])? $_GET['action'] : false);
 	switch( $Action )
 	{
-		case 'powerpress-editcategoryfeed' : {
-			powerpress_admin_page_header('powerpress/powerpressadmin_taxonomyfeeds.php');
-			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
-			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
-			powerpress_admin_editfeed(false, $_GET['tax']);
-			powerpress_admin_page_footer();
+		case 'powerpress-edittaxonomyfeed' : {
+			if( !empty($_GET['ttid']) )
+			{
+				powerpress_admin_page_header('powerpress/powerpressadmin_taxonomyfeeds.php');
+				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
+				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
+				powerpress_admin_editfeed('ttid', $_GET['ttid']);
+				powerpress_admin_page_footer();
+			}
 		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_taxonomyfeeds.php', 'powerpress-add-taxonomyfeed');
@@ -2423,11 +2429,13 @@ function powerpress_admin_page_posttypefeeds()
 	switch( $Action )
 	{
 		case 'powerpress-editcategoryfeed' : {
-			powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php');
-			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
-			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
-			powerpress_admin_editfeed(false, $_GET['cat']);
-			powerpress_admin_page_footer();
+			if( !empty($_GET['post_type']) ) {
+				powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php');
+				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
+				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
+				powerpress_admin_editfeed('post_type', $_GET['post_type']);
+				powerpress_admin_page_footer();
+			}
 		}; break;
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php', 'powerpress-add-posttypefeed');

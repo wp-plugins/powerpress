@@ -108,7 +108,7 @@ function powerpress_admin_taxonomyfeeds()
 		else
 			echo '<tr valign="middle">';
 			
-		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_taxonomyfeeds.php&amp;action=powerpress-edittaxonomyfeed&amp;term='. $term_ID .'&taxonomy='.$taxonomy_type) ;
+		$edit_link = admin_url('admin.php?page=powerpress/powerpressadmin_taxonomyfeeds.php&amp;action=powerpress-edittaxonomyfeed&amp;term='. $term_ID .'&taxonomy='.$taxonomy_type.'&ttid='.$tt_id) ;
 		
 		$feed_title = $term_object->name;
 		$url = get_term_feed_link($term_ID, $taxonomy_type, 'rss2');

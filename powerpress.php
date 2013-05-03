@@ -395,9 +395,15 @@ function powerpress_rss2_head()
 	$cat_ID = get_query_var('cat');
 	
 	$Feed = get_option('powerpress_feed'); // Get the main feed settings
-	if( is_category() )
+	if( !empty($powerpress_feed['category']) )
 	{
-		$CustomFeed = get_option('powerpress_cat_feed_'.$cat_ID); // Get the custom podcast feed settings saved in the database
+		$CustomFeed = get_option('powerpress_cat_feed_'.$powerpress_feed['category']); // Get the custom podcast feed settings saved in the database
+		if( $CustomFeed )
+			$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
+	}
+	else if( !empty($powerpress_feed['term_taxonomy_id']) )
+	{
+		$CustomFeed = get_option('powerpress_taxonomy_'.$powerpress_feed['term_taxonomy_id']); // Get the taxonomy podcast settings saved in the database
 		if( $CustomFeed )
 			$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
 	}
@@ -504,7 +510,7 @@ function powerpress_rss2_head()
 	else // Use the default image
 	{
 		echo "\t". '<image>' .PHP_EOL;
-		if( is_category() && !empty($Feed['title']) )
+		if( (is_category() || is_tax() || is_tag() ) && !empty($Feed['title']) )
 			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') ) . '</title>'.PHP_EOL;
 		else
 			echo "\t\t".'<title>' . esc_html( get_bloginfo_rss('name') . get_wp_title_rss() ) . '</title>'.PHP_EOL;
@@ -640,7 +646,7 @@ function powerpress_rss2_item()
 		
 	// Check and see if we're working with a podcast episode
 	$custom_enclosure = false;
-	if( powerpress_is_custom_podcast_feed() && get_query_var('feed') != 'podcast' && !is_category() )
+	if( powerpress_is_custom_podcast_feed() && get_query_var('feed') != 'podcast' && !is_category() && !is_tax() && !is_tag() )
 	{
 		$EpisodeData = powerpress_get_enclosure_data($post->ID, get_query_var('feed') );
 		$custom_enclosure = true;
@@ -835,8 +841,7 @@ function powerpress_filter_rss_enclosure($content)
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return $content; // Another podcasting plugin is enabled...
 		
-		
-	if( powerpress_is_custom_podcast_feed() && get_query_var('feed') != 'podcast' && !is_category() )
+	if( powerpress_is_custom_podcast_feed() && get_query_var('feed') != 'podcast' && !is_category() && !is_tag() && !is_tax() )
 		return ''; // We will handle this enclosure in the powerpress_rss2_item() function
 
 	$match_count = preg_match('/\surl="([^"]*)"/', $content, $matches);
@@ -890,6 +895,11 @@ function powerpress_bloginfo_rss($content, $field = '')
 	{
 		if( is_category() )
 			$Feed = get_option('powerpress_cat_feed_'.get_query_var('cat') );
+		else if( is_tax() || is_tag() ) {
+			global $powerpress_feed;
+			if( !empty($powerpress_feed['term_taxonomy_id']) )
+				$Feed = get_option('powerpress_taxonomy_'.$powerpress_feed['term_taxonomy_id'] );
+		}
 		else
 			$Feed = get_option('powerpress_feed_'.get_query_var('feed') );
 		//$Feed = true;
@@ -1255,6 +1265,49 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['podcast_embed_in_feed'] = true;
 				return;
 			}
+			else if( ( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($Powerpress['taxonomy_podcasting']) ) && ( is_tag() || is_tax() ) )
+			{
+				// We need to get the term_id and the tax_id (tt_id)
+				$term_slug = get_query_var('term');
+				$taxonomy = get_query_var('taxonomy');
+				$term = term_exists($term_slug, $taxonomy);
+				
+				if( !empty($term['term_taxonomy_id']) )
+				{
+					$FeedCustom = get_option('powerpress_taxonomy_'.$term['term_taxonomy_id'] ); // Get custom feed specific settings
+					if( $FeedCustom )
+					{
+						$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+						
+						$powerpress_feed = array();
+						$powerpress_feed['is_custom'] = true;
+						$powerpress_feed['term_taxonomy_id'] = $term['term_taxonomy_id'];
+						$powerpress_feed['process_podpress'] = false; // Taxonomy feeds will not originate from Podpress
+						$powerpress_feed['rss_language'] = ''; // default, let WordPress set the language
+						$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
+						$explicit_array = array("no", "yes", "clean");
+						$powerpress_feed['explicit'] = $explicit_array[$Feed['itunes_explicit']];
+						if( $Feed['itunes_talent_name'] )
+							$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
+						else
+							$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
+						$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+						$powerpress_feed['posts_per_rss'] = false;
+						if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
+							$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
+						if( $Feed['feed_redirect_url'] != '' )
+							$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
+						if( $Feed['itunes_author_post'] == true )
+							$powerpress_feed['itunes_author_post'] = true;
+						if( $Feed['rss_language'] != '' )
+							$powerpress_feed['rss_language'] = $Feed['rss_language'];
+						
+						if( !empty($GeneralSettings['podcast_embed_in_feed']) )
+							$powerpress_feed['podcast_embed_in_feed'] = true;
+						return;
+					}
+				}
+			}
 			
 			$feed_slug = get_query_var('feed');
 			
@@ -1386,7 +1439,7 @@ function powerpress_is_custom_podcast_feed()
 
 function powerpress_posts_join($join)
 {	
-	if( is_category() )
+	if( is_category() || is_tag() || is_tax() )
 		return $join;
 		
 	if( is_feed() && (powerpress_is_custom_podcast_feed() || get_query_var('feed') == 'podcast' ) && !is_category() )
@@ -1403,7 +1456,7 @@ add_filter('posts_join', 'powerpress_posts_join' );
 
 function powerpress_posts_where($where)
 {
-	if( is_category() )
+	if( is_category() || is_tag() || is_tax() )
 		return $where;
 		
 	if( is_feed() && (powerpress_is_custom_podcast_feed() || get_query_var('feed') == 'podcast' ) )
@@ -1430,7 +1483,7 @@ add_filter('posts_where', 'powerpress_posts_where' );
 // Add the groupby needed for enclosures only
 function powerpress_posts_groupby($groupby)
 {
-	if( is_category() )
+	if( is_category() || is_tag() || is_tax() )
 		return $groupby;
 		
 	if( is_feed() && (powerpress_is_custom_podcast_feed() || get_query_var('feed') == 'podcast' ) )
