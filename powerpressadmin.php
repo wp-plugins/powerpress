@@ -482,6 +482,9 @@ function powerpress_admin_init()
 				$TagValues = $_POST['TagValues'];
 				$GeneralPosted = $_POST['General'];
 				
+				if( !empty($_POST['PowerPressTrackNumber']) ) {
+					update_option('powerpress_track_number',  $_POST['PowerPressTrackNumber']);
+				}
 				// Set all the tag values...
 				while( list($key,$value) = each($GeneralPosted) )
 				{
@@ -490,6 +493,10 @@ function powerpress_admin_init()
 						// Special case, we are uploading new coverart image
 						if( !empty($_POST['coverart_image_checkbox']) && $key == 'tag_coverart' )
 							continue;
+							
+						// Specail case, the track is saved in a separate column in the database.
+						if( $key == 'tag_track' )
+							continue; 
 						
 						if( !empty($value) )
 							$General[$key] = $TagValues[$key];
@@ -3117,9 +3124,18 @@ function powerpress_write_tags($file, $post_title)
 	{
 		if( !empty($Settings[ 'tag_'.$field ]) )
 		{
-			$PostArgs[ $field ] = $Settings[ 'tag_'.$field ];
 			if( $field == 'track' )
-				powerpress_save_settings(array('tag_track'=>$NewNumber), 'powerpress_general');
+			{
+				$TrackNumber = get_option('powerpress_track_number');
+				if( empty($TrackNumber) )
+					$TrackNumber = 1;
+				$PostArgs[ $field ] = $TrackNumber;
+				update_option('powerpress_track_number', ($TrackNumber+1) );
+			}
+			else
+			{
+				$PostArgs[ $field ] = $Settings[ 'tag_'.$field ];
+			}
 		}
 		else
 		{

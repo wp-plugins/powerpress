@@ -116,6 +116,14 @@ function powerpress_meta_box($object, $box)
 			}
 		}
 		
+		if( defined('POWERPRESS_AUTO_DETECT_ONCE') && POWERPRESS_AUTO_DETECT_ONCE != false )
+		{
+			if( $EnclosureLength )
+				$GeneralSettings['set_size'] = 1; // specify
+			if( $iTunesDuration )
+				$GeneralSettings['set_duration'] = 1; // specify
+		}
+		
 		if( $FeedSlug == 'podcast' && !$iTunesDuration ) // Get the iTunes duration the old way (very old way)
 			$iTunesDuration = get_post_meta($object->ID, 'itunes:duration', true);
 			

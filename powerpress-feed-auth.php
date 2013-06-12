@@ -3,27 +3,32 @@
 	
 	function powerpress_feed_auth($feed_slug)
 	{
-		$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
-		
-		if( !isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']) )
-			powerpress_feed_auth_basic( $FeedSettings['title'] );
-			
-		$user = $_SERVER['PHP_AUTH_USER'];
-		$password = $_SERVER['PHP_AUTH_PW'];
-		
-		$user = wp_authenticate($user, $password);
-		
-		if( !is_wp_error($user) )
+		// See if a filter exists to perform the authentication...
+		$authenticated = apply_filters('powerpress_feed_auth', false, 'channel', $feed_slug);
+		if( !$authenticated )
 		{
-			// Check capability...
-			if( $user->has_cap( $FeedSettings['premium'] ) )
-				return; // Nice, let us continue...
+			$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
 			
-			powerpress_feed_auth_basic( $FeedSettings['title'], __('Access Denied', 'powerpress') );
+			if( !isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']) )
+				powerpress_feed_auth_basic( $FeedSettings['title'] );
+				
+			$user = $_SERVER['PHP_AUTH_USER'];
+			$password = $_SERVER['PHP_AUTH_PW'];
+			
+			$user = wp_authenticate($user, $password);
+			
+			if( !is_wp_error($user) )
+			{
+				// Check capability...
+				if( $user->has_cap( $FeedSettings['premium'] ) )
+					return; // Nice, let us continue...
+				
+				powerpress_feed_auth_basic( $FeedSettings['title'], __('Access Denied', 'powerpress') );
+			}
+			
+			// user authenticated here
+			powerpress_feed_auth_basic( $FeedSettings['title'], __('Authorization Failed', 'powerpress') );
 		}
-		
-		// user authenticated here
-		powerpress_feed_auth_basic( $FeedSettings['title'], __('Authorization Failed', 'powerpress') );
 	}
 	
 	function powerpress_feed_auth_basic($realm_name, $error = false )

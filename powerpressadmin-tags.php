@@ -182,9 +182,10 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 	
 	if( $track )
 	{
+		$PowerPressTrackNumber = get_option('powerpress_track_number');
 ?><br />
-<input type="radio" name="General[<?php echo $tag; ?>]" value="1" <?php if( $value != '' ) echo 'checked'; ?> /> <?php echo __('Specify', 'powerpress'); ?>: 
-<input type="text" name="TagValues[<?php echo $tag; ?>]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo ($value?$value:'1'); ?>" maxlength="5" />
+<input type="radio" name="General[<?php echo $tag; ?>]" value="1" <?php if( !empty($value) ) echo 'checked'; ?> /> <?php echo __('Specify', 'powerpress'); ?>: 
+<input type="text" name="PowerPressTrackNumber" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo ( !empty($PowerPressTrackNumber) ?$PowerPressTrackNumber:'1'); ?>" maxlength="5" />
 <?php
 		echo __('(value entered increments every episode)', 'powerpress');
 	}

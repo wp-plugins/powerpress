@@ -162,6 +162,10 @@ To install Blubrry PowerPress manually, follow these steps:
 = 4.0.9 =
 * Releaesd on TBD
 * Fixed logic for displaying statistics in dashboard to time out after 1 second (was previously 15 seconds) so if there's a network issue between the server and blubrry.com the dashboard still loads promptly. (Thanks Michael Hansen for bringing to our attention!)
+* Added new filter `powerpress_feed_auth` for other plugins to filter feed authentication. (Thanks amereservant for the feature suggestion!)
+* Added new define `POWERPRESS_AUTO_DETECT_ONCE`, edits to existing episodes will use the specify option if this define is set to true. (Thanks amereservant for the feature suggestion!)
+* Fixed bug with ID3 tagging not correctly incrementing the track number for episodes. This only affected Blubrry hosting customers who had this option turned on. (Thanks RWPeck for bringing to our attention!)
+
 
 = 4.0.8 =
 * Released on 4/19/2013
@@ -605,7 +609,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 0.9.9 =
 * Released on 9/12/2009
-* No longer checking content type returned from servers, check effected video podcasters who have no control of their servers.
+* No longer checking content type returned from servers, check affected video podcasters who have no control of their servers.
 * Added Media URL redirect warning when redirects exceed 5, previously this was an error.
 * Better detection used when server does not support HTTP URL connections, we now display a message when `allow_url_fopen` setting is disabled and cURL library not available.
 * Blubrry Services Integration, added message when authentication failed and display error when web server does not support Blubrry services.
