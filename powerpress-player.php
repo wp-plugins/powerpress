@@ -1382,7 +1382,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 		case 'ogv': {
 			// Video
 			if( $html5 )
-				$content .= powerpressplayer_build_html5video($media_url, $EpisodeData, true);
+				$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
 			else
 				$content .= powerpressplayer_build_playimage($media_url, $EpisodeData, true);
 		}; break;
@@ -1391,7 +1391,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 		case 'oga': {
 			// Audio
 			if( $html5 )
-				$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData, true);
+				$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
 			else
 				$content .= powerpressplayer_build_playimageaudio($media_url, true);
 		}; break;

@@ -165,6 +165,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added new filter `powerpress_feed_auth` for other plugins to filter feed authentication. (Thanks amereservant for the feature suggestion!)
 * Added new define `POWERPRESS_AUTO_DETECT_ONCE`, edits to existing episodes will use the specify option if this define is set to true. (Thanks amereservant for the feature suggestion!)
 * Fixed bug with ID3 tagging not correctly incrementing the track number for episodes. This only affected Blubrry hosting customers who had this option turned on. (Thanks RWPeck for bringing to our attention!)
+* Mobile devices now use the same HTML5 player as the regular desktop HTML5 player found in PowerPress. This is due to reports that some mobile devices are now pre-loading media on pages, this will cut down on such bandwidth. (Thanks Daniel for bringing to our attention)
 
 
 = 4.0.8 =
