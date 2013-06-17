@@ -2009,7 +2009,7 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 	if( preg_match('/^http\:/i', $MediaURL) === false )
 		return $MediaURL; // If the user is hosting media not via http (e.g. https or ftp) then we can't handle the redirect
 		
-	$NewURL = $MediaURL;
+	$NewURL = apply_filters('powerpress_redirect_url',  $MediaURL);
 	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
 	{
 		global $powerpress_general_settings;
