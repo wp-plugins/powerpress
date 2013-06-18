@@ -1196,11 +1196,20 @@ function powerpress_admin_menu()
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
-		$page_types = powerpress_admin_get_post_types_by_capability_type('page');
-		while( list($null,$page_type) = each($page_types) )
-			add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
+		if( !defined('POWERPRESS_POST_TYPES') )
+		{
+			$page_types = powerpress_admin_get_post_types_by_capability_type('page');
+			while( list($null,$page_type) = each($page_types) )
+				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
+			
+			$post_types = powerpress_admin_get_post_types_by_capability_type('post');
+		}
+		else
+		{
+			$post_type_string = str_replace(' ', '',POWERPRESS_POST_TYPES); // Get all the spaces out
+			$post_types = explode(',', $post_type_string);
+		}
 		
-		$post_types = powerpress_admin_get_post_types_by_capability_type('post');
 		if( isset($Powerpress['custom_feeds']) )
 		{
 			$FeedDefaultPodcast = get_option('powerpress_feed_podcast');
