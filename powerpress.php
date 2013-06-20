@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0 alpha' );
+define('POWERPRESS_VERSION', '4.0.9' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
