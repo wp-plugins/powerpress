@@ -418,6 +418,8 @@ function powerpress_admin_init()
 					$General['episode_box_author'] = 0;	
 				if( !isset($General['episode_box_explicit'] ) )
 					$General['episode_box_explicit'] = 0;
+				if( !isset($General['episode_box_closed_captioned'] ) )
+					$General['episode_box_closed_captioned'] = 0;	
 				if( !isset($General['episode_box_order'] ) )
 					$General['episode_box_order'] = 0;
 				
@@ -1096,6 +1098,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_subtitle']);
 			if( isset($Settings['episode_box_summary'] ) && $Settings['episode_box_summary'] == 0 )
 				unset($Settings['episode_box_summary']);
+			if( isset($Settings['episode_box_closed_captioned'] ) && $Settings['episode_box_closed_captioned'] == 0 )
+				unset($Settings['episode_box_closed_captioned']);	
 			if( isset($Settings['episode_box_author'] ) && $Settings['episode_box_author'] == 0 )
 				unset($Settings['episode_box_author']);
 			if( isset($Settings['episode_box_explicit'] ) && $Settings['episode_box_explicit'] == 0 )

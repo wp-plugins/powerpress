@@ -167,6 +167,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with ID3 tagging not correctly incrementing the track number for episodes. This only affected Blubrry hosting customers who had this option turned on. (Thanks RWPeck for bringing to our attention!)
 * Mobile devices now use the same HTML5 player as the regular desktop HTML5 player found in PowerPress. This is due to reports that some mobile devices are now pre-loading media on pages, this will cut down on such bandwidth. (Thanks Daniel for bringing to our attention)
 * Added new define `POWERPRESS_POST_TYPES`, when set, only the post types specified are given podcasting episode entry boxes. Multiple post types are separated by commas. Example with added movies custom post type added: `'page,post,movies'`. This will bypass the default behavior of adding episode boxes to all post types with `post` or `page` capability.
+* Fixed bug with unchecking iTunes Closed Captioned option not saving. (Thanks davidcross for reporting bug)
 
 
 = 4.0.8 =
