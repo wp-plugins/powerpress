@@ -3,7 +3,7 @@ Contributors: Angelo Mandato, Blubrry.com
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 4.0.8
+Stable tag: 4.0.9
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -160,7 +160,9 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
 = 4.0.9 =
-* Releaesd on TBD
+* Releaesd on 6/20/2013
+* PowerPress 5.0 is coming! If you would like to beta test, please contact Angelo at cio [at] rawovice dot com. Beta testing starts when WordPress 3.6 is released, PowerPress 5.0 will utilize some new features in WordPress 3.6.
+* The PowerPress Version Updates Survey results will be posted in the coming weeks.  Based on user feedback, we will release minor updates within 7 days if necessary, major releases between 1-3 months apart, and new features will be included in the plguin but disabled by default.
 * Fixed logic for displaying statistics in dashboard to time out after 1 second (was previously 15 seconds) so if there's a network issue between the server and blubrry.com the dashboard still loads promptly. (Thanks Michael Hansen for bringing to our attention!)
 * Added new filter `powerpress_feed_auth` for other plugins to filter feed authentication. (Thanks amereservant for the feature suggestion!)
 * Added new define `POWERPRESS_AUTO_DETECT_ONCE`, edits to existing episodes will use the specify option if this define is set to true. (Thanks amereservant for the feature suggestion!)
@@ -172,7 +174,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 4.0.8 =
 * Released on 4/19/2013
-* [PowerPress Version Updates Survey](https://docs.google.com/forms/d/1_sWoSwutK7VjvqaEQNV5Ww0-c0kVUUnDKqOtjbP-DXs/viewform?pli=1) - please participate, only 4 questions!
+* PowerPress Version Updates Survey - Thanks everyone for participating!
 * [Blubrry Create](http://create.blubrry.com) site launched! Site includes our [Podcasting Manual](http://create.blubrry.com/manual/), [Blubrry Resources](http://create.blubrry.com/resources/) and [Support Options](http://create.blubrry.com/support/).
 * Completely rewrote logic added in 4.0.7 to fix the conflict with Yoast Google Analytics plugin. This sholud solve the issues folks have been having when using this plugin with PowerPress.
 * Flow Player Classic audio player height changed from 24 to 22 when Firefox detected, displays correctly in Firefox with this custom height.
