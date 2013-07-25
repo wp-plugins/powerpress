@@ -162,7 +162,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 4.0.9 =
 * Releaesd on 6/20/2013
 * PowerPress 5.0 is coming! If you would like to beta test, please contact Angelo at cio [at] rawovice dot com. Beta testing starts when WordPress 3.6 is released, PowerPress 5.0 will utilize some new features in WordPress 3.6.
-* The PowerPress Version Updates Survey results will be posted in the coming weeks.  Based on user feedback, we will release minor updates within 7 days if necessary, major releases between 1-3 months apart, and new features will be included in the plguin but disabled by default.
+* The PowerPress Version Updates Survey results will be posted in the coming weeks.  Based on user feedback, we will release minor updates within 7 days if necessary, major releases between 1-3 months apart, and new features will be included in the plugin but disabled by default.
 * Fixed logic for displaying statistics in dashboard to time out after 1 second (was previously 15 seconds) so if there's a network issue between the server and blubrry.com the dashboard still loads promptly. (Thanks Michael Hansen for bringing to our attention!)
 * Added new filter `powerpress_feed_auth` for other plugins to filter feed authentication. (Thanks amereservant for the feature suggestion!)
 * Added new define `POWERPRESS_AUTO_DETECT_ONCE`, edits to existing episodes will use the specify option if this define is set to true. (Thanks amereservant for the feature suggestion!)

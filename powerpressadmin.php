@@ -1296,10 +1296,10 @@ function powerpress_admin_menu()
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
 			if( !empty($Powerpress['cat_casting']) )	
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Category Podcasting', 'powerpress'), __('Category Podcasting', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_categoryfeeds.php', 'powerpress_admin_page_categoryfeeds');
-			////if( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($Powerpress['taxonomy_podcasting']) )	
-			////	add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Taxonomy Podcasting', 'powerpress'), __('Taxonomy Podcasting', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_taxonomyfeeds.php', 'powerpress_admin_page_taxonomyfeeds');
-			////if( defined('POWERPRESS_POSTTYPE_PODCASTING') || !empty($Powerpress['posttype_podcasting']) )	
-			////	add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Post Type Podcasting', 'powerpress'), __('Post Type Podcasting', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_posttypefeeds.php', 'powerpress_admin_page_posttypefeeds');
+			if( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($Powerpress['taxonomy_podcasting']) )	
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Taxonomy Podcasting', 'powerpress'), __('Taxonomy Podcasting', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_taxonomyfeeds.php', 'powerpress_admin_page_taxonomyfeeds');
+			if( defined('POWERPRESS_POSTTYPE_PODCASTING') || !empty($Powerpress['posttype_podcasting']) )	
+				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Post Type Podcasting', 'powerpress'), __('Post Type Podcasting', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_posttypefeeds.php', 'powerpress_admin_page_posttypefeeds');
 			if( !empty($Powerpress['podpress_stats']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PodPress Stats', 'powerpress'), __('PodPress Stats', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_podpress-stats.php', 'powerpress_admin_page_podpress_stats');
 			if( !empty($Powerpress['blubrry_hosting']) )
@@ -2470,7 +2470,7 @@ function powerpress_admin_page_posttypefeeds()
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php', 'powerpress-add-posttypefeed');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-posttypefeeds.php');
-			powerpress_admin_categoryfeeds();
+			powerpress_admin_posttypefeeds();
 			powerpress_admin_page_footer(false);
 		};
 	}
