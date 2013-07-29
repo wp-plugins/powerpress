@@ -50,19 +50,7 @@ function powerpress_admin_taxonomyfeeds()
 	<thead>
 	<tr>
 <?php 
-	if( function_exists('print_column_headers') )
-	{
 		print_column_headers('powerpressadmin_taxonomyfeeds');
-	}
-	else
-	{
-	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Term Name', 'powerpress'); ?></th>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Taxonomy', 'powerpress'); ?></th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
-	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
-	<?php
-	}
 ?>
 	</tr>
 	</thead>
@@ -70,10 +58,7 @@ function powerpress_admin_taxonomyfeeds()
 	<tfoot>
 	<tr>
 <?php
-		if( function_exists('print_column_headers') )
-		{
 			print_column_headers('powerpressadmin_taxonomyfeeds', false);
-		}
 ?>
 	</tr>
 	</tfoot>

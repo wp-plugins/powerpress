@@ -881,7 +881,7 @@ function powerpress_default_premium_label(event)
 <select name="Feed[custom_post_type]" class="bpp_input_med">
 <?php
 
-			$post_types = powerpress_admin_get_post_types_by_capability_type('post');
+			$post_types = powerpress_admin_get_post_types('post');
 			$custom_post_type = '';
 			if( !empty($FeedSettings['custom_post_type']) )
 				$custom_post_type = $FeedSettings['custom_post_type'];
@@ -899,7 +899,7 @@ function powerpress_default_premium_label(event)
 			
 			if( defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
 			{
-				$post_types = powerpress_admin_get_post_types_by_capability_type( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
+				$post_types = powerpress_admin_get_post_types( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
 				if( !empty($post_types) )
 				{
 					while( list($index,$value) = each($post_types) )

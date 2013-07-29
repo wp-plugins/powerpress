@@ -1170,7 +1170,7 @@ function powerpress_stripslashes($data)
 	return $data;
 }
 
-function powerpress_admin_get_post_types_by_capability_type($capability_type = 'post')
+function powerpress_admin_get_post_types($capability_type = 'post')
 {
 	if( !function_exists('get_post_types') || !function_exists('get_post_type_object') )
 		return array($capability_type);
@@ -1179,11 +1179,18 @@ function powerpress_admin_get_post_types_by_capability_type($capability_type = '
 	$post_types = get_post_types();
 	while( list($index,$post_type) = each($post_types) )
 	{
-		if( $post_type == 'attachment' || $post_type == 'nav_menu_item' || $post_type == 'revision' )
+		if( $post_type == 'attachment' || $post_type == 'nav_menu_item' || $post_type == 'revision' || $post_type == 'action' )
 			continue;
-		$object = get_post_type_object($post_type);
-		if( $object && $object->capability_type == $capability_type )
+		if( $capability_type !== false )
+		{
+			$object = get_post_type_object($post_type);
+			if( $object && $object->capability_type == $capability_type )
+				$return[] = $post_type;
+		}
+		else
+		{
 			$return[] = $post_type;
+		}
 	}
 	return $return;
 }
@@ -1202,11 +1209,11 @@ function powerpress_admin_menu()
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
 		if( !defined('POWERPRESS_POST_TYPES') )
 		{
-			$page_types = powerpress_admin_get_post_types_by_capability_type('page');
+			$page_types = powerpress_admin_get_post_types('page');
 			while( list($null,$page_type) = each($page_types) )
 				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
 			
-			$post_types = powerpress_admin_get_post_types_by_capability_type('post');
+			$post_types = powerpress_admin_get_post_types('post');
 		}
 		else
 		{
@@ -1256,7 +1263,7 @@ function powerpress_admin_menu()
 		// For custom compatibility type set:
 		if( isset($Powerpress['custom_feeds']) && defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
 		{
-			$post_types = powerpress_admin_get_post_types_by_capability_type( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
+			$post_types = powerpress_admin_get_post_types( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
 			if( !empty($post_types) )
 			{
 				while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )

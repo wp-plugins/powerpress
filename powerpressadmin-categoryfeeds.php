@@ -49,18 +49,7 @@ function powerpress_admin_categoryfeeds()
 	<thead>
 	<tr>
 <?php 
-	if( function_exists('print_column_headers') )
-	{
-		print_column_headers('powerpressadmin_categoryfeeds');
-	}
-	else
-	{
-	?>
-	<th scope="col" id="name" class="manage-column column-name"><?php echo __('Category Name', 'powerpress'); ?></th>
-	<th scope="col" id="feed-slug" class="manage-column column-feed-slug"><?php echo __('Slug', 'powerpress'); ?></th>
-	<th scope="col" id="url" class="manage-column column-url"><?php echo __('Feed URL', 'powerpress'); ?></th>
-	<?php
-	}
+	print_column_headers('powerpressadmin_categoryfeeds');
 ?>
 	</tr>
 	</thead>
