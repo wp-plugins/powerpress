@@ -103,6 +103,7 @@ function powerpress_admin_init()
 		$FeedSlug = (isset($_POST['feed_slug'])?$_POST['feed_slug']:false);
 		$Category = (isset($_POST['cat'])?$_POST['cat']:false);
 		$term_taxonomy_id = (isset($_POST['ttid'])?$_POST['ttid']:false);
+		$podcast_post_type = (isset($_POST['podcast_post_type'])?$_POST['podcast_post_type']:false);
 		
 		// New iTunes image
 		if( !empty($_POST['itunes_image_checkbox']) )
@@ -575,6 +576,12 @@ function powerpress_admin_init()
 				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
 			else if ( $term_taxonomy_id )
 				powerpress_save_settings($Feed, 'powerpress_taxonomy_'.$term_taxonomy_id);
+			else if( $podcast_post_type )
+			{
+				$PostTypeSettings = array();
+				$PostTypeSettings[ $FeedSlug ] = $Feed;
+				powerpress_save_settings($PostTypeSettings, 'powerpress_posttype_'.$podcast_post_type);
+			}
 			else
 				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
 		}
@@ -745,6 +752,63 @@ function powerpress_admin_init()
 					}
 				}
 			}; break;
+			case 'powerpress-addposttypefeed': {
+				
+				
+				check_admin_referer('powerpress-add-posttype-feed');
+				//die('ok 2');
+				
+				$Settings = get_option('powerpress_general');
+				$feed_slug = sanitize_title($_POST['feed_slug']);
+				$post_type = $_POST['podcast_post_type'];
+				$post_type = powerpress_stripslashes($post_type);
+				$feed_title = $_POST['feed_title'];
+				$feed_title = powerpress_stripslashes($feed_title);
+				
+				
+				
+				/*
+				if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
+				{
+					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
+				} else */
+				if( empty($feed_slug) )
+				{
+					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), $_POST['feed_slug']) );
+				}
+				else if( empty($post_type) )
+				{
+					powerpress_page_message_add_error( sprintf(__('Post Type is invalid.', 'powerpress'), $post_type) );
+				}
+				// TODO:
+				//else if( in_array($feed_slug, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
+				//{
+				//	powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), $key) );
+				//}
+				else
+				{
+					$ExistingSettings = powerpress_get_settings('powerpress_posttype_'. $post_type);
+					if( !empty($ExistingSettings[ $feed_slug ]) )
+					{
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.', 'powerpress'), $_POST['feed_slug']) );
+					}
+					else
+					{
+						$NewSettings = array();
+						$NewSettings[ $feed_slug ]['title'] = $feed_title;
+						powerpress_save_settings($NewSettings, 'powerpress_posttype_'. $post_type);
+						
+						
+						add_feed($feed_slug, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
+						$wp_rewrite->flush_rules();
+						
+						powerpress_page_message_add_notice( sprintf(__('Podcast "%s" added, please configure your new podcast.', 'powerpress'), $feed_title) );
+						$_GET['action'] = 'powerpress-editposttypefeed';
+						$_GET['feed_slug'] = $feed_slug;
+						$_GET['podcast_post_type'] = $post_type;
+					}
+				}
+			}; break;
 			case 'powerpress-ping-sites': {
 				check_admin_referer('powerpress-ping-sites');
 				
@@ -905,6 +969,22 @@ function powerpress_admin_init()
 				delete_option('powerpress_taxonomy_'.$tt_ID); // Delete the actual feed settings
 				
 				powerpress_page_message_add_notice( __('Removed podcast settings for term successfully.', 'powerpress') );
+			}; break;
+			case 'powerpress-delete-posttype-feed': {
+			
+				$feed_slug = $_GET['feed_slug'];
+				$post_type = $_GET['podcast_post_type'];
+				check_admin_referer('powerpress-delete-posttype-feed-'.$post_type .'_'.$feed_slug);
+		
+				$Settings = get_option('powerpress_posttype_'.$post_type);
+				if( !empty($Settings[ $feed_slug ]) )
+				{
+					unset( $Settings[ $feed_slug ] );
+					update_option('powerpress_posttype_'.$post_type,  $Settings);
+					//powerpress_save_settings($Settings, 'powerpress_posttype_'.$post_type); // Delete the feed from the general settings
+				}
+						
+				powerpress_page_message_add_notice( __('Removed podcast settings for post type successfully.', 'powerpress') );
 			}; break;
 			case 'powerpress-podpress-settings': {
 				check_admin_referer('powerpress-podpress-settings');
@@ -2462,18 +2542,21 @@ function powerpress_admin_page_taxonomyfeeds()
 // Custom Post Type Feeds
 function powerpress_admin_page_posttypefeeds()
 {
+	
 	$Action = (!empty($_GET['action'])? $_GET['action'] : false);
 	switch( $Action )
 	{
-		case 'powerpress-editcategoryfeed' : {
-			if( !empty($_GET['post_type']) ) {
+		case 'powerpress-editposttypefeed' : {
+			if( !empty($_GET['podcast_post_type']) && !empty($_GET['feed_slug']) ) {
+				
 				powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php');
 				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
 				require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
-				powerpress_admin_editfeed('post_type', $_GET['post_type']);
+				powerpress_admin_editfeed('post_type', $_GET['podcast_post_type'], $_GET['feed_slug']);
 				powerpress_admin_page_footer();
+				
 			}
-		}; break;
+		} break; 
 		default: {
 			powerpress_admin_page_header('powerpress/powerpressadmin_posttypefeeds.php', 'powerpress-add-posttypefeed');
 			require_once( POWERPRESS_ABSPATH .'/powerpressadmin-posttypefeeds.php');

@@ -139,12 +139,13 @@ function powerpress_admin_capabilities()
 
 // powerpressadmin_editfeed.php
 // function powerpress_admin_editfeed($feed_slug=false, $cat_ID = false, $term_taxonomy_id = false)
-function powerpress_admin_editfeed($type='', $type_value = '')
+function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = false)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
 	$General = powerpress_get_settings('powerpress_general');
 	$FeedAttribs = array('type'=>$type, 'channel'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
-	$feed_slug=false; $cat_ID = false; $term_taxonomy_id = false;
+	$cat_ID = false; $term_taxonomy_id = false;
+
 	
 	$FeedTitle = __('Feed Settings', 'powerpress');
 	
@@ -208,13 +209,17 @@ function powerpress_admin_editfeed($type='', $type_value = '')
 		case 'post_type': {
 			
 			$FeedAttribs['post_type'] = $type_value;
-			$FeedSettings = powerpress_get_settings('powerpress_post_type_'.$FeedAttribs['post_type']);
-			$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed_custom');
+			$FeedAttribs['feed_slug'] = $feed_slug;
+			$FeedSettingsArray = powerpress_get_settings('powerpress_posttype_'.$FeedAttribs['post_type']);
+			if( !is_array($FeedSettingsArray[ $feed_slug ]) )
+				$FeedSettingsArray[ $feed_slug ] = array();
+			$FeedSettings = powerpress_default_settings($FeedSettingsArray[ $feed_slug ], 'editfeed_custom');
 			
 			//$category = get_category_to_edit($cat_ID);
-			$PostTypeTitle = 'TODO';
-			$FeedTitle = sprintf( __('Podcast Settings for Post Type: %s', 'powerpress'), htmlspecialchars($PostTypeTitle) );
-			echo sprintf('<input type="hidden" name="post_type" value="%s" />', $FeedAttribs['post_type']);
+			$PostTypeTitle = $FeedAttribs['post_type']; // TODO: Get readable title of post type
+			$FeedTitle = sprintf( __('Podcast Settings for Post Type %s with slug %s', 'powerpress'), htmlspecialchars($PostTypeTitle) , htmlspecialchars($feed_slug));
+			echo sprintf('<input type="hidden" name="podcast_post_type" value="%s" />', $FeedAttribs['post_type']);
+			echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
 			
 		}; break;
 		default: {
@@ -237,11 +242,10 @@ function powerpress_admin_editfeed($type='', $type_value = '')
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_tv"><span><?php echo htmlspecialchars(__('T.V.', 'powerpress')); ?></span></a></li>
-	<?php if( $feed_slug ) { ?>
+	<?php if( in_array($FeedAttribs['type'], array('post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
-		<li><a href="#feed_tab_other"><span><?php echo htmlspecialchars(__('Other Settings', 'powerpress')); ?></span></a></li> 
 	<?php } ?>
-	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type') ) ) { ?>
+	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_other"><span><?php echo htmlspecialchars(__('Other Settings', 'powerpress')); ?></span></a></li> 
 	<?php } ?>
   </ul>
@@ -600,7 +604,6 @@ else
 <input type="checkbox" name="Feed[maximize_feed]" value="1" <?php if( !empty($FeedSettings['maximize_feed']) ) echo 'checked'; ?> />
 		<?php echo __('The latest 10 episodes in feed will remain as normal. The remaining 11+ older episodes in feed will have only the bare essential tags in order to maximize the number of episodes in the feed.', 'powerpress'); ?>
 		
-		<p style="margin-top: 0px; margin-bottomd: 0;"><?php echo powerpressadmin_notice( __('This feature is experimental, use at your own risk.', 'powerpress') ); ?></p>
 		
 
 <p style="margin-top: 0px; margin-bottomd: 0;"><?php echo __('NOTE: This feature may allow you to enter a larger value for the "Show the most recent" setting above. You must make sure that your feed does not exceed 512KB (1/2 MB) in size.', 'powerpress'); ?></p>
