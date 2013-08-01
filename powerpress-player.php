@@ -53,6 +53,29 @@ function powerpressplayer_init($GeneralSettings)
 		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
 	}
 	
+	$enqueue_mejs = false;
+	if( !isset($GeneralSettings['player']) || !isset($GeneralSettings['video_player']) )
+	{
+		if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+			$enqueue_mejs = true;
+	}
+	else if( !empty($GeneralSettings['player']) && $GeneralSettings['player'] == 'mediaelement-audio' )
+	{
+		$enqueue_mejs = true;
+	}
+	else if( !empty($GeneralSettings['player']) && $GeneralSettings['player'] == 'mediaelement-audio' )
+	{
+		$enqueue_mejs = true;
+	}
+	
+	if( $enqueue_mejs )
+	{
+		wp_enqueue_style('mediaelement');
+		wp_enqueue_style('wp-mediaelement');
+		wp_enqueue_script('mediaelement');
+		wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+	}
+	
 	/*
 	if( !empty($GeneralSettings['display_player_disable_mobile']) && powerpress_is_mobile_client() )
 	{
@@ -477,6 +500,21 @@ function powerpressplayer_build_embed($player, $media_url, $EpisodeData = array(
 				$height = $EpisodeData['height'];
 			
 		}; break;
+		case 'mediaelement-audio': {
+			
+			$PlayerSettings = get_option('powerpress_mediaelement');
+			$height = 20;
+			$width = 200;
+			if( !empty($PlayerSettings['width']) && is_numeric($PlayerSettings['width']) )
+				$width = $PlayerSettings['width'];
+			if( !empty($PlayerSettings['height']) && is_numeric($PlayerSettings['height']) )
+				$height = $PlayerSettings['height'];
+			if( !empty($EpisodeData['width']) && is_numeric($EpisodeData['width']) )
+				$width = $EpisodeData['width'];
+			if( !empty($EpisodeData['height']) && is_numeric($EpisodeData['height']) )
+				$height = $EpisodeData['height'];
+				
+		}; break;
 		default: { // Other players are currently not supported
 			return '';
 		};
@@ -608,9 +646,11 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 		case 'mp3':
 		{
 			$Settings = get_option('powerpress_general');
-			if( !isset($Settings['player']) )
+			if( !isset($Settings['player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+				$Settings['player'] = 'mediaelement-audio';
+			else if( !isset($Settings['player']) )
 				$Settings['player'] = 'default';
-			
+				
 			switch( $Settings['player'] )
 			{
 				case 'default':
@@ -632,6 +672,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 				case 'html5audio': {
 					$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
 				}; break;
+				case 'mediaelement-audio': {
+					$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
+				}; break;
 			}
 		
 		}; break;
@@ -641,7 +684,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 			if( empty($Settings['m4a']) || $Settings['m4a'] != 'use_players' )
 				break;
 			
-			if( !isset($Settings['player']) )
+			if( !isset($Settings['player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+				$Settings['player'] = 'mediaelement-audio';
+			else if( !isset($Settings['player']) )
 				$Settings['player'] = 'default';
 			
 			switch( $Settings['player'] )
@@ -652,6 +697,9 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 				}; break;
 				case 'html5audio': {
 					$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
+				}; break;
+				case 'mediaelement-audio': {
+					$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
 				}; break;
 				default: {
 					$content .= powerpressplayer_build_playimageaudio($media_url, true);
@@ -665,7 +713,19 @@ function powerpressplayer_player_audio($content, $media_url, $EpisodeData = arra
 				return $content; // Ogg is handled as video
 		}
 		case 'oga': {
-			$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
+			if( !isset($Settings['player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+				$Settings['player'] = 'mediaelement-audio';
+				
+			switch( $Settings['player'] )
+			{
+				case 'mediaelement-audio': {
+					$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
+				}; break;
+				case 'html5audio': 
+				default: {
+					$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
+				}
+			}
 		}; break;
 	}
 
@@ -693,7 +753,9 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 		case 'webm': 
 		case 'ogv': { // Use native player when possible
 			$Settings = get_option('powerpress_general');
-			if( !isset($Settings['video_player']) )
+			if( !isset($Settings['video_player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+				$Settings['video_player'] = 'mediaelement-video';
+			else if( !isset($Settings['video_player']) )
 				$Settings['video_player'] = 'html5video';
 			
 			// HTML5 Video as an embed
@@ -701,6 +763,9 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 			{
 				case 'videojs-html5-video-player-for-wordpress': {
 					$content .= powerpressplayer_build_videojs($media_url, $EpisodeData);
+				}; break;
+				case 'mediaelement-video': {
+					$content .= powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData);
 				}; break;
 				default: {
 					$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
@@ -712,10 +777,11 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 		case 'mp4':
 		// Okay, lets see if we we have a player setup to handle this
 		{
-			
 			$Settings = get_option('powerpress_general');
-			if( !isset($Settings['video_player']) )
-				$Settings['video_player'] = 'html5video';
+			if( !isset($Settings['video_player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+				$Settings['video_player'] = 'mediaelement-video';
+			else if( !isset($Settings['video_player']) )
+				$Settings['video_player'] = 'default';
 			
 			switch( $Settings['video_player'] )
 			{
@@ -730,6 +796,9 @@ function powerpressplayer_player_video($content, $media_url, $EpisodeData = arra
 				case 'html5video': {
 					// HTML5 Video as an embed
 					$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
+				}; break;
+				case 'mediaelement-video': {
+					$content .= powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData);
 				}; break;
 			}
 		}; break;
@@ -1300,6 +1369,70 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 }
 
 /*
+MediaElement.js Video Player
+*/
+function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array(), $embed = false )
+{
+	$player_id = powerpressplayer_get_next_id();
+	$cover_image = '';
+	$player_width = 400;
+	$player_height = 225;
+	$autoplay = false;
+	// Global Settings
+	$Settings = get_option('powerpress_general');
+	if( !empty($Settings['player_width']) )
+		$player_width = $Settings['player_width'];
+	if( !empty($Settings['player_height']) )
+		$player_height = $Settings['player_height'];
+	if( !empty($Settings['poster_image']) )
+		$cover_image = $Settings['poster_image'];
+	// Episode Settings
+	if( !empty($EpisodeData['image']) )
+		$cover_image = $EpisodeData['image'];
+	if( !empty($EpisodeData['width']) )
+		$player_width = $EpisodeData['width'];
+	if( !empty($EpisodeData['height']) )
+		$player_height = $EpisodeData['height'];
+	if( !empty($EpisodeData['autoplay']) )
+		$autoplay = true;
+		
+		
+	
+	
+	$content = '';
+	
+	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
+	$content .= '<video class="powerpress-mejs-video" width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
+	if( $cover_image )
+		$content .= ' poster="'. $cover_image .'"';
+	if( $autoplay )
+		$content .= ' autoplay="autoplay"';
+	else
+		$content .= ' preload="none"';
+	$content .= '>'.PHP_EOL;
+	$content_type = powerpress_get_contenttype($media_url);
+	
+	// Prevent pre-loading in certain browsers
+	$media_url_src = $media_url;
+	if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
+		$media_url_src = '#'.$media_url;
+	}
+	
+	$content .='<source src="'. $media_url_src .'" type="'. $content_type .'" />';
+		
+	if( !empty($EpisodeData['webm_src']) )
+	{
+		$EpisodeData['webm_src'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
+		$content .='<source src="'. $EpisodeData['webm_src'] .'" type="video/webm" />';
+	}
+		
+	$content .= powerpressplayer_build_playimage($media_url, $EpisodeData);
+	$content .= '</video>'.PHP_EOL;
+	$content .= '</div>'.PHP_EOL;
+	return $content;
+}
+
+/*
 HTTML 5 Audio Player
 */
 function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $embed = false )
@@ -1354,6 +1487,48 @@ function powerpressplayer_build_html5audio($media_url, $EpisodeData=array(), $em
 			$content .= "</script>\n";
 		}
 	}
+	
+	return $content;
+}
+
+/*
+MediaElement.js Audio Player
+*/
+function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array(), $embed = false )
+{
+	// TODO: Add logic to display MediaElement.js packaged in WordPress here, for WordPress 3.6+ only.
+	
+	$player_id = powerpressplayer_get_next_id();
+	$autoplay = false;
+	// Episode Settings
+	if( !empty($EpisodeData['autoplay']) )
+		$autoplay = true;
+	$content = '';
+	
+
+	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
+	$content .= '<audio class="powerpress-mejs-audio" controls="controls"';
+	
+	// Prevent pre-loading in certain browsers
+	$media_url_src = $media_url;
+	if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
+		$media_url_src = '#'.$media_url;
+	}
+	
+	$content .=' src="'. $media_url_src .'"';
+	if( $cover_image )
+		$content .= ' poster="'. $cover_image .'"';
+	if( $autoplay )
+		$content .= ' autoplay="autoplay"';
+	else
+		$content .= ' preload="none"';
+	$content .= '>'.PHP_EOL;
+	
+	
+	$content .= powerpressplayer_build_playimageaudio($media_url);
+	$content .= '</audio>'.PHP_EOL;
+	$content .= '</div>'.PHP_EOL;
+	
 	
 	return $content;
 }

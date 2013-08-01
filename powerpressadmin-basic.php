@@ -999,7 +999,7 @@ function powerpressadmin_appearance($General=false)
 	<p style="margin-left: 35px;">
 		<input type="checkbox" name="General[podcast_embed_in_feed]" value="1" <?php if( !empty($General['podcast_embed_in_feed']) ) echo 'checked'; ?>  /> <?php echo __('Include embed in feeds', 'powerpress'); ?>
 	</p>
-	<p><?php echo __('Embed option uses Flow Player Classic for audio and HTML5 Video player for video.', 'powerpress'); ?></p>
+	<p><?php echo __('Embed option works with the MediaElement.js Media Player for audio and video, Flow Player Classic for audio and HTML5 Video player for video.', 'powerpress'); ?></p>
 </td>
 </tr>
 </table>
