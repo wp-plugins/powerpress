@@ -1148,7 +1148,9 @@ function powerpress_init()
 	}
 	
 	// Add the podcast feeds;
-	add_feed('podcast', 'powerpress_do_podcast_feed');
+	if( !defined('POWERPRESS_NO_PODCAST_FEED') )
+		add_feed('podcast', 'powerpress_do_podcast_feed');
+	
 	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
 	{
 		while( list($feed_slug,$feed_title) = each($GeneralSettings['custom_feeds']) )
@@ -1158,6 +1160,33 @@ function powerpress_init()
 		}
 	}
 
+	if( !empty($GeneralSettings['posttype_podcasting']) )
+	{
+		// TODO: TODO!!! Make this more efficient!!!
+		// Loop through the posttype podcasting settings and set the feeds for the custom post type slugs...
+		global $wp_rewrite;
+		$post_types = get_post_types();
+		$PowerPressPostTypes = get_option('powerpress_posttype_podcasting');
+		if( empty($PowerPressPostTypes) )
+			$PowerPressPostTypes = array();
+		reset($post_types);
+
+		$count = 0;
+		while( list($index, $post_type) = each($post_types) )
+		{
+			$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type );
+			if( !$PostTypeSettingsArray )
+				continue;
+			
+			while( list($feed_slug, $PostTypeSettings) = each($PostTypeSettingsArray) )
+			{
+				if ( !in_array($feed_slug, $wp_rewrite->feeds) ) // we need to add this feed name
+				{
+					add_feed($feed_slug, 'powerpress_do_podcast_feed');
+				}
+			}
+		}
+	}
 	
 	if( defined('GAWP_VERSION') )
 	{
@@ -1310,43 +1339,62 @@ function powerpress_load_general_feed_settings()
 			}
 			
 			$feed_slug = get_query_var('feed');
-			
-			if( isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && isset($GeneralSettings['custom_feeds'][ $feed_slug ] ))
+			// Are we dealing with a custom podcast channel or a custom post type podcast feed...
+			if( !empty($GeneralSettings['posttype_podcasting']) || !empty($GeneralSettings['custom_feeds'][ $feed_slug ]) )
 			{
-				$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
-				$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+				$Feed = false;
+				if( !empty($GeneralSettings['posttype_podcasting']) )
+				{
+					$post_type = get_post_type();
+					// Get the settings for this podcast post type
+					$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type);
+					if( !empty($PostTypeSettingsArray[ $feed_slug ]) )
+					{
+						$post_type_feed = true;
+						$FeedCustom = $PostTypeSettingsArray[ $feed_slug ];
+						$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+					}
+				}
+				if( empty($Feed) && !empty($GeneralSettings['custom_feeds'][ $feed_slug ]) )
+				{
+					$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
+					$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+				}
 				
-				$powerpress_feed = array();
-				$powerpress_feed['is_custom'] = true;
-				$powerpress_feed['feed-slug'] = $feed_slug;
-				$powerpress_feed['process_podpress'] = ($feed_slug=='podcast'? !empty($GeneralSettings['process_podpress']): false); // We don't touch podpress data for custom feeds
-				$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
-				$powerpress_feed['default_url'] = '';
-				if( !empty($powerpress_feed['default_url']) )
-					$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
-				$explicit = array("no", "yes", "clean");
-				$powerpress_feed['explicit'] ='no';
-				if( !empty($Feed['itunes_explicit']) )
-					$powerpress_feed['explicit'] = $explicit[ $Feed['itunes_explicit'] ];
-				if( !empty($Feed['itunes_talent_name']) )
-					$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
-				else
-					$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
-				$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
-				$powerpress_feed['posts_per_rss'] = false;
-				if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
-					$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
-				if( !empty($Feed['feed_redirect_url']) )
-					$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
-				if( !empty($Feed['itunes_author_post'] ) )
-					$powerpress_feed['itunes_author_post'] = true;
-				if( !empty($Feed['rss_language']) )
-					$powerpress_feed['rss_language'] = $Feed['rss_language'];
-				if( !empty($GeneralSettings['podcast_embed_in_feed']) )
-					$powerpress_feed['podcast_embed_in_feed'] = true;
-				if( !empty($Feed['maximize_feed']) )
-					$powerpress_feed['maximize_feed'] = true;	
-				return;
+				if( $Feed )
+				{
+					$powerpress_feed = array();
+					$powerpress_feed['is_custom'] = true;
+					$powerpress_feed['feed-slug'] = $feed_slug;
+					$powerpress_feed['process_podpress'] = ($feed_slug=='podcast'? !empty($GeneralSettings['process_podpress']): false); // We don't touch podpress data for custom feeds
+					$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
+					$powerpress_feed['default_url'] = '';
+					if( !empty($powerpress_feed['default_url']) )
+						$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
+					$explicit = array("no", "yes", "clean");
+					$powerpress_feed['explicit'] ='no';
+					if( !empty($Feed['itunes_explicit']) )
+						$powerpress_feed['explicit'] = $explicit[ $Feed['itunes_explicit'] ];
+					if( !empty($Feed['itunes_talent_name']) )
+						$powerpress_feed['itunes_talent_name'] = $Feed['itunes_talent_name'];
+					else
+						$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
+					$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+					$powerpress_feed['posts_per_rss'] = false;
+					if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
+						$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
+					if( !empty($Feed['feed_redirect_url']) )
+						$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
+					if( !empty($Feed['itunes_author_post'] ) )
+						$powerpress_feed['itunes_author_post'] = true;
+					if( !empty($Feed['rss_language']) )
+						$powerpress_feed['rss_language'] = $Feed['rss_language'];
+					if( !empty($GeneralSettings['podcast_embed_in_feed']) )
+						$powerpress_feed['podcast_embed_in_feed'] = true;
+					if( !empty($Feed['maximize_feed']) )
+						$powerpress_feed['maximize_feed'] = true;	
+					return;
+				}
 			}
 			
 			if( !isset($FeedSettingsBasic['apply_to']) )
@@ -2243,13 +2291,15 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	
 	if( !$MetaData )
 		return false;
-	
+
+	//$post_type = get_post_type($post_id);
 	$MetaParts = explode("\n", $MetaData, 4);
 	
 	$Serialized = false;
 	$Data = array();
 	$Data['id'] = $post_id;
 	$Data['feed'] = $feed_slug;
+	//$Data['post_type'] = $post_type;
 	$Data['url'] = '';
 	$Data['duration'] = '';
 	$Data['size'] = '';
@@ -2333,9 +2383,12 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 			if( $include_premium == false && isset($podPressMedia[$mediaNum]['premium_only']) && ($podPressMedia[$mediaNum]['premium_only'] == 'on' || $podPressMedia[$mediaNum]['premium_only'] == true) )
 				return false;
 			
+			//$post_type = get_post_type($post_id);
+			
 			$Data = array();
 			$Data['id'] = $post_id;
 			$Data['feed'] = 'podcast';
+			//$Data['post_type'] = $post_type;
 			$Data['duration'] = 0;
 			$Data['url'] = '';
 			$Data['size'] = 0;

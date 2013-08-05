@@ -203,7 +203,7 @@ jQuery(document).ready(function($) {
 		<div>
 			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ( !empty($General['cat_casting']) ?' checked':'');  echo $CategoryCheckbox;  ?> /> 
 			<strong><?php echo __('Category Podcasting', 'powerpress'); ?></strong> - 
-			<?php echo __('Manage category podcast feeds.', 'powerpress'); ?> 
+			<?php echo __('Manage podcasting for specific categories.', 'powerpress'); ?> 
 			<?php if( empty($General['cat_casting']) ) { ?>
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
 			<?php } else { ?>
@@ -216,7 +216,28 @@ jQuery(document).ready(function($) {
 			<?php echo __('Add additional meta information to your media for syndication.', 'powerpress'); ?> 
 			<?php echo powerpress_help_link('http://www.powerpresspodcast.com/metamarks/'); ?> 
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in episode entry box', 'powerpress'); ?>)</span>
-			
+		</div>
+		
+		
+		<div>
+			<input type="checkbox" name="General[taxonomy_podcasting]" value="1" <?php echo ( !empty($General['taxonomy_podcasting']) ?' checked':''); ?> /> 
+			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> - 
+			<?php echo __('Manage podcasting for specific taxonomies.', 'powerpress'); ?> 
+			<?php if( empty($General['taxonomy_podcasting']) ) { ?>
+			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<?php } else { ?>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_taxonomyfeeds.php'); ?>"><?php echo __('configure taxonomy podcasting', 'powerpress'); ?></a>)</span>
+			<?php } ?>
+		</div>
+		<div>
+			<input type="checkbox" name="General[posttype_podcasting]" value="1" <?php echo ( !empty($General['posttype_podcasting']) ?' checked':''); ?> /> 
+			<strong><?php echo __('Post Type Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> - 
+			<?php echo __('Manage multiple media files and/or formats to specific post types.', 'powerpress'); ?> 
+			<?php if( empty($General['posttype_podcasting']) ) { ?>
+			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
+			<?php } else { ?>
+			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_posttypefeeds.php'); ?>"><?php echo __('configure post type podcasting', 'powerpress'); ?></a>)</span>
+			<?php } ?>
 		</div>
 	</div>
 </div>

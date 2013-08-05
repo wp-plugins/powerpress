@@ -159,6 +159,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 3.0+ is not compatible with WordPress 2.8.x and 2.9.x. Please upgrade to WordPress 3.0 or newer to install PowerPress.
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
+
+== 5.0 beta-1 ==
+* Released TBA
+* Added define `POWERPRESS_NO_PODCAST_FEED`, if set to true in wp-config, PowerPress will not add the default podcast feed with slug name 'podcast'. For users who exclusively want a page or category called 'podcast'. NOTE: There will be no podcast only feed provided by default when this define is set, use at your own risk.
+
+
 = 4.0.9 =
 * Releaesd on 6/20/2013
 * PowerPress 5.0 is coming! If you would like to beta test, please contact Angelo at cio [at] rawovice dot com. Beta testing starts when WordPress 3.6 is released, PowerPress 5.0 will utilize some new features in WordPress 3.6.
