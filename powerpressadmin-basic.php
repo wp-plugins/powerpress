@@ -222,7 +222,8 @@ jQuery(document).ready(function($) {
 		
 		<div>
 			<input type="checkbox" name="General[taxonomy_podcasting]" value="1" <?php echo ( !empty($General['taxonomy_podcasting']) ?' checked':''); ?> /> 
-			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> - 
+			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> 
+			<span style="font-size: 14px;">(<?php echo __('Feature sponsored by', 'powerpress'); ?> <a href="http://afterbuzztv.com/" target="_blank">AfterBuzzTV.com</a>)</span> - 
 			<?php echo __('Manage podcasting for specific taxonomies.', 'powerpress'); ?> 
 			<?php if( empty($General['taxonomy_podcasting']) ) { ?>
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
