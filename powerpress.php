@@ -751,7 +751,7 @@ function powerpress_rss2_item()
 		echo "\t<itunes:subtitle>". powerpress_format_itunes_value($subtitle, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	else if( $excerpt_no_html )
 		echo "\t<itunes:subtitle>". powerpress_format_itunes_value($excerpt_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
-	else	
+	else	if( $content_no_html )
 		echo "\t<itunes:subtitle>". powerpress_format_itunes_value($content_no_html, 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
 	
 	if( empty($powerpress_feed['feed_maximizer_on']) )
@@ -769,6 +769,12 @@ function powerpress_rss2_item()
 			echo "\t\t<itunes:author>" . esc_html($author) . '</itunes:author>'.PHP_EOL;
 		else
 			echo "\t\t<itunes:author>".'NO AUTHOR</itunes:author>'.PHP_EOL;
+			
+		// itunes episode image
+		if( !empty( $EpisodeData['itunes_image']) )
+			echo "\t\t".'<itunes:image href="' . esc_html( str_replace(' ', '+', $EpisodeData['itunes_image']), 'double') . '" />'.PHP_EOL;
+		else if( !empty($powerpress_feed['itunes_image']) )
+			echo "\t\t".'<itunes:image href="' . esc_html( str_replace(' ', '+', $powerpress_feed['itunes_image']), 'double') . '" />'.PHP_EOL;
 	}
 	
 	if( $explicit )
@@ -1300,6 +1306,8 @@ function powerpress_load_general_feed_settings()
 				
 				if( !empty($GeneralSettings['podcast_embed_in_feed']) )
 					$powerpress_feed['podcast_embed_in_feed'] = true;
+				if( !empty($Feed['episode_itunes_image']) && !empty($Feed['itunes_image']) )
+					$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
 				return;
 			}
 			else if( ( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($Powerpress['taxonomy_podcasting']) ) && ( is_tag() || is_tax() ) )
@@ -1341,6 +1349,8 @@ function powerpress_load_general_feed_settings()
 						
 						if( !empty($GeneralSettings['podcast_embed_in_feed']) )
 							$powerpress_feed['podcast_embed_in_feed'] = true;
+						if( !empty($Feed['episode_itunes_image']) && !empty($Feed['itunes_image']) )
+							$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
 						return;
 					}
 				}
@@ -1406,6 +1416,8 @@ function powerpress_load_general_feed_settings()
 						$powerpress_feed['podcast_embed_in_feed'] = true;
 					if( !empty($Feed['maximize_feed']) )
 						$powerpress_feed['maximize_feed'] = true;	
+					if( !empty($Feed['episode_itunes_image']) && !empty($Feed['itunes_image']) )
+						$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
 					return;
 				}
 			}
@@ -1463,6 +1475,9 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['rss_language'] = ''; // Cannot set the language setting in simple mode
 					if( !empty($GeneralSettings['podcast_embed_in_feed']) )
 						$powerpress_feed['podcast_embed_in_feed'] = true;
+					if( !empty($Feed['episode_itunes_image']) && !empty($Feed['itunes_image']) )
+						$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
+					
 				}; break;
 				// All other cases we let fall through
 			}
@@ -2018,6 +2033,7 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 	
 	switch($tag)
 	{
+		case 'description':
 		case 'summary': {
 			// 4000 character limit
 			if( $length > 4000 )

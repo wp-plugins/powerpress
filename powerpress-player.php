@@ -424,12 +424,25 @@ function powerpress_generate_embed($player, $EpisodeData) // $post_id, $feed_slu
 		}
 		
 		$extension = powerpressplayer_get_extension($EpisodeData['url']);
-		if(  ($extension == 'mp3' || $extension == 'm4a') && empty($Settings['poster_image_audio']) )
+		if( $player == 'mediaelement-audio' )
 		{
-			$height = 24; // Hack for audio to only include the player without the poster art
-			$width = 320;
-			if( !empty($GeneralSettings['player_width_audio']) )
-				$width = $GeneralSettings['player_width_audio'];
+			if( $extension == 'mp3' || $extension == 'm4a' || $extension == 'oga')
+			{
+				$height = 30; // Hack for audio to only include the player without the poster art
+				$width = 320;
+				if( !empty($GeneralSettings['player_width_audio']) )
+					$width = $GeneralSettings['player_width_audio'];
+			}
+		}
+		else if ( $player == 'default' )
+		{
+			if(  ($extension == 'mp3' || $extension == 'm4a' ) && empty($Settings['poster_image_audio']) )
+			{
+				$height = 24; // Hack for audio to only include the player without the poster art
+				$width = 320;
+				if( !empty($GeneralSettings['player_width_audio']) )
+					$width = $GeneralSettings['player_width_audio'];
+			}
 		}
 	}
 	

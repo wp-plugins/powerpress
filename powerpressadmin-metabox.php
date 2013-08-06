@@ -288,7 +288,7 @@ function powerpress_meta_box($object, $box)
 			$form_action_url = admin_url("media-upload.php?type=powerpress_image&tab=type&post_id={$object->ID}&powerpress_feed={$FeedSlug}&TB_iframe=true&width=450&height=200");
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 70%; font-size: 90%;" size="250" />
 				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-image-browser" id="powerpress_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select Poster Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
@@ -320,7 +320,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][embed]"><?php echo __('Media Embed', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][embed]"><?php echo __('Media Embed', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<textarea class="powerpress-embed" id="powerpress_embed_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][embed]" style="width: 90%; height: 80px; font-size: 90%;" onfocus="this.select();"><?php echo htmlspecialchars($Embed); ?></textarea>
 			</div>
@@ -332,7 +332,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][keywords]"><?php echo __('iTunes Keywords', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][keywords]"><?php echo __('iTunes Keywords', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_keywords_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][keywords]" value="<?php echo htmlspecialchars($iTunesKeywords); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
@@ -347,7 +347,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][subtitle]"><?php echo __('iTunes Subtitle', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][subtitle]"><?php echo __('iTunes Subtitle', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_subtitle_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][subtitle]" value="<?php echo htmlspecialchars($iTunesSubtitle); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
@@ -362,7 +362,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][summary]"><?php echo __('iTunes Summary', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][summary]"><?php echo __('iTunes Summary', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<textarea id="powerpress_summary_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][summary]" style="width: 90%; height: 80px; font-size: 90%;"><?php echo htmlspecialchars($iTunesSummary); ?></textarea>
 			</div>	
@@ -377,7 +377,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][author]"><?php echo __('iTunes Author', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][author]"><?php echo __('iTunes Author', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_author_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][author]" value="<?php echo htmlspecialchars($iTunesAuthor); ?>" style="width: 60%; font-size: 90%;" size="250" />
 			</div>
@@ -392,7 +392,7 @@ function powerpress_meta_box($object, $box)
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][explicit]"><?php echo __('iTunes Explicit', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][explicit]"><?php echo __('iTunes Explicit', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][explicit]" style="width: 220px;">
 <?php
@@ -412,7 +412,7 @@ while( list($value,$desc) = each($explicit_array) )
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][cc]"><?php echo __('iTunes CC', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][cc]"><?php echo __('iTunes CC', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<select id="powerpress_cc_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][cc]" style="width: 220px;">
 <?php
@@ -432,7 +432,7 @@ unset($cc_array);
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][order]"><?php echo __('iTunes Order', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][order]"><?php echo __('iTunes Order', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_order_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][order]" value="<?php echo htmlspecialchars($iTunesOrder); ?>" style="width: 60px; font-size: 90%;" size="250" />
 			</div>	
@@ -448,7 +448,7 @@ unset($cc_array);
 				$FeaturedChecked = true; }
 ?>
 		<div class="powerpress_row">
-			<label for "PowerpressFeature[<?php echo $FeedSlug; ?>]"><?php echo __('Feature Episode', 'powerpress'); ?></label>
+			<label for="PowerpressFeature[<?php echo $FeedSlug; ?>]"><?php echo __('Feature Episode', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input type="checkbox" id="powerpress_feature_<?php echo $FeedSlug; ?>" name="PowerpressFeature[<?php echo $FeedSlug; ?>]" value="1" <?php echo ($FeaturedChecked?'checked':''); ?> />
 				<?php echo __('Episode will appear at the top of your episode list in the iTunes directory.', 'powerpress'); ?>
@@ -461,7 +461,7 @@ unset($cc_array);
 		{
 ?>
 		<div class="powerpress_row">
-			<label for "Powerpress[<?php echo $FeedSlug; ?>][block]"><?php echo __('iTunes Block', 'powerpress'); ?></label>
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][block]"><?php echo __('iTunes Block', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<select id="powerpress_block_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][block]" style="width: 220px;">
 <?php
@@ -473,6 +473,21 @@ unset($block_array);
 ?>
 					</select>
 			</div>	
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_itunes_image']) || !empty($ExtraData['itunes_image']) )
+		{
+			if( empty($ExtraData['itunes_image']) )
+				$ExtraData['itunes_image'] = '';
+
+?>
+		<div class="powerpress_row">
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]"><?php echo __('iTunes Image', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_itunes_image_<?php echo $FeedSlug; ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]" value="<?php echo htmlspecialchars($ExtraData['itunes_image']); ?>" style="width: 70%; font-size: 90%;" size="250" />
+			</div>
 		</div>
 <?php
 		}

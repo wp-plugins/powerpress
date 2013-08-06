@@ -418,6 +418,9 @@ function powerpress_admin_init()
 					$General['episode_box_explicit'] = 0;
 				if( !isset($General['episode_box_closed_captioned'] ) )
 					$General['episode_box_closed_captioned'] = 0;	
+				if( !isset($General['episode_box_itunes_image'] ) )
+					$General['episode_box_itunes_image'] = 0;		
+					
 				if( !isset($General['episode_box_order'] ) )
 					$General['episode_box_order'] = 0;
 				
@@ -425,6 +428,8 @@ function powerpress_admin_init()
 					$General['episode_box_feature_in_itunes'] = 0;	
 				else
 					$General['episode_box_order'] = 0;
+					
+					
 					
 				if( !isset($General['feed_links']) )
 					$General['feed_links'] = 0;
@@ -571,6 +576,9 @@ function powerpress_admin_init()
 				$Feed['itunes_complete'] = false;
 			if( !isset($Feed['maximize_feed']) )
 				$Feed['maximize_feed'] = false;
+			if( !isset($Feed['episode_itunes_image']) )
+				$Feed['episode_itunes_image'] = false;	
+				
 			
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
@@ -1188,6 +1196,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_author']);
 			if( isset($Settings['episode_box_explicit'] ) && $Settings['episode_box_explicit'] == 0 )
 				unset($Settings['episode_box_explicit']);
+			if( isset($Settings['episode_box_itunes_image'] ) && $Settings['episode_box_itunes_image'] == 0 )
+				unset($Settings['episode_box_itunes_image']);	
 			if( isset($Settings['episode_box_order'] ) && $Settings['episode_box_order'] == 0 )
 				unset($Settings['episode_box_order']);
 			if( isset($Settings['episode_box_feature_in_itunes'] ) && $Settings['episode_box_feature_in_itunes'] == 0 )
@@ -1209,6 +1219,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['itunes_complete']);
 			if( isset($Settings['maximize_feed'] ) && $Settings['maximize_feed'] == 0 )
 				unset($Settings['maximize_feed']);
+			if( empty($Settings['episode_itunes_image']) )
+				unset($Settings['episode_itunes_image']);
 		}
 		
 		update_option($field,  $Settings);
@@ -1645,6 +1657,10 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes CC
 				if( isset($Powerpress['cc']) && trim($Powerpress['cc']) != '' ) 
 					$ToSerialize['cc'] = $Powerpress['cc'];
+				// iTunes Episode image
+				if( isset($Powerpress['itunes_image']) && trim($Powerpress['itunes_image']) != '' ) 
+					$ToSerialize['itunes_image'] = $Powerpress['itunes_image'];
+					
 				// order
 				if( isset($Powerpress['order']) && trim($Powerpress['order']) != '' ) 
 					$ToSerialize['order'] = $Powerpress['order'];

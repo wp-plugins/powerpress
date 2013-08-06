@@ -185,3 +185,6 @@ padding-bottom: 15px;
 	padding: 0;
 }
 
+#powerpress_settings label.powerpress-normal-font {
+	font-size: 11px;
+}
