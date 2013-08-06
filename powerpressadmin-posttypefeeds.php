@@ -68,14 +68,9 @@ function powerpress_admin_posttypefeeds()
 	</tfoot>
 	<tbody>
 <?php
-	
-	$PowerPressPostTypes = get_option('powerpress_posttype_podcasting');
-	if( empty($PowerPressPostTypes) )
-		$PowerPressPostTypes = array();
-	reset($post_types);
 
 	$count = 0;
-	while( list($tt_id, $post_type) = each($post_types) )
+	while( list($null, $post_type) = each($post_types) )
 	{
 		$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type );
 		if( !$PostTypeSettingsArray )

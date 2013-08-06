@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '4.0.9' );
+define('POWERPRESS_VERSION', '5.0 beta1' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -893,15 +893,30 @@ function powerpress_bloginfo_rss($content, $field = '')
 {
 	if( powerpress_is_custom_podcast_feed() )
 	{
-		if( is_category() )
+		if( is_category() ) {
 			$Feed = get_option('powerpress_cat_feed_'.get_query_var('cat') );
+		}
 		else if( is_tax() || is_tag() ) {
 			global $powerpress_feed;
 			if( !empty($powerpress_feed['term_taxonomy_id']) )
 				$Feed = get_option('powerpress_taxonomy_'.$powerpress_feed['term_taxonomy_id'] );
 		}
 		else
-			$Feed = get_option('powerpress_feed_'.get_query_var('feed') );
+		{
+			global $powerpress_feed;
+			//var_dump($powerpress_feed);
+			if( !empty($powerpress_feed['post_type']) )
+			{
+				$feed_slug = get_query_var('feed');
+				$PostTypeSettingsArray = get_option('powerpress_posttype_'.$powerpress_feed['post_type'] );
+				if( !empty($PostTypeSettingsArray[ $feed_slug ]) )
+					$Feed = $PostTypeSettingsArray[ $feed_slug ];
+			}
+			else
+			{
+				$Feed = get_option('powerpress_feed_'.get_query_var('feed') );
+			}
+		}
 		//$Feed = true;
 		if( $Feed )
 		{
@@ -1162,28 +1177,17 @@ function powerpress_init()
 
 	if( !empty($GeneralSettings['posttype_podcasting']) )
 	{
-		// TODO: TODO!!! Make this more efficient!!!
 		// Loop through the posttype podcasting settings and set the feeds for the custom post type slugs...
 		global $wp_rewrite;
-		$post_types = get_post_types();
-		$PowerPressPostTypes = get_option('powerpress_posttype_podcasting');
-		if( empty($PowerPressPostTypes) )
-			$PowerPressPostTypes = array();
-		reset($post_types);
+		$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+		if( empty($FeedSlugPostTypesArray) )
+			$FeedSlugPostTypesArray = array();
 
-		$count = 0;
-		while( list($index, $post_type) = each($post_types) )
+		while( list($feed_slug, $FeedSlugPostTypes) = each($FeedSlugPostTypesArray) )
 		{
-			$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type );
-			if( !$PostTypeSettingsArray )
-				continue;
-			
-			while( list($feed_slug, $PostTypeSettings) = each($PostTypeSettingsArray) )
+			if ( !in_array($feed_slug, $wp_rewrite->feeds) ) // we need to add this feed name
 			{
-				if ( !in_array($feed_slug, $wp_rewrite->feeds) ) // we need to add this feed name
-				{
-					add_feed($feed_slug, 'powerpress_do_podcast_feed');
-				}
+				add_feed($feed_slug, 'powerpress_do_podcast_feed');
 			}
 		}
 	}
@@ -1202,13 +1206,17 @@ function powerpress_request($qv)
 	{
 		$podcast_feed_slug = false;
 		if( $qv['feed'] == 'podcast' ) {
-			$podcast_feed_slug = 'podcast';
+			$GeneralSettings = get_option('powerpress_general');
+			if( empty($GeneralSettings['posttype_podcasting']) )
+				$podcast_feed_slug = 'podcast';
 		} else if( $qv['feed'] == 'rss' || $qv['feed'] == 'rss2' || $qv['feed'] == 'atom' || $qv['feed'] == 'rdf' || $qv['feed'] == 'feed' ) { //  'feed', 'rdf', 'rss', 'rss2', 'atom'
 			// Skip
 		} else {
 			$GeneralSettings = get_option('powerpress_general');
-			if( isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && !empty($GeneralSettings['custom_feeds'][ $qv['feed'] ] ) )
+			if( empty($GeneralSettings['posttype_podcasting']) && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) && !empty($GeneralSettings['custom_feeds'][ $qv['feed'] ] ) )
 				$podcast_feed_slug = $qv['feed'];
+				
+			
 		}
 		
 		if( $podcast_feed_slug )
@@ -1345,14 +1353,17 @@ function powerpress_load_general_feed_settings()
 				$Feed = false;
 				if( !empty($GeneralSettings['posttype_podcasting']) )
 				{
-					$post_type = get_post_type();
+					$post_type = get_query_var('post_type');
+					//$post_type = get_post_type();
+					
+					//die($post_type);
 					// Get the settings for this podcast post type
 					$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type);
 					if( !empty($PostTypeSettingsArray[ $feed_slug ]) )
 					{
-						$post_type_feed = true;
 						$FeedCustom = $PostTypeSettingsArray[ $feed_slug ];
 						$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+						$Feed['post_type'] = $post_type;
 					}
 				}
 				if( empty($Feed) && !empty($GeneralSettings['custom_feeds'][ $feed_slug ]) )
@@ -1366,6 +1377,8 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed = array();
 					$powerpress_feed['is_custom'] = true;
 					$powerpress_feed['feed-slug'] = $feed_slug;
+					if( !empty($Feed['post_type']) )
+						$powerpress_feed['post_type'] = $Feed['post_type'];
 					$powerpress_feed['process_podpress'] = ($feed_slug=='podcast'? !empty($GeneralSettings['process_podpress']): false); // We don't touch podpress data for custom feeds
 					$powerpress_feed['rss_language'] = ''; // RSS language should be set by WordPress by default
 					$powerpress_feed['default_url'] = '';
@@ -2291,15 +2304,14 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	
 	if( !$MetaData )
 		return false;
-
-	//$post_type = get_post_type($post_id);
+	
 	$MetaParts = explode("\n", $MetaData, 4);
 	
 	$Serialized = false;
 	$Data = array();
 	$Data['id'] = $post_id;
 	$Data['feed'] = $feed_slug;
-	//$Data['post_type'] = $post_type;
+	//$Data['post_type'] = get_post_type($post_id);
 	$Data['url'] = '';
 	$Data['duration'] = '';
 	$Data['size'] = '';
@@ -2383,12 +2395,10 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 			if( $include_premium == false && isset($podPressMedia[$mediaNum]['premium_only']) && ($podPressMedia[$mediaNum]['premium_only'] == 'on' || $podPressMedia[$mediaNum]['premium_only'] == true) )
 				return false;
 			
-			//$post_type = get_post_type($post_id);
-			
 			$Data = array();
 			$Data['id'] = $post_id;
 			$Data['feed'] = 'podcast';
-			//$Data['post_type'] = $post_type;
+			//$Data['post_type'] = get_post_type($post_id);
 			$Data['duration'] = 0;
 			$Data['url'] = '';
 			$Data['size'] = 0;

@@ -241,7 +241,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
   <ul class="powerpress_settings_tabs">
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
-		<li><a href="#feed_tab_tv"><span><?php echo htmlspecialchars(__('T.V.', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_artwork"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
 	<?php if( in_array($FeedAttribs['type'], array('post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
 	<?php } ?>
@@ -256,6 +256,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		//powerpressadmin_edit_feed_general($FeedSettings, $General);
 		//powerpressadmin_edit_feed_settings($FeedSettings, $General);
 		powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID, $feed_slug, $FeedAttribs );
+		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
 		?>
 	</div>
 	
@@ -268,9 +269,9 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		?>
 	</div>
 	
-	<div id="feed_tab_tv" class="powerpress_tab">
+	<div id="feed_tab_artwork" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
+		powerpressadmin_edit_artwork($FeedSettings, $feed_slug);
 		?>
 	</div>
 	
@@ -284,7 +285,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	
 	<div id="feed_tab_other" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug)
+		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID, $FeedAttribs);
 		?>
 	</div>
 	<?php } ?>
@@ -612,31 +613,7 @@ else
 <?php
 	}
 ?>
-<tr valign="top">
-<th scope="row">
-<?php echo __('RSS2 Image', 'powerpress'); ?> <br />
-<span style="font-size: 85%; margin-left: 5px;"><?php echo __('Recommendation: Use iTunes image', 'powerpress'); ?></span>
-</th>
-<td>
-<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['rss2_image'])? $FeedSettings['rss2_image']:''); ?>" maxlength="250" />
-<a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>
-
-<p><?php echo __('RSS image should be at least 88 pixels wide and at least 31 pixels high in either .gif, .jpg and .png format.', 'powerpress'); ?></p>
-<p><strong><?php echo __('A square image that is 300 x 300 pixel or larger in .jpg format is recommended.', 'powerpress'); ?></strong></p>
-
-<?php if( $SupportUploads ) { ?>
-<p><input name="rss2_image_checkbox" type="checkbox" onchange="powerpress_show_field('rss_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?></p>
-<div style="display:none" id="rss_image_upload">
-	<label for="rss2_image"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="rss2_image_file"  />
-</div>
-<?php } ?>
-	<div>
-	<?php echo powerpressadmin_notice( __('Note: Do not forget to configure your iTunes image in the next tab, which may be used as your RSS image as well.', 'powerpress') ); ?>
-	</div>
-</td>
-</tr>
 
 <!-- start advanced features -->
 <tr valign="top">
@@ -869,6 +846,9 @@ function powerpress_default_premium_label(event)
 		}
 		
 		// Podcast Channels and Custom Post Types...
+		
+		if( $FeedAttribs['type'] == 'channel' )
+		{
 		?>
 <h3><?php echo __('Custom Post Types', 'powerpress'); ?></h3>
 <p>
@@ -925,7 +905,7 @@ function powerpress_default_premium_label(event)
 </tr>
 </table>
 		<?php
-		
+		}
 	} // else if channel
 }
 
@@ -940,7 +920,7 @@ function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_sl
 <?php echo __('Disable Player', 'powerpress'); ?>
 </th>
 <td>
-	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> <?php echo __('Do not display web player or links for this podcast channel.', 'powerpress'); ?>
+	<input name="DisablePlayerFor" type="checkbox" <?php if( isset($General['disable_player'][$feed_slug]) ) echo 'checked '; ?> value="1" /> <?php echo __('Do not display web player or links for this podcast.', 'powerpress'); ?>
 	<input type="hidden" name="UpdateDisablePlayer" value="<?php echo $feed_slug; ?>" />
 </td>
 </tr>
@@ -976,19 +956,16 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 		$FeedSettings['itunes_new_feed_url'] = '';
 	
 ?>
-<h3><?php echo __('iTunes Feed Settings', 'powerpress'); ?></h3>
+<h3><?php echo __('iTunes Settings', 'powerpress'); ?></h3>
 
 <?php
 	$AdvancediTunesSettings = !empty($FeedSettings['itunes_summary']);
 	if( !empty($FeedSettings['itunes_subtitle']) )
 		$AdvancediTunesSettings = true;
-	
-	if( !$AdvancediTunesSettings ) {
+
 ?>
-	<div style="margin-left: 230px; margin-bottom: 10px; font-weight: bold;"><a href="#" onclick="document.getElementById('advanced_itunes_settings').style.display='block';return false;"><?php echo __('Show Advanced iTunes Settings', 'powerpress'); ?></a></div>
-<?php } ?>
-<!-- start advanced features -->
-<div id="advanced_itunes_settings" <?php echo ($AdvancediTunesSettings?'':'style="display: none;"'); ?>>
+
+
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -1037,8 +1014,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=fa
 </td>
 </tr>
 </table>
-</div>
-<!-- end advanced features -->
+
 
 <table class="form-table">
 <tr valign="top">
@@ -1148,40 +1124,6 @@ while( list($value,$desc) = each($explicit) )
 </select>
 </td>
 </tr>
-
-<tr valign="top">
-<th scope="row">
-<?php echo __('iTunes Image', 'powerpress'); ?> 
-</th>
-<td>
-<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
-<a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
-
-<p><?php echo powerpressadmin_notice( __('iTunes image specifications changed in May, 2012', 'powerpress') ); ?></p>
-<p><?php echo __('iTunes image should be at least 1400 x 1400 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
- </p>
-
-<p><strong><?php echo __('A square image that is 1400 x 1400 pixels in .jpg format for the web (72ppi) is recommended.', 'powerpress'); ?></strong></p>
-
-<p>
-<?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories like Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
-</p>
-
-<p><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 
-<?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
-<?php if( $SupportUploads ) { ?>
-
-<p><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?> &nbsp; 
-	<span style="font-size:85%;">(<?php echo __('Using this option should update your image on iTunes within 24 hours', 'powerpress'); ?>)</span>
-</p>
-<div style="display:none" id="itunes_image_upload">
-	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  /><br />
-	<div style="margin-left: 85px;"><input name="itunes_image_checkbox_as_rss" type="checkbox" value="1" /> <?php echo __('Also use as RSS image', 'powerpress'); ?></div>
-</div>
-<?php } ?>
-</td>
-</tr>
-
 
 <!-- start advanced features -->
 <tr valign="top">

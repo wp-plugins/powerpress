@@ -107,14 +107,7 @@
 <script language="javascript"><!--
 
 jQuery(document).ready(function($) {
-		if (jQuery(".pp-metamark-position").length > 0) {
-			jQuery(".pp-metamark-position").watermark('<?php echo __('Position', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
-		if (jQuery(".pp-metamark-duration").length > 0) {
-			jQuery(".pp-metamark-duration").watermark('<?php echo __('Duration', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
-		if (jQuery(".pp-metamark-link").length > 0) {
-			jQuery(".pp-metamark-link").watermark('<?php echo __('Link', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
-		if (jQuery(".pp-metamark-value").length > 0) {
-			jQuery(".pp-metamark-value").watermark('<?php echo __('Value', 'powerpress'); ?>', {className: 'powerpress-watermark'}); }
+
 });
 
 function powerpress_metamarks_addrow(FeedSlug)
@@ -140,10 +133,6 @@ function powerpress_metamarks_addrow(FeedSlug)
 						echo "\t\t\t\talert(response);\n";
 					?>
 					jQuery('#powerpress_metamarks_block_'+ FeedSlug ).append( response );
-					jQuery(".pp-metamark-position").watermark('<?php echo __('Position', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-					jQuery(".pp-metamark-duration").watermark('<?php echo __('Duration', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-					jQuery(".pp-metamark-link").watermark('<?php echo __('Link', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-					jQuery(".pp-metamark-value").watermark('<?php echo __('Value', 'powerpress'); ?>', {className: 'powerpress-watermark'});
 				},
 				error: function(objAJAXRequest, strError) {
 					
@@ -260,10 +249,10 @@ function powerpress_metamarks_deleterow(div)
 			$html .= '<select class="pp-metamark-type" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][type]" style="width: 18%;">';
 			$html .= powerpress_print_options( array(''=>'Select Type')+ $MarkTypes, $data['type'], true);
 			$html .= '</select>';
-			$html .= '<input class="pp-metamark-position" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][position]" value="' .htmlspecialchars($data['position']) .'" style="width: 10%;" />';
-			$html .= '<input class="pp-metamark-duration" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][duration]" value="' .htmlspecialchars($data['duration']) .'" style="width: 10%;" />';
-			$html .= '<input class="pp-metamark-link" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][link]" value="' .htmlspecialchars($data['link']) .'" style="width: 25%;" />';
-			$html .= '<textarea class="pp-metamark-value" name="MetaMarks['.$feed_slug.']['.$next_row.'][value]" style="width: 35%;">' .htmlspecialchars($data['value']) .'</textarea>';
+			$html .= '<input class="pp-metamark-position" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][position]" value="' .htmlspecialchars($data['position']) .'" placeholder="'. htmlspecialchars(__('Position', 'powerpress'))  .'" style="width: 10%;" />';
+			$html .= '<input class="pp-metamark-duration" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][duration]" value="' .htmlspecialchars($data['duration']) .'" placeholder="'. htmlspecialchars(__('Duration', 'powerpress'))  .'" style="width: 10%;" />';
+			$html .= '<input class="pp-metamark-link" type="text" name="MetaMarks['.$feed_slug.']['.$next_row.'][link]" value="' .htmlspecialchars($data['link']) .'" placeholder="'. htmlspecialchars(__('Link', 'powerpress'))  .'" style="width: 25%;" />';
+			$html .= '<textarea class="pp-metamark-value" name="MetaMarks['.$feed_slug.']['.$next_row.'][value]" style="width: 35%;" placeholder="'. htmlspecialchars(__('Value', 'powerpress'))  .'">' .htmlspecialchars($data['value']) .'</textarea>';
 			
 			$html .= '<div class="pp-metamark-delete"><a href="#" onclick="return powerpress_metamarks_deleterow(\'powerpress_metamarks_row_'. $feed_slug .'_'. $next_row .'\');" title="'. __('Delete', 'powerpress') .'">';
 			$html .= '</a></div>';

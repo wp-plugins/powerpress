@@ -262,9 +262,9 @@ function powerpress_meta_box($object, $box)
 				<div style="margin-bottom: 4px;">
 					<input id="powerpress_set_duration_1_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> />
 					<?php echo __('Specify', 'powerpress').': '; ?>
-					<input id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" class="powerpress-duration-hh" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" class="powerpress-duration-mm" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" class="powerpress-duration-ss" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" />
+					<input id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" class="powerpress-duration-hh" placeholder="HH" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" class="powerpress-duration-mm" placeholder="MM" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" class="powerpress-duration-ss" placeholder="SS" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 24px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" />
 				</div>
 				<div>
 					<input id="powerpress_set_duration_2_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="-1" type="radio" <?php echo ($GeneralSettings['set_duration']==-1?'checked':''); ?> />
@@ -307,9 +307,9 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label><?php echo __('Player Size', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_player_width_<?php echo $FeedSlug; ?>" class="powerpress-player-width" name="Powerpress[<?php echo $FeedSlug; ?>][width]" value="<?php echo htmlspecialchars($Width); ?>" style="width: 50px; font-size: 90%;" size="5" />
+				<input id="powerpress_player_width_<?php echo $FeedSlug; ?>" class="powerpress-player-width" placeholder="<?php echo htmlspecialchars(__('Width', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][width]" value="<?php echo htmlspecialchars($Width); ?>" style="width: 50px; font-size: 90%;" size="5" />
 				x
-				<input id="powerpress_player_height_<?php echo $FeedSlug; ?>" class="powerpress-player-height" name="Powerpress[<?php echo $FeedSlug; ?>][height]" value="<?php echo htmlspecialchars($Height); ?>" style="width: 50px; font-size: 90%;" size="5" />
+				<input id="powerpress_player_height_<?php echo $FeedSlug; ?>" class="powerpress-player-height" placeholder="<?php echo htmlspecialchars(__('Height', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][height]" value="<?php echo htmlspecialchars($Height); ?>" style="width: 50px; font-size: 90%;" size="5" />
 			</div>
 		</div>
 <?php

@@ -160,9 +160,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
 
-== 5.0 beta-1 ==
+== 5.0 beta1 ==
 * Released TBA
+* Taxonomy Podcasting added (Sponsored by [Blubrry Create](http://create.blubrry.com) )
+* Post Type Podcasting added
+* MediaElement.js HTML5/CSS Audio and Video player added
 * Added define `POWERPRESS_NO_PODCAST_FEED`, if set to true in wp-config, PowerPress will not add the default podcast feed with slug name 'podcast'. For users who exclusively want a page or category called 'podcast'. NOTE: There will be no podcast only feed provided by default when this define is set, use at your own risk.
+* jQuery based watermark replaced with HTML5 placeholder values, the jquery.watermark.js is no longer packaged with PowerPress.
+* iTunes and RSS image settings moved to "Artwork" tab.
 
 
 = 4.0.9 =

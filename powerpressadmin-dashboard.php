@@ -245,6 +245,7 @@ function powerpress_dashboard_notice_message($notice_id, $message)
 
 function powerpress_feed_text_limit( $text, $limit, $finish = '&hellip;') {
 	if( strlen( $text ) > $limit ) {
+			//$text = (function_exists('mb_substr')?mb_substr($text, 0, $limit):substr($text, 0, $limit) );
 			$text = substr( $text, 0, $limit );
 		$text = substr( $text, 0, - ( strlen( strrchr( $text,' ') ) ) );
 		$text .= $finish;

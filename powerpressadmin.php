@@ -51,9 +51,6 @@ function powerpress_admin_init()
 	wp_enqueue_script('jquery-ui-core'); // Now including the library at Google
 	wp_enqueue_script('jquery-ui-tabs');
 	
-	// For nice watermarks in admin area
-	wp_enqueue_script('jquery-watermark', powerpress_get_root_url() .'3rdparty/jquery.watermark.min.js');
-	
 	// Powerpress page
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
@@ -363,7 +360,7 @@ function powerpress_admin_init()
 			
 		
 		// Check to see if we need to update the feed title
-		if( $FeedSlug )
+		if( $FeedSlug && !$podcast_post_type )
 		{
 			$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
 			if( !isset($GeneralSettingsTemp['custom_feeds'][$FeedSlug]) || $GeneralSettingsTemp['custom_feeds'][$FeedSlug] != $Feed['title'] )
@@ -585,9 +582,12 @@ function powerpress_admin_init()
 				$PostTypeSettings = array();
 				$PostTypeSettings[ $FeedSlug ] = $Feed;
 				powerpress_save_settings($PostTypeSettings, 'powerpress_posttype_'.$podcast_post_type);
+				powerpress_rebuild_posttype_podcasting();
 			}
-			else
+			else // otherwise treat as a podcast channel
+			{
 				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
+			}
 		}
 		
 		if( isset($_POST['EpisodeBoxBGColor']) )
@@ -1285,6 +1285,27 @@ function powerpress_admin_get_post_types($capability_type = 'post')
 	return $return;
 }
 
+/* Rebuild powerpress_posttype_podcasting field*/
+function powerpress_rebuild_posttype_podcasting()
+{
+	// Loop through all the posttype podcasting settings, save them into a field
+	// array( feed-slugs => array('posttype1'=>'post type 1 title', 'posttype2'=>post type 2 title', ...) );
+	$post_types = get_post_types();
+	$FeedSlugPostTypeArray = array();
+	while( list($index, $post_type) = each($post_types) )
+	{
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type );
+		if( !$PostTypeSettingsArray )
+			continue;
+		
+		while( list($feed_slug, $PostTypeSettings) = each($PostTypeSettingsArray) )
+		{
+			$FeedSlugPostTypeArray[ $feed_slug ][ $post_type ] = ( empty($PostTypeSettings['title'])? $feed_slug : $PostTypeSettings['title'] );
+		}
+	}
+	update_option('powerpress_posttype_podcasting', $FeedSlugPostTypeArray);
+}
+
 function powerpress_admin_menu()
 {
 	$Powerpress = get_option('powerpress_general');
@@ -1293,21 +1314,33 @@ function powerpress_admin_menu()
 	{
 		// CRAP
 	}
-	else if( function_exists('add_meta_box') && ( empty($Powerpress['use_caps']) || current_user_can('edit_podcast') ) )
+	else if( empty($Powerpress['use_caps']) || current_user_can('edit_podcast') )
 	{ // Otherwise we're using a version of wordpress that is not supported.
 		
 		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-metabox.php');
+		$FeedSlugPostTypesArray = array();
 		if( !empty($Powerpress['posttype_podcasting']) )
 		{
-			$post_types = array('post');
+			$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+				if( empty($FeedSlugPostTypesArray) )
+					$FeedSlugPostTypesArray = array();
 		}
-		else if( !defined('POWERPRESS_POST_TYPES') )
+		
+		if( !defined('POWERPRESS_POST_TYPES') )
 		{
-			$page_types = powerpress_admin_get_post_types('page');
-			while( list($null,$page_type) = each($page_types) )
-				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
+			$page_types = array('page'); // Only apply to default pages
+			if( empty($Powerpress['posttype_podcasting']) )
+				$page_types = powerpress_admin_get_post_types('page'); // Get pages by capability type
 			
-			$post_types = powerpress_admin_get_post_types('post');
+			while( list($null,$page_type) = each($page_types) )
+			{
+				if( empty($FeedSlugPostTypesArray[ 'podcast' ][ $page_type ]) )
+					add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $page_type, 'normal');
+			}
+			
+			$post_types = array('post'); // Only apply to default posts
+			if( empty($Powerpress['posttype_podcasting']) )
+				$post_types = powerpress_admin_get_post_types('post'); // Get pages by capability type
 		}
 		else
 		{
@@ -1319,32 +1352,27 @@ function powerpress_admin_menu()
 		{
 			add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', 'post', 'normal'); // Default podcast box for post type 'post'
 			
-			$post_types = get_post_types();
-			//$PowerPressPostTypes = get_option('powerpress_posttype_podcasting');
-			//if( empty($PowerPressPostTypes) )
-			//	$PowerPressPostTypes = array();
-			reset($post_types);
+			$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+			if( empty($FeedSlugPostTypesArray) )
+				$FeedSlugPostTypesArray = array();
 
-			$count = 0;
-			while( list($index, $post_type) = each($post_types) )
+			while( list($feed_slug, $FeedSlugPostTypes) = each($FeedSlugPostTypesArray) )
 			{
-				$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type );
-				if( !$PostTypeSettingsArray )
-					continue;
-				
-				while( list($feed_slug, $PostTypeSettings) = each($PostTypeSettingsArray) )
+				while( list($post_type, $type_title) = each($FeedSlugPostTypes) )
 				{
-					if ( $feed_slug != 'podcast' && $post_type != 'post' ) // No the default podcast feed
+					if ( $feed_slug != 'podcast' || $post_type != 'post' ) // No the default podcast feed
 					{
-						$feed_title = $PostTypeSettings['feed_title'];
+						$feed_title = $type_title;
 						if( empty($feed_title) )
 							$feed_title = $feed_slug;
+							//echo (" $feed_slug ");
 						add_meta_box('powerpress-'.$feed_slug,  __('Podcast Episode', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 					}
 				}
 			}
 		}
-		else if( isset($Powerpress['custom_feeds']) )
+		
+		if( isset($Powerpress['custom_feeds']) )
 		{
 			$FeedDefaultPodcast = get_option('powerpress_feed_podcast');
 			
@@ -1353,8 +1381,9 @@ function powerpress_admin_menu()
 				// Make sure this post type can edit the default podcast channel...
 				if( !empty($FeedDefaultPodcast['custom_post_type']) && $FeedDefaultPodcast['custom_post_type'] != $post_type )
 					continue;
-				
-				add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
+					
+				if( empty($FeedSlugPostTypesArray[ 'podcast' ][ $post_type ]) )
+					add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
 			}
 			
 			while( list($feed_slug, $feed_title) = each($Powerpress['custom_feeds']) )
@@ -1371,20 +1400,24 @@ function powerpress_admin_menu()
 					if( !empty($FeedCustom['custom_post_type']) && $FeedCustom['custom_post_type'] != $post_type )
 						continue;
 					
-					add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
+					if( empty($FeedSlugPostTypesArray[ $feed_slug ][ $post_type ]) )
+						add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 				}
 			}
 			reset($Powerpress['custom_feeds']);
 		}
-		else
+		else // This handles all podcast post types and default  'post'. if post type podcasting enabled. 
 		{
 			reset($post_types);
 			while( list($null,$post_type) = each($post_types) )
-				add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
+			{
+				if( empty($FeedSlugPostTypesArray[ 'podcast' ][ $post_type ]) )
+					add_meta_box('powerpress-podcast', __('Podcast Episode', 'powerpress'), 'powerpress_meta_box', $post_type, 'normal');
+			}
 		}
 		
 		// For custom compatibility type set:
-		if( empty($Powerpress['posttype_podcasting']) && isset($Powerpress['custom_feeds']) && defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
+		if( isset($Powerpress['custom_feeds']) && defined('POWERPRESS_CUSTOM_CAPABILITY_TYPE') )
 		{
 			$post_types = powerpress_admin_get_post_types( POWERPRESS_CUSTOM_CAPABILITY_TYPE );
 			if( !empty($post_types) )
@@ -1402,7 +1435,8 @@ function powerpress_admin_menu()
 						if( !empty($FeedCustom['custom_post_type']) && $FeedCustom['custom_post_type'] != $post_type )
 							continue;
 						
-						add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
+						if( empty($FeedSlugPostTypesArray[ $feed_slug ][ $post_type ]) )
+							add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
 					}
 				}
 				reset($Powerpress['custom_feeds']);
@@ -1930,9 +1964,6 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 	vertical-align: top;
 	font-size: 90%;
 }
-.powerpress-watermark {
-	color: #666666;
-}
 </style>
 <script language="javascript"><!--
 
@@ -2149,11 +2180,6 @@ function powerpress_remove_hosting(FeedSlug)
 }
 
 jQuery(document).ready(function($) {
-	jQuery(".powerpress-duration-hh").watermark('HH', {className: 'powerpress-watermark'});
-	jQuery(".powerpress-duration-mm").watermark('MM', {className: 'powerpress-watermark'});
-	jQuery(".powerpress-duration-ss").watermark('SS', {className: 'powerpress-watermark'});
-	jQuery(".powerpress-player-width").watermark('<?php echo __('Width', 'powerpress'); ?>', {className: 'powerpress-watermark'});
-	jQuery(".powerpress-player-height").watermark('<?php echo __('Height', 'powerpress'); ?>', {className: 'powerpress-watermark'});
 	
 	jQuery('.powerpress-url').change(function() {
 	
@@ -3714,11 +3740,18 @@ function powerpressadmin_community_news($items=3)
 						case 'mp4':
 						case 'm4v':
 						case 'webm': {
-							echo powerpressplayer_build_html5video($enclosure->link, $EpisodeData);
+						
+							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+								echo powerpressplayer_build_mediaelementvideo($enclosure->link, $EpisodeData);
+							else
+								echo powerpressplayer_build_html5video($enclosure->link, $EpisodeData);
 						}; break;
 						case 'mp3':
 						case 'm4a': {
-							echo powerpressplayer_build_html5audio($enclosure->link, $EpisodeData);
+							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+								echo powerpressplayer_build_mediaelementaudio($enclosure->link, $EpisodeData);
+							else
+								echo powerpressplayer_build_html5audio($enclosure->link, $EpisodeData);
 						}; break;
 					}
 				}
