@@ -1655,7 +1655,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 			// Video
 			$Settings = get_option('powerpress_general');
 			
-			if( $html5 && !empty($Settings['video_player']) && $Settings['video_player'] == 'mediaelement-video' )
+			if( false && $html5 && !empty($Settings['video_player']) && $Settings['video_player'] == 'mediaelement-video' )
 				$content .= powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData);
 			else if( $html5 )
 				$content .= powerpressplayer_build_html5video($media_url, $EpisodeData);
@@ -1668,7 +1668,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 			// Audio
 			$Settings = get_option('powerpress_general');
 			
-			if( $html5 && !empty($Settings['player']) && $Settings['player'] == 'mediaelement-audio' )
+			if( false && $html5 && !empty($Settings['player']) && $Settings['player'] == 'mediaelement-audio' )
 				$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
 			else if( $html5 )
 				$content .= powerpressplayer_build_html5audio($media_url, $EpisodeData);
