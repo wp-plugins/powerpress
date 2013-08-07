@@ -2,11 +2,21 @@
 
 function powerpress_admin_basic()
 {
+	$FeedAttribs = array('type'=>'general', 'channel'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
+	
 	$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'basic');
 	
 	$FeedSettings = powerpress_get_settings('powerpress_feed');
 	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
+	
+	$CustomFeed = get_option('powerpress_feed_'.'podcast'); // Get the custom podcast feed settings saved in the database
+	if( $CustomFeed ) // If they enabled custom podast channels...
+	{
+		$FeedSettings = powerpress_merge_empty_feed_settings($CustomFeed, $FeedSettings);
+		$FeedAttribs['channel_podcast'] = true;
+	}
+	
 ?>
 <script type="text/javascript"><!--
 function CheckRedirect(obj)
@@ -144,15 +154,15 @@ jQuery(document).ready(function($) {
 	<div id="tab4" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_feed_general($FeedSettings, $General);
-		powerpressadmin_edit_feed_settings($FeedSettings, $General);
+		powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs);
 		powerpressadmin_edit_tv($FeedSettings);
 		?>
 	</div>
 	
 	<div id="tab5" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_itunes_general($General);
-		powerpressadmin_edit_itunes_feed($FeedSettings, $General);
+		powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs);
+		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
 		?>
 	</div>
 	
@@ -179,7 +189,7 @@ jQuery(document).ready(function($) {
 		<div>
 			<input type="checkbox" name="NULL[player_options]" value="1" checked disabled /> 
 			<strong><?php echo __('Audio Player Options', 'powerpress'); ?></strong> - 
-			<?php echo __('Select from 6 different web based audio players.', 'powerpress'); ?> 
+			<?php echo __('Select from 7 different web based audio players.', 'powerpress'); ?> 
 			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_player.php'); ?>"><?php echo __('configure audio player', 'powerpress'); ?></a>)</span>
 			
 			
@@ -187,7 +197,7 @@ jQuery(document).ready(function($) {
 		<div>
 			<input type="checkbox" name="NULL[video_player_options]" value="1" checked disabled /> 
 			<strong><?php echo __('Video Player Options', 'powerpress'); ?></strong> - 
-			<?php echo __('Select from 2 different web based video players.', 'powerpress'); ?> 
+			<?php echo __('Select from 4 different web based video players.', 'powerpress'); ?> 
 			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_videoplayer.php'); ?>"><?php echo __('configure video player', 'powerpress'); ?></a>)</span>
 			
 		</div>
@@ -599,7 +609,7 @@ while( list($value,$desc) = each($options) )
 }
 
 
-function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
+function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs = array() )
 {
 	// Set default settings (if not set)
 	if( $FeedSettings )
@@ -610,27 +620,16 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 	if( !isset($General['itunes_url']) )
 		$General['itunes_url'] = '';
 		
-	
-	$OpenSSLSupport = extension_loaded('openssl');
-	if( !$OpenSSLSupport && function_exists('curl_version') )
-	{
-		$curl_info = curl_version();
-		$OpenSSLSupport = ($curl_info['features'] & CURL_VERSION_SSL );
-	}
-		
-	if( $OpenSSLSupport == false )
-	{
+	$feed_slug = $FeedAttribs['feed_slug'];
+	$cat_ID = $FeedAttribs['category_id'];
 ?>
-<div class="error powerpress-error"><?php echo __('Ping iTunes requires OpenSSL in PHP. Please refer to your php.ini to enable the php_openssl module.', 'powerpress'); ?></div>
-<?php } // End if !$OpenSSLSupport ?>
-
 <h3><?php echo __('iTunes Listing Information', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __('iTunes Subscription URL', 'powerpress'); ?></th> 
 <td>
 <?php
-	if( $FeedSettings ) {
+	if( $FeedAttribs['type'] != 'general' ) {
 ?>
 <input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
 <?php } else { ?>
@@ -646,24 +645,30 @@ function powerpressadmin_edit_itunes_general($General, $FeedSettings = false, $f
 <p>
 <?php echo __('Recommended feed to submit to iTunes: ', 'powerpress'); ?>
 <?php
-	if( $cat_ID )
+
+	switch( $FeedAttribs['type'] )
 	{
-		echo get_category_feed_link($cat_ID);
+		case 'ttid':
+		case 'category': {
+			echo get_category_feed_link($cat_ID);
+		}; break;
+		case 'channel': {
+			echo get_feed_link($feed_slug);
+		}; break;
+		case 'post_type': {
+			$url = get_post_type_archive_feed_link($post_type, $feed_slug);
+		}; break;
+		case 'general':
+		default: {
+			echo get_feed_link('podcast');
+		}
 	}
-	else
-	{
-		echo get_feed_link($feed_slug);
-	}
+
 ?>
 </p>
-
 </td>
 </tr>
 </table>
-
-<?php
-
-?>
 <?php
 } // end itunes general
 

@@ -582,9 +582,13 @@ function powerpress_admin_init()
 			
 			$Feed = powerpress_stripslashes($Feed);
 			if( $Category )
+			{
 				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
+			}
 			else if ( $term_taxonomy_id )
+			{
 				powerpress_save_settings($Feed, 'powerpress_taxonomy_'.$term_taxonomy_id);
+			}
 			else if( $podcast_post_type )
 			{
 				$PostTypeSettings = array();
@@ -594,6 +598,9 @@ function powerpress_admin_init()
 			}
 			else // otherwise treat as a podcast channel
 			{
+				if( $FeedSlug == false && get_option('powerpress_feed_podcast') ) // If the settings were moved to the podcast channels feature...
+					powerpress_save_settings($Feed, 'powerpress_feed_podcast' ); // save a copy here if that is the case.
+				
 				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
 			}
 		}

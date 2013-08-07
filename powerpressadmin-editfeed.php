@@ -253,19 +253,16 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	
 	<div id="feed_tab_feed" class="powerpress_tab">
 		<?php
-		//powerpressadmin_edit_feed_general($FeedSettings, $General);
-		//powerpressadmin_edit_feed_settings($FeedSettings, $General);
-		powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID, $feed_slug, $FeedAttribs );
+		powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs );
 		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
 		?>
 	</div>
 	
 	<div id="feed_tab_itunes" class="powerpress_tab">
 		<?php
-		//powerpressadmin_edit_itunes_general($General);
 		if( $feed_slug != 'podcast' )
-			powerpressadmin_edit_itunes_general($General, $FeedSettings, $feed_slug, $cat_ID);
-		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug, $cat_ID, $FeedAttribs);
+			powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs);
+		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
 		?>
 	</div>
 	
@@ -302,14 +299,6 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 <div class="clear"></div>
 <?php
 
-
-
-
-		//if( !$cat_ID && !$feed_slug )
-		//	powerpressadmin_edit_feed_general($FeedSettings, $General);
-		
-		
-		
 		
 }
 
@@ -436,7 +425,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 <?php
 }
 
-function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = false, $feed_slug = false, $FeedAttribs = array() )
+function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs = array() )
 {
 	$SupportUploads = powerpressadmin_support_uploads();
 	if( !isset($FeedSettings['posts_per_rss']) )
@@ -460,15 +449,17 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 			$feed_link = get_term_feed_link($FeedAttribs['term_taxonomy_id'], $FeedAttribs['taxonomy_type'], 'rss2');
 		}; break;
 		case 'post_type': {
-			$feed_link = get_post_type_archive_feed_link($FeedAttribs['post_type'], 'podcast');
+			$feed_link = get_post_type_archive_feed_link($FeedAttribs['post_type'], $FeedAttribs['feed_slug']);
 		}; break;
 		case 'channel': {
-			$feed_link = get_feed_link($FeedAttribs['channel']);
+			$feed_link = get_feed_link($FeedAttribs['feed_slug']);
 		}; break;
 		default: {
-			$feed_link = get_feed_link();
+			$feed_link = get_feed_link('podcast');
 		}; break;
 	}
+	
+	$cat_ID = $FeedAttribs['category_id'];
 	
 	if( $FeedAttribs['type'] == 'channel' && !empty($FeedAttribs['type'])	)
 	{
@@ -493,12 +484,12 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $cat_ID = f
 	}
 ?>
 <h3><?php echo __('Feed Settings', 'powerpress'); ?></h3>
+<?php if( $FeedAttribs['type'] == 'general' ) { ?>
+<p><?php echo __('Feed settings below only apply to the podcast only feed:', 'powerpress'); ?> <?php echo get_feed_link('podcast'); ?></p>
+<?php } ?>
 <table class="form-table">
 
-<?php
-if( !empty($FeedAttribs['type']) )
-{
-?>
+
 <tr valign="top">
 <th scope="row">
 <?php echo __('Feed Title', 'powerpress'); ?>
@@ -520,6 +511,8 @@ if( !empty($FeedAttribs['type']) )
 <?php } ?>
 </td>
 </tr>
+
+
 <tr valign="top">
 <th scope="row">
 <?php echo __('Feed Description', 'powerpress'); ?>
@@ -534,6 +527,10 @@ if( !empty($FeedAttribs['type']) )
 </td>
 </tr>
 
+<?php
+if( $FeedAttribs['type'] != 'general' ) // All types exept general settings
+{
+?>
 <tr valign="top">
 <th scope="row">
 <?php echo __('Feed Landing Page URL', 'powerpress'); ?> <br />
@@ -578,7 +575,7 @@ else
 </td>
 </tr>
 
-<?php } // End $feed_slug ?>
+<?php } // End not general settings ?>
 
 <tr valign="top">
 <th scope="row">
@@ -594,7 +591,7 @@ else
 </tr>
 
 <?php
-	if( $feed_slug )
+	if( in_array($FeedAttribs['type'], array('channel', 'general')) )
 	{
 ?>
 <tr valign="top">
@@ -604,9 +601,6 @@ else
 <td>
 <input type="checkbox" name="Feed[maximize_feed]" value="1" <?php if( !empty($FeedSettings['maximize_feed']) ) echo 'checked'; ?> />
 		<?php echo __('The latest 10 episodes in feed will remain as normal. The remaining 11+ older episodes in feed will have only the bare essential tags in order to maximize the number of episodes in the feed.', 'powerpress'); ?>
-		
-		
-
 <p style="margin-top: 0px; margin-bottomd: 0;"><?php echo __('NOTE: This feature may allow you to enter a larger value for the "Show the most recent" setting above. You must make sure that your feed does not exceed 512KB (1/2 MB) in size.', 'powerpress'); ?></p>
 </td>
 </tr>
@@ -929,8 +923,11 @@ function powerpressadmin_edit_appearance_feed($General,  $FeedSettings, $feed_sl
 
 }
 
-function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $feed_slug=false, $cat_ID=false, $FeedAttribs = array() )
+function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs = array() )
 {
+	$feed_slug = $FeedAttribs['feed_slug'];
+	$cat_ID = $FeedAttribs['category_id'];
+	
 	$SupportUploads = powerpressadmin_support_uploads();
 	if( !isset($FeedSettings['itunes_subtitle']) )
 		$FeedSettings['itunes_subtitle'] = '';
