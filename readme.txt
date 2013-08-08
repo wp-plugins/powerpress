@@ -1,9 +1,12 @@
 === Blubrry PowerPress Podcasting plugin ===
-Contributors: Angelo Mandato, Blubrry.com
+Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 4.0.9
+Donate link: http://create.blubrry.com/
+License: GPLv2 or later
+
 
 Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
 
@@ -63,16 +66,16 @@ Want more? Check out the advanced features.
 * Media size and duration detection: Enter your media URL and let the PowerPress do the rest.
 * Category Casting: Add podcast support to your WordPress category feeds.
 * Custom Podcast Channels: Distribute multiple formats (audio/video) and versions (short/full length).
-* Taxonomy Podcasting: Create podcasts for your custom taxonomy tag names including WordPress Tags.
-* Post Type Podcasting: Create podcasts for your custom post types.
+* *Taxonomy Podcasting: Create podcasts for your custom taxonomy tag names including WordPress Tags. (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
+* *Post Type Podcasting: Create podcasts for your custom post types.
 * FeedBurner Support: Use FeedBurner.com to host your podcast feeds.
-* *User Role Management: Control which users in your blog can podcast.
+* **User Role Management: Control which users in your blog can podcast.
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
 * WordPress MultiSite: Blubrry PowerPress is compatible with WordPress MultiSite.
 
-*User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
+*Custom Post Types and Taxonomies features require a separate plugin to manage custom post types and/or taxonomies.
 
-**Custom Post Types and Taxonomies features require a separate plugin to manage custom post types and/or taxonomies.
+**User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
 
 = Migrating from PodPress? =
 Switching to PowerPress is seamless, just enable PowerPress then disable PodPress and you're done! Switching plugins is that easy! Visit [Migrating from PodPress to PowerPress](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-podpress-to-powerpress/) for details.
