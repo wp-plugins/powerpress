@@ -3829,6 +3829,12 @@ function powerpressadmin_community_highlighted($items=8)
 	echo '</div>';
 }
 
+function powerpress_admin_plugin_action_links($links)
+{
+	$links[] = '<a href="'. admin_url("admin.php?page=powerpress/powerpressadmin_basic.php")  .'">'. __('Settings', 'powerpress') .'</a>';
+	return $links;
+}
+
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');

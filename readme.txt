@@ -186,6 +186,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with *Feed Episode Maximizer* RSS <description> having the invalid characters when used with WordPRess 3.6.
 * *Feed Episode Maximizer* is no longer experimental, we've successfully used the feature on a number of podcasts without issue for over a year now.
 * Player width for audio and video can now use a percentage, ideal for resposive sites.
+* Added link to settings from the plugins management screen, should help folks who are new to PowerPress find settings quickly.
 
 
 = 4.0.9 =

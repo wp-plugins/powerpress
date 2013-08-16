@@ -33,7 +33,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0-beta1' );
+define('POWERPRESS_VERSION', '5.0-beta2' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -2609,6 +2609,8 @@ if( is_admin() )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
+	
+	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'powerpress_admin_plugin_action_links' );
 }
 
 ?>
