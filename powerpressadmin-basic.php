@@ -755,7 +755,7 @@ function powerpressadmin_edit_blubrry_services($General)
 </table>
 <p>
 *<em>The Blubrry basic statistics service is FREE. Our 
-<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank">Premium Statistics Service</a>,
+<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank">Premium Statistics Service</a>,
 which includes U.S. downloads, trending and exporting, is available for $5 month. Blubrry
 <a href="https://secure.blubrry.com/podcast-publishing-premium-with-hosting/" target="_blank">Media Hosting</a>
 packages start at $12.</em>
@@ -836,7 +836,7 @@ function powerpressadmin_edit_media_statistics($General)
 	
 	<p>
 		<?php echo __('Need a media statistics provider?', 'powerpress'); ?> 
-		<a href="https://secure.blubrry.com/podcast-statistics-premium/" target="_blank" style="text-decoration: none;">
+		<a href="http://create.blubrry.com/resources/podcast-media-download-statistics/" target="_blank" style="text-decoration: none;">
 		<?php
 			echo sprintf( __('Blubrry.com offers %s access to the best statistics!', 'powerpress'),
 				'<strong style="color: #CC0000;">'.__('FREE', 'powerpress').'</strong>' );
@@ -1216,7 +1216,7 @@ function powerpressadmin_edit_artwork($FeedSettings)
 </p>
 
 <p><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 
-<?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
+<?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/contact/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
 <?php if( $SupportUploads ) { ?>
 
 <p><label class="powerpress-normal-font"><input name="itunes_image_checkbox" type="checkbox" onchange="powerpress_show_field('itunes_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?></label> &nbsp; 
