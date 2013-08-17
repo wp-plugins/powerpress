@@ -3829,11 +3829,13 @@ function powerpressadmin_community_highlighted($items=8)
 	echo '</div>';
 }
 
-function powerpress_admin_plugin_action_links($links)
+function powerpress_admin_plugin_action_links( $links, $file )
 {
-	$links[] = '<a href="'. admin_url("admin.php?page=powerpress/powerpressadmin_basic.php")  .'">'. __('Settings', 'powerpress') .'</a>';
+	if( preg_match('/powerpress\.php$/', $file)  )
+		$links[] = '<a href="'. admin_url("admin.php?page=powerpress/powerpressadmin_basic.php")  .'">'. __('Settings', 'powerpress') .'</a>' ;
 	return $links;
 }
+add_filter( 'plugin_action_links', 'powerpress_admin_plugin_action_links', 10, 2 );
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.

@@ -2609,8 +2609,6 @@ if( is_admin() )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
-	
-	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'powerpress_admin_plugin_action_links' );
 }
 
 ?>
