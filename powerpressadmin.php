@@ -2215,11 +2215,6 @@ jQuery(document).ready(function($) {
 		powerpress_update_for_video(media_url, FeedSlug);
 	});
 	
-	jQuery('.powerpress-image-browser').click(function() {
-		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_image_browser_)(.*)$/, "$2");
-		tb_show('<?php echo __('Add Poster Image', 'powerpress'); ?>', jQuery(this).attr('href') );
-		return false;
-	});
 	jQuery('.powerpress-embed').change( function() {
 		// if there is a value in the embed box, but there is no value in the url box, then we need to display a warning...
 		var FeedSlug = this.id.replace(/(powerpress_embed_)(.*)$/, "$2");
