@@ -1,7 +1,8 @@
 /* admin.css */
-
-.powerpress-notice {
-	margin-top: 10px;
+.powerpress-notice,
+div.powerpress-notice,
+.wrap div.powerpress-notice {
+	margin-top: 20px;
 	margin-bottom: 10px;
 	line-height: 29px;
 	font-size: 12px;
@@ -9,7 +10,9 @@
 	border-style: solid;
 	font-weight: bold;
 }
-.powerpress-error {
+.powerpress-error,
+div.powerpress-error,
+.wrap div.powerpress-error {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	line-height: 29px;
@@ -17,6 +20,7 @@
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
+	margin-top: 20px;
 }
 #powerpress_settings {
 	background-image:url(http://images.blubrry.com/powerpress/blubrry_logo4.png);
@@ -195,12 +199,12 @@ padding-bottom: 15px;
 /*	float: left; */
 	display: inline-block;
 }
-#powerpress_admin_header h4 {
+#powerpress_admin_header .powerpress-mode {
 	margin-left: 14px;
-/*	float: left; */
 	display: inline-block;
 	color: #FF6600;
 	font-size: 15px;
+	font-weight: bold;
 }
 /*
 #powerpress_admin_header h4 a {
@@ -215,3 +219,96 @@ padding-bottom: 15px;
 	clear: both;
 }
 */
+#powerpress_steps {
+	margin: 60px 0 40px;
+}
+.powerpress-required {
+	font-size: 90%;
+	color: #CC0000;
+	margin-left: 12px;
+}
+
+.powerpress-step {
+	display: inline-block;
+	float: left;
+	width: 200px;
+	height: 170px;
+	border-right: 1px solid #ECECEC;
+	margin-left: 10px;
+	margin-right: 0;
+	text-align: top;
+	position: relative;
+	padding-top: 10px;
+}
+#powerpress_steps h3 {
+	color: #CCCCCC;
+	margin: 0;
+	font-size: 24px;
+	top: -16px;
+	left: 0;
+	position: absolute;
+}
+#powerpress_steps p {
+	font-size: 20px;
+	margin: 20px 4px;
+	color: #CCCCCC;
+	line-height:120%
+}
+#powerpress_steps a {
+	color: #CCCCCC;
+}
+#powerpreess_step_1 {
+	background-image: url('../images/DownArrow.png');
+	background-repeat:no-repeat;
+	background-position: 6px bottom;
+}
+
+#powerpress_steps .active-step h3 {
+	color: #337EC9;
+	
+}
+#powerpress_steps .active-step p,
+#powerpress_steps .active-step a {
+	color: #787878;
+	
+}
+
+#powerpress_steps>:first-child  {
+	margin-left: 0;
+}
+.powerpress-step-complete {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 46px;
+	width: 150px;
+}
+.powerpress-step-complete-box {
+	border: 1px solid #CCCCCC;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	position: absolute;
+	bottom: -2px;
+	right: 20px;
+}
+.powerpress-step-completed {
+	background-image: url('../images/Check.png');
+	background-repeat:no-repeat;
+	background-position: right 2px;
+}
+@media screen and (min-width: 1px) and (max-width: 699px) {
+	.powerpress-step {
+		width: 170px;
+	}
+	#powerpress_steps p {
+		font-size: 16px;
+		margin: 20px 4px;
+	}
+	.powerpress-step-complete {
+		width: 125px;
+	}
+	.powerpress-step-complete p {
+		padding-top: 5px;
+	}
+} 

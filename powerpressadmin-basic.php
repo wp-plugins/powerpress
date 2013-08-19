@@ -119,14 +119,16 @@ jQuery(document).ready(function($) {
 </script>
 
 <input type="hidden" name="action" value="powerpress-save-settings" />
+
+
 <input type="hidden" id="powerpress_advanced_mode" name="General[advanced_mode_2]" value="1" />
 <input type="hidden" id="save_tab_pos" name="tab" value="<?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>" />
 
 <div id="powerpress_admin_header">
 <h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2> 
-	<h4><?php echo __('Advanced Mode', 'powerpress'); ?>
+	<span class="powerpress-mode"><?php echo __('Advanced Mode', 'powerpress'); ?>
 	&nbsp; <a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php&mode=simple"); ?>" id="powerpress_advanced_mode_button" class="button-primary"><?php echo __('Switch to simplified Default Mode', 'powerpress'); ?></a>
-</h4>
+</span>
 </div>
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
@@ -639,25 +641,20 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 	}
 	if( !isset($General['itunes_url']) )
 		$General['itunes_url'] = '';
-		
+	else if( !isset($FeedSettings['itunes_url']) )
+		$FeedSettings['itunes_url'] = $General['itunes_url'];
+	
 	$feed_slug = $FeedAttribs['feed_slug'];
 	$cat_ID = $FeedAttribs['category_id'];
+	
 ?>
 <h3><?php echo __('iTunes Listing Information', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __('iTunes Subscription URL', 'powerpress'); ?></th> 
 <td>
-<?php
-	if( $FeedAttribs['type'] != 'general' ) {
-?>
 <input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
-<?php } else { ?>
-<input type="text" style="width: 80%;" name="General[itunes_url]" value="<?php echo $General['itunes_url']; ?>" maxlength="250" />
-<?php } ?>
 <p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p>
-
-<p><?php echo sprintf(__('You may use the older style Subscription URL: %s', 'powerpress'), 'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=<strong>000000000</strong>'); ?></p>
 
 <p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
  <?php echo __('iTunes will email your Subscription URL to the <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>
@@ -1230,6 +1227,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Image', 'powerpress'); ?> 
+<span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />

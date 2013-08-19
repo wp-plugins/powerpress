@@ -138,7 +138,6 @@ function powerpress_admin_capabilities()
 
 
 // powerpressadmin_editfeed.php
-// function powerpress_admin_editfeed($feed_slug=false, $cat_ID = false, $term_taxonomy_id = false)
 function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = false)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
@@ -169,6 +168,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 				
 			$FeedTitle = sprintf( 'Podcast Settings for Channel: %s', $General['custom_feeds'][$feed_slug]);
 			echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
+			echo '<input type="hidden" name="action" value="powerpress-save-channel" />';
 			
 		}; break;
 		case 'category': {
@@ -180,6 +180,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 			$category = get_category_to_edit($cat_ID);
 			$FeedTitle = sprintf( __('Podcast Settings for Category: %s', 'powerpress'), htmlspecialchars($category->name) );
 			echo sprintf('<input type="hidden" name="cat" value="%s" />', $cat_ID);
+			echo '<input type="hidden" name="action" value="powerpress-save-category" />';
 			
 		}; break;
 		case 'ttid': {
@@ -204,6 +205,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 				$FeedTitle = sprintf( __('Podcast Settings for Taxonomy Term: %s', 'powerpress'), 'Term ID '.htmlspecialchars($term_taxonomy_id));
 			}
 			echo sprintf('<input type="hidden" name="ttid" value="%s" />', $term_taxonomy_id);
+			echo '<input type="hidden" name="action" value="powerpress-save-ttid" />';
 			
 		}; break;
 		case 'post_type': {
@@ -220,11 +222,13 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 			$FeedTitle = sprintf( __('Podcast Settings for Post Type %s with slug %s', 'powerpress'), htmlspecialchars($PostTypeTitle) , htmlspecialchars($feed_slug));
 			echo sprintf('<input type="hidden" name="podcast_post_type" value="%s" />', $FeedAttribs['post_type']);
 			echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
+			echo '<input type="hidden" name="action" value="powerpress-save-post_type" />';
 			
 		}; break;
 		default: {
 			$FeedSettings = powerpress_get_settings('powerpress_feed');
 			$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
+			echo '<input type="hidden" name="action" value="powerpress-save-settings" />';
 		}; break;
 	}
 		
@@ -1034,6 +1038,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Category', 'powerpress'); ?> 
+<span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
 <select name="Feed[itunes_cat_1]" class="bpp_input_med">
@@ -1132,7 +1137,7 @@ while( list($value,$desc) = each($explicit) )
 <!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
-<?php echo __('iTunes Talent Name', 'powerpress'); ?> <br />
+<?php echo __('iTunes Talent Name', 'powerpress'); ?> 
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]" class="bpp_input_med" value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
@@ -1145,7 +1150,8 @@ while( list($value,$desc) = each($explicit) )
 
 <tr valign="top">
 <th scope="row">
-<?php echo __('iTunes Email', 'powerpress'); ?>
+<?php echo __('iTunes Email', 'powerpress'); ?> 
+<span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
 <input type="text" name="Feed[email]" class="bpp_input_med" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />

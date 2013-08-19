@@ -3,17 +3,17 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
-function powerpress_page_message_add_error($msg)
+function powerpress_page_message_add_error($msg, $classes='inline')
 {
 	global $g_powerpress_page_message;
-	$g_powerpress_page_message .= '<div class="error powerpress-error">'. $msg . '</div>';
+	$g_powerpress_page_message .= '<div class="error powerpress-error '.$classes.'">'. $msg . '</div>';
 }
 
-function powerpress_page_message_add_notice($msg)
+function powerpress_page_message_add_notice($msg, $classes='inline')
 {
 	global $g_powerpress_page_message;
 	// Always pre-pend, since jQuery will re-order with first as last.
-	$g_powerpress_page_message = '<div class="updated fade powerpress-notice">'. $msg . '</div>' . $g_powerpress_page_message;
+	$g_powerpress_page_message = '<div class="updated fade powerpress-notice '.$classes.'">'. $msg . '</div>' . $g_powerpress_page_message;
 }
 
 
@@ -629,13 +629,19 @@ function powerpress_admin_init()
 			switch( $_POST['action'] )
 			{
 				case 'powerpress-save-settings': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved successfully.', 'powerpress') );
+					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
 				}; break;
-				case 'powerpress-save-customfeed': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Custom Feed settings saved.', 'powerpress') );
+				case 'powerpress-save-channel': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Channel settings saved.', 'powerpress') );
 				}; break;
-				case 'powerpress-save-categoryfeedsettings': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Category Feed settings saved.', 'powerpress') );
+				case 'powerpress-save-category': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Category Podcasting  settings saved.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-ttid': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Taxonomy Podcasting settings saved.', 'powerpress') );
+				}; break;
+				case 'powerpress-save-post_type': {
+					powerpress_page_message_add_notice( __('Blubrry PowerPress Post Type Podcasting settings saved.', 'powerpress') );
 				}; break;
 				case 'powerpress-save-tags': {
 					$General = get_option('powerpress_general');
@@ -643,9 +649,6 @@ function powerpress_admin_init()
 						powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
 					else
 						powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-mode': {
-					// TODO:
 				}; break;
 				default: {
 					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
@@ -2556,12 +2559,8 @@ function powerpress_admin_page_basic()
 function powerpress_admin_page_players()
 {
 	powerpress_admin_page_header('powerpress/powerpressadmin_player.php');
-	
 	require_once( POWERPRESS_ABSPATH.'/powerpressadmin-player-page.php');
 	powerpress_admin_players('audio');
-	
-	//require_once( POWERPRESS_ABSPATH .'/powerpressadmin-player.php');
-	//powerpress_admin_page_player();
 	powerpress_admin_page_footer(true);
 }
 
@@ -3256,7 +3255,7 @@ function powerpress_admin_import_podcasting_settings()
 	return ($Changes||$FeedChanges);
 }
 
-function powerpress_admin_episodes_per_feed($feed_slug)
+function powerpress_admin_episodes_per_feed($feed_slug, $post_type='post')
 {
 	$field = 'enclosure';
 	if( $feed_slug != 'podcast' )
@@ -3292,8 +3291,8 @@ function powerpress_default_settings($Settings, $Section='basic')
 			if( !isset($Settings['cat_casting'] ) )
 			{
 				$Settings['cat_casting'] = 0;
-				if( isset($Settings['custom_cat_feeds']) && count($Settings['custom_cat_feeds']) > 0 )
-					$Settings['cat_casting'] = 1;
+				//if( isset($Settings['custom_cat_feeds']) && count($Settings['custom_cat_feeds']) > 0 )
+				//	$Settings['cat_casting'] = 1;
 			}
 			
 			if( !isset($Settings['channels'] ) )
