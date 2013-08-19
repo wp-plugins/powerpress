@@ -129,7 +129,7 @@ function powerpress_admin_init()
 			
 				if( $ImageData )
 				{
-					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 600 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 300 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
 						if( !move_uploaded_file($temp, $upload_path . $filename) )
 						{
@@ -143,7 +143,7 @@ function powerpress_admin_init()
 								$Feed['rss2_image'] = $upload_url . $filename;
 							}
 							
-							if( $ImageData[0] < 1400 )
+							if( $ImageData[0] < 1400 || $ImageData[1] < 1400 )
 							{
 								powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
 							}
@@ -447,6 +447,9 @@ function powerpress_admin_init()
 					$General['posttype_podcasting'] = 0;
 				if( !isset($General['metamarks'] ) )
 					$General['metamarks'] = 0;
+					
+				//if( !isset($General['advanced_mode_2']) )
+				//	$General['advanced_mode_2'] = 0;
 					
 					
 					// Media Presentation Settings
@@ -2202,6 +2205,8 @@ function powerpress_remove_hosting(FeedSlug)
 	}
 }
 
+var pp_upload_image_button=false;
+
 jQuery(document).ready(function($) {
 	
 	jQuery('.powerpress-url').change(function() {
@@ -2215,6 +2220,23 @@ jQuery(document).ready(function($) {
 		powerpress_update_for_video(media_url, FeedSlug);
 	});
 	
+	jQuery('.powerpress-image-browser').click(function(e) {
+		e.preventDefault();
+		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_image_browser_)(.*)$/, "$2");
+		tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true&amp;post_id=0', false);
+
+		var oldFunc = window.send_to_editor;
+		window.send_to_editor = function(html)
+		{
+			url = jQuery('img', html).attr('src');
+			//jQuery("#"+formfieldID).val(imgurl);
+			jQuery('#powerpress_image_'+g_powerpress_last_selected_channel).val( url );
+			g_powerpress_last_selected_channel = '';
+			tb_remove();
+			window.send_to_editor = oldFunc;
+		}
+		return false;
+	});
 	jQuery('.powerpress-embed').change( function() {
 		// if there is a value in the embed box, but there is no value in the url box, then we need to display a warning...
 		var FeedSlug = this.id.replace(/(powerpress_embed_)(.*)$/, "$2");
@@ -2510,6 +2532,18 @@ function powerpress_admin_page_basic()
 	//	powerpress_admin_page_footer(false);
 	//	return;
 	//}
+	
+	if( isset($Settings['advanced_mode_2']) && empty($Settings['advanced_mode_2']) ) // Simple Mode
+	{
+		powerpress_admin_page_header();
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-defaults.php');
+		
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');
+		require_once( POWERPRESS_ABSPATH .'/powerpressadmin-editfeed.php');
+		powerpress_admin_defaults();
+		powerpress_admin_page_footer(true);
+		return;
+	}
 	
 	powerpress_admin_page_header();
 	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-basic.php');

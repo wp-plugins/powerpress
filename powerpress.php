@@ -424,7 +424,12 @@ function powerpress_rss2_head()
 	$General = get_option('powerpress_general');
 	
 	// We made it this far, lets write stuff to the feed!
-	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" -->'.PHP_EOL;
+	echo '<!-- podcast_generator="Blubrry PowerPress/'. POWERPRESS_VERSION .'" ';
+	if( isset($General['advanced_mode_2']) && empty($General['advanced_mode_2']) )
+		echo 'mode="simple" ';
+	else
+		echo 'mode="advanced" ';
+	echo '-->'.PHP_EOL;
 		
 	// add the itunes:new-feed-url tag to feed
 	if( powerpress_is_custom_podcast_feed() )

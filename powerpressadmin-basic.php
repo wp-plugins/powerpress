@@ -46,6 +46,12 @@ function SelectEmbedField(checked)
 
 jQuery(document).ready(function($) {
 	
+	jQuery('#powerpress_advanced_mode_button').click( function(event) {
+		event.preventDefault();
+		jQuery('#powerpress_advanced_mode').val('0');
+		jQuery(this).closest("form").submit();
+	});
+	
 	jQuery('#episode_box_player_links_options').change(function () {
 		
 		var objectChecked = jQuery('#episode_box_player_links_options').attr('checked');
@@ -107,14 +113,21 @@ jQuery(document).ready(function($) {
 			$("#episode_box_order").removeAttr("disabled");
 		}
 	});
+
 } );
 //-->
 </script>
 
 <input type="hidden" name="action" value="powerpress-save-settings" />
+<input type="hidden" id="powerpress_advanced_mode" name="General[advanced_mode_2]" value="1" />
 <input type="hidden" id="save_tab_pos" name="tab" value="<?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>" />
 
-<h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2>
+<div id="powerpress_admin_header">
+<h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2> 
+	<h4><?php echo __('Advanced Mode', 'powerpress'); ?>
+	&nbsp; <a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php&mode=simple"); ?>" id="powerpress_advanced_mode_button" class="button-primary"><?php echo __('Switch to simplified Default Mode', 'powerpress'); ?></a>
+</h4>
+</div>
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
   <ul class="powerpress_settings_tabs">
@@ -168,7 +181,7 @@ jQuery(document).ready(function($) {
 	
 	<div id="tab6" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_artwork($FeedSettings);
+		powerpressadmin_edit_artwork($FeedSettings, $General);
 		?>
 	</div>
 	
@@ -176,6 +189,13 @@ jQuery(document).ready(function($) {
 <div class="clear"></div>
 
 <?php
+
+	powerpressadmin_advanced_options($General);
+}
+
+function powerpressadmin_advanced_options($General)
+{
+	// Break the bottom section here out into it's own function
 	$ChannelsCheckbox = '';
 	if( !empty($General['custom_feeds']) )
 		$ChannelsCheckbox = ' onclick="alert(\''.  __('You must delete all of the Podcast Channels to disable this option.', 'powerpress')  .'\');return false;"';
@@ -899,10 +919,10 @@ function powerpressadmin_appearance($General=false)
 
 ?>
 
+<!-- start advanced features -->
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
 <h3><?php echo __('Media Appearance Settings', 'powerpress'); ?></h3>
-
 <div id="enable_presentation_settings">
-
 <table class="form-table">
 <tr valign="top">
 <th scope="row">&nbsp;	</th> 
@@ -926,13 +946,17 @@ function powerpressadmin_appearance($General=false)
 </tr>
 </table>
 </div>
+<div id="presentation_settings"<?php if($General['disable_appearance']) echo ' style="display: none;"'; ?>>
+<!-- start presentation settings -->
+<!-- end advanced features -->
+<?php } ?>
 
-<div id="presentation_settings"<?php if($General['disable_appearance']) echo ' style="display: none;"'; ?>><!-- start presentation settings -->
 <h3><?php echo __('Blog Posts and Pages', 'powerpress'); ?></h3>
+
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Display Media & Links', 'powerpress'); ?></th> 
+<th scope="row"><?php echo htmlspecialchars(__('Display Media & Links', 'powerpress')); ?></th> 
 <td>
 	<ul>
 		<li><label><input type="radio" name="General[display_player]" value="1" <?php if( $General['display_player'] == 1 ) echo 'checked'; ?> /> <?php echo __('Below page content', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
@@ -958,7 +982,11 @@ function powerpressadmin_appearance($General=false)
 	<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
 </td>
 </tr>
+</table>
 
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
+<!-- start advanced features -->
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('PowerPress Shortcode', 'powerpress'); ?></th>
@@ -1018,8 +1046,8 @@ function powerpressadmin_appearance($General=false)
 </td>
 </tr>
 </table>
-
-
+<!-- end advanced features -->
+<?php } ?>
 
 
 <table class="form-table">
@@ -1040,14 +1068,16 @@ while( list($value,$desc) = each($linkoptions) )
 <p style="margin-top: 5px;">
 	<?php echo __('Use this option if you are having problems with the players not appearing on some or all of your pages.', 'powerpress'); ?>
 </p>
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
 <p style="margin-top: 20px; margin-bottom:0;">
 	<?php echo __('If the above option fixes the player issues, then you most likely have a conflicting theme or plugin activated. You can verify your theme is not causing the problem by testing your site using the default WordPress twentyelevent or twentytwelve theme. For plugins, disable them one by one until the player re-appears, which indicates the last plugin deactivated caused the conflict.', 'powerpress'); ?>
 </p>
+<?php } ?>
 </td>
 </tr>
 </table>
 
-
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
 <!-- start advanced features -->
 <div id="new_window_settings" style="display: <?php echo ( $General['player_function']==1 || $General['player_function']==3 ?'block':'none'); ?>">
 <h3><?php echo __('Play in New Window Settings', 'powerpress'); ?></h3>
@@ -1087,7 +1117,7 @@ while( list($value,$desc) = each($linkoptions) )
 
 </table>
 </div>
-<!-- end advanced features -->
+
 
 <h3><?php echo __('Media Format Settings', 'powerpress'); ?></h3>
 <table class="form-table">
@@ -1107,10 +1137,10 @@ while( list($value,$desc) = each($linkoptions) )
 </td>
 </tr>
 </table>
-
-
 </div>
 <!-- end presentation settings -->
+<!-- end advanced features -->
+<?php } ?>
 <?php  
 } // End powerpress_admin_appearance()
 
@@ -1190,13 +1220,13 @@ function powerpressadmin_edit_tv($FeedSettings = false, $feed_slug='podcast', $c
 <?php
 }
 
-function powerpressadmin_edit_artwork($FeedSettings)
+function powerpressadmin_edit_artwork($FeedSettings, $General)
 {
 	$SupportUploads = powerpressadmin_support_uploads();
 ?>
 <h3><?php echo __('Artwork and Images', 'powerpress'); ?></h3>
-<table class="form-table">
 
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Image', 'powerpress'); ?> 
@@ -1205,7 +1235,6 @@ function powerpressadmin_edit_artwork($FeedSettings)
 <input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
-<p><?php echo powerpressadmin_notice( __('iTunes image specifications changed in May, 2012', 'powerpress') ); ?></p>
 <p><?php echo __('iTunes image should be at least 1400 x 1400 pixels in .jpg or .png format using RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
  </p>
 
@@ -1224,12 +1253,20 @@ function powerpressadmin_edit_artwork($FeedSettings)
 </p>
 <div style="display:none" id="itunes_image_upload">
 	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  /><br />
+	<?php if( !empty($General['advanced_mode_2']) ) { ?>
 	<div style="margin-left: 85px;"><label class="powerpress-normal-font"><input name="itunes_image_checkbox_as_rss" type="checkbox" value="1" onchange="powerpress_show_field('rss_image_upload_container', !this.checked)" /> <?php echo __('Also use as RSS image', 'powerpress'); ?></label></div>
+	<?php } else { ?>
+	<input type="hidden" name="itunes_image_checkbox_as_rss" value="1" />
+	<?php }  ?>
 </div>
 <?php } ?>
 </td>
 </tr>
+</table>
 
+
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
+<table class="form-table">
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Episode Image', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th>
@@ -1267,6 +1304,7 @@ function powerpressadmin_edit_artwork($FeedSettings)
 </tr>
 </table>
 <?php
+	}
 }
 
 ?>

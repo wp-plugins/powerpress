@@ -188,3 +188,30 @@ padding-bottom: 15px;
 #powerpress_settings label.powerpress-normal-font {
 	font-size: 11px;
 }
+#powerpress_admin_header {
+	vertical-align: text-bottom;
+}
+#powerpress_admin_header h2 {
+/*	float: left; */
+	display: inline-block;
+}
+#powerpress_admin_header h4 {
+	margin-left: 14px;
+/*	float: left; */
+	display: inline-block;
+	color: #FF6600;
+	font-size: 15px;
+}
+/*
+#powerpress_admin_header h4 a {
+	text-decoration: none;
+	color: #999999;
+}
+*/
+/*
+#powerpress_admin_header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+*/

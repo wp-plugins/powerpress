@@ -254,7 +254,9 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	<div id="feed_tab_feed" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs );
-		powerpressadmin_edit_tv($FeedSettings, $feed_slug);
+		if( !empty($General['advanced_mode_2']) ) {
+			powerpressadmin_edit_tv($FeedSettings, $feed_slug);
+		}
 		?>
 	</div>
 	
@@ -268,7 +270,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	
 	<div id="feed_tab_artwork" class="powerpress_tab">
 		<?php
-		powerpressadmin_edit_artwork($FeedSettings, $feed_slug);
+		powerpressadmin_edit_artwork($FeedSettings, $General);
 		?>
 	</div>
 	
@@ -512,7 +514,8 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 </td>
 </tr>
 
-
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
+<!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
 <?php echo __('Feed Description', 'powerpress'); ?>
@@ -608,8 +611,6 @@ else
 	}
 ?>
 
-
-<!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
 
@@ -646,7 +647,7 @@ if( isset($Languages[ $rss_language ]) )
 </td>
 </tr>
 <!-- end advanced features -->
-
+<?php  } ?>
 </table>
 
 <!-- Location and frequency information -->
@@ -656,6 +657,8 @@ if( isset($Languages[ $rss_language ]) )
 	if( !isset($FeedSettings['frequency']) )
 		$FeedSettings['frequency'] = '';
 ?>
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
+<!-- start advanced features -->
 <h3><?php echo __('Basic Show Information', 'powerpress'); ?></h3>
 <div id="rawvoice_basic_options">
 <table class="form-table">
@@ -675,7 +678,9 @@ if( isset($Languages[ $rss_language ]) )
 </tr>
 </table>
 </div>
+<!-- end advanced features -->
 <?php
+	}
 }
 
 
@@ -952,17 +957,13 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 	if( !isset($FeedSettings['itunes_new_feed_url']) )
 		$FeedSettings['itunes_new_feed_url'] = '';
 	
-?>
-<h3><?php echo __('iTunes Settings', 'powerpress'); ?></h3>
-
-<?php
 	$AdvancediTunesSettings = !empty($FeedSettings['itunes_summary']);
 	if( !empty($FeedSettings['itunes_subtitle']) )
 		$AdvancediTunesSettings = true;
 
 ?>
 
-
+<h3><?php echo __('iTunes Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -984,6 +985,9 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 </td>
 </tr>
 
+<?php
+	if( !empty($General['advanced_mode_2']) ) {
+?>
 <tr valign="top">
 <th scope="row">
 
@@ -1023,6 +1027,9 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 <p><?php echo __('Enter up to 12 keywords separated by commas.', 'powerpress'); ?></p>
 </td>
 </tr>
+<?php
+	} // end advanced mode
+?>
 
 <tr valign="top">
 <th scope="row">
@@ -1121,7 +1128,7 @@ while( list($value,$desc) = each($explicit) )
 </select>
 </td>
 </tr>
-
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
 <!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
@@ -1134,7 +1141,7 @@ while( list($value,$desc) = each($explicit) )
 </td>
 </tr>
 <!-- end advanced features -->
-
+<?php } ?>
 
 <tr valign="top">
 <th scope="row">
@@ -1145,8 +1152,11 @@ while( list($value,$desc) = each($explicit) )
 <div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>)</div>
 </td>
 </tr>
+</table>
 
+<?php if( !empty($General['advanced_mode_2']) ) { ?>
 <!-- start advanced features -->
+<table class="form-table">
 	<tr valign="top">
 	<th scope="row" >
 
@@ -1220,7 +1230,6 @@ while( list($value,$desc) = each($explicit) )
 	</td>
 	</tr>
 </table>
-	<!-- end advanced features -->
 <?php if( defined('POWERPRESS_NOT_SUPPORTED') ) { // start powerpress not supported features ?>
 <fieldset style="border: 1px dashed #333333;">
 <legend style="margin: 0 20px; padding: 0 5px; font-weight: bold;"><?php echo __('Features Not Supported by PowerPress', 'powerpress');  ?></legend>
@@ -1274,7 +1283,6 @@ while( list($value,$desc) = each($explicit) )
 		</div>
 		
 	</div>
-<!-- start advanced features -->
 <div id="permanent_itunes_settings">
 <table class="form-table">
 	
@@ -1301,6 +1309,8 @@ while( list($value,$desc) = each($explicit) )
 </div>
 </fieldset>
 <?php } // End PowerPress not supported features ?>
+<!-- end advanced features -->
+<?php } // end other advanced options ?>
 <?php
 }
 	
