@@ -21,6 +21,9 @@ function powerpress_add_blubrry_redirect($program_keyword)
 	for( $x = 1; $x <= 3; $x++ )
 	{
 		$field = sprintf('redirect%d', $x);
+		if( !empty($Settings[$field]) )
+			$NewSettings[$field] = '';
+		/*
 		if( $Settings[$field] == '' )
 		{
 			$NewSettings[$field] = $RedirectURL.'/';
@@ -30,7 +33,10 @@ function powerpress_add_blubrry_redirect($program_keyword)
 		{
 			return; // Redirect already implemented
 		}
+		*/
 	}
+	$NewSettings['redirect1'] = $RedirectURL.'/';
+	
 	if( count($NewSettings) > 0 )
 		powerpress_save_settings($NewSettings);
 }
@@ -160,7 +166,7 @@ function powerpress_admin_jquery_init()
 				exit;
 			}
 			
-			if( !isset($Settings['blubrry_auth']) || $Settings['blubrry_auth'] == '' || !isset($Settings['blubrry_hosting']) || $Settings['blubrry_hosting'] == 0 )
+			if( empty($Settings['blubrry_auth']) || empty($Settings['blubrry_hosting']) )
 			{
 				powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
 ?>
@@ -390,7 +396,7 @@ function DeleteMedia(File)
 			$Password = $_POST['Password'];
 			$SaveSettings = $_POST['Settings'];
 			$Password = powerpress_stripslashes($Password);
-			$General = powerpress_stripslashes($SaveSettings);
+			$SaveSettings = powerpress_stripslashes($SaveSettings);
 			
 			$Save = false;
 			$Close = false;
@@ -408,16 +414,20 @@ function DeleteMedia(File)
 			else
 			{
 				$Programs = array();
+				$ProgramHosting = array();
 				//if( isset($_POST['ChangePassword']) )
 				//{
 				//	$Settings['blubrry_program_keyword'] = ''; // Reset the program keyword stored
 					
 					// Anytime we change the password we need to test it...
 				$auth = base64_encode( $SaveSettings['blubrry_username'] . ':' . $Password );
-				if( $SaveSettings['blubrry_hosting'] == 0 )
+				/* if( $SaveSettings['blubrry_hosting'] == 0 )
 					$api_url = sprintf('%s/stats/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
 				else
 					$api_url = sprintf('%s/media/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
+				*/
+				$api_url = sprintf('%s/service/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
+				
 				$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
 				$json_data = powerpress_remote_fopen($api_url, $auth);
 				if( $json_data )
@@ -450,7 +460,10 @@ function DeleteMedia(File)
 					{
 						// Get all the programs for this user...
 						while( list($null,$row) = each($results) )
+						{
 							$Programs[ $row['program_keyword'] ] = $row['program_title'];
+							$ProgramHosting[ $row['program_keyword'] ] = $row['hosting'];
+						}
 						
 						if( count($Programs) > 0 )
 						{
@@ -459,10 +472,11 @@ function DeleteMedia(File)
 							if( !empty($SaveSettings['blubrry_program_keyword']) )
 							{
 								powerpress_add_blubrry_redirect($SaveSettings['blubrry_program_keyword']);
+								$SaveSettings['blubrry_hosting'] = $ProgramHosting[ $SaveSettings['blubrry_program_keyword'] ];
 								$Save = true;
 								$Close = true;
 							}
-							else if( isset($SaveSettings['blubrry_program_keyword']) )
+							else if( isset($SaveSettings['blubrry_program_keyword']) ) // Present but empty
 							{
 								$Error = __('You must select a program to continue.', 'powerpress');
 							}
@@ -470,6 +484,7 @@ function DeleteMedia(File)
 							{
 								list($keyword, $title) = each($Programs);
 								$SaveSettings['blubrry_program_keyword'] = $keyword;
+								$SaveSettings['blubrry_hosting'] = $ProgramHosting[ $keyword ];
 								powerpress_add_blubrry_redirect($keyword);
 								$Close = true;
 								$Save = true;
@@ -479,7 +494,8 @@ function DeleteMedia(File)
 								$Error = __('Please select your podcast program to continue.', 'powerpress');
 								$Step = 2;
 								$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
-								$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
+								$Settings['blubrry_hosting'] = $SaveSettings['blubrry_username'];
+								//$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
 							}
 						}
 						else
@@ -523,8 +539,19 @@ function DeleteMedia(File)
 <h2><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h2>
 <p style="text-align: center;"><strong><?php echo __('Settings Saved Successfully!', 'powerpress'); ?></strong></p>
 <p style="text-align: center;">
-	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php"); ?>" target="_top"><?php echo __('Close', 'powerpress'); ?></a>
+	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php"); ?>" onclick="self.parent.tb_remove(); return false;" target="_top"><?php echo __('Close', 'powerpress'); ?></a>
 </p>
+<script type="text/javascript"><!--
+
+jQuery(document).ready(function($) {
+	// Upload loading, check the parent window for #blubrry_stats_settings div
+	if( jQuery('#blubrry_stats_settings',parent.document).length )
+	{
+		jQuery('#blubrry_stats_settings',parent.document).html('');
+	}
+});
+
+// --></script>
 <?php
 				powerpress_admin_jquery_footer();
 				exit;
@@ -588,6 +615,7 @@ function DeleteMedia(File)
 		<label for="password_password"><?php echo __('Blubrry Password', 'powerpress'); ?></label>
 		<input type="password" id="password_password" name="Password" value="" />
 	</p>
+	<!--
 	<p><strong><?php echo __('Select Blubrry Services', 'powerpress'); ?></strong></p>
 	<p style="margin-left: 20px; margin-bottom: 0px;margin-top: 0px;">
 		<input type="radio" name="Settings[blubrry_hosting]" value="0" <?php echo ($Settings['blubrry_hosting']==0?'checked':''); ?> /> <?php echo __('Statistics Integration only', 'powerpress'); ?>
@@ -595,13 +623,14 @@ function DeleteMedia(File)
 	<p style="margin-left: 20px; margin-top: 0px;">
 		<input type="radio" name="Settings[blubrry_hosting]" value="1" <?php echo ($Settings['blubrry_hosting']==1?'checked':''); ?> /> <?php echo __('Statistics and Hosting Integration (Requires Blubrry Hosting Account)', 'powerpress'); ?>
 	</p>
+	-->
 <?php } else { ?>
 	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo htmlspecialchars($Settings['blubrry_username']); ?>" />
 	<input type="hidden" name="Password" value="<?php echo htmlspecialchars($Password); ?>" />
 	<input type="hidden" name="Settings[blubrry_hosting]" value="<?php echo $Settings['blubrry_hosting']; ?>" />
 	<p>
-		<label><?php echo __('Blubrry Program Keyword', 'powerpress'); ?></label>
-<select name="Settings[blubrry_program_keyword]">
+		<label for="blubrry_program_keyword"><?php echo __('Select Blubrry Program', 'powerpress'); ?></label>
+<select id="blubrry_program_keyword" name="Settings[blubrry_program_keyword]">
 <option value=""><?php echo __('Select Program', 'powerpress'); ?></option>
 <?php
 while( list($value,$desc) = each($Programs) )
@@ -611,9 +640,9 @@ while( list($value,$desc) = each($Programs) )
 	</p>
 <?php } ?>
 	<p>
-		<input type="submit" name="Remove" value="Remove" style="float: right;" onclick="return confirm('<?php echo __('Remove Blubrry Services Integration, are you sure?', 'powerpress'); ?>');" />
 		<input type="submit" name="Save" value="<?php echo __('Save', 'powerpress'); ?>" />
 		<input type="button" name="Cancel" value="<?php echo __('Cancel', 'powerpress'); ?>" onclick="self.parent.tb_remove();" />
+		<input type="submit" name="Remove" value="Remove" style="float: right;" onclick="return confirm('<?php echo __('Remove Blubrry Services Integration, are you sure?', 'powerpress'); ?>');" />
 	</p>
 </div>
 </form>
@@ -646,7 +675,6 @@ while( list($value,$desc) = each($Programs) )
 				$Settings['blubrry_program_keyword'] = '';
 			if( empty($Settings['blubrry_auth']) )
 				$Settings['blubrry_auth'] = '';	
-				
 				
 			if( $Settings['blubrry_hosting'] == 0 )
 			{

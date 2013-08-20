@@ -19,14 +19,14 @@ function powerpressadmin_default_steps($FeedSettings, $General, $Step = 0)
 	<p>
 	<a href=""><?php echo __('Create a blog post with an episode', 'powerpress'); ?></a>
 	</p>
-	<p><a href=""><?php echo __('Need Help?', 'powerpress'); ?></a>
+	<p><a href="http://create.blubrry.com/resources/"><?php echo __('Need Help?', 'powerpress'); ?></a>
 	</p>
 	<?php powerpressadmin_complete_check($Step >= 2); ?>
 	</div>
 	<div class="powerpress-step<?php echo ($Step >= 2? ' active-step':''); ?>">
 	<h3><?php echo __('Step 3', 'powerpress'); ?></h3>
 	<p>
-	<a href="create.blubrry.com/resources/blubrry-podcast-directory/feed-requirements/submit-podcast-to-itunes/?podcast-feed=<?php echo urlencode(get_feed_link('podcast')); ?>" target="_blank"><?php echo __('Submit your feed to iTunes and other podcast directories', 'powerpress'); ?></a>
+	<a href="http://create.blubrry.com/manual/podcast-promotion/submit-podcast-to-itunes/?podcast-feed=<?php echo urlencode(get_feed_link('podcast')); ?>" target="_blank"><?php echo __('Submit your feed to iTunes and other podcast directories', 'powerpress'); ?></a>
 	</p>
 	<?php powerpressadmin_complete_check($Step == 3); ?>
 	</div>
@@ -69,7 +69,7 @@ function powerpress_admin_defaults()
 		if( $episode_total > 0 )
 			$Step = 2;
 	}
-	$Step = 1;
+	//$Step = 1;
 	if( $Step == 2 && !empty($FeedSettings['itunes_url']) )
 		$Step = 3;
 	
@@ -91,7 +91,7 @@ jQuery(document).ready(function($) {
 } );
 //-->
 </script>
-<input type="hidden" name="action" value="powerpress-save-settings" />
+<input type="hidden" name="action" value="powerpress-save-defaults" />
 <input type="hidden" id="powerpress_advanced_mode" name="General[advanced_mode_2]" value="0" />
 
 <div id="powerpress_admin_header">
@@ -104,8 +104,10 @@ jQuery(document).ready(function($) {
 <?php
 
 	powerpressadmin_default_steps($FeedSettings, $General, $Step);
+	
+	powerpressadmin_edit_blubrry_services($General);
 ?>
-
+<h3><?php echo __('Podcast Settings', 'powerpress'); ?></h3>
 <table class="form-table">
 <tr valign="top">
 <th scope="row">

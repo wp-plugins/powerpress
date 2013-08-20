@@ -452,7 +452,7 @@ function powerpress_admin_init()
 				//	$General['advanced_mode_2'] = 0;
 					
 					
-					// Media Presentation Settings
+				// Media Presentation Settings
 				$PlayerSettings = array();
 				if( !empty($_POST['PlayerSettings']) )
 					$PlayerSettings = $_POST['PlayerSettings'];
@@ -484,6 +484,25 @@ function powerpress_admin_init()
 					$General['m4a'] = '';
 				if( !isset($General['new_window_nofactor'] ) )
 					$General['new_window_nofactor'] = '';
+			}
+			else if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-defaults' )
+			{
+				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
+					$General['display_player_excerpt'] = 0; // Set it to zero.
+				if( !isset($_POST['StatsInDashboard'] ) )
+					$General['disable_dashboard_widget'] = 1;	
+				
+				// Advanced Mode options
+				if( !isset($General['cat_casting'] ) )
+					$General['cat_casting'] = 0;
+				if( !isset($General['channels'] ) )
+					$General['channels'] = 0;
+				if( !isset($General['taxonomy_podcasting'] ) )
+					$General['taxonomy_podcasting'] = 0;
+				if( !isset($General['posttype_podcasting'] ) )
+					$General['posttype_podcasting'] = 0;
+				if( !isset($General['metamarks'] ) )
+					$General['metamarks'] = 0;
 			}
 			
 			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
@@ -628,7 +647,8 @@ function powerpress_admin_init()
 		{
 			switch( $_POST['action'] )
 			{
-				case 'powerpress-save-settings': {
+				case 'powerpress-save-settings':
+				case 'powerpress-save-defaults': {
 					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
 				}; break;
 				case 'powerpress-save-channel': {

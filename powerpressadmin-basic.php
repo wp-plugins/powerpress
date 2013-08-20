@@ -790,6 +790,7 @@ function powerpressadmin_edit_media_statistics($General)
 	if( !isset($General['redirect3']) )
 		$General['redirect3'] = '';
 ?>
+<div id="blubrry_stats_settings">
 <h3><?php echo __('Media Statistics', 'powerpress'); ?>  &nbsp; <span style="color: #CC0000; font-size: 11px;"><?php echo __('optional', 'powerpress'); ?></span></h3>
 <div style="margin-left: 40px;">
 	<p>
@@ -877,6 +878,7 @@ function powerpressadmin_edit_media_statistics($General)
 		</div>
 	</div>
 </div>
+</div><!-- end blubrry_stats_settings -->
 <?php
 }
 	

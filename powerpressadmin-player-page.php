@@ -103,6 +103,7 @@ function powerpress_admin_players($type='audio')
 	$Video['html5video'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/html5.mp4';
 	$Video['videojs-html5-video-player-for-wordpress'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/videojs.mp4';
 	$Video['mediaelement-video'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/MediaElement_video.mp4';
+	//$Video['mediaelement-video'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/videojs.mp4';
 		/*
 		<div><
 		object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="30" height="30">

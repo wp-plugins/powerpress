@@ -65,7 +65,7 @@ function powerpressplayer_init($GeneralSettings)
 	{
 		$enqueue_mejs = true;
 	}
-	else if( !empty($GeneralSettings['player']) && $GeneralSettings['player'] == 'mediaelement-audio' )
+	else if( !empty($GeneralSettings['video_player']) && $GeneralSettings['video_player'] == 'mediaelement-video' )
 	{
 		$enqueue_mejs = true;
 	}
