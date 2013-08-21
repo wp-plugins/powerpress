@@ -7,7 +7,7 @@ function powerpressplayer_mediaelement_info()
 {
 ?>
 	<p>
-		<?php echo __('MediaElement.js is an open source HTML5 audio and video player that supports both audio (mp3, m4a and oga) and video (mp4, m4v, webm, ogv and flv) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control.', 'powerpress'); ?>
+		<?php echo __('MediaElement.js is an open source HTML5 audio and video player that supports both audio (mp3, m4a and oga) and video (mp4, m4v, webm, ogv and flv) media files. It includes all the necessary features for playback including a play/pause button, scroll-able position bar, elapsed time, total time, mute button and volume control.', 'powerpress'); ?>
 	</p>
 	
 	<p>
@@ -20,7 +20,7 @@ function powerpressplayer_flowplayer_info()
 {
 ?>
 	<p>
-		<?php echo __('Flow Player Classic is an open source flash player that supports both audio (mp3 and m4a) and video (mp4, m4v and flv) media files. It includes all the necessary features for playback including a play/pause button, scrollable position bar, ellapsed time, total time, mute button and volume control.', 'powerpress'); ?>
+		<?php echo __('Flow Player Classic is an open source flash player that supports both audio (mp3 and m4a) and video (mp4, m4v and flv) media files. It includes all the necessary features for playback including a play/pause button, scroll-able position bar, elapsed time, total time, mute button and volume control.', 'powerpress'); ?>
 	</p>
 <?php
 }
@@ -416,7 +416,7 @@ table.html5formats tr > td:first-child {
 				<?php  echo powerpressplayer_build_1pxoutplayer( $Audio['audio-player'] ); ?>
 			</p>
 			<p>
-				<?php echo __('1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player. Features include an animated play/pause button, scrollable position bar, ellapsed/remaining time, volume control and color styling options.', 'powerpress'); ?>
+				<?php echo __('1 Pixel Out Audio Player is a popular customizable audio (mp3 only) flash player. Features include an animated play/pause button, scroll-able position bar, elapsed/remaining time, volume control and color styling options.', 'powerpress'); ?>
 			</p>
 		</li>
 		
@@ -494,7 +494,7 @@ table.html5formats tr > td:first-child {
 				<?php  echo powerpressplayer_build_flashmp3maxi( $Audio['flashmp3-maxi'] ); ?>
 			</p>
 			<p>
-				<?php echo __('Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scrollable position bar, volume control and color styling options.', 'powerpress'); ?>
+				<?php echo __('Flash Mp3 Maxi Player is a customizable open source audio (mp3 only) flash player. Features include pause/play/stop/file info buttons, scroll-able position bar, volume control and color styling options.', 'powerpress'); ?>
 			</p>
 		</li>
 		
@@ -879,7 +879,7 @@ function audio_player_defaults()
 			$options = array( 'yes'=>__('Yes', 'powerpress'), 'no'=>__('No', 'powerpress') );
 			powerpress_print_options( $options, $PlayerSettings['remaining']);
 ?>
-                                </select>			<?php echo __('if yes, shows remaining track time rather than ellapsed time (default: no)', 'powerpress'); ?></div>
+                                </select>			<?php echo __('if yes, shows remaining track time rather than elapsed time (default: no)', 'powerpress'); ?></div>
 		</td>
 	</tr>
 	
