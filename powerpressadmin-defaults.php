@@ -3,8 +3,6 @@
 
 function powerpressadmin_default_steps($FeedSettings, $General, $Step = 0)
 {
-
-	// TODO: Work on step 2 links!
 ?>
 <div id="powerpress_steps">
 	<div class="powerpress-step active-step" id="powerpreess_step_1">
@@ -49,7 +47,6 @@ function powerpressadmin_complete_check($checked=false)
 
 function powerpress_admin_defaults()
 {
-	// TODO: Add all that stuff brian designed at the top1!
 	$FeedAttribs = array('type'=>'general', 'channel'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
 	
 	$General = powerpress_get_settings('powerpress_general');
@@ -69,7 +66,7 @@ function powerpress_admin_defaults()
 		if( $episode_total > 0 )
 			$Step = 2;
 	}
-	//$Step = 1;
+
 	if( $Step == 2 && !empty($FeedSettings['itunes_url']) )
 		$Step = 3;
 	
@@ -78,16 +75,11 @@ function powerpress_admin_defaults()
 
 
 jQuery(document).ready(function($) {
-	
-	
-	
 	jQuery('#powerpress_advanced_mode_button').click( function(event) {
 		event.preventDefault();
 		jQuery('#powerpress_advanced_mode').val('1');
 		jQuery(this).closest("form").submit();
 	} );
-
-
 } );
 //-->
 </script>
@@ -128,40 +120,6 @@ jQuery(document).ready(function($) {
 	
 	powerpressadmin_edit_artwork($FeedSettings, $General);
 	powerpressadmin_appearance($General);
-	
-	/*
-?>
-<table class="form-table">
-<tr valign="top">
-<th scope="row"><?php echo htmlspecialchars(__('Display Media & Links', 'powerpress')); ?></th> 
-<td>
-	<ul>
-		<li><label><input type="radio" name="General[display_player]" value="1" <?php if( $General['display_player'] == 1 ) echo 'checked'; ?> /> <?php echo __('Below page content', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
-		<li>
-			<ul>
-				<li><?php echo __('Player and media links will appear <u>below</u> your post and page content.', 'powerpress'); ?></li>
-			</ul>
-		</li>
-		
-		<li><label><input type="radio" name="General[display_player]" value="2" <?php if( $General['display_player'] == 2 ) echo 'checked'; ?> /> <?php echo __('Above page content', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('Player and media links will appear <u>above</u> your post and page content.', 'powerpress'); ?></li>
-			</ul>
-		</li>
-		<li><label><input type="radio" name="General[display_player]" value="0" <?php if( $General['display_player'] == 0 ) echo 'checked'; ?> /> <?php echo __('Disable', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('Player and media links will <u>NOT</u> appear in your post and page content. Media player and links can be added manually by using the <i>shortcode</i> below.', 'powerpress'); ?></li>
-			</ul>
-		</li>
-	</ul>
-	<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
-</td>
-</tr>
-</table>
-<?php
-	*/
 	powerpressadmin_advanced_options($General);
 }
 
