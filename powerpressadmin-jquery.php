@@ -8,8 +8,8 @@
 	
 function powerpress_add_blubrry_redirect($program_keyword)
 {
-	if( !strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry.com' ) )
-		return;
+	//if( !strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry.com' ) )
+	//	return;
 	
 	$Settings = powerpress_get_settings('powerpress_general');
 	$RedirectURL = 'http://media.blubrry.com/'.$program_keyword;
@@ -21,7 +21,7 @@ function powerpress_add_blubrry_redirect($program_keyword)
 	for( $x = 1; $x <= 3; $x++ )
 	{
 		$field = sprintf('redirect%d', $x);
-		if( !empty($Settings[$field]) )
+		if( !empty($Settings[$field]) && !stristr($Settings[$field], 'podtrac.com') )
 			$NewSettings[$field] = '';
 		/*
 		if( $Settings[$field] == '' )
