@@ -2464,7 +2464,7 @@ function powerpress_delete_term($term_id, $tt_id, $taxonomy)
 	}
 }
 
-add_action('delete_term', 'powerpress_delete_term');
+add_action('delete_term', 'powerpress_delete_term', 10, 3);
 
 
 function powerpress_edit_category_form($cat)
