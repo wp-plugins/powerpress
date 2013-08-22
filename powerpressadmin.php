@@ -28,7 +28,7 @@ function powerpress_page_message_print()
 function powerpress_admin_activate()
 {
 	$Settings = get_option('powerpress_general');
-	if( $Settings == false )
+	if( empty($Settings) )
 	{
 		// If no settings exist, see if either PodPress or Podcasting plugins are enabled and import those settings...
 		if( defined('PODPRESS_VERSION') )
@@ -39,6 +39,12 @@ function powerpress_admin_activate()
 		{
 			powerpress_admin_import_podcasting_settings();
 		}
+		// This is a new user
+		powerpress_save_settings(array('advanced_mode_2'=>'0'), 'powerpress_general'); // Defaut them to simple mode
+	}
+	else if( !isset($Settings['advanced_mode_2']) ) // this is not a new user, lets put them in advanced mode by default...
+	{
+		powerpress_save_settings(array('advanced_mode_2'=>'1'), 'powerpress_general'); // Defaut them to simple mode
 	}
 }
 	
@@ -447,9 +453,6 @@ function powerpress_admin_init()
 					$General['posttype_podcasting'] = 0;
 				if( !isset($General['metamarks'] ) )
 					$General['metamarks'] = 0;
-					
-				//if( !isset($General['advanced_mode_2']) )
-				//	$General['advanced_mode_2'] = 0;
 					
 					
 				// Media Presentation Settings
@@ -2545,16 +2548,6 @@ function powerpress_admin_page_footer($SaveButton=true, $form=true)
 function powerpress_admin_page_basic()
 {
 	$Settings = get_option('powerpress_general');
-	
-	// TODO: Replace this with welcome message screen with options to select category and channel podcasting.
-	//if( !isset($Settings['advanced_mode']) )
-	//{
-	//	powerpress_admin_page_header(false,  'powerpress-edit', true);
-	//	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-mode.php');
-	//	powerpress_admin_mode();
-	//	powerpress_admin_page_footer(false);
-	//	return;
-	//}
 	
 	if( isset($Settings['advanced_mode_2']) && empty($Settings['advanced_mode_2']) ) // Simple Mode
 	{

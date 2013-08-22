@@ -6,6 +6,8 @@ function powerpress_admin_basic()
 	
 	$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'basic');
+	if( !isset($General['advanced_mode_2']) )
+		$General['advanced_mode_2'] = true;
 	
 	$FeedSettings = powerpress_get_settings('powerpress_feed');
 	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
