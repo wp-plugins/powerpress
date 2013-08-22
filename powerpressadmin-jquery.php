@@ -1,16 +1,8 @@
 <?php
 	// jQuery specific functions and code go here..
 	
-	// Credits:
-	/*
-	FOLDER ICON provided by Silk icon set 1.3 by Mark James link: http://www.famfamfam.com/lab/icons/silk/
-	*/
-	
 function powerpress_add_blubrry_redirect($program_keyword)
 {
-	//if( !strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry.com' ) )
-	//	return;
-	
 	$Settings = powerpress_get_settings('powerpress_general');
 	$RedirectURL = 'http://media.blubrry.com/'.$program_keyword;
 	$NewSettings = array();
@@ -23,17 +15,6 @@ function powerpress_add_blubrry_redirect($program_keyword)
 		$field = sprintf('redirect%d', $x);
 		if( !empty($Settings[$field]) && !stristr($Settings[$field], 'podtrac.com') )
 			$NewSettings[$field] = '';
-		/*
-		if( $Settings[$field] == '' )
-		{
-			$NewSettings[$field] = $RedirectURL.'/';
-			break;
-		}
-		else if( stristr($Settings[$field], $RedirectURL ) )
-		{
-			return; // Redirect already implemented
-		}
-		*/
 	}
 	$NewSettings['redirect1'] = $RedirectURL.'/';
 	
@@ -415,17 +396,9 @@ function DeleteMedia(File)
 			{
 				$Programs = array();
 				$ProgramHosting = array();
-				//if( isset($_POST['ChangePassword']) )
-				//{
-				//	$Settings['blubrry_program_keyword'] = ''; // Reset the program keyword stored
 					
 					// Anytime we change the password we need to test it...
 				$auth = base64_encode( $SaveSettings['blubrry_username'] . ':' . $Password );
-				/* if( $SaveSettings['blubrry_hosting'] == 0 )
-					$api_url = sprintf('%s/stats/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
-				else
-					$api_url = sprintf('%s/media/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
-				*/
 				$api_url = sprintf('%s/service/index.json', rtrim(POWERPRESS_BLUBRRY_API_URL, '/') );
 				
 				$api_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
@@ -494,8 +467,6 @@ function DeleteMedia(File)
 								$Error = __('Please select your podcast program to continue.', 'powerpress');
 								$Step = 2;
 								$Settings['blubrry_username'] = $SaveSettings['blubrry_username'];
-								$Settings['blubrry_hosting'] = $SaveSettings['blubrry_username'];
-								//$Settings['blubrry_hosting'] = $SaveSettings['blubrry_hosting'];
 							}
 						}
 						else
@@ -594,10 +565,6 @@ jQuery(document).ready(function($) {
 			if( $Programs == false )
 				$Programs = array();
 			
-			// If we have programs to select from, then we're at step 2
-			//if( count($Programs) )
-			//	$Step = 2;
-			
 			powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
 			powerpress_page_message_print();	
 ?>
@@ -615,15 +582,6 @@ jQuery(document).ready(function($) {
 		<label for="password_password"><?php echo __('Blubrry Password', 'powerpress'); ?></label>
 		<input type="password" id="password_password" name="Password" value="" />
 	</p>
-	<!--
-	<p><strong><?php echo __('Select Blubrry Services', 'powerpress'); ?></strong></p>
-	<p style="margin-left: 20px; margin-bottom: 0px;margin-top: 0px;">
-		<input type="radio" name="Settings[blubrry_hosting]" value="0" <?php echo ($Settings['blubrry_hosting']==0?'checked':''); ?> /> <?php echo __('Statistics Integration only', 'powerpress'); ?>
-	</p>
-	<p style="margin-left: 20px; margin-top: 0px;">
-		<input type="radio" name="Settings[blubrry_hosting]" value="1" <?php echo ($Settings['blubrry_hosting']==1?'checked':''); ?> /> <?php echo __('Statistics and Hosting Integration (Requires Blubrry Hosting Account)', 'powerpress'); ?>
-	</p>
-	-->
 <?php } else { ?>
 	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo htmlspecialchars($Settings['blubrry_username']); ?>" />
 	<input type="hidden" name="Password" value="<?php echo htmlspecialchars($Password); ?>" />
