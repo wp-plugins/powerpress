@@ -11,8 +11,7 @@ Change Log:
 
 Contributors:
 	Angelo Mandato, CIO RawVoice - Plugin founder, architect and lead developer
-	Pat McSweeny, Developer for RawVoice - Developed initial version (v0.1.0) of plugin
-	Jerry Stephens, Way of the Geek (http://wayofthegeek.org/) - Contributed initial code fix for excerpt bug resolved in v0.6.1
+	See readme.txt for full list of contributors.
 	
 Credits:
 	getID3(), License: GPL 2.0+ by James Heinrich <info [at] getid3.org> http://www.getid3.org
@@ -1371,7 +1370,6 @@ function powerpress_load_general_feed_settings()
 					$post_type = get_query_var('post_type');
 					//$post_type = get_post_type();
 					
-					//die($post_type);
 					// Get the settings for this podcast post type
 					$PostTypeSettingsArray = get_option('powerpress_posttype_'. $post_type);
 					if( !empty($PostTypeSettingsArray[ $feed_slug ]) )
@@ -2332,7 +2330,6 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
 	$Data = array();
 	$Data['id'] = $post_id;
 	$Data['feed'] = $feed_slug;
-	//$Data['post_type'] = get_post_type($post_id);
 	$Data['url'] = '';
 	$Data['duration'] = '';
 	$Data['size'] = '';
@@ -2419,7 +2416,6 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 			$Data = array();
 			$Data['id'] = $post_id;
 			$Data['feed'] = 'podcast';
-			//$Data['post_type'] = get_post_type($post_id);
 			$Data['duration'] = 0;
 			$Data['url'] = '';
 			$Data['size'] = 0;
@@ -2518,8 +2514,7 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 	while( have_posts() )
 	{
 		the_post();
-		//$PostMetaKeys = get_post_custom_keys($post->ID);
-		//print_r($PostMetaKeys);
+		
 		while( list($null,$feed_slug) = each($ChannelSlugs) )
 		{
 			// Do we follow the global settings to disable a player?
@@ -2554,7 +2549,6 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 			if( !isset($EpisodeData['no_links']) && $no_link == false )
 			{
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
-				// $return .= powerpress_get_player_links(get_the_ID(), $feed_slug, $EpisodeData );
 			}
 		}
 		reset($ChannelSlugs);
