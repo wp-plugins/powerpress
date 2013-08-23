@@ -77,16 +77,6 @@ function powerpressplayer_init($GeneralSettings)
 		wp_enqueue_script('mediaelement');
 		wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
 	}
-	
-	/*
-	if( !empty($GeneralSettings['display_player_disable_mobile']) && powerpress_is_mobile_client() )
-	{
-		// Remove all known filters for player embeds...
-		remove_filter('powerpress_player', 'powerpressplayer_player_audio', 10, 3);
-		remove_filter('powerpress_player', 'powerpressplayer_player_video', 10, 3);
-		remove_filter('powerpress_player', 'powerpressplayer_player_other', 10, 3);
-	}
-	*/
 }
 
 
@@ -213,182 +203,6 @@ if( !defined('PODCASTING_VERSION') )
 {
 	add_shortcode('podcast', 'powerpress_shortcode_handler');
 }
-
-
-
-
-function powerpress_player_filter($content, $media_url, $ExtraData = array() )
-{
-	global $g_powerpress_player_id;
-	if( !isset($g_powerpress_player_id) )
-		$g_powerpress_player_id = rand(0, 10000);
-	else
-		$g_powerpress_player_id++;
-		
-	// Very important setting, we need to know if the media should auto play or not...
-	$autoplay = false; // (default)
-	if( isset($ExtraData['autoplay']) && $ExtraData['autoplay'] )
-		$autoplay = true;
-	$cover_image = '';
-	if( $ExtraData['image'] )
-		$cover_image = $ExtraData['image'];
-	
-	// Based on $ExtraData, we can determine which type of player to handle here...
-	$Settings = get_option('powerpress_general');
-	$player_width = 400;
-	$player_height = 225;
-	if( isset($Settings['player_width']) && $Settings['player_width'] )
-		$player_width = $Settings['player_width'];
-	if( isset($Settings['player_height']) && $Settings['player_height'] )
-		$player_height = $Settings['player_height'];
-	
-	// Used with some types
-	//$content_type = powerpress_get_contenttype($media_url);
-	
-	$parts = pathinfo($media_url);
-	// Hack to use the audio/mp3 content type to set extension to mp3, some folks use tinyurl.com to mp3 files which remove the file extension...
-	// This hack only covers mp3s.
-	if( isset($EpisodeData['type']) && $EpisodeData['type'] == 'audio/mpeg' && $parts['extension'] != 'mp3' )
-		$parts['extension'] = 'mp3';
-	
-	$ogg_video = false; // Extra securty make sure it is definitely set to video
-	switch( strtolower($parts['extension']) )
-	{
-		// Quicktime old formats:
-		case 'm4a':
-		case 'avi':
-		case 'mpg':
-		case 'mpeg':
-		
-		case 'm4b':
-		case 'm4r':
-		case 'qt':
-		case 'mov': {
-			
-			$GeneralSettings = get_option('powerpress_general');
-			if( !isset($GeneralSettings['player_scale']) )
-				$GeneralSettings['player_scale'] = 'tofit';
-				
-			// If there is no cover image specified, lets use the default...
-			if( $cover_image == '' )
-				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
-			
-			if( $autoplay )
-			{
-				$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'"></div>'.PHP_EOL;
-				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
-				$content .= "powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$GeneralSettings['player_scale']}');\n";
-				$content .= "//-->\n";
-				$content .= "</script>\n";
-			}
-			else
-			{
-				$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">'.PHP_EOL;
-				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
-				$content .= "return powerpress_embed_quicktime('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$GeneralSettings['player_scale']}' );";
-				$content .= '">';
-				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
-				$content .= '</a>';
-				$content .= "</div>\n";
-			}
-			
-		}; break;
-		
-		// Windows Media:
-		case 'wma':
-		case 'wmv':
-		case 'asf': {
-			
-			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
-			$firefox = (stristr($_SERVER['HTTP_USER_AGENT'], 'firefox') !== false );
-			
-			if( (!$cover_image && !$firefox ) || $autoplay ) // if we don't have a cover image or we're supposed to auto play the media anyway...
-			{
-				$content .= '<object id="winplayer" classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="'. $player_width .'" height="'. $player_height .'" standby="..." type="application/x-oleobject">';
-				$content .= '	<param name="url" value="'. $media_url .'" />';
-				$content .= '	<param name="AutoStart" value="'. ($autoplay?'true':'false') .'" />';
-				$content .= '	<param name="AutoSize" value="true" />';
-				$content .= '	<param name="AllowChangeDisplaySize" value="true" />';
-				$content .= '	<param name="standby" value="Media is loading..." />';
-				$content .= '	<param name="AnimationAtStart" value="true" />';
-				$content .= '	<param name="scale" value="aspect" />';
-				$content .= '	<param name="ShowControls" value="true" />';
-				$content .= '	<param name="ShowCaptioning" value="false" />';
-				$content .= '	<param name="ShowDisplay" value="false" />';
-				$content .= '	<param name="ShowStatusBar" value="false" />';
-				$content .= '	<embed type="application/x-mplayer2" src="'. $media_url .'" width="'. $player_width .'" height="'. $player_height .'" scale="ASPECT" autostart="'. ($autoplay?'1':'0') .'" ShowDisplay="0" ShowStatusBar="0" autosize="1" AnimationAtStart="1" AllowChangeDisplaySize="1" ShowControls="1"></embed>';
-				$content .= '</object>';
-			}
-			else
-			{
-				if( $cover_image == '' )
-					$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
-				
-				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
-				$content .= "return powerpress_embed_winplayer('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );";
-				$content .= '">';
-				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
-				$content .= '</a>';
-			}
-			
-			if( $firefox )
-			{
-				$content .= '<p style="font-size: 85%;margin-top:0;">'. __('Best viewed with', 'powerpress');
-				$content .= ' <a href="http://support.mozilla.com/en-US/kb/Using+the+Windows+Media+Player+plugin+with+Firefox#Installing_the_plugin" target="_blank">';
-				$content .= __('Windows Media Player plugin for Firefox', 'powerpress') .'</a></p>';
-			}
-			
-			$content .= "</div>\n";
-			
-		}; break;
-		
-		// Flash:
-		case 'swf': {
-			
-			// If there is no cover image specified, lets use the default...
-			if( $cover_image == '' )
-				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
-			
-			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
-			if( !$autoplay )
-			{
-				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
-				$content .= "return powerpress_embed_swf('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );";
-				$content .= '">';
-				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
-				$content .= '</a>';
-			}
-			$content .= "</div>\n";
-			if( $autoplay )
-			{
-				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
-				$content .= "powerpress_embed_swf('powerpress_player_{$g_powerpress_player_id}', '{$media_url}', {$player_width}, {$player_height} );\n";
-				$content .= "//-->\n";
-				$content .= "</script>\n";
-			}
-			
-		}; break;
-			
-		// Default, just display the play image. If it is set for auto play, then we don't wnat to open a new window, otherwise we want to open this in a new window..
-		default: {
-		
-			if( $cover_image == '' )
-				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
-			
-			$content .= '<div class="powerpress_player" id="powerpress_player_'. $g_powerpress_player_id .'">';
-			$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'"'. ($autoplay?'':' target="_blank"') .'>';
-			$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" />';
-			$content .= '</a>';
-			$content .= "</div>\n";
-			
-		}; break;
-	}
-	
-	return $content;
-}
-
-//add_filter('powerpress_player', 'powerpress_player_filter', 10, 3);
-
 
 /*
 // Everything in $ExtraData except post_id
@@ -590,13 +404,8 @@ function do_powerpressplayer_embed($player, $media_url, $EpisodeData = array())
 	echo $content;
 	// Include jQuery for convenience
 	
-	//do_action( 'wp_print_styles' );
 	wp_print_styles();
-	//wp_print_styles('mediaelement');
-	//wp_print_styles('wp-mediaelement');
-	//do_action( 'wp_print_scripts' );
 	wp_print_scripts();
-	//wp_head();
 	
 	$content = '';
 	$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.js"></script>'. PHP_EOL;
@@ -1655,6 +1464,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 			// Video
 			$Settings = get_option('powerpress_general');
 			
+			// MEJS is not ready for mobile, using native HTML5 performs more efficiently at this point. Someday though we will be able to use MEJS for mobile.
 			if( false && $html5 && !empty($Settings['video_player']) && $Settings['video_player'] == 'mediaelement-video' )
 				$content .= powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData);
 			else if( $html5 )
@@ -1668,6 +1478,7 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 			// Audio
 			$Settings = get_option('powerpress_general');
 			
+			// MEJS is not ready for mobile, using native HTML5 performs more efficiently at this point. Someday though we will be able to use MEJS for mobile.
 			if( false && $html5 && !empty($Settings['player']) && $Settings['player'] == 'mediaelement-audio' )
 				$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
 			else if( $html5 )
@@ -2248,7 +2059,5 @@ function powerpressplayer_build_videojs($media_url, $EpisodeData = array())
 
 	return $content;
 }
-
-
 
 ?>
