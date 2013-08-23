@@ -49,11 +49,10 @@ function powerpressplayer_init($GeneralSettings)
 		add_shortcode('display_podcast', 'powerpress_shortcode_handler');
 	}
 	
-	if( defined('POWERPRESS_ENQUEUE_SCRIPTS') )
-	{
-		// include what's needed for each plaer
-		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
-	}
+
+	// include what's needed for each plaer
+	wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+
 	
 	$enqueue_mejs = false;
 	if( !isset($GeneralSettings['player']) || !isset($GeneralSettings['video_player']) )
@@ -1096,8 +1095,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	<meta name="robots" content="noindex" />
 <?php 
 
-	if( defined('POWERPRESS_ENQUEUE_SCRIPTS') )
-		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
 		
 	if(  version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 	{

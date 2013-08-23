@@ -79,8 +79,6 @@ if( !defined('POWERPRESS_CAPABILITY_MANAGE_OPTIONS') )
 	define('POWERPRESS_CAPABILITY_MANAGE_OPTIONS', 'manage_options');
 if( !defined('POWERPRESS_CAPABILITY_EDIT_PAGES') )
 	define('POWERPRESS_CAPABILITY_EDIT_PAGES', 'edit_pages');
-	
-//define('POWERPRESS_ENQUEUE_SCRIPTS', true); // Add this define to your wp-config.php if you want the audio.js enqueued with other plugin scripts in your blog.
 
 //define('POWERPRESS_ENABLE_HTTPS_MEDIA', true); // Add this define to your wp-config.php if you wnat to allow media URLs that begin with https://
 
@@ -318,10 +316,6 @@ function powerpress_header()
 		if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
 		{
 			$PowerpressPluginURL = powerpress_get_root_url();
-			if( !defined('POWERPRESS_ENQUEUE_SCRIPTS') )
-			{
-				echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
-			}
 ?>
 <script type="text/javascript"><!--
 <?php
