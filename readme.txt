@@ -174,11 +174,13 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 == 5.0-beta3 ==
-* Released on TBD
+* Released on 8/23/2013
 * Fixed bug where settings saved message did not always appear at the top of the pages.
 * Advanced Mode added (Was an old feature in PowerPress 1.0 that was removed since 2.0, now it's back!)
 * We now allow images that are 300x300 as the itunes image, but a warning is printed at the top of the page.
 * Default Mode 3 Simple Steps added!
+* player.js script is now alwyas enqueued with other WordPress scripts. If you have player issues, please update your theme!
+
 
 
 == 5.0-beta1 ==
