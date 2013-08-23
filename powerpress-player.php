@@ -1086,7 +1086,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	
 	$GeneralSettings = get_option('powerpress_general');
 	
-	echo '<!DOCTYPE html>';
+	echo '<!DOCTYPE html>'; // HTML5!
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -1124,7 +1124,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	//wp_head();
 ?>
 <style type="text/css">
-body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; width: 100%; min-height: 100%; } html { height: 100%; }
+body { font-size: 13px; font-family: Arial, Helvetica, sans-serif; /* width: 100%; min-height: 100%; } html { height: 100%; */ }
 </style>
 </head>
 <body>

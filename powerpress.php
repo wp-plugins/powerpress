@@ -325,12 +325,12 @@ function powerpress_header()
 		if( isset($Powerpress['new_window_width']) && $Powerpress['new_window_width'] > 0 )
 			$new_window_width = $Powerpress['new_window_width'];
 		else if( isset($Powerpress['new_window_width']) )
-			$new_window_width = 50;
+			$new_window_width = 420;
 			
 		if( isset($Powerpress['new_window_height']) && $Powerpress['new_window_height'] > 0 )
 			$new_window_height = $Powerpress['new_window_height'];
 		else if( isset($Powerpress['new_window_height']) )
-			$new_window_height = 20;
+			$new_window_height = 240;
 			
 		if( empty($Powerpress['new_window_nofactor']) )
 		{
