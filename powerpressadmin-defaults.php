@@ -15,9 +15,9 @@ function powerpressadmin_default_steps($FeedSettings, $General, $Step = 0)
 	<div class="powerpress-step<?php echo ($Step >= 1? ' active-step':''); ?>">
 	<h3><?php echo __('Step 2', 'powerpress'); ?></h3>
 	<p>
-	<a href=""><?php echo __('Create a blog post with an episode', 'powerpress'); ?></a>
+	<a href="http://create.blubrry.com/resources/powerpress/using-powerpress/creating-your-first-episode-with-powerpress/" target="_blank"><?php echo __('Create a blog post with an episode', 'powerpress'); ?></a>
 	</p>
-	<p><a href="http://create.blubrry.com/resources/"><?php echo __('Need Help?', 'powerpress'); ?></a>
+	<p><a href="http://create.blubrry.com/resources/" target="_blank"><?php echo __('Need Help?', 'powerpress'); ?></a>
 	</p>
 	<?php powerpressadmin_complete_check($Step >= 2); ?>
 	</div>
@@ -47,7 +47,7 @@ function powerpressadmin_complete_check($checked=false)
 
 function powerpress_admin_defaults()
 {
-	$FeedAttribs = array('type'=>'general', 'channel'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
+	$FeedAttribs = array('type'=>'general', 'feed_slug'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
 	
 	$General = powerpress_get_settings('powerpress_general');
 	$General = powerpress_default_settings($General, 'basic');

@@ -142,7 +142,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 {
 	$SupportUploads = powerpressadmin_support_uploads();
 	$General = powerpress_get_settings('powerpress_general');
-	$FeedAttribs = array('type'=>$type, 'channel'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
+	$FeedAttribs = array('type'=>$type, 'feed_slug'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'term_id'=>0, 'taxonomy_type'=>'', 'post_type'=>'');
 	$cat_ID = false; $term_taxonomy_id = false;
 
 	
@@ -152,7 +152,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	{
 		case 'channel': {
 			$feed_slug = $type_value;
-			$FeedAttribs['channel'] = $type_value;
+			$FeedAttribs['feed_slug'] = $type_value;
 			$FeedSettings = powerpress_get_settings('powerpress_feed_'.$feed_slug);
 			if( !$FeedSettings )
 			{
