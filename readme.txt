@@ -3,7 +3,7 @@ Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 4.0.9
+Stable tag: 5.0
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -175,7 +175,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 == 5.0 ==
-* Released on TBD
+* Released on 08/27/2013
 * Advanced Mode added (Was an old feature in PowerPress 1.0 that was removed since 2.0, now it's back!)
 * Default Mode with 3 Simple Steps added!
 * Taxonomy Podcasting added (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
@@ -191,6 +191,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with *Feed Episode Maximizer* RSS <description> having the invalid characters when used with WordPRess 3.6.
 * *Feed Episode Maximizer* is no longer experimental, we've successfully used the feature on a number of podcasts without issue for over a year now.
 * Player width for audio and video can now use a percentage, ideal for resposive sites.
+* player.js script is now always enqueued with other WordPress scripts. If you have player issues, please update your theme!
 * Added link to settings from the plugins management screen, should help folks who are new to PowerPress find settings quickly.
 
 
