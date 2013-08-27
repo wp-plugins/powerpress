@@ -19,6 +19,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
 - Integrated HTML5 and Flash Media Players: Audio/video web players with embed support from sites such as YouTube and Ustream.tv.
 - HTML5 video support: Add both mp4 and webm media to each episode for maximum platform compatibility
+- Advanced and Default Mode: Simplfy settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
 - Media Modifiers: Easily add, modify and remove podcasts form blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (Category Podcasting) or by media format (Podcast Channels).
@@ -173,21 +174,16 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support is now complete. Please visit the following link if you would like to have a version in your language: [http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/)
 
 
-== 5.0-beta2 ==
-* Released on 8/23/2013
-* Fixed bug where settings saved message did not always appear at the top of the pages.
+== 5.0 ==
+* Released on TBD
 * Advanced Mode added (Was an old feature in PowerPress 1.0 that was removed since 2.0, now it's back!)
-* We now allow images that are 300x300 as the itunes image, but a warning is printed at the top of the page.
-* Default Mode 3 Simple Steps added!
-* player.js script is now alwyas enqueued with other WordPress scripts. If you have player issues, please update your theme!
-
-
-== 5.0-beta1 ==
-* Released 8/6/2013
+* Default Mode with 3 Simple Steps added!
 * Taxonomy Podcasting added (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
 * Post Type Podcasting added
 * MediaElement.js HTML5/CSS Audio and Video player added. You must have WordPress 3.6+ to use this player.
 * Embed player will now use the MediaElement.js player when selected
+* We now allow images that are 300x300 as the itunes image, but a warning is printed at the top of the page.
+* Fixed bug where settings saved message did not always appear at the top of the pages.
 * Added define `POWERPRESS_NO_PODCAST_FEED`, if set to true in wp-config, PowerPress will not add the default podcast feed with slug name 'podcast'. For users who exclusively want a page or category called 'podcast'. NOTE: There will be no podcast only feed provided by default when this define is set, use at your own risk.
 * iTunes and RSS image settings moved to "Artwork" tab.
 * New iTunes Episode image option added to both the Artwork tab as well as the Episode Entry Box (Thanks Robin Brinkler and Daniel Lewis for suggesting the features)
