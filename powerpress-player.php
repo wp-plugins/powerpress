@@ -1322,9 +1322,10 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 	
 	// Prevent pre-loading in certain browsers
 	$media_url_src = $media_url;
-	if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
-		$media_url_src = '#'.$media_url;
-	}
+	// Special case for mobile browsers
+	//if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
+	//	$media_url_src = '#'.$media_url;
+	//}
 	
 	$content .='<source src="'. $media_url_src .'" type="'. $content_type .'" />';
 		
@@ -1415,9 +1416,10 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 	
 	// Prevent pre-loading in certain browsers
 	$media_url_src = $media_url;
-	if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
-		$media_url_src = '#'.$media_url;
-	}
+	// Folloowing is for mobile browsers that pre-load the audio
+	//if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
+	//	$media_url_src = '#'.$media_url;
+	//}
 	
 	$content .=' src="'. $media_url_src .'"';
 	//if( $cover_image ) // Audio does not have a coverart image (not yet anyway)

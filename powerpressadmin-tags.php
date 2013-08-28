@@ -29,7 +29,7 @@ function ToggleID3Tags(Obj)
 ?>
 </p>
 <?php
-	if( empty($General['blubrry_hosting']) )
+	if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] == 'false' )
 	{
 ?>
 <table class="form-table">
@@ -61,7 +61,7 @@ function ToggleID3Tags(Obj)
 </tr>
 </table>
 <?php } ?>
-<table class="form-table" id="edit_id3_tags" style="display:<?php echo ( !empty($General['blubrry_hosting'])?( !empty($General['write_tags'])?'block':'none'):'block'); ?>;">
+<table class="form-table" id="edit_id3_tags" style="display:<?php echo ( !empty($General['blubrry_hosting'])&& $General['blubrry_hosting']!='false' ?( !empty($General['write_tags'])?'block':'none'):'block'); ?>;">
 
 <?php
 	if( empty($General['tag_title']) )

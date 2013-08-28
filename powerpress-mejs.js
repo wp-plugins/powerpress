@@ -11,9 +11,6 @@
 				var html5player = container.find('video,audio');
 				if( html5player.attr('src') )
 				{
-					
-					//alert( html5player.attr('id') );
-					//var mejsplayer = window[ html5player.attr('id') ];
 					var srcTmp = html5player.attr('src');
 					if( srcTmp.indexOf('#') != -1 ) {
 						
@@ -23,7 +20,6 @@
 							e.preventDefault();
 							var mejsplayer = jQuery(html5player)[0];
 							if( mejsplayer ) {
-									alert( mejsplayer );
 									mejsplayer.setAttribute('src', tmp);
 									mejsplayer.load();
 									setTimeout( function(){ mejsplayer.play(); }, 900  );

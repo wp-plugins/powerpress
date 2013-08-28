@@ -694,12 +694,6 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 
 function powerpressadmin_edit_blubrry_services($General)
 {
-	
-	$ModeDesc = 'None';
-	if( !empty($General['blubrry_auth']) )
-		$ModeDesc = 'Media Statistics Only';
-	if( !empty($General['blubrry_hosting']) )
-		$ModeDesc = 'Media Statistics and Hosting';
 	$StatsInDashboard = true;
 	if( !empty($General['disable_dashboard_widget']) )
 		$StatsInDashboard = false;
@@ -742,7 +736,7 @@ function powerpressadmin_edit_blubrry_services($General)
 	<p style="font-weight: bold;">
 	<img src="<?php echo powerpress_get_root_url(); ?>images/Check.png" style="width: 25px; height: 20px;"  />
 	<?php 
-		if( empty($General['blubrry_hosting']) )
+		if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' )
 			echo __('Blubrry Statistics Enabled!', 'powerpress');
 		else
 			echo __('Blubrry Statistics and Media Hosting Enabled!', 'powerpress');
@@ -751,7 +745,7 @@ function powerpressadmin_edit_blubrry_services($General)
 	<?php
 		}
 		
-		if( empty($General['blubrry_hosting']) )
+		if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' )
 		{
 	?>
 	<p>
@@ -764,7 +758,7 @@ function powerpressadmin_edit_blubrry_services($General)
 	?>
 </div>
 <?php
-	if( empty($General['blubrry_hosting']) ) // Not signed up for hosting?
+	if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' ) // Not signed up for hosting?
 	{
 ?>
 <div class="blubrry-services">

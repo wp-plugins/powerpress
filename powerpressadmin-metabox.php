@@ -39,6 +39,8 @@ function powerpress_meta_box($object, $box)
 		$GeneralSettings['set_duration'] = 0;
 	if( !isset($GeneralSettings['episode_box_embed']) )
 		$GeneralSettings['episode_box_embed'] = 0;
+	if( !empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting'] === 'false' )
+		$GeneralSettings['blubrry_hosting'] = false;
 	$ExtraData = array();
 	
 	if( $object->ID )
@@ -183,7 +185,7 @@ function powerpress_meta_box($object, $box)
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][url]"><?php echo __('Media URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
-				<?php if( !empty($GeneralSettings['blubrry_hosting']) || empty($GeneralSettings['no_media_url_folder']) ) { ?>
+				<?php if( (!empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting']!='false') || empty($GeneralSettings['no_media_url_folder']) ) { ?>
 				<a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
 				<?php } ?>
 				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" class="button" />
