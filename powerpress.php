@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0' );
+define('POWERPRESS_VERSION', '5.0.1' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -919,6 +919,8 @@ function powerpress_bloginfo_rss($content, $field = '')
 			else
 			{
 				$Feed = get_option('powerpress_feed_'.get_query_var('feed') );
+				if( empty($Feed) && get_query_var('feed') === 'podcast' )
+					$Feed = get_option('powerpress_feed');
 			}
 		}
 		//$Feed = true;

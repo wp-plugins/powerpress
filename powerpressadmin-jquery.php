@@ -448,7 +448,7 @@ function DeleteMedia(File)
 								$SaveSettings['blubrry_hosting'] = $ProgramHosting[ $SaveSettings['blubrry_program_keyword'] ];
 								if( !is_bool($SaveSettings['blubrry_hosting']) )
 								{
-									if( $SaveSettings['blubrry_hosting'] === 'false' || $SaveSettings['blubrry_hosting'] == 0 )
+									if( $SaveSettings['blubrry_hosting'] === 'false' || empty($SaveSettings['blubrry_hosting']) )
 										$SaveSettings['blubrry_hosting'] = false;
 								}
 									
@@ -466,7 +466,7 @@ function DeleteMedia(File)
 								$SaveSettings['blubrry_hosting'] = $ProgramHosting[ $keyword ];
 								if( !is_bool($SaveSettings['blubrry_hosting']) )
 								{
-									if( $SaveSettings['blubrry_hosting'] === 'false' || $SaveSettings['blubrry_hosting'] == 0 )
+									if( $SaveSettings['blubrry_hosting'] === 'false' || empty($SaveSettings['blubrry_hosting']) )
 										$SaveSettings['blubrry_hosting'] = false;
 								}
 								powerpress_add_blubrry_redirect($keyword);

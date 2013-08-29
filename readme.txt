@@ -173,6 +173,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 
+= 5.0.1 = 
+* Released on 08/30/2013
+* Removed alert box from PowerPress mejs file, only occcurred in IE and Safari browsers
+* Fixed issue with blubrry Hosting users not being able to upload media with some versions of PHP.
+* Fixed podcast title in defaults mode not getting applied to podcast feed.
+
 
 = 5.0 =
 * Released on 08/27/2013
