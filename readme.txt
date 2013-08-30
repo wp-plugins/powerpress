@@ -134,17 +134,14 @@ You can insert the media player within your blog posts by using the WordPress sh
  = Why can't you upload large media files? =
  File uploads are tricky to handle because there are so many web hosting variations with different upload size limits. We recommend using an FTP application to upload large media files. FTP is much more efficient than web based uploads and is typically provided by nearly all web hosting providers.
 
- = Will you be upgrading the version of Flow Player to 3.x? =
- Because of the feature restrictions and branding that FlowPlayer.org places on FlowPlayer 3.x versions, we do not plan on updating the player packaged with PowerPress. The **PAID open-source** FlowPlayer is not compatible with the **FREE open source** PowerPress plugin.
-
- = The Media Player does not appear on my site? =
+  = The Media Player does not appear on my site? =
 . . . or the RSS feed is invalid?
 
 This can happen when there is a theme or plugin conflict. Please visit our [Diagnosing Feed and/or Player Issues](http://create.blubrry.com/resources/powerpress/using-powerpress/diagnosing-feed-andor-player-issues-with-powerpress/) for instructions how to resolve such issues.
 
 
 == Installation ==
- = Pont and Click Installation =
+ = Point and Click Installation =
 1. Sign into your blog, go to the plugins section and click 'Add New'.
 2. In the search box enter "PowerPress", then click 'Search'. 
 3. Click the 'Install Now' link and proceed to install the plugin.
@@ -154,9 +151,11 @@ This can happen when there is a theme or plugin conflict. Please visit our [Diag
  = Manual Installation = 
 To install Blubrry PowerPress manually, follow these steps:
 
-1. Copy the entire directory from the downloaded zip file into the /wp-content/plugins/ folder.
-2. Activate the "Blubrry PowerPress" plugin in the Plugin Management page.
-3. Configure your Blubrry PowerPress by going to the **Settings** > **Blubrry PowerPress** page.
+1. Download [PowerPress from WordPress.org](http://wordpress.org/plugins/powerpress/).
+2. Extract the downloaded zip file to a temporary folder.
+3. Copy the entire powerpress folder from the downloaded zip file into the /wp-content/plugins/ folder on your server.
+4. Activate the "Blubrry PowerPress" plugin in your blog's Plugin Management page.
+5. Configure your Blubrry PowerPress by going to the **Settings** > **Blubrry PowerPress** page.
 
 
 == Screenshots ==
@@ -175,9 +174,10 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 5.0.1 = 
 * Released on 08/30/2013
-* Removed alert box from PowerPress mejs file, only occcurred in IE and Safari browsers
+* Removed debug alert box from PowerPress mejs file, only occcurred in IE and Safari browsers
 * Fixed issue with blubrry Hosting users not being able to upload media with some versions of PHP.
 * Fixed podcast title in defaults mode not getting applied to podcast feed.
+* Moved extensive changelog history to [PowerPress Versoin History](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-version-history/) page.
 
 
 = 5.0 =
@@ -214,9 +214,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with unchecking iTunes Closed Captioned option not saving. (Thanks davidcross for reporting bug)
 
 
-= PowerPress Version History =
+= Additional PowerPress Version History =
 Please visit the [PowerPress Version History](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-version-history/) page for history prior to version 4.0.9.
 
+== Upgrade Notice ==
+None at this time.
 
 == Contributors ==
 Angelo Mandato, CIO [RawVoice](http://www.rawvoice.com) - Plugin founder, architect and lead developer
