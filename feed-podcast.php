@@ -5,6 +5,12 @@
  * @package WordPress
  */
  
+	function powerpress_get_the_excerpt_rss()
+	{
+		$output = get_the_excerpt();
+		return apply_filters('the_excerpt_rss', $output);
+	}
+ 
  $FeaturedPodcastID = 0;
  $iTunesFeatured = get_option('powerpress_itunes_featured');
  $feed_slug = get_query_var('feed');
@@ -58,9 +64,9 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<dc:creator><?php the_author() ?></dc:creator>
 <?php the_category_rss('rss2') ?>
 <?php if (get_option('rss_use_excerpt')) : ?>
-		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
+		<description><?php echo powerpress_format_itunes_value( powerpress_get_the_excerpt_rss(), 'description' ); ?></description>
 <?php else : ?>
-		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
+		<description><?php echo powerpress_format_itunes_value( powerpress_get_the_excerpt_rss(), 'description' ); ?></description>
 <?php if ( strlen( $post->post_content ) > 0 ) : ?>
 		<content:encoded><![CDATA[<?php the_content_feed('rss2') ?>]]></content:encoded>
 <?php else : ?>
@@ -74,7 +80,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		else // If feed maximizer on
 		{ // itunes does not like CDATA, so we're changing it to the other method...
 		?>
-		<description><?php echo esc_html( get_the_excerpt() ); ?></description>
+		<description><?php echo powerpress_format_itunes_value( powerpress_get_the_excerpt_rss(), 'description' ); ?></description>
 		<?php
 		}
 		?>
@@ -123,7 +129,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<link><?php the_permalink_rss() ?></link>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
-		<description><?php echo powerpress_format_itunes_value( get_the_excerpt(), 'description' ); ?></description>
+		<description><?php echo powerpress_format_itunes_value( powerpress_get_the_excerpt_rss(), 'description' ); ?></description>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	<?php
