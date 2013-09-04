@@ -1047,7 +1047,7 @@ function powerpressplayer_link_title($content, $media_url, $ExtraData = array() 
 		if( !empty($prefix) )
 			$prefix .= ' ';
 		
-		$return = '<p class="powerpress_links powerpress_links_'. $extension .'">'. $prefix . $content . '</p>'.PHP_EOL;
+		$return = '<p class="powerpress_links powerpress_links_'. $extension .'">'. $prefix . $content . '</p>';
 		$player = powerpressplayer_embedable($media_url, $ExtraData);
 		if( $player )
 		{

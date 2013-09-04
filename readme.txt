@@ -175,7 +175,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 5.0.2 =
 * Released on TBD
 * Fixed another bug with *Feed Episode Maximizer* RSS <description> having the invalid characters when used with WordPRess 3.6. Added function `powerpress_get_the_excerpt_rss()` to permanently fix issue.
-
+* Removed `PHP_EOL` from powerpress-player.php where the player links are added to the post content. This should solve the issue where some themes or plugins replace new line characters with actual `<br/>` tags. (Thanks Nathan for the fix!)
 
 
 = 5.0.1 = 
