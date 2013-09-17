@@ -694,9 +694,9 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 
 function powerpressadmin_edit_blubrry_services($General)
 {
-	$StatsInDashboard = true;
-	if( !empty($General['disable_dashboard_widget']) )
-		$StatsInDashboard = false;
+	$DisableStatsInDashboard = false;
+	if( !empty($General['disable_dashboard_stats']) )
+		$DisableStatsInDashboard = true;
 		
 ?>
 <h3><?php echo __('Integrate Blubrry Services', 'powerpress'); ?>  &nbsp; <span style="color: #CC0000; font-size: 11px;"><?php echo __('optional', 'powerpress'); ?></span></h3>
@@ -777,6 +777,14 @@ function powerpressadmin_edit_blubrry_services($General)
 </div>
 <?php
 	} // end not signed up for hosting
+	
+?>
+<div style="margin-left: 40px;">
+	<p style="margin-top: 10px;">
+	<input name="DisableStatsInDashboard" type="checkbox" value="1"<?php if( $DisableStatsInDashboard == true ) echo ' checked'; ?> />
+	<?php echo __('Remove Statistics from WordPress Dashboard', 'powerpress'); ?></p>
+</div>
+<?php
 }
 
 function powerpressadmin_edit_media_statistics($General)

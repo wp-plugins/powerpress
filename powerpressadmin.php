@@ -392,9 +392,9 @@ function powerpress_admin_init()
 				//if( !isset($General['display_player_disable_mobile']) )
 				//	$General['display_player_disable_mobile'] = 0;
 				
-				$General['disable_dashboard_widget'] = 0;
-				if( !isset($_POST['StatsInDashboard'] ) )
-					$General['disable_dashboard_widget'] = 1;
+				$General['disable_dashboard_stats'] = 0;
+				if( !empty($_POST['DisableStatsInDashboard'] ) )
+					$General['disable_dashboard_stats'] = 1;
 				if( !isset($General['disable_dashboard_news'] ) )
 					$General['disable_dashboard_news'] = 0;
 					
@@ -492,8 +492,9 @@ function powerpress_admin_init()
 			{
 				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
 					$General['display_player_excerpt'] = 0; // Set it to zero.
-				if( !isset($_POST['StatsInDashboard'] ) )
-					$General['disable_dashboard_widget'] = 1;	
+				$General['disable_dashboard_stats'] = 0;
+				if( !empty($_POST['DisableStatsInDashboard'] ) )
+					$General['disable_dashboard_stats'] = 1;
 				
 				// Advanced Mode options
 				if( !isset($General['cat_casting'] ) )
