@@ -398,6 +398,8 @@ function powerpress_admin_init()
 				if( !isset($General['disable_dashboard_news'] ) )
 					$General['disable_dashboard_news'] = 0;
 					
+				if( !isset($General['episode_box_mode']) ) // Default not set, 1 = no duration/file size, 2 = yes duration/file size (default if not set)
+					$General['episode_box_mode'] = 1; // 1 = no duration/file size (unchecked)
 				if( !isset($General['episode_box_embed'] ) )
 					$General['episode_box_embed'] = 0;
 				if( !isset($General['embed_replace_player'] ) )
