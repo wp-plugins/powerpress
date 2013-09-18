@@ -1310,7 +1310,7 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
 				return;
 			}
-			else if( ( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($Powerpress['taxonomy_podcasting']) ) && ( is_tag() || is_tax() ) )
+			else if( ( defined('POWERPRESS_TAXONOMY_PODCASTING') || !empty($GeneralSettings['taxonomy_podcasting']) ) && ( is_tag() || is_tax() ) )
 			{
 				// We need to get the term_id and the tax_id (tt_id)
 				$term_slug = get_query_var('term');

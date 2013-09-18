@@ -178,6 +178,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Removed `PHP_EOL` from powerpress-player.php where the player links are added to the post content. This should solve the issue where some themes or plugins replace new line characters with actual `<br/>` tags. (Thanks Nathan for the fix!)
 * Option to remove statistics from Dashboard has been re-added. 5.0/5.0.1 removed the option which was automatically disabling statistics in dashboard. Our mistake!
 * Fixed bug with embed link no longer appearing when using FlowPlayerClassic audio player. (thanks X for bringing to our attention!)
+* Fixed bug with Taxonomy podcasting program level attributes (description, itunes subtitle, etc...) not getting applied to taxonomy feed correctly (Thankx Matt for bringing to our attention!)
+
 
 = 5.0.1 = 
 * Released on 08/30/2013
