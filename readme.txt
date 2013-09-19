@@ -180,6 +180,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with embed link no longer appearing when using FlowPlayerClassic audio player. (thanks X for bringing to our attention!)
 * Fixed bug with Taxonomy podcasting program level attributes (description, itunes subtitle) not getting applied to taxonomy feed correctly (Thankx Matt for bringing to our attention!)
 * Fixed bug with file size and duratoin checkbox setting in General Settings not saving correctly (Thanks Bridge Maker for letting us know about the bug!)
+* Added image uploader option to both the episode entry box poster image and new itunes image fields. This version will not cause issues with the media upload button if a user cancels the image upload.
+
 
 
 = 5.0.1 = 

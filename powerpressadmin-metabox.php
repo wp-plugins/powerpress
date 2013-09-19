@@ -292,10 +292,11 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" style="width: 70%; font-size: 90%;" size="250" />
+				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" style="width: 70%; font-size: 90%;" size="250" />
+				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-image-browser" id="powerpress_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select Poster Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 			<div class="powerpress_row_content">
-				<em><?php echo __('Poster image for video (m4v, mp4, ogv, webm, etc..). e.g. http://example.com/path/to/image.jpg', 'powerpress'); ?></em>
+				<em><?php echo __('Poster image for video (m4v, mp4, ogv, webm, etc..)', 'powerpress'); ?></em>
 			</div>
 		</div>
 <?php
@@ -482,12 +483,14 @@ unset($block_array);
 		{
 			if( empty($ExtraData['itunes_image']) )
 				$ExtraData['itunes_image'] = '';
-
+			
+			$form_action_url = admin_url("media-upload.php?type=powerpress_image&tab=type&post_id={$object->ID}&powerpress_feed={$FeedSlug}&TB_iframe=true&width=450&height=200");
 ?>
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]"><?php echo __('iTunes Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input id="powerpress_itunes_image_<?php echo $FeedSlug; ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]" value="<?php echo htmlspecialchars($ExtraData['itunes_image']); ?>" style="width: 70%; font-size: 90%;" size="250" />
+				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-itunes-image-browser" id="powerpress_itunes_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select iTunes Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 		</div>
 <?php

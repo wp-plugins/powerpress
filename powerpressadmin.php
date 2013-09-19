@@ -2234,7 +2234,7 @@ function powerpress_remove_hosting(FeedSlug)
 	}
 }
 
-var pp_upload_image_button=false;
+var pp_upload_image_button_funct = false;
 
 jQuery(document).ready(function($) {
 	
@@ -2254,17 +2254,45 @@ jQuery(document).ready(function($) {
 		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_image_browser_)(.*)$/, "$2");
 		tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true&amp;post_id=0', false);
 
-		var oldFunc = window.send_to_editor;
+		if( pp_upload_image_button_funct == false )
+			pp_upload_image_button_funct = window.send_to_editor;
+		
 		window.send_to_editor = function(html)
 		{
 			url = jQuery('img', html).attr('src');
-			//jQuery("#"+formfieldID).val(imgurl);
 			jQuery('#powerpress_image_'+g_powerpress_last_selected_channel).val( url );
 			g_powerpress_last_selected_channel = '';
 			tb_remove();
-			window.send_to_editor = oldFunc;
+			window.send_to_editor = pp_upload_image_button_funct;
+			pp_upload_image_button_funct = false;
 		}
 		return false;
+	});
+	jQuery('.powerpress-itunes-image-browser').click(function(e) {
+		e.preventDefault();
+		g_powerpress_last_selected_channel = this.id.replace(/(powerpress_itunes_image_browser_)(.*)$/, "$2");
+		tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true&amp;post_id=0', false);
+
+		if( pp_upload_image_button_funct == false )
+			pp_upload_image_button_funct = window.send_to_editor;
+		
+		window.send_to_editor = function(html)
+		{
+			url = jQuery('img', html).attr('src');
+			jQuery('#powerpress_itunes_image_'+g_powerpress_last_selected_channel).val( url );
+			g_powerpress_last_selected_channel = '';
+			tb_remove();
+			window.send_to_editor = pp_upload_image_button_funct;
+			pp_upload_image_button_funct = false;
+		}
+		return false;
+	});
+	jQuery('#insert-media-button').click( function(e) {
+		if( pp_upload_image_button_funct != false )
+		{
+			window.send_to_editor = pp_upload_image_button_funct;
+			pp_upload_image_button_funct = false;
+		}
 	});
 	jQuery('.powerpress-embed').change( function() {
 		// if there is a value in the embed box, but there is no value in the url box, then we need to display a warning...
