@@ -173,15 +173,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 
 = 5.0.2 =
-* Released on TBD
+* Released on 09/23/2013
 * Fixed another bug with *Feed Episode Maximizer* RSS <description> having the invalid characters when used with WordPRess 3.6. Added function `powerpress_get_the_excerpt_rss()` to permanently fix issue.
 * Removed `PHP_EOL` from powerpress-player.php where the player links are added to the post content. This should solve the issue where some themes or plugins replace new line characters with actual `<br/>` tags. (Thanks Nathan for the fix!)
 * Option to remove statistics from Dashboard has been re-added. 5.0/5.0.1 removed the option which was automatically disabling statistics in dashboard. Our mistake!
-* Fixed bug with embed link no longer appearing when using FlowPlayerClassic audio player. (thanks X for bringing to our attention!)
-* Fixed bug with Taxonomy podcasting program level attributes (description, itunes subtitle) not getting applied to taxonomy feed correctly (Thankx Matt for bringing to our attention!)
+* Fixed bug with embed link no longer appearing when using FlowPlayerClassic audio player. (thanks cimmerian for bringing to our attention!)
+* Fixed bug with Taxonomy podcasting program level attributes (description, itunes subtitle) not getting applied to taxonomy feed correctly (Thanks Matt for bringing to our attention!)
 * Fixed bug with file size and duratoin checkbox setting in General Settings not saving correctly (Thanks Bridge Maker for letting us know about the bug!)
 * Added image uploader option to both the episode entry box poster image and new itunes image fields. This version will not cause issues with the media upload button if a user cancels the image upload.
-
 
 
 = 5.0.1 = 
