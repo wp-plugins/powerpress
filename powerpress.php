@@ -895,6 +895,7 @@ add_filter('rss_enclosure', 'powerpress_filter_rss_enclosure', 11);
 
 function powerpress_bloginfo_rss($content, $field = '')
 {
+	$new_value = '';
 	if( powerpress_is_custom_podcast_feed() )
 	{
 		if( is_category() ) {
@@ -930,12 +931,12 @@ function powerpress_bloginfo_rss($content, $field = '')
 			{
 				case 'description': {
 					if( !empty($Feed['description']) )
-						return $Feed['description'];
+						$new_value = $Feed['description'];
 					else if( is_category() )
 					{
 						$category = get_category( get_query_var('cat') );
 						if( $category->description )
-							return $category->description;
+							$new_value = $category->description;
 					}
 				}; break;
 				case 'url': {
@@ -946,7 +947,7 @@ function powerpress_bloginfo_rss($content, $field = '')
 				}; break;
 				case 'name': {
 					if( !empty($Feed['title']) )
-						return $Feed['title'];
+						$new_value = $Feed['title'];
 				}; break;
 				case 'language': {
 					// Get the feed language
@@ -960,6 +961,15 @@ function powerpress_bloginfo_rss($content, $field = '')
 				}; break;
 			}
 		}
+	}
+	
+	if( !empty($new_value) )
+	{
+		$new_value = wptexturize($new_value);
+		$new_value = convert_chars($new_value);
+		$new_value = esc_html($new_value);
+		//$new_value = convert_chars($new_value);
+		return $new_value;
 	}
 	
 	return $content;

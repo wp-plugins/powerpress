@@ -173,6 +173,12 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 
+= 5.0.3 =
+* Released on 12/3/2013
+* Fixed bug with feed title not properly XML encoding ampersand. (Thanks Robin for bringing to our attention!) 
+* Updated supported version number to WordPress 3.7.1
+
+
 = 5.0.2 =
 * Released on 09/23/2013
 * Fixed another bug with *Feed Episode Maximizer* RSS <description> having the invalid characters when used with WordPRess 3.6. Added function `powerpress_get_the_excerpt_rss()` to permanently fix issue.
