@@ -172,6 +172,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = Next Major Release Announcements =
 * PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
+* We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 = 5.0.3 =
 * Released on 12/3/2013
