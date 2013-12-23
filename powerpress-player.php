@@ -1415,6 +1415,15 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
 	$content .= '<audio class="powerpress-mejs-audio" controls="controls"';
 	
+	// Set the type if required
+	$extension = powerpressplayer_get_extension($EpisodeData['url']);
+	switch( $extension )
+	{
+		case 'm4a': {
+			$content .= ' type="audio/mp4"';
+		}; break;
+	}
+	
 	// Prevent pre-loading in certain browsers
 	$media_url_src = $media_url;
 	// Folloowing is for mobile browsers that pre-load the audio

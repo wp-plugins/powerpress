@@ -174,6 +174,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+= 5.0.4 =
+* Released on 12/24/2013
+* Fixed bug with MEjs player not working for m4a files (Thanks JT for the code patch!)
+
+
 = 5.0.3 =
 * Released on 12/3/2013
 * Fixed bug with feed title not properly XML encoding ampersand. (Thanks Robin for bringing to our attention!) 
