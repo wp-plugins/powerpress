@@ -637,7 +637,7 @@ while( list($value,$desc) = each($options) )
 function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs = array() )
 {
 	// Set default settings (if not set)
-	if( $FeedSettings )
+	if( !empty($FeedSettings) )
 	{
 		if( !isset($FeedSettings['itunes_url']) )
 			$FeedSettings['itunes_url'] = '';
@@ -649,6 +649,12 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 	
 	$feed_slug = $FeedAttribs['feed_slug'];
 	$cat_ID = $FeedAttribs['category_id'];
+	
+	if( $feed_slug == 'podcast' && $FeedAttribs['type'] == 'general' )
+	{
+		if( empty($FeedSettings['itunes_url']) && isset($General['itunes_url']) )
+			$FeedSettings['itunes_url'] = $General['itunes_url'];
+	}
 	
 ?>
 <h3><?php echo __('iTunes Listing Information', 'powerpress'); ?></h3>

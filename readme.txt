@@ -177,6 +177,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 5.0.4 =
 * Released on 12/24/2013
 * Fixed bug with MEjs player not working for m4a files (Thanks JT for the code patch!)
+* Added logic to PowerPress edit iTunes Subscription URL settings, precaution to make sure the field is saved correctly.
 
 
 = 5.0.3 =
