@@ -66,9 +66,11 @@ ul.media li a {
 }
 #accountinfo input[type=text], #accountinfo input[type=password] {
 	width: 220px;
+	border-color: #AAAAAA;
 }
 #accountinfo select {
 	width: 222px;
+	border-color: #AAAAAA;
 }
 .powerpress-notice {
 	border: 1px solid #FFCC00;

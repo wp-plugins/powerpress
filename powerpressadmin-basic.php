@@ -130,8 +130,8 @@ jQuery(document).ready(function($) {
 <div id="powerpress_admin_header">
 <h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2> 
 	<span class="powerpress-mode"><?php echo __('Advanced Mode', 'powerpress'); ?>
-	&nbsp; <a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php&mode=simple"); ?>" id="powerpress_advanced_mode_button" class="button-primary"><?php echo __('Switch to simplified Default Mode', 'powerpress'); ?></a>
-</span>
+		&nbsp; <a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php&amp;mode=simple"); ?>" id="powerpress_advanced_mode_button" class="button-primary"><?php echo __('Switch to simplified Default Mode', 'powerpress'); ?></a>
+	</span>
 </div>
 
 <div id="powerpress_settings_page" class="powerpress_tabbed_content"> 
@@ -306,8 +306,8 @@ function powerpressadmin_advanced_options($General)
 		</li>
 		<li><?php echo __('Tell the world about PowerPress by writing about it on your blog', 'powerpress'); ?>, 
 		<a href="http://twitter.com/home/?status=<?php echo urlencode( __('I\'m podcasting with Blubrry PowerPress (http://blubrry.com/powerpress/) #powerpress #wordpress', 'powerpress') ); ?>" target="_blank"><?php echo __('Twitter', 'powerpress'); ?></a>, 
-		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://create.blubrry.com/resources/powerpress/'); ?>&t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
-		<a href="http://digg.com/submit?phase=2&url=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&title=<?php echo urlencode( __('Blubrry PowerPress Podcasting Plugin for WordPress', 'powerpress') ); ?>" target="_blank"><?php echo __('Digg', 'powerpress'); ?></a>,
+		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://create.blubrry.com/resources/powerpress/'); ?>&amp;t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
+		<a href="http://digg.com/submit?phase=2&amp;url=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&amp;title=<?php echo urlencode( __('Blubrry PowerPress Podcasting Plugin for WordPress', 'powerpress') ); ?>" target="_blank"><?php echo __('Digg', 'powerpress'); ?></a>,
 		etc...</li>
 		<li><a href="http://www.blubrry.com/contact.php" target="_blank"><?php echo __('Send us feedback', 'powerpress'); ?></a> (<?php echo __('we love getting suggestions for new features!', 'powerpress'); ?>)</li>
 	</ul>
@@ -357,7 +357,7 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input class="episode_box_option" name="Null[ignore]" type="checkbox" value="1" checked onclick="return false" onkeydown="return false" /> <?php echo __('Media URL', 'powerpress'); ?>
 						(<?php echo __('Specify URL to episode\'s media file', 'powerpress'); ?>)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_cover_image" class="episode_box_option" name="General[episode_box_mode]" type="checkbox" value="2" <?php if( empty($General['episode_box_mode']) || $General['episode_box_mode'] != 1 ) echo ' checked'; ?> /> <?php echo __('Media File Size and Duration', 'powerpress'); ?>
+					<p style="margin-top: 15px;"><input id="episode_box_mode" class="episode_box_option" name="General[episode_box_mode]" type="checkbox" value="2" <?php if( empty($General['episode_box_mode']) || $General['episode_box_mode'] != 1 ) echo ' checked'; ?> /> <?php echo __('Media File Size and Duration', 'powerpress'); ?>
 						(<?php echo __('Specify episode\'s media file size and duration', 'powerpress'); ?>)</p>
 						
 					<p style="margin-top: 15px; margin-bottom: 0;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( !empty($General['episode_box_embed']) ) echo ' checked'; ?> onclick="SelectEmbedField(this.checked);"  /> <?php echo __('Embed Field', 'powerpress'); ?>
@@ -399,7 +399,7 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_explicit]" type="checkbox" value="1"<?php if( !empty($General['episode_box_explicit']) ) echo ' checked'; ?> /> <?php echo __('iTunes Explicit Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use your feed\'s explicit setting', 'powerpress'); ?>)</p>
 						
-					<p style="margin-top: 15px;"><label><input id="episode_box_explicit" class="episode_box_option" name="General[episode_box_itunes_image]" type="checkbox" value="1"<?php if( !empty($General['episode_box_itunes_image']) ) echo ' checked'; ?> /> <?php echo __('iTunes Episode Image Field', 'powerpress'); ?></label> <?php echo powerpressadmin_new(); ?>
+					<p style="margin-top: 15px;"><label><input id="episode_box_itunes_image" class="episode_box_option" name="General[episode_box_itunes_image]" type="checkbox" value="1"<?php if( !empty($General['episode_box_itunes_image']) ) echo ' checked'; ?> /> <?php echo __('iTunes Episode Image Field', 'powerpress'); ?></label> <?php echo powerpressadmin_new(); ?>
 						(<?php echo __('Leave unchecked to use the image embedded into your media files.', 'powerpress'); ?>)</p>	
 						
 					<p style="margin-top: 15px;"><label><input id="episode_box_closed_captioned" class="episode_box_option" name="General[episode_box_closed_captioned]" type="checkbox" value="1"<?php if( !empty($General['episode_box_closed_captioned']) ) echo ' checked'; ?> /> <?php echo __('iTunes Closed Captioned', 'powerpress'); ?></label> 
@@ -525,7 +525,7 @@ while( list($value,$desc) = each($options) )
 ?>
 		</select>
 		<p><?php echo __('When enabled, the first or last media link found in the post content is automatically added as your podcast episode.', 'powerpress'); ?></p>
-		<p style="margin-bottom: 0;"><em><?php echo __('NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.', 'powerpress'); ?></em></p>
+		<p style="margin-bottom: 0;" class="description"><em><?php echo __('NOTE: Use this feature with caution. Links to media files could unintentionally become podcast episodes.', 'powerpress'); ?></em></p>
 		<p><em><?php echo __('WARNING: Episodes created with this feature will <u>not</u> include Duration (total play time) information.', 'powerpress'); ?></em></p>
 </td>
 </tr>
@@ -740,7 +740,7 @@ function powerpressadmin_edit_blubrry_services($General)
 		{
 	?>
 	<p style="font-weight: bold;">
-	<img src="<?php echo powerpress_get_root_url(); ?>images/Check.png" style="width: 25px; height: 20px;"  />
+	<img src="<?php echo powerpress_get_root_url(); ?>images/Check.png" style="width: 25px; height: 20px;"  alt="<?php echo __('Enabled!', 'powerpress'); ?>" />
 	<?php 
 		if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' )
 			echo __('Blubrry Statistics Enabled!', 'powerpress');
@@ -807,7 +807,7 @@ function powerpressadmin_edit_media_statistics($General)
 		$StatsIntegrationURL = 'http://media.blubrry.com/'.$General['blubrry_program_keyword'].'/';
 ?>
 <div id="blubrry_stats_settings">
-<h3><?php echo __('Media Statistics', 'powerpress'); ?></span></h3>
+<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
 	<div style="margin-left: 40px;">
 		<p>
 		<?php echo __('Enter your Redirect URL issued by your media statistics service provider below.', 'powerpress'); ?>
@@ -826,7 +826,7 @@ function powerpressadmin_edit_media_statistics($General)
 			</table>
 			<?php if( empty($General['redirect2']) && empty($General['redirect3']) ) { ?>
 			<div style="position: absolute;bottom: -2px;left: -40px;" id="powerpress_redirect2_showlink">
-				<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect2_table').style.display='block';document.getElementById('powerpress_redirect2_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
+				<a href="#" onclick="javascript:document.getElementById('powerpress_redirect2_table').style.display='block';document.getElementById('powerpress_redirect2_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
 			</div>
 			<?php } ?>
 		</div>
@@ -845,7 +845,7 @@ function powerpressadmin_edit_media_statistics($General)
 			</table>
 			<?php if( $General['redirect3'] == '' ) { ?>
 			<div style="position: absolute;bottom: -2px;left: -40px;" id="powerpress_redirect3_showlink">
-				<a href="javascript:void();" onclick="javascript:document.getElementById('powerpress_redirect3_table').style.display='block';document.getElementById('powerpress_redirect3_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
+				<a href="#" onclick="javascript:document.getElementById('powerpress_redirect3_table').style.display='block';document.getElementById('powerpress_redirect3_showlink').style.display='none';return false;"><?php echo __('Add Another Redirect', 'powerpress'); ?></a>
 			</div>
 			<?php } ?>
 		</div>
@@ -917,18 +917,16 @@ function powerpressadmin_appearance($General=false)
 <th scope="row">&nbsp;	</th> 
 <td>
 	<ul>
-		<li><label><input type="radio" name="General[disable_appearance]" value="0" <?php if( $General['disable_appearance'] == 0 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'block':'none') );" /> <?php echo __('Enable PowerPress Media Players and Links', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
-		<li>
-			<ul>
-				<li><?php echo __('PowerPress will add media players and links to your site.', 'powerpress'); ?></li>
-			</ul>
+		<li><p><label><input type="radio" name="General[disable_appearance]" value="0" <?php if( $General['disable_appearance'] == 0 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'block':'none') );" /> <?php echo __('Enable PowerPress Media Players and Links', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</p>
+			<ul><li>
+				<p class="description"><?php echo __('PowerPress will add media players and links to your site.', 'powerpress'); ?></p>
+			</li></ul>
 		</li>
 		
-		<li><label><input type="radio" name="General[disable_appearance]" value="1" <?php if( $General['disable_appearance'] == 1 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'none':'block') );" /> <?php echo __('Disable PowerPress Media Players and Links', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('PowerPress will <u>not</u> add any media players or media links to your site. PowerPress will only be used to add podcasting support to your feeds.', 'powerpress'); ?></li>
-			</ul>
+		<li><p><label><input type="radio" name="General[disable_appearance]" value="1" <?php if( $General['disable_appearance'] == 1 ) echo 'checked'; ?> onclick="javascript: jQuery('#presentation_settings').css('display', (this.checked?'none':'block') );" /> <?php echo __('Disable PowerPress Media Players and Links', 'powerpress'); ?></label></p>
+			<ul><li>
+				<p class="description"><?php echo __('PowerPress will <u>not</u> add any media players or media links to your site. PowerPress will only be used to add podcasting support to your feeds.', 'powerpress'); ?></p>
+			</li></ul>
 		</li>
 	</ul>
 </td>
@@ -948,24 +946,21 @@ function powerpressadmin_appearance($General=false)
 <th scope="row"><?php echo htmlspecialchars(__('Display Media & Links', 'powerpress')); ?></th> 
 <td>
 	<ul>
-		<li><label><input type="radio" name="General[display_player]" value="1" <?php if( $General['display_player'] == 1 ) echo 'checked'; ?> /> <?php echo __('Below page content', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</li>
-		<li>
-			<ul>
-				<li><?php echo __('Player and media links will appear <u>below</u> your post and page content.', 'powerpress'); ?></li>
-			</ul>
+		<li><p><label><input type="radio" name="General[display_player]" value="1" <?php if( $General['display_player'] == 1 ) echo 'checked'; ?> /> <?php echo __('Below page content', 'powerpress'); ?></label> (<?php echo __('default', 'powerpress'); ?>)</p>
+				<ul><li>
+					<p class="description"><?php echo __('Player and media links will appear <u>below</u> your post and page content.', 'powerpress'); ?><p>
+				</li></ul>
 		</li>
-		
-		<li><label><input type="radio" name="General[display_player]" value="2" <?php if( $General['display_player'] == 2 ) echo 'checked'; ?> /> <?php echo __('Above page content', 'powerpress'); ?></label></li>
-		<li>
-			<ul>
-				<li><?php echo __('Player and media links will appear <u>above</u> your post and page content.', 'powerpress'); ?></li>
-			</ul>
+		<li><p><label><input type="radio" name="General[display_player]" value="2" <?php if( $General['display_player'] == 2 ) echo 'checked'; ?> /> <?php echo __('Above page content', 'powerpress'); ?></label></p>
+			<ul><li>
+				<p class="description"><?php echo __('Player and media links will appear <u>above</u> your post and page content.', 'powerpress'); ?></p>
+			</li></ul>
 		</li>
-		<li><label><input type="radio" name="General[display_player]" value="0" <?php if( $General['display_player'] == 0 ) echo 'checked'; ?> /> <?php echo __('Disable', 'powerpress'); ?></label></li>
 		<li>
-			<ul>
-				<li><?php echo __('Player and media links will <u>NOT</u> appear in your post and page content. Media player and links can be added manually by using the <i>shortcode</i> below.', 'powerpress'); ?></li>
-			</ul>
+			<p><label><input type="radio" name="General[display_player]" value="0" <?php if( $General['display_player'] == 0 ) echo 'checked'; ?> /> <?php echo __('Disable', 'powerpress'); ?></label></p>
+			<ul><li>
+				<p class="description"><?php echo __('Player and media links will <u>NOT</u> appear in your post and page content. Media player and links can be added manually by using the <i>shortcode</i> below.', 'powerpress'); ?></p>
+			</li></ul>
 		</li>
 	</ul>
 	<p><input name="General[display_player_excerpt]" type="checkbox" value="1" <?php if( !empty($General['display_player_excerpt']) ) echo 'checked '; ?>/> <?php echo __('Display media / links in:', 'powerpress'); ?> <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" title="<?php echo __('WordPress Excerpts', 'powerpress'); ?>" target="_blank"><?php echo __('WordPress Excerpts', 'powerpress'); ?></a>  (<?php echo __('e.g. search results', 'powerpress'); ?>)</p>
@@ -990,7 +985,7 @@ function powerpressadmin_appearance($General=false)
 <p>
 <?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Shortcode', 'powerpress') .'</a>' ); ?>
 </p>
-<p>
+<p class="description">
 <?php echo __('Note: When specifying a URL to media in the powerpress shortcode, only the player is included. The Media Links will <u>NOT</u> be included since there is not enough meta information to display them.', 'powerpress'); ?>
 </p>
 </td>
@@ -1195,7 +1190,7 @@ function powerpressadmin_edit_tv($FeedSettings = false, $feed_slug='podcast', $c
 		$tip = $RatingsTips[ $rating ];
 ?>
 	<div style="margin-bottom: 10px;"><label><input type="radio" name="Feed[parental_rating]" value="<?php echo $rating; ?>" <?php if( $FeedSettings['parental_rating'] == $rating) echo 'checked'; ?> /> <?php if( $rating ) { ?><strong><?php echo $rating; ?></strong><?php } else { ?><strong><?php echo htmlspecialchars($title); ?></strong><?php } ?></label>
-	<?php if( $rating ) { ?>  <span style="margin-left: 8px;"><a href="#" class="powerpress-parental-rating-tip" id="rating_tip_<?php echo $rating; ?>"><?php echo htmlspecialchars($title); ?></a><?php } ?></span>
+	<?php if( $rating ) { ?>  <span style="margin-left: 8px;"><a href="#" class="powerpress-parental-rating-tip" id="rating_tip_<?php echo $rating; ?>"><?php echo htmlspecialchars($title); ?></a></span><?php } ?>
 	<p style="margin: 5px 50px; display: none;" id="rating_tip_<?php echo $rating; ?>_p" class="powerpress-parental-rating-tip-p"><?php echo htmlspecialchars($tip); ?></p>
 	</div>
 	<?php
@@ -1234,7 +1229,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <?php echo __('This image is for your listing on the iTunes podcast directory and may also be used by other directories like Blubrry. It is not the artwork that is displayed during episode playback. That artwork needs to be saved into the media file in the form of tags (ID3 tags for mp3) following the production of the media file.', 'powerpress'); ?>
 </p>
 
-<p><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 
+<p class="description"><?php echo __('Note: If you change the iTunes image without changing the file name it may take some time (days or even months) for iTunes to update the image in the iTunes Podcast Directory.', 'powerpress'); ?> 
 <?php echo sprintf( __('Please contact %s if you are having issues with your image changes not appearing in iTunes.', 'powerpress'), '<a href="http://www.apple.com/support/itunes/contact/">'. __('iTunes Support', 'powerpress') .'</a>'); ?></p>
 <?php if( $SupportUploads ) { ?>
 
@@ -1242,7 +1237,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 	<span style="font-size:85%;">(<?php echo __('Using this option should update your image on iTunes within 24 hours', 'powerpress'); ?>)</span>
 </p>
 <div style="display:none" id="itunes_image_upload">
-	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" name="itunes_image_file"  /><br />
+	<label for="itunes_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" id="itunes_image_file" name="itunes_image_file"  /><br />
 	<?php if( !empty($General['advanced_mode_2']) ) { ?>
 	<div style="margin-left: 85px;"><label class="powerpress-normal-font"><input name="itunes_image_checkbox_as_rss" type="checkbox" value="1" onchange="powerpress_show_field('rss_image_upload_container', !this.checked)" /> <?php echo __('Also use as RSS image', 'powerpress'); ?></label></div>
 	<?php } else { ?>
@@ -1264,7 +1259,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 
 <p><label><input type="checkbox" name="Feed[episode_itunes_image]" value="1" <?php if( !empty($FeedSettings['episode_itunes_image']) ) echo 'checked '; ?>/> <?php echo __('Use iTunes image above', 'powerpress'); ?></label></p>
 <p><?php echo __('Use the program iTunes image above as your iTunes episode image.', 'powerpress'); ?></p>
-<p><?php echo __('NOTE: You must still save artwork into your media files to guarantee your artwork is displayed during playback.', 'powerpress'); ?></p>
+<p class="description"><?php echo __('NOTE: You must still save artwork into your media files to guarantee your artwork is displayed during playback.', 'powerpress'); ?></p>
 </td>
 </tr>
 

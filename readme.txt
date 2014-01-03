@@ -174,10 +174,13 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a sepraate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+
 = 5.0.4 =
-* Released on 12/24/2013
+* Released on 1/3/2014
 * Fixed bug with MEjs player not working for m4a files (Thanks JT for the code patch!)
 * Added logic to PowerPress edit iTunes Subscription URL settings, precaution to make sure the field is saved correctly.
+* Made a few CSS changes for WordPress 3.8+
+* Noted in the HTML5 audio player option that Firefox 26.0+ now supports mp3 playback. We are aware that Firefox 21.0 supported mp3 playback but it was limited to particular Windows versions.
 
 
 = 5.0.3 =

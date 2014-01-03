@@ -459,7 +459,7 @@ function select_all(index,value)
 	//echo "<pre id=\"podpress_debug_info\" style=\"display: none;\">";
 	//print_r($results);
 	//echo "</pre>";
-	//echo '<p><a href="javascript:void();" onclick="javascript:document.getElementById(\'podpress_debug_info\').style.display=\'block\';this.style.display=\'none\';return false;">Show Debug Info</a></p>';
+	//echo '<p><a href="#" onclick="javascript:document.getElementById(\'podpress_debug_info\').style.display=\'block\';this.style.display=\'none\';return false;">Show Debug Info</a></p>';
 	
 	if( count($results) == 0 || count($results) == 1 )
 	{

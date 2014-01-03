@@ -450,7 +450,7 @@ table.html5formats tr > td:first-child {
 				</tr>
 				<tr>
 					<td><i><?php echo __('Firefox', 'powerpress'); ?></i></td>
-					<td>-</td>
+					<td><strong>26.0+</strong></td>
 					<td>-</td>
 					<td><strong>3.5+</strong></td>
 				</tr>

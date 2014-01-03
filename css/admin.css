@@ -36,7 +36,7 @@ div.powerpress-error,
 	font-size: 90%;
 }
 #powerpress_settings label {
-	font-size: 120%;
+/*	font-size: 110%;  */
 }
 .bpp_input_sm {
 	width: 120px;
@@ -68,6 +68,8 @@ text-decoration:none;
 -moz-border-radius-bottomright:0;
 -moz-border-radius-topleft:3px;
 -moz-border-radius-topright:3px;
+border-radius-topleft:3px;
+border-radius-topright:3px;
 border-style:solid;
 border-width:1px;
 cursor:pointer;
@@ -76,9 +78,12 @@ height:18px;
 margin:5px 5px 0 0;
 padding:4px 5px 2px;
 background-color:#F1F1F1;
+background-color:#E3E3E3;
 border-color:#DFDFDF;
+border-color:#B3B3B3;
 color:#999999;
-
+color:#666666;
+font-weight: bold;
 }
 .powerpress_tabbed_content ul a:hover {
   }
@@ -114,6 +119,7 @@ border-collapse:separate;
 border-style:solid;
 border-width:1px;
 border-color:#DFDFDF;
+border-color:#B3B3B3;
 padding-bottom: 15px;
 }
 .powerpress_tab .form-table {
@@ -211,9 +217,10 @@ padding-bottom: 15px;
 	margin: 60px 0 40px;
 }
 .powerpress-required {
-	font-size: 90%;
+	font-size: 85%;
 	color: #CC0000;
 	margin-left: 12px;
+	font-style:italic;
 }
 
 .powerpress-step {
