@@ -109,7 +109,7 @@ We now offer one-on-one consulting via Gotomeeting, Skype or phone.
  * [Message Flow](http://wordpress.org/extend/plugins/message-flow/) - generates a CoverFlow-like interface for your blog posts with podcast episodes. For podcasts, use shortocde `[message-flow podcasts_only="true"]`.
  * [Eli's PowerPress Addon Widget](http://wordpress.org/extend/plugins/podpress-addons/) - Adds a sidebar widget that lists your podcast episodes linked to the play in a new window PowerPress player.
  * [PowerPress Posts From MySQL](http://wordpress.org/extend/plugins/powerpress-posts-from-mysql/developers/) - Creates blog posts with PowerPress podcast episode information from a MySQL table.
- * [Featured Podcast Widget](http://wordpress.org/plugins/featured-podcast-widget/) - A widget that enables you to display your latest podcast from a category or featured podcast utilising the PowerPress plugin's default player.
+ * [Featured Podcast Widget](http://wordpress.org/plugins/featured-podcast-widget/), [Home Page](http://www.richardfarrar.com/featured-podcast-widget-for-wordpress/) - A widget that enables you to display your latest podcast from a category or featured podcast utilising the PowerPress plugin's default player.
  * [Subscribe Sidebar plugin by Blubrry](http://wordpress.org/extend/plugins/subscribe-sidebar/) - A sidebar widget that provides a list of "Subscribe" links to your sidebar.
  
  
@@ -176,11 +176,12 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 5.0.4 =
-* Released on 1/3/2014
+* Released on 1/?/2014
 * Fixed bug with MEjs player not working for m4a files (Thanks JT for the code patch!)
 * Added logic to PowerPress edit iTunes Subscription URL settings, precaution to make sure the field is saved correctly.
 * Made a few CSS changes for WordPress 3.8+
 * Noted in the HTML5 audio player option that Firefox 26.0+ now supports mp3 playback. We are aware that Firefox 21.0 supported mp3 playback but it was limited to particular Windows versions.
+* 
 
 
 = 5.0.3 =
