@@ -1354,7 +1354,7 @@ function powerpress_rebuild_posttype_podcasting()
 			$FeedSlugPostTypeArray[ $feed_slug ][ $post_type ] = ( empty($PostTypeSettings['title'])? $feed_slug : $PostTypeSettings['title'] );
 		}
 	}
-	update_option('powerpress_posttype_podcasting', $FeedSlugPostTypeArray);
+	update_option('powerpress_posttype-podcasting', $FeedSlugPostTypeArray);
 }
 
 function powerpress_admin_menu()
@@ -1372,7 +1372,7 @@ function powerpress_admin_menu()
 		$FeedSlugPostTypesArray = array();
 		if( !empty($Powerpress['posttype_podcasting']) )
 		{
-			$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+			$FeedSlugPostTypesArray = get_option('powerpress_posttype-podcasting');
 				if( empty($FeedSlugPostTypesArray) )
 					$FeedSlugPostTypesArray = array();
 		}
@@ -1403,7 +1403,7 @@ function powerpress_admin_menu()
 		{
 			add_meta_box('powerpress-podcast', __('Podcast Episode (default)', 'powerpress'), 'powerpress_meta_box', 'post', 'normal'); // Default podcast box for post type 'post'
 			
-			$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+			$FeedSlugPostTypesArray = get_option('powerpress_posttype-podcasting');
 			if( empty($FeedSlugPostTypesArray) )
 				$FeedSlugPostTypesArray = array();
 
@@ -2917,6 +2917,17 @@ function powerpress_process_hosting($post_ID, $post_title)
 		$CustomFeeds = $Settings['custom_feeds'];
 	if( !isset($CustomFeeds['podcast']) )
 		$CustomFeeds['podcast'] = 'podcast';
+		
+	
+	if( !empty($Settings['posttype_podcasting']) )
+	{
+		$FeedSlugPostTypesArray = get_option('powerpress_posttype-podcasting');
+		while( list($feed_slug, $null) = each($FeedSlugPostTypesArray) )
+		{
+			if( empty($CustomFeeds[$feed_slug]) )
+				$CustomFeeds[$feed_slug] = $feed_slug;
+		}
+	}
 	
 	while( list($feed_slug,$null) = each($CustomFeeds) )
 	{

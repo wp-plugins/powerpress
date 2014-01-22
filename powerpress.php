@@ -162,8 +162,48 @@ function powerpress_content($content)
 	
 	// Re-order so the default podcast episode is the top most...
 	$Temp = $GeneralSettings['custom_feeds'];
+	
 	$GeneralSettings['custom_feeds'] = array();
 	$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+	
+	// If we have post type podcasting enabled, then we need to use the podcast post type feeds instead here...
+	if( !empty($GeneralSettings['posttype_podcasting']) )
+	{
+		$post_type = get_query_var('post_type');
+		//$post_type = get_post_type();
+		
+		// Get the feed slugs and titles for this post type
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+		// Loop through this array...
+		while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+		{
+			if( !empty( $postTypeSettings['title']) )
+				$Temp[ $feed_slug ] = $postTypeSettings['title'];
+			else
+				$Temp[ $feed_slug ] = $feed_slug;
+		}
+		
+		switch($post_type)
+		{
+			case 'post':
+			case 'page': {
+				// Do nothing!, we want the default podcast to appear in these post types
+			}; break;
+			default: {
+			
+				if( empty($Temp['podcast']) )
+				{
+					unset($GeneralSettings['custom_feeds']['podcast']); // specail case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
+				}
+				else
+				{
+					$GeneralSettings['custom_feeds']['podcast'] = $Temp['podcast']; // use the custom title
+				}
+			}; break;
+		}
+	}
+	
+	// Add the custom feeds to the list
 	while( list($feed_slug, $feed_title) = each($Temp) )
 	{
 		if( $feed_slug == 'podcast' )
@@ -1195,10 +1235,24 @@ function powerpress_init()
 	{
 		// Loop through the posttype podcasting settings and set the feeds for the custom post type slugs...
 		global $wp_rewrite;
-		$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+		
+		
+		$FeedSlugPostTypesArray = get_option('powerpress_posttype-podcasting'); // Changed field slightly so it does not conflict with a post type "podcasting"
+		if( $FeedSlugPostTypesArray === false )
+		{
+			// Simple one-time fix...
+			$FeedSlugPostTypesArray = get_option('powerpress_posttype_podcasting');
+			if( empty($FeedSlugPostTypesArray) )
+				$FeedSlugPostTypesArray = array();
+			update_option('powerpress_posttype-podcasting', $FeedSlugPostTypesArray);
+			if( !array_key_exists('title', $FeedSlugPostTypesArray) ) // AS long as it doesn't have post type specific settings...
+				delete_option('powerpress_posttype_podcasting');
+		}
+		
 		if( empty($FeedSlugPostTypesArray) )
+		{
 			$FeedSlugPostTypesArray = array();
-
+		}
 		while( list($feed_slug, $FeedSlugPostTypes) = each($FeedSlugPostTypesArray) )
 		{
 			if ( !in_array($feed_slug, $wp_rewrite->feeds) ) // we need to add this feed name
