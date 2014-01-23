@@ -2601,7 +2601,7 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 					$AddDefaultPlayer = false;
 			}
 			
-			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($GeneralSettings) )
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($feed_slug) )
 			{
 				$return .= powerpress_premium_content_message(get_the_ID(), $feed_slug, $EpisodeData);
 				continue;
@@ -2631,6 +2631,19 @@ function powerpress_premium_content_authorized($feed_slug)
 		if( isset($FeedSettings['premium']) && $FeedSettings['premium'] != '' )
 			return current_user_can($FeedSettings['premium']);
 	}
+	
+	$post_type = get_query_var('post_type');
+	if( $post_type != 'post' )
+	{
+		$GeneralSettings = get_option('powerpress_general');
+		if( !empty($GeneralSettings['posttype_podcasting']) ) // Custom Post Types
+		{
+			// Get the feed slugs and titles for this post type
+			$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+			if( !empty($PostTypeSettingsArray[$feed_slug]['premium']) )
+				return current_user_can($PostTypeSettingsArray[$feed_slug]['premium']);
+		}
+	}
 	return true; // any user can access this content
 }
 
@@ -2642,6 +2655,20 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 	if( !$EpisodeData )
 		return '';
 	$FeedSettings = get_option('powerpress_feed_'.$feed_slug);
+	$post_type = get_query_var('post_type');
+	if( $post_type != 'post' )
+	{
+		$GeneralSettings = get_option('powerpress_general');
+		if( !empty($GeneralSettings['posttype_podcasting']) ) // Custom Post Types
+		{
+			// Get the feed slugs and titles for this post type
+			$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+			if( !empty($PostTypeSettingsArray[$feed_slug]['premium']) )
+			{
+				$FeedSettings = $PostTypeSettingsArray[$feed_slug];
+			}
+		}
+	}
 	
 	$extension = 'unknown';
 	$parts = pathinfo($EpisodeData['url']);

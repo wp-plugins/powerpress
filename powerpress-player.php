@@ -91,6 +91,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 	$return = '';
 	$feed = '';
 	$channel = '';
+	$slug = ''; // latest and preferred way to specify the feed slug
 	$url = '';
 	$image = '';
 	$width = '';
@@ -100,6 +101,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			'url' => '',
 			'feed' => '',
 			'channel' => '',
+			'slug' => '',
 			'image' => '',
 			'width' => '',
 			'height' => ''
@@ -107,6 +109,8 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		
 	if( empty($channel) && !empty($feed) ) // Feed for backward compat.
 		$channel = $feed;
+	if( !empty($slug) ) // Foward compatibility
+		$channel = $slug;
 	
 	if( !$url && $content )
 	{
@@ -155,6 +159,36 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( !isset($GeneralSettings['custom_feeds']['podcast']) )
 			$GeneralSettings['custom_feeds']['podcast'] = 'Podcast Feed'; // Fixes scenario where the user never configured the custom default podcast feed.
 		
+		// If we have post type podcasting enabled, then we need to use the podcast post type feeds instead here...
+		if( !empty($GeneralSettings['posttype_podcasting']) )
+		{
+			$post_type = get_query_var('post_type');
+			switch($post_type)
+			{
+				case 'post':
+				case 'page': {
+					// Do nothing!, we want the default podcast to appear in these post types
+				}; break;
+				default: {
+					$GeneralSettings['custom_feeds'] = array(); // reset this array since we're working with  a custom post type
+				};
+			}
+			
+			// Get the feed slugs and titles for this post type
+			$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+			// Loop through this array...
+			if( !empty($PostTypeSettingsArray) )
+			{
+				while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+				{
+					if( !empty( $postTypeSettings['title']) )
+						$GeneralSettings['custom_feeds'][ $feed_slug ] = $postTypeSettings['title'];
+					else
+						$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_slug;
+				}
+			}
+		}
+	
 		while( list($feed_slug,$feed_title)  = each($GeneralSettings['custom_feeds']) )
 		{
 			if( isset($GeneralSettings['disable_player']) && isset($GeneralSettings['disable_player'][$feed_slug]) )
@@ -178,7 +212,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			if( !empty($height) )
 				$EpisodeData['height'] = $height;
 				
-			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($GeneralSettings) )
+			if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($feed_slug) )
 			{
 				$return .= powerpress_premium_content_message($post->ID, $feed_slug, $EpisodeData);
 				continue;
