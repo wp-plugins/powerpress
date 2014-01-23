@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0.4 beta' );
+define('POWERPRESS_VERSION', '5.0.4 beta 2' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -159,6 +159,8 @@ function powerpress_content($content)
 	
 	if( !isset($GeneralSettings['custom_feeds']) )
     $GeneralSettings['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
+	if( empty($GeneralSettings['custom_feeds']['podcast']) )
+		$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
 	
 	// Re-order so the default podcast episode is the top most...
 	$Temp = $GeneralSettings['custom_feeds'];
@@ -196,7 +198,7 @@ function powerpress_content($content)
 			
 				if( empty($Temp['podcast']) )
 				{
-					unset($GeneralSettings['custom_feeds']['podcast']); // specail case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
+					unset($GeneralSettings['custom_feeds']['podcast']); // special case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
 				}
 				else
 				{
