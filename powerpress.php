@@ -175,12 +175,15 @@ function powerpress_content($content)
 		// Get the feed slugs and titles for this post type
 		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
 		// Loop through this array...
-		while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+		if( !empty($PostTypeSettingsArray) )
 		{
-			if( !empty( $postTypeSettings['title']) )
-				$Temp[ $feed_slug ] = $postTypeSettings['title'];
-			else
-				$Temp[ $feed_slug ] = $feed_slug;
+			while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+			{
+				if( !empty( $postTypeSettings['title']) )
+					$Temp[ $feed_slug ] = $postTypeSettings['title'];
+				else
+					$Temp[ $feed_slug ] = $feed_slug;
+			}
 		}
 		
 		switch($post_type)
