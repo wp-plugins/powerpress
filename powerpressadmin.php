@@ -3109,9 +3109,6 @@ function powerpress_admin_import_podpress_settings()
 	else
 		$General['display_player'] = 1;
 	
-	if( $PodpressData['iTunes']['FeedID'] )
-		$General['itunes_url'] = 'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id='. $PodpressData['iTunes']['FeedID'];
-	
 	// save these imported general settings
 	powerpress_save_settings($General, 'powerpress_general');
 
@@ -3150,6 +3147,9 @@ function powerpress_admin_import_podpress_settings()
 		$FeedSettings['itunes_explicit'] = 1;
 	else if( $PodpressData['iTunes']['explicit'] == 'Clean' )
 		$FeedSettings['itunes_explicit'] = 2;
+		
+	if( !empty($PodpressData['iTunes']['FeedID']) )
+		$FeedSettings['itunes_url'] = 'http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id='. $PodpressData['iTunes']['FeedID'];
 
 	// Lastly, lets try to get the RSS image from the database
 	$RSSImage = get_option('rss_image');

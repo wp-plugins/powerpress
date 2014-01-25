@@ -644,7 +644,7 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 	}
 	if( !isset($General['itunes_url']) )
 		$General['itunes_url'] = '';
-	else if( !isset($FeedSettings['itunes_url']) )
+	else if( !isset($FeedSettings['itunes_url']) ) // Should almost never happen
 		$FeedSettings['itunes_url'] = $General['itunes_url'];
 	
 	$feed_slug = $FeedAttribs['feed_slug'];
@@ -652,7 +652,7 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 	
 	if( $feed_slug == 'podcast' && $FeedAttribs['type'] == 'general' )
 	{
-		if( empty($FeedSettings['itunes_url']) && isset($General['itunes_url']) )
+		if( empty($FeedSettings['itunes_url']) && !empty($General['itunes_url']) )
 			$FeedSettings['itunes_url'] = $General['itunes_url'];
 	}
 	
