@@ -163,22 +163,22 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( !empty($GeneralSettings['posttype_podcasting']) )
 		{
 			$post_type = get_query_var('post_type');
-			switch($post_type)
-			{
-				case 'post':
-				case 'page': {
-					// Do nothing!, we want the default podcast to appear in these post types
-				}; break;
-				default: {
-					$GeneralSettings['custom_feeds'] = array(); // reset this array since we're working with  a custom post type
-				};
-			}
-			
 			// Get the feed slugs and titles for this post type
 			$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
 			// Loop through this array...
 			if( !empty($PostTypeSettingsArray) )
 			{
+				switch($post_type)
+				{
+					case 'post':
+					case 'page': {
+						// Do nothing!, we want the default podcast to appear in these post types
+					}; break;
+					default: {
+						$GeneralSettings['custom_feeds'] = array(); // reset this array since we're working with  a custom post type
+					};
+				}
+				
 				while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
 				{
 					if( !empty( $postTypeSettings['title']) )

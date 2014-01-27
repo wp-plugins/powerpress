@@ -176,7 +176,7 @@ function powerpress_content($content)
 		
 		// Get the feed slugs and titles for this post type
 		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
-		// Loop through this array...
+		// Loop through this array of post type settings...
 		if( !empty($PostTypeSettingsArray) )
 		{
 			while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
@@ -186,25 +186,25 @@ function powerpress_content($content)
 				else
 					$Temp[ $feed_slug ] = $feed_slug;
 			}
-		}
-		
-		switch($post_type)
-		{
-			case 'post':
-			case 'page': {
-				// Do nothing!, we want the default podcast to appear in these post types
-			}; break;
-			default: {
 			
-				if( empty($Temp['podcast']) )
-				{
-					unset($GeneralSettings['custom_feeds']['podcast']); // special case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
-				}
-				else
-				{
-					$GeneralSettings['custom_feeds']['podcast'] = $Temp['podcast']; // use the custom title
-				}
-			}; break;
+			switch($post_type)
+			{
+				case 'post':
+				case 'page': {
+					// Do nothing!, we want the default podcast to appear in these post types
+				}; break;
+				default: {
+				
+					if( empty($Temp['podcast']) )
+					{
+						unset($GeneralSettings['custom_feeds']['podcast']); // special case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
+					}
+					else
+					{
+						$GeneralSettings['custom_feeds']['podcast'] = $Temp['podcast']; // use the custom title
+					}
+				}; break;
+			}
 		}
 	}
 	
