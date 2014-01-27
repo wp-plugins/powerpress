@@ -185,6 +185,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug where Blubrry hosting customers may not have been able to publish media for custom post type podcasting.
 * Renamed post type podcasting setting field in database to avoid possible field setting conflicts.
 * Added logic to allow for the premium podcast feeds feature to work with custom post type podcasting.
+* Added the HTML5 download attribute, when download link clicked the file will be downloaded (rather than streamed to default media player). Only Chrome and Firefox web browsers currently support this HTML5 attribute.
 
 
 = 5.0.3 =
