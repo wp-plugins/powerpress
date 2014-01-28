@@ -172,7 +172,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				{
 					case 'post':
 					case 'page': {
-						// Do nothing!, we want the default podcast to appear in these post types
+						// Do nothing!, we want the default podcast and channels to appear in these post types
 					}; break;
 					default: {
 						$GeneralSettings['custom_feeds'] = array(); // reset this array since we're working with  a custom post type

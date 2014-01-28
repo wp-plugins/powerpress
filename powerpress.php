@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0.4 beta 3' );
+define('POWERPRESS_VERSION', '5.0.4 beta 4' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -164,11 +164,16 @@ function powerpress_content($content)
 	
 	// Re-order so the default podcast episode is the top most...
 	$Temp = $GeneralSettings['custom_feeds'];
-	
 	$GeneralSettings['custom_feeds'] = array();
 	$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+	while( list($feed_slug, $feed_title) = each($Temp) )
+	{
+		if( $feed_slug == 'podcast' )
+			continue;
+		$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
+	}
 	
-	// If we have post type podcasting enabled, then we need to use the podcast post type feeds instead here...
+	// Handle post type feeds....
 	if( !empty($GeneralSettings['posttype_podcasting']) )
 	{
 		$post_type = get_query_var('post_type');
@@ -179,14 +184,6 @@ function powerpress_content($content)
 		// Loop through this array of post type settings...
 		if( !empty($PostTypeSettingsArray) )
 		{
-			while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
-			{
-				if( !empty( $postTypeSettings['title']) )
-					$Temp[ $feed_slug ] = $postTypeSettings['title'];
-				else
-					$Temp[ $feed_slug ] = $feed_slug;
-			}
-			
 			switch($post_type)
 			{
 				case 'post':
@@ -194,26 +191,19 @@ function powerpress_content($content)
 					// Do nothing!, we want the default podcast to appear in these post types
 				}; break;
 				default: {
-				
-					if( empty($Temp['podcast']) )
-					{
+					if( !empty($post_type) && empty($PostTypeSettingsArray['podcast']) )
 						unset($GeneralSettings['custom_feeds']['podcast']); // special case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
-					}
-					else
-					{
-						$GeneralSettings['custom_feeds']['podcast'] = $Temp['podcast']; // use the custom title
-					}
 				}; break;
 			}
+			
+			while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+			{
+				if( !empty( $postTypeSettings['title']) )
+					$GeneralSettings['custom_feeds'][ $feed_slug ] = $postTypeSettings['title'];
+				else
+					$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_slug;
+			}
 		}
-	}
-	
-	// Add the custom feeds to the list
-	while( list($feed_slug, $feed_title) = each($Temp) )
-	{
-		if( $feed_slug == 'podcast' )
-			continue;
-		$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
 	}
 	
 	if( !isset($GeneralSettings['display_player']) )
@@ -1730,11 +1720,45 @@ function get_the_powerpress_content()
 	$Temp = $GeneralSettings['custom_feeds'];
 	$GeneralSettings['custom_feeds'] = array();
 	$GeneralSettings['custom_feeds']['podcast'] = 'Default Podcast Feed';
+	
 	while( list($feed_slug, $feed_title) = each($Temp) )
 	{
 		if( $feed_slug == 'podcast' )
 			continue;
 		$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_title;
+	}
+	
+	// Handle post type feeds....
+	if( !empty($GeneralSettings['posttype_podcasting']) )
+	{
+		$post_type = get_query_var('post_type');
+		//$post_type = get_post_type();
+		
+		// Get the feed slugs and titles for this post type
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+		// Loop through this array of post type settings...
+		if( !empty($PostTypeSettingsArray) )
+		{
+			switch($post_type)
+			{
+				case 'post':
+				case 'page': {
+					// Do nothing!, we want the default podcast to appear in these post types
+				}; break;
+				default: {
+					if( !empty($post_type) && empty($PostTypeSettingsArray['podcast']) )
+						unset($GeneralSettings['custom_feeds']['podcast']); // special case, we do not want an accidental podcast episode to appear in a custom post type if the feature is enabled
+				}; break;
+			}
+			
+			while( list($feed_slug, $postTypeSettings) = each($PostTypeSettingsArray) )
+			{
+				if( !empty( $postTypeSettings['title']) )
+					$GeneralSettings['custom_feeds'][ $feed_slug ] = $postTypeSettings['title'];
+				else
+					$GeneralSettings['custom_feeds'][ $feed_slug ] = $feed_slug;
+			}
+		}
 	}
 	
 	if( !isset($GeneralSettings['display_player']) )
