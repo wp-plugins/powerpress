@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
-Tested up to: 3.8
-Stable tag: 5.0.3
+Tested up to: 3.8.1
+Stable tag: 5.0.4
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -176,7 +176,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 5.0.4 =
-* Released on 1/?/2014
+* Released on 1/30/2014
 * Fixed bug with MEjs player not working for m4a files (Thanks JT for the code patch!)
 * Added logic to PowerPress edit iTunes Subscription URL settings, precaution to make sure the field is saved correctly.
 * Made a few CSS changes for WordPress 3.8+
