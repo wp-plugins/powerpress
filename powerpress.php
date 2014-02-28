@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0.4' );
+define('POWERPRESS_VERSION', '5.0.5' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -2714,6 +2714,22 @@ function powerpress_is_mobile_client()
 	}
 	
 	return false;
+}
+
+function powerpress_get_api_array()
+{
+	$return = array();
+	if( strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry') == false )
+	{
+		$return[] = POWERPRESS_BLUBRRY_API_URL;
+	}
+	else
+	{
+		$return[] = 'http://api.blubrry.net/';
+		$return[] = 'http://api.blubrry.com/';
+	}
+	
+	return $return;
 }
 /*
 End Helper Functions

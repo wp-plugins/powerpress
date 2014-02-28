@@ -174,6 +174,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a separate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+= 5.0.5 =
+* Released on 2/28/2014
+* Added logic for Blubrry Services to use alternative API servers to solve issue with session errors.
+
 
 = 5.0.4 =
 * Released on 1/30/2014
