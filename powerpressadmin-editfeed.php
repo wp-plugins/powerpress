@@ -650,6 +650,17 @@ if( isset($Languages[ $rss_language ]) )
 <input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
 </td>
 </tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Allow Cache Comments', 'powerpress'); ?>
+</th>
+<td>
+<input type="checkbox" name="General[allow_feed_comments]" value="1" <?php if( !empty($General['allow_feed_comments']) ) echo 'checked'; ?> />
+		<?php echo __('PowerPress disables WP Super Cache comments in feeds by default. iTunes will have problems reading your feed if this option is enabled.', 'powerpress'); ?>
+<p style="margin-top: 0px; margin-bottomd: 0;" class="description"><?php echo __('NOTE: This setting should only be enabled for debuggnig purposes.', 'powerpress'); ?></p>
+</td>
+</tr>
+
 <!-- end advanced features -->
 <?php  } ?>
 </table>

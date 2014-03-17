@@ -437,7 +437,8 @@ function powerpress_admin_init()
 				else
 					$General['episode_box_order'] = 0;
 					
-					
+				if( !isset($General['allow_feed_comments'] ) )
+					$General['allow_feed_comments'] = 0;
 					
 				if( !isset($General['feed_links']) )
 					$General['feed_links'] = 0;
@@ -1265,6 +1266,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['itunes_complete']);
 			if( isset($Settings['maximize_feed'] ) && $Settings['maximize_feed'] == 0 )
 				unset($Settings['maximize_feed']);
+			if( isset($Settings['allow_feed_comments'] ) && $Settings['allow_feed_comments'] == 0 )
+				unset($Settings['allow_feed_comments']);	
 			if( empty($Settings['episode_itunes_image']) )
 				unset($Settings['episode_itunes_image']);
 		}

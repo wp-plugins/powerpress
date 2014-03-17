@@ -1215,7 +1215,9 @@ function powerpress_init()
 	
 	// Add the podcast feeds;
 	if( !defined('POWERPRESS_NO_PODCAST_FEED') )
+	{
 		add_feed('podcast', 'powerpress_do_podcast_feed');
+	}
 	
 	if( $GeneralSettings && isset($GeneralSettings['custom_feeds']) && is_array($GeneralSettings['custom_feeds']) )
 	{
@@ -1413,6 +1415,11 @@ function powerpress_load_general_feed_settings()
 						return;
 					}
 				}
+			}
+			
+			if( is_feed() && !empty($GLOBALS['wp_super_cache_comments']) && empty($GeneralSettings['allow_feed_comments']) )
+			{
+				$GLOBALS['wp_super_cache_comments'] = 0;
 			}
 			
 			$feed_slug = get_query_var('feed');
