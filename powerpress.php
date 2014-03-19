@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0.6 beta' );
+define('POWERPRESS_VERSION', '5.0.6 beta 2' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -1417,9 +1417,10 @@ function powerpress_load_general_feed_settings()
 				}
 			}
 			
-			if( is_feed() && !empty($GLOBALS['wp_super_cache_comments']) && empty($GeneralSettings['allow_feed_comments']) )
+			if( is_feed() && defined( 'WPCACHEHOME' ) && empty($GeneralSettings['allow_feed_comments']) )
 			{
-				$GLOBALS['wp_super_cache_comments'] = 0;
+				global $wp_super_cache_comments;
+				$wp_super_cache_comments = 0;
 			}
 			
 			$feed_slug = get_query_var('feed');
