@@ -178,6 +178,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 5.0.5 =
 * Released on TBD
 * Added logic to deal with the WP Super Cache plugin adding HTML comments at the bottom of feeds. Setting to allow HTML comments with a note have been added to the Feed settings page.
+* Added logic for Verify feature to ignore PHP Warning messages caused by other plugins.
 
 
 = 5.0.5 =
