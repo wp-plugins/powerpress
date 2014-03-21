@@ -1334,6 +1334,11 @@ function powerpress_load_general_feed_settings()
 		if( $GeneralSettings )
 		{
 			$FeedSettingsBasic = get_option('powerpress_feed'); // Get overall feed settings
+			if( is_feed() && defined( 'WPCACHEHOME' ) && empty($GeneralSettings['allow_feed_comments']) )
+			{
+				global $wp_super_cache_comments;
+				$wp_super_cache_comments = 0;
+			}
 				
 			// If we're in advanced mode and we're dealing with a category feed we're extending, lets work with it...
 			if( is_category() && isset($GeneralSettings['custom_cat_feeds']) && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
@@ -1416,13 +1421,7 @@ function powerpress_load_general_feed_settings()
 					}
 				}
 			}
-			
-			if( is_feed() && defined( 'WPCACHEHOME' ) && empty($GeneralSettings['allow_feed_comments']) )
-			{
-				global $wp_super_cache_comments;
-				$wp_super_cache_comments = 0;
-			}
-			
+
 			$feed_slug = get_query_var('feed');
 			// Are we dealing with a custom podcast channel or a custom post type podcast feed...
 			if( !empty($GeneralSettings['posttype_podcasting']) || !empty($GeneralSettings['custom_feeds'][ $feed_slug ]) )

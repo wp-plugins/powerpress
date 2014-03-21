@@ -764,7 +764,7 @@ function powerpress_admin_init()
 				else if( $taxonomy_type == 'category' )
 				{
 					$Settings = get_option('powerpress_general');
-					if( !is_array($Settings['custom_cat_feeds']) )
+					if( empty($Settings['custom_cat_feeds']) )
 						$Settings['custom_cat_feeds'] = array();
 					
 					if( !in_array($term_ID, $Settings['custom_cat_feeds']) )
