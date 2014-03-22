@@ -33,7 +33,7 @@ function powerpress_get_news($feed_url, $limit=10)
 	
 function powerpress_dashboard_head()
 {
-	echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.js\"></script>\n";
+	echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.min.js\"></script>\n";
 ?>
 <style type="text/css">
 #blubrry_stats_summary {

@@ -51,7 +51,10 @@ function powerpressplayer_init($GeneralSettings)
 	
 
 	// include what's needed for each plaer
-	wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	if( defined('POWERPRESS_JS_DEBUG') )
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	else
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.min.js');
 
 	
 	$enqueue_mejs = false;
@@ -442,7 +445,10 @@ function do_powerpressplayer_embed($player, $media_url, $EpisodeData = array())
 	wp_print_scripts();
 	
 	$content = '';
-	$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.js"></script>'. PHP_EOL;
+	if( defined('POWERPRESS_JS_DEBUG') )
+		$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.js"></script>'. PHP_EOL;
+	else
+		$content .= '<script type="text/javascript" src="'. powerpress_get_root_url() .'player.min.js"></script>'. PHP_EOL;
 	
 	$content .= '<script language="javascript" type="text/javascript"><!--'. PHP_EOL;
 	$content .= 'powerpress_url = \''. powerpress_get_root_url() .'\''. PHP_EOL;
@@ -1129,8 +1135,11 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
 	<meta name="robots" content="noindex" />
 <?php 
-
-	wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	
+	if( defined('POWERPRESS_JS_DEBUG') )
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	else
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.min.js');
 		
 	if(  version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 	{
@@ -1149,7 +1158,10 @@ function powerpress_do_pinw($pinw, $process_podpress)
 			wp_enqueue_style('mediaelement');
 			wp_enqueue_style('wp-mediaelement');
 			wp_enqueue_script('mediaelement');
-			wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+			if( defined('POWERPRESS_JS_DEBUG') )
+				wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+			else
+				wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.min.js');
 		}
 	}
 	
@@ -1450,7 +1462,7 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 	$content .= '<audio class="powerpress-mejs-audio" controls="controls"';
 	
 	// Set the type if required
-	$extension = powerpressplayer_get_extension($EpisodeData['url']);
+	$extension = powerpressplayer_get_extension($media_url);
 	switch( $extension )
 	{
 		case 'm4a': {
