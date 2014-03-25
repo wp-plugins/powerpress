@@ -229,7 +229,7 @@ function SelectURL(url)
 	self.parent.document.getElementById('powerpress_url_<?php echo $FeedSlug; ?>').readOnly=false;
 	self.parent.document.getElementById('powerpress_hosting_note_<?php echo $FeedSlug; ?>').style.display='none';
 	if( self.parent.powerpress_update_for_video )
-		self.parent.powerpress_update_for_video(File, '<?php echo $FeedSlug; ?>');
+		self.parent.powerpress_update_for_video(url, '<?php echo $FeedSlug; ?>');
 	self.parent.tb_remove();
 }
 function DeleteMedia(File)
