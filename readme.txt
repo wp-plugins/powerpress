@@ -180,6 +180,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added logic to deal with the WP Super Cache plugin adding HTML comments at the bottom of feeds. Setting to allow HTML comments with a note have been added to the Feed settings page.
 * Added logic for Verify feature to ignore PHP Warning messages caused by other plugins.
 * Added minified versions of the player and mejs javascript files. (Thanks idleberg for the suggestion)
+* Added the riff module to getid3 library (thanks Kathy for reporting the riff error when you click Verify)
 
 
 = 5.0.5 =
