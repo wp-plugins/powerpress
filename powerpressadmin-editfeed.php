@@ -652,14 +652,14 @@ if( isset($Languages[ $rss_language ]) )
 </tr>
 <tr valign="top">
 <th scope="row">
-<?php echo __('Super Cache Comments', 'powerpress'); ?>
+<?php echo __('Caching Debug Comments', 'powerpress'); ?>
 </th>
 <td>
 <label><input type="checkbox" name="General[allow_feed_comments]" value="1" <?php if( !empty($General['allow_feed_comments']) ) echo 'checked'; ?> />
-	<?php echo __('Allow WP SuperCache to add HTML Comments to the bottom of your podcast feeds', 'powerpress'); ?></label>
+	<?php echo __('Allow WP Super Cache or W3 Total Cache to add HTML Comments to the bottom of your feeds', 'powerpress'); ?></label>
 	(<?php echo __('Recommended unchecked', 'powerpress'); ?>)
-<p><?php echo __('PowerPress disables WP Super Cache HTML comments in feeds by default. iTunes may have problems reading your feeds if this option is enabled. PowerPress does not disable WP Super Cache from caching feeds, just removes the HTML comments at the bottom.', 'powerpress'); ?></p>
-<p style="margin-bottomd: 0;" class="description"><?php echo __('NOTE: This setting should only be enabled for debuggnig purposes.', 'powerpress'); ?></p>
+<p><?php echo __('iTunes is known to have issues with feeds that have HTML comments at the bottom.', 'powerpress'); ?></p>
+<p style="margin-bottomd: 0;" class="description"><?php echo __('NOTE: This setting should only be enabled for debugging purposes.', 'powerpress'); ?></p>
 </td>
 </tr>
 

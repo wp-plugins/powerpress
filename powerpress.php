@@ -1339,7 +1339,12 @@ function powerpress_load_general_feed_settings()
 				global $wp_super_cache_comments;
 				$wp_super_cache_comments = 0;
 			}
-				
+			
+			if( is_feed() && defined('W3TC') && empty($GeneralSettings['allow_feed_comments']) )
+			{
+				add_filter( 'w3tc_can_print_comment', function( $setting ) { return false; }, 10, 1 );
+			}
+			
 			// If we're in advanced mode and we're dealing with a category feed we're extending, lets work with it...
 			if( is_category() && isset($GeneralSettings['custom_cat_feeds']) && is_array($GeneralSettings['custom_cat_feeds']) && in_array( get_query_var('cat'), $GeneralSettings['custom_cat_feeds']) )
 			{
