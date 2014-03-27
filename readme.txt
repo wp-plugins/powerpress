@@ -183,6 +183,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added minified versions of the player and mejs javascript files. (Thanks idleberg for the suggestion)
 * Added the riff module to getid3 library (thanks Kathy for reporting the riff error)
 * Fixed bug with Blubrry media hosting screen, selecting already published media not returning to the post edit screen (Thanks Paul for making us aware of the bug)
+* Fixed notice message found in powerpressadmin-defaults.php (thanks sbmorrissey for bringing to our attention)
 
 
 = 5.0.5 =

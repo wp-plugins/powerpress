@@ -55,6 +55,10 @@ function powerpress_admin_defaults()
 	$FeedSettings = powerpress_get_settings('powerpress_feed');
 	$FeedSettings = powerpress_default_settings($FeedSettings, 'editfeed');
 	
+	// Make sure variables are set
+	if( empty($FeedSettings['title']) )
+		$FeedSettings['title'] = '';
+	
 	$Step = 0;
 	if( !empty($FeedSettings['itunes_cat_1']) && !empty($FeedSettings['email']) && !empty($FeedSettings['itunes_image']) )
 		$Step = 1;
