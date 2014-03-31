@@ -20,6 +20,16 @@ function powerpress_admin_basic()
 		$FeedAttribs['channel_podcast'] = true;
 	}
 	
+	$MultiSiteServiceSettings = false;
+	if( is_multisite() )
+	{
+		$MultiSiteSettings = get_site_option('powerpress_multisite');
+		if( !empty($MultiSiteSettings['services_multisite_only']) )
+		{
+			$MultiSiteServiceSettings = true;
+		}
+	}
+	
 ?>
 <script type="text/javascript"><!--
 function CheckRedirect(obj)
@@ -158,8 +168,15 @@ jQuery(document).ready(function($) {
 	
 	<div id="tab2" class="powerpress_tab">
 		<?php
+	if( $MultiSiteServiceSettings && defined('POWERPRESS_MULTISITE_VERSION') )
+	{
+		PowerPressMultiSitePlugin::edit_blubrry_services($General);
+	}
+	else
+	{
 		powerpressadmin_edit_blubrry_services($General);
 		powerpressadmin_edit_media_statistics($General);
+	}
 		?>
 	</div>
 	
@@ -704,8 +721,11 @@ function powerpressadmin_edit_blubrry_services($General)
 	if( !empty($General['disable_dashboard_stats']) )
 		$DisableStatsInDashboard = true;
 		
+		
+
+		
 ?>
-<h3><?php echo __('Integrate Blubrry Services', 'powerpress'); ?>  &nbsp; <span style="color: #CC0000; font-size: 11px;"><?php echo __('optional', 'powerpress'); ?></span></h3>
+<h3><?php echo __('Integrate Blubrry Services', 'powerpress'); ?></h3>
 <ul><li><ul>
 	<li style="margin-left: 30px; font-size:115%;"><?php echo sprintf(__('Track your podcast downloads with Blubrry\'s <a href="%s" target="_blank">FREE Basic Statistics</a> or <a href="%s" target="_blank">Professional Media Statistics</a>.','powerpress'), 'http://create.blubrry.com/resources/podcast-media-download-statistics/basic-statistics/', 'http://create.blubrry.com/resources/podcast-media-download-statistics/'); ?></li>
 	<li style="margin-left: 30px; font-size:115%;"><?php echo sprintf(__('Upload and publish podcast media directly from your blog with <a href="%s" target="_blank">Blubrry Media Hosting</a>.','powerpress'), 'http://create.blubrry.com/resources/podcast-media-hosting/'); ?></li>
