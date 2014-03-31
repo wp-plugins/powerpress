@@ -715,15 +715,17 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 <?php
 } // end itunes general
 
-function powerpressadmin_edit_blubrry_services($General)
+function powerpressadmin_edit_blubrry_services($General, $action_url = false, $action = false)
 {
 	$DisableStatsInDashboard = false;
 	if( !empty($General['disable_dashboard_stats']) )
 		$DisableStatsInDashboard = true;
 		
-		
-
-		
+	
+	if( $action_url == false )
+		$action_url = admin_url('admin.php?action=powerpress-jquery-account');
+	if( $action == false )
+		$action = 'powerpress-jquery-account';
 ?>
 <h3><?php echo __('Integrate Blubrry Services', 'powerpress'); ?></h3>
 <ul><li><ul>
@@ -732,7 +734,7 @@ function powerpressadmin_edit_blubrry_services($General)
 </ul></li></ul>
 <div style="margin-left: 40px;">
 	<p style="font-size: 125%;">
-		<strong><a class="button-primary thickbox" href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank"><?php echo __('Click here to configure Blubrry Statistics and Hosting services', 'powerpress'); ?></a></strong>
+		<strong><a class="button-primary thickbox" href="<?php echo wp_nonce_url( $action_url, $action); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank"><?php echo __('Click here to configure Blubrry Statistics and Hosting services', 'powerpress'); ?></a></strong>
 	</p>
 	<?php
 	if( !empty($General['blubrry_program_keyword']) )
