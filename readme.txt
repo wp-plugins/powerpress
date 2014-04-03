@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 5.0.5
+Tested up to: 3.9
+Stable tag: 5.0.6
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -176,7 +176,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 5.0.6 =
-* Released on TBD
+* Released on 4/3/3014
 * Added logic to deal with the WP Super Cache plugin adding HTML comments at the bottom of feeds. Setting to allow HTML comments with a note have been added to the Feed settings page.
 * Added logic to deal with the W3 Total Cache plugin adding HTML comments at the bottom of feeds. Uses same setting as above.
 * Added logic for Verify feature to ignore PHP Warning messages caused by other plugins.
@@ -185,6 +185,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug with Blubrry media hosting screen, selecting already published media not returning to the post edit screen (Thanks Paul for making us aware of the bug)
 * Fixed notice message found in powerpressadmin-defaults.php (thanks sbmorrissey for bringing to our attention)
 * Added support for future MultiSite features.
+* Tested compatibility with WordPress 3.9.
 
 
 = 5.0.5 =
