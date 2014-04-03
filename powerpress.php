@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://create.blubrry.com/resources/powerpress/
 Description: <a href="http://create.blubrry.com/resources/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 5.0.6
+Version: 5.0.7
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Change Log:
@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '5.0.6' );
+define('POWERPRESS_VERSION', '5.0.7' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -1316,6 +1316,12 @@ function powerpress_plugins_loaded()
 add_action('plugins_loaded', 'powerpress_plugins_loaded');
 */
 
+
+function powerpress_w3tc_can_print_comment($settings)
+{
+	 return false; 
+}
+
 // Load the general feed settings for feeds handled by powerpress
 function powerpress_load_general_feed_settings()
 {
@@ -1342,7 +1348,7 @@ function powerpress_load_general_feed_settings()
 			
 			if( is_feed() && defined('W3TC') && empty($GeneralSettings['allow_feed_comments']) )
 			{
-				add_filter( 'w3tc_can_print_comment', function( $setting ) { return false; }, 10, 1 );
+				add_filter( 'w3tc_can_print_comment', 'powerpress_w3tc_can_print_comment', 10, 1 );
 			}
 			
 			// If we're in advanced mode and we're dealing with a category feed we're extending, lets work with it...
