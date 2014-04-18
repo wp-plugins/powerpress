@@ -258,6 +258,22 @@ function DeleteMedia(File)
 					powerpress_page_message_add_notice( $message );
 					powerpress_page_message_print();
 				}
+				else if( empty($results) )
+				{
+					// Handle the error here.
+					$message = '<h3>'.__('Error', 'powerpress') . '</h3>';
+					global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
+					if( !empty($g_powerpress_remote_errorno) && $g_powerpress_remote_errorno == 401 )
+						$message .= '<p>'. __('Incorrect sign-in email address or password.', 'powerpress').'</p><p>'.__('Verify your account entered under Services and Statistics settings then try again.', 'powerpress') .'</p>';
+					else if( !empty($g_powerpress_remote_error) )
+						$message .= '<p>'.$g_powerpress_remote_error.'</p>';
+					else
+						$message .= '<p>'.__('Unable to connect to service.','powerpress').'</p>';
+			
+					// Print an erro here
+					powerpress_page_message_add_notice( $message );
+					powerpress_page_message_print();
+				}
 				
 				if( $Msg )
 				echo '<p>'. $Msg . '</p>';
@@ -511,12 +527,13 @@ function DeleteMedia(File)
 				else
 				{
 					global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
+					//$Error = '<h3>'. __('Error', 'powerpress') .'</h3>';
 					if( !empty($g_powerpress_remote_errorno) && $g_powerpress_remote_errorno == 401 )
-						$Error = 'Incorrect user email address or password, or no program was found signed-up for services.  <br /><span style="font-weight: normal; font-size: 12px;">Verify your account settings and try again.</span>';
+						$Error .= '<p>'. __('Incorrect sign-in email address or password.', 'powerpress') .'</p><p>'. __('Verify your account settings then try again.', 'powerpress') .'</p>';
 					else if( !empty($g_powerpress_remote_error) )
-						$Error = __('Error:', 'powerpress') .' '.$g_powerpress_remote_error;
+						$Error .= '<p>'.$g_powerpress_remote_error .'</p>';
 					else
-						$Error = __('Authentication failed.', 'powerpress');
+						$Error .= '<p>'.__('Authentication failed.', 'powerpress') .'</p>';
 				}
 				
 				if( $Error )
@@ -719,7 +736,13 @@ while( list($value,$desc) = each($Programs) )
 			}
 			else if( $Error == false )
 			{
-				$Error = __('Unable to obtain upload session.','powerpress');
+				global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
+				if( !empty($g_powerpress_remote_errorno) && $g_powerpress_remote_errorno == 401 )
+					$Error = '<p>'. __('Incorrect sign-in email address or password.', 'powerpress').'</p><p>'.__('Verify your account entered under Services and Statistics settings then try again.', 'powerpress') .'</p>';
+				else if( !empty($g_powerpress_remote_error) )
+					$Error = '<p>'.$g_powerpress_remote_error .'</p>';
+				else
+					$Error = '<p>'.__('Unable to obtain upload session.','powerpress') .'</p>';
 			}
 			
 			powerpress_admin_jquery_header( __('Uploader','powerpress') );

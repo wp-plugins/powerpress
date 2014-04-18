@@ -784,10 +784,6 @@ function powerpress_admin_init()
 		
 					//$term_info = term_exists($term_ID, $taxonomy_type);
 					$tt_id = $term_object->term_taxonomy_id;
-					//var_dump($term_info);
-					//exit;
-				//	if( !empty($term_info['term_taxonomy_id']) )
-					//	$tt_id = $term_info['term_taxonomy_id'];
 					
 					if( !$tt_id )
 					{
@@ -2832,6 +2828,9 @@ function powerpress_podpress_stats_exist()
 */
 function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array(), $timeout = 15, $custom_request = false )
 {
+	unset($GLOBALS['g_powerpress_remote_error']);
+	unset($GLOBALS['g_powerpress_remote_errorno']);
+	
 	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
 		$curl = curl_init();
@@ -2887,12 +2886,30 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		$error = curl_errno($curl);
 		$error_msg = curl_error($curl);
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		
+		
 		curl_close($curl);
 		if( $error )
 		{
-			global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
-			$g_powerpress_remote_error = $error_msg;
-			$g_powerpress_remote_errorno = $http_code;
+			$GLOBALS['g_powerpress_remote_error'] = $error_msg;
+			$GLOBALS['g_powerpress_remote_errorno'] = $http_code;
+			return false;
+		}
+		else if( $http_code > 399 )
+		{
+			
+			$GLOBALS['g_powerpress_remote_error'] = "HTTP $http_code";
+			$GLOBALS['g_powerpress_remote_errorno'] = $http_code;
+			switch( $http_code )
+			{
+				case 400: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Bad Request", 'powerpress'); break;
+				case 401: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Unauthorized (Check that your username and password are correct)", 'powerpress'); break;
+				case 402: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Payment Required", 'powerpress'); break;
+				case 403: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Forbidden", 'powerpress'); break;
+				case 404: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Not Found", 'powerpress'); break;
+			}
+			
+			
 			return false;
 		}
 		return $content;
@@ -2916,10 +2933,24 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	
 	if ( is_wp_error( $response ) )
 	{
-		global $g_powerpress_remote_error, $g_powerpress_remote_errorno;
-		$g_powerpress_remote_errorno = $response->get_error_code();
-		$g_powerpress_remote_error = $response->get_error_message();
+		$GLOBALS['g_powerpress_remote_errorno'] = $response->get_error_code();
+		$GLOBALS['g_powerpress_remote_error'] = $response->get_error_message();
 		return false;
+	}
+	
+	if( isset($response['response']['code']) && $response['response']['code'] > 399 )
+	{
+		$GLOBALS['g_powerpress_remote_error'] = "HTTP ".$response['response']['code'];
+		$GLOBALS['g_powerpress_remote_errorno'] = $response['response']['code'];
+		switch( $response['response']['code'] )
+		{
+			case 400: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Bad Request", 'powerpress'); break;
+			case 401: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Unauthorized (Check that your username and password are correct)", 'powerpress'); break;
+			case 402: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Payment Required", 'powerpress'); break;
+			case 403: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Forbidden", 'powerpress'); break;
+			case 404: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Not Found", 'powerpress'); break;
+			default: $GLOBALS['g_powerpress_remote_error'] .= ' '.$response['response']['message'];
+		}
 	}
 
 	return $response['body'];

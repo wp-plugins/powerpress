@@ -2421,14 +2421,16 @@ function powerpress_get_enclosure($post_id, $feed_slug = 'podcast')
 	return false;
 }
 
-function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast')
+function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_data = false)
 {
-	if( $feed_slug == 'podcast' || $feed_slug == '' )
+	if( $raw_data )
+		$MetaData = $raw_data;
+	else if( $feed_slug == 'podcast' || $feed_slug == '' )
 		$MetaData = get_post_meta($post_id, 'enclosure', true);
 	else
 		$MetaData = get_post_meta($post_id, '_'. $feed_slug .':enclosure', true);
 	
-	if( !$MetaData )
+	if( empty($MetaData) )
 		return false;
 	
 	$MetaParts = explode("\n", $MetaData, 4);
@@ -2758,6 +2760,11 @@ if( is_admin() )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
+}
+
+if( defined('POWERPRESS_PLAYLIST') && POWERPRESS_PLAYLIST )
+{
+	require_once(POWERPRESS_ABSPATH.'/powerpress-playlist.php');
 }
 
 ?>
