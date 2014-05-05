@@ -1,32 +1,123 @@
 <?php
 	// powerpress-playlist.php
+	
+	
+function powerpress_get_program_title_by_taxonomy($term_id, $taxonomy = 'category')
+{
+	$General = get_option('powerpress_general');
+	// Efficiently get the taxonomy program titles from WordPress
+	if( !isset($GLOBALS['powerpress'][$taxonomy]) )
+	{
+		$GLOBALS['powerpress'][$taxonomy] = array();
+		
+		// SELECT all the caegory podcasting / taxonomy podasting feeds...
+		
+		if( $taxonomy == 'category' && isset($General['custom_cat_feeds'])  )
+		{
+			$Feeds = $General['custom_cat_feeds'];
+			// Walk through the categories...
+			while( list($null, $cat_id) = each($Feeds) )
+			{
+				$FeedSettings = get_option('powerpress_cat_feed_'.$cat_id);
+				if( !empty($FeedSettings['title']) )
+					$GLOBALS['powerpress'][$taxonomy][ $cat_id ] = $FeedSettings['title'];
+			}
+		}
+		else
+		{
+			$PowerPressTaxonomies = get_option('powerpress_taxonomy_podcasting');
+			if( !empty($PowerPressTaxonomies) )
+			{
+				$query_in = '';
+				while( list($tt_id, $null) = each($PowerPressTaxonomies) )
+				{
+					if( !empty($query_in) )
+							$query_in .= ',';
+						$query_in .= $tt_id;
+				}
+				
+				if( !empty($query_in) )
+				{
+					$terms = $wpdb->get_results("SELECT term_taxonomy_id, term_id, taxonomy FROM {$wpdb->term_taxonomy} WHERE term_taxonomy_id IN ($query_in)",  ARRAY_A);
+				
+					while( list($index,$term_info) = each($terms) )
+					{
+						// TODO: We need to get term by the term_id and taxonomy
+						$FeedSettings = powerpress_get_settings('powerpress_taxonomy_'.$term_info['term_taxonomy_id']);
+						if( !empty($FeedSettings['title']) )
+							$GLOBALS['powerpress'][ $term_info['taxonomy'] ][ $term_info['term_id'] ] = $FeedSettings['title'];
+					}
+				}
+			}
+		}
+	}
+	
+	if( !empty($GLOBALS['powerpress'][$taxonomy][$term_id]) )
+		return $GLOBALS['powerpress'][$taxonomy][$term_id];
+	if( !empty($General['program_title']) )
+		return $General['program_title']; // Get the default podcast title
+	return ''; // REturn the blog title last resort
+}
 
+function powerpress_get_title_by_post_type($post_type, $slug='podcast')
+{
+	
+}
 
 function powerpress_playlist_episodes($args)
 {
 	global $wpdb;
+	$return = array();
 	
 	$defaults = array(
 		'limit' => 10,
-		'feed_slug' => 'podcast',
+		'slug' => 'podcast',
+		'post_type'=>'post',
+		'category'=>'',
+		'taxonomy'=>'',
+		'tax_term'=>''
 	);
 	$args = wp_parse_args( $args, $defaults );
 	
-	$return = array();
+	/* handle taxonomy and post id's*/
+	if( empty($args['taxonomy']) && empty($args['tax_term']) && !empty($args['category']) )
+	{
+		$args['taxonomy'] = 'category';
+		$args['tax_term'] = $args['category'];
+	}
+	
+	$TaxonomyObj = false;
+	if( !empty($args['taxonomy']) && !empty($args['tax_term']) )
+	{
+		if( preg_match('/^[0-9]*$/', $args['tax_term']) ) // If it is a numeric ID, lets try finding it by ID first...
+			$TaxonomyObj = get_term_by('id', $args['tax_term'], $args['taxonomy']);
+		if( empty($TaxonomyObj) )
+			$TaxonomyObj = get_term_by('name', $args['tax_term'], $args['taxonomy']);
+		if( empty($TaxonomyObj) )
+			$TaxonomyObj = get_term_by('slug', $args['tax_term'], $args['taxonomy']);
+	}
+	
+	// Start the SQL query
 	$query = "SELECT p.ID, p.post_title, p.post_date, pm.meta_value ";
 	$query .= "FROM {$wpdb->posts} AS p ";
 	$query .= "INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id ";
 	
-	if( $args['feed_slug'] == 'podcast' )
+	if( !empty($TaxonomyObj->term_taxonomy_id) )
+		$query .= "INNER JOIN {$wpdb->term_relationships} AS tr ON p.ID = tr.object_id ";
+	
+	if( $args['slug'] == 'podcast' )
 		$query .= "WHERE (pm.meta_key = 'enclosure') ";
 	else
-		$query .= "WHERE (pm.meta_key = '_".$args['feed_slug'].":enclosure') ";
-	$query .= "AND p.post_type != 'revision' ";
+		$query .= "WHERE (pm.meta_key = '_".$args['slug'].":enclosure') ";
+	$query .= "AND p.post_type = '".  $args['post_type'] ."' ";
+	$query .= "AND p.post_status = 'publish' ";
+	if( !empty($TaxonomyObj->term_taxonomy_id) )
+		$query .= "AND tr.term_taxonomy_id = '". $TaxonomyObj->term_taxonomy_id ."' ";
+	
 	$query .= "GROUP BY p.ID ";
 	$query .= "ORDER BY p.post_date DESC ";
 	$query .= "LIMIT 0, ".$args['limit'];
 	
-	$return = array();
 	$results_data = $wpdb->get_results($query, ARRAY_A);
 	if( $results_data )
 	{
@@ -35,7 +126,7 @@ function powerpress_playlist_episodes($args)
 			if( empty($row['meta_value']) )
 				continue;
 			
-			$EnclosureData = powerpress_get_enclosure_data($row['ID'], $args['feed_slug'], $row['meta_value']);
+			$EnclosureData = powerpress_get_enclosure_data($row['ID'], $args['slug'], $row['meta_value']);
 			$return[ $row['ID'] ] = array();
 			$return[ $row['ID'] ]['ID'] = $row['ID'];
 			$return[ $row['ID'] ]['post_title'] = $row['post_title'];
@@ -53,31 +144,30 @@ function powerpress_playlist_episodes($args)
 function powerpress_underscore_playlist_templates() {
 ?>
 <script type="text/html" id="tmpl-wp-playlist-current-item">
-	<# if ( data.image ) { #>
-	<img src="{{ data.thumb.src }}" />
+	<# if ( data.poster ) { #>
+			<img src="{{ data.poster.src }}" />
 	<# } #>
 	<div class="wp-playlist-caption">
-		<# if ( data.meta.artist && data.meta.link ) { #>
-		<span class="wp-playlist-item-meta wp-playlist-item-title"><a href="{{ data.meta.link }}">{{ data.title }}</a></span>
+		<# if ( data.meta.program_title ) { #>
+			<span class="wp-playlist-item-meta wp-playlist-item-title">{{ data.meta.program_title }}</span>
+		<# } #>
+		<# if ( data.meta.link ) { #>
+		<span class="wp-playlist-item-meta wp-playlist-item-title"><a href="{{ data.meta.link }}" rel="nofollow">{{ data.title }}</a></span>
 		<# } else { #>
 		<span class="wp-playlist-item-meta wp-playlist-item-title">{{ data.title }}</span>
 		<# } #>
-		<# if ( data.meta.album ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.album }}</span><# } #>
-		<# if ( data.meta.artist ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.artist }}</span><# } #>
+		<# if ( data.meta.date ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.date }}</span><# } #>
+		<# if ( data.meta.itunes_subtitle ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.itunes_subtitle }}</span><# } #>
 	</div>
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
 	<div class="wp-playlist-item">
 		<a class="wp-playlist-caption" href="{{ data.src }}">
-			{{ data.index ? ( data.index + '. ' ) : '' }}
-			<# if ( data.caption ) { #>
-				{{ data.caption }}
-			<# } else { #>
-				<span class="wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
-				<# if ( data.artists && data.meta.artist ) { #>
-				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
+				<!-- <span class="wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span> -->
+				<span class="wp-playlist-item-title">{{ data.title }}</span>
+				<# if ( data.meta.date ) { #>
+				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.date }}</span>
 				<# } #>
-			<# } #>
 		</a>
 		<# if ( data.meta.length_formatted ) { #>
 		<div class="wp-playlist-item-length">{{ data.meta.length_formatted }}</div>
@@ -90,13 +180,13 @@ function powerpress_underscore_playlist_templates() {
 /**
  * Output and enqueue default scripts and styles for playlists.
  *
- * @since 3.9.0
+ * @since 6.0
  *
  * @param string $type Type of playlist. Accepts 'audio' or 'video'.
  */
 function powerpress_playlist_scripts( $type ) {
-	wp_enqueue_style( 'wp-mediaelement' );
-	wp_enqueue_script( 'wp-playlist' );
+	wp_enqueue_style( 'wp-mediaelement' ); // Use the playlist built into WordPress
+	wp_enqueue_script( 'wp-playlist' ); // Use the playlist built into WordPress
 ?>
 <!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
 <?php
@@ -109,20 +199,24 @@ add_action( 'powerpress_playlist_scripts', 'powerpress_playlist_scripts' );
  * The playlist shortcode.
  *
  * This implements the functionality of the playlist shortcode for displaying
- * a collection of WordPress audio or video files in a post.
+ * a collection of podcast episodes in a post.
  *
- * @since 3.9.0
+ * @since 6.0
  *
  * @param array $attr Playlist shortcode attributes.
  * @return string Playlist output. Empty string if the passed type is unsupported.
  */
 function powerpress_playlist_shortcode( $attr ) {
 	global $content_width;
-	$post = get_post();
+	
+	if ( is_feed() ) {
+		return '';
+	}
 
 	static $instance = 0;
 	$instance++;
-
+	
+	/*
 	if ( ! empty( $attr['ids'] ) ) {
 		// 'ids' is explicitly ordered, unless you specify otherwise.
 		if ( empty( $attr['orderby'] ) ) {
@@ -130,94 +224,76 @@ function powerpress_playlist_shortcode( $attr ) {
 		}
 		$attr['include'] = $attr['ids'];
 	}
-
-	/**
-	 * Filter the playlist output.
-	 *
-	 * Passing a non-empty value to the filter will short-circuit generation
-	 * of the default playlist output, returning the passed value instead.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @param string $output Playlist output. Default empty.
-	 * @param array  $attr   An array of shortcode attributes.
-	 */
-	$output = apply_filters( 'post_playlist', '', $attr );
-	if ( $output != '' ) {
-		return $output;
-	}
-
-	/*
-	 * We're trusting author input, so let's at least make sure it looks
-	 * like a valid orderby statement.
-	 */
-	if ( isset( $attr['orderby'] ) ) {
-		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-		if ( ! $attr['orderby'] )
-			unset( $attr['orderby'] );
-	}
-
+	*/
+	
 	extract( shortcode_atts( array(
-		'type'		=> 'audio',
-		'order'		=> 'DESC',
-		'orderby'	=> 'date',
-		'include'	=> '',
-		'exclude'   => '',
+		'type'		=> 'audio', // Already defined by the first episode type
 		'style'		=> 'light', /* */
-		'tracklist' => true,
-		'tracknumbers' => true,
-		'images'	=> true,
-		'artists'	=> true,
-		'feedslug'=>'podcast',
-		'limit'=>10
+		'tracklist' => true, /* always true */
+		'tracknumbers' => true, /* always false for podcasting */
+		'images'	=> true, // Used for PowerPress Playlist
+		'image'	=> '', // Used for PowerPress Playlist (specific image URL for default poster artwork
+		'artists'	=> true, // display the artist / author / talent name (Future use)
+		'itunes_subtitle'=>false,
+		'category'=>'', // Used for PowerPress Playlist (specify category ID, name or slug)
+		'term_id'=>'', // Used for PowerPress Playlist (specify term ID, name or slug)
+		'taxonomy'=>'', // Used for PowerPress Playlist (specify taxonomy name)
+		'program_titles_by_taxonomy'=>'', // e.g. category
+		'date'	=> true,  // Display the date
+		'title'	=> true, // Dislay the title of program
+		'links'=>true, // Link to episode page
+		'slug' => '', // Used for PowerPress Playlist
+		'feed' => '', // Used for PowerPress Playlist
+		'channel'=>'', // Used for PowerPress Playlist
+		'post_type' => 'post', // Used for PowerPress Playlist
+		'limit'=>10 // Used for PowerPress Playlist
 	), $attr, 'powerpressplaylist' ) );
 	$tracknumbers = false;
-	$images = true;
+	//$images = true;
 	$artists = true; // Program title
+	
+	$images = filter_var( $images, FILTER_VALIDATE_BOOLEAN );
+	$links = filter_var( $links, FILTER_VALIDATE_BOOLEAN );
+	$itunes_subtitle = filter_var( $itunes_subtitle, FILTER_VALIDATE_BOOLEAN );
+	$date = filter_var( $date, FILTER_VALIDATE_BOOLEAN );
+	
+	if( empty($slug) && !empty($feed) ) 
+		$slug = $feed;
+	if( empty($slug) && !empty($channel) ) 
+		$slug = $channel;
+	if( empty($slug) )
+		$slug = 'podcast';
 
 	$args = array(
-		'post_status' => 'inherit',
-		'post_type' => 'attachment',
-		'post_mime_type' => $type,
-		'order' => $order,
-		'orderby' => $orderby
+		'limit' => $limit,
+		'slug' => $slug,
+		'post_type'=>$post_type,
+		'category'=>$category,
+		'term_id'=>'',
+		'taxonomy'=>''
 	);
-
-	if ( ! empty( $include ) ) {
-		$args['include'] = $include;
-		$_attachments = get_posts( $args );
-
-		$attachments = array();
-		foreach ( $_attachments as $key => $val ) {
-			$attachments[$val->ID] = $_attachments[$key];
-		}
-	} elseif ( ! empty( $exclude ) ) {
-		$args['post_parent'] = $id;
-		$args['exclude'] = $exclude;
-		$attachments = get_children( $args );
-	} else {
-		//$args['post_parent'] = $id;
-		$attachments = get_children( $args );
-	}
 	
 	$episodes = powerpress_playlist_episodes( $args );
-	//return print_r($results, true);
 	
 	if ( empty( $episodes ) ) {
 		return '';
 	}
-
-	if ( is_feed() ) {
-		return '';
-		/*
-		$output = "\n";
-		foreach ( $attachments as $att_id => $attachment ) {
-			$output .= wp_get_attachment_link( $att_id ) . "\n";
+	
+	$ProgramSettings = false;
+	// Get Podcast Settings...ssss
+	if( !empty($post_type) )
+	{
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+		if( is_array($PostTypeSettingsArray[ $slug ] ) )
+		{
+			$ProgramSettings = $PostTypeSettingsArray[ $slug ];
 		}
-		return $output;
-		*/
 	}
-
+	if( !empty($slug) && !$ProgramSettings )
+		$ProgramSettings = get_option('powerpress_feed_'.$slug);
+	if( empty($ProgramSettings) )
+		$ProgramSettings = get_option('powerpress_general');
+	
 	$outer = 22; // default padding and border of wrapper
 
 	$default_width = 640;
@@ -227,12 +303,27 @@ function powerpress_playlist_shortcode( $attr ) {
 	$theme_height = empty( $content_width ) ? $default_height : round( ( $default_height * $theme_width ) / $default_width );
 
 	$data = compact( 'type' );
-
-	// don't pass strings to JSON, will be truthy in JS
-	foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists' ) as $key ) {
-		$data[$key] = filter_var( $$key, FILTER_VALIDATE_BOOLEAN );
+	
+	if( !empty($images) && empty($image) ) // If they specified images but did not specify a specific image in the shortcode...
+	{
+		if( !empty($ProgramSettings['rss2_image']) )
+			$image = $ProgramSettings['rss2_image'];
+		else if( !empty($ProgramSettings['itunes_image']) )
+			$image = $ProgramSettings['itunes_image'];
 	}
 
+	// don't pass strings to JSON, will be truthy in JS
+	// foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists' ) as $key ) {
+	$date = true;
+	foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists', 'date', 'itunes_subtitle' ) as $key ) {
+		$data[$key] = filter_var( $$key, FILTER_VALIDATE_BOOLEAN );
+	}
+	
+	// Set a global poster image
+	if( !empty($image) ) {
+		$data['poster'] = array( 'src'=>$image, 'width'=>'144', 'height'=>'144' );
+	}
+	
 	$tracks = array();
 	foreach ( $episodes as $episode ) {
 		//$url = wp_get_attachment_url( $attachment->ID );
@@ -242,20 +333,42 @@ function powerpress_playlist_shortcode( $attr ) {
 			'src' => $url,
 			'type' => $episode['enclosure']['type'],
 			'title' => $episode['post_title'],
-			'caption' => '',
+			'caption' => $episode['post_title'],
 			'description' => $episode['post_title']
 		);
+		
+		//$image = false;
+		$episode_image = $image;
+		if( $images && !empty($episode['enclosure']['image']) )
+		{
+			$episode_image = $episode['enclosure']['image'];
+		}
+		// enclosure
 
 		$track['meta'] = array();
 		
 		$track['meta']['artist'] = 'Talent Name';
 		$track['meta']['album'] = ('Podcast Title here');
-		$track['meta']['genre'] = 'Artisto';
-		$track['meta']['year'] = '2014';
-		$track['meta']['length_formatted'] = $episode['enclosure']['duration'];
+		if( $program_titles_by_taxonomy )
+		{
+			$ObjectTerms = wp_get_object_terms( $episode['ID'], $program_titles_by_taxonomy);
+			if(!empty($ObjectTerms) && !is_wp_error( $ObjectTerms ) && count($ObjectTerms) == 1 )
+			{
+				$track['meta']['program_title'] = powerpress_get_program_title_by_taxonomy($ObjectTerms[0]->term_id, $program_titles_by_taxonomy);
+			}
+		}
+		$track['meta']['title'] = $episode['post_title'];
+		if( !empty($itunes_subtitle) && !empty($episode['enclosure']['subtitle']) )
+			$track['meta']['itunes_subtitle'] = $episode['enclosure']['subtitle'];
+		$track['meta']['genre'] = 'Podcast';
+		$track['meta']['year'] = mysql2date( 'Y', $episode['post_date'] ); // Episode year
+		if( !empty($date) )
+			$track['meta']['date'] = mysql2date( get_option( 'date_format' ), $episode['post_date'] );// Get episode date
+		$track['meta']['length_formatted'] = powerpress_readable_duration($episode['enclosure']['duration']); // $episode['enclosure']['duration'];
+		if( !empty($links) )
+			$track['meta']['link'] = get_permalink( $episode['ID'] ); // 'http://www.google.com/';
 		
-		$track['meta']['link'] = 'http://www.google.com/';
-		
+		/*
 		//$meta = wp_get_attachment_metadata( $attachment->ID );
 		$meta = false;
 		if ( ! empty( $meta ) ) {
@@ -285,22 +398,16 @@ function powerpress_playlist_shortcode( $attr ) {
 				);
 			}
 		}
+		*/
 		
-		$images = false;
-		if ( $images ) {
-			$id = get_post_thumbnail_id( $attachment->ID );
-			if ( ! empty( $id ) ) {
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
-				$track['image'] = compact( 'src', 'width', 'height' );
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
-				$track['thumb'] = compact( 'src', 'width', 'height' );
-			} else {
-				$src = wp_mime_type_icon( $attachment->ID );
-				$width = 48;
-				$height = 64;
-				$track['image'] = compact( 'src', 'width', 'height' );
-				$track['thumb'] = compact( 'src', 'width', 'height' );
-			}
+		if( !empty($episode_image) ) // !empty($image) )
+		{
+			$src = $episode_image;
+			$width = 144;
+			$height = 144;
+			//$track['image'] = compact( 'src', 'width', 'height' );
+			$track['thumb'] = compact( 'src', 'width', 'height' );
+			$track['poster'] = compact( 'src', 'width', 'height' );
 		}
 
 		$tracks[] = $track;
@@ -313,14 +420,6 @@ function powerpress_playlist_shortcode( $attr ) {
 	ob_start();
 
 	if ( 1 === $instance ) {
-		/**
-		 * Print and enqueue playlist scripts, styles, and JavaScript templates.
-		 *
-		 * @since 3.9.0
-		 *
-		 * @param string $type  Type of playlist. Possible values are 'audio' or 'video'.
-		 * @param string $style The 'theme' for the playlist. Core provides 'light' and 'dark'.
-		 */
 		do_action( 'powerpress_playlist_scripts', $type, $style );
 	} ?>
 <div class="wp-playlist wp-<?php echo $safe_type ?>-playlist wp-playlist-<?php echo $safe_style ?>">
@@ -336,9 +435,9 @@ function powerpress_playlist_shortcode( $attr ) {
 	<div class="wp-playlist-prev"></div>
 	<noscript>
 	<ol><?php
-	foreach ( $attachments as $att_id => $attachment ) {
-		printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
-	}
+	//foreach ( $attachments as $att_id => $attachment ) {
+	//	printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
+	//}
 	?></ol>
 	</noscript>
 	<script type="application/json"><?php echo json_encode( $data ) ?></script>
