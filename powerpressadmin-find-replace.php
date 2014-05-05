@@ -142,7 +142,7 @@
 		
 		}
 		
-		powerpress_page_message_add_notice(  __('WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsibile for any lost or damaged data resulting from this Find and Replace tool.', 'powerpress') );
+		powerpress_page_message_add_notice(  __('WARNING: Please backup your database before proceeding. Blubrry PowerPress is not responsible for any lost or damaged data resulting from this Find and Replace tool.', 'powerpress') );
 	}
 	
 	function powerpress_admin_find_replace()
