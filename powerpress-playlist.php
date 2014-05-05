@@ -368,6 +368,13 @@ function powerpress_playlist_shortcode( $attr ) {
 		if( !empty($links) )
 			$track['meta']['link'] = get_permalink( $episode['ID'] ); // 'http://www.google.com/';
 		
+		if( $type == 'video' )
+		{
+			$track['dimensions'] = array(
+					'original' => array('width'=>'100%', 'height'=>'100%' ),
+					'resized' => array('width'=>'100%', 'height'=>'100%' )
+						);
+		}
 		/*
 		//$meta = wp_get_attachment_metadata( $attachment->ID );
 		$meta = false;
@@ -405,8 +412,9 @@ function powerpress_playlist_shortcode( $attr ) {
 			$src = $episode_image;
 			$width = 144;
 			$height = 144;
-			//$track['image'] = compact( 'src', 'width', 'height' );
-			$track['thumb'] = compact( 'src', 'width', 'height' );
+			if( $type == 'video' ) // image onlyl used for video
+				$track['image'] = array('src'=>$src, 'width'=>'100%', 'height'=>'100%');
+			//$track['thumb'] = compact( 'src', 'width', 'height' );
 			$track['poster'] = compact( 'src', 'width', 'height' );
 		}
 

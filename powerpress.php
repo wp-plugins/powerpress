@@ -2767,4 +2767,14 @@ if( defined('POWERPRESS_PLAYLIST') && POWERPRESS_PLAYLIST )
 	require_once(POWERPRESS_ABSPATH.'/powerpress-playlist.php');
 }
 
+if( defined('POWERPRESS_SUBSCRIBE') && POWERPRESS_SUBSCRIBE )
+{
+	require_once(POWERPRESS_ABSPATH.'/powerpress-subscribe.php');
+}
+
+if( defined('POWERPRESS_NEW_CODE') && POWERPRESS_NEW_CODE )
+{
+	require_once(POWERPRESS_ABSPATH.'/powerpress-new-code.php');
+}
+
 ?>
