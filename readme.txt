@@ -2,7 +2,7 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
-Tested up to: 3.9
+Tested up to: 3.9.1
 Stable tag: 5.0.7
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
@@ -176,10 +176,12 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 5.0.8 =
-* Released on TBA
+* Released on 6/11/2014
 * Added better error reporting logic for services and statistics.
 * Added option to get podcast meta data optionally from a value (rather than from database)
-* 
+* Added logic to override the html content-type when a HTTP HEAD request is made for a feed URL
+* Fixed notice message on line 220 of powerpress.php (thanks brandonferens for letting us know about the notice message)
+
 
 = 5.0.7 =
 * Released on 4/3/3014

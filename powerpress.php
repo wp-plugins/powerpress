@@ -217,7 +217,7 @@ function powerpress_content($content)
 	if( $GeneralSettings['display_player'] == 0 )
 		return $content;
 		
-	if( current_filter() == 'the_excerpt' && !$GeneralSettings['display_player_excerpt'] )
+	if( current_filter() == 'the_excerpt' && empty($GeneralSettings['display_player_excerpt']) )
 		return $content; // We didn't want to modify this since the user didn't enable it for excerpts
 		
 	// Figure out which players are alerady in the body of the page...
@@ -396,6 +396,18 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 }
 
 add_action('wp_head', 'powerpress_header');
+
+function powerpress_exit_on_http_head($return)
+{
+	if( is_feed() )
+	{
+		// Set the content type for HTTP headers...
+		header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
+	}
+	return $return;
+}
+
+add_filter('exit_on_http_head', 'powerpress_exit_on_http_head' );
 
 function powerpress_rss2_ns()
 {
