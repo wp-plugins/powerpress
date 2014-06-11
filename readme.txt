@@ -175,7 +175,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
-= 6.0 =
+= 5.0.8 =
 * Released on TBA
 * Added better error reporting logic for services and statistics.
 * Added option to get podcast meta data optionally from a value (rather than from database)

@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '6.0 alpha1' );
+define('POWERPRESS_VERSION', '5.0.8' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -2762,17 +2762,17 @@ if( is_admin() )
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
 }
 
-if( defined('POWERPRESS_PLAYLIST') && POWERPRESS_PLAYLIST )
+if( defined('POWERPRESS_PLAYLIST') && POWERPRESS_PLAYLIST && file_exists(POWERPRESS_ABSPATH.'/powerpress-playlist.php') )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpress-playlist.php');
 }
 
-if( defined('POWERPRESS_SUBSCRIBE') && POWERPRESS_SUBSCRIBE )
+if( defined('POWERPRESS_SUBSCRIBE') && POWERPRESS_SUBSCRIBE && file_exists(POWERPRESS_ABSPATH.'/powerpress-subscribe.php') )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpress-subscribe.php');
 }
 
-if( defined('POWERPRESS_NEW_CODE') && POWERPRESS_NEW_CODE )
+if( defined('POWERPRESS_NEW_CODE') && POWERPRESS_NEW_CODE && file_exists(POWERPRESS_ABSPATH.'/powerpress-new-code.php') )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpress-new-code.php');
 }
