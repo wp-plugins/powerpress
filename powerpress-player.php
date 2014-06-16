@@ -147,14 +147,15 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		if( isset($GeneralSettings['premium_caps']) && $GeneralSettings['premium_caps'] && !powerpress_premium_content_authorized($channel) )
 		{
 			$return .= powerpress_premium_content_message($post->ID, $channel, $EpisodeData);
-			continue;
 		}
-		
-		// If the shortcode speciies a channel, than we definnitely wnat to include the player even if $EpisodeData['no_player'] is true...
-		if( !isset($EpisodeData['no_player']) )
-			$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
-		if( empty($EpisodeData['no_links']) )
-			$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+		else
+		{
+			// If the shortcode speciies a channel, than we definnitely wnat to include the player even if $EpisodeData['no_player'] is true...
+			if( !isset($EpisodeData['no_player']) )
+				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
+			if( empty($EpisodeData['no_links']) )
+				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+		}
 	}
 	else
 	{
@@ -1786,7 +1787,7 @@ function powerpressplayer_build_1pxoutplayer($media_url, $EpisodeData = array())
 	if( !isset($PlayerSettings['width']) )	
 		$PlayerSettings['width'] = 290;
 	if( !empty($EpisodeData['width']) && is_numeric($EpisodeData['width']) )
-		$PlayerSettings['width'] = $EpisdoeData['width'];
+		$PlayerSettings['width'] = $EpisodeData['width'];
 	
 	$transparency = '<param name="wmode" value="transparent" />';
 	$PlayerSettings['transparentpagebg'] = 'yes';

@@ -175,6 +175,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
+= 5.0.9 =
+* Released on TBA
+* Fixed wo logic errors in the powerpress-player.php (Thanks Tom from the Hawaii Vacation Connection podcast for bringing to our attention)
+
+
 = 5.0.8 =
 * Released on 6/11/2014
 * Added better error reporting logic for services and statistics.
