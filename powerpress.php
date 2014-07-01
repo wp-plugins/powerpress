@@ -38,10 +38,7 @@ define('POWERPRESS_VERSION', '5.0.8' );
 if ( !defined('POWERPRESS_ABSPATH') )
 	define('POWERPRESS_ABSPATH', dirname(__FILE__) );
 
-// Translation support loaded:
-load_plugin_textdomain('powerpress', // domain / keyword name of plugin
-		POWERPRESS_ABSPATH .'/languages', // Absolute path
-		basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
+
 
 /////////////////////////////////////////////////////
 // The following define options should be placed in your
@@ -1319,14 +1316,18 @@ function powerpress_request($qv)
 
 add_filter('request', 'powerpress_request');
 
-// May be used for future use
-/*
+
 function powerpress_plugins_loaded()
 {
-	
+	if( !defined('POWERPRESS_LANGUAGES_PLUGIN') )
+	{
+		// Translation support loaded:
+		load_plugin_textdomain('powerpress', // domain / keyword name of plugin
+			POWERPRESS_ABSPATH .'/languages', // Absolute path
+			basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
+		}
 }
 add_action('plugins_loaded', 'powerpress_plugins_loaded');
-*/
 
 
 function powerpress_w3tc_can_print_comment($settings)
