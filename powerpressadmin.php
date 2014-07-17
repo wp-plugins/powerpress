@@ -2402,7 +2402,7 @@ function powerpress_media_info_ajax()
 	
 	if( !isset($MediaInfo['error']) && !empty($MediaInfo['length']) )
 	{
-		substr('', 'abc');
+		//substr('', 'abc');
 		echo "VERIFY-OK\n";
 		echo "$feed_slug\n"; // swap positions
 		echo "{$MediaInfo['length']}\n";

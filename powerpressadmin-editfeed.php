@@ -569,8 +569,9 @@ if( $FeedAttribs['type'] != 'general' ) // All types exept general settings
 <?php echo powerpressadmin_notice( __('No support is available from blubrry if you are using Feedburner or other feed hosted services.', 'powerpress') ); ?><br /> 
 <a href="http://create.blubrry.com/manual/syndicating-your-podcast-rss-feeds/feedburner-for-podcasting/" target="_blank"><?php echo __('Learn more about FeedBurner and Podcasitng', 'powerpress'); ?></a>
 </p>
-
 <p><?php echo __('Use this option to redirect this feed to a hosted feed service such as FeedBurner.', 'powerpress'); ?></p>
+
+<p><?php echo __('We recommend that you disable FeedBurner SmartCast when using FeedBurner with PowerPress.', 'powerpress'); ?></p>
 <?php
 $link = $feed_link;
 if( strstr($link, '?') )

@@ -338,30 +338,36 @@ function DeleteMedia(File)
 		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
 		<?php
 		if( $QuotaData ) {
-			
+					
 			$NextDate = strtotime( $QuotaData['published']['next_date']);
 		?>
-			<p><?php
+			<?php
 			if( $QuotaData['unpublished']['available'] != $QuotaData['unpublished']['total'] )
 			{
-				echo sprintf( __('You have uploaded %s (%s available) of your %s upload limit.', 'powerpress'),
-					'<em>'. powerpress_byte_size($QuotaData['unpublished']['used']) .'</em>',
-					'<em>'. powerpress_byte_size($QuotaData['unpublished']['available']) .'</em>',
-					'<em>'. powerpress_byte_size($QuotaData['unpublished']['total']) .'</em>' );
+				//echo '<p>';
+				//echo sprintf( __('You have uploaded %s (%s available) of your %s upload limit.', 'powerpress'),
+				//	'<em>'. powerpress_byte_size($QuotaData['unpublished']['used']) .'</em>',
+				//	'<em>'. powerpress_byte_size($QuotaData['unpublished']['available']) .'</em>',
+				//	'<em>'. powerpress_byte_size($QuotaData['unpublished']['total']) .'</em>' );
+				//echo '</p>';
 			}
-			else
-			{
 			
-			}
-			?>
-			</p>
-			<p><?php
-			if( $QuotaData['published']['available'] != $QuotaData['published']['total'] )
+			if( $QuotaData['published']['status'] == 'OK' )
 			{
-				echo sprintf( __('You have %s available (%s published in the last 30 days) of your %s publish limit.', 'powerpress'),
+			?>
+			<p><?php
+			
+			if( $QuotaData['published']['available'] > 0 ) // != $QuotaData['published']['total'] )
+			{
+				echo sprintf( __('Publishing space available: %s of (%s %%) of %s/month quota.', 'powerpress'),
 					'<em>'. powerpress_byte_size($QuotaData['published']['available']) .'</em>',
-					'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
-					'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
+					//'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
+					'<em>'. round( ($QuotaData['published']['available']/$QuotaData['published']['total'])*100 ) .'</em>',
+					'<em>'. str_replace('.0', '', powerpress_byte_size($QuotaData['published']['total'])) .'</em>' );
+				//echo sprintf( __('You have %s available (%s published in the last 30 days) of your %s publish limit.', 'powerpress'),
+				//	'<em>'. powerpress_byte_size($QuotaData['published']['available']) .'</em>',
+				//	'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['available']) .'</em>',
+				//	'<em>'. powerpress_byte_size($QuotaData['published']['total']) .'</em>' );
 			}
 			else if( $QuotaData['published']['available'] == 0 ) // Hosting account frozen
 			{
@@ -374,16 +380,38 @@ function DeleteMedia(File)
 			}
 			?>
 			</p>
+			<p>
+			<?php
+				echo sprintf( __('No-Fault Hosting: You may upload a media file up to %s in size and be within the No-Fault maximum (25%% more than your %s quota).', 'powerpress'),
+					 powerpress_byte_size($QuotaData['published']['no_fault_maximum']),
+					str_replace('.0', '', powerpress_byte_size($QuotaData['published']['total'])));
+				echo ' ';
+				echo '<a href="http://create.blubrry.com/resources/podcast-media-hosting/no-fault/" target="_blank">'. __('Learn More', 'powerpress') .'</a>';
+			?>
+			</p>
 			<p><?php
 			if( $QuotaData['published']['available'] != $QuotaData['published']['total'] )
 			{
-			echo sprintf( __('Your limit will adjust on %s to %s (%s available).', 'powerpress'),
-				date('m/d/Y', $NextDate),
-				'<em>'. powerpress_byte_size($QuotaData['published']['total']-$QuotaData['published']['next_available']) .'</em>',
-				'<em>'. powerpress_byte_size($QuotaData['published']['next_available']) .'</em>' );
+			echo sprintf( __('Your quota will reset on %s.', 'powerpress'),
+				date('m/d/Y', $NextDate)  );
 			}
 			?>
 			</p>
+			<?php
+				}
+				else if( $QuotaData['published']['status'] == 'UNLIMITED' )
+				{
+					echo '<p>';
+					echo __('Publishing Space Available: Unlimited (Professional Hosting)', 'powerpress');
+					echo '<p>';
+				}
+				else
+				{
+					echo '<p>';
+					echo __('Publishing Space Available: Account has expired', 'powerpress');
+					echo '<p>';
+				}
+			?>
 		<?php } ?>
 		<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 	</div>

@@ -179,8 +179,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on TBA
 * Fixed wo logic errors in the powerpress-player.php (Thanks Tom from the Hawaii Vacation Connection podcast for bringing to our attention)
 * Added support for the [PowerPress in your Language](http://create.blubrry.com/resources/powerpress/powerpress-language/) add-on plugin. 
-* Removed support for the [PowerPress in your Language](http://create.blubrry.com/resources/powerpress/powerpress-language/) (plugin was rejected by WordPress.org)
+* Removed support for the [PowerPress in your Language](http://create.blubrry.com/resources/powerpress/powerpress-language/), plugin was rejected by WordPress.org. We are doing our best to come up with another solution.
 * Screenshot files have been moved to the assets folder, they will no longer be packaged with the plugin's zip file.
+* Fixed PHP warning in powerpressadmin.php on line 2405 (Thanks Robin for letting us know)
+* Added notice for FeedBurner setting "We recommend that you disabled SmartCast when using PowerPress with FeedBurner",  otherwise FeedBuner will duplicate iTunes descriptions for episodes. (Thanks Daniel Lewis for suggestion)
+* Added [No-Fault Hosting](http://create.blubrry.com/resources/podcast-media-hosting/no-fault/) support for all Blubrry Podcast Hosting customers. In addition, starting August 1st 2014, publishing quotas will be reset on the 1st of each month.
 
 
 = 5.0.8 =
