@@ -178,8 +178,9 @@ To install Blubrry PowerPress manually, follow these steps:
 = 5.0.9 =
 * Released on TBA
 * Fixed wo logic errors in the powerpress-player.php (Thanks Tom from the Hawaii Vacation Connection podcast for bringing to our attention)
-* Added support for the [PowerPress in your Language](create.blubrry.com/wp-content/downloads/powerpress-languages.zip) add-on plugin. 
-* screenshot files have been moved to the assets folder, they will no longer be packaged with the plugin's zip file.
+* Added support for the [PowerPress in your Language](http://create.blubrry.com/resources/powerpress/powerpress-language/) add-on plugin. 
+* Removed support for the [PowerPress in your Language](http://create.blubrry.com/resources/powerpress/powerpress-language/) (plugin was rejected by WordPress.org)
+* Screenshot files have been moved to the assets folder, they will no longer be packaged with the plugin's zip file.
 
 
 = 5.0.8 =

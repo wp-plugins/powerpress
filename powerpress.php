@@ -1319,13 +1319,13 @@ add_filter('request', 'powerpress_request');
 
 function powerpress_plugins_loaded()
 {
-	if( !defined('POWERPRESS_LANGUAGES_PLUGIN') )
-	{
+	//if( !defined('POWERPRESS_LANGUAGES_PLUGIN') )
+	//{
 		// Translation support loaded:
 		load_plugin_textdomain('powerpress', // domain / keyword name of plugin
 			POWERPRESS_ABSPATH .'/languages', // Absolute path
 			basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
-		}
+	//}
 }
 add_action('plugins_loaded', 'powerpress_plugins_loaded');
 
