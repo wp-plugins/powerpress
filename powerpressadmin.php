@@ -3089,8 +3089,15 @@ function powerpress_process_hosting($post_ID, $post_title)
 					{
 						$rand_id = rand(100,2000);
 						$error = __('Blubrry Hosting Error (publish)', 'powerpress') .': '. sprintf( __('An error occurred publishing media \'%s\'.','powerpress'), $EnclosureURL);
-						$error .= ' <a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\');this.style.display=\'none\';return false;">'. __('Display Error', 'powerpress') .'</a>';
-						$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">'. $json_data .'</div>';
+						$error .= ' <a href="#" onclick="document.getElementById(\'powerpress_error_'. $rand_id .'\').style.display=\'block\';this.style.display=\'none\';return false;">'. __('Display Error', 'powerpress') .'</a>';
+						$error .= '<div id="powerpress_error_'. $rand_id .'" style="display: none;">';
+						if( !empty($json_data) )
+							$error .= $json_data;
+						else if( !empty($GLOBALS['g_powerpress_remote_error']) )
+							$error .= htmlspecialchars($GLOBALS['g_powerpress_remote_error']);
+						else
+							$error .= __('Unknown error ocurred.', 'powerpress');
+						$error .= '</div>';
 						powerpress_add_error($error);
 					}
 				}
