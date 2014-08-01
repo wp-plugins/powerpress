@@ -39,7 +39,7 @@ function powerpressplayer_init($GeneralSettings)
 	{
 		$player = ( !empty($_GET['powerpress_player']) ? $_GET['powerpress_player'] : 'default' );
 		if( empty($_GET['powerpress_player']) && version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
-			$player = 'mediaelement-audio';
+			$player = 'mejs-v';
 		powerpress_do_embed($player, $_GET['powerpress_embed'], !empty($GeneralSettings['process_podpress']) );
 	}
 	
