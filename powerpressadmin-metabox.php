@@ -330,7 +330,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( !empty($GeneralSettings['episode_box_keywords']) || $iTunesKeywords )
+		if( $iTunesKeywords )
 		{
 ?>
 		<div class="powerpress_row">
@@ -339,7 +339,7 @@ function powerpress_meta_box($object, $box)
 				<input id="powerpress_keywords_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][keywords]" value="<?php echo htmlspecialchars($iTunesKeywords); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
 			<div class="powerpress_row_content">
-				<em><?php echo __('Enter up to 12 keywords separated by commas. Leave blank to use your blog post tags.', 'powerpress'); ?></em>
+				<em><?php echo __('Feature Deprecated by Apple. Keywords above are for your reference only.', 'powerpress'); ?></em>
 			</div>
 		</div>
 <?php

@@ -175,6 +175,14 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
+
+= 6.0 =
+* Released on TBD
+* Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
+* Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
+* iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.
+
+
 = 5.0.9 =
 * Released on 7/28/2014
 * Fixed wo logic errors in the powerpress-player.php (Thanks Tom from the Hawaii Vacation Connection podcast for bringing to our attention)

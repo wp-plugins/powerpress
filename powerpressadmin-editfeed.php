@@ -1004,48 +1004,40 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 </tr>
 
 <?php
-	if( !empty($General['advanced_mode_2']) ) {
+	if( !empty($General['advanced_mode_2']) ) 
+	{
 ?>
 <tr valign="top">
 <th scope="row">
 
 <?php echo __('iTunes Episode Summary', 'powerpress'); ?></th>
 <td>
-
-<?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?> (<?php echo __('We no longer recommend using this setting, see note below', 'powerpress'); ?>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?>
 </div>
 <p>
 	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application.', 'powerpress'); ?>
 </p>
-<p class="description"><strong>
-	<?php echo __('Note: With the recent launch of iTunes web site during the summer of 2010, Optimize iTunes Summary\'s clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature.', 'powerpress'); ?>
-</strong></p>
-<?php } else { ?>
-
-	<strong><?php echo __('Option Not Available', 'powerpress'); ?></strong>
-
-<p>
-	<?php echo __('This feature requires PHP version 5 or newer.', 'powerpress'); ?>
-	<?php echo sprintf( __('Your server\'s version of PHP is %s','powerpress'),phpversion() ); ?>. 
-</p>
-<?php } ?>
 </td>
 </tr>
 </table>
 
 
 <table class="form-table">
+<?php
+		if( !empty($FeedSettings['itunes_keywords']) )
+		{
+?>
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Program Keywords', 'powerpress'); ?> <br />
 </th>
 <td>
 <input type="text" name="Feed[itunes_keywords]" style="width: 60%;"  value="<?php echo $FeedSettings['itunes_keywords']; ?>" maxlength="250" />
-<p><?php echo __('Enter up to 12 keywords separated by commas.', 'powerpress'); ?></p>
+<p><?php echo __('Feature Deprecated by Apple. Keywords above are for your reference only.', 'powerpress'); ?></p>
 </td>
 </tr>
 <?php
+		} // End iTunes keywords
 	} // end advanced mode
 ?>
 

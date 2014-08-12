@@ -414,8 +414,6 @@ function powerpress_admin_init()
 					$General['episode_box_cover_image'] = 0;	
 				if( !isset($General['episode_box_player_size'] ) )
 					$General['episode_box_player_size'] = 0;	
-				if( !isset($General['episode_box_keywords'] ) )
-					$General['episode_box_keywords'] = 0;
 				if( !isset($General['episode_box_subtitle'] ) )
 					$General['episode_box_subtitle'] = 0;
 				if( !isset($General['episode_box_summary'] ) )
@@ -1227,8 +1225,6 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_cover_image']);
 			if( isset($Settings['episode_box_player_size'] ) && $Settings['episode_box_player_size'] == 0 )
 				unset($Settings['episode_box_player_size']);
-			if( isset($Settings['episode_box_keywords'] ) && $Settings['episode_box_keywords'] == 0 )
-				unset($Settings['episode_box_keywords']);
 			if( isset($Settings['episode_box_subtitle'] ) && $Settings['episode_box_subtitle'] == 0 )
 				unset($Settings['episode_box_subtitle']);
 			if( isset($Settings['episode_box_summary'] ) && $Settings['episode_box_summary'] == 0 )
@@ -1690,7 +1686,7 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes Summary
 				if( isset($Powerpress['summary']) && trim($Powerpress['summary']) != '' ) 
 					$ToSerialize['summary'] = stripslashes($Powerpress['summary']);
-				// iTunes keywords
+				// iTunes keywords (Deprecated by Apple)
 				if( isset($Powerpress['keywords']) && trim($Powerpress['keywords']) != '' ) 
 					$ToSerialize['keywords'] = stripslashes($Powerpress['keywords']);
 				// iTunes Author
@@ -3190,7 +3186,6 @@ function powerpress_admin_import_podpress_settings()
 	$FeedSettings['itunes_summary'] = $PodpressData['iTunes']['summary'];
 	$FeedSettings['itunes_talent_name'] = $PodpressData['iTunes']['author'];
 	$FeedSettings['itunes_subtitle'] = $PodpressData['iTunes']['subtitle'];
-	$FeedSettings['itunes_keywords'] = $PodpressData['iTunes']['keywords'];
 	$FeedSettings['copyright'] = $PodpressData['rss_copyright'];
 	// Categories are tricky...
 	$iTunesCategories = powerpress_itunes_categories(true);
@@ -3316,13 +3311,6 @@ function powerpress_admin_import_podcasting_settings()
 			$FeedSettings['itunes_cat_'.$x] = $CatKey;
 			$FeedChanges = true;
 		}
-	}
-	
-	$pod_itunes_keywords = get_option('pod_itunes_keywords');
-	if( $pod_itunes_keywords ) 
-	{
-		$FeedSettings['itunes_keywords'] = stripslashes($pod_itunes_keywords);
-		$FeedChanges = true;
 	}
 	
 	$pod_itunes_ownername = get_option('pod_itunes_ownername');

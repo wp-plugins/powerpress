@@ -405,8 +405,9 @@ function powerpressadmin_edit_entry_options($General)
 					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( !empty($General['episode_box_player_size']) ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> 
 						(<?php echo __('Customize player width and height on a per episode basis', 'powerpress'); ?>)</p>
 					
-					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="General[episode_box_keywords]" type="checkbox" value="1"<?php if( !empty($General['episode_box_keywords']) ) echo ' checked'; ?> /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
-						(<?php echo __('Leave unchecked to use your blog post tags', 'powerpress'); ?>)</p>
+					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="NULL[episode_box_keywords]" type="checkbox" value="1" disabled /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
+						(<?php echo __('Feature Deprecated by Apple', 'powerpress'); ?>)</p>
+					
 					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( !empty($General['episode_box_subtitle']) ) echo ' checked'; ?> /> <?php echo __('iTunes Subtitle Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use the first 250 characters of your blog post', 'powerpress'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( !empty($General['episode_box_summary']) ) echo ' checked'; ?> /> <?php echo __('iTunes Summary Field', 'powerpress'); ?>

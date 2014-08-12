@@ -529,9 +529,6 @@ function powerpress_rss2_head()
 		echo "\t".'<itunes:subtitle>' . powerpress_format_itunes_value($Feed['itunes_subtitle'], 'subtitle') . '</itunes:subtitle>'.PHP_EOL;
 	else
 		echo "\t".'<itunes:subtitle>'.  powerpress_format_itunes_value( get_bloginfo('description'), 'subtitle') .'</itunes:subtitle>'.PHP_EOL;
-	
-	if( !empty($Feed['itunes_keywords']) )
-		echo "\t".'<itunes:keywords>' . powerpress_format_itunes_value($Feed['itunes_keywords'], 'keywords') . '</itunes:keywords>'.PHP_EOL;
 		
 	if( !empty($Feed['rss2_image']) || !empty($Feed['itunes_image']) )
 	{
@@ -721,7 +718,6 @@ function powerpress_rss2_item()
 	$explicit = $powerpress_feed['explicit'];
 	$summary = false;
 	$subtitle = false;
-	$keywords = false;
 	$block = false;
 	$cc = false;
 	
@@ -729,8 +725,6 @@ function powerpress_rss2_item()
 		$summary = $EpisodeData['summary'];
 	if( isset( $EpisodeData['subtitle'] )  && strlen($EpisodeData['subtitle']) > 1 )
 		$subtitle = $EpisodeData['subtitle'];
-	if( isset( $EpisodeData['keywords'] ) && strlen($EpisodeData['keywords']) > 1 )
-		$keywords = $EpisodeData['keywords'];
 	if( isset( $EpisodeData['explicit'] ) && is_numeric($EpisodeData['explicit']) )
 	{
 		$explicit_array = array("no", "yes", "clean");
@@ -756,25 +750,6 @@ function powerpress_rss2_item()
 			trim($EpisodeData['type']),
 			PHP_EOL);
 	}
-		
-	// Get the post tags:
-	if( !$keywords )
-	{
-		// Lets try to use the page tags...
-		$tagobject = wp_get_post_tags( $post->ID );
-		if( count($tagobject) )
-		{
-			$tags = array();
-			for($c = 0; $c < count($tagobject) && $c < 12; $c++) // iTunes only accepts up to 12 keywords
-				$tags[] = $tagobject[$c]->name;
-			
-			if( count($tags) > 0 )
-				$keywords = implode(",", $tags);
-		}
-	}
-	
-	if( empty($powerpress_feed['feed_maximizer_on']) && $keywords )
-		echo "\t\t<itunes:keywords>" . powerpress_format_itunes_value($keywords, 'keywords') . '</itunes:keywords>'.PHP_EOL;
 	
 	$excerpt_no_html = '';
 	$content_no_html = '';
@@ -1465,7 +1440,7 @@ function powerpress_load_general_feed_settings()
 				if( empty($Feed) && !empty($GeneralSettings['custom_feeds'][ $feed_slug ]) )
 				{
 					$FeedCustom = get_option('powerpress_feed_'.$feed_slug); // Get custom feed specific settings
-					$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic);
+					$Feed = powerpress_merge_empty_feed_settings($FeedCustom, $FeedSettingsBasic, ($feed_slug == 'podcast') );
 				}
 				
 				if( $Feed )
@@ -1561,8 +1536,8 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['rss_language'] = ''; // Cannot set the language setting in simple mode
 					if( !empty($GeneralSettings['podcast_embed_in_feed']) )
 						$powerpress_feed['podcast_embed_in_feed'] = true;
-					if( !empty($Feed['episode_itunes_image']) && !empty($Feed['itunes_image']) )
-						$powerpress_feed['itunes_image'] = $Feed['itunes_image'];
+					if( !empty($FeedSettingsBasic['episode_itunes_image']) && !empty($FeedSettingsBasic['itunes_image']) )
+						$powerpress_feed['itunes_image'] = $FeedSettingsBasic['itunes_image'];
 					
 				}; break;
 				// All other cases we let fall through
@@ -2160,7 +2135,6 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 				$trim_at = 4000;
 		}; break;
 		case 'subtitle':
-		case 'keywords':
 		case 'author':
 		case 'name':
 		default: {
@@ -2296,15 +2270,18 @@ function powerpress_byte_size($ppbytes)
 }
 
 // Merges settings from feed settings page to empty custom feed settings
-function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings)
+function powerpress_merge_empty_feed_settings($CustomFeedSettings, $FeedSettings, $DefaultPodcastFeed = false)
 {
-	// Remove settings from main $FeedSettings that should not be copied to custom feed.
-	unset($FeedSettings['itunes_new_feed_url']);
 	unset($FeedSettings['apply_to']);
-	unset($FeedSettings['feed_redirect_url']);
-	unset($FeedSettings['itunes_complete']);
-	unset($FeedSettings['itunes_block']);
-	unset($FeedSettings['maximize_feed']);
+	// Remove settings from main $FeedSettings that should not be copied to custom feed.
+	if( !$DefaultPodcastFeed )
+	{
+		unset($FeedSettings['itunes_new_feed_url']);
+		unset($FeedSettings['feed_redirect_url']);
+		unset($FeedSettings['itunes_complete']);
+		unset($FeedSettings['itunes_block']);
+		unset($FeedSettings['maximize_feed']);
+	}
 	
 	// If the setting is not already set, set the enhnaced itunes setting if they have PHP5+ on by default
 	if( !isset($FeedSettings['enhance_itunes_summary']) )
