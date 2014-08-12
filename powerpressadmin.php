@@ -78,7 +78,7 @@ function powerpress_admin_init()
 		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.', 'powerpress') );
 	
 	global $wp_version;
-	$VersionDiff = version_compare($wp_version, 2.8);
+	$VersionDiff = version_compare($wp_version, 3.0);
 	if( $VersionDiff < 0 )
 		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 3.0 or greater.', 'powerpress') );
 	
@@ -922,10 +922,7 @@ function powerpress_admin_init()
 				$Settings['cat_casting'] = 1;
 				powerpress_save_settings($Settings);
 				
-				if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
-					wp_redirect('categories.php?message=3');
-				else
-					wp_redirect('edit-tags.php?taxonomy=category&message=3');
+				wp_redirect('edit-tags.php?taxonomy=category&message=3');
 				exit;
 				
 			}; break;
@@ -1154,10 +1151,7 @@ function powerpress_admin_init()
 	// Handle edit from category page
 	if( isset($_POST['from_categories']) )
 	{
-		if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
-			wp_redirect('categories.php?message=3');
-		else
-			wp_redirect('edit-tags.php?taxonomy=category&message=3');
+		wp_redirect('edit-tags.php?taxonomy=category&message=3');
 		exit;
 	}
 	
@@ -2521,10 +2515,7 @@ function powerpress_edit_category_form($cat)
 		$General = get_option('powerpress_general');
 		if( !isset($General['cat_casting']) || $General['cat_casting'] == 0 )
 		{
-			if( version_compare($GLOBALS['wp_version'], '3.0', '<') )
-				$enable_link = admin_url() . wp_nonce_url('categories.php?action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
-			else
-				$enable_link = admin_url() . wp_nonce_url('edit-tags.php?taxonomy=category&action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
+			$enable_link = admin_url() . wp_nonce_url('edit-tags.php?taxonomy=category&action=powerpress-enable-categorypodcasting', 'powerpress-enable-categorypodcasting');
 ?>
 	<h2><?php echo __('PowerPress Category Podcasting'); ?></h2>
 	<p><a href="<?php echo $enable_link; ?>" title="<?php echo __('Enable Category Podcasting', 'powerpress'); ?>"><?php echo __('Enable Category Podcasting', 'powerpress'); ?></a> <?php echo __('if you would like to add specific podcasting settings to your blog categories.', 'powerpress'); ?></p>
@@ -3104,15 +3095,7 @@ function powerpress_process_hosting($post_ID, $post_title)
 
 function powerpress_json_decode($value)
 {
-	global $wp_version;
-	if( function_exists('json_decode') && version_compare( phpversion(), '5.2', '>=' ) ) // Native PHP 5.2+ json_decode function
-		return json_decode($value, true);
-	if( function_exists('json_decode') && version_compare($wp_version, '2.8.9', '>') ) // WordPress 2.9+ json_decode function
-		$null = json_decode('{"a":1}'); // Hack, includes the class-json.php from within the wp-includes folder
-	if( !class_exists('Services_JSON') )
-		false;
-	$json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
-	return $json->decode($value);
+	return json_decode($value, true);
 }
 
 // Import podpress settings

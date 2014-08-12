@@ -170,14 +170,13 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Next Major Release Announcements =
-* PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
-* Translation support will change in PowerPress 6.0+. Translations will be packaged in a separate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
+* PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
-
 
 
 = 6.0 =
 * Released on TBD
+* You must have WordPress 3.3 or newer and PHP 5.2 or newer for PowerPress 6.0.
 * Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
 * iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.

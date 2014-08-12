@@ -481,9 +481,6 @@
 		{
 			$this->m_file_size_only = $file_size_only;
 			
-			if( version_compare(phpversion(), '5.0.5') < 0 ) // If version less than 5.0.5...
-				$this->m_file_size_only = true; // we can only get file size info if using older versions of PHP
-			
 			$DeleteFile = false;
 			if( strtolower( substr($File, 0, 7) ) == 'http://' )
 			{

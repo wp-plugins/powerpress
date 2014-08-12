@@ -2109,12 +2109,8 @@ function powerpress_format_itunes_value($value, $tag)
 	// Code added to solve issue with KimiliFlashEmbed plugin and also remove the shortcode for the WP Audio Player
 	// 99.9% of the time this code will not be necessary
 	$value = preg_replace("/\[(kml_(flash|swf)embed|audio\:)\b(.*?)(?:(\/))?(\]|$)/isu", '', $value);
-	
-	if(version_compare("5", phpversion(), ">"))
-		$value = preg_replace( '/&nbsp;/ui' , ' ', $value); // Best we can do for PHP4
-	else
-		$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
-	$value = preg_replace( '/&amp;/ui' , '&', $value); // Best we can do for PHP4. precaution in case it didn't get removed from function above.
+	$value = @html_entity_decode($value, ENT_COMPAT, 'UTF-8'); // Remove any additional entities such as &nbsp;
+	$value = preg_replace( '/&amp;/ui' , '&', $value); // Precaution in case it didn't get removed from function above.
 	
 	return esc_html( powerpress_trim_itunes_value($value, $tag) );
 }
