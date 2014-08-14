@@ -2166,7 +2166,7 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 	}
 	
 	if( $remove_new_lines )
-		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t","-  "), array(' - ',' ', '', '  ', ''), $value );
+		$value = str_replace( array("\r\n\r\n", "\n", "\r", "\t","-  "), array(' - ',' ', '', ' ', ''), $value );
 	
 	return $value;
 }

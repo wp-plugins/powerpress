@@ -54,6 +54,13 @@ function powerpressplayer_videojs_info()
 <?php
 }
 
+
+function powerpress_admin_players_mobile()
+{
+
+
+}
+
 function powerpress_admin_players($type='audio')
 {
 	$General = powerpress_get_settings('powerpress_general');
@@ -78,6 +85,11 @@ function powerpress_admin_players($type='audio')
 	if( $type == 'video' )
 	{
 		if( !isset($General['video_player']) )
+			$select_player = true;
+	}
+	else if( $type == 'mobile' )
+	{
+		if( !isset($General['mobile_player']) )
 			$select_player = true;
 	}
 	else
@@ -109,6 +121,8 @@ function powerpress_admin_players($type='audio')
 		object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="30" height="30">
 		<PARAM NAME=movie VALUE="http://www.strangecube.com/audioplay/online/audioplay.swf?file=http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/AudioPlay.mp3&auto=no&sendstop=yes&repeat=1&buttondir=http://www.strangecube.com/audioplay/online/alpha_buttons/negative&bgcolor=0xffffff&mode=playpause"><PARAM NAME=quality VALUE=high><PARAM NAME=wmode VALUE=transparent><embed src="http://www.strangecube.com/audioplay/online/audioplay.swf?file=http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/AudioPlay.mp3&auto=no&sendstop=yes&repeat=1&buttondir=http://www.strangecube.com/audioplay/online/alpha_buttons/negative&bgcolor=0xffffff&mode=playpause" quality=high wmode=transparent width="30" height="30" align="" TYPE="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed></object></div><!-- End of generated code -->
 		*/
+		
+		wp_enqueue_style( 'wp-color-picker' );
 		
 		if( $type == 'video' && function_exists('add_videojs_header') )
 			add_videojs_header();

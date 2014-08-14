@@ -61,7 +61,12 @@ function powerpress_admin_init()
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
 		//wp_enqueue_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
+		if( preg_match('/powerpressadmin_(mobile|audio|video)player/', $_GET['page']) )
+		{
+			wp_enqueue_style( 'wp-color-picker' );
+		}
 	}
+	
 	
 	
 	if( function_exists('powerpress_admin_jquery_init') )
@@ -1502,6 +1507,7 @@ function powerpress_admin_menu()
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Mobile Player Options', 'powerpress'), __('Mobile Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_mobileplayer.php', 'powerpress_admin_page_mobileplayers');
 			
 			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
@@ -2614,6 +2620,14 @@ function powerpress_admin_page_videoplayers()
 	powerpress_admin_page_header('powerpress/powerpressadmin_videoplayer.php');
 	require_once( POWERPRESS_ABSPATH.'/powerpressadmin-player-page.php');
 	powerpress_admin_players('video');
+	powerpress_admin_page_footer(true);
+}
+
+function powerpress_admin_page_mobileplayers()
+{
+	powerpress_admin_page_header('powerpress/powerpressadmin_mobileplayer.php');
+	require_once( POWERPRESS_ABSPATH.'/powerpressadmin-player-page.php');
+	powerpress_admin_players('mobile');
 	powerpress_admin_page_footer(true);
 }
 
