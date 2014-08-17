@@ -1188,6 +1188,12 @@ function powerpress_init()
 		powerpressplayer_init($GeneralSettings);
 	}
 	
+	// Enable the playlist feature for PowerPress
+	if( !empty($GeneralSettings['playlist_player']) ) // Either not set or set on
+	{
+		require_once(POWERPRESS_ABSPATH.'/powerpress-playlist.php');
+	}
+	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
 		return false; // Another podcasting plugin is enabled...
 	
@@ -2743,11 +2749,6 @@ if( is_admin() )
 {
 	require_once(POWERPRESS_ABSPATH.'/powerpressadmin.php');
 	register_activation_hook( __FILE__, 'powerpress_admin_activate' );
-}
-
-if( defined('POWERPRESS_PLAYLIST') && POWERPRESS_PLAYLIST && file_exists(POWERPRESS_ABSPATH.'/powerpress-playlist.php') )
-{
-	require_once(POWERPRESS_ABSPATH.'/powerpress-playlist.php');
 }
 
 if( defined('POWERPRESS_SUBSCRIBE') && POWERPRESS_SUBSCRIBE && file_exists(POWERPRESS_ABSPATH.'/powerpress-subscribe.php') )

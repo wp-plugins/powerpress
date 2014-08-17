@@ -274,7 +274,7 @@ function powerpressadmin_advanced_options($General)
 		
 		<div>
 			<input type="checkbox" name="General[taxonomy_podcasting]" value="1" <?php echo ( !empty($General['taxonomy_podcasting']) ?' checked':''); ?> /> 
-			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> 
+			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> 
 			<span style="font-size: 14px;">(<?php echo __('Feature sponsored by', 'powerpress'); ?> <a href="http://afterbuzztv.com/" target="_blank">AfterBuzzTV.com</a>)</span> - 
 			<?php echo __('Manage podcasting for specific taxonomies.', 'powerpress'); ?> 
 			<?php if( empty($General['taxonomy_podcasting']) ) { ?>
@@ -285,13 +285,19 @@ function powerpressadmin_advanced_options($General)
 		</div>
 		<div>
 			<input type="checkbox" name="General[posttype_podcasting]" value="1" <?php echo ( !empty($General['posttype_podcasting']) ?' checked':''); ?> /> 
-			<strong><?php echo __('Post Type Podcasting', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> - 
+			<strong><?php echo __('Post Type Podcasting', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage multiple media files and/or formats to specific post types.', 'powerpress'); ?> 
 			<?php if( empty($General['posttype_podcasting']) ) { ?>
 			<span style="font-size: 85%;">(<?php echo __('feature will appear in left menu when enabled', 'powerpress'); ?>)</span>
 			<?php } else { ?>
 			<span style="font-size: 85%;">(<a href="<?php echo admin_url('admin.php?page=powerpress/powerpressadmin_posttypefeeds.php'); ?>"><?php echo __('configure post type podcasting', 'powerpress'); ?></a>)</span>
 			<?php } ?>
+		</div>
+		<div>
+			<input type="checkbox" name="General[playlist_player]" value="1" <?php echo ( !empty($General['playlist_player']) ?' checked':''); ?> /> 
+			<strong><?php echo __('PowerPress Playlist Player', 'powerpress'); ?></strong> <?php echo powerpressadmin_new(); ?> - 
+			<?php echo __('Create playlists for your podcasts.', 'powerpress'); ?> 
+			<span style="font-size: 85%;">(<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/" target="_blank"><?php echo __('learn more', 'powerpress'); ?></a>)</span>
 		</div>
 	</div>
 </div>
@@ -915,7 +921,12 @@ function powerpressadmin_appearance($General=false)
 	if( !isset($General['player_width_audio']) )
 		$General['player_width_audio'] = '';	
 	if( !isset($General['disable_appearance']) )
-		$General['disable_appearance'] = false;	
+		$General['disable_appearance'] = false;
+	if( !isset($General['subscribe_links']) )
+		$General['subscribe_links'] = true;
+	if( !isset($General['subscribe_label']) )
+		$General['subscribe_label'] = '';	
+		
 		
 	
 	$Players = array('podcast'=>__('Default Podcast (podcast)', 'powerpress') );
@@ -1050,6 +1061,24 @@ function powerpressadmin_appearance($General=false)
 		<input type="checkbox" name="General[podcast_embed_in_feed]" value="1" <?php if( !empty($General['podcast_embed_in_feed']) ) echo 'checked'; ?>  /> <?php echo __('Include embed in feeds', 'powerpress'); ?>
 	</p>
 	<p><?php echo __('Embed option works with the MediaElement.js Media Player for audio and video, Flow Player Classic for audio and HTML5 Video player for video.', 'powerpress'); ?></p>
+</td>
+</tr>
+</table>
+
+<table class="form-table">
+
+<tr valign="top">
+<th scope="row">
+
+<?php echo __('Subscribe Links', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
+<td>
+	<p><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
+	<?php echo __('Display subscribe links below player and links.', 'powerpress'); ?></label></p>
+	<ul>
+	<li><label for="subscribe_label">Subscribe label: <input type="text" id="subscribe_label" value="<?php echo $General['subscribe_label']; ?>" name="General[subscribe_label]" placeholder="Subscribe:" /></label>
+	<?php echo __('(leave blank for default)', 'powerpress'); ?>
+	</li>
+	</ul>
 </td>
 </tr>
 </table>

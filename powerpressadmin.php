@@ -450,6 +450,8 @@ function powerpress_admin_init()
 					$General['taxonomy_podcasting'] = 0;
 				if( !isset($General['posttype_podcasting'] ) )
 					$General['posttype_podcasting'] = 0;
+				if( !isset($General['playlist_player'] ) )
+					$General['playlist_player'] = 0;	
 				if( !isset($General['metamarks'] ) )
 					$General['metamarks'] = 0;
 					
@@ -486,6 +488,10 @@ function powerpress_admin_init()
 					$General['m4a'] = '';
 				if( !isset($General['new_window_nofactor'] ) )
 					$General['new_window_nofactor'] = '';
+					
+				if( !isset($General['subscribe_links'] ) )
+					$General['subscribe_links'] = false;	
+					
 			}
 			else if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-defaults' )
 			{
@@ -1241,6 +1247,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['posttype_podcasting']);
 			if( isset($Settings['taxonomy_podcasting']) && empty($Settings['taxonomy_podcasting']) )
 				unset($Settings['taxonomy_podcasting']);
+			if( isset($Settings['playlist_player']) && empty($Settings['playlist_player']) )
+				unset($Settings['playlist_player']);	
 		}
 		else // Feed or player settings...
 		{
