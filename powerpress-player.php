@@ -153,8 +153,10 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			// If the shortcode speciies a channel, than we definnitely wnat to include the player even if $EpisodeData['no_player'] is true...
 			if( !isset($EpisodeData['no_player']) )
 				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
-			if( empty($EpisodeData['no_links']) )
+			if( empty($EpisodeData['no_links']) ) {
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+				$return .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+			}
 		}
 	}
 	else
@@ -229,6 +231,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 			if( !isset($EpisodeData['no_links']) )
 			{
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+				$return .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
 		}
 	}

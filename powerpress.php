@@ -88,6 +88,8 @@ if( !defined('POWERPRESS_PLAY_IMAGE') )
 	define('POWERPRESS_PLAY_IMAGE', 'play_video_default.jpg');
 if( !defined('PHP_EOL') )
 	define('PHP_EOL', "\n"); // We need this variable defined for new lines.
+if( !defined('POWERPRESS_SUBSCRIBE') )
+	define('POWERPRESS_SUBSCRIBE', true); // Temporary until we finish tweaking the features
 
 // Set regular expression values for determining mobile devices
 if( !defined('POWERPRESS_MOBILE_REGEX') )
@@ -301,6 +303,7 @@ function powerpress_content($content)
 				if( !isset($EpisodeData['no_links']) )
 					$new_content .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 					//$new_content .= powerpress_get_player_links($post->ID, $feed_slug, $EpisodeData);
+					$new_content .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
 		}
 	}
@@ -1837,7 +1840,10 @@ function get_the_powerpress_content()
 				}
 				
 				if( !isset($EpisodeData['no_links']) )
+				{
 					$new_content .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+					$new_content .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+				}
 			}
 		}
 	}
@@ -2647,6 +2653,7 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 			if( !isset($EpisodeData['no_links']) && $no_link == false )
 			{
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
+				$return .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
 		}
 		reset($ChannelSlugs);
