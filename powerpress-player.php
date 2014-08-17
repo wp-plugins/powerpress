@@ -736,8 +736,36 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 {
 	if( powerpress_is_mobile_client() )
 	{
-		$content .= powerpressplayer_build_html5mobile($media_url, $EpisodeData);
-		return $content;
+		$extension = powerpressplayer_get_extension($media_url);
+		switch( $extension )
+		{
+			case 'mp3':
+			case 'm4a':
+			case 'm4v':
+			case 'mp4':
+			// Okay, lets see if we we have a player setup to handle this
+			{
+				//echo "OK";
+				$Settings = get_option('powerpress_general');
+				if( !isset($Settings['mobile_player']) )
+					$Settings['mobile_player'] = 'html5';
+				var_dump($Settings['mobile_player']);
+				switch( $Settings['mobile_player'] )
+				{
+					case 'mejs': {
+						if( $extension == 'mp3' || $extension == 'm4a' )
+							$content .= powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData);
+						else
+							$content .= powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData);
+						return $content;
+					};
+				}
+			}; // Let the case fall through to the default
+			default: {
+				$content .= powerpressplayer_build_html5mobile($media_url, $EpisodeData);
+				return $content;
+			}
+		}
 	}
 	
 	// Very important setting, we need to know if the media should auto play or not...
@@ -785,7 +813,6 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			$player_id = powerpressplayer_get_next_id();
 			$player_width = 400;
 			$player_height = 225;
-			$scale = 'tofit';
 			if( !empty($Settings['player_width']) )
 				$player_width = $Settings['player_width'];
 			if( !empty($Settings['player_height']) )
@@ -795,9 +822,6 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			if( !empty($EpisodeData['height']) && is_numeric($EpisodeData['height']) )
 				$player_height = $EpisodeData['height'];
 				
-			if( !empty($Settings['player_scale']) )
-				$scale = $Settings['player_scale'];
-				
 			// If there is no cover image specified, lets use the default...
 			if( $cover_image == '' )
 				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
@@ -806,7 +830,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'"></div>'.PHP_EOL;
 				$content .= '<script type="text/javascript"><!--'.PHP_EOL;
-				$content .= "powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$scale}');\n";
+				$content .= "powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, 'tofit');\n";
 				$content .= "//-->\n";
 				$content .= "</script>\n";
 			}
@@ -814,7 +838,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			{
 				$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
 				$content .= '<a href="'. $media_url .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" onclick="';
-				$content .= "return powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, '{$scale}' );";
+				$content .= "return powerpress_embed_quicktime('powerpress_player_{$player_id}', '{$media_url}', {$player_width}, {$player_height}, 'tofit' );";
 				$content .= '">';
 				$content .= '<img src="'. $cover_image .'" title="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" alt="'. htmlspecialchars(POWERPRESS_PLAY_TEXT) .'" style="width: '. $player_width .'px; height: '.$player_height .'px;" />';
 				$content .= '</a>';
@@ -832,7 +856,6 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 			$player_id = powerpressplayer_get_next_id();
 			$player_width = 400;
 			$player_height = 225;
-			$scale = 'tofit';
 			if( !empty($Settings['player_width']) )
 				$player_width = $Settings['player_width'];
 			if( !empty($Settings['player_height']) )

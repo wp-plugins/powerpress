@@ -58,12 +58,29 @@ function powerpressplayer_videojs_info()
 function powerpress_admin_players_mobile()
 {
 
-
+	
+	
 }
 
 function powerpress_admin_players($type='audio')
 {
 	$General = powerpress_get_settings('powerpress_general');
+	
+	if( $type == 'video' )
+	{
+		if( empty($General['video_player']) )
+			$select_player = true;
+	}
+	else if( $type == 'mobile' )
+	{
+		if( empty($General['mobile_player']) )
+			$select_player = true;
+	}
+	else
+	{
+		if( empty($General['player']) )
+			$select_player = true;
+	}
 	
 	if( version_compare($GLOBALS['wp_version'], '3.6-beta', '<') && empty($General['player']) )
 		$General['player'] = 'default';
@@ -75,29 +92,16 @@ function powerpress_admin_players($type='audio')
 	else if( empty($General['video_player']) )
 		$General['video_player'] = 'mediaelement-video';
 	
+	// Mobile player option (html5 default vs MediaElement.js )
+	if( empty($General['mobile_player']) )
+		$General['mobile_player'] = 'html5';
+	
 	if( empty($General['audio_custom_play_button']) )
 		$General['audio_custom_play_button'] = '';
 	
 	$select_player = false;
 	if( isset($_GET['sp']) )
 		$select_player = true;
-
-	if( $type == 'video' )
-	{
-		if( !isset($General['video_player']) )
-			$select_player = true;
-	}
-	else if( $type == 'mobile' )
-	{
-		if( !isset($General['mobile_player']) )
-			$select_player = true;
-	}
-	else
-	{
-		if( !isset($General['player']) )
-			$select_player = true;
-	}
-	
 		
 	$Audio = array();
 	$Audio['default'] = 'http://media.blubrry.com/blubrry/content.blubrry.com/blubrry/FlowPlayerClassic.mp3';
@@ -249,7 +253,79 @@ table.html5formats tr > td:first-child {
 <p style="margin-bottom: 0;"><?php echo __('Select the media player you would like to use.', 'powerpress'); ?></p>
 
 <?php
-		if( $type == 'video' )
+		if( $type == 'mobile' )
+		{
+			
+			?>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">&nbsp;</th>  
+<td>
+	<ul>
+		<li><label><input type="radio" name="MobilePlayer[mobile_player]" id="player_html5" value="html5" <?php if( $General['mobile_player'] == 'html5' ) echo 'checked'; ?> /> <?php echo __('Native HTML5 Player (default)', 'powerpress'); ?>  </label>
+			<strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_html5" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		</li>
+		<li style="margin-left: 30px; margin-bottom:16px;">
+			<p>
+					<?php
+						echo __('Audio:', 'powerpress') .' '; 
+						echo powerpressplayer_build_html5audio($Audio['html5audio']);
+					?>
+			</p>
+			<p> 
+            <?php
+						echo  __('Video:', 'powerpress') .' ';
+						echo powerpressplayer_build_html5video($Video['html5video']);
+					?>
+			</p>
+			<p>
+				<?php echo __('HTML5 Audio and Video are elements introduced in the latest HTML specification (HTML5) for the purpose of playing media.', 'powerpress'); ?>
+			</p>
+			<p><?php echo __('Note: The Native HTML5 Player is recommended for maximum compatibility across all software and devices.', 'powerpress'); ?>
+			</p>
+			<p>
+				<?php echo __('See table below for a list of supported mobile browsers.', 'powerpress'); ?>
+			</p>
+			<p><ul>
+				<li><?php echo __('Mobile Internet Explorer', 'powerpress'); ?></li>
+				<li><?php echo __('Mobile Firefox', 'powerpress'); ?></li>
+				<li><?php echo __('Mobile Chrome', 'powerpress'); ?></li>
+				<li><?php echo __('Mobile Opera', 'powerpress'); ?></li>
+				<li><?php echo __('iOS Safari', 'powerpress'); ?></li>
+				<li><?php echo __('Android Browser', 'powerpress'); ?></li>
+				<li><?php echo __('Blackberry Browser', 'powerpress'); ?></li>
+			</ul></p>
+			<p>
+				<?php echo __('A link to directly download media is used when HTML5 support is not available.', 'powerpress'); ?>
+			</p>
+		</li>
+<?php
+		if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
+		{
+?>
+		<li><label><input type="radio" name="MobilePlayer[mobile_player]" id="player_mejs" value="mejs" <?php if( $General['mobile_player'] == 'mejs' ) echo 'checked'; ?> />
+		<?php echo __('MediaElement.js Media Player', 'powerpress'); ?></label>
+			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_mejs" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
+		</li>
+		<li style="margin-left: 30px; margin-bottom:16px;">
+			<p><?php echo __('Audio:', 'powerpress') .' '; echo powerpressplayer_build_mediaelementaudio( $Audio['mediaelement-audio'] ); ?></p>
+			<p><?php echo  __('Video:', 'powerpress') .' '; echo powerpressplayer_build_mediaelementvideo( $Video['mediaelement-video'] ); ?></p>
+			<?php powerpressplayer_mediaelement_info(); ?>
+		</li>
+		<p><?php echo __('WARNING: MediaElement.js does not always work as intended on resource and memory limited mobile devices. Ee recommend Native HTML5 Player over MediaElement.js for mobile use.', 'powerpress'); ?>
+			</p>
+<?php
+		}
+?>
+		<!-- more players here -->
+			
+	</ul>
+</td>
+</tr>
+</table>
+			<?php
+		}
+		else if( $type == 'video' ) // Video player
 		{
 ?>
 <table class="form-table">
@@ -274,7 +350,7 @@ table.html5formats tr > td:first-child {
 			<?php powerpressplayer_mediaelement_info(); ?>
 		</li>
 <?php
-			}
+		}
 ?>
 		<li><label><input type="radio" name="VideoPlayer[video_player]" id="player_flow_player_classic_player" value="flow-player-classic" <?php if( $General['video_player'] == 'flow-player-classic' ) echo 'checked'; ?> />
 		<?php echo __('Flow Player Classic', 'powerpress'); ?></label>
@@ -380,7 +456,7 @@ table.html5formats tr > td:first-child {
 </table>
 <?php
 		}
-		else
+		else // audio player
 		{
 ?>
 <table class="form-table">
@@ -557,8 +633,10 @@ table.html5formats tr > td:first-child {
 <h2><?php echo __('Configure Player', 'powerpress'); ?></h2>
 <?php if( $type == 'audio' ) { ?>
 <p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_player.php&amp;sp=1"); ?>"><?php echo __('Select a different audio player', 'powerpress'); ?></a></strong></p>
-<?php } else { ?>
+<?php } else if( $type == 'video' ) { ?>
 <p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_videoplayer.php&amp;sp=1"); ?>"><?php echo __('Select a different video player', 'powerpress'); ?></a></strong></p>
+<?php } else { ?>
+<p style="margin-bottom: 20px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_mobileplayer.php&amp;sp=1"); ?>"><?php echo __('Select a different mobile player', 'powerpress'); ?></a></strong></p>
 <?php 
 	}
 		
@@ -1820,9 +1898,12 @@ function audio_player_defaults()
 			} break;
 		}
 	 }
-	 else // Video
+	 else if( $type == 'video' ||  $type == 'mobile' ) // Video // $General['mobile_player']
 	 {
-			switch( $General['video_player'] )
+			$player_to_configure = $General['video_player'];
+			if( $type == 'mobile' )
+				$player_to_configure =  $General['mobile_player'];
+			switch( $player_to_configure )
 			{
 				case 'flow-player-classic': {
 					?>
@@ -1844,17 +1925,35 @@ function audio_player_defaults()
 
 					<?php
 				}; break;
+				case 'html5':
 				case 'html5video': {
+				
+					if( $type == 'mobile' )
+					{
+						echo '<p>'. __('Configure Native HTML5 Mobile Player', 'powerpress') . '</p>'; 
+					} else {
+						echo '<p>'. __('Configure HTML5 Video Player', 'powerpress') . '</p>'; 
+					}
 					?>
-					<p><?php echo __('Configure HTML5 Video Player', 'powerpress'); ?></p>
+					<?php ?>
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row">
 			<?php echo __('Preview of Player', 'powerpress'); ?> 
 		</th>
 		<td>
+		<?php
+			if( $type == 'mobile' )
+			{
+				echo '<p>' . __('Audio:', 'powerpress') .' ';
+				echo powerpressplayer_build_html5audio( $Audio['html5audio'] );
+				echo '</p>';
+			}
+		?>
 			<p>
 <?php
+				if( $type == 'mobile' )
+					echo  __('Video:', 'powerpress') .' ';
 				echo powerpressplayer_build_html5video( $Video['html5video'] );
 ?>
 			</p>
@@ -1897,9 +1996,10 @@ function audio_player_defaults()
 </table>
 					<?php
 				}; break;
+				case 'mejs':
 				case 'mediaelement-video': {
 					?>
-					<p><?php echo __('Configure MediaElement.js Video Player', 'powerpress'); ?></p>
+					<p><?php echo __('Configure MediaElement.js Player', 'powerpress'); ?></p>
 <table class="form-table">
 	<tr valign="top">
 		<th scope="row">
@@ -1907,7 +2007,19 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<p>
+			<?php
+			if( $type == 'mobile' )
+			{
+				echo '<p>' . __('Audio:', 'powerpress') .' ';
+				echo powerpressplayer_build_mediaelementaudio( $Audio['mediaelement-audio'] );
+				echo '</p>';
+			}
+					?>
+			</p>
+			<p>
 <?php
+				if( $type == 'mobile' )
+					echo  __('Video:', 'powerpress') .' ';
 				echo powerpressplayer_build_mediaelementvideo( $Video['mediaelement-video'] );
 ?>
 			</p>
@@ -1936,7 +2048,7 @@ function audio_player_defaults()
 ?>
 <!-- Global Video Player settings (Appy to all video players -->
 <input type="hidden" name="action" value="powerpress-save-videocommon" />
-<h3><?php echo __('Common Settings', 'powerpress'); ?></h3>
+<h3><?php echo __('Common Video Settings', 'powerpress'); ?></h3>
 <p><?php echo __('The following video settings apply to the video player above as well as to classic video &lt;embed&gt; formats such as Microsoft Windows Media (.wmv), QuickTime (.mov) and RealPlayer.', 'powerpress'); ?></p>
 <table class="form-table">
 <tr valign="top">
@@ -1961,40 +2073,6 @@ function audio_player_defaults()
 <?php
 		$SupportUploads = powerpressadmin_support_uploads();
 		
-// Play icon, only applicable to HTML5/FlowPlayerClassic
-		if( in_array($General['video_player'], array('flow-player-classic','html5video') ) )
-		{
-?>
-<tr valign="top">
-<th scope="row">
-<?php echo __('QuickTime Scale', 'powerpress'); ?></th>
-<td>
-	<select name="General[player_scale]" class="bpp_input_sm" onchange="javascript:jQuery('#player_scale_custom').css('display', (this.value=='tofit'||this.value=='aspect'? 'none':'inline' ))">
-<?php
-	$scale_options = array('tofit'=>__('ToFit (default)', 'powerpress'), 'aspect'=>__('Aspect', 'powerpress') ); 
-	if( !isset($General['player_scale']) )
-		$General['player_scale'] = 'tofit'; // Tofit works in almost all cases
-	
-	if( is_numeric($General['player_scale']) )
-		$scale_options[ $General['player_scale'] ]= __('Custom', 'powerpress');
-	else
-		$scale_options['custom']= __('Custom', 'powerpress');
-
-while( list($value,$desc) = each($scale_options) )
-	echo "\t<option value=\"$value\"". ($General['player_scale']==$value?' selected':''). ">$desc</option>\n";
-	
-?>
-</select>
-<span id="player_scale_custom" style="display: <?php echo (is_numeric($General['player_scale'])?'inline':'none'); ?>">
-	<?php echo __('Scale:', 'powerpress'); ?> <input type="text" name="PlayerScaleCustom" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9.]/g, '');" value="<?php echo (is_numeric($General['player_scale'])?$General['player_scale']:''); ?>" maxlength="4" /> <?php echo __('e.g.', 'powerpress'); ?> 1.5
-</span>
-<p style="margin-top: 5px; margin-bottom: 0;">
-	<?php echo __('If you do not see video, adjust the width, height and scale settings above.', 'powerpress'); ?>
-</p>
-</td>
-</tr>
-<?php
-		}
 ?>
 <tr>
 <th scope="row">
@@ -2018,19 +2096,21 @@ while( list($value,$desc) = each($scale_options) )
 		{
 ?>
 <p><input name="General[poster_play_image]" type="checkbox" value="1" <?php echo ($General['poster_play_image']?'checked':''); ?> /> <?php echo __('Include play icon over poster image when applicable', 'powerpress'); ?> </p>
+	<?php if( $type == 'video'  ) { ?>
 <p><input name="General[poster_image_audio]" type="checkbox" value="1" <?php echo ($General['poster_image_audio']?'checked':''); ?> /> <?php echo __('Use poster image, player width and height above for audio (Flow Player only)', 'powerpress'); ?> </p>
+	<?php } ?>
 <?php } ?>
 </td>
 </tr>
 
 <?php
 		// Play icon, only applicable to HTML5/FlowPlayerClassic
-		if( in_array($General['video_player'], array('flow-player-classic','html5video') ) )
+		if( in_array($General['video_player'], array('flow-player-classic','html5video') ) || $type == 'mobile' )
 		{
 ?>
 <tr>
 <th scope="row">
-<?php echo __('Play Icon', 'powerpress'); ?></th>
+<?php echo __('Video Play Icon', 'powerpress'); ?></th>
 <td>
 
 <input type="text" id="video_custom_play_button" name="General[video_custom_play_button]" style="width: 60%;" value="<?php echo $General['video_custom_play_button']; ?>" maxlength="250" />

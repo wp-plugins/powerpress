@@ -363,13 +363,6 @@ function powerpress_admin_init()
 				unset($General['disable_player'][ $player_feed_slug ]);
 		}
 		
-		
-		if( isset($_POST['PlayerScaleCustom']) && isset($General['player_scale']) && $General['player_scale'] !='tofit' && $General['player_scale'] != 'aspect' )
-		{
-			$General['player_scale'] = $_POST['PlayerScaleCustom'];
-		}
-			
-		
 		// Check to see if we need to update the feed title
 		if( $FeedSlug && !$podcast_post_type )
 		{

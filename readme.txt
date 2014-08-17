@@ -180,6 +180,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
 * iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.
+* Mobile Player Options! You can now pick between the Native HTML5 player (recommended) or MediaElement.js for mobile visitors.
+
 
 
 = 5.0.9 =
