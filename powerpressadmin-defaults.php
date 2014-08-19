@@ -140,7 +140,7 @@ jQuery(document).ready(function($) {
 	powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
 	
 	powerpressadmin_edit_artwork($FeedSettings, $General);
-	powerpressadmin_appearance($General);
+	powerpressadmin_appearance($General, $FeedSettings);
 	powerpressadmin_advanced_options($General);
 }
 

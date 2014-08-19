@@ -182,7 +182,7 @@ jQuery(document).ready(function($) {
 	
 	<div id="tab3" class="powerpress_tab">
 		<?php
-		powerpressadmin_appearance($General);
+		powerpressadmin_appearance($General, $FeedSettings);
 		?>
 	</div>
 	
@@ -901,7 +901,7 @@ function powerpressadmin_edit_media_statistics($General)
 <?php
 }
 	
-function powerpressadmin_appearance($General=false)
+function powerpressadmin_appearance($General=false, $Feed = false)
 {
 	if( $General === false )
 		$General = powerpress_get_settings('powerpress_general');
@@ -1069,7 +1069,6 @@ function powerpressadmin_appearance($General=false)
 
 <tr valign="top">
 <th scope="row">
-
 <?php echo __('Subscribe Links', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
 <td>
 	<p><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
@@ -1082,6 +1081,8 @@ function powerpressadmin_appearance($General=false)
 </td>
 </tr>
 </table>
+
+<?php powerpress_admin_appearance_common($Feed); ?>
 <!-- end advanced features -->
 <?php } ?>
 
@@ -1180,6 +1181,43 @@ while( list($value,$desc) = each($linkoptions) )
 <?php  
 } // End powerpress_admin_appearance()
 
+
+function powerpress_admin_appearance_common($Feed)
+{
+	if( $Feed === false )
+		$Feed = powerpress_get_settings('powerpress_feed');
+	if( empty($Feed) )
+		$Feed = array();
+	
+	// Defaults
+	if( !isset($Feed['subscribe_page_link_href']) )
+		$Feed['subscribe_page_link_href'] = '';
+	if( !isset($Feed['subscribe_page_link_text']) )
+		$Feed['subscribe_page_link_text'] = '';
+?>
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __('Subscribe Page', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
+<td>
+	<p><?php echo __('Add a link to a page to explain to your audience how to subscribe to your podcast.', 'powerpress'); ?></p>
+	<p><?php echo __('The following link will be added to the Subscribe on iTunes and Subscribe via RSS links below the player.', 'powerpress'); ?></p>
+	<ul>
+	<li><label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;" /> </label>
+	<?php echo __('(leave blank for no subscribe page link)', 'powerpress'); ?>
+	<p><?php echo __('Example:', 'powerpress') .' '. get_option('home') .'/how-to-subscribe/'; ?></p>
+	
+	</li>
+	<li><label for="subscribe_page_link_text"><?php echo __('Subscribe Page Link Label:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_text" value="<?php echo $Feed['subscribe_page_link_text']; ?>" name="Feed[subscribe_page_link_text]" placeholder="" style="width:60%;" /></label>
+	<?php echo __('(leave blank for default)', 'powerpress'); ?>
+	<p><?php echo __('Default: More Subscribe Options', 'powerpress'); ?></p>
+	</li>
+	</ul>
+</td>
+</tr>
+</table>
+<?php
+}
 
 function powerpressadmin_welcome($GeneralSettings)
 {
