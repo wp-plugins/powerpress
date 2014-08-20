@@ -73,7 +73,7 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 {
 	
 	
-	$SubscribeSettings = powerpresssubscribe_get_settings();
+	$SubscribeSettings = powerpresssubscribe_get_settings( (empty($ExtraData['feed'])?'podcast': $ExtraData['feed']) );
 	if( empty($SubscribeSettings) )
 		return $content;
 	

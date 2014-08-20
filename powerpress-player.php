@@ -752,7 +752,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 				$Settings = get_option('powerpress_general');
 				if( !isset($Settings['mobile_player']) )
 					$Settings['mobile_player'] = 'html5';
-				var_dump($Settings['mobile_player']);
+				//var_dump($Settings['mobile_player']);
 				switch( $Settings['mobile_player'] )
 				{
 					case 'mejs': {
