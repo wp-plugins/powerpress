@@ -1501,6 +1501,24 @@ function powerpress_admin_menu()
 	{
 		$Powerpress = powerpress_default_settings($Powerpress, 'basic');
 		
+		if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false && isset($_POST[ 'General' ]) )
+		{
+			$ToBeSaved = $_POST['General'];
+		
+			if( isset($ToBeSaved['channels']) )
+				$Powerpress['channels'] = $ToBeSaved['channels'];
+			if( isset($ToBeSaved['cat_casting']) )
+				$Powerpress['cat_casting'] = $ToBeSaved['cat_casting'];
+			if( isset($ToBeSaved['taxonomy_podcasting']) )
+				$Powerpress['taxonomy_podcasting'] = $ToBeSaved['taxonomy_podcasting'];
+			if( isset($ToBeSaved['posttype_podcasting']) )
+				$Powerpress['posttype_podcasting'] = $ToBeSaved['posttype_podcasting'];
+			if( isset($ToBeSaved['podpress_stats']) )
+				$Powerpress['podpress_stats'] = $ToBeSaved['podpress_stats'];
+			if( isset($ToBeSaved['blubrry_hosting']) )
+				$Powerpress['blubrry_hosting'] = $ToBeSaved['blubrry_hosting'];
+		}
+		
 		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			

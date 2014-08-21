@@ -244,6 +244,7 @@ function powerpressadmin_advanced_options($General)
 			
 		</div>
 		<div>
+			<input type="hidden" name="General[channels]" value="0" />
 			<input type="checkbox" name="General[channels]" value="1" <?php echo ( !empty($General['channels']) ?' checked':''); echo $ChannelsCheckbox; ?> /> 
 			<strong><?php echo __('Custom Podcast Channels', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage multiple media files and/or formats to one blog post.', 'powerpress'); ?> 
@@ -254,6 +255,7 @@ function powerpressadmin_advanced_options($General)
 			<?php } ?>
 		</div>
 		<div>
+			<input type="hidden" name="General[cat_casting]" value="0" />
 			<input type="checkbox" name="General[cat_casting]" value="1" <?php echo ( !empty($General['cat_casting']) ?' checked':'');  echo $CategoryCheckbox;  ?> /> 
 			<strong><?php echo __('Category Podcasting', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage podcasting for specific categories.', 'powerpress'); ?> 
@@ -273,6 +275,7 @@ function powerpressadmin_advanced_options($General)
 		
 		
 		<div>
+			<input type="hidden" name="General[taxonomy_podcasting]" value="0" />
 			<input type="checkbox" name="General[taxonomy_podcasting]" value="1" <?php echo ( !empty($General['taxonomy_podcasting']) ?' checked':''); ?> /> 
 			<strong><?php echo __('Taxonomy Podcasting', 'powerpress'); ?></strong> 
 			<span style="font-size: 14px;">(<?php echo __('Feature sponsored by', 'powerpress'); ?> <a href="http://afterbuzztv.com/" target="_blank">AfterBuzzTV.com</a>)</span> - 
@@ -284,6 +287,7 @@ function powerpressadmin_advanced_options($General)
 			<?php } ?>
 		</div>
 		<div>
+			<input type="hidden" name="General[posttype_podcasting]" value="0" />
 			<input type="checkbox" name="General[posttype_podcasting]" value="1" <?php echo ( !empty($General['posttype_podcasting']) ?' checked':''); ?> /> 
 			<strong><?php echo __('Post Type Podcasting', 'powerpress'); ?></strong> - 
 			<?php echo __('Manage multiple media files and/or formats to specific post types.', 'powerpress'); ?> 
