@@ -2735,9 +2735,9 @@ function powerpress_is_mobile_client()
 function powerpress_get_api_array()
 {
 	$return = array();
-	if( strstr(POWERPRESS_BLUBRRY_API_URL, 'api.blubrry') == false )
+	if( strstr(POWERPRESS_BLUBRRY_API_URL, 'http://api.blubrry.com') == false ) // If not the default
 	{
-		$return[] = POWERPRESS_BLUBRRY_API_URL;
+		$return = explode(';', POWERPRESS_BLUBRRY_API_URL);
 	}
 	else
 	{
