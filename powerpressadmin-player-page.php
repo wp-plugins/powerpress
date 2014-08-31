@@ -3,17 +3,21 @@
 
 require_once( POWERPRESS_ABSPATH. '/powerpress-player.php'); // Include, if not included already
 
-function powerpressplayer_mediaelement_info()
+function powerpressplayer_mediaelement_info($full_info = true)
 {
 ?>
 	<p>
 		<?php echo __('MediaElement.js is an open source HTML5 audio and video player that supports both audio (mp3, m4a and oga) and video (mp4, m4v, webm, ogv and flv) media files. It includes all the necessary features for playback including a play/pause button, scroll-able position bar, elapsed time, total time, mute button and volume control.', 'powerpress'); ?>
 	</p>
-	
+	<?php
+	if( $full_info )
+	{ 
+	?>
 	<p>
 		<?php echo __('MediaElement.js is the default player in Blubrry PowerPress because it is HTML and CSS based, meets accessibility standards including WebVTT, and will play in any browser using either HTML5, Flash or Silverlight for playback.', 'powerpress'); ?>
 	</p>
 <?php
+	}
 }
 
 function powerpressplayer_flowplayer_info()
@@ -310,9 +314,9 @@ table.html5formats tr > td:first-child {
 		<li style="margin-left: 30px; margin-bottom:16px;">
 			<p><?php echo __('Audio:', 'powerpress') .' '; echo powerpressplayer_build_mediaelementaudio( $Audio['mediaelement-audio'] ); ?></p>
 			<p><?php echo  __('Video:', 'powerpress') .' '; echo powerpressplayer_build_mediaelementvideo( $Video['mediaelement-video'] ); ?></p>
-			<?php powerpressplayer_mediaelement_info(); ?>
+			<?php powerpressplayer_mediaelement_info(false); ?>
 		</li>
-		<p><?php echo __('WARNING: MediaElement.js does not always work as intended on resource and memory limited mobile devices. Ee recommend Native HTML5 Player over MediaElement.js for mobile use.', 'powerpress'); ?>
+		<p><?php echo __('WARNING: MediaElement.js does not always work as intended on resource and memory limited mobile devices. We recommend the Native HTML5 Player over MediaElement.js for mobile use.', 'powerpress'); ?>
 			</p>
 <?php
 		}

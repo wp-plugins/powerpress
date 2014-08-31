@@ -2874,7 +2874,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		if( strtolower(substr($url, 0, 5)) == 'https' )
 		{
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		}
 		// HTTP Authentication
