@@ -48,7 +48,7 @@ Blubrry PowerPress includes extensive web player options to display your podcast
 * Place the player exactly where you want by adding the `[powerpress]` shortcode tag directly in your post content.
 * Add video embeds from sites such as YouTube, Blip.tv and Ustream.tv.
 * Provides download, play in new window, and embed links.
-* Player formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, wma, mov, pdf, swf, avi, mpeg, epub and more.
+* Player formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, opus, wma, mov, pdf, swf, avi, mpeg, epub and more.
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid media hosting and statistics services to streamline your podcast productivity.
@@ -183,7 +183,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
 * iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.
 * Mobile Player Options! You can now pick between the Native HTML5 player (recommended) or MediaElement.js for mobile visitors.
-
+* Added support for Opus audio with content type audio/ogg. (Thanks thebugcast for the heads up!)
+* Files with 'ogg' file extension are now treated as audio/ogg, unless the following define is added to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);` (Thanks thebugcast for pointing out the default!)
 
 
 = 5.0.9 =

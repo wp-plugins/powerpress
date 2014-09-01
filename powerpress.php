@@ -1875,7 +1875,8 @@ function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 				return 'audio/m4b';
 			case 'm4r': // iPhone ringtone format
 				return 'audio/m4r';
-			// OGG Internet contnet types as set forth by rfc5334 (http://tools.ietf.org/html/rfc5334)
+			// OGG Internet content types as set forth by rfc5334 (http://tools.ietf.org/html/rfc5334)
+			case 'opus':
 			case 'oga':
 			case 'spx':
 				return 'audio/ogg';
@@ -1922,14 +1923,17 @@ function powerpress_get_contenttype($file, $use_wp_check_filetype = true)
 				return 'video/3gpp';
 			case 'webm':
 				return 'video/webm';
-			case 'ogg':
+			case 'ogg': {
+				if( !defined('POWERPRESS_OGG_VIDEO') )
+					return 'audio/ogg';
+			} // Let this fall through as ogg/video
 			case 'ogv':
 				return 'video/ogg';
 				
 			// rarely used
 			case 'mid':
 			case 'midi':
-				return'audio/midi';
+				return 'audio/midi';
 			case 'wav':
 				return 'audio/wav';
 			case 'aa':
