@@ -403,6 +403,18 @@ function powerpress_exit_on_http_head($return)
 	{
 		// Set the content type for HTTP headers...
 		header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
+		
+		// Needs authentication?
+    $GeneralSettings = get_option('powerpress_general');
+    if( !empty($GeneralSettings['premium_caps']) )
+    {
+      $feed_slug = get_query_var('feed');
+      $FeedSettings = get_option('powerpress_feed_'.$feed_slug);
+      if( !empty($FeedSettings['premium']) )
+      {
+        return false; // Let the logic further into PowerPress authenticate this HEAD request
+      }
+    }
 	}
 	return $return;
 }

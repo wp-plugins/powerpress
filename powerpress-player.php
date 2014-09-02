@@ -1158,7 +1158,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<title><?php echo __('Blubrry PowerPress Player', 'powerpress'); ?></title>
 	<meta name="robots" content="noindex" />
 <?php 
