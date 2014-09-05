@@ -1076,7 +1076,7 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <?php echo __('Subscribe Links', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
 <td>
 	<p><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
-	<?php echo __('Display subscribe links below player and links.', 'powerpress'); ?></label></p>
+	<?php echo __('Display subscribe links below player and media links.', 'powerpress'); ?></label></p>
 	<ul>
 	<li><label for="subscribe_label">Subscribe label: <input type="text" id="subscribe_label" value="<?php echo $General['subscribe_label']; ?>" name="General[subscribe_label]" placeholder="Subscribe:" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>
@@ -1209,8 +1209,18 @@ function powerpress_admin_appearance_common($Feed)
 	<ul>
 	<li><label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;" /> </label>
 	<?php echo __('(leave blank for no subscribe page link)', 'powerpress'); ?>
-	<p><?php echo __('Example:', 'powerpress') .' '. get_option('home') .'/how-to-subscribe/'; ?></p>
-	
+	<p><?php echo __('Example:', 'powerpress') .' '. get_option('home') .'/how-to-subscribe/'; ?></p> 
+<?php
+		if( empty($Feed['subscribe_page_link_href']) )
+		{
+?>
+	<h3><a href="#" id="powerpress_create_subscribe_page"><?php echo __('Create a subscribe page from Template', 'powerpress'); ?></a></h3> 
+	<p><?php echo __('Creates a page from a template with the [powerpress_subscribe] shortcode. We encourage you to edit this page in your own words. Depending on your SEO stratigy, you may want to configure the meta robots content to noindex.', 'powerpress'); ?>
+	</p>
+<?php
+		}
+?>
+	<p><a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-shortcode/" target="_blank"><?php echo __('Learn more about the PowerPress Subscribe shortcode', 'powerpress'); ?></a></p>
 	</li>
 	<li><label for="subscribe_page_link_text"><?php echo __('Subscribe Page Link Label:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_text" value="<?php echo $Feed['subscribe_page_link_text']; ?>" name="Feed[subscribe_page_link_text]" placeholder="" style="width:60%;" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>
