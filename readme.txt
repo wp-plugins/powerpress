@@ -187,7 +187,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Files with 'ogg' file extension are now treated as audio/ogg, unless the following define is added to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);` (Thanks thebugcast for pointing out the default!)
 * Changed the logic for HEAD requests for HTTP authentication. Default WordPress behavior is to exit all HEAD requests. (Thanks thebugcast!)
 * Changed all content types to either use the site default or use UTF8 (applies to play in new window and 401 Unauthorized HTML pages).
-
+* Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
 
 = 5.0.9 =
 * Released on 7/28/2014

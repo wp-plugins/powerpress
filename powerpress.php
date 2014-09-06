@@ -2678,8 +2678,7 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 	return $return;
 }
 
-
-function powerpress_premium_content_authorized($feed_slug)
+function powerpress_premium_content_authorized_filter($default, $feed_slug)
 {
 	if( $feed_slug != 'podcast' )
 	{
@@ -2700,7 +2699,14 @@ function powerpress_premium_content_authorized($feed_slug)
 				return current_user_can($PostTypeSettingsArray[$feed_slug]['premium']);
 		}
 	}
-	return true; // any user can access this content
+	
+	return $default;
+}
+add_filter('powerpress_premium_content_authorized', 'powerpress_premium_content_authorized_filter', 10, 2);
+
+function powerpress_premium_content_authorized($feed_slug)
+{
+	return apply_filters('powerpress_premium_content_authorized', true, $feed_slug );
 }
 
 function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData = false)
