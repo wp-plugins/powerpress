@@ -1937,8 +1937,6 @@ function powerpress_create_subscribe_page()
 		timeout: (30 * 1000),
 		success: function(response) {
 			
-			alert(response);
-			
 			<?php
 			if( defined('POWERPRESS_AJAX_DEBUG') )
 				echo "\t\t\t\talert(response);\n";
@@ -1955,14 +1953,23 @@ function powerpress_create_subscribe_page()
 			
 			if( Parts[0] == 'PAGE-OK' )
 			{
-
+				jQuery('#subscribe_page_link_id').val( Parts[1] );
+				jQuery('#subscribe_page_link_id_url').html( Parts[2] );
+				jQuery('#subscribe_page_link_or').hide();
+				//alert( response );
+			}
+			else if( Parts[0] == 'PAGE-ERROR' )
+			{
+				alert( Parts[1] );
 			}
 			else
 			{
-				
+				alert(  '<?php echo __('Unknown error occurred creating subscribe page.', 'powerpress'); ?>' );
 			}
 		},
 		error: function(objAJAXRequest, strError) {
+			
+			alert(  '<?php echo __('Unknown ajax error occurred creating subscribe page.', 'powerpress'); ?>' );
 			
 			var errorMsg = "HTTP " +objAJAXRequest.statusText;
 			if ( objAJAXRequest.responseText ) {
@@ -2001,6 +2008,13 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		powerpress_create_subscribe_page();
 		return false;
+	});
+	jQuery('#subscribe_page_link_id').change( function(e) {
+		//alert('ok');
+		if( jQuery('#subscribe_page_link_id').val().length > 0 )
+			jQuery('#subscribe_page_link_or').hide();
+		else
+			jQuery('#subscribe_page_link_or').show();
 	});
 	
 	jQuery('.powerpress-parental-rating-tip').click( function(event) {
@@ -2526,11 +2540,59 @@ add_action('wp_ajax_powerpress_dashboard_dismiss', 'powerpress_dashboard_dismiss
 
 function powerpress_create_subscribe_page()
 {
+	$template_url = 'http://plugins.svn.wordpress.org/powerpress/assets/subscribe_template/';
+	$languages[] = WPLANG;
+	if( !preg_match('/en_US/i', WPLANG) )
+	{
+		$languages[] = 'en_US'; // fallback to the en_US version
+	}
+	
+	$template_content = false;
+	while( list($index,$lang) = each($languages) )
+	{
+		$template_content = powerpress_remote_fopen( $template_url . $lang . '.txt' );
+		if( !empty($template_content) )
+			break;
+	}
+	
+	
+	if( empty($template_content) )
+	{
+		echo "PAGE-ERROR\n";
+		echo __('Error occurred downloading subscribe page template.', 'powerpress');
+		exit;
+	}
+	
+	// TODO: Create page here...
+	global $user_ID;
+	$page['post_type']    = 'page';
+	$page['post_content'] = $template_content;
+	$page['post_parent']  = 0;
+	$page['post_author']  = $user_ID;
+	$page['post_status']  = 'publish';
+	$page['post_title']   = __('Subscribe to Podcast', 'powerpress');
+	//$page = apply_filters('yourplugin_add_new_page', $page, 'teams');
+	$pageid = wp_insert_post ($page);
+	if ($pageid == 0)
+	{
+		echo "PAGE-ERROR\n";
+		echo __('Error occurred creating subscribe page.', 'powerpress');
+		exit;
+	}
+
+	
+	// Get Page URL and Page ID
+	
 	//require_once(POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');
 	//powerpress_dashboard_dismiss();
 	// TODO!
 	echo "PAGE-OK\n";
-	echo "NEW PAGE URL HERE";
+	echo "$pageid\n";
+	echo get_page_link($pageid). "\n";
+	// subscribe_page_link_id
+	// subscribe_page_link_id_url
+	//echo $template_content;
+	//echo "NEW PAGE URL HERE";
 	exit;
 }
 add_action('wp_ajax_powerpress_create_subscribe_page', 'powerpress_create_subscribe_page');

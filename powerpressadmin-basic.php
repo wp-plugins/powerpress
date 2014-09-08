@@ -1186,7 +1186,7 @@ while( list($value,$desc) = each($linkoptions) )
 } // End powerpress_admin_appearance()
 
 
-function powerpress_admin_appearance_common($Feed)
+function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 {
 	if( $Feed === false )
 		$Feed = powerpress_get_settings('powerpress_feed');
@@ -1196,8 +1196,14 @@ function powerpress_admin_appearance_common($Feed)
 	// Defaults
 	if( !isset($Feed['subscribe_page_link_href']) )
 		$Feed['subscribe_page_link_href'] = '';
+	if( !isset($Feed['subscribe_page_link_id']) )
+		$Feed['subscribe_page_link_id'] = '';
 	if( !isset($Feed['subscribe_page_link_text']) )
 		$Feed['subscribe_page_link_text'] = '';
+		
+	$feed_slug = 'podcast';
+	if( !empty($FeedAttribs['feed_slug']) )
+		$feed_slug = $FeedAttribs['feed_slug'];
 ?>
 <table class="form-table">
 <tr valign="top">
@@ -1207,11 +1213,16 @@ function powerpress_admin_appearance_common($Feed)
 	<p><?php echo __('Add a link to a page to explain to your audience how to subscribe to your podcast.', 'powerpress'); ?></p>
 	<p><?php echo __('The following link will be added to the Subscribe on iTunes and Subscribe via RSS links below the player.', 'powerpress'); ?></p>
 	<ul>
-	<li><label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;" /> </label>
-	<?php echo __('(leave blank for no subscribe page link)', 'powerpress'); ?>
-	<p><?php echo __('Example:', 'powerpress') .' '. get_option('home') .'/how-to-subscribe/'; ?></p> 
+	<li>
+	<label for="subscribe_page_link_id"><?php echo __('Subscribe Page ID:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_id" value="<?php echo $Feed['subscribe_page_link_id']; ?>" name="Feed[subscribe_page_link_id]" placeholder="" style="width: 50px;" /> <span id="subscribe_page_link_id_url"><?php echo ( (empty($Feed['subscribe_page_link_id']) || !is_numeric($Feed['subscribe_page_link_id']) )?'':get_page_link($Feed['subscribe_page_link_id']))	; ?></span></label>
+	<div id="subscribe_page_link_or" style="<?php echo ( !empty($Feed['subscribe_page_link_id']) ?'display:none;':''); ?>">
+	<div><?php echo __(' - or - ', 'powerpress'); ?></div>
+	<label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;"<?php echo (empty($Feed['subscribe_page_link_id'])?'':' disabled'); ?> /></label>
+	<p><?php echo __('(If subscribe page is not hosted on this site)', 'powerpress'); ?></p> 
+	</div>
+	
 <?php
-		if( empty($Feed['subscribe_page_link_href']) )
+		if( empty($FeedAttribs) && empty($Feed['subscribe_page_link_href']) && empty($Feed['subscribe_page_link_id']) )
 		{
 ?>
 	<h3><a href="#" id="powerpress_create_subscribe_page"><?php echo __('Create a subscribe page from Template', 'powerpress'); ?></a></h3> 
@@ -1221,6 +1232,9 @@ function powerpress_admin_appearance_common($Feed)
 		}
 ?>
 	<p><a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-shortcode/" target="_blank"><?php echo __('Learn more about the PowerPress Subscribe shortcode', 'powerpress'); ?></a></p>
+	<?php
+	// TODO: use the $FeedAttribs to create a recommended shortcode for this particular channel, may be simple [powerpress_subscribe] or it may specify the category, taxonomy, and/or feed_slug/post tpe podcasting
+	?>
 	</li>
 	<li><label for="subscribe_page_link_text"><?php echo __('Subscribe Page Link Label:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_text" value="<?php echo $Feed['subscribe_page_link_text']; ?>" name="Feed[subscribe_page_link_text]" placeholder="" style="width:60%;" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>

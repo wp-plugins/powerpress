@@ -124,3 +124,82 @@ function powerpressplayer_link_subscribe_post($content, $media_url, $ExtraData =
 
 add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_pre', 1, 3);
 add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_post', 1000, 3);
+
+function powerpress_subscribe_shortcode( $attr ) {
+	global $content_width;
+	
+	if ( is_feed() ) {
+		return '';
+	}
+
+	static $instance = 0;
+	$instance++;
+	
+	extract( shortcode_atts( array(
+		'category'=>'', // Used for PowerPress (specify category ID, name or slug)
+		'term_id'=>'', // Used for PowerPress (specify term ID, name or slug)
+		'taxonomy'=>'', // Used for PowerPress (specify taxonomy name)
+		'title'	=> '', // Dislay custom title of show/program
+		'slug' => '', // Used for PowerPress
+		'feed' => '', // Used for PowerPress
+		'channel'=>'', // Used for PowerPress
+		'post_type' => 'post', // Used for PowerPress 
+	), $attr, 'powerpressplaylist' ) );
+	
+	/*
+	$tracknumbers = false;
+	//$images = true;
+	$artists = true; // Program title
+	
+	$images = filter_var( $images, FILTER_VALIDATE_BOOLEAN );
+	$links = filter_var( $links, FILTER_VALIDATE_BOOLEAN );
+	$itunes_subtitle = filter_var( $itunes_subtitle, FILTER_VALIDATE_BOOLEAN );
+	$date = filter_var( $date, FILTER_VALIDATE_BOOLEAN );
+	*/
+	if( empty($slug) && !empty($feed) ) 
+		$slug = $feed;
+	if( empty($slug) && !empty($channel) ) 
+		$slug = $channel;
+	if( empty($slug) )
+		$slug = 'podcast';
+
+	
+	
+	$ProgramSettings = false;
+	// Get Podcast Settings...ssss
+	
+	
+	// Get the taxonomy settings (category is a special taxonomy)
+	
+	
+	if( !empty($post_type) && empty($ProgramSettings) ) // Get post type podcasting setting
+	{
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+		if( is_array($PostTypeSettingsArray[ $slug ] ) )
+		{
+			$ProgramSettings = $PostTypeSettingsArray[ $slug ];
+		}
+	}
+	if( !empty($slug) && empty($ProgramSettings) ) // Get podcast channel info
+		$ProgramSettings = get_option('powerpress_feed_'.$slug);
+	if( empty($ProgramSettings) )
+		$ProgramSettings = get_option('powerpress_general');
+	
+	
+	if( !empty($images) && empty($image) ) // If they specified images but did not specify a specific image in the shortcode...
+	{
+		if( !empty($ProgramSettings['rss2_image']) )
+			$image = $ProgramSettings['rss2_image'];
+		else if( !empty($ProgramSettings['itunes_image']) )
+			$image = $ProgramSettings['itunes_image'];
+	}
+
+	
+	// DO SHORTCODE HERE!!!
+
+	return '<div><h2>COMING SOON!</h2></div>';
+}
+
+add_shortcode( 'powerpresssubscribe', 'powerpress_subscribe_shortcode' );
+add_shortcode( 'powerpress_subscribe', 'powerpress_subscribe_shortcode' );
+

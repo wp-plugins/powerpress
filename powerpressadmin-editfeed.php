@@ -283,7 +283,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		<?php
 		//powerpressadmin_appearance($General);
 		powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug, $FeedAttribs);
-		powerpress_admin_appearance_common( $FeedSettings );
+		powerpress_admin_appearance_common( $FeedSettings, $FeedAttribs );
 		?>
 	</div>
 	
