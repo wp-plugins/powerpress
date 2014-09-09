@@ -1746,6 +1746,8 @@ function powerpress_edit_post($post_ID, $post)
 					$ToSerialize['width'] =stripslashes( trim($Powerpress['width']));
 				if( isset($Powerpress['height']) && trim($Powerpress['height']) )
 					$ToSerialize['height'] = stripslashes(trim($Powerpress['height']));
+				if( !empty($Powerpress['feed_title']) && trim($Powerpress['feed_title']) )
+					$ToSerialize['feed_title'] = stripslashes(trim($Powerpress['feed_title']));
 					
 				if( isset($Powerpress['no_player_and_links']) && $Powerpress['no_player_and_links'] )
 				{

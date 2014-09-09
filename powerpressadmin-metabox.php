@@ -32,6 +32,7 @@ function powerpress_meta_box($object, $box)
 	$Width = false;
 	$Height = false;
 	$WebMSrc = false;
+	$FeedTitle = '';
 	$GeneralSettings = get_option('powerpress_general');
 	if( !isset($GeneralSettings['set_size']) )
 		$GeneralSettings['set_size'] = 0;
@@ -115,6 +116,8 @@ function powerpress_meta_box($object, $box)
 					$Width = $ExtraData['width'];
 				if( isset($ExtraData['webm_src']) )	
 					$WebMSrc = $ExtraData['webm_src'];
+				if( isset($ExtraData['feed_title']) )	
+					$FeedTitle = $ExtraData['feed_title'];
 			}
 		}
 		
@@ -235,7 +238,19 @@ function powerpress_meta_box($object, $box)
 				<em><?php echo __('For HTML5 Video fallback, enter an alternative WebM media URL above. (optional)', 'powerpress'); ?></em>
 			</div>
 		</div>
+<?php 
+	if( !empty($GeneralSettings['custom_feed_title']) )
+	{
+?>	
+		<div class="powerpress_row">
+			<label for="powerpress_feed_title_<?php echo $FeedSlug; ?>"><?php echo __('Feed Title', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<input id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom Feed Title', 'powerpress'); ?>" style="width: 70%; font-size: 90%;" />
+			</div>
+		</div>
 <?php
+	}
+	
 	if( empty($GeneralSettings['episode_box_mode']) || $GeneralSettings['episode_box_mode'] != 1 ) // If not simple mode
 	{
 ?>

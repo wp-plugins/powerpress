@@ -1032,6 +1032,46 @@ function powerpress_wp_title_rss($title)
 
 add_filter('wp_title_rss', 'powerpress_wp_title_rss');
 
+function powerpress_the_title_rss($title)
+{
+	{
+		$GeneralSettings = get_option('powerpress_general');
+		// If it is a custom podcast channel...
+		if( !empty($GeneralSettings['seo_feed_title']) )
+		{
+			$feed_slug = 'podcast';
+			// IF custom post type or channel, use that feed slug...
+			if( get_query_var('feed') != 'podcast' && !is_category() && !is_tax() && !is_tag() )
+				$feed_slug = get_query_var('feed');
+			
+			// Get the episode specific title...
+			$EpisodeData = powerpress_get_enclosure_data(get_the_ID(), $feed_slug);
+			if( empty($EpisodeData['feed_title']) )
+				return $title;
+				
+			$feed_title = ent2ncr( $EpisodeData['feed_title'] );
+			$feed_title = strip_tags( $feed_title );
+			$feed_title = esc_html( $feed_title );
+			
+			switch( $GeneralSettings['custom_feed_title'] )
+			{
+				case 1: { // Replaces title
+					return $feed_title;
+				}; break;
+				case 2: { // Prefixes title
+					return $feed_title . ' ' . $title;
+				}; break;
+				case 3: { // Postfixes title
+					return $title . ' ' . $feed_title;
+				}; break;
+			}
+		}
+	}
+	return $title;
+}
+
+add_filter('the_title_rss', 'powerpress_the_title_rss', 11);
+
 
 // Following code only works for WP 3.3 or older. WP 3.4+ now uses the get_locale setting, so we have to override directly in the get_bloginfo_rss functoin.
 if( version_compare($GLOBALS['wp_version'], '3.4', '<') )
