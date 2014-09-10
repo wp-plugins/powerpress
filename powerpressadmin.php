@@ -2035,7 +2035,7 @@ jQuery(document).ready(function($) {
 		} else {
 			jQuery('#player_'+PlayerName).attr('checked', true);
 		}
-		jQuery("form:first").submit();
+		jQuery(this).closest("form").submit();
 	});
 });
 
