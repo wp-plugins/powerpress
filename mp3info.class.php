@@ -566,6 +566,13 @@
 			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
+			if( function_exists('get_temp_dir') ) // If wordpress function is available, lets use it
+			{
+				$temp_dir = get_temp_dir(); //  WordPress temp folder
+				if( is_dir($temp_dir) )
+					define('GETID3_TEMP_DIR', $temp_dir);
+			}
+			
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
 			define('POWERPRESS_GETID3_LOADED', true);
 			

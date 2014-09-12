@@ -189,6 +189,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Changed the logic for HEAD requests for HTTP authentication. Default WordPress behavior is to exit all HEAD requests. (Thanks thebugcast!)
 * Changed all content types to either use the site default or use UTF8 (applies to play in new window and 401 Unauthorized HTML pages).
 * Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
+* Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
+
 
 = 5.0.9 =
 * Released on 7/28/2014
