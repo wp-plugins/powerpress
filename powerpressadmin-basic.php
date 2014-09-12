@@ -526,7 +526,7 @@ while( list($value,$desc) = each($options) )
 <td>
 		<select name="General[set_duration]" class="bpp_input_med">
 <?php
-$options = array(0=>__('Auto detect duration (mp3\'s only)', 'powerpress'), 1=>__('User specify', 'powerpress'), -1=>__('Not specified (not recommended)', 'powerpress') );
+$options = array(0=>__('Auto detect duration', 'powerpress'), 1=>__('User specify', 'powerpress'), -1=>__('Not specified (not recommended)', 'powerpress') );
 	
 while( list($value,$desc) = each($options) )
 	echo "\t<option value=\"$value\"". ($General['set_duration']==$value?' selected':''). ">$desc</option>\n";

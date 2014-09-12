@@ -632,6 +632,7 @@
 				else
 					$FileInfo['playtime_seconds'] = 0;
 				
+				/*
 				if( isset($FileInfo['mpeg']['audio']) && $FileInfo['mpeg']['audio'] )
 				{
 					$Audio = $FileInfo['mpeg']['audio'];
@@ -647,6 +648,7 @@
 					//	$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.', 'powerpress'), trim($Audio['channelmode']) ) );
 					//}
 				}
+				*/
 				
 				return $FileInfo;
 			}

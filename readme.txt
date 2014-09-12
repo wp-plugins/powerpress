@@ -190,7 +190,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Changed all content types to either use the site default or use UTF8 (applies to play in new window and 401 Unauthorized HTML pages).
 * Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
 * Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
-
+* We are no longer detecting if the sample rate is optimal. 
 
 = 5.0.9 =
 * Released on 7/28/2014

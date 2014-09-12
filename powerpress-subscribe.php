@@ -1,51 +1,102 @@
 <?php
 
-function powerpresssubscribe_get_settings($feed_slug='podcast')
+function powerpresssubscribe_get_subscribe_page($Settings)
+{
+	if( !empty($Settings['subscribe_page_link_id']) && is_numeric($Settings['subscribe_page_link_id']) )
+		return get_page_link($Settings['subscribe_page_link_id']);
+	if( !empty($Settings['subscribe_page_link_href']) )
+		return $Settings['subscribe_page_link_href'];
+	return '';
+}
+
+function powerpresssubscribe_get_itunes_url($Settings)
+{
+	$itunes_url = trim($Settings['itunes_url']);
+	if( empty($itunes_url) )
+	{
+		$rss_url = $Settings['rss_url'];
+		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $Settings['rss_url']);
+	}
+	
+	return $itunes_url;
+}
+
+function powerpresssubscribe_get_settings($ExtraData)
 {
 	$GeneralSettings = get_option('powerpress_general');
+	//if( !empty($GeneralSettings['taxonomy_podcasting']) )
+	//	return false; // Feature not available for taxonomy podcasting
+	
+	$feed_slug = (empty($ExtraData['feed'])?'podcast': $ExtraData['feed']);
+	$post_type = (empty($ExtraData['post_type'])?false: $ExtraData['post_type']);
+	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
+	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
+	
 	if( !empty($GeneralSettings['taxonomy_podcasting']) )
-		return false; // Feature not avaialble for taxonomy podcasting
+	{
+		// TODO!
+	
+	}
 		
 	// We need to know if category podcasting is enabled, if it is then we may need to dig deeper for this info....
 	if( !empty($GeneralSettings['cat_casting']) && $feed_slug == 'podcast' )
 	{
-		if( is_category() ) // Special case where we want to track the category separately
+		if( !$category_id && is_category() )
 		{
-			$Settings = get_option('powerpress_cat_feed_'.get_query_var('cat') );
-			$Settings['rss_url'] = get_category_feed_link( get_query_var('cat') ); // Get category feed URL
-			return $Settings;
+			$category_id = get_query_var('cat');
 		}
-		else if( is_single() )
+		if( !$category_id && is_single() )
 		{
 			$categories = wp_get_post_categories( get_the_ID() );
 			if( count($categories) == 1 )
+				list($null,$category_id) = each($categories);
+		}
+		
+		if( $category_id ) // We are on a category page, makes it easy...
+		{
+			$Settings = get_option('powerpress_cat_feed_'.$category_id );
+			if( !empty($Settings) )
 			{
-				list($null,$cat_id) = each($categories);
-				$Settings = get_option('powerpress_cat_feed_'.$cat_id );
-				$Settings['rss_url'] = get_category_feed_link($cat_id); // Get category feed URL
+				$Settings['rss_url'] = get_category_feed_link( $category_id ); // Get category feed URL
+				$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
+				$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
 				return $Settings;
 			}
 		}
-		
-		return false; // When category podcasting enabled, we must only have one category per post
+		// let fall through to find better settings
 	}
-	
-	$post_type = get_post_type();
-	// $feedslug
 	
 	// Post Type Podcasting
 	if( !empty($GeneralSettings['posttype_podcasting']) )
 	{
-		return false; // Not suported for now
+		if( empty($post_type) && !empty($ExtraData['id']) )
+			$post_type = get_post_type( $ExtraData['id'] );
+		
+		switch( $post_type )
+		{
+			case 'page':
+			case 'post':
+			{
+				// SWEET, CARRY ON!
+			}; break;
+			default: {
+				// TODO
+				// $url = get_post_type_archive_feed_link($post_type, $feed_slug);
+				return false; // Not suported for now
+			}; break;
+		}
 	}
 	
-	if( $feed_slug == 'podcast' )
+	// Podcast default and channel feed settings
+	$FeedSettings = get_option('powerpress_feed_'. $feed_slug);
+	if( empty($FeedSettings) && $feed_slug == 'podcast' )
 		$FeedSettings = get_option('powerpress_feed'); // Get the main feed settings
-	else
-		$FeedSettings = get_option('powerpress_feed_'. $feed_slug);
+	
 	if( !empty($FeedSettings) )
 	{
 		$FeedSettings['rss_url'] =  get_feed_link($feed_slug); // Get Podcast RSS Feed
+		$FeedSettings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($FeedSettings);
+		$FeedSettings['itunes_url'] = powerpresssubscribe_get_itunes_url($FeedSettings);
 		return $FeedSettings;
 	}
 	return false;
@@ -60,7 +111,7 @@ case 'ttid':
 			echo get_feed_link($feed_slug);
 		}; break;
 		case 'post_type': {
-			$url = get_post_type_archive_feed_link($post_type, $feed_slug);
+			
 		}; break;
 		case 'general':
 		default: {
@@ -71,13 +122,9 @@ case 'ttid':
 // 1: Subscribe widget added to the links...
 function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = array() )
 {
-	
-	
-	$SubscribeSettings = powerpresssubscribe_get_settings( (empty($ExtraData['feed'])?'podcast': $ExtraData['feed']) );
+	$SubscribeSettings = powerpresssubscribe_get_settings( $ExtraData );
 	if( empty($SubscribeSettings) )
 		return $content;
-	
-	//echo "gooder";
 	
 	if( !isset($SubscribeSettings['subscribe_links']) )
 		$SubscribeSettings['subscribe_links'] = 1; // Default make this the first link option
@@ -85,17 +132,21 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 	if( $SubscribeSettings['subscribe_links'] != 1 ) // beginning of links
 		return $content;
 		
-	//var_dump($SubscribeSettings);
-		
 	$rss_url = $SubscribeSettings['rss_url'];
 	$itunes_url = trim($SubscribeSettings['itunes_url']);
 	if( empty($itunes_url) )
 		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $rss_url);
 	
 	$player_links = '';
-	$player_links .= "<a href=\"{$itunes_url}\" class=\"powerpress_link_subscribe\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
+	$player_links .= "<a href=\"{$itunes_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
 	$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
-	$player_links .= "<a href=\"{$rss_url}\" class=\"powerpress_link_subscribe\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	$player_links .= "<a href=\"{$rss_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	if( !empty($SubscribeSettings['subscribe_page_url']) )
+	{
+		$label = (empty($SubscribeSettings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$SubscribeSettings['subscribe_page_link_text']);
+		$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+		$player_links .= "<a href=\"{$SubscribeSettings['subscribe_page_url']}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_more\" title=\"". htmlspecialchars($label) ."\" rel=\"nofollow\">". htmlspecialchars($label) ."</a>".PHP_EOL;
+	}
 	$content .= $player_links;
 	return $content;
 }
@@ -137,14 +188,15 @@ function powerpress_subscribe_shortcode( $attr ) {
 	
 	extract( shortcode_atts( array(
 		'category'=>'', // Used for PowerPress (specify category ID, name or slug)
-		'term_id'=>'', // Used for PowerPress (specify term ID, name or slug)
-		'taxonomy'=>'', // Used for PowerPress (specify taxonomy name)
-		'title'	=> '', // Dislay custom title of show/program
+		'term_taxonomy_id'=>'', // Used for PowerPress (specify term taxonomy ID)
+		//'term_id'=>'', // Used for PowerPress (specify term ID, name or slug)
+		//'taxonomy'=>'', // Used for PowerPress (specify taxonomy name)
+		'title'	=> '', // Display custom title of show/program
 		'slug' => '', // Used for PowerPress
-		'feed' => '', // Used for PowerPress
-		'channel'=>'', // Used for PowerPress
+		'feed' => '', // Used for PowerPress (alt for 'slug')
+		'channel'=>'', // Used for PowerPress (alt for 'slug')
 		'post_type' => 'post', // Used for PowerPress 
-	), $attr, 'powerpressplaylist' ) );
+	), $attr, 'powerpresssubscribe' ) );
 	
 	/*
 	$tracknumbers = false;
@@ -164,40 +216,48 @@ function powerpress_subscribe_shortcode( $attr ) {
 		$slug = 'podcast';
 
 	
-	
-	$ProgramSettings = false;
-	// Get Podcast Settings...ssss
-	
-	
-	// Get the taxonomy settings (category is a special taxonomy)
-	
-	
-	if( !empty($post_type) && empty($ProgramSettings) ) // Get post type podcasting setting
-	{
-		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
-		if( is_array($PostTypeSettingsArray[ $slug ] ) )
-		{
-			$ProgramSettings = $PostTypeSettingsArray[ $slug ];
-		}
-	}
-	if( !empty($slug) && empty($ProgramSettings) ) // Get podcast channel info
-		$ProgramSettings = get_option('powerpress_feed_'.$slug);
-	if( empty($ProgramSettings) )
-		$ProgramSettings = get_option('powerpress_general');
-	
-	
-	if( !empty($images) && empty($image) ) // If they specified images but did not specify a specific image in the shortcode...
-	{
-		if( !empty($ProgramSettings['rss2_image']) )
-			$image = $ProgramSettings['rss2_image'];
-		else if( !empty($ProgramSettings['itunes_image']) )
-			$image = $ProgramSettings['itunes_image'];
-	}
+	$Settings = powerpresssubscribe_get_settings(  array('feed'=>$slug, 'taxonomy_term_id'=>$term_taxonomy_id, 'cat_id'=>$category, 'post_type'=>$post_type) );
+	if( empty($Settings) )
+		return '';
 
-	
 	// DO SHORTCODE HERE!!!
-
-	return '<div><h2>COMING SOON!</h2></div>';
+	$html = '<div>';
+		// iTunes Subscribe Button
+		$html .= '<div>';
+		$html .= '';
+		$html .='<a href="';
+		$html .= $Settings['itunes_url'];
+		// TODO: Always add ?mt=2 to end of itunes.apple.com URLs, and alwyas make them https URLs
+		$html .= '" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px;height:40px;}"></a>';
+		$html .= '</div>';
+		
+		// RSS Subscribe Link...
+		$html .= '<p>';
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/RSSIcon24x24.png\" alt=\"". __('Subscribe via RSS', 'powerpress') ."\" />";
+		$html .= "</a> ";
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe via RSS','powerpress') ."</a>".PHP_EOL;
+		$html .= '</p>';
+		
+		
+		// PB Subscribe Link...
+		$html .= '<p>';
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/BPIcon24x24.png\" alt=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" />";
+		$html .= "</a> ";
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on BeyondPod for Android','powerpress') ."</a>".PHP_EOL;
+		$html .= '</p>';
+		
+		// PR Subscribe Link...
+		$html .= '<p>';
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/PRIcon24x24.png\" alt=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" />";
+		$html .= "</a> ";
+		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on Podcast Republic for Android','powerpress') ."</a>".PHP_EOL;
+		$html .= '</p>';
+	
+	$html .= '</div>';
+	return $html;
 }
 
 add_shortcode( 'powerpresssubscribe', 'powerpress_subscribe_shortcode' );
