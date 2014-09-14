@@ -448,7 +448,7 @@ function powerpress_playlist_shortcode( $attr ) {
 	//}
 	?></ol>
 	</noscript>
-	<script type="application/json"><?php echo json_encode( $data ) ?></script>
+	<script type="application/json" class="wp-playlist-script"><?php echo json_encode( $data ) ?></script>
 </div>
 	<?php
 	return ob_get_clean();
