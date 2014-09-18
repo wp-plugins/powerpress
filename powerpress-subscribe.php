@@ -262,4 +262,5 @@ function powerpress_subscribe_shortcode( $attr ) {
 
 add_shortcode( 'powerpresssubscribe', 'powerpress_subscribe_shortcode' );
 add_shortcode( 'powerpress_subscribe', 'powerpress_subscribe_shortcode' );
-
+	
+require_once( POWERPRESS_ABSPATH . '/class.powerpress-subscribe-widget.php' );
