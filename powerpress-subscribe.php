@@ -32,6 +32,35 @@ function powerpresssubscribe_get_settings($ExtraData)
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
 	
+	switch( $ExtraData['type'] )
+	{
+		case 'post_type': {
+			$category_id = 0;
+			$taxonomy_term_id = 0;
+		};
+		case 'channel': {
+			$category_id = 0;
+			$taxonomy_term_id = 0;
+			$post_type = 0;
+		}; break;
+		case 'category': {
+			$feed_slug = 'podcast';
+			$taxonomy_term_id = 0;
+			$post_type = 0;
+		}; break;
+		case 'ttid': {
+			$feed_slug = 'podcast';
+			$category_id = 0;
+			$post_type = 0;
+		}; break;
+		case 'general': {
+			$feed_slug = 'podcast';
+			$category_id = 0;
+			$post_type = 0;
+			$taxonomy_term_id = 0;
+		}; break;
+	}	
+	
 	if( !empty($GeneralSettings['taxonomy_podcasting']) )
 	{
 		// TODO!

@@ -22,10 +22,11 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 ?>
 
 <style type="text/css">
-.a-stats {
+.pp-subscribe-sidebar {
 	width: auto;
 }
-.a-stats a {
+<?php /* ?>
+.pp-subscribe-sidebar a {
 	background: #7CA821;
 	background-image:-moz-linear-gradient(0% 100% 90deg,#5F8E14,#7CA821);
 	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#7CA821),to(#5F8E14));
@@ -43,12 +44,12 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 	-webkit-border-radius:3px;
 	width: 100%;
 }
-.a-stats a:hover {
+.pp-subscribe-sidebar a:hover {
 	text-decoration: none;
 	background-image:-moz-linear-gradient(0% 100% 90deg,#6F9C1B,#659417);
 	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#659417),to(#6F9C1B));
 }
-.a-stats .count {
+.pp-subscribe-sidebar .count {
 	color: #FFF;
 	display: block;
 	font-size: 15px;
@@ -56,8 +57,8 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 	padding: 0 13px;
 	white-space: nowrap;
 }
+<?php */ ?>
 </style>
-
 <?php
 	}
 
@@ -129,17 +130,51 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance['title'] = strip_tags( $new_instance['title'] );
-		// $FeedAttribs = array('type'=>'general', 'feed_slug'=>'', 'category_id'=>0, 'term_taxonomy_id'=>0, 'post_type'=>'');
-		$instance['subscribe_type'] = strip_tags( $new_instance['subscribe_type'] ); // general, channel, category, ttid, post_type
-		$instance['subscribe_post_type'] = strip_tags( $new_instance['subscribe_post_type'] );; // eg channel
+		$instance['subscribe_type'] = strip_tags( $new_instance['subscribe_type'] ); // general, channel, category, post_type, ttid
+		$instance['subscribe_post_type'] = strip_tags( $new_instance['subscribe_post_type'] );; // eg sermons
 		$instance['subscribe_feed_slug'] = strip_tags( $new_instance['subscribe_feed_slug'] );; // e.g. podcast
-		$instance['subscribe_category_id'] = strip_tags( $new_instance['subscribe_category_id'] );; // e.g. podcast
+		$instance['subscribe_category_id'] = strip_tags( $new_instance['subscribe_category_id'] );; // e.g. 456
+		//$instance['subscribe_term_taxonomy_id'] = strip_tags( $new_instance['subscribe_term_taxonomy_id'] );; // e.g. 345
 		return $instance;
 	}
 
 	function widget( $args, $instance ) {
-		//$count = get_option( 'akismet_spam_count' );
-		$count = 500;
+
+		$ExtraData = array('type'=>'general', 'feed'=>'', 'taxonomy_term_id'=>'', 'cat_id'=>'', 'post_type'=>'');
+		if( !empty($instance['subscribe_type']) )
+			$ExtraData['type'] = $instance['subscribe_type'];
+			
+		switch( $instance['subscribe_type'] )
+		{
+			case 'post_type': {
+				if( empty($instance['subscribe_post_type']) )
+					return;
+				$ExtraData['post_type'] = $instance['subscribe_post_type'];
+			}; 
+			case 'channel': {
+				if( empty($instance['subscribe_feed_slug']) )
+					return;
+				$ExtraData['feed'] = $instance['subscribe_feed_slug'];
+			}; break;
+			case 'ttid': {
+				if( empty($instance['subscribe_term_taxonomy_id']) || !is_numeric($instance['subscribe_term_taxonomy_id']) )
+					return;
+				$ExtraData['taxonomy_term_id'] = $instance['subscribe_term_taxonomy_id'];
+			}; break;
+			case 'category': {
+				if( empty($instance['subscribe_category_id']) || !is_numeric($instance['subscribe_category_id']) )
+					return;
+				$ExtraData['cat_id'] = $instance['subscribe_category_id'];
+			}; break;
+			default: {
+				// Doesn't matter, we'r using the default podcast channel 
+
+			};
+		}
+		
+		$Settings = powerpresssubscribe_get_settings(  $ExtraData );
+		if( empty($Settings) )
+			return;
 
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
@@ -148,12 +183,31 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 			echo $args['after_title'];
 		}
 ?>
-
-	<div class="a-stats">
-		<a href="http://akismet.com" target="_blank" title=""><?php printf( _n( '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', $count , 'akismet'), number_format_i18n( $count ) ); ?></a>
-		<?php print_r($instance); ?>
+	<div class="pp-subscribe-sidebar">
+	<ul>
+		<li>
+	<!-- include ?mt=2 when linked to itunes -->
+	<a href="<?php echo $Settings['itunes_url'] ?>" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us/images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px; height:40px;@media only screen{background-image:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.svg);}"></a>
+	</li>
+	<li>
+			<!-- <a href="<?php echo $Settings['rss_url'] ?>"><img src="" /></a>  -->
+			<a href="<?php echo $Settings['rss_url'] ?>"><?php echo __('Subscribe via RSS', 'powerpress'); ?></a>
+		</li>
+	<!--	<a href="http://akismet.com" target="_blank" title=""><?php printf( _n( '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', $count , 'akismet'), number_format_i18n( $count ) ); ?></a> -->
+	<?php
+		if( !empty($Settings['subscribe_page_url']) )
+		{
+			$label = (empty($Settings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$Settings['subscribe_page_link_text']);
+	?>
+	<li>
+			<!-- <a href="<?php echo $Settings['subscribe_page_url'] ?>"><img src="" /></a>  -->
+		<a href="<?php echo $Settings['subscribe_page_url'] ?>"><?php echo htmlspecialchars($label); ?></a>
+	</li>
+	<?php
+		}
+	?>
+	</ul>
 	</div>
-
 <?php
 		echo $args['after_widget'];
 	}
