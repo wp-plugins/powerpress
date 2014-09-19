@@ -32,6 +32,9 @@ function powerpresssubscribe_get_settings($ExtraData)
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
 	
+	if( empty($ExtraData['type']) ) // Make sure this value is set
+		$ExtraData['type'] = '';
+	
 	switch( $ExtraData['type'] )
 	{
 		case 'post_type': {
@@ -63,8 +66,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 	
 	if( !empty($GeneralSettings['taxonomy_podcasting']) )
 	{
-		// TODO!
-	
+		// TODO! Taxonomy Podcasting subscription options
 	}
 		
 	// We need to know if category podcasting is enabled, if it is then we may need to dig deeper for this info....

@@ -135,12 +135,25 @@ function powerpress_admin_init()
 			{
 				$ImageData = @getimagesize($temp);
 				
+				$rgb = true; // We assume it is RGB
+				if( defined('POWERPRESS_IMAGICK') && POWERPRESS_IMAGICK )
+				{
+					if( $ImageData[2] == IMAGETYPE_PNG && extension_loaded('imagick') )
+					{
+						$image = new Imagick( $temp );
+						if( $image->getImageColorspace() != imagick::COLORSPACE_RGB )
+						{
+							$rgb = false;
+						}
+					}
+				}
+				
 				if( empty($ImageData['channels']) )
 					$ImageData['channels'] = 3; // Assume it's ok if we cannot detect it.
 			
 				if( $ImageData )
 				{
-					if( ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 300 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400  && $ImageData[0] <= 2048 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
 						if( !move_uploaded_file($temp, $upload_path . $filename) )
 						{
@@ -154,19 +167,27 @@ function powerpress_admin_init()
 								$Feed['rss2_image'] = $upload_url . $filename;
 							}
 							
-							if( $ImageData[0] < 1400 || $ImageData[1] < 1400 )
-							{
-								powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
-							}
+							//if( $ImageData[0] < 1400 || $ImageData[1] < 1400 )
+							//{
+							//	powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
+							//}
 						}
 					}
-					else if( $ImageData['channels'] != 3 )
+					else if( $ImageData['channels'] != 3 || $rgb == false )
 					{
 						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
 					}
+					else if( $ImageData[0] != $ImageData[1] )
+					{
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square, 1400 x 1400 is the required minimum size.', 'powerprss') );
+					}
 					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1400 )
 					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too small, 1400 x 1400 is the required minimum size.', 'powerprss') );
+					}
+					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 2048 )
+					{
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too large, 2048 x 2048 is the maximum size allowed.', 'powerprss') );
 					}
 					else
 					{
