@@ -99,6 +99,9 @@ $powerpress_feed = NULL; // DO NOT CHANGE
 
 function powerpress_content($content)
 {
+	if( empty($GLOBALS['powerpress_wp_head_completed']) )
+		return $content;
+	
 	global $post, $g_powerpress_excerpt_post_id;
 	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
@@ -126,14 +129,6 @@ function powerpress_content($content)
 	if( !empty($GeneralSettings['disable_appearance']) )
 		return $content;
 		
-	// check for themes/plugins where we know we need to do this...
-	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
-		$GeneralSettings['player_aggressive'] = true;
-	}
-	if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
-		$GeneralSettings['player_aggressive'] = true;
-	}
-	
 	if( !empty($GeneralSettings['player_aggressive']) )
 	{
 		if( strstr($content, '<!--powerpress_player-->') !== false )
@@ -396,6 +391,13 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 }
 
 add_action('wp_head', 'powerpress_header');
+
+function powerpress_wp_head_completed()
+{
+	$GLOBALS['powerpress_wp_head_completed'] = true;
+}
+
+add_action('wp_head', 'powerpress_wp_head_completed', 100000);
 
 function powerpress_exit_on_http_head($return)
 {

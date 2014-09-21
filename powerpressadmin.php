@@ -2137,10 +2137,37 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 	font-weight: bold;
 	text-align: center;
 }
-.powerpress_podcast_box input[type="button"] {
-	height: 20px;
-	vertical-align: top;
-	font-size: 90%;
+.powerpress-hosting-buttons {
+	margin: 8px 0;
+}
+.powerpress-hosting-buttons a.powerpress-hosting-button {
+	background: #003366;
+	background-image:-moz-linear-gradient(0% 100% 90deg,#003366,#337EC9);
+	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#003366),to(#337EC9));  
+	border: 1px solid #5F8E14;
+	border-radius:3px;
+	color: #CFEA93;
+	color: #FFFFFF;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	height: 100%;
+	-moz-border-radius:3px;
+	padding: 5px 10px 4px 10px;
+	text-align: center;
+	text-decoration: none;
+	-webkit-border-radius:3px;
+/*	width: 100%; */
+}
+.powerpress-button {
+    border: 2px solid #ffffff;
+    color: white;
+    display: inline-block;
+    font-weight: normal;
+    height: 20px;
+    padding: 6px 10px;
+    text-align: center;
+    width: auto;
 }
 </style>
 <script language="javascript"><!--
