@@ -187,19 +187,26 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][url]"><?php echo __('Media URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%; font-size: 90%;" />
+				<input type="text" id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%;" />
 				<?php if( (!empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting']!=='false') || empty($GeneralSettings['no_media_url_folder']) ) { ?>
-				<a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
+				<!-- <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a> -->
 				<?php } ?>
-				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" class="button" />
+				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify URL', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" class="button" />
 				<img id="powerpress_check_<?php echo $FeedSlug; ?>" src="<?php echo admin_url(); ?>images/loading.gif" style="vertical-align:text-top; display: none;" alt="<?php echo __('Checking Media', 'powerpress'); ?>" />
 				
 				<input type="hidden" id="powerpress_hosting_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][hosting]" value="<?php echo ( !empty($ExtraData['hosting'])?'1':'0'); ?>" />
-				<div id="powerpress_hosting_note_<?php echo $FeedSlug; ?>" style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px; display: <?php echo ( !empty($ExtraData['hosting'])?'block':'none'); ?>"><em><?php echo __('Media file hosted by blubrry.com.', 'powerpress'); ?>
+				 <div id="powerpress_hosting_note_<?php echo $FeedSlug; ?>" style="margin-left: 2px; padding-bottom: 2px; padding-top: 2px; display: <?php echo ( !empty($ExtraData['hosting'])?'block':'none'); ?>"><em><?php echo __('Media file hosted by blubrry.com.', 'powerpress'); ?> 
 					(<a href="#" title="<?php echo __('Remove Blubrry.com hosted media file', 'powerpress'); ?>" onclick="powerpress_remove_hosting('<?php echo $FeedSlug; ?>');return false;"><?php echo __('remove', 'powerpress'); ?></a>)
 				</em></div>
 				
+				<div class="powerpress-hosting-buttons">
+					<a class="powerpress-hosting-button" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?>" class="thickbox"><?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?></a> 
+					<!--  <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Upload Media File to your Blubrry.com account', 'powerpress'); ?>" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a> -->
+					&nbsp; &nbsp; Don't have Blubrry Hosting? <a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">Learn more here</a>
+			
 
+				</div>
+				
 				<div style="padding-bottom: 2px; padding-top: 2px;">
 					<span id="powerpress_ishd_<?php echo $FeedSlug; ?>_span" style="margin-left: 20px; display: <?php echo ($IsVideo?'inline':'none'); ?>; "><input id="powerpress_ishd_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][ishd]" value="1" type="checkbox" <?php echo ($IsHD==1?'checked':''); ?> /> <?php echo __('Video is HD (720p/1080i/1080p)', 'powerpress'); ?></span>
 <?php
@@ -232,7 +239,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row" id="powerpress_webm_<?php echo $FeedSlug; ?>" style="display: <?php echo ($WebMSrc != '' || (preg_match('/\.(mp4|m4v)$/i', $EnclosureURL) ) ?'block':'none'); ?>;">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][webm_src]"><?php echo __('Alt WebM URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_webm_src_<?php echo $FeedSlug; ?>" class="powerpress-webm-src" name="Powerpress[<?php echo $FeedSlug; ?>][webm_src]" value="<?php echo $WebMSrc; ?>" style="width: 70%; font-size: 90%;" />
+				<input type="text" id="powerpress_webm_src_<?php echo $FeedSlug; ?>" class="powerpress-webm-src" name="Powerpress[<?php echo $FeedSlug; ?>][webm_src]" value="<?php echo $WebMSrc; ?>" style="width: 70%; " />
 			</div>
 			<div class="powerpress_row_content">
 				<em><?php echo __('For HTML5 Video fallback, enter an alternative WebM media URL above. (optional)', 'powerpress'); ?></em>
@@ -245,7 +252,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="powerpress_feed_title_<?php echo $FeedSlug; ?>"><?php echo __('Feed Title', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom Feed Title', 'powerpress'); ?>" style="width: 70%; font-size: 90%;" />
+				<input type="text" id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom Feed Title', 'powerpress'); ?>" style="width: 70%; " />
 			</div>
 		</div>
 <?php
@@ -264,7 +271,7 @@ function powerpress_meta_box($object, $box)
 				<div>
 					<input id="powerpress_set_size_1_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_size]" value="1" type="radio" <?php echo ($GeneralSettings['set_size']==1?'checked':''); ?> />
 					<?php echo __('Specify', 'powerpress').': '; ?>
-					<input id="powerpress_size_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][size]" value="<?php echo $EnclosureLength; ?>" style="width: 110px; font-size: 90%;" onchange="javascript:jQuery('#powerpress_set_size_1_<?php echo $FeedSlug; ?>').attr('checked', true);"  />
+					<input type="text" id="powerpress_size_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][size]" value="<?php echo $EnclosureLength; ?>" style="width: 110px;" onchange="javascript:jQuery('#powerpress_set_size_1_<?php echo $FeedSlug; ?>').attr('checked', true);"  />
 					<?php echo __('in bytes', 'powerpress'); ?>
 				</div>
 			</div>
@@ -279,9 +286,9 @@ function powerpress_meta_box($object, $box)
 				<div style="margin-bottom: 4px;">
 					<input id="powerpress_set_duration_1_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="1" type="radio" <?php echo ($GeneralSettings['set_duration']==1?'checked':''); ?> />
 					<?php echo __('Specify', 'powerpress').': '; ?>
-					<input id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" class="powerpress-duration-hh" placeholder="HH" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 36px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" class="powerpress-duration-mm" placeholder="MM" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 36px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
-					<input id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" class="powerpress-duration-ss" placeholder="SS" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 36px; font-size: 90%; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" />
+					<input type="text" id="powerpress_duration_hh_<?php echo $FeedSlug; ?>" class="powerpress-duration-hh" placeholder="HH" name="Powerpress[<?php echo $FeedSlug; ?>][duration_hh]" maxlength="2" value="<?php echo $DurationHH; ?>" style="width: 36px; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input type="text" id="powerpress_duration_mm_<?php echo $FeedSlug; ?>" class="powerpress-duration-mm" placeholder="MM" name="Powerpress[<?php echo $FeedSlug; ?>][duration_mm]" maxlength="2" value="<?php echo $DurationMM; ?>" style="width: 36px; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" /><strong>:</strong> 
+					<input type="text" id="powerpress_duration_ss_<?php echo $FeedSlug; ?>" class="powerpress-duration-ss" placeholder="SS" name="Powerpress[<?php echo $FeedSlug; ?>][duration_ss]" maxlength="10" value="<?php echo $DurationSS; ?>" style="width: 36px; text-align: right;" onchange="javascript:jQuery('#powerpress_set_duration_1_<?php echo $FeedSlug; ?>').attr('checked', true);" />
 				</div>
 				<div>
 					<input id="powerpress_set_duration_2_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][set_duration]" value="-1" type="radio" <?php echo ($GeneralSettings['set_duration']==-1?'checked':''); ?> />
@@ -307,7 +314,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][image]"><?php echo __('Poster Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" style="width: 70%; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_image_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][image]" value="<?php echo htmlspecialchars($CoverImage); ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" style="width: 70%; font-size: 90%;" size="250" />
 				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-image-browser" id="powerpress_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select Poster Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 			<div class="powerpress_row_content">
@@ -324,9 +331,9 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label><?php echo __('Player Size', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_player_width_<?php echo $FeedSlug; ?>" class="powerpress-player-width" placeholder="<?php echo htmlspecialchars(__('Width', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][width]" value="<?php echo htmlspecialchars($Width); ?>" style="width: 50px; font-size: 90%;" size="5" />
+				<input type="text" id="powerpress_player_width_<?php echo $FeedSlug; ?>" class="powerpress-player-width" placeholder="<?php echo htmlspecialchars(__('Width', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][width]" value="<?php echo htmlspecialchars($Width); ?>" style="width: 50px; font-size: 90%;" size="5" />
 				x
-				<input id="powerpress_player_height_<?php echo $FeedSlug; ?>" class="powerpress-player-height" placeholder="<?php echo htmlspecialchars(__('Height', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][height]" value="<?php echo htmlspecialchars($Height); ?>" style="width: 50px; font-size: 90%;" size="5" />
+				<input type="text" id="powerpress_player_height_<?php echo $FeedSlug; ?>" class="powerpress-player-height" placeholder="<?php echo htmlspecialchars(__('Height', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][height]" value="<?php echo htmlspecialchars($Height); ?>" style="width: 50px; font-size: 90%;" size="5" />
 			</div>
 		</div>
 <?php
@@ -351,7 +358,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][keywords]"><?php echo __('iTunes Keywords', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_keywords_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][keywords]" value="<?php echo htmlspecialchars($iTunesKeywords); ?>" style="width: 90%; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_keywords_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][keywords]" value="<?php echo htmlspecialchars($iTunesKeywords); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
 			<div class="powerpress_row_content">
 				<em><?php echo __('Feature Deprecated by Apple. Keywords above are for your reference only.', 'powerpress'); ?></em>
@@ -366,7 +373,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][subtitle]"><?php echo __('iTunes Subtitle', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_subtitle_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][subtitle]" value="<?php echo htmlspecialchars($iTunesSubtitle); ?>" style="width: 90%; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_subtitle_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][subtitle]" value="<?php echo htmlspecialchars($iTunesSubtitle); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
 			<div class="powerpress_row_content">
 				<em><?php echo __('Your subtitle may not contain HTML and cannot exceed 250 characters in length. Leave blank to use the first 250 characters of your blog post.', 'powerpress'); ?></em>
@@ -396,7 +403,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][author]"><?php echo __('iTunes Author', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_author_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][author]" value="<?php echo htmlspecialchars($iTunesAuthor); ?>" style="width: 60%; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_author_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][author]" value="<?php echo htmlspecialchars($iTunesAuthor); ?>" style="width: 60%; font-size: 90%;" size="250" />
 			</div>
 			<div class="powerpress_row_content">
 				<em><?php echo __('Leave blank to use post author name.', 'powerpress'); ?></em>
@@ -451,7 +458,7 @@ unset($cc_array);
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][order]"><?php echo __('iTunes Order', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_order_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][order]" value="<?php echo htmlspecialchars($iTunesOrder); ?>" style="width: 60px; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_order_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][order]" value="<?php echo htmlspecialchars($iTunesOrder); ?>" style="width: 60px; font-size: 90%;" size="250" />
 			</div>	
 		</div>
 <?php
@@ -504,7 +511,7 @@ unset($block_array);
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]"><?php echo __('iTunes Image', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input id="powerpress_itunes_image_<?php echo $FeedSlug; ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]" value="<?php echo htmlspecialchars($ExtraData['itunes_image']); ?>" style="width: 70%; font-size: 90%;" size="250" />
+				<input type="text" id="powerpress_itunes_image_<?php echo $FeedSlug; ?>" placeholder="<?php echo htmlspecialchars(__('e.g. http://example.com/path/to/image.jpg', 'powerpress')); ?>" name="Powerpress[<?php echo $FeedSlug; ?>][itunes_image]" value="<?php echo htmlspecialchars($ExtraData['itunes_image']); ?>" style="width: 70%; font-size: 90%;" size="250" />
 				<a href="<?php echo $form_action_url; ?>" class="thickbox powerpress-itunes-image-browser" id="powerpress_itunes_image_browser_<?php echo $FeedSlug; ?>" title="<?php echo __('Select iTunes Image', 'powerpress'); ?>"><img src="images/media-button-image.gif" /></a>
 			</div>
 		</div>
