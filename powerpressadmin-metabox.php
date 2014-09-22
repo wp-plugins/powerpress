@@ -200,9 +200,11 @@ function powerpress_meta_box($object, $box)
 				</em></div>
 				
 				<div class="powerpress-hosting-buttons">
-					<a class="powerpress-hosting-button" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?>" class="thickbox"><?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?></a> 
+					<a class="powerpress-hosting-button powerpress-button thickbox" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?>" class="thickbox">
+					<img src="<?php echo powerpress_get_root_url(); ?>/images/button_icon_blubrry.png" class="powerpress-button-icon" alt="" />
+					<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?></a> 
 					<!--  <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Upload Media File to your Blubrry.com account', 'powerpress'); ?>" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a> -->
-					&nbsp; &nbsp; Don't have Blubrry Hosting? <a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">Learn more here</a>
+					&nbsp; <?php echo __('Don\'t have Blubrry Podcast Media Hosting?', 'powerpress'); ?>	<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
 			
 
 				</div>

@@ -2144,7 +2144,7 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
 	background: #003366;
 	background-image:-moz-linear-gradient(0% 100% 90deg,#003366,#337EC9);
 	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#003366),to(#337EC9));  
-	border: 1px solid #5F8E14;
+	border: 1px solid #003366;
 	border-radius:3px;
 	color: #CFEA93;
 	color: #FFFFFF;
@@ -2168,6 +2168,15 @@ powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
     padding: 6px 10px;
     text-align: center;
     width: auto;
+}
+.powerpress-hosting-buttons a.powerpress-hosting-button {
+	position: relative;
+	padding-left: 30px;
+}
+.powerpress-hosting-button .powerpress-button-icon {
+	top: 2px;
+	left: 3px;
+	position: absolute;
 }
 </style>
 <script language="javascript"><!--
