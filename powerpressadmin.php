@@ -1561,7 +1561,7 @@ function powerpress_admin_menu()
 			// Coming soon, maybe PP 6.1
 			//add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Mobile Player Options', 'powerpress'), __('Mobile Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_mobileplayer.php', 'powerpress_admin_page_mobileplayers');
 			
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress SEO / Search', 'powerpress'), __('SEO / Search', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Podcasting SEO', 'powerpress'), __('Podcasting SEO', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
 			
 			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
