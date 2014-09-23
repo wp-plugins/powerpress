@@ -535,6 +535,17 @@ function powerpress_admin_init()
 					$General['metamarks'] = 0;
 			}
 			
+			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-search' )
+			{
+				//$PowerPressSearch = $_POST['PowerPressSearch'];
+				$PowerPressSearchToggle = $_POST['PowerPressSearchToggle'];
+				if( empty($PowerPressSearchToggle['seo_feed_title']) )
+					$General['seo_feed_title'] = 0;
+				
+				
+				// ADDITIONAL GENERAL SETTINGS SET HERE
+			}
+			
 			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
 			{
 				if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
@@ -1549,6 +1560,8 @@ function powerpress_admin_menu()
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
 			// Coming soon, maybe PP 6.1
 			//add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Mobile Player Options', 'powerpress'), __('Mobile Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_mobileplayer.php', 'powerpress_admin_page_mobileplayers');
+			
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress SEO / Search', 'powerpress'), __('SEO / Search', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
 			
 			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
@@ -2864,6 +2877,15 @@ function powerpress_admin_page_tags()
 	powerpress_admin_page_header('powerpress/powerpressadmin_tags.php');
 	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-tags.php');
 	powerpress_admin_tags();
+	powerpress_admin_page_footer();
+}
+
+// Admin page, advanced mode: feed settings
+function powerpress_admin_page_search()
+{
+	powerpress_admin_page_header('powerpress/powerpressadmin_search.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-search.php');
+	powerpress_admin_search();
 	powerpress_admin_page_footer();
 }
 
