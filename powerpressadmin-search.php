@@ -28,7 +28,7 @@ function ToggleID3Tags(Obj)
 ?>
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php echo __('Feed Episode Titles', 'powerpress'); ?></th> 
+<th scope="row"><?php echo __('Episode Titles', 'powerpress'); ?></th> 
 <td>
 	<p>
 		
@@ -71,8 +71,8 @@ function ToggleID3Tags(Obj)
 <th scope="row"><?php echo __('iTunes SEO Guidance', 'powerpress'); ?></th> 
 <td>
 	<p>
-		<input name="General[seo_itunes_seo]" type="hidden" value="0" />
-		<input name="General[seo_itunes_seo]" type="checkbox" value="1" <?php if( !empty($General['seo_itunes_seo']) ) echo 'checked '; ?> /> 
+		<input name="General[seo_itunes]" type="hidden" value="0" />
+		<input name="General[seo_itunes]" type="checkbox" value="1" <?php if( !empty($General['seo_itunes']) ) echo 'checked '; ?> /> 
 		<?php echo __('Enable and highlight features that help with iTunes SEO.', 'powerpress'); ?>
 	</p>
 	<p>

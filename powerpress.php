@@ -1419,6 +1419,8 @@ function powerpress_load_general_feed_settings()
 				else
 					$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
 				$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+				if( !empty($GeneralSettings['seo_itunes']) )
+					$powerpress_feed['enhance_itunes_summary'] = 1;
 				$powerpress_feed['posts_per_rss'] = false;
 				if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 					$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
@@ -1462,6 +1464,8 @@ function powerpress_load_general_feed_settings()
 						else
 							$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
 						$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+						if( !empty($GeneralSettings['seo_itunes']) )
+							$powerpress_feed['enhance_itunes_summary'] = 1;
 						$powerpress_feed['posts_per_rss'] = false;
 						if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 							$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
@@ -1527,6 +1531,8 @@ function powerpress_load_general_feed_settings()
 					else
 						$powerpress_feed['itunes_talent_name'] = get_bloginfo_rss('name');
 					$powerpress_feed['enhance_itunes_summary'] = $Feed['enhance_itunes_summary'];
+					if( !empty($GeneralSettings['seo_itunes']) )
+						$powerpress_feed['enhance_itunes_summary'] = 1;
 					$powerpress_feed['posts_per_rss'] = false;
 					if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 						$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
@@ -1591,6 +1597,8 @@ function powerpress_load_general_feed_settings()
 					$powerpress_feed['enhance_itunes_summary'] = 0;
 					if( isset($FeedSettingsBasic['enhance_itunes_summary']) )
 						$powerpress_feed['enhance_itunes_summary'] = $FeedSettingsBasic['enhance_itunes_summary'];
+					if( !empty($GeneralSettings['seo_itunes']) )
+						$powerpress_feed['enhance_itunes_summary'] = 1;
 					$powerpress_feed['posts_per_rss'] = false;
 					if( !empty($FeedSettingsBasic['posts_per_rss']) && is_numeric($FeedSettingsBasic['posts_per_rss']) && $FeedSettingsBasic['posts_per_rss'] > 0 )
 						$powerpress_feed['posts_per_rss'] = $FeedSettingsBasic['posts_per_rss'];

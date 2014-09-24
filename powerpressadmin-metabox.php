@@ -248,14 +248,19 @@ function powerpress_meta_box($object, $box)
 			</div>
 		</div>
 <?php 
-	if( !empty($GeneralSettings['custom_feed_title']) )
+	if( !empty($GeneralSettings['custom_feed_title']) || !empty($GeneralSettings['seo_itunes']) )
 	{
 ?>	
 		<div class="powerpress_row">
-			<label for="powerpress_feed_title_<?php echo $FeedSlug; ?>"><?php echo __('Feed Title', 'powerpress'); ?></label>
+			<label for="powerpress_feed_title_<?php echo $FeedSlug; ?>"><?php echo __('Episode Title', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input type="text" id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom Feed Title', 'powerpress'); ?>" style="width: 70%; " />
 			</div>
+			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
+			<div class="powerpress_row_content">
+				<em><?php echo __('SEO Suggestion: Use the blog post title for search engine SEO and utilize this title for iTunes search.', 'powerpress'); ?></em>
+			</div>
+			<?php } ?>
 		</div>
 <?php
 	}
@@ -369,7 +374,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( !empty($GeneralSettings['episode_box_subtitle']) || $iTunesSubtitle )
+		if( !empty($GeneralSettings['episode_box_subtitle']) || !empty($GeneralSettings['seo_itunes']) || $iTunesSubtitle )
 		{
 ?>
 		<div class="powerpress_row">
@@ -380,6 +385,11 @@ function powerpress_meta_box($object, $box)
 			<div class="powerpress_row_content">
 				<em><?php echo __('Your subtitle may not contain HTML and cannot exceed 250 characters in length. Leave blank to use the first 250 characters of your blog post.', 'powerpress'); ?></em>
 			</div>
+			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
+			<div class="powerpress_row_content">
+				<em><?php echo __('SEO Suggestion: Include information and keywords not mentioned in the episode title.', 'powerpress'); ?></em>
+			</div>
+			<?php } ?>
 		</div>
 <?php
 		}
