@@ -32,6 +32,13 @@ Initialize powerpress player handling
 */
 function powerpressplayer_init($GeneralSettings)
 {
+	if( !empty($GeneralSettings['seo_video_objects']) )
+		add_filter('powerpress_player', 'powerpressplayer_mediaobjects_video', 1, 3); // Before everythign is added
+	if( !empty($GeneralSettings['seo_audio_objects']) )
+		add_filter('powerpress_player', 'powerpressplayer_mediaobjects_audio', 1, 3); // Before everythign is added
+	if( !empty($GeneralSettings['seo_audio_objects']) || !empty($GeneralSettings['seo_video_objects']) )
+		add_filter('powerpress_player', 'powerpressplayer_mediaobjects_post', 1000, 3); // After everythign is added
+
 	if( isset($_GET['powerpress_pinw']) )
 		powerpress_do_pinw($_GET['powerpress_pinw'], !empty($GeneralSettings['process_podpress']) );
 		
@@ -973,9 +980,95 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 	return $content;
 }
 
+function powerpressplayer_mediaobjects_video($content, $media_url, $EpisodeData = array())
+{
+	$extension = powerpressplayer_get_extension($media_url);
+	switch( $extension )
+	{
+		// OGG (audio or video)
+		case 'ogg': {
+			// Ogg special case, we treat as audio unless specified otherwise
+			if( !defined('POWERPRESS_OGG_VIDEO') || POWERPRESS_OGG_VIDEO == false )
+			{
+				return $content;
+			}
+		} // let fall through and handle as video...
+		case 'mp4':
+		case 'm4v':
+		case 'webm':
+		case 'ogv': {
+			$VideoObject = true;
+		}; break;
+		default: return $content;
+	}
+	
+	return powerpressplayer_mediaobjects('video', $content, $media_url, $EpisodeData);
+}
+
+function powerpressplayer_mediaobjects_audio($content, $media_url, $EpisodeData = array())
+{
+	$extension = powerpressplayer_get_extension($media_url);
+	switch( $extension )
+	{
+		// OGG (audio or video)
+		case 'ogg': {
+			// Ogg special case, we treat as audio unless specified otherwise
+			if( defined('POWERPRESS_OGG_VIDEO') && POWERPRESS_OGG_VIDEO )
+			{
+				return $content;
+			}
+		} // let fall through and handle as video...
+		case 'mp3':
+		case 'm4a':
+		case 'oga': {
+			$AudioObject = true;
+		}; break;
+		default: return $content;
+	}
+	
+	return powerpressplayer_mediaobjects('audio', $content, $media_url, $EpisodeData);
+}
+
+function powerpressplayer_mediaobjects($type, $content, $media_url, $EpisodeData = array())
+{
+	$GLOBALS['g_powerpress_complete_mediaobject'] = true;
+	$addhtml = '';
+	$addhtml .= '<div itemscope itemtype="http://schema.org/'. ($type=='video'?'VideoObject':'AudioObject') .'">'.PHP_EOL;
+	
+	//$addhtml .= '<meta itemprop="name" content="EPISODE TITLE HERE" />'.PHP_EOL;
+	$addhtml .= '<meta itemprop="encodingFormat" content="'. powerpress_get_contenttype($media_url) .'" />'.PHP_EOL;
+	//$addhtml .= '<meta itemprop="duration" content="T0M15S" />'.PHP_EOL; // http://en.wikipedia.org/wiki/ISO_8601#Durations
+	//$addhtml .= '<meta itemprop="description" content="DESCRIPTION HERE" />'.PHP_EOL;
+	$addhtml .= '<meta itemprop="contentUrl" content="'. htmlspecialchars($media_url) .'" />'.PHP_EOL;
+	//$addhtml .= '<meta itemprop="thumbnailURL" content="http://www.mywebsite.com/my-video-thumbnail.jpg" />'.PHP_EOL;
+	//$addhtml .= '<meta itemprop="contentSize" content="13.6" />'.PHP_EOL;
+	//$addhtml .= '<meta itemprop="width" content="640" />'.PHP_EOL;
+	//$addhtml .= '<meta itemprop="height" content="480" />'.PHP_EOL;
+	if( !empty($EpisodeData['title']) )
+	{
+		
+	}
+	
+	return $content . $addhtml;
+}
+
+function powerpressplayer_mediaobjects_post($content, $media_url, $EpisodeData = array())
+{
+	if( !empty($GLOBALS['g_powerpress_complete_mediaobject']) )
+	{
+		$content .= '</div>';
+		unset($GLOBALS['g_powerpress_complete_mediaobject']);
+	}
+	return $content;
+}
+
+
 add_filter('powerpress_player', 'powerpressplayer_player_audio', 10, 3); // Audio players (mp3)
 add_filter('powerpress_player', 'powerpressplayer_player_video', 10, 3); // Video players (mp4/m4v, webm, ogv)
 add_filter('powerpress_player', 'powerpressplayer_player_other', 10, 3); // Audio/Video flv, wmv, wma, oga, m4a and other non-standard media files
+
+//add_filter('powerpress_player', 'powerpressplayer_mediaobjects', 1, 3); // Before everythign is added
+//add_filter('powerpress_player', 'powerpressplayer_mediaobjects_post', 1000, 3); // After everythign is added
 
 /*
 Filters for media links, appear below the selected player

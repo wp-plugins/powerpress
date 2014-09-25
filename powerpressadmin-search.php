@@ -11,10 +11,6 @@ function powerpress_admin_search()
 	
 ?>
 <script language="javascript"><!--
-function ToggleID3Tags(Obj)
-{
-	document.getElementById('edit_id3_tags').style.display=(Obj.checked?'block':'none');
-}
 //-->
 </script>
 <input type="hidden" name="action" value="powerpress-save-search" />
