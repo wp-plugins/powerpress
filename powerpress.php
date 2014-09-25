@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '6.0 beta' );
+define('POWERPRESS_VERSION', '6.0 beta 1' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -2313,6 +2313,8 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 
 function powerpress_add_flag_to_redirect_url($MediaURL, $Flag)
 {
+	// First strip any previous flags...
+	$MediaURL = preg_replace('/(media\.(blubrry|techpodcasts|rawvoice|podcasternews)\.com\/[A-Za-z0-9-_]+\/)([A-Za-z0-9]\/)?/i', '$1'."", $MediaURL);
 	return preg_replace('/(media\.(blubrry|techpodcasts|rawvoice|podcasternews)\.com\/[A-Za-z0-9-_]+\/)('.$Flag.'\/)?/i', '$1'."$Flag/", $MediaURL);
 }
 

@@ -254,7 +254,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="powerpress_feed_title_<?php echo $FeedSlug; ?>"><?php echo __('Episode Title', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<input type="text" id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom Feed Title', 'powerpress'); ?>" style="width: 70%; " />
+				<input type="text" id="powerpress_feed_title_<?php echo $FeedSlug; ?>" class="powerpress-feed_title" name="Powerpress[<?php echo $FeedSlug; ?>][feed_title]" value="<?php echo htmlspecialchars($FeedTitle); ?>" placeholder="<?php echo __('Custom episode title for feed', 'powerpress'); ?>" style="width: 70%; " />
 			</div>
 			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
 			<div class="powerpress_row_content">

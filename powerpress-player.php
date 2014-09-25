@@ -1035,21 +1035,76 @@ function powerpressplayer_mediaobjects($type, $content, $media_url, $EpisodeData
 	$addhtml = '';
 	$addhtml .= '<div itemscope itemtype="http://schema.org/'. ($type=='video'?'VideoObject':'AudioObject') .'">'.PHP_EOL;
 	
-	//$addhtml .= '<meta itemprop="name" content="EPISODE TITLE HERE" />'.PHP_EOL;
-	$addhtml .= '<meta itemprop="encodingFormat" content="'. powerpress_get_contenttype($media_url) .'" />'.PHP_EOL;
-	//$addhtml .= '<meta itemprop="duration" content="T0M15S" />'.PHP_EOL; // http://en.wikipedia.org/wiki/ISO_8601#Durations
-	//$addhtml .= '<meta itemprop="description" content="DESCRIPTION HERE" />'.PHP_EOL;
-	$addhtml .= '<meta itemprop="contentUrl" content="'. htmlspecialchars($media_url) .'" />'.PHP_EOL;
-	//$addhtml .= '<meta itemprop="thumbnailURL" content="http://www.mywebsite.com/my-video-thumbnail.jpg" />'.PHP_EOL;
-	//$addhtml .= '<meta itemprop="contentSize" content="13.6" />'.PHP_EOL;
-	//$addhtml .= '<meta itemprop="width" content="640" />'.PHP_EOL;
-	//$addhtml .= '<meta itemprop="height" content="480" />'.PHP_EOL;
 	if( !empty($EpisodeData['title']) )
 	{
 		
 	}
 	
+	$media_url = powerpress_add_flag_to_redirect_url($media_url, 's'); // Search tag
+	
+	//var_dump($EpisodeData);
+	$post_title = get_the_title();
+	if( !empty($post_title) )
+		$addhtml .= '<meta itemprop="name" content="'.  htmlspecialchars($post_title) .'" />'.PHP_EOL;
+	$addhtml .= '<meta itemprop="encodingFormat" content="'. powerpress_get_contenttype($media_url) .'" />'.PHP_EOL;
+	$addhtml .= '<meta itemprop="duration" content="'. powerpress_iso8601_duration($EpisodeData['duration']) .'" />'.PHP_EOL; // http://en.wikipedia.org/wiki/ISO_8601#Durations
+	if( !empty($EpisodeData['itunes_subtitle']) )
+		$addhtml .= '<meta itemprop="description" content="'.  htmlspecialchars($EpisodeData['itunes_subtitle']) .'" />'.PHP_EOL;
+	$addhtml .= '<meta itemprop="contentUrl" content="'. htmlspecialchars($media_url) .'" />'.PHP_EOL;
+	
+	// For thumbnail image, use the podcast artwork
+	if( !empty($EpisodeData['image']) )
+	{
+		$addhtml .= '<meta itemprop="thumbnailURL" content="'.$EpisodeData['image'] .'" />'.PHP_EOL;
+	}
+	
+	if( !empty($EpisodeData['size']) )
+	{
+		$addhtml .= '<meta itemprop="contentSize" content="'. number_format($EpisodeData['size'] / (1024 * 1024), 1) .'" />'.PHP_EOL;
+	}
+	
+	// <meta itemprop="videoQuality" content="HD"/>
+	if( !empty($EpisodeData['height']) && is_numeric($EpisodeData['height']) )
+	{
+		$addhtml .= '<meta itemprop="height" content="'.$EpisodeData['height'] .'" />'.PHP_EOL;
+	}
+	
+	if( !empty($EpisodeData['width']) && is_numeric($EpisodeData['width']) )
+	{
+		$addhtml .= '<meta itemprop="width" content="'.$EpisodeData['width'] .'" />'.PHP_EOL;
+	}
+	
 	return $content . $addhtml;
+}
+
+function powerpress_iso8601_duration($duration)
+{
+	$seconds = 0;
+	$parts = explode(':', $duration);
+	if( count($parts) == 3 )
+		$seconds = $parts[2] + ($parts[1]*60) + ($parts[0]*60*60);
+	else if ( count($parts) == 2 )
+		$seconds = $parts[1] + ($parts[0]*60);
+	else
+		$seconds = $parts[0];
+	
+	$hours = 0;
+	$minutes = 0;
+	if( $seconds >= (60*60) )
+	{
+		$hours = floor( $seconds /(60*60) );
+		$seconds -= (60*60*$hours);
+	}
+	if( $seconds >= (60) )
+	{
+		$minutes = floor( $seconds /(60) );
+		$seconds -= (60*$minutes);
+	}
+	
+	if( $hours ) // X:XX:XX (readable)
+		return sprintf('PT%dH%02dM%02dS', $hours, $minutes, $seconds);
+	
+	return sprintf('PT%dM%02dS', $minutes, $seconds); // X:XX or 0:XX (readable)
 }
 
 function powerpressplayer_mediaobjects_post($content, $media_url, $EpisodeData = array())
