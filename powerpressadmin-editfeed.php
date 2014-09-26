@@ -3,6 +3,19 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
+function powerpress_categories_strict($Categories, $Selected)
+{
+	$Return = $Categories;
+	$StrictArray = array('01-00', '02-00', '04-00', '05-00', '06-00', '07-00', '11-00', '12-00', '13-00', '14-00', '15-00');
+	while( list($index,$remove) = each($StrictArray) )
+	{
+		if( $Selected == $remove )
+			continue;
+		unset($Return[ $remove ]);
+	}
+	return $Return;
+}
+
 function powerpress_languages()
 {
 	// List copied from PodPress:
@@ -499,7 +512,7 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 
 <tr valign="top">
 <th scope="row">
-<?php echo __('Feed Title', 'powerpress'); ?>
+<?php echo __('Feed Title (Show Title)', 'powerpress'); ?>
 </th>
 <td>
 <input type="text" name="Feed[title]" style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" />
@@ -515,6 +528,11 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 <p class="description"><?php echo __('Default Category title:', 'powerpress') .' '. get_bloginfo_rss('name') . ' &#187; '. $CategoryName; ?></p>
 <?php } else { ?>
 <p class="description"><?php echo __('Blog title:', 'powerpress') .' '. get_bloginfo_rss('name'); ?></p>
+<?php } ?>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: The show title is very important.', 'powerpress'); ?></em>
+			</p>
 <?php } ?>
 </td>
 </tr>
@@ -1061,23 +1079,27 @@ $Categories = powerpress_itunes_categories(true);
 
 echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
 
-while( list($value,$desc) = each($Categories) )
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_1']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_1']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 ?>
 </select>
 <?php
-	if( !$MoreCategories ) { ?>
+	if( !$MoreCategories && empty($General['seo_itunes']) ) { ?>
 	<a href="#" onclick="document.getElementById('more_itunes_cats').style.display='block';return false;"><?php echo __('more', 'powerpress'); ?></a>
 <?php } ?>
+	<p>
+		<?php echo __('The category above is where you will appear when browsing iTunes.', 'powerpress'); ?>
+	</p>
 </td>
 </tr>
 </table>
 
 
 <!-- start advanced features -->
-<div id="more_itunes_cats" style="display: <?php echo ($MoreCategories?'block':'none'); ?>;">
+<div id="more_itunes_cats" style="display: <?php echo ( ($MoreCategories||!empty($General['seo_itunes']) )?'block':'none'); ?>;">
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -1088,15 +1110,21 @@ reset($Categories);
 <?php
 
 
-echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
-
-while( list($value,$desc) = each($Categories) )
+echo '<option value="">'. __('Select Category', 'powerpress')  .'</option>';
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_2']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_2']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 
 ?>
 </select>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Select a second category.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
+
 </td>
 </tr>
 
@@ -1108,14 +1136,19 @@ reset($Categories);
 <select name="Feed[itunes_cat_3]" class="bpp_input_med">
 <?php
 
-echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
-
-while( list($value,$desc) = each($Categories) )
+echo '<option value="">'. __('Select Category', 'powerpress')  .'</option>';
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_3']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_3']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 ?>
 </select>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Select a third category.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
 </td>
 </tr>
 </table>
@@ -1144,12 +1177,17 @@ while( list($value,$desc) = each($explicit) )
 <!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
-<?php echo __('iTunes Talent Name', 'powerpress'); ?> 
+<?php echo __('iTunes Author Name', 'powerpress'); ?> 
 </th>
 <td>
 <input type="text" name="Feed[itunes_talent_name]" class="bpp_input_med" value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
 <div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> <?php echo __('Use blog post author\'s name for individual episodes.', 'powerpress'); ?></div>
 
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Include talent names and slogans not mentioned in the show title.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
 </td>
 </tr>
 <!-- end advanced features -->
