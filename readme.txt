@@ -183,6 +183,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * NEW FEATURE: Subscribe to podcast widget, adds subscribe on iTunes and via RSS links to side bar, with optional link to subscribe to podcast page.
 * NEW FEATURE: Podcasting SEO settings. Includes options to customize podcast feed titles, AudioObjects, VideoObjects, and highlight key iTunes fields.
 * iTunes image requirements updated, 1400x1400 minimum size is now "required" and 2048x2048 is now the maximum size for iTunes artwork.
+* iTunes category and subcategory selection updated for latest iTunes category selection rules.
 * Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
 * Fixed bug where player and links would not appear if Yoast's WordPress SEO plugin option "Add Open Graph meta data" was enabled.
@@ -195,8 +196,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Changed all content types to either use the site default or use UTF8 (applies to play in new window and 401 Unauthorized HTML pages).
 * Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
 * Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
-* We are no longer detecting if the sample rate is optimal. 
-
+* We are no longer detecting if the sample rate is optimal, we're no longer worried about Flash playback.
 
 
 = 5.0.9 =

@@ -18,6 +18,8 @@ jQuery(document).ready(function() {
 	
 	if( empty($General['seo_append_show_title']) )
 		echo "	jQuery('#powerpress_example_show_title').hide();\n";
+	if( !empty($General['seo_feed_title'])  && $General['seo_feed_title'] == 1 )
+		echo "	jQuery('#powerpress_example_post_title').hide();\n";
 ?>
 	jQuery('#seo_append_show_title').change( function() {
 		if( jQuery(this).prop('checked') )
@@ -140,7 +142,7 @@ jQuery(document).ready(function() {
 				<?php echo __('Enables iTunes Subtitle field', 'powerpress'); ?>
 			</li>
 			<li>
-				<?php echo __('Enables iTunes author field', 'powerpress'); ?>
+				<?php echo __('Enables iTunes Author field', 'powerpress'); ?>
 			</li>
 			<li>
 				<?php echo __('Enables Enhanced iTunes Summary feature', 'powerpress'); ?>
