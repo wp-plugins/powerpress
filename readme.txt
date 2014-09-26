@@ -188,7 +188,6 @@ To install Blubrry PowerPress manually, follow these steps:
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
 * Fixed bug where player and links would not appear if Yoast's WordPress SEO plugin option "Add Open Graph meta data" was enabled.
 * iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.
-* Mobile Player Options! You can now pick between the Native HTML5 player (recommended) or MediaElement.js for mobile visitors.
 * Added support for Opus audio with content type audio/ogg. (Thanks thebugcast for the heads up!)
 * Files with 'ogg' file extension are now treated as audio/ogg, unless the following define is added to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);` (Thanks thebugcast for pointing out the default!)
 * Updated the Find and Replace episode URLs tool to use native WordPress MySQL query functions.
