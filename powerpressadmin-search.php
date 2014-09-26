@@ -82,6 +82,9 @@ function powerpress_admin_search()
 				<?php echo __('Enables iTunes Subtitle field', 'powerpress'); ?>
 			</li>
 			<li>
+				<?php echo __('Enables iTunes author field', 'powerpress'); ?>
+			</li>
+			<li>
 				<?php echo __('Enables Enhanced iTunes Summary feature', 'powerpress'); ?>
 			</li>
 		</ul>

@@ -409,7 +409,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		if( !empty($GeneralSettings['episode_box_author']) || $iTunesAuthor )
+		if( !empty($GeneralSettings['episode_box_author']) || !empty($GeneralSettings['seo_itunes']) || $iTunesAuthor )
 		{
 ?>
 		<div class="powerpress_row">
@@ -420,6 +420,10 @@ function powerpress_meta_box($object, $box)
 			<div class="powerpress_row_content">
 				<em><?php echo __('Leave blank to use post author name.', 'powerpress'); ?></em>
 			</div>
+			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
+			<div class="powerpress_row_content">
+				<em><?php echo __('SEO Suggestion: Include talent names and slogans not mentioned in the episode title.', 'powerpress'); ?></em>
+			</div><?php } ?>
 		</div>
 <?php
 		}
