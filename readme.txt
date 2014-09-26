@@ -181,6 +181,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * NEW FEATURE: Subscribe links, adds subscribe on iTunes and via RSS links below the player and links.
 * NEW FEATURE: Subscribe page template and `[powerpress_subscribe]` page shortcode added. Create a "Subscribe to podcast" page for your podcast.
 * NEW FEATURE: Subscribe to podcast widget, adds subscribe on iTunes and via RSS links to side bar, with optional link to subscribe to podcast page.
+* NEW FEATURE: Podcasting SEO settings. Includes options to customize podcast feed titles, AudioObjects, VideoObjects, and highlight key iTunes fields.
 * iTunes image requirements updated, 1400x1400 minimum size is now "required" and 2048x2048 is now the maximum size for iTunes artwork.
 * Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
 * Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
