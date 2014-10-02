@@ -414,10 +414,6 @@ function powerpressadmin_edit_entry_options($General)
 						
 					<p style="margin-top: 15px;"><input id="episode_box_player_size" class="episode_box_option" name="General[episode_box_player_size]" type="checkbox" value="1"<?php if( !empty($General['episode_box_player_size']) ) echo ' checked'; ?> /> <?php echo __('Player Width and Height', 'powerpress'); ?> 
 						(<?php echo __('Customize player width and height on a per episode basis', 'powerpress'); ?>)</p>
-					
-					<p style="margin-top: 15px;"><input id="episode_box_keywords" class="episode_box_option" name="NULL[episode_box_keywords]" type="checkbox" value="1" disabled /> <?php echo __('iTunes Keywords Field', 'powerpress'); ?>
-						(<?php echo __('Feature Deprecated by Apple', 'powerpress'); ?>)</p>
-					
 					<p style="margin-top: 15px;"><input id="episode_box_subtitle" class="episode_box_option" name="General[episode_box_subtitle]" type="checkbox" value="1"<?php if( !empty($General['episode_box_subtitle']) ) echo ' checked'; ?> /> <?php echo __('iTunes Subtitle Field', 'powerpress'); ?>
 						(<?php echo __('Leave unchecked to use the first 250 characters of your blog post', 'powerpress'); ?>)</p>
 					<p style="margin-top: 15px;"><input id="episode_box_summary" class="episode_box_option" name="General[episode_box_summary]" type="checkbox" value="1"<?php if( !empty($General['episode_box_summary']) ) echo ' checked'; ?> /> <?php echo __('iTunes Summary Field', 'powerpress'); ?>
@@ -482,13 +478,18 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 	if( !empty($General['hide_warnings']) )
 		$AdvanecdOptions = true;
 		
+	$DefaultMediaURL = (defined('POWERPRESS_DEFAULT_MEDIA_URL')? POWERPRESS_CUSTOM_MEDIA_URL :false);
+	
+	if( !empty($General['default_url']) )
+		$DefaultMediaURL = true;
 
 	if( !$AdvanecdOptions ) {
 ?>
-	<div style="margin-left: 10px; font-weight: bold;"><a href="#" onclick="document.getElementById('advanced_basic_options').style.display='block';return false;"><?php echo __('Show Advanced Episode Entry Settings', 'powerpress'); ?></a></div>
+	<div style="margin-left: 10px; font-weight: bold;" id="advanced_basic_options_show_link"><a href="#" onclick="document.getElementById('advanced_basic_options').style.display='block';document.getElementById('advanced_basic_options_show_link').style.display='none';return false;"><?php echo __('Show Advanced Episode Entry Settings', 'powerpress'); ?></a></div>
 <?php } ?>
 <!-- start advanced features -->
 <div id="advanced_basic_options" <?php echo ($AdvanecdOptions?'':'style="display:none;"'); ?>>
+<?php if( $DefaultMediaURL ) { ?>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __('Default Media URL', 'powerpress'); ?></th> 
@@ -500,6 +501,7 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 </td>
 </tr>
 </table>
+<?php } ?>
 
 <div id="episode_entry_settings">
 <table class="form-table">
