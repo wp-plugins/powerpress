@@ -188,8 +188,8 @@ function powerpress_meta_box($object, $box)
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][url]"><?php echo __('Media URL', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
 				<input type="text" id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo $EnclosureURL; ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%;" />
-				<?php if( (!empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting']!=='false') || empty($GeneralSettings['no_media_url_folder']) ) { ?>
-				<!-- <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a> -->
+				<?php if( !empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting']!=='false' && !empty($GeneralSettings['timestamp']) && $GeneralSettings['timestamp'] <	1414627200 ) { // display the folder icon for folks before october 30, 2014 ?>
+					<a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
 				<?php } ?>
 				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify URL', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" class="button" />
 				<img id="powerpress_check_<?php echo $FeedSlug; ?>" src="<?php echo admin_url(); ?>images/loading.gif" style="vertical-align:text-top; display: none;" alt="<?php echo __('Checking Media', 'powerpress'); ?>" />
@@ -204,8 +204,9 @@ function powerpress_meta_box($object, $box)
 					<img src="<?php echo powerpress_get_root_url(); ?>/images/button_icon_blubrry.png" class="powerpress-button-icon" alt="" />
 					<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?></a> 
 					<!--  <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Upload Media File to your Blubrry.com account', 'powerpress'); ?>" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a> -->
-					&nbsp; <?php echo __('Don\'t have Blubrry Podcast Media Hosting?', 'powerpress'); ?>	<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
-			
+					<?php if( empty($GeneralSettings['blubrry_hosting']) || $GeneralSettings['blubrry_hosting']==='false' ) { ?>
+						&nbsp; <?php echo __('Don\'t have Blubrry Podcast Media Hosting?', 'powerpress'); ?>	<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
+					<?php } ?>
 
 				</div>
 				

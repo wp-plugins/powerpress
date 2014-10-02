@@ -173,9 +173,13 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
-
 = 6.0 =
-* Released on TBD
+* Released on 10/3/2014?
+* Re-added the blubrry folder icon for blubrry podcast hosting customers.
+
+
+== 6.0 beta 1 ==
+* Released on 9/26/2014
 * You must have WordPress 3.3 or newer and PHP 5.2 or newer for PowerPress 6.0.
 * NEW FEATURE: Playlist player, utilizes WordPress built-in playlist specifically for podcasting. [Learn more](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/)
 * NEW FEATURE: Subscribe links, adds subscribe on iTunes and via RSS links below the player and links.
