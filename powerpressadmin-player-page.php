@@ -346,11 +346,13 @@ table.html5formats tr > td:first-child {
 			 <strong style="padding-top: 8px; margin-left: 20px;"><a href="#" id="activate_mediaelement_video" class="activate-player"><?php echo __('Activate and Configure Now', 'powerpress'); ?></a></strong>
 		</li>
 		<li style="margin-left: 30px; margin-bottom:16px;">
-			<p>
+			<div style="max-width: 70%;">
+				<div class="powerpressadmin-mejs-video">
 <?php
 			echo powerpressplayer_build_mediaelementvideo( $Video['mediaelement-video'] );
 ?>
-			</p>
+				</div>
+			</div>
 			<?php powerpressplayer_mediaelement_info(); ?>
 		</li>
 <?php
@@ -2020,13 +2022,15 @@ function audio_player_defaults()
 			}
 					?>
 			</p>
-			<p>
+			<div style="max-width: 70%;">
+				<div class="powerpressadmin-mejs-video">
 <?php
 				if( $type == 'mobile' )
 					echo  __('Video:', 'powerpress') .' ';
 				echo powerpressplayer_build_mediaelementvideo( $Video['mediaelement-video'] );
 ?>
-			</p>
+				</div>
+			</div>
 		</td>
 	</tr>
 </table>

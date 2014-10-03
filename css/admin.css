@@ -377,4 +377,22 @@ padding-bottom: 15px;
 	}
 } 
 
+.powerpressadmin-mejs-video {
+	width: auto;
+}
+.powerpressadmin-mejs-video .powerpress_player {
+	position: relative;
+	width: 100%;
+	height: 0;
+	padding-bottom: 56.2%; /* 281 / 500 */
+}
  
+.powerpressadmin-mejs-video .powerpress_player .wp-video,
+.powerpressadmin-mejs-video .powerpress_player .mejs-container,
+.powerpressadmin-mejs-video .powerpress_player video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100% !important;
+	height: 100% !important;
+}
