@@ -259,7 +259,7 @@ function powerpress_meta_box($object, $box)
 			</div>
 			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
 			<div class="powerpress_row_content">
-				<em><?php echo __('SEO Suggestion: Use the blog post title for search engine SEO and utilize this title for iTunes search.', 'powerpress'); ?></em>
+				<em><?php echo __('SEO Suggestion: Use the blog post title for search engine optimization and use this title for iTunes search.', 'powerpress'); ?></em>
 			</div>
 			<?php } ?>
 		</div>
@@ -384,11 +384,11 @@ function powerpress_meta_box($object, $box)
 				<input type="text" id="powerpress_subtitle_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][subtitle]" value="<?php echo htmlspecialchars($iTunesSubtitle); ?>" style="width: 90%; font-size: 90%;" size="250" />
 			</div>
 			<div class="powerpress_row_content">
-				<em><?php echo __('Your subtitle may not contain HTML and cannot exceed 250 characters in length. Leave blank to use the first 250 characters of your blog post.', 'powerpress'); ?></em>
+				<em><?php echo __('Your subtitle may not contain HTML and cannot exceed 250 characters in length. Leave blank to use the first 250 characters of your excerpt, or blog post if no excerpt is set.', 'powerpress'); ?></em>
 			</div>
 			<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
 			<div class="powerpress_row_content">
-				<em><?php echo __('SEO Suggestion: Include information and keywords not mentioned in the episode title.', 'powerpress'); ?></em>
+				<em><?php echo __('SEO Suggestion: Write something concise and compelling that includes keywords not mentioned in the episode title.', 'powerpress'); ?></em>
 			</div>
 			<?php } ?>
 		</div>

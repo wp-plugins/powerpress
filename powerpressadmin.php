@@ -1561,7 +1561,7 @@ function powerpress_admin_menu()
 			// Coming soon, maybe PP 6.1
 			//add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Mobile Player Options', 'powerpress'), __('Mobile Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_mobileplayer.php', 'powerpress_admin_page_mobileplayers');
 			
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Podcasting SEO', 'powerpress'), __('Podcasting SEO', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Podcasting SEO', 'powerpress'), '<span style="color:#f18500">'. __('Podcasting SEO', 'powerpress') .'</span> '.powerpressadmin_new('font-weight: bold; color: #ffffff;') .'', POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
 			
 			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
@@ -2441,6 +2441,9 @@ jQuery(document).ready(function($) {
 		window.send_to_editor = function(html)
 		{
 			url = jQuery('img', html).attr('src');
+			if (url === undefined) {
+				url = jQuery(html).attr('src');
+			}
 			jQuery('#powerpress_image_'+g_powerpress_last_selected_channel).val( url );
 			g_powerpress_last_selected_channel = '';
 			tb_remove();
@@ -2460,6 +2463,9 @@ jQuery(document).ready(function($) {
 		window.send_to_editor = function(html)
 		{
 			url = jQuery('img', html).attr('src');
+			if (url === undefined) {
+				url = jQuery(html).attr('src');
+			}
 			jQuery('#powerpress_itunes_image_'+g_powerpress_last_selected_channel).val( url );
 			g_powerpress_last_selected_channel = '';
 			tb_remove();
@@ -4079,9 +4085,11 @@ function powerpressadmin_support_uploads()
 	return $g_SupportUploads;
 }
 
-function powerpressadmin_new()
+function powerpressadmin_new($style='')
 {
-	return '<sup style="color: #CC0000; font-weight: bold;">'. __('new!', 'powerpress') .'</sup>';
+	if( empty($style) )
+		$style = 'color: #CC0000; font-weight: bold;';
+	return '<sup style="'.$style.'">'. __('new!', 'powerpress') .'</sup>';
 }
 
 function powerpressadmin_notice($updated_message)

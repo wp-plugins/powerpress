@@ -1325,6 +1325,14 @@ function powerpress_init()
 	{
 		add_filter('the_content', 'powerpress_yoast_gawp_fix', 120 );
 	}
+	
+	if( !empty($GeneralSettings['subscribe_links']) )
+	{
+		// 2 Subscribe page shortocde [powerpress_subscribe feedslug="podcast"]
+		// 3 Subscribe sidebar widget: iTunes, RSS
+		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_pre', 1, 3);
+		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_post', 1000, 3);
+	}
 }
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them

@@ -200,13 +200,6 @@ function powerpressplayer_link_subscribe_post($content, $media_url, $ExtraData =
 	return $content;
 }
 
-// 2 Subscribe page shortocde [powerpress_subscribe feedslug="podcast"]
-
-// 3 Subscribe sidebar widget: iTunes, RSS
-
-add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_pre', 1, 3);
-add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_post', 1000, 3);
-
 function powerpress_subscribe_shortcode( $attr ) {
 	global $content_width;
 	
