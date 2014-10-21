@@ -4131,7 +4131,7 @@ function powerpressadmin_community_news($items=3)
 					$embed = $embed_tag[0]['data'];
 				
 				
-				
+				// Only show an episode with the latest item
 				if( $first_item && $embed )
 				{
 					if( preg_match('/width="(\d{1,4})"/i', $embed, $matches ) && count($matches) > 1 )
@@ -4145,7 +4145,7 @@ function powerpressadmin_community_news($items=3)
 					echo $embed;
 					echo '</div>';
 				}
-				else
+				else if( $first_item )
 				{
 					$EpisodeData = array();
 					$EpisodeData['type'] = $enclosure->type;

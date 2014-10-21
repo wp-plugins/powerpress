@@ -1013,21 +1013,34 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php echo __('PowerPress Shortcode', 'powerpress'); ?></th>
+<?php echo __('PowerPress Shortcodes', 'powerpress'); ?></th>
 <td>
+<h3><?php echo __('PowerPress Player Shortcode', 'powerpress'); ?></h3>
 <p>
 <?php echo sprintf(__('The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your post or page content.', 'powerpress'), '<code>[powerpress]</code>'); ?> 
-<?php echo __('Simply insert the following code on a new line in your content.', 'powerpress'); ?>
 </p>
-<div style="margin-left: 30px;">
-	<code>[powerpress]</code>
-</div>
 <p>
-<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Shortcode', 'powerpress') .'</a>' ); ?>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Player Shortcode', 'powerpress') .'</a>' ); ?>
 </p>
 <p class="description">
 <?php echo __('Note: When specifying a URL to media in the powerpress shortcode, only the player is included. The Media Links will <u>NOT</u> be included since there is not enough meta information to display them.', 'powerpress'); ?>
 </p>
+<h3><?php echo __('PowerPress Playlist Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
+<p>
+<?php echo sprintf(__('The %s shortcode is used to display a player with a playlist of your podcast episodes. It utilizes the default playlist built into WordPress.', 'powerpress'), '<code>[powerpress_playlist]</code>'); ?> 
+</p>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/" target="_blank">'. __('PowerPress Playlist Shortcode', 'powerpress') .'</a>' ); ?>
+</p>
+
+<h3><?php echo __('PowerPress Subscribe Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
+<p>
+<?php echo sprintf(__('The %s shortcode is used to display a subscribe to podcast widget for your podcast. It is intended for use on a custom subscribe page. See the Subscribe Page section below for more details.', 'powerpress'), '<code>[powerpress_subscribe]</code>'); ?> 
+</p>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/" target="_blank">'. __('PowerPress Subscribe Shortcode', 'powerpress') .'</a>' ); ?>
+</p>
+
 </td>
 </tr>
 
@@ -1233,7 +1246,7 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 <?php
 		}
 ?>
-	<p><a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-shortcode/" target="_blank"><?php echo __('Learn more about the PowerPress Subscribe shortcode', 'powerpress'); ?></a></p>
+	<p><a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-page/" target="_blank"><?php echo __('Learn more about the PowerPress Subscribe Page', 'powerpress'); ?></a></p>
 	<?php
 	// TODO: use the $FeedAttribs to create a recommended shortcode for this particular channel, may be simple [powerpress_subscribe] or it may specify the category, taxonomy, and/or feed_slug/post tpe podcasting
 	?>

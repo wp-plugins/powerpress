@@ -11,14 +11,13 @@ function powerpresssubscribe_get_subscribe_page($Settings)
 
 function powerpresssubscribe_get_itunes_url($Settings)
 {
-	$itunes_url = trim($Settings['itunes_url']);
-	if( empty($itunes_url) )
-	{
-		$rss_url = $Settings['rss_url'];
-		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $Settings['rss_url']);
-	}
+	if( !empty($Settings['itunes_url']) )
+		return trim($Settings['itunes_url']);
+
+	if( !empty($Settings['feed_url']) )
+		return preg_replace('/(^https?:\/\/)/i', 'itpc://', $Settings['feed_url']);
 	
-	return $itunes_url;
+	return '';
 }
 
 function powerpresssubscribe_get_settings($ExtraData)
@@ -88,7 +87,8 @@ function powerpresssubscribe_get_settings($ExtraData)
 			$Settings = get_option('powerpress_cat_feed_'.$category_id );
 			if( !empty($Settings) )
 			{
-				$Settings['rss_url'] = get_category_feed_link( $category_id ); // Get category feed URL
+				$Settings['title'] = $Settings['feed_title'];
+				$Settings['feed_url'] = get_category_feed_link( $category_id ); // Get category feed URL
 				$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
 				$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
 				return $Settings;
@@ -125,7 +125,8 @@ function powerpresssubscribe_get_settings($ExtraData)
 	
 	if( !empty($FeedSettings) )
 	{
-		$FeedSettings['rss_url'] =  get_feed_link($feed_slug); // Get Podcast RSS Feed
+		$FeedSettings['title'] = $FeedSettings['feed_title'];
+		$FeedSettings['feed_url'] =  get_feed_link($feed_slug); // Get Podcast RSS Feed
 		$FeedSettings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($FeedSettings);
 		$FeedSettings['itunes_url'] = powerpresssubscribe_get_itunes_url($FeedSettings);
 		return $FeedSettings;
@@ -163,15 +164,15 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 	if( $SubscribeSettings['subscribe_links'] != 1 ) // beginning of links
 		return $content;
 		
-	$rss_url = $SubscribeSettings['rss_url'];
+	$feed_url = $SubscribeSettings['feed_url'];
 	$itunes_url = trim($SubscribeSettings['itunes_url']);
 	if( empty($itunes_url) )
-		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $rss_url);
+		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $feed_url);
 	
 	$player_links = '';
 	$player_links .= "<a href=\"{$itunes_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
 	$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
-	$player_links .= "<a href=\"{$rss_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	$player_links .= "<a href=\"{$feed_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
 	if( !empty($SubscribeSettings['subscribe_page_url']) )
 	{
 		$label = (empty($SubscribeSettings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$SubscribeSettings['subscribe_page_link_text']);
@@ -211,27 +212,20 @@ function powerpress_subscribe_shortcode( $attr ) {
 	$instance++;
 	
 	extract( shortcode_atts( array(
+		'channel'=>'', // Used for PowerPress Podcast Channels
+		'slug' => '', // Used for PowerPress (alt for 'channel')
+		'feed' => '', // Used for PowerPress (alt for 'channel')
+		'post_type' => 'post', // Used for PowerPress 
 		'category'=>'', // Used for PowerPress (specify category ID, name or slug)
 		'term_taxonomy_id'=>'', // Used for PowerPress (specify term taxonomy ID)
 		//'term_id'=>'', // Used for PowerPress (specify term ID, name or slug)
 		//'taxonomy'=>'', // Used for PowerPress (specify taxonomy name)
+		
 		'title'	=> '', // Display custom title of show/program
-		'slug' => '', // Used for PowerPress
-		'feed' => '', // Used for PowerPress (alt for 'slug')
-		'channel'=>'', // Used for PowerPress (alt for 'slug')
-		'post_type' => 'post', // Used for PowerPress 
+		'feed_url'=>'', // provide subscribe widget for specific RSS feed
+		'itunes_url'=>'' // provide subscribe widget for specific iTunes subscribe URL
 	), $attr, 'powerpresssubscribe' ) );
 	
-	/*
-	$tracknumbers = false;
-	//$images = true;
-	$artists = true; // Program title
-	
-	$images = filter_var( $images, FILTER_VALIDATE_BOOLEAN );
-	$links = filter_var( $links, FILTER_VALIDATE_BOOLEAN );
-	$itunes_subtitle = filter_var( $itunes_subtitle, FILTER_VALIDATE_BOOLEAN );
-	$date = filter_var( $date, FILTER_VALIDATE_BOOLEAN );
-	*/
 	if( empty($slug) && !empty($feed) ) 
 		$slug = $feed;
 	if( empty($slug) && !empty($channel) ) 
@@ -243,6 +237,8 @@ function powerpress_subscribe_shortcode( $attr ) {
 	$Settings = powerpresssubscribe_get_settings(  array('feed'=>$slug, 'taxonomy_term_id'=>$term_taxonomy_id, 'cat_id'=>$category, 'post_type'=>$post_type) );
 	if( empty($Settings) )
 		return '';
+		
+	return powerpress_do_subscribe_widget($Settings);
 
 	// DO SHORTCODE HERE!!!
 	$html = '<div>';
@@ -257,27 +253,27 @@ function powerpress_subscribe_shortcode( $attr ) {
 		
 		// RSS Subscribe Link...
 		$html .= '<p>';
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">";
 		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/RSSIcon24x24.png\" alt=\"". __('Subscribe via RSS', 'powerpress') ."\" />";
 		$html .= "</a> ";
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe via RSS','powerpress') ."</a>".PHP_EOL;
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe via RSS','powerpress') ."</a>".PHP_EOL;
 		$html .= '</p>';
 		
 		
 		// PB Subscribe Link...
 		$html .= '<p>';
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">";
 		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/BPIcon24x24.png\" alt=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" />";
 		$html .= "</a> ";
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on BeyondPod for Android','powerpress') ."</a>".PHP_EOL;
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe on BeyondPod for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on BeyondPod for Android','powerpress') ."</a>".PHP_EOL;
 		$html .= '</p>';
 		
 		// PR Subscribe Link...
 		$html .= '<p>';
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">";
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">";
 		$html .= "<img style=\"border: 0;vertical-align: middle;\" src=\"". powerpress_get_root_url() ."images/PRIcon24x24.png\" alt=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" />";
 		$html .= "</a> ";
-		$html .= "<a href=\"{$Settings['rss_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on Podcast Republic for Android','powerpress') ."</a>".PHP_EOL;
+		$html .= "<a href=\"{$Settings['feed_url']}\" title=\"". __('Subscribe on Podcast Republic for Android', 'powerpress') ."\" rel=\"nofollow\">". __('Subscribe on Podcast Republic for Android','powerpress') ."</a>".PHP_EOL;
 		$html .= '</p>';
 	
 	$html .= '</div>';
@@ -288,3 +284,89 @@ add_shortcode( 'powerpresssubscribe', 'powerpress_subscribe_shortcode' );
 add_shortcode( 'powerpress_subscribe', 'powerpress_subscribe_shortcode' );
 	
 require_once( POWERPRESS_ABSPATH . '/class.powerpress-subscribe-widget.php' );
+
+function powerpress_do_subscribe_widget($settings)
+{
+	if( empty($settings['feed_url']) )
+	{
+		//return print_r($settings, true);
+	}
+	
+	if( empty($settings['title']) )
+	{
+		$settings['title'] = get_bloginfo('name');
+	}
+	
+	if( empty($settings['itunes_url']) )
+	{
+		$settings['itunes_url'] = powerpresssubscribe_get_itunes_url( $settings );
+	}
+	
+	if( empty($settings['style']) )
+	{
+		$settings['style'] = 'modern';
+	}
+	
+	if( empty($settings['image_url']) )
+	{
+		$settings['image_url'] = powerpress_get_root_url() . 'itunes_default.jpg'; // Default PowerPress image used in this case.
+	}
+	
+	$htmlX = '';
+	$html = '';
+	$html .= '<div class="pp-sub-widget pp-sub-widget-'. $settings['style'] .'">';
+		$html .= '<div class="pp-sub-h">'.  __('Subscribe to', 'powerpress') .'</div>';
+		$html .= '<h2 class="pp-sub-t">'.  htmlspecialchars( $settings['title'] ) .'</h2>';
+			$html .= '<div class="pp-sub-bx">';
+				$html .= '<img class="pp-sub-l" src="'. htmlspecialchars( $settings['image_url'] ) .'" alt="'.  htmlspecialchars( $settings['title'] ) .'" />';
+				$html .= '<div class="pp-sub-btns">';
+				$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-sub-btn pp-sub-itunes"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('on iTunes', 'powerpress') ) .'</a>';
+				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-rss"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('via RSS', 'powerpress') ) .'</a>';
+				$htmlX .= '<a href="" class="pp-sub-btn pp-sub-email"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('via Email', 'powerpress') ) .'</a>';
+				$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-sub-btn pp-sub-bp"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('BeyondPod', 'powerpress') ) .' <span class="pp-sub-btn-x">'.  htmlspecialchars( __('for Android', 'powerpress') ) .'</span></a>';
+				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-pr"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('Podcast Republic', 'powerpress') ) .' <span class="pp-sub-btn-x">'.  htmlspecialchars( __('for Android', 'powerpress') ) .'</span></a>';
+			$html .= '</div>';
+		$html .= '</div>';
+		$html .= '<div class="pp-sub-m">';
+			$html .= '<p class="pp-sub-m-p">'.  htmlspecialchars( __('Podcast Republic', 'powerpress') ) .' <span class="pp-sub-btn-x">'.  htmlspecialchars( __('Or subscribe with your favorite app by using the address below', 'powerpress') ) .'</p>';
+			$html .= '<input class="pp-sub-m-i" type="text" name="NULL'. rand(0,9999) .'" value="'.  htmlspecialchars( $settings['feed_url'] ) .'" onclick="this.focus();this.select();" />';
+		$html .= '</div>';
+	$html .= '</div>';
+
+	return $html;
+}
+
+function powerpress_do_subscribe_sidebar_widget($settings)
+{
+	
+	if( empty($settings['feed_url']) )
+	{
+		return '';
+	}
+	
+	if( empty($settings['itunes_url']) )
+	{
+		$settings['itunes_url'] = powerpresssubscribe_get_itunes_url( $settings );
+	}
+	
+	if( empty($settings['style']) )
+	{
+		$settings['style'] = 'modern';
+	}
+	
+
+	
+	
+	$htmlX = '';
+	$html = '';
+
+	$html .= '<div class="pp-ssb-widget pp-ssb-widget-'. $settings['style'] .'">';
+		$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-ssb-btn pp-ssb-itunes"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('on iTunes', 'powerpress') ) .'</a>';
+		$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-ssb-btn pp-ssb-rss"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('via RSS', 'powerpress') ) .'</a>';
+		$htmlX .= '<a href="" class="pp-ssb-btn pp-ssb-email"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('via Email', 'powerpress') ) .'</a>';
+		if( !empty($settings['subscribe_page_url']) )
+			$html .= '<a href="'.  htmlspecialchars( $settings['subscribe_page_url'] ) .'" class="pp-ssb-btn pp-ssb-more"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('More Subscribe Options', 'powerpress') ) .'</a>';
+	$html .= '</div>';
+
+	return $html;
+}

@@ -8,7 +8,7 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 		load_plugin_textdomain( 'powerpress' );
 		
 		parent::__construct(
-			'powerpress_subscribe_widget',
+			'powerpress_subscribe',
 			__( 'Subscribe to Podcast' , 'powerpress'),
 			array( 'description' => __( 'Display subscribe to podcast links.' , 'powerpress') )
 		);
@@ -22,42 +22,83 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 ?>
 
 <style type="text/css">
-.pp-subscribe-sidebar {
-	width: auto;
+
+/*
+PowerPress subscribe sidebar widget
+*/
+.widget-area .widget_powerpress_subscribe h2,
+.widget-area .widget_powerpress_subscribe h3,
+.widget-area .widget_powerpress_subscribe h4,
+.widget_powerpress_subscribe h2,
+.widget_powerpress_subscribe h3,
+.widget_powerpress_subscribe h4 {
+	margin-bottom: 0;
+	padding-bottom: 0;
 }
-<?php /* ?>
-.pp-subscribe-sidebar a {
-	background: #7CA821;
-	background-image:-moz-linear-gradient(0% 100% 90deg,#5F8E14,#7CA821);
-	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#7CA821),to(#5F8E14));
-	border: 1px solid #5F8E14;
-	border-radius:3px;
-	color: #CFEA93;
-	cursor: pointer;
-	display: block;
-	font-weight: normal;
-	height: 100%;
-	-moz-border-radius:3px;
-	padding: 7px 0 8px;
-	text-align: center;
-	text-decoration: none;
-	-webkit-border-radius:3px;
+
+.pp-ssb-widget {
 	width: 100%;
+	margin: 0 auto;
+	font-family: Sans-serif;
+	color: #FFFFFF;
 }
-.pp-subscribe-sidebar a:hover {
+
+.pp-ssb-btn {
+	width: 100% !important;
+	height: 48px;
+	padding: 0;
+	background-color: #333333;
+	color: #FFFFFF;
+	display: inline-block;
+	margin: 10px 0 10px 0;
 	text-decoration: none;
-	background-image:-moz-linear-gradient(0% 100% 90deg,#6F9C1B,#659417);
-	background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#659417),to(#6F9C1B));
+	text-align:left;
+	vertical-align: middle;
+	line-height: 48px;
+	font-size: 90%;
+	font-weight: bold;
+	overflow: hidden;
 }
-.pp-subscribe-sidebar .count {
-	color: #FFF;
-	display: block;
-	font-size: 15px;
-	line-height: 16px;
-	padding: 0 13px;
-	white-space: nowrap;
+
+.widget-area .widget a.pp-ssb-btn,
+.widget a.pp-ssb-btn,
+.pp-ssb-btn:link,
+.pp-ssb-btn:visited,
+.pp-ssb-btn:active,
+.pp-ssb-btn:hover {
+	text-decoration: none;
+	color: #FFFFFF;
 }
-<?php */ ?>
+.pp-ssb-widget-modern .pp-ssb-itunes {
+	background-color: #732BBE;
+}
+.pp-ssb-widget-modern .pp-ssb-email {
+	background-color: #337EC9;
+}
+.pp-ssb-widget-modern .pp-ssb-rss {
+	background-color: #FF8800;
+}
+.pp-ssb-ic {
+	width: 48px;
+   height: 48px;
+	border: 0;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+.pp-ssb-itunes .pp-ssb-ic {
+    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -49px 0;
+}
+.pp-ssb-rss .pp-ssb-ic {
+    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) 0 -49px;
+}
+.pp-ssb-email .pp-ssb-ic {
+    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -196px -49px;
+}
+.pp-ssb-more .pp-ssb-ic {
+    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -49px -49px;
+}
+
 </style>
 <?php
 	}
@@ -182,6 +223,9 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 			echo esc_html( $instance['title'] );
 			echo $args['after_title'];
 		}
+		
+		echo  powerpress_do_subscribe_sidebar_widget( $Settings );
+		return;
 ?>
 	<div class="pp-subscribe-sidebar">
 	<ul>
@@ -190,8 +234,8 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 	<a href="<?php echo $Settings['itunes_url'] ?>" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us/images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px; height:40px;@media only screen{background-image:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.svg);}"></a>
 	</li>
 	<li>
-			<!-- <a href="<?php echo $Settings['rss_url'] ?>"><img src="" /></a>  -->
-			<a href="<?php echo $Settings['rss_url'] ?>"><?php echo __('Subscribe via RSS', 'powerpress'); ?></a>
+			<!-- <a href="<?php echo $Settings['feed_url'] ?>"><img src="" /></a>  -->
+			<a href="<?php echo $Settings['feed_url'] ?>"><?php echo __('Subscribe via RSS', 'powerpress'); ?></a>
 		</li>
 	<!--	<a href="http://akismet.com" target="_blank" title=""><?php printf( _n( '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', $count , 'akismet'), number_format_i18n( $count ) ); ?></a> -->
 	<?php

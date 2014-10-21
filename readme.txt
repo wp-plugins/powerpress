@@ -180,7 +180,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
 * Fixed subscribe links always displaying (thanks Thiago Miro for pointing out the bug)
 * Fixed upload itunes image and poster image episode functions to use selected image size when "Link URL" is blank (Thanks Daniel Lewis for bringing to our attention)
-
+* Added a learn more link to the SEO page.
+* 
 
 == 6.0 beta 1 ==
 * Released on 9/26/2014

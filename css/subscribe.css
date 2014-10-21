@@ -1,0 +1,139 @@
+/* subscribe.css PowerPress subscribe widget */
+
+.pp-sub-widget {
+	width: 100%;
+	max-width: 800px;
+	margin: 10px auto;
+	border: 3px solid #787878;
+	font-family: Sans-serif;
+	background-color: #FFFFFF;
+}
+.pp-sub-bx {
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	-webkit-column-gap: 20px;
+	-moz-column-gap: 20px;
+	column-gap: 20px;
+	width: auto;
+	height: auto;
+	margin: 0 10px -10px 10px;
+}
+
+.pp-sub-h {
+	margin: 10px 10px 0 10px;
+	font-size: 90%;
+	font-weight: bold;
+	color: #337EC9;
+}
+.pp-sub-t {
+	margin: 10px 10px 0 10px;
+	font-size: 200%;
+	color: #666666;
+}
+
+.pp-sub-btn {
+	width: 100%;
+	height: 48px;
+	padding: 0px 0px 0px 0px;
+	background-color: #333333;
+	color: #FFFFFF;
+	display: inline-block;
+	margin: 10px 0 10px 0;
+	text-decoration: none;
+	text-align:left;
+	vertical-align: middle;
+	line-height: 48px;
+	font-size: 90%;
+	font-weight: bold;
+	overflow: hidden;
+}
+
+.pp-sub-btn-l {
+
+}
+.pp-sub-btn-extra {
+	display: inline-block;
+}
+.pp-sub-btn:link,
+.pp-sub-btn:visited,
+.pp-sub-btn:active,
+.pp-sub-btn:hover {
+	text-decoration: none;
+}
+
+.pp-sub-l {
+	width: 100% !important;
+	height: auto !important;
+	padding: 0;
+	margin: 10px 0;
+}
+.pp-sub-btns {
+	width: 100% !important;
+	margin:  0;
+	padding: 0;
+	display: inline-block;
+}
+.pp-sub-m {
+	clear: both;
+	margin: 10px;
+}
+.pp-sub-m-p {
+	margin: 0;
+	font-size: 90%;
+	color: #337EC9;
+}
+.pp-sub-m-i {
+	width: 80%;
+	color: #333333;
+	font-size: 85%;
+	border: 1px solid #999999;
+	padding: 5px;
+}
+@media screen and (max-width: 400px) {
+	.pp-sub-bx {
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		column-count: 1;
+		-webkit-column-gap: 0;
+		-moz-column-gap: 0;
+		column-gap: 0;
+	}
+	.pp-sub-t {
+		font-size: 150%;
+	}
+}
+.pp-sub-itunes {
+	background-color: #732BBE;
+}
+.pp-sub-pr,
+.pp-sub-email {
+	background-color: #337EC9;
+}
+.pp-sub-bp,
+.pp-sub-rss {
+	background-color: #FF8800;
+}
+.pp-sub-ic {
+	width: 48px;
+    height: 48px;
+	border: 0;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+.pp-sub-itunes .pp-sub-ic {
+    background: url(../images/sub_sprite.png) -49px 0;
+}
+.pp-sub-rss .pp-sub-ic {
+    background: url(../images/sub_sprite.png) 0 -49px;
+}
+.pp-sub-email .pp-sub-ic {
+    background: url(../images/sub_sprite.png) -196px -49px;
+}
+.pp-sub-pr .pp-sub-ic {
+    background: url(../images/sub_sprite.png) -196px 0;
+}
+.pp-sub-bp .pp-sub-ic {
+    background: url(../images/sub_sprite.png) -147px 0;
+}

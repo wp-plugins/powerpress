@@ -62,8 +62,10 @@ jQuery(document).ready(function() {
 <input type="hidden" name="action" value="powerpress-save-search" />
 <h2><?php echo __('Podcasting SEO', 'powerpress'); ?></h2>
 
-<p><?PHP echo __('Enable features to help with podcasting search engine optimization (SEO). The following options can assist your web and podcasting SEO strategies.', 'powerpress'); ?></p>
-
+<p><?php echo __('Enable features to help with podcasting search engine optimization (SEO). The following options can assist your web and podcasting SEO strategies.', 'powerpress'); ?></p>
+<p>
+	<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/"><?php echo __('Learn More', 'powerpress'); ?></a>
+</p>
 
 <?php
 

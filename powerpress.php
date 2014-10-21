@@ -1332,6 +1332,14 @@ function powerpress_init()
 		// 3 Subscribe sidebar widget: iTunes, RSS
 		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_pre', 1, 3);
 		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_post', 1000, 3);
+		
+		 wp_register_style(
+			'powerpress-subscribe-style', 
+			powerpress_get_root_url() . '/css/subscribe.css', 
+			array(), 
+			'20141021', 
+			'all' );
+		wp_enqueue_style( 'powerpress-subscribe-style' );
 	}
 }
 
