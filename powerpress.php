@@ -2660,11 +2660,20 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 	return false;
 }
 
-function powerpress_get_apple_id($url)
+function powerpress_get_apple_id($url, $strict=false)
 {
-	$results = preg_match('/id\=(\d+)/i', $url, $matches);
+	if( $strict )
+	{
+		$results = preg_match('/apple\.com\/.*\/id(\d+)/i', $url, $matches);
+		if( !$results )
+			$results = preg_match('/apple\.com\/.*id\=(\d+)/i', $url, $matches);
+		if( $results )
+			return $matches[1];
+		return 0;
+	}
+	$results = preg_match('/\/id(\d+)/i', $url, $matches);
 	if( !$results )
-		$results = preg_match('/\/id(\d+)/i', $url, $matches);
+		$results = preg_match('/id\=(\d+)/i', $url, $matches);
 	if( $results )
 		return $matches[1];
 	return 0;

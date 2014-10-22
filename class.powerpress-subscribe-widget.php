@@ -42,12 +42,11 @@ PowerPress subscribe sidebar widget
 	font-family: Sans-serif;
 	color: #FFFFFF;
 }
-
-.pp-ssb-btn {
+.pp-ssb-widget a.pp-ssb-btn {
 	width: 100% !important;
 	height: 48px;
 	padding: 0;
-	background-color: #333333;
+	background-color: #222222;
 	color: #FFFFFF;
 	display: inline-block;
 	margin: 10px 0 10px 0;
@@ -58,27 +57,31 @@ PowerPress subscribe sidebar widget
 	font-size: 90%;
 	font-weight: bold;
 	overflow: hidden;
+	
+	border-radius: 1px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); 
 }
 
-.widget-area .widget a.pp-ssb-btn,
-.widget a.pp-ssb-btn,
-.pp-ssb-btn:link,
-.pp-ssb-btn:visited,
-.pp-ssb-btn:active,
-.pp-ssb-btn:hover {
+.pp-ssb-widget a.pp-ssb-btn:link,
+.pp-ssb-widget a.pp-ssb-btn:visited,
+.pp-ssb-widget a.pp-ssb-btn:active,
+.pp-ssb-widget a.pp-ssb-btn:hover {
 	text-decoration: none;
 	color: #FFFFFF;
 }
-.pp-ssb-widget-modern .pp-ssb-itunes {
+.pp-ssb-widget-modern a.pp-ssb-itunes {
 	background-color: #732BBE;
 }
-.pp-ssb-widget-modern .pp-ssb-email {
+.pp-ssb-widget-modern a.pp-ssb-email {
 	background-color: #337EC9;
 }
-.pp-ssb-widget-modern .pp-ssb-rss {
+.pp-ssb-widget-modern a.pp-ssb-rss {
 	background-color: #FF8800;
 }
-.pp-ssb-ic {
+.pp-ssb-widget-modern a.pp-ssb-more {
+	background-color: #222222;
+}
+.pp-ssb-widget .pp-ssb-ic {
 	width: 48px;
    height: 48px;
 	border: 0;
@@ -230,7 +233,6 @@ PowerPress subscribe sidebar widget
 	<div class="pp-subscribe-sidebar">
 	<ul>
 		<li>
-	<!-- include ?mt=2 when linked to itunes -->
 	<a href="<?php echo $Settings['itunes_url'] ?>" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us/images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px; height:40px;@media only screen{background-image:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.svg);}"></a>
 	</li>
 	<li>
