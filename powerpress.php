@@ -395,6 +395,15 @@ add_action('wp_head', 'powerpress_header');
 function powerpress_wp_head_completed()
 {
 	$GLOBALS['powerpress_wp_head_completed'] = true;
+	
+	if( is_singular() )
+	{
+		global $post;
+		if( preg_match('/\[(powerpress_subscribe|powerpresssubscribe)/i', $post->post_content) )
+		{
+			wp_enqueue_style( 'powerpress-subscribe-style' );
+		}
+	}
 }
 
 add_action('wp_head', 'powerpress_wp_head_completed', 100000);
@@ -1335,11 +1344,11 @@ function powerpress_init()
 		
 		 wp_register_style(
 			'powerpress-subscribe-style', 
-			powerpress_get_root_url() . '/css/subscribe.css', 
+			powerpress_get_root_url() . 'css/subscribe.css', 
 			array(), 
 			'20141021', 
 			'all' );
-		wp_enqueue_style( 'powerpress-subscribe-style' );
+		// wp_enqueue_style( 'powerpress-subscribe-style' );
 	}
 }
 

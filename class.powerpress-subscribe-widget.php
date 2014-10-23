@@ -42,11 +42,10 @@ PowerPress subscribe sidebar widget
 	font-family: Sans-serif;
 	color: #FFFFFF;
 }
-.pp-ssb-widget a.pp-ssb-btn {
+body .pp-ssb-widget a.pp-ssb-btn {
 	width: 100% !important;
 	height: 48px;
 	padding: 0;
-	background-color: #222222;
 	color: #FFFFFF;
 	display: inline-block;
 	margin: 10px 0 10px 0;
@@ -57,17 +56,24 @@ PowerPress subscribe sidebar widget
 	font-size: 90%;
 	font-weight: bold;
 	overflow: hidden;
-	
 	border-radius: 1px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); 
 }
 
-.pp-ssb-widget a.pp-ssb-btn:link,
-.pp-ssb-widget a.pp-ssb-btn:visited,
-.pp-ssb-widget a.pp-ssb-btn:active,
-.pp-ssb-widget a.pp-ssb-btn:hover {
+body .sidebar .widget .pp-ssb-widget a:link,
+body .sidebar .widget .pp-ssb-widget a:visited,
+body .sidebar .widget .pp-ssb-widget a:active,
+body .sidebar .widget .pp-ssb-widget a:hover,
+body .pp-ssb-widget a.pp-ssb-btn:link,
+body .pp-ssb-widget a.pp-ssb-btn:visited,
+body .pp-ssb-widget a.pp-ssb-btn:active,
+body .pp-ssb-widget a.pp-ssb-btn:hover {
 	text-decoration: none;
 	color: #FFFFFF;
+}
+.pp-ssb-widget-dark a,
+.pp-ssb-widget-modern a {
+	background-color: #222222;
 }
 .pp-ssb-widget-modern a.pp-ssb-itunes {
 	background-color: #732BBE;
@@ -77,9 +83,6 @@ PowerPress subscribe sidebar widget
 }
 .pp-ssb-widget-modern a.pp-ssb-rss {
 	background-color: #FF8800;
-}
-.pp-ssb-widget-modern a.pp-ssb-more {
-	background-color: #222222;
 }
 .pp-ssb-widget .pp-ssb-ic {
 	width: 48px;
@@ -228,34 +231,8 @@ PowerPress subscribe sidebar widget
 		}
 		
 		echo  powerpress_do_subscribe_sidebar_widget( $Settings );
-		return;
-?>
-	<div class="pp-subscribe-sidebar">
-	<ul>
-		<li>
-	<a href="<?php echo $Settings['itunes_url'] ?>" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us/images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px; height:40px;@media only screen{background-image:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.svg);}"></a>
-	</li>
-	<li>
-			<!-- <a href="<?php echo $Settings['feed_url'] ?>"><img src="" /></a>  -->
-			<a href="<?php echo $Settings['feed_url'] ?>"><?php echo __('Subscribe via RSS', 'powerpress'); ?></a>
-		</li>
-	<!--	<a href="http://akismet.com" target="_blank" title=""><?php printf( _n( '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', '<strong class="count">%1$s spam</strong> blocked by <strong>Akismet</strong>', $count , 'akismet'), number_format_i18n( $count ) ); ?></a> -->
-	<?php
-		if( !empty($Settings['subscribe_page_url']) )
-		{
-			$label = (empty($Settings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$Settings['subscribe_page_link_text']);
-	?>
-	<li>
-			<!-- <a href="<?php echo $Settings['subscribe_page_url'] ?>"><img src="" /></a>  -->
-		<a href="<?php echo $Settings['subscribe_page_url'] ?>"><?php echo htmlspecialchars($label); ?></a>
-	</li>
-	<?php
-		}
-	?>
-	</ul>
-	</div>
-<?php
 		echo $args['after_widget'];
+		return;
 	}
 }
 

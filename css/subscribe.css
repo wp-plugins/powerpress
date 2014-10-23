@@ -33,11 +33,10 @@
 	color: #222222;
 }
 
-.pp-sub-widget a.pp-sub-btn {
+body .pp-sub-widget a.pp-sub-btn {
 	width: 100%;
 	height: 48px;
 	padding: 0px 0px 0px 0px;
-	background-color: #222222;
 	color: #FFFFFF;
 	display: inline-block;
 	margin: 10px 0 10px 0;
@@ -55,10 +54,14 @@
 .pp-sub-widget .pp-sub-btn-l {
 
 }
-.pp-sub-widget a.pp-sub-btn:link,
-.pp-sub-widget a.pp-sub-btn:visited,
-.pp-sub-widget a.pp-sub-btn:active,
-.pp-sub-widget a.pp-sub-btn:hover {
+body .entry-content .pp-sub-widget a:link,
+body .entry-content .pp-sub-widget a:visited,
+body .entry-content .pp-sub-widget a:active,
+body .entry-content .pp-sub-widget a:hover,
+body .pp-sub-widget a:link,
+body .pp-sub-widget a:visited,
+body .pp-sub-widget a:active,
+body .pp-sub-widget a:hover {
 	text-decoration: none;
 	color: #FFFFFF;
 }
@@ -103,6 +106,10 @@
 	.pp-sub-widget .pp-sub-t {
 		font-size: 150%;
 	}
+}
+.pp-sub-widget-dark a,
+.pp-sub-widget-modern a {
+	background-color: #222222;
 }
 .pp-sub-widget-modern a.pp-sub-itunes {
 	background-color: #732BBE;

@@ -174,14 +174,15 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 = 6.0 beta 2 =
-* Released on 10/3/2014 (hopefully)
+* Released on 10/23/2014 (hopefully)
 * Re-added the blubrry folder icon for blubrry podcast hosting customers.
 * Tweaked wording and updated documentation for SEO settings (Thanks Daniel Lewis for the feedback!)
 * Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
 * Fixed subscribe links always displaying (thanks Thiago Miro for pointing out the bug)
 * Fixed upload itunes image and poster image episode functions to use selected image size when "Link URL" is blank (Thanks Daniel Lewis for bringing to our attention)
 * Added a learn more link to the SEO page.
-* 
+* Added code for the new Subscribe embed so the subscribe embed CSS is only loaded when the shortcode is used in a page.
+* Added the wp-video and wp-video-shortcode classes to the MEJS video player so latest CSS styling in WordPress is again applied 100% of the time to the MEJS player packaged in PowerPress.
 
 == 6.0 beta 1 ==
 * Released on 9/26/2014

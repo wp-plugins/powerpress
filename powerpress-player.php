@@ -1435,6 +1435,7 @@ function powerpressplayer_build_html5video($media_url, $EpisodeData=array(), $em
 			$content .= ' autoplay="autoplay"';
 		else
 			$content .= ' preload="none"';
+		
 		$content .= '>'.PHP_EOL;
 		$content_type = powerpress_get_contenttype($media_url);
 		$content .='<source src="'. $media_url .'" type="'. $content_type .'" />';
@@ -1531,8 +1532,8 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 	
 	$content = '';
 	
-	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
-	$content .= '<video class="powerpress-mejs-video" width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
+	$content .= '<div class="powerpress_player wp-video" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
+	$content .= '<video class="powerpress-mejs-video wp-video-shortcode" width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
 	if( $cover_image )
 		$content .= ' poster="'. $cover_image .'"';
 	if( $autoplay )
