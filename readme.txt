@@ -26,7 +26,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Post Type and Taxonomy podcasting options, create podcasts from custom post types and taxonomies. 
 - Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-* Languages supported: English, Danish, French, Simplified Chinese, Italian ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
+* Languages supported: English, Danish, French, Simplified Chinese, Italian, Romanian, Russian, Portuguese ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -186,6 +186,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Playlist player will now use the iTunes episode image if one is set for each episode. Program level image is used if no image is set.
 * Playlist player taxonomy podcasting now accepts the term_taxonomy_id, making it more efficient.
 * Moved the Shortcodes into their own section in Media Appearance settings, they are now included in Podcast Channels, Category Podcasting, Post Type podcasting and Taxonomy podcasting with the appropriate attributes set for convenience.
+* Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/).
+
 
 = 6.0 beta 1 =
 * Released on 9/26/2014
@@ -353,6 +355,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 * Italian translation for v2.0.4+ by [Umberto Sartori](http://veneziadoc.net/)
 * Romanian translation for v2.0.4+ by Alexander Ovsov (Web Geek Sciense: http://webhostinggeeks.com/science/)
 * Russian translation for v4.0.5+ by  [Igor Mercury](http://www.nightdiary.ru/)
+* Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/)
 
 
 == Tips and Tutorials ==
