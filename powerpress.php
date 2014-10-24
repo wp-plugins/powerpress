@@ -334,13 +334,26 @@ function powerpress_yoast_gawp_fix($content)
 	return $content;
 }
 
+function powerpress_wp_enqueue_scripts()
+{
+	if( is_singular() )
+	{
+		global $post;
+		if( preg_match('/\[(powerpress_subscribe|powerpresssubscribe)/i', $post->post_content) )
+		{
+			wp_enqueue_style( 'powerpress-subscribe-style' );
+		}
+	}
+}
+add_action( 'wp_enqueue_scripts', 'powerpress_wp_enqueue_scripts' );
+
 function powerpress_header()
 {
 	// PowerPress settings:
 	$Powerpress = get_option('powerpress_general');
 	if( !isset($Powerpress['custom_feeds']) )
     $Powerpress['custom_feeds'] = array('podcast'=>'Default Podcast Feed');
-	
+		
 	if( empty($Powerpress['disable_appearance']) || $Powerpress['disable_appearance'] == false )
 	{
 		if( !isset($Powerpress['player_function']) || $Powerpress['player_function'] > 0 ) // Don't include the player in the header if it is not needed...
@@ -395,15 +408,6 @@ add_action('wp_head', 'powerpress_header');
 function powerpress_wp_head_completed()
 {
 	$GLOBALS['powerpress_wp_head_completed'] = true;
-	
-	if( is_singular() )
-	{
-		global $post;
-		if( preg_match('/\[(powerpress_subscribe|powerpresssubscribe)/i', $post->post_content) )
-		{
-			wp_enqueue_style( 'powerpress-subscribe-style' );
-		}
-	}
 }
 
 add_action('wp_head', 'powerpress_wp_head_completed', 100000);
@@ -1341,15 +1345,13 @@ function powerpress_init()
 		// 3 Subscribe sidebar widget: iTunes, RSS
 		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_pre', 1, 3);
 		add_filter('powerpress_player_subscribe_links', 'powerpressplayer_link_subscribe_post', 1000, 3);
-		
-		 wp_register_style(
+	}
+	wp_register_style(
 			'powerpress-subscribe-style', 
 			powerpress_get_root_url() . 'css/subscribe.css', 
 			array(), 
 			'20141021', 
 			'all' );
-		// wp_enqueue_style( 'powerpress-subscribe-style' );
-	}
 }
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
