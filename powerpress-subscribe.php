@@ -30,6 +30,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 	//	return false; // Feature not available for taxonomy podcasting
 	
 	$feed_slug = (empty($ExtraData['feed'])?'podcast': $ExtraData['feed']);
+	//$feed_slug = (empty($ExtraData['channel'])?$feed_slug: $ExtraData['channel']);
 	$post_type = (empty($ExtraData['post_type'])?false: $ExtraData['post_type']);
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
@@ -93,7 +94,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 			{
 				$Settings['title'] = $Settings['title'];
 				if( empty($Settings['title']) )
-					$Settings['title'] = ''; // Get category title
+					$Settings['title'] = get_bloginfo('name') . get_wp_title_rss(); // Get category title
 				$Settings['feed_url'] = get_category_feed_link( $category_id ); // Get category feed URL
 				$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
 				$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
@@ -125,8 +126,10 @@ function powerpresssubscribe_get_settings($ExtraData)
 		}
 	}
 	
+	
 	// Podcast default and channel feed settings
 	$FeedSettings = get_option('powerpress_feed_'. $feed_slug);
+	
 	if( empty($FeedSettings) && $feed_slug == 'podcast' )
 		$FeedSettings = get_option('powerpress_feed'); // Get the main feed settings
 	
@@ -221,9 +224,7 @@ function powerpress_subscribe_shortcode( $attr ) {
 	if ( !is_singular() ) {
 		return '';
 	}
-	
-	
-	
+
 	/*
 	extract( shortcode_atts( array(
 		'channel'=>'', // Used for PowerPress Podcast Channels
@@ -238,6 +239,7 @@ function powerpress_subscribe_shortcode( $attr ) {
 		'title'	=> '', // Display custom title of show/program
 		'feed_url'=>'', // provide subscribe widget for specific RSS feed
 		'itunes_url'=>'', // provide subscribe widget for specific iTunes subscribe URL
+		'image_url'=>'', // provide subscribe widget for specific iTunes subscribe URL
 		
 		// Appearance attributes
 		'itunes_button'=>'', // Set to 'true' to use only the iTunes button
@@ -272,6 +274,9 @@ function powerpress_subscribe_shortcode( $attr ) {
 		$Settings['itunes_url'] = $attr['itunes_url'];
 	if( !empty($attr['style']) )
 		$Settings['style'] = $attr['style'];
+	if( !empty($attr['image_url']) )
+		$Settings['image_url'] = $attr['image_url'];	
+		
 		
 	if( empty($Settings) )
 		return '';	

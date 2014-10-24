@@ -1013,39 +1013,6 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php echo __('PowerPress Shortcodes', 'powerpress'); ?></th>
-<td>
-<h3><?php echo __('PowerPress Player Shortcode', 'powerpress'); ?></h3>
-<p>
-<?php echo sprintf(__('The %s shortcode is used to position your media presentation (player and download links) exactly where you want within your post or page content.', 'powerpress'), '<code>[powerpress]</code>'); ?> 
-</p>
-<p>
-<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Player Shortcode', 'powerpress') .'</a>' ); ?>
-</p>
-<p class="description">
-<?php echo __('Note: When specifying a URL to media in the powerpress shortcode, only the player is included. The Media Links will <u>NOT</u> be included since there is not enough meta information to display them.', 'powerpress'); ?>
-</p>
-<h3><?php echo __('PowerPress Playlist Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
-<p>
-<?php echo sprintf(__('The %s shortcode is used to display a player with a playlist of your podcast episodes. It utilizes the default playlist built into WordPress.', 'powerpress'), '<code>[powerpress_playlist]</code>'); ?> 
-</p>
-<p>
-<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/" target="_blank">'. __('PowerPress Playlist Shortcode', 'powerpress') .'</a>' ); ?>
-</p>
-
-<h3><?php echo __('PowerPress Subscribe Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
-<p>
-<?php echo sprintf(__('The %s shortcode is used to display a subscribe to podcast widget for your podcast. It is intended for use on a custom subscribe page. See the Subscribe Page section below for more details.', 'powerpress'), '<code>[powerpress_subscribe]</code>'); ?> 
-</p>
-<p>
-<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/" target="_blank">'. __('PowerPress Subscribe Shortcode', 'powerpress') .'</a>' ); ?>
-</p>
-
-</td>
-</tr>
-
-<tr valign="top">
-<th scope="row">
 <?php echo __('Media Player', 'powerpress'); ?></th>
 <td>
 
@@ -1203,6 +1170,7 @@ while( list($value,$desc) = each($linkoptions) )
 
 function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 {
+	$GeneralSettings = powerpress_get_settings('powerpress_general');
 	if( $Feed === false )
 		$Feed = powerpress_get_settings('powerpress_feed');
 	if( empty($Feed) )
@@ -1229,7 +1197,9 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	<p><?php echo __('The following link will be added to the Subscribe on iTunes and Subscribe via RSS links below the player.', 'powerpress'); ?></p>
 	<ul>
 	<li>
-	<label for="subscribe_page_link_id"><?php echo __('Subscribe Page ID:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_id" value="<?php echo $Feed['subscribe_page_link_id']; ?>" name="Feed[subscribe_page_link_id]" placeholder="" style="width: 50px;" /> <span id="subscribe_page_link_id_url"><?php echo ( (empty($Feed['subscribe_page_link_id']) || !is_numeric($Feed['subscribe_page_link_id']) )?'':get_page_link($Feed['subscribe_page_link_id']))	; ?></span></label>
+	<label for="subscribe_page_link_id"><?php echo __('Subscribe Page ID:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_id" value="<?php echo $Feed['subscribe_page_link_id']; ?>" name="Feed[subscribe_page_link_id]" placeholder="" style="width: 50px;" /></label>
+	<?php $url_temp = ( (empty($Feed['subscribe_page_link_id']) || !is_numeric($Feed['subscribe_page_link_id']) )?'':get_page_link($Feed['subscribe_page_link_id'])); ?>
+	<a id="subscribe_page_link_id_url" href="<?php echo $url_temp; ?>" target="_blank"><?php echo $url_temp; ?></a>
 	<div id="subscribe_page_link_or" style="<?php echo ( !empty($Feed['subscribe_page_link_id']) ?'display:none;':''); ?>">
 	<div><?php echo __(' - or - ', 'powerpress'); ?></div>
 	<label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;"<?php echo (empty($Feed['subscribe_page_link_id'])?'':' disabled'); ?> /></label>
@@ -1258,6 +1228,82 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	</ul>
 </td>
 </tr>
+<?php
+	$shortcode['powerpress'] = '[powerpress]';
+	$shortcode['powerpress_playlist'] = '[powerpress_playlist]';
+	$shortcode['powerpress_subscribe'] = '[powerpress_subscribe]';
+	if( $feed_slug != 'podcast' )
+	{
+		$shortcode['powerpress'] = '[powerpress channel="'.$feed_slug.'"]';
+		$shortcode['powerpress_playlist'] = '[powerpress_playlist channel="'.$feed_slug.'"]';
+		$shortcode['powerpress_subscribe'] = '[powerpress_subscribe channel="'.$feed_slug.'"]';
+	}
+	if( !empty($FeedAttribs['post_type']) )
+	{
+		$shortcode['powerpress_playlist'] = '[powerpress_playlist channel="'.$feed_slug.'" post_type="'.$FeedAttribs['post_type'].'"]';
+		$shortcode['powerpress_subscribe'] = '[powerpress_subscribe channel="'.$feed_slug.'" post_type="'.$FeedAttribs['post_type'].'"]';
+	}
+	if( !empty($FeedAttribs['category_id']) )
+	{
+		$shortcode['powerpress_playlist'] = '[powerpress_playlist category="'.$FeedAttribs['category_id'].'"]';
+		$shortcode['powerpress_subscribe'] = '[powerpress_subscribe category="'.$FeedAttribs['category_id'].'"]';
+	}
+	if( !empty($FeedAttribs['term_taxonomy_id']) )
+	{
+		$shortcode['powerpress_playlist'] = '[powerpress_playlist term_taxonomy_id="'.$FeedAttribs['term_taxonomy_id'].'"]';
+		$shortcode['powerpress_subscribe'] = '[powerpress_subscribe term_taxonomy_id="'.$FeedAttribs['term_taxonomy_id'].'"]';
+	}
+
+?>
+<tr valign="top">
+<th scope="row">
+<?php echo __('PowerPress Shortcodes', 'powerpress'); ?></th>
+<td>
+<h3><?php echo __('PowerPress Player Shortcode', 'powerpress'); ?></h3>
+<p>
+<?php echo '<code>'.$shortcode['powerpress'].'</code>'; ?> 
+</p>
+<p>
+<?php echo __('The Player shortcode is used to position your media presentation (player and download links) exactly where you want within your post or page content.', 'powerpress'); ?> 
+</p>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/" target="_blank">'. __('PowerPress Player Shortcode', 'powerpress') .'</a>' ); ?>
+</p>
+<p class="description">
+<?php echo __('Note: When specifying a URL to media in the powerpress shortcode, only the player is included. The Media Links will <u>NOT</u> be included since there is not enough meta information to display them.', 'powerpress'); ?>
+</p>
+<h3><?php echo __('PowerPress Playlist Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
+<?php if( empty($GeneralSettings['playlist_player']) ) { // Either not set or set on  
+?>
+<p style="margin-bottom: 20px; margin-left: 40px;">
+	<input type="checkbox" name="General[playlist_player]" value="1" /> 
+	<strong><?php echo __('Enable PowerPress Playlist Player', 'powerpress'); ?></strong>
+</p>
+<?php } ?>
+<p>
+<?php echo '<code>'.$shortcode['powerpress_playlist'].'</code>'; ?> 
+</p>
+<p>
+<?php echo __('The Playlist shortcode is used to display a player with a playlist of your podcast episodes. It utilizes the default playlist built into WordPress.', 'powerpress'); ?> 
+</p>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/" target="_blank">'. __('PowerPress Playlist Shortcode', 'powerpress') .'</a>' ); ?>
+</p>
+
+<h3><?php echo __('PowerPress Subscribe Shortcode', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
+<p>
+<?php echo '<code>'.$shortcode['powerpress_subscribe'].'</code>'; ?> 
+</p>
+<p>
+<?php echo __('The Subscribe shortcode is used to display a subscribe to podcast widget for your podcast. It is intended for use on a custom subscribe page. See the Subscribe Page section below for more details.', 'powerpress'); ?> 
+</p>
+<p>
+<?php echo sprintf(__('Please visit the %s page for additional options.', 'powerpress'), '<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/" target="_blank">'. __('PowerPress Subscribe Shortcode', 'powerpress') .'</a>' ); ?>
+</p>
+
+</td>
+</tr>
+
 </table>
 <?php
 }

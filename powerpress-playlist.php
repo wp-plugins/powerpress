@@ -2,6 +2,47 @@
 	// powerpress-playlist.php
 	
 	
+function powerpress_get_term_by_ttid($ttid, $output = OBJECT, $filter = 'raw')
+{
+	global $wpdb;
+
+	$value = (int) $ttid;
+	$field = 'tt.term_taxonomy_id';
+	
+	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $field = %s LIMIT 1", $value) );
+	if ( !$term )
+		return false;
+	
+	$taxonomy = $term->taxonomy;
+	wp_cache_add($term->term_id, $term, $taxonomy);
+
+	/** This filter is documented in wp-includes/taxonomy.php */
+	$term = apply_filters( 'get_term', $term, $taxonomy );
+
+	/** This filter is documented in wp-includes/taxonomy.php */
+	$term = apply_filters( "get_$taxonomy", $term, $taxonomy );
+
+	$term = sanitize_term($term, $taxonomy, $filter);
+
+	if ( $output == OBJECT ) {
+		return $term;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($term);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($term));
+	} else {
+		return $term;
+	}
+}
+	
+function powepress_get_program_title_by_term_taxonomy_id($ttid)
+{
+	$FeedSettings = powerpress_get_settings('powerpress_taxonomy_'.$ttid);
+	if( !empty($FeedSettings['title']) )
+		return $FeedSettings['title'];
+	return;
+}
+	
 function powerpress_get_program_title_by_taxonomy($term_id, $taxonomy = 'category')
 {
 	$General = get_option('powerpress_general');
@@ -75,7 +116,8 @@ function powerpress_playlist_episodes($args)
 		'post_type'=>'post',
 		'category'=>'',
 		'taxonomy'=>'',
-		'tax_term'=>''
+		'tax_term'=>'',
+		'term_taxonomy_id'=>''
 	);
 	$args = wp_parse_args( $args, $defaults );
 	
@@ -87,7 +129,12 @@ function powerpress_playlist_episodes($args)
 	}
 	
 	$TaxonomyObj = false;
-	if( !empty($args['taxonomy']) && !empty($args['tax_term']) )
+	if( !empty($args['term_taxonomy_id']) )
+	{
+		$TaxonomyObj = powerpress_get_term_by_ttid( $args['term_taxonomy_id'] );
+	}
+	
+	if( empty($TaxonomyObj) && !empty($args['taxonomy']) && !empty($args['tax_term']) )
 	{
 		if( preg_match('/^[0-9]*$/', $args['tax_term']) ) // If it is a numeric ID, lets try finding it by ID first...
 			$TaxonomyObj = get_term_by('id', $args['tax_term'], $args['taxonomy']);
@@ -238,6 +285,7 @@ function powerpress_playlist_shortcode( $attr ) {
 		'category'=>'', // Used for PowerPress Playlist (specify category ID, name or slug)
 		'term_id'=>'', // Used for PowerPress Playlist (specify term ID, name or slug)
 		'taxonomy'=>'', // Used for PowerPress Playlist (specify taxonomy name)
+		'term_taxonomy_id'=>'', // Used for PowerPress Playlist (specify term_taxonomy_id)
 		'program_titles_by_taxonomy'=>'', // e.g. category
 		'date'	=> true,  // Display the date
 		'title'	=> true, // Dislay the title of program
@@ -270,7 +318,8 @@ function powerpress_playlist_shortcode( $attr ) {
 		'post_type'=>$post_type,
 		'category'=>$category,
 		'term_id'=>'',
-		'taxonomy'=>''
+		'taxonomy'=>'',
+		'term_taxonomy_id'=>$term_taxonomy_id
 	);
 	
 	$episodes = powerpress_playlist_episodes( $args );
@@ -291,6 +340,8 @@ function powerpress_playlist_shortcode( $attr ) {
 	}
 	if( !empty($slug) && !$ProgramSettings )
 		$ProgramSettings = get_option('powerpress_feed_'.$slug);
+	if( !empty($term_taxonomy_id) && !$ProgramSettings )
+		$ProgramSettings = get_option('powerpress_taxonomy_'.$term_taxonomy_id);
 	if( empty($ProgramSettings) )
 		$ProgramSettings = get_option('powerpress_general');
 	
@@ -342,6 +393,10 @@ function powerpress_playlist_shortcode( $attr ) {
 		if( $images && !empty($episode['enclosure']['image']) )
 		{
 			$episode_image = $episode['enclosure']['image'];
+		}
+		else if( $images && !empty($episode['enclosure']['itunes_image']) )
+		{
+			$episode_image = $episode['enclosure']['itunes_image'];
 		}
 		// enclosure
 

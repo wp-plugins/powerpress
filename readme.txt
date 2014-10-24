@@ -174,7 +174,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 = 6.0 beta 2 =
-* Released on 10/23/2014 (hopefully)
+* Released on 10/24/2014
 * Re-added the blubrry folder icon for blubrry podcast hosting customers.
 * Tweaked wording and updated documentation for SEO settings (Thanks Daniel Lewis for the feedback!)
 * Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
@@ -183,8 +183,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added a learn more link to the SEO page.
 * Added code for the new Subscribe embed so the subscribe embed CSS is only loaded when the shortcode is used in a page.
 * Added the wp-video and wp-video-shortcode classes to the MEJS video player so latest CSS styling in WordPress is again applied 100% of the time to the MEJS player packaged in PowerPress.
+* Playlist player will now use the iTunes episode image if one is set for each episode. Program level image is used if no image is set.
+* Playlist player taxonomy podcasting now accepts the term_taxonomy_id, making it more efficient.
+* Moved the Shortcodes into their own section in Media Appearance settings, they are now included in Podcast Channels, Category Podcasting, Post Type podcasting and Taxonomy podcasting with the appropriate attributes set for convenience.
 
-== 6.0 beta 1 ==
+= 6.0 beta 1 =
 * Released on 9/26/2014
 * You must have WordPress 3.3 or newer and PHP 5.2 or newer for PowerPress 6.0.
 * NEW FEATURE: Playlist player, utilizes WordPress built-in playlist specifically for podcasting. [Learn more](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/)

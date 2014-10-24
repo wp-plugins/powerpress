@@ -1991,8 +1991,9 @@ function powerpress_create_subscribe_page()
 			{
 				jQuery('#subscribe_page_link_id').val( Parts[1] );
 				jQuery('#subscribe_page_link_id_url').html( Parts[2] );
+				jQuery('#subscribe_page_link_id_url').attr( 'href', Parts[2] );
 				jQuery('#subscribe_page_link_or').hide();
-				//alert( response );
+				jQuery('#powerpress_create_subscribe_page').hide();
 			}
 			else if( Parts[0] == 'PAGE-ERROR' )
 			{
@@ -2658,7 +2659,9 @@ function powerpress_create_subscribe_page()
 		exit;
 	}
 
-	
+	// Save to settings...
+	$Save = array('subscribe_page_link_id'=>$pageid );
+	powerpress_save_settings($Save, 'powerpress_feed_podcast');
 	// Get Page URL and Page ID
 	
 	//require_once(POWERPRESS_ABSPATH .'/powerpressadmin-dashboard.php');

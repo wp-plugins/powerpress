@@ -259,7 +259,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_artwork"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
-	<?php if( in_array($FeedAttribs['type'], array('post_type', 'channel') ) ) { ?>
+	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
 	<?php } ?>
 	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
@@ -291,23 +291,16 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		?>
 	</div>
 	
-	<?php if( $feed_slug ) { ?>
+	<?php if( $feed_slug || $FeedAttribs['type'] == 'category' || $FeedAttribs['type'] == 'ttid' ) { ?>
 	<div id="feed_tab_appearance" class="powerpress_tab">
 		<?php
 		//powerpressadmin_appearance($General);
-		powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug, $FeedAttribs);
+		if( $feed_slug )
+			powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug, $FeedAttribs);
 		powerpress_admin_appearance_common( $FeedSettings, $FeedAttribs );
 		?>
 	</div>
 	
-	<div id="feed_tab_other" class="powerpress_tab">
-		<?php
-		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID, $FeedAttribs);
-		?>
-	</div>
-	<?php } ?>
-	
-	<?php if( $FeedAttribs['type'] == 'category' || $FeedAttribs['type'] == 'ttid' ) { ?>
 	<div id="feed_tab_other" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID, $FeedAttribs)
