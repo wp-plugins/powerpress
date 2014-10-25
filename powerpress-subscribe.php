@@ -367,7 +367,7 @@ function powerpress_do_subscribe_widget($settings)
 			$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="pp-sub-m">';
-			$html .= '<p class="pp-sub-m-p">'.  htmlspecialchars( __('Podcast Republic', 'powerpress') ) .' <span class="pp-sub-btn-x">'.  htmlspecialchars( __('Or subscribe with your favorite app by using the address below', 'powerpress') ) .'</p>';
+			$html .= '<p class="pp-sub-m-p">'.  htmlspecialchars( __('Or subscribe with your favorite app by using the address below', 'powerpress') ) .'</p>';
 			$html .= '<input class="pp-sub-m-i" type="text" name="NULL'. rand(0,9999) .'" value="'.  htmlspecialchars( $settings['feed_url'] ) .'" onclick="this.focus();this.select();" />';
 		$html .= '</div>';
 	$html .= '</div>';
