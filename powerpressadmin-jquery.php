@@ -304,7 +304,7 @@ function DeleteMedia(File)
 				{
 ?>
 <div id="media-published-title">
-	<?php echo __('Media Published within the past 30 days', 'powerpress'); ?>:
+	<?php echo __('Last 20 Published media files', 'powerpress'); ?>:
 </div>
 <?php
 					$PublishedList = true;
