@@ -180,6 +180,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)
 * Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
 * Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
+* Added `powerpress_admin_capabilities` filter for premium capabilities. (Thanks Blair Williams for the suggestion)
 
 
 = 6.0 beta 2 =

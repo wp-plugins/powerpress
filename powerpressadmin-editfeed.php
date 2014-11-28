@@ -141,7 +141,8 @@ function powerpress_admin_capabilities()
 		}
 	}
 
-	$capnames = array_unique($capnames);
+	$capnames = apply_filters( 'powerpress_admin_capabilities', array_unique($capnames) );
+	
 	$remove_keys = array('level_0', 'level_1', 'level_2', 'level_3', 'level_4', 'level_5', 'level_6', 'level_7', 'level_8', 'level_9', 'level_10');
 	while( list($null,$key) = each($remove_keys) )
 		unset($capnames[ $key ]);
