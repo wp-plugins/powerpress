@@ -1067,6 +1067,8 @@ function powerpress_the_title_rss($title)
 		$feed_title = ent2ncr( $EpisodeData['feed_title'] );
 		$feed_title = strip_tags( $feed_title );
 		$feed_title = esc_html( $feed_title );
+		if( empty($GeneralSettings['custom_feed_title']) )
+			$GeneralSettings['custom_feed_title'] = 0;
 		
 		switch( $GeneralSettings['custom_feed_title'] )
 		{

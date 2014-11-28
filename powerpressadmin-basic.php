@@ -1187,6 +1187,12 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	$feed_slug = 'podcast';
 	if( !empty($FeedAttribs['feed_slug']) )
 		$feed_slug = $FeedAttribs['feed_slug'];
+		
+	if( $FeedAttribs['type'] == 'post_type' || $FeedAttribs['type'] == 'ttid' )
+	{
+		echo "<br /><br />";
+		return;
+	}
 ?>
 <table class="form-table">
 <tr valign="top">

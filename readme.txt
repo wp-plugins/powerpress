@@ -176,6 +176,10 @@ To install Blubrry PowerPress manually, follow these steps:
 = 6.0 beta 3 =
 * Released on TBA
 * Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
+* FeedBurner feed URL when set will be used in the new subscribe page and subscribe sidebar widget (Thanks Daniel Lewis for bringing to our attention)
+* Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)
+* Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
+* Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
 
 
 = 6.0 beta 2 =

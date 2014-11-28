@@ -126,8 +126,8 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 			$instance['subscribe_category_id'] = '';
 		}
 
-?>
 
+?>
 		<p>
 		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:' , 'powerpress'); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
@@ -136,7 +136,7 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 		<label for="<?php echo $this->get_field_id('subscribe_type'); ?>"><?php _e( 'Select Podcast Type:', 'powerpress' ); ?></label>
 		<select class="widefat" id="<?php echo $this->get_field_id('subscribe_type'); ?>" name="<?php echo $this->get_field_name('subscribe_type'); ?>">
 		<?php
-		$types = array(''=>__('Default Podcast','powerpress'), 'channel'=>__('Podcast Channel','powerpress'), 'category'=>__('Category Podcasting','powerpress'), 'post_type'=>__('Post Type Podcasting','powerpress') ); // , 'ttid'=>__('Taxonomy Podcasting','powerpress'));
+		$types = array(''=>__('Default Podcast','powerpress'), 'channel'=>__('Podcast Channel','powerpress'), 'category'=>__('Category Podcasting','powerpress') ); //, 'post_type'=>__('Post Type Podcasting','powerpress'), 'ttid'=>__('Taxonomy Podcasting','powerpress'));
 		while( list($type, $label) = each($types) ) {
 			echo '<option value="' . $type . '"'
 				. selected( $instance['subscribe_type'], $type, false )
@@ -145,7 +145,9 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 		?>
 		</select>
 		</p>
-		
+<?php
+		/*
+?>
 		<p id="<?php echo $this->get_field_id('subscribe_post_type_section'); ?>">
 		<label for="<?php echo $this->get_field_id('subscribe_post_type'); ?>"><?php _e( 'Select Post Type:', 'powerpress' ); ?></label>
 		<select class="widefat" id="<?php echo $this->get_field_id('subscribe_post_type'); ?>" name="<?php echo $this->get_field_name('subscribe_post_type'); ?>">
@@ -160,7 +162,7 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 ?>
 		</select>
 		</p>
-		
+<?php */ ?>
 		
 		<p id="<?php echo $this->get_field_id('subscribe_feed_slug_section'); ?>">
 		<label for="<?php echo $this->get_field_id( 'subscribe_feed_slug' ); ?>"><?php esc_html_e( 'Feed Slug:' , 'powerpress'); ?></label>

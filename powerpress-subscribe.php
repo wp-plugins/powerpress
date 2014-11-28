@@ -95,7 +95,10 @@ function powerpresssubscribe_get_settings($ExtraData)
 				$Settings['title'] = $Settings['title'];
 				if( empty($Settings['title']) )
 					$Settings['title'] = get_bloginfo('name') . get_wp_title_rss(); // Get category title
-				$Settings['feed_url'] = get_category_feed_link( $category_id ); // Get category feed URL
+				if( !empty($Settings['feed_redirect_url']) )
+					$Settings['feed_url'] = $Settings['feed_redirect_url'];
+				else
+					$Settings['feed_url'] = get_category_feed_link( $category_id ); // Get category feed URL
 				$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
 				$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
 				$Settings['image_url'] = $Settings['itunes_image'];
@@ -136,9 +139,12 @@ function powerpresssubscribe_get_settings($ExtraData)
 	if( !empty($FeedSettings) )
 	{
 		$FeedSettings['title'] = $FeedSettings['title'];
-		if( empty($Settings['title']) )
-			$Settings['title'] = get_bloginfo('name'); // Get blog title
-		$FeedSettings['feed_url'] =  get_feed_link($feed_slug); // Get Podcast RSS Feed
+		if( empty($FeedSettings['title']) )
+			$FeedSettings['title'] = get_bloginfo('name'); // Get blog title
+		if( !empty($FeedSettings['feed_redirect_url']) )
+			$FeedSettings['feed_url'] = $FeedSettings['feed_redirect_url'];
+		else
+			$FeedSettings['feed_url'] =  get_feed_link($feed_slug); // Get Podcast RSS Feed
 		$FeedSettings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($FeedSettings);
 		$FeedSettings['itunes_url'] = powerpresssubscribe_get_itunes_url($FeedSettings);
 		$FeedSettings['image_url'] = $FeedSettings['itunes_image'];

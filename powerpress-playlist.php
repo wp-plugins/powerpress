@@ -428,6 +428,8 @@ function powerpress_playlist_shortcode( $attr ) {
 		if( !empty($date) )
 			$track['meta']['date'] = mysql2date( get_option( 'date_format' ), $episode['post_date'] );// Get episode date
 		$track['meta']['length_formatted'] = powerpress_readable_duration($episode['enclosure']['duration']); // $episode['enclosure']['duration'];
+		if( $track['meta']['length_formatted'] == '0:00' )
+			$track['meta']['length_formatted'] = ''; // Make it empty
 		if( !empty($links) )
 			$track['meta']['link'] = get_permalink( $episode['ID'] ); // 'http://www.google.com/';
 		
