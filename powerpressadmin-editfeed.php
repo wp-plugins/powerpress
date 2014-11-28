@@ -720,8 +720,8 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 		$FeedSettings['redirect'] = '';
 	if( !isset($FeedSettings['premium_label']) )
 		$FeedSettings['premium_label'] = '';
-
-	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category')  )
+ 	
+	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category' || ($FeedAttribs['type'] == 'channel' && defined('CHANNEL_STATS_REDIRECT') ) || ($FeedAttribs['type'] == 'post_type' && defined('POST_TYPE_STATS_REDIRECT')) )  )
 	{
 ?>
 	<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
@@ -740,13 +740,18 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 	<p class="description"><?php echo __('Note: Category Media Redirect URL is applied to category feeds and pages only. The redirect will also apply to single pages if this is the only category associated with the blog post.', 'powerpress'); ?></p>
 <?php } else if( $FeedAttribs['type'] == 'ttid' ) { ?>
 	<p class="description"><?php echo __('Note: Media Redirect URL is applied to this podcast feed only. The redirect will NOT apply to pages.', 'powerpress'); ?></p>
+<?php } else if( $FeedAttribs['type'] == 'channel' ) { ?>
+	<p class="description"><?php echo __('When specified, this will be the only media statistics redirect applied to this podcast channel.', 'powerpress'); ?></p>
+<?php } else if( $FeedAttribs['type'] == 'post_type' ) { ?>
+	<p class="description"><?php echo __('When specified, this will be the only media statistics redirect applied to this podcast post type.', 'powerpress'); ?></p>
 <?php } ?>
 	</td>
 	</tr>
 	</table>
 <?php
 	}
-	else if( $feed_slug ) // end if category, else channel...
+	
+	if( $feed_slug ) // end if category, else channel...
 	{
 ?>
 

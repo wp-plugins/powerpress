@@ -2291,12 +2291,14 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 	return $value;
 }
 
-function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
+function powerpress_add_redirect_url($MediaURL, $channel = 'podcast')
 {
 	if( preg_match('/^http\:/i', $MediaURL) === false )
 		return $MediaURL; // If the user is hosting media not via http (e.g. https or ftp) then we can't handle the redirect
 		
 	$NewURL = apply_filters('powerpress_redirect_url',  $MediaURL);
+	
+	$GeneralSettings = false;
 	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
 	{
 		global $powerpress_general_settings;
@@ -2326,6 +2328,44 @@ function powerpress_add_redirect_url($MediaURL, $GeneralSettings = false)
 			}
 		}
 		$GeneralSettings = $powerpress_general_settings;
+	}
+	
+	if( defined('CHANNEL_STATS_REDIRECT') )
+	{
+		$FeedSettings = get_option('powerpress_feed_'. $channel);
+		if( !empty($FeedSettings['redirect']) )
+		{
+			$GeneralSettings['redirect0'] = $FeedSettings['redirect'];
+			$GeneralSettings['redirect1'] = '';
+			$GeneralSettings['redirect2'] = '';
+			$GeneralSettings['redirect3'] = '';
+		}
+	}
+	
+	if( defined('POST_TYPE_STATS_REDIRECT') )  // Post Type Podcasting
+	{
+		$post_type = get_post_type();
+		$PostTypeSettingsArray = get_option('powerpress_posttype_'.$post_type);
+		// Loop through this array...
+		if( !empty($PostTypeSettingsArray) )
+		{
+			switch($post_type)
+			{
+				case 'post':
+				case 'page': {
+					// Do nothing!, we want the default podcast and channels to appear in these post types
+				}; break;
+				default: {
+					if( !empty($PostTypeSettingsArray[ $channel ]['redirect']) )
+					{
+						$GeneralSettings['redirect0'] = $PostTypeSettingsArray[ $channel ]['redirect'];
+						$GeneralSettings['redirect1'] = '';
+						$GeneralSettings['redirect2'] = '';
+						$GeneralSettings['redirect3'] = '';
+					}
+				};
+			}
+		}
 	}
 	
 	for( $x = 3; $x >= 0; $x-- )
@@ -2552,7 +2592,7 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_da
 	$Data['height'] = '';
 	
 	if( count($MetaParts) > 0 )
-		$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]) );
+		$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]), $Data['feed'] );
 	if( count($MetaParts) > 1 )
 		$Data['size'] = trim($MetaParts[1]);
 	if( count($MetaParts) > 2 )
@@ -2572,7 +2612,7 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_da
 				$Data['duration'] = powerpress_readable_duration($Data['length'], true);
 				
 			if( isset($Data['webm_src']) )
-				$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']) );
+				$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']), $Data['feed'] );
 				
 			if( strpos($MetaParts[0], 'http://') !== 0 && !empty($Data['hosting']) ) // if the URL is not set (just file name) and we're a hosting customer...
 			{
@@ -2664,7 +2704,7 @@ function powerpress_get_enclosure_data_podpress($post_id, $mediaNum = 0, $includ
 				return false;
 				
 			$Data['type'] = powerpress_get_contenttype($Data['url']); // Detect the content type
-			$Data['url'] = powerpress_add_redirect_url($Data['url']); // Add redirects to Media URL
+			$Data['url'] = powerpress_add_redirect_url($Data['url'], $Data['feed']); // Add redirects to Media URL
 			return $Data;
 		}
 	}

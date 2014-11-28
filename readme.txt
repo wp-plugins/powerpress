@@ -173,6 +173,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+= 6.0 beta 3 =
+* Released on TBA
+* Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
+
+
 = 6.0 beta 2 =
 * Released on 10/24/2014
 * Re-added the blubrry folder icon for blubrry podcast hosting customers.

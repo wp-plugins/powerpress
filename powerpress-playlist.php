@@ -272,6 +272,7 @@ function powerpress_playlist_shortcode( $attr ) {
 		$attr['include'] = $attr['ids'];
 	}
 	*/
+
 	
 	extract( shortcode_atts( array(
 		'type'		=> 'audio', // Already defined by the first episode type
@@ -296,6 +297,13 @@ function powerpress_playlist_shortcode( $attr ) {
 		'post_type' => 'post', // Used for PowerPress Playlist
 		'limit'=>10 // Used for PowerPress Playlist
 	), $attr, 'powerpressplaylist' ) );
+	
+			
+	if ( $type !== 'audio' ) {
+		$type = 'video';
+	}
+
+
 	$tracknumbers = false;
 	//$images = true;
 	$artists = true; // Program title
@@ -402,8 +410,8 @@ function powerpress_playlist_shortcode( $attr ) {
 
 		$track['meta'] = array();
 		
-		$track['meta']['artist'] = 'Talent Name';
-		$track['meta']['album'] = ('Podcast Title here');
+		$track['meta']['artist'] = ('Talent Name'); // TODO
+		$track['meta']['album'] = ('Podcast Title here'); // TODO
 		if( $program_titles_by_taxonomy )
 		{
 			$ObjectTerms = wp_get_object_terms( $episode['ID'], $program_titles_by_taxonomy);
@@ -497,7 +505,7 @@ function powerpress_playlist_shortcode( $attr ) {
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
 	<noscript>
-	<ol><?php
+	<ol><?php // TODO
 	//foreach ( $attachments as $att_id => $attachment ) {
 	//	printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
 	//}
