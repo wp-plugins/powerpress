@@ -158,7 +158,7 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 <?php echo __('Do not add a coverart image.', 'powerpress'); ?><br />
 <input type="radio" id="<?php echo $tag; ?>_specify" name="General[<?php echo $tag; ?>]" value="1" <?php if( $value != '' ) echo 'checked'; ?> />
 
-<input type="text" id="coverart_image" name="TagValues[<?php echo $tag; ?>]" style="width: 50%;" value="<?php echo $value; ?>" maxlength="250" />
+<input type="text" id="coverart_image" name="TagValues[<?php echo $tag; ?>]" style="width: 50%;" value="<?php echo esc_attr($value); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('coverart_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the Coverart image above. e.g. http://mysite.com/images/coverart.jpg', 'powerpress'); ?></P>
@@ -185,7 +185,7 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 		$PowerPressTrackNumber = get_option('powerpress_track_number');
 ?><br />
 <input type="radio" name="General[<?php echo $tag; ?>]" value="1" <?php if( !empty($value) ) echo 'checked'; ?> /> <?php echo __('Specify', 'powerpress'); ?>: 
-<input type="text" name="PowerPressTrackNumber" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo ( !empty($PowerPressTrackNumber) ?$PowerPressTrackNumber:'1'); ?>" maxlength="5" />
+<input type="text" name="PowerPressTrackNumber" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo esc_attr( !empty($PowerPressTrackNumber) ?$PowerPressTrackNumber:'1'); ?>" maxlength="5" />
 <?php
 		echo __('(value entered increments every episode)', 'powerpress');
 	}
@@ -194,7 +194,7 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 	{
 ?><br />
 <input type="radio" name="General[<?php echo $tag; ?>]" value="1" <?php if( $value != '' ) echo 'checked'; ?> /> <?php echo __('Specify', 'powerpress'); ?>: 
-<input type="text" name="TagValues[<?php echo $tag; ?>]" style="width: 300px" value="<?php echo htmlspecialchars($value); ?>" maxlength="250" />
+<input type="text" name="TagValues[<?php echo $tag; ?>]" style="width: 300px" value="<?php echo esc_attr($value); ?>" maxlength="250" />
 <?php
 	}
 	

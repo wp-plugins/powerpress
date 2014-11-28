@@ -494,7 +494,7 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 <tr valign="top">
 <th scope="row"><?php echo __('Default Media URL', 'powerpress'); ?></th> 
 <td>
-	<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo $General['default_url']; ?>" maxlength="250" />
+	<input type="text" style="width: 80%;" name="General[default_url]" value="<?php echo esc_attr($General['default_url']); ?>" maxlength="250" />
 	<p><?php echo __('e.g. http://example.com/mediafolder/', 'powerpress'); ?></p>
 	<p><?php echo __('URL above will prefix entered file names that do not start with \'http://\'. URL above must end with a trailing slash. You may leave blank if you always enter the complete URL to your media when creating podcast episodes.', 'powerpress'); ?>
 	</p>
@@ -692,7 +692,7 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 <tr valign="top">
 <th scope="row"><?php echo __('iTunes Subscription URL', 'powerpress'); ?></th> 
 <td>
-<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo $FeedSettings['itunes_url']; ?>" maxlength="250" />
+<input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo esc_attr($FeedSettings['itunes_url']); ?>" maxlength="250" />
 <p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p>
 
 <p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
@@ -855,7 +855,7 @@ function powerpressadmin_edit_media_statistics($General)
 			<?php echo __('Redirect URL 1', 'powerpress'); ?> 
 			</th>
 			<td>
-			<input type="text" style="width: 60%;" name="<?php if( stristr($General['redirect1'], $StatsIntegrationURL) ) echo 'NULL[redirect1]'; else echo 'General[redirect1]'; ?>" value="<?php echo $General['redirect1']; ?>" onChange="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect1'], $StatsIntegrationURL) ) { echo ' readOnly="readOnly"';  $StatsIntegrationURL = false; } ?> /> 
+			<input type="text" style="width: 60%;" name="<?php if( stristr($General['redirect1'], $StatsIntegrationURL) ) echo 'NULL[redirect1]'; else echo 'General[redirect1]'; ?>" value="<?php echo esc_attr($General['redirect1']); ?>" onChange="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect1'], $StatsIntegrationURL) ) { echo ' readOnly="readOnly"';  $StatsIntegrationURL = false; } ?> /> 
 			</td>
 			</tr>
 			</table>
@@ -874,7 +874,7 @@ function powerpressadmin_edit_media_statistics($General)
 			<?php echo __('Redirect URL 2', 'powerpress'); ?> 
 			</th>
 			<td>
-			<input type="text"  style="width: 60%;" name="<?php if( stristr($General['redirect2'], $StatsIntegrationURL) ) echo 'NULL[redirect2]'; else echo 'General[redirect2]'; ?>" value="<?php echo $General['redirect2']; ?>" onblur="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect2'], $StatsIntegrationURL) ) { echo ' readOnly="readOnly"';  $StatsIntegrationURL = false; } ?> />
+			<input type="text"  style="width: 60%;" name="<?php if( stristr($General['redirect2'], $StatsIntegrationURL) ) echo 'NULL[redirect2]'; else echo 'General[redirect2]'; ?>" value="<?php echo esc_attr($General['redirect2']); ?>" onblur="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect2'], $StatsIntegrationURL) ) { echo ' readOnly="readOnly"';  $StatsIntegrationURL = false; } ?> />
 			</td>
 			</tr>
 			</table>
@@ -892,7 +892,7 @@ function powerpressadmin_edit_media_statistics($General)
 			<?php echo __('Redirect URL 3', 'powerpress'); ?> 
 			</th>
 			<td>
-			<input type="text" style="width: 60%;" name="<?php if( stristr($General['redirect3'], $StatsIntegrationURL) ) echo 'NULL[redirect3]'; else echo 'General[redirect3]'; ?>" value="<?php echo $General['redirect3']; ?>" onblur="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect3'], $StatsIntegrationURL) ) echo ' readOnly="readOnly"'; ?> />
+			<input type="text" style="width: 60%;" name="<?php if( stristr($General['redirect3'], $StatsIntegrationURL) ) echo 'NULL[redirect3]'; else echo 'General[redirect3]'; ?>" value="<?php echo esc_attr($General['redirect3']); ?>" onblur="return CheckRedirect(this);" maxlength="250" <?php if( stristr($General['redirect3'], $StatsIntegrationURL) ) echo ' readOnly="readOnly"'; ?> />
 			</td>
 			</tr>
 			</table>
@@ -1060,7 +1060,7 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 	<p><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
 	<?php echo __('Display subscribe links below player and media links.', 'powerpress'); ?></label></p>
 	<ul>
-	<li><label for="subscribe_label">Subscribe label: <input type="text" id="subscribe_label" value="<?php echo $General['subscribe_label']; ?>" name="General[subscribe_label]" placeholder="Subscribe:" /></label>
+	<li><label for="subscribe_label">Subscribe label: <input type="text" id="subscribe_label" value="<?php echo esc_attr($General['subscribe_label']); ?>" name="General[subscribe_label]" placeholder="Subscribe:" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>
 	</li>
 	</ul>
@@ -1111,7 +1111,7 @@ while( list($value,$desc) = each($linkoptions) )
 <?php echo __('New Window Width', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_width']; ?>" maxlength="4" />
+<input type="text" name="General[new_window_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo esc_attr($General['new_window_width']); ?>" maxlength="4" />
 <?php echo __('Width of new window (leave blank for 420 default)', 'powerpress'); ?>
 </td>
 </tr>
@@ -1121,7 +1121,7 @@ while( list($value,$desc) = each($linkoptions) )
 <?php echo __('New Window Height', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo $General['new_window_height']; ?>" maxlength="4" />
+<input type="text" name="General[new_window_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9]/g, '');" value="<?php echo esc_attr($General['new_window_height']); ?>" maxlength="4" />
 <?php echo __('Height of new window (leave blank for 240 default)', 'powerpress'); ?>
 </td>
 </tr>
@@ -1197,12 +1197,12 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	<p><?php echo __('The following link will be added to the Subscribe on iTunes and Subscribe via RSS links below the player.', 'powerpress'); ?></p>
 	<ul>
 	<li>
-	<label for="subscribe_page_link_id"><?php echo __('Subscribe Page ID:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_id" value="<?php echo $Feed['subscribe_page_link_id']; ?>" name="Feed[subscribe_page_link_id]" placeholder="" style="width: 50px;" /></label>
+	<label for="subscribe_page_link_id"><?php echo __('Subscribe Page ID:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_id" value="<?php echo esc_attr($Feed['subscribe_page_link_id']); ?>" name="Feed[subscribe_page_link_id]" placeholder="" style="width: 50px;" /></label>
 	<?php $url_temp = ( (empty($Feed['subscribe_page_link_id']) || !is_numeric($Feed['subscribe_page_link_id']) )?'':get_page_link($Feed['subscribe_page_link_id'])); ?>
 	<a id="subscribe_page_link_id_url" href="<?php echo $url_temp; ?>" target="_blank"><?php echo $url_temp; ?></a>
 	<div id="subscribe_page_link_or" style="<?php echo ( !empty($Feed['subscribe_page_link_id']) ?'display:none;':''); ?>">
 	<div><?php echo __(' - or - ', 'powerpress'); ?></div>
-	<label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_href" value="<?php echo $Feed['subscribe_page_link_href']; ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;"<?php echo (empty($Feed['subscribe_page_link_id'])?'':' disabled'); ?> /></label>
+	<label for="subscribe_page_link_href"><?php echo __('Subscribe Page URL:', 'powerpress'); ?> <input type="text" id="subscribe_page_link_href" value="<?php echo esc_attr($Feed['subscribe_page_link_href']); ?>" name="Feed[subscribe_page_link_href]" placeholder="" style="width:60%;"<?php echo (empty($Feed['subscribe_page_link_id'])?'':' disabled'); ?> /></label>
 	<p><?php echo __('(If subscribe page is not hosted on this site)', 'powerpress'); ?></p> 
 	</div>
 	
@@ -1221,7 +1221,7 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	// TODO: use the $FeedAttribs to create a recommended shortcode for this particular channel, may be simple [powerpress_subscribe] or it may specify the category, taxonomy, and/or feed_slug/post tpe podcasting
 	?>
 	</li>
-	<li><label for="subscribe_page_link_text"><?php echo __('Subscribe Page Link Label:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_text" value="<?php echo $Feed['subscribe_page_link_text']; ?>" name="Feed[subscribe_page_link_text]" placeholder="" style="width:60%;" /></label>
+	<li><label for="subscribe_page_link_text"><?php echo __('Subscribe Page Link Label:', 'powerpress'); ?><br /><input type="text" id="subscribe_page_link_text" value="<?php echo esc_attr($Feed['subscribe_page_link_text']); ?>" name="Feed[subscribe_page_link_text]" placeholder="" style="width:60%;" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>
 	<p><?php echo __('Default: More Subscribe Options', 'powerpress'); ?></p>
 	</li>
@@ -1396,7 +1396,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
-<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
+<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo esc_attr( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('iTunes image must be at least 1400 x 1400 pixels in .jpg or .png format. iTunes image must not exceed 2048 x 2048 pixels and must use RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
@@ -1448,7 +1448,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <span style="font-size: 85%; margin-left: 5px;"><?php echo __('Recommendation: Use iTunes image', 'powerpress'); ?></span>
 </th>
 <td>
-<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo ( !empty($FeedSettings['rss2_image'])? $FeedSettings['rss2_image']:''); ?>" maxlength="250" />
+<input type="text" id="rss2_image" name="Feed[rss2_image]" style="width: 60%;" value="<?php echo esc_attr( !empty($FeedSettings['rss2_image'])? $FeedSettings['rss2_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('rss2_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the RSS image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?> http://mysite.com/images/rss.jpg</p>

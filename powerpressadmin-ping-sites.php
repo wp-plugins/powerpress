@@ -56,7 +56,7 @@
 		else
 		{
 ?>
-	<p><input name="PingSite[]" type="checkbox" value="<?php echo $url; ?>" /> <?php echo $name; ?></p>
+	<p><input name="PingSite[]" type="checkbox" value="<?php echo esc_attr($url); ?>" /> <?php echo $name; ?></p>
 <?php
 		}
 	}
@@ -80,7 +80,7 @@
 		else
 		{
 ?>
-	<p><input name="PingSite[]" type="checkbox" value="<?php echo $url; ?>" /> <?php echo $name; ?></p>
+	<p><input name="PingSite[]" type="checkbox" value="<?php echo esc_attr($url); ?>" /> <?php echo $name; ?></p>
 <?php
 		}
 	}

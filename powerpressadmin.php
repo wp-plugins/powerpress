@@ -4040,7 +4040,7 @@ function powerpress_print_options($options,$selected=null, $return=false)
 		$html = '';
 		while( list($key,$value) = each($options) )
 		{
-			$html .= '<option value="'. htmlspecialchars($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
+			$html .= '<option value="'. esc_attr($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
 			$html .= htmlspecialchars($value);
 			$html .= "</option>\n";
 		}
@@ -4049,7 +4049,7 @@ function powerpress_print_options($options,$selected=null, $return=false)
 	}
 	while( list($key,$value) = each($options) )
 	{
-		echo '<option value="'. htmlspecialchars($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
+		echo '<option value="'. esc_attr($key) .'"'. ( ($selected !== null && strcmp($selected, $key) == 0 )?' selected':'') .'>';
 		echo htmlspecialchars($value);
 		echo "</option>\n";
 	}

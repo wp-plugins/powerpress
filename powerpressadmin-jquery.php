@@ -654,15 +654,15 @@ jQuery(document).ready(function($) {
 <?php if( $Step == 1 ) { ?>
 	<p>
 		<label for="blubrry_username"><?php echo __('Blubrry User Name (Email)', 'powerpress'); ?></label>
-		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
+		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo esc_attr($Settings['blubrry_username']); ?>" />
 	</p>
 	<p id="password_row">
 		<label for="password_password"><?php echo __('Blubrry Password', 'powerpress'); ?></label>
 		<input type="password" id="password_password" name="Password" value="" />
 	</p>
 <?php } else { ?>
-	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo htmlspecialchars($Settings['blubrry_username']); ?>" />
-	<input type="hidden" name="Password" value="<?php echo htmlspecialchars($Password); ?>" />
+	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo esc_attr($Settings['blubrry_username']); ?>" />
+	<input type="hidden" name="Password" value="<?php echo esc_attr($Password); ?>" />
 	<!-- <input type="hidden" name="Settings[blubrry_hosting]" value="<?php echo $Settings['blubrry_hosting']; ?>" /> -->
 	<p>
 		<label for="blubrry_program_keyword"><?php echo __('Select Blubrry Program', 'powerpress'); ?></label>

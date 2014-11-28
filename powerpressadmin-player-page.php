@@ -878,7 +878,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="pagebg" name="Player[pagebg]" class="color_field" value="<?php echo $PlayerSettings['pagebg']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="pagebg" name="Player[pagebg]" class="color_field" value="<?php echo esc_attr($PlayerSettings['pagebg']); ?>" maxlength="20" />
 				<img id="pagebg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['pagebg']; ?>;" class="color_preview" />
 			</div>
 			<small>(<?php echo __('leave blank for transparent', 'powerpress'); ?>)</small>
@@ -889,7 +889,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="bg" name="Player[bg]" class="color_field" value="<?php echo $PlayerSettings['bg']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="bg" name="Player[bg]" class="color_field" value="<?php echo esc_attr($PlayerSettings['bg']); ?>" maxlength="20" />
 				<img id="bg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bg']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -899,7 +899,7 @@ function audio_player_defaults()
 			<?php echo __('Width (in pixels)', 'powerpress'); ?>
 		</th>
 		<td>
-          <input type="text" style="width: 50px;" id="player_width" name="Player[width]" class="other_field" value="<?php echo $PlayerSettings['width']; ?>" maxlength="20" />
+          <input type="text" style="width: 50px;" id="player_width" name="Player[width]" class="other_field" value="<?php echo esc_attr($PlayerSettings['width']); ?>" maxlength="20" />
 				<?php echo __('width of the player. e.g. 290 (290 pixels) or 100%', 'powerpress'); ?>
 		</td>
 	</tr>
@@ -923,7 +923,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="loader" name="Player[loader]" class="color_field" value="<?php echo $PlayerSettings['loader']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="loader" name="Player[loader]" class="color_field" value="<?php echo esc_attr($PlayerSettings['loader']); ?>" maxlength="20" />
 				<img id="loader_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['loader']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -935,7 +935,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-                <input type="text" style="width: 100px;" id="text" name="Player[text]" class="color_field" value="<?php echo $PlayerSettings['text']; ?>" maxlength="20" />
+                <input type="text" style="width: 100px;" id="text" name="Player[text]" class="color_field" value="<?php echo esc_attr($PlayerSettings['text']); ?>" maxlength="20" />
 						<img id="text_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['text']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -946,7 +946,7 @@ function audio_player_defaults()
 			<?php echo __('Text In Player', 'powerpress'); ?> 
 		</th>
 		<td>
-          <div><input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo $PlayerSettings['titles']; ?>" maxlength="100" /></div>
+          <div><input type="text" style="width: 60%;" id="titles" name="Player[titles]" class="other_field" value="<?php echo esc_attr($PlayerSettings['titles']); ?>" maxlength="100" /></div>
 				<small><?php echo sprintf(__('Enter \'%s\' to display track name from mp3. Only works if media is hosted on same server as blog.', 'powerpress'), __('TRACK', 'powerpress') ); ?></small>
 		</td>
 	</tr>
@@ -1009,7 +1009,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-										<input type="text" style="width: 100px;" id="track" name="Player[track]" class="color_field" value="<?php echo $PlayerSettings['track']; ?>" maxlength="20" />
+										<input type="text" style="width: 100px;" id="track" name="Player[track]" class="color_field" value="<?php echo esc_attr($PlayerSettings['track']); ?>" maxlength="20" />
 										<img id="track_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['track']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1020,7 +1020,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-                            <input type="text" style="width: 100px;" id="tracker" name="Player[tracker]" class="color_field" value="<?php echo $PlayerSettings['tracker']; ?>" maxlength="20" />
+                            <input type="text" style="width: 100px;" id="tracker" name="Player[tracker]" class="color_field" value="<?php echo esc_attr($PlayerSettings['tracker']); ?>" maxlength="20" />
 											<img id="tracker_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['tracker']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1031,7 +1031,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-                            <input type="text" style="width: 100px;" id="player_border" name="Player[border]" class="color_field" value="<?php echo $PlayerSettings['border']; ?>" maxlength="20" />
+                            <input type="text" style="width: 100px;" id="player_border" name="Player[border]" class="color_field" value="<?php echo esc_attr($PlayerSettings['border']); ?>" maxlength="20" />
 											<img id="player_border_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['border']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1066,7 +1066,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="leftbg" name="Player[leftbg]" class="color_field" value="<?php echo $PlayerSettings['leftbg']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="leftbg" name="Player[leftbg]" class="color_field" value="<?php echo esc_attr($PlayerSettings['leftbg']); ?>" maxlength="20" />
 				<img id="leftbg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['leftbg']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1077,7 +1077,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="lefticon" name="Player[lefticon]" class="color_field" value="<?php echo $PlayerSettings['lefticon']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="lefticon" name="Player[lefticon]" class="color_field" value="<?php echo esc_attr($PlayerSettings['lefticon']); ?>" maxlength="20" />
 				<img id="lefticon_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['lefticon']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1088,7 +1088,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="voltrack" name="Player[voltrack]" class="color_field" value="<?php echo $PlayerSettings['voltrack']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="voltrack" name="Player[voltrack]" class="color_field" value="<?php echo esc_attr($PlayerSettings['voltrack']); ?>" maxlength="20" />
 				<img id="voltrack_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['voltrack']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1099,7 +1099,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="volslider" name="Player[volslider]" class="color_field" value="<?php echo $PlayerSettings['volslider']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="volslider" name="Player[volslider]" class="color_field" value="<?php echo esc_attr($PlayerSettings['volslider']); ?>" maxlength="20" />
 				<img id="volslider_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['volslider']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1116,7 +1116,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="rightbg" name="Player[rightbg]" class="color_field" value="<?php echo $PlayerSettings['rightbg']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="rightbg" name="Player[rightbg]" class="color_field" value="<?php echo esc_attr($PlayerSettings['rightbg']); ?>" maxlength="20" />
 				<img id="rightbg_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['rightbg']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1127,7 +1127,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="rightbghover" name="Player[rightbghover]" class="color_field" value="<?php echo $PlayerSettings['rightbghover']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="rightbghover" name="Player[rightbghover]" class="color_field" value="<?php echo esc_attr($PlayerSettings['rightbghover']); ?>" maxlength="20" />
 				<img id="rightbghover_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['rightbghover']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1138,7 +1138,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="righticon" name="Player[righticon]" class="color_field" value="<?php echo $PlayerSettings['righticon']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="righticon" name="Player[righticon]" class="color_field" value="<?php echo esc_attr($PlayerSettings['righticon']); ?>" maxlength="20" />
 				<img id="righticon_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['righticon']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1149,7 +1149,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="righticonhover" name="Player[righticonhover]" class="color_field" value="<?php echo $PlayerSettings['righticonhover']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="righticonhover" name="Player[righticonhover]" class="color_field" value="<?php echo esc_attr($PlayerSettings['righticonhover']); ?>" maxlength="20" />
 				<img id="righticonhover_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['righticonhover']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1359,7 +1359,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="bgcolor1"  name="Player[bgcolor1]" class="color_field" value="<?php echo $PlayerSettings['bgcolor1']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="bgcolor1"  name="Player[bgcolor1]" class="color_field" value="<?php echo esc_attr($PlayerSettings['bgcolor1']); ?>" maxlength="20" />
 				<img id="bgcolor1_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor1']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1370,7 +1370,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="bgcolor2" name="Player[bgcolor2]" class="color_field" value="<?php echo $PlayerSettings['bgcolor2']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="bgcolor2" name="Player[bgcolor2]" class="color_field" value="<?php echo esc_attr($PlayerSettings['bgcolor2']); ?>" maxlength="20" />
 				<img id="bgcolor2_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor2']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1382,7 +1382,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['bgcolor']); ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
 			<small><?php echo __('leave blank for transparent', 'powerpress'); ?></small>
@@ -1394,7 +1394,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="textcolor" name="Player[textcolor]" class="color_field" value="<?php echo $PlayerSettings['textcolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="textcolor" name="Player[textcolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['textcolor']); ?>" maxlength="20" />
 				<img id="textcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['textcolor']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1406,7 +1406,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="player_height" name="Player[height]" value="<?php echo $PlayerSettings['height']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="player_height" name="Player[height]" value="<?php echo esc_attr($PlayerSettings['height']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1416,7 +1416,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="player_width" name="Player[width]" value="<?php echo $PlayerSettings['width']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="player_width" name="Player[width]" value="<?php echo esc_attr($PlayerSettings['width']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1432,7 +1432,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="buttoncolor" name="Player[buttoncolor]" class="color_field" value="<?php echo $PlayerSettings['buttoncolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="buttoncolor" name="Player[buttoncolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['buttoncolor']); ?>" maxlength="20" />
 				<img id="buttoncolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['buttoncolor']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1443,7 +1443,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="buttonovercolor" name="Player[buttonovercolor]" class="color_field" value="<?php echo $PlayerSettings['buttonovercolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="buttonovercolor" name="Player[buttonovercolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['buttonovercolor']); ?>" maxlength="20" />
 				<img id="buttonovercolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['buttonovercolor']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1454,7 +1454,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="buttonwidth" name="Player[buttonwidth]" value="<?php echo $PlayerSettings['buttonwidth']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="buttonwidth" name="Player[buttonwidth]" value="<?php echo esc_attr($PlayerSettings['buttonwidth']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1530,7 +1530,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="volumeheight" name="Player[volumeheight]" value="<?php echo $PlayerSettings['volumeheight']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="volumeheight" name="Player[volumeheight]" value="<?php echo esc_attr($PlayerSettings['volumeheight']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1540,7 +1540,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="volumewidth" name="Player[volumewidth]" value="<?php echo $PlayerSettings['volumewidth']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="volumewidth" name="Player[volumewidth]" value="<?php echo esc_attr($PlayerSettings['volumewidth']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1574,7 +1574,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="slidercolor1" name="Player[slidercolor1]" class="color_field" value="<?php echo $PlayerSettings['slidercolor1']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="slidercolor1" name="Player[slidercolor1]" class="color_field" value="<?php echo esc_attr($PlayerSettings['slidercolor1']); ?>" maxlength="20" />
 				<img id="slidercolor1_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['slidercolor1']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1585,7 +1585,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="slidercolor2" name="Player[slidercolor2]" class="color_field" value="<?php echo $PlayerSettings['slidercolor2']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="slidercolor2" name="Player[slidercolor2]" class="color_field" value="<?php echo esc_attr($PlayerSettings['slidercolor2']); ?>" maxlength="20" />
 				<img id="slidercolor2_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['slidercolor2']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1597,7 +1597,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="sliderovercolor" name="Player[sliderovercolor]" class="color_field" value="<?php echo $PlayerSettings['sliderovercolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="sliderovercolor" name="Player[sliderovercolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['sliderovercolor']); ?>" maxlength="20" />
 				<img id="sliderovercolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['sliderovercolor']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1608,7 +1608,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="sliderheight" name="Player[sliderheight]" value="<?php echo $PlayerSettings['sliderheight']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="sliderheight" name="Player[sliderheight]" value="<?php echo esc_attr($PlayerSettings['sliderheight']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1618,7 +1618,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 50px;" id="sliderwidth" name="Player[sliderwidth]" value="<?php echo $PlayerSettings['sliderwidth']; ?>" maxlength="20" />
+				<input type="text" style="width: 50px;" id="sliderwidth" name="Player[sliderwidth]" value="<?php echo esc_attr($PlayerSettings['sliderwidth']); ?>" maxlength="20" />
 			</div>
 		</td>
 	</tr>
@@ -1643,7 +1643,7 @@ function audio_player_defaults()
 		</th>
 		<td>
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="loadingcolor" name="Player[loadingcolor]" class="color_field" value="<?php echo $PlayerSettings['loadingcolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="loadingcolor" name="Player[loadingcolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['loadingcolor']); ?>" maxlength="20" />
 				<img id="loadingcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['loadingcolor']; ?>;" class="color_preview" />
 			</div>
 		</td>
@@ -1726,7 +1726,7 @@ function audio_player_defaults()
 		</th>
 		<td valign="top">
 			<div class="color_control">
-				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo $PlayerSettings['bgcolor']; ?>" maxlength="20" />
+				<input type="text" style="width: 100px;" id="bgcolor" name="Player[bgcolor]" class="color_field" value="<?php echo esc_attr($PlayerSettings['bgcolor']); ?>" maxlength="20" />
 				<img id="bgcolor_prev" src="<?php echo powerpress_get_root_url(); ?>images/color_preview.gif" width="14" height="14" style="background-color: <?php echo $PlayerSettings['bgcolor']; ?>;" class="color_preview" />
 			</div>
 			<small><?php echo __('leave blank for transparent', 'powerpress'); ?></small>
@@ -1815,7 +1815,7 @@ function audio_player_defaults()
 	<?php echo __('Play Icon', 'powerpress'); ?></th>
 	<td>
 
-	<input type="text" id="audio_custom_play_button" name="General[audio_custom_play_button]" style="width: 60%;" value="<?php echo $General['audio_custom_play_button']; ?>" maxlength="250" />
+	<input type="text" id="audio_custom_play_button" name="General[audio_custom_play_button]" style="width: 60%;" value="<?php echo esc_attr($General['audio_custom_play_button']); ?>" maxlength="250" />
 	<a href="#" onclick="javascript: window.open( document.getElementById('audio_custom_play_button').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 	<p><?php echo __('Place the URL to the play icon above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/audio_play_icon.jpg<br /><br />
@@ -1895,7 +1895,7 @@ function audio_player_defaults()
 			<?php echo __('Width', 'powerpress'); ?>   
 		</th>
 		<td valign="top">
-				<input type="text" style="width: 50px;" id="player_width" name="General[player_width_audio]" class="player-width" value="<?php echo $General['player_width_audio']; ?>" maxlength="4" />
+				<input type="text" style="width: 50px;" id="player_width" name="General[player_width_audio]" class="player-width" value="<?php echo esc_attr($General['player_width_audio']); ?>" maxlength="4" />
 			<?php echo __('Width of Audio mp3 player (leave blank for 320 default)', 'powerpress'); ?>
 		</td>
 	</tr>
@@ -1994,7 +1994,7 @@ function audio_player_defaults()
 </th>
 <td>
 <p>
-<input type="text" name="General[videojs_css_class]" style="width: 150px;" value="<?php echo ( empty($General['videojs_css_class']) ?'':htmlspecialchars($General['videojs_css_class']) ); ?>" /> 
+<input type="text" name="General[videojs_css_class]" style="width: 150px;" value="<?php echo ( empty($General['videojs_css_class']) ?'':esc_attr($General['videojs_css_class']) ); ?>" /> 
 <?php echo __('Apply specific CSS styling to your Video JS player.', 'powerpress'); ?>
 </p>
 </td>
@@ -2064,7 +2064,7 @@ function audio_player_defaults()
 <?php echo __('Player Width', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9%]/g, '');" value="<?php echo $General['player_width']; ?>" maxlength="4" />
+<input type="text" name="General[player_width]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9%]/g, '');" value="<?php echo esc_attr($General['player_width']); ?>" maxlength="4" />
 <?php echo __('Width of player (leave blank for 400 default)', 'powerpress'); ?>
 </td>
 </tr>
@@ -2074,7 +2074,7 @@ function audio_player_defaults()
 <?php echo __('Player Height', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9%]/g, '');" value="<?php echo $General['player_height']; ?>" maxlength="4" />
+<input type="text" name="General[player_height]" style="width: 50px;" onkeyup="javascript:this.value=this.value.replace(/[^0-9%]/g, '');" value="<?php echo esc_attr($General['player_height']); ?>" maxlength="4" />
 <?php echo __('Height of player (leave blank for 225 default)', 'powerpress'); ?>
 </td>
 </tr>
@@ -2087,7 +2087,7 @@ function audio_player_defaults()
 <?php echo __('Default Poster Image', 'powerpress'); ?></th>
 <td>
 
-<input type="text" id="poster_image" name="General[poster_image]" style="width: 60%;" value="<?php echo $General['poster_image']; ?>" maxlength="250" />
+<input type="text" id="poster_image" name="General[poster_image]" style="width: 60%;" value="<?php echo esc_attr($General['poster_image']); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('poster_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the poster image above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/poster.jpg<br /><br />
@@ -2121,7 +2121,7 @@ function audio_player_defaults()
 <?php echo __('Video Play Icon', 'powerpress'); ?></th>
 <td>
 
-<input type="text" id="video_custom_play_button" name="General[video_custom_play_button]" style="width: 60%;" value="<?php echo $General['video_custom_play_button']; ?>" maxlength="250" />
+<input type="text" id="video_custom_play_button" name="General[video_custom_play_button]" style="width: 60%;" value="<?php echo esc_attr($General['video_custom_play_button']); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('video_custom_play_button').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('Place the URL to the play icon above.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/video_play_icon.jpg<br /><br />

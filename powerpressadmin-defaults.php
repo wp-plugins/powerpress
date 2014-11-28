@@ -127,7 +127,7 @@ jQuery(document).ready(function($) {
 <?php echo __('Program Title', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[title]" style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" />
+<input type="text" name="Feed[title]" style="width: 60%;"  value="<?php echo esc_attr($FeedSettings['title']); ?>" maxlength="250" />
 (<?php echo __('leave blank to use blog title', 'powerpress'); ?>)
 <p><?php echo __('Blog title:', 'powerpress') .' '. get_bloginfo_rss('name'); ?></p>
 </td>
