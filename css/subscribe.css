@@ -29,7 +29,7 @@
 .pp-sub-widget h2.pp-sub-t {
 	margin: 10px 10px 0 10px;
 	padding: 0;
-	font-size: 200%;
+	font-size: 200% !important;
 	color: #222222;
 }
 
@@ -62,13 +62,14 @@ body .pp-sub-widget a:link,
 body .pp-sub-widget a:visited,
 body .pp-sub-widget a:active,
 body .pp-sub-widget a:hover {
-	text-decoration: none;
+	text-decoration: none !important;
 	color: #FFFFFF;
 }
 
-.pp-sub-widget .pp-sub-l {
+.pp-sub-widget img.pp-sub-l {
 	width: 100% !important;
 	height: auto !important;
+	max-width: 300px;
 	padding: 0;
 	margin: 10px 0;
 }
