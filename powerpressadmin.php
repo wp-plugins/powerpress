@@ -1554,7 +1554,11 @@ function powerpress_admin_menu()
 		add_menu_page(__('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic', powerpress_get_root_url() . 'powerpress_ico.png');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Settings', 'powerpress'), __('Settings', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic' );
 			
+			
+			
 			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
+			
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('Migreate to Blubrry Podcast Media Hosting', 'powerpress'), __('Migrate Media', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_migrate.php', 'powerpress_admin_page_migrate');
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
@@ -2888,6 +2892,16 @@ function powerpress_admin_page_tags()
 	powerpress_admin_tags();
 	powerpress_admin_page_footer();
 }
+
+// Migrate
+function powerpress_admin_page_migrate()
+{
+	powerpress_admin_page_header('powerpress/powerpressadmin_migrate.php');
+	require_once( POWERPRESS_ABSPATH .'/powerpressadmin-migrate.php');
+	powerpress_admin_migrate();
+	powerpress_admin_page_footer(false);
+}
+
 
 // Admin page, advanced mode: feed settings
 function powerpress_admin_page_search()
