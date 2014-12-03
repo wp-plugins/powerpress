@@ -33,7 +33,7 @@
 	color: #222222;
 }
 
-body .pp-sub-widget a.pp-sub-btn {
+.pp-sub-widget a.pp-sub-btn {
 	width: 100%;
 	height: 48px;
 	padding: 0px 0px 0px 0px;
@@ -72,6 +72,8 @@ body .pp-sub-widget a:hover {
 	max-width: 300px;
 	padding: 0;
 	margin: 10px 0;
+	
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2); 
 }
 .pp-sub-widget .pp-sub-btns {
 	width: 100% !important;
