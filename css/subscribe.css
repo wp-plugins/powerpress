@@ -139,18 +139,33 @@ body .pp-sub-widget a:hover {
 	vertical-align: middle;
 	margin-right: 2px;
 }
+.pp-sub-ic {
+	background-image: url(../images/spriteStandard.png);
+	background-repeat: no-repeat;
+	background-size: 294px;
+}
 .pp-sub-itunes .pp-sub-ic {
-    background: url(../images/sub_sprite.png) -49px 0;
+	background-position: -49px 0;
 }
 .pp-sub-rss .pp-sub-ic {
-    background: url(../images/sub_sprite.png) 0 -49px;
+	background-position: 0 -49px;
 }
 .pp-sub-email .pp-sub-ic {
-    background: url(../images/sub_sprite.png) -196px -49px;
+	background-position: -196px -49px;
 }
 .pp-sub-pr .pp-sub-ic {
-    background: url(../images/sub_sprite.png) -196px 0;
+	background-position: -196px 0;
 }
 .pp-sub-bp .pp-sub-ic {
-    background: url(../images/sub_sprite.png) -147px 0;
+	background-position: -147px 0;
+}
+
+/* Retina-specific stuff here */
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0),
+       only screen and (min--moz-device-pixel-ratio: 2.0),
+       only screen and (-o-min-device-pixel-ratio: 200/100),
+       only screen and (min-device-pixel-ratio: 2.0) {
+	.pp-sub-ic {
+		background-image: url(../images/spriteRetina.png);
+	}
 }

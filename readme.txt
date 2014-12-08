@@ -181,7 +181,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
 * Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
 * Added `powerpress_admin_capabilities` filter for premium capabilities. (Thanks Blair Williams for the suggestion)
-
+* Made subscribe sidebar and subscribe embed button icons Retina screen compatible
 
 = 6.0 beta 2 =
 * Released on 10/24/2014

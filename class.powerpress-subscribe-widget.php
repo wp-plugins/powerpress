@@ -84,27 +84,38 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 .pp-ssb-widget-modern a.pp-ssb-rss {
 	background-color: #FF8800;
 }
-.pp-ssb-widget .pp-ssb-ic {
+.pp-ssb-ic {
 	width: 48px;
    height: 48px;
 	border: 0;
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 2px;
+	background-image: url(<?php echo powerpress_get_root_url(); ?>/images/spriteStandard.png);
+	background-repeat: no-repeat;
+	background-size: 294px;
 }
 .pp-ssb-itunes .pp-ssb-ic {
-    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -49px 0;
+    background-position: -49px 0;
 }
 .pp-ssb-rss .pp-ssb-ic {
-    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) 0 -49px;
+   background-position: 0 -49px;
 }
 .pp-ssb-email .pp-ssb-ic {
-    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -196px -49px;
+  background-position: -196px -49px;
 }
 .pp-ssb-more .pp-ssb-ic {
-    background: url(<?php echo powerpress_get_root_url(); ?>/images/sub_sprite.png) -49px -49px;
+  background-position: -49px -49px;
 }
-
+/* Retina-specific stuff here */
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0),
+       only screen and (min--moz-device-pixel-ratio: 2.0),
+       only screen and (-o-min-device-pixel-ratio: 200/100),
+       only screen and (min-device-pixel-ratio: 2.0) {
+	.pp-sub-ic {
+		background-image: url(<?php echo powerpress_get_root_url(); ?>/images/spriteRetina.png);
+	}
+}
 </style>
 <?php
 	}
