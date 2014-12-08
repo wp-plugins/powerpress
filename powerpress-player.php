@@ -1532,7 +1532,30 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 	
 	$content = '';
 	
-	$content .= '<div class="powerpress_player wp-video" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
+	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
+	
+	//
+	//$content .= do_shortcode('');
+	/*
+			'src'      => '',
+		'poster'   => '',
+		'loop'     => '',
+		'autoplay' => '',
+		'preload'  => 'metadata',
+		'width'    => 640,
+		'height'   => 360,
+	*/
+	$attr = array('src'=>$media_url, 'poster'=>'', 'loop'=>'off', 'autoplay'=>'off', 'preload'=>'none', 'width'=>$player_width, 'height'=>$player_height);
+	if( !empty($cover_image) )
+		$attr['poster'] = $cover_image;
+	if( !empty($autoplay) )
+		$attr['autoplay'] = 'on';
+	if( !empty($EpisodeData['webm_src']) )
+		$attr['webm'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
+	
+	$content .= wp_video_shortcode( $attr );
+	
+	/*
 	$content .= '<video class="powerpress-mejs-video wp-video-shortcode" width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
 	if( $cover_image )
 		$content .= ' poster="'. $cover_image .'"';
@@ -1560,6 +1583,7 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 		
 	$content .= powerpressplayer_build_playimage($media_url, $EpisodeData);
 	$content .= '</video>'.PHP_EOL;
+	*/
 	$content .= '</div>'.PHP_EOL;
 	return $content;
 }
