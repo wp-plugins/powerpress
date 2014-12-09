@@ -247,7 +247,13 @@ padding-bottom: 15px;
 	font-size: 20px;
 	margin: 20px 4px;
 	color: #CCCCCC;
-	line-height:120%
+	line-height:120%;
+}
+#powerpress_steps p.normal {
+	font-size: 14px;
+	margin: 8px 0 8px 8px;
+	color: #CCCCCC;
+	line-height: normal;
 }
 #powerpress_steps a {
 	color: #CCCCCC;

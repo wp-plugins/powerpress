@@ -1184,6 +1184,19 @@ function powerpress_admin_init()
 		}
 	}
 	
+	if( isset($_REQUEST['action']) )
+	{
+		switch( $_REQUEST['action'] )
+		{
+			case 'powerpress-migrate-media': {
+				
+				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-migrate.php');
+				powerpress_admin_migrate_request();
+			
+			}; break;
+		}
+	}
+	
 	// Handle edit from category page
 	if( isset($_POST['from_categories']) )
 	{
@@ -1558,7 +1571,7 @@ function powerpress_admin_menu()
 			
 			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
 			
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('Migreate to Blubrry Podcast Media Hosting', 'powerpress'), __('Migrate Media', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_migrate.php', 'powerpress_admin_page_migrate');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('Migrate to Blubrry Podcast Media Hosting', 'powerpress'), __('Migrate Media', 'powerpress') .' '. powerpressadmin_new('font-weight: bold; color: #ffffff;') , POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_migrate.php', 'powerpress_admin_page_migrate');
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
