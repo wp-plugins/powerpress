@@ -2908,6 +2908,7 @@ function powerpress_get_api_array()
 	}
 	else
 	{
+		$return[] = 'https://api.blubrry.com/'; // Use secure URL first when possible
 		$return[] = 'http://api.blubrry.net/';
 		$return[] = 'http://api.blubrry.com/';
 	}
