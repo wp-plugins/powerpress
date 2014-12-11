@@ -1572,13 +1572,12 @@ function powerpress_admin_menu()
 			add_options_page( __('PowerPress', 'powerpress'), __('PowerPress', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_basic.php', 'powerpress_admin_page_basic');
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('Migrate to Blubrry Podcast Media Hosting', 'powerpress'), __('Migrate Media', 'powerpress') .' '. powerpressadmin_new('font-weight: bold; color: #ffffff;') , POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_migrate.php', 'powerpress_admin_page_migrate');
+			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Podcasting SEO', 'powerpress'), '<span style="color:#f18500">'. __('Podcasting SEO', 'powerpress') .'</span> '.powerpressadmin_new('font-weight: bold; color: #ffffff;') .'', POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
 			
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Audio Player Options', 'powerpress'), __('Audio Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_player.php', 'powerpress_admin_page_players');
 			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Video Player Options', 'powerpress'), __('Video Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_videoplayer.php', 'powerpress_admin_page_videoplayers');
 			// Coming soon, maybe PP 6.1
 			//add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Mobile Player Options', 'powerpress'), __('Mobile Player', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_mobileplayer.php', 'powerpress_admin_page_mobileplayers');
-			
-			add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Podcasting SEO', 'powerpress'), '<span style="color:#f18500">'. __('Podcasting SEO', 'powerpress') .'</span> '.powerpressadmin_new('font-weight: bold; color: #ffffff;') .'', POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_search.php', 'powerpress_admin_page_search');
 			
 			if( !empty($Powerpress['channels']) )
 				add_submenu_page('powerpress/powerpressadmin_basic.php', __('PowerPress Custom Podcast Channels', 'powerpress'), __('Podcast Channels', 'powerpress'), POWERPRESS_CAPABILITY_EDIT_PAGES, 'powerpress/powerpressadmin_customfeeds.php', 'powerpress_admin_page_customfeeds');
