@@ -329,11 +329,13 @@ function powerpress_admin_migrate_request()
 							if( $CompletedResults['completed_count'] > 0 )
 							{
 								update_option('powerpress_migrate_completed', $CompletedResults);
-								powerpress_page_message_add_error( sprintf(__('Episodes updated successfully.', 'powerpress')) );
+								powerpress_page_message_add_notice( sprintf(__('Episodes updated successfully.', 'powerpress')) );
+								return;
 							}
 						}
 					}
 				}
+				powerpress_page_message_add_notice(  sprintf(__('No episoded modified.', 'powerpress')) );
 			}; break;
 		}
 	}
