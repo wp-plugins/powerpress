@@ -243,6 +243,10 @@ padding-bottom: 15px;
 	left: 0;
 	position: absolute;
 }
+#powerpress_single_step h3 {
+	color: #337EC9;
+	font-size: 24px;
+}
 #powerpress_steps p {
 	font-size: 20px;
 	margin: 20px 4px;
@@ -266,7 +270,6 @@ padding-bottom: 15px;
 
 #powerpress_steps .active-step h3 {
 	color: #337EC9;
-	
 }
 #powerpress_steps .active-step p,
 #powerpress_steps .active-step a {
