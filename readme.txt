@@ -175,6 +175,11 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 6.0 beta 3 =
 * Released on TBA
+
+* Migrate to Blubrry Podcast Hosting in 3 easy steps added.
+* New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
+* Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
+* We are now warning users not to use Flash based players in the player selection screens.
 * Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
 * FeedBurner feed URL when set will be used in the new subscribe page and subscribe sidebar widget (Thanks Daniel Lewis for bringing to our attention)
 * Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)

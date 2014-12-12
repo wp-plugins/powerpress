@@ -1960,6 +1960,7 @@ function powerpress_admin_head()
 	// Powerpress page
 	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress' ) !== false )
 	{
+		powerpress_wp_print_styles();
 		echo "<script type=\"text/javascript\" src=\"". powerpress_get_root_url() ."player.min.js\"></script>\n";
 ?>
 <script type="text/javascript"><!--

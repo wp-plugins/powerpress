@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '6.0 beta 2' );
+define('POWERPRESS_VERSION', '6.0 beta 3' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -1358,6 +1358,22 @@ function powerpress_init()
 
 add_action('init', 'powerpress_init', -100); // We need to add the feeds before other plugins start screwing with them
 
+function powerpress_wp_print_styles()
+{
+	$Settings = get_option('powerpress_general');
+	
+	if( !empty($Settings['audio_player_max_width']) )
+	{
+		echo '<style type="text/css">'."\n";
+		if( is_numeric($Settings['audio_player_max_width']) )
+			$Settings['audio_player_max_width'] .= 'px';
+		echo '.powerpress_player .wp-audio-shortcode { max-width: '.$Settings['audio_player_max_width'].'; }'."\n";
+		echo '</style>'."\n";
+	}
+}
+
+add_action('wp_print_styles', 'powerpress_wp_print_styles');
+
 function powerpress_request($qv)
 {
 	if( !empty($qv['feed']) )
@@ -2568,7 +2584,7 @@ function powerpress_get_enclosure($post_id, $feed_slug = 'podcast')
 	return false;
 }
 
-function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_data = false)
+function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_data = false, $add_redirect=true)
 {
 	if( $raw_data )
 		$MetaData = $raw_data;
@@ -2594,7 +2610,12 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_da
 	$Data['height'] = '';
 	
 	if( count($MetaParts) > 0 )
-		$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]), $Data['feed'] );
+	{
+		if( $add_redirect )
+			$Data['url'] = powerpress_add_redirect_url( trim($MetaParts[0]), $Data['feed'] );
+		else
+			$Data['url'] = trim($MetaParts[0]);
+	}
 	if( count($MetaParts) > 1 )
 		$Data['size'] = trim($MetaParts[1]);
 	if( count($MetaParts) > 2 )
@@ -2613,8 +2634,14 @@ function powerpress_get_enclosure_data($post_id, $feed_slug = 'podcast', $raw_da
 			if( isset($Data['length']) ) // Setting from the "Podcasting" plugin...
 				$Data['duration'] = powerpress_readable_duration($Data['length'], true);
 				
-			if( isset($Data['webm_src']) )
-				$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']), $Data['feed'] );
+			if( !empty($Data['webm_src']) )
+			{
+				if( $add_redirect )
+					$Data['webm_src'] = powerpress_add_redirect_url( trim($Data['webm_src']), $Data['feed'] );
+				else
+					$Data['webm_src'] = trim($Data['webm_src']);
+			}
+				
 				
 			if( strpos($MetaParts[0], 'http://') !== 0 && !empty($Data['hosting']) ) // if the URL is not set (just file name) and we're a hosting customer...
 			{

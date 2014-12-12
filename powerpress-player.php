@@ -85,7 +85,7 @@ function powerpressplayer_init($GeneralSettings)
 		wp_enqueue_style('mediaelement');
 		wp_enqueue_style('wp-mediaelement');
 		wp_enqueue_script('mediaelement');
-		wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+		//wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js'); // no longer needed
 	}
 }
 
@@ -1506,8 +1506,8 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 {
 	$player_id = powerpressplayer_get_next_id();
 	$cover_image = '';
-	$player_width = 400;
-	$player_height = 225;
+	$player_width = '';
+	$player_height = '';
 	$autoplay = false;
 	// Global Settings
 	$Settings = get_option('powerpress_general');
@@ -1533,19 +1533,11 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 	$content = '';
 	
 	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
-	
-	//
-	//$content .= do_shortcode('');
-	/*
-			'src'      => '',
-		'poster'   => '',
-		'loop'     => '',
-		'autoplay' => '',
-		'preload'  => 'metadata',
-		'width'    => 640,
-		'height'   => 360,
-	*/
-	$attr = array('src'=>$media_url, 'poster'=>'', 'loop'=>'off', 'autoplay'=>'off', 'preload'=>'none', 'width'=>$player_width, 'height'=>$player_height);
+	$attr = array('src'=>$media_url, 'poster'=>'', 'loop'=>'', 'autoplay'=>'', 'preload'=>'none'); // , 'width'=>'', 'height'=>'');
+	if( !empty($player_width) )
+		$attr['width'] = $player_width;
+	if( !empty($player_height) )
+		$attr['height'] = $player_height;
 	if( !empty($cover_image) )
 		$attr['poster'] = $cover_image;
 	if( !empty($autoplay) )
@@ -1554,36 +1546,6 @@ function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array
 		$attr['webm'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
 	
 	$content .= wp_video_shortcode( $attr );
-	
-	/*
-	$content .= '<video class="powerpress-mejs-video wp-video-shortcode" width="'. $player_width .'" height="'. $player_height .'" controls="controls"';
-	if( $cover_image )
-		$content .= ' poster="'. $cover_image .'"';
-	if( $autoplay )
-		$content .= ' autoplay="autoplay"';
-	else
-		$content .= ' preload="none"';
-	$content .= '>'.PHP_EOL;
-	$content_type = powerpress_get_contenttype($media_url);
-	
-	// Prevent pre-loading in certain browsers
-	$media_url_src = $media_url;
-	// Special case for mobile browsers
-	//if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
-	//	$media_url_src = '#'.$media_url;
-	//}
-	
-	$content .='<source src="'. $media_url_src .'" type="'. $content_type .'" />';
-		
-	if( !empty($EpisodeData['webm_src']) )
-	{
-		$EpisodeData['webm_src'] = powerpress_add_flag_to_redirect_url($EpisodeData['webm_src'], 'p');
-		$content .='<source src="'. $EpisodeData['webm_src'] .'" type="video/webm" />';
-	}
-		
-	$content .= powerpressplayer_build_playimage($media_url, $EpisodeData);
-	$content .= '</video>'.PHP_EOL;
-	*/
 	$content .= '</div>'.PHP_EOL;
 	return $content;
 }
@@ -1659,36 +1621,16 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 	
 	
 	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">'.PHP_EOL;
-	$content .= '<audio class="powerpress-mejs-audio" controls="controls"';
+
+	$attr = array(
+		'src'      => $media_url,
+		'loop'     => '', // off
+		'autoplay' => ( $autoplay ?'on':''),
+		'preload'  => 'none'
+	);
+		
 	
-	// Set the type if required
-	$extension = powerpressplayer_get_extension($media_url);
-	switch( $extension )
-	{
-		case 'm4a': {
-			$content .= ' type="audio/mp4"';
-		}; break;
-	}
-	
-	// Prevent pre-loading in certain browsers
-	$media_url_src = $media_url;
-	// Folloowing is for mobile browsers that pre-load the audio
-	//if( preg_match('/msie|webkit|applecoremedia/i', $_SERVER['HTTP_USER_AGENT']) && !preg_match('/chrome/i', $_SERVER['HTTP_USER_AGENT']) ) {
-	//	$media_url_src = '#'.$media_url;
-	//}
-	
-	$content .=' src="'. $media_url_src .'"';
-	//if( $cover_image ) // Audio does not have a coverart image (not yet anyway)
-	//	$content .= ' poster="'. $cover_image .'"';
-	if( $autoplay )
-		$content .= ' autoplay="autoplay"';
-	else
-		$content .= ' preload="none"';
-	$content .= '>'.PHP_EOL;
-	
-	
-	$content .= powerpressplayer_build_playimageaudio($media_url);
-	$content .= '</audio>'.PHP_EOL;
+	$content .= wp_audio_shortcode( $attr );
 	$content .= '</div>'.PHP_EOL;
 	
 	

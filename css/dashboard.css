@@ -44,7 +44,7 @@
 	text-shadow: #d29a04 0 1px 0;
 }
 
-
+/*
 .powerpressadmin-mejs-video {
 	width: auto;
 }
@@ -52,7 +52,7 @@
 	position: relative;
 	width: 100%;
 	height: 0;
-	padding-bottom: 56.2%; /* 281 / 500 */
+	padding-bottom: 56.2%; 
 }
  
 .powerpressadmin-mejs-video .powerpress_player .wp-video,
@@ -64,3 +64,4 @@
 	width: 100% !important;
 	height: 100% !important;
 }
+*/

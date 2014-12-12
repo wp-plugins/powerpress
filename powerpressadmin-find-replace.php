@@ -293,8 +293,8 @@ dt {
 	<input type="submit" name="Submit" id="powerpress_save_button" class="button-primary" value="<?php echo __('Commit Changes', 'powerpress'); ?>" onclick="return ConfirmReplace()" />
 	&nbsp;
 	<input type="checkbox" name="FindReplace[verify]" value="1" <?php if( !empty($FindReplace['verify']) ) echo 'checked'; ?> onchange="return VerifyCheck(this)" />
-	<strong><?php echo __('Verify modified URLs', 'powerpress'); ?></strong>
-		(<?php echo __('Does not change media URL if link is not found or invalid', 'powerpress'); ?>)</p>
+	<strong><?php echo __('Verify URLs', 'powerpress'); ?></strong>
+		(<?php echo __('Does not change URL if invalid', 'powerpress'); ?>)</p>
 </p>
 <?php } else if ( $FindReplace['step'] == 3 || ($FindReplace['step'] == 2 && count($FindReplaceResults) == 0) ) { ?>
 <p class="submit">
