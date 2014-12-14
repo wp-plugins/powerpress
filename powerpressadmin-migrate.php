@@ -3,7 +3,7 @@
 
 function powerpress_admin_verify_url($url)
 {
-	$response = wp_remote_head( $new_url, array('httpversion' => 1.1) );
+	$response = wp_remote_head( $url, array('httpversion' => 1.1) );
 	
 	for( $x = 0; $x < 5; $x++ )
 	{
@@ -12,6 +12,10 @@ function powerpress_admin_verify_url($url)
 		{
 			$headers = wp_remote_retrieve_headers( $response );
 			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+		}
+		else
+		{
+			break;// Either we had an error or the response code is no longer a redirect
 		}
 	}
 
@@ -31,8 +35,6 @@ function powerpress_admin_verify_url($url)
 function powerpress_admin_migrate_get_files($clean=false, $exclude_blubrry=true)
 {
 		global $wpdb;
-		
-		// powerpress_page_message_add_error( __('Unable to detect PodPress media URL setting. Please set the "Default Media URL" setting in PowerPress to properly import podcast episodes.', 'powerpress') );
 		
 		$return = array();
 		//$return['feeds_required'] = 0;
@@ -132,7 +134,7 @@ function powerpress_admin_migrate_get_status()
 	$api_url_array = powerpress_get_api_array();
 	while( list($index,$api_url) = each($api_url_array) )
 	{
-		$req_url = sprintf('%s/media/%s/migrate_status.json?status=summary', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'] );
+		$req_url = sprintf('%s/media/%s/migrate_status.json?status=summary&simple=true', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'] );
 		$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 		$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth']);
 		if( $json_data != false )
@@ -183,7 +185,7 @@ function powerpress_admin_migrate_get_migrated_by_status($status='migrated')
 	$api_url_array = powerpress_get_api_array();
 	while( list($index,$api_url) = each($api_url_array) )
 	{
-		$req_url = sprintf('%s/media/%s/migrate_status.json?status=%s&limit=10000', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'], urlencode($status) );
+		$req_url = sprintf('%s/media/%s/migrate_status.json?status=%s&limit=10000&simple=true', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'], urlencode($status) );
 		$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 		$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth']);
 		if( $json_data != false )
@@ -251,12 +253,27 @@ function powerpress_admin_migrate_request()
 			}; break;
 			case 'update_episodes': { // <input type="hidden" name="migrate_action" value="update_episodes" />
 				
+				$MigrateResultsPrevious = get_option('powerpress_migrate_results');
+				$add_option = false;
+				if( $MigrateResultsPrevious == false )
+					$add_option = true;
+				unset($MigrateResultsPrevious); // Free up the memory
 				
-				$URLs = powerpress_admin_migrate_get_migrated_by_status('completed');
+				//$URLs = powerpress_admin_migrate_get_migrated_by_status('completed');
+				$URLs = powerpress_admin_migrate_get_migrated_by_status('all');
+				$URLs['updated_timestamp'] = current_time( 'timestamp' );
+				
+				if( $add_option )
+					add_option('powerpress_migrate_results', $URLs, '', 'no'); // Make sure it is not auto loaded
+				else 
+					update_option('powerpress_migrate_results', $URLs);
 				
 				if( !empty($URLs['results']) )
 				{
+					$update_option = true;
 					$CompletedResults = get_option('powerpress_migrate_completed');
+					if( $CompletedResults == false )
+						$update_option = false;
 					if( empty($CompletedResults['completed_count']) )
 						$CompletedResults['completed_count'] = 0;
 					if( empty($CompletedResults['error_count']) )
@@ -272,15 +289,19 @@ function powerpress_admin_migrate_request()
 					$FoundCount = 0;
 					if( !empty($QueuedEpisodes) )
 					{
-						
 						while( list($index,$row) = each($URLs['results']) )
 						{
+							if( $row['status'] != 'completed' ) // Not migrated
+								continue;
+							
 							$source_url = $row['source_url'];
 							$new_url = $row['new_url'];
 							$found = array_keys($QueuedEpisodes, $source_url);
 							
 							if( empty($found) )
+							{
 								continue; // Nothing found here
+							}
 							
 							$FoundCount++;
 							$GLOBALS['g_powerpress_total_migrated']++;
@@ -331,30 +352,34 @@ function powerpress_admin_migrate_request()
 								if( update_metadata_by_mid( 'post', $meta_id, $new_meta_data) )
 								{
 									$CompletedResults['completed_count']++;
+									$CompletedResults['results'][ $meta_id ] = $new_url;
 								}
 								else
 								{
 									$CompletedResults['error_count']++;
 								}
 							}
-							
-							if( $CompletedResults['completed_count'] > 0 )
-							{
+						}
+						
+						if( $CompletedResults['completed_count'] > 0 )
+						{
+							if( $update_option )
 								update_option('powerpress_migrate_completed', $CompletedResults);
-								powerpress_page_message_add_notice( sprintf(__('Episodes updated successfully.', 'powerpress')) );
-								return;
-							}
+							else
+								add_option('powerpress_migrate_completed', $CompletedResults, '', 'no'); // Make sure we are not preloading 
+							powerpress_page_message_add_notice( sprintf(__('Episodes updated successfully.', 'powerpress')) );
+							return;
 						}
 					}
 				}
-				powerpress_page_message_add_notice(  sprintf(__('No episoded modified.', 'powerpress')) );
+				powerpress_page_message_add_notice(  sprintf(__('No episoded updated.', 'powerpress')) );
 			}; break;
 		}
 	}
 }
 
 function powerpress_admin_extension_counts()
-{ // powerpress_admin_migrate_get_files
+{
 	$files = powerpress_admin_migrate_get_files(true, false);
 	$extensions = array(); // 'blubrry'=>0, 'mp3'=>0, 'm4a'=>0, 'mp4'=>0, 'm4v'=>0, '*'=>0 );
 	while( list($meta_id,$row) = each($files) )
@@ -401,7 +426,10 @@ function powerpress_admin_queue_files($extensions=array() )
 	$files = powerpress_admin_migrate_get_files(true, true); // Keep the URLs clean, excude blubrry media URLs
 	$QueuedFiles = array();
 	$Update = false;
+	$update_option = true;
 	$PastResults = get_option('powerpress_migrate_queued');
+	if( $PastResults == false )
+		$update_option = false;
 	if( is_array($PastResults) )
 		$QueuedFiles = $PastResults;
 	$AddedCount = 0;;
@@ -438,7 +466,10 @@ function powerpress_admin_queue_files($extensions=array() )
 	if( $Update )
 	{
 		// IF the API call was successful, lets save the list locally
-		update_option('powerpress_migrate_queued', $QueuedFiles);
+		if( $update_option )
+			update_option('powerpress_migrate_queued', $QueuedFiles);
+		else
+			add_option('powerpress_migrate_queued', $QueuedFiles, '', 'no');
 		powerpress_page_message_add_notice( sprintf(__('%d media files added to migration queue.', 'powerpress'), $AddedCount) );
 	}
 	
@@ -507,8 +538,137 @@ function powerpress_admin_migrate_step1()
 ?>
 
 </form>
+
+<p style="margin-bottom: 40px;">&#8592;  <a href="<?php echo admin_url( 'admin.php?page=powerpress/powerpressadmin_migrate.php'); ?>"><?php echo __('Migrate Media', 'powerpress'); ?></a></p>
 <?php
-	//print_r($GLOBALS['powerpress_migrate_stats']);
+}
+
+function powerpress_admin_migrate_find_in_results(&$results, $src_url)
+{
+	$found = false;
+	while( list($index,$row) = each($results) )
+	{
+		if( $row['source_url'] == $src_url )
+		{
+			$found = $row;
+			break;
+		}
+	}
+	reset($results);
+	
+	return $found;
+}
+
+function powerpress_admin_migrate_step2($QueuedResults, $MigrateStatus, $CompletedResults)
+{
+	$update_episodes = false;
+	$count = count($QueuedResults);
+	$MigrateResults = get_option('powerpress_migrate_results');
+	// $MigrateStatus['updated_timestamp'] < current_time('timestamp')-(60*30)
+	if( empty($MigrateResults['updated_timestamp']) || $MigrateResults['updated_timestamp']  < ( current_time( 'timestamp') - (60*30) ) )
+	{
+		$update_option = true;
+		if( $MigrateResults == false )
+			$update_option = false;
+			
+		$MigrateResults = powerpress_admin_migrate_get_migrated_by_status('all');
+		$MigrateResults['updated_timestamp'] = current_time( 'timestamp');
+		if( $update_option )
+			update_option('powerpress_migrate_results', $MigrateResults );
+		else
+			add_option('powerpress_migrate_results', $MigrateResults, '', 'no');
+	}
+	
+	$CompletedResults = get_option('powerpress_migrate_completed');
+?>
+<h2><?php echo __('Migrate Media to your Blubrry Podcast Media Hosting Account', 'powerpress'); ?></h2>
+
+
+<div id="powerpress_single_step">
+	<h3><?php echo __('List of requested media', 'powerpress'); ?></h3>
+</div>
+<!-- <p><?php echo sprintf( __('%d files requested', 'powerpress'), $count); ?></p> -->
+<?php if( !empty($MigrateStatus['queued']) && false ) { ?><p><?php echo sprintf( __('%d files in queue', 'powerpress'), $MigrateStatus['queued']); ?></p><?php } ?>
+<?php if( !empty($MigrateStatus['completed']) && false ) { ?><p><?php echo sprintf( __('%d migrated files available', 'powerpress'), $MigrateStatus['completed']); ?></p><?php } ?>
+<?php if( !empty($MigrateStatus['skipped']) && false ) { ?><p><?php echo sprintf( __('%d skipped', 'powerpress'), $MigrateStatus['skipped']); ?></p><?php } ?>
+<?php if( !empty($MigrateStatus['failed']) && false ) { ?><p><?php echo sprintf( __('%d failed', 'powerpress'), $MigrateStatus['failed']); ?></p><?php } ?>
+<?php if( !empty($CompletedResults['completed_count']) && false ) { ?><p><?php echo sprintf( __('%d episodes updated', 'powerpress'), $CompletedResults['completed_count']); ?></p><?php } ?>
+<style>
+table.powerpress-migration-table {
+	min-width: 80%;
+}
+table.powerpress-migration-table th {
+	text-align: left;
+}
+table.powerpress-migration-table td {
+	padding-left: 6px;
+}
+table.powerpress-migration-table tr:hover {
+	background-color: #DDDDDD;
+}
+.powerpress-migrate-e,
+.powerpress-migrate-s {
+	width: 18%;
+}
+</style>
+<table class="powerpress-migration-table">
+ <tr>
+	<th class="powerpress-migrate-f"><?php echo __('File', 'powerpress'); ?></th>
+	<th class="powerpress-migrate-s"><?php echo __('Migration Status', 'powerpress'); ?></th>
+	<th class="powerpress-migrate-e"><?php echo __('Episode Updated', 'powerpress'); ?></th>
+ </tr>
+<?php
+	while( list($meta_id, $url) = each($QueuedResults) )
+	{
+		$status = __('Requested', 'powerpress');
+		$updated = '-';
+		$file = basename($url);
+		
+		if( !empty($CompletedResults['results'][$meta_id]) )
+		{
+			$found = array('status'=>'completed', 'new_url'=>$CompletedResults['results'][$meta_id]);
+			$updated = __('Yes', 'powerpress');
+		}
+		else
+		{
+			$found = powerpress_admin_migrate_find_in_results($MigrateResults['results'], $url );
+		}
+		
+		if( !empty($found['status']) )
+		{
+			switch($found['status'])
+			{
+				case 'completed': { 
+					$status = __('Completed', 'powerpress');
+					if( empty($CompletedResults['results'][$meta_id]) )
+					{
+						$updated = __('No', 'powerpress');
+						$update_episodes = true;
+					}
+				}; break;
+				case 'skipped': $status = __('Skipped', 'powerpress'); break;
+				case 'error': $status = __('Error', 'powerpress'); break;
+			}
+		}
+?>
+ <tr>
+	<td><?php echo htmlspecialchars($file); ?> &nbsp;</td>
+	<td><?php echo $status; ?></td>
+	<td><?php echo $updated; ?></td>
+ </tr>
+<?php
+	}
+?>
+</table>
+<?php if( $update_episodes ) { ?>
+<p style="margin-bottom: 40px;"><strong><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=3"); ?>"><?php echo __('Update Episodes Now', 'powerpress'); ?></a></strong></p>
+
+<?php } ?>
+
+<p style="margin-bottom: 40px;">&#8592;  <a href="<?php echo admin_url( 'admin.php?page=powerpress/powerpressadmin_migrate.php'); ?>"><?php echo __('Migrate Media', 'powerpress'); ?></a></p>
+
+
+<?php
 }
 
 function powerpress_admin_migrate_step3($MigrateStatus, $CompletedResults)
@@ -543,6 +703,7 @@ function powerpress_admin_migrate_step3($MigrateStatus, $CompletedResults)
 
 
 </form>
+<p style="margin-bottom: 40px;">&#8592;  <a href="<?php echo admin_url( 'admin.php?page=powerpress/powerpressadmin_migrate.php'); ?>"><?php echo __('Migrate Media', 'powerpress'); ?></a></p>
 <?php
 }
 
@@ -558,7 +719,7 @@ function powerpress_admin_migrate()
 	}
 	
 	$Step = 0;
-	$QueuedCount = 0;
+	$RequestedCount = 0;
 	$BlubrryQueuedCount = 0;
 	$MigratedCount = 0;
 	$FailedCount = 0;
@@ -566,7 +727,7 @@ function powerpress_admin_migrate()
 	$QueuedResults = get_option('powerpress_migrate_queued');
 	if( is_array($QueuedResults) )
 	{
-		$QueuedCount = count($QueuedResults);
+		$RequestedCount = count($QueuedResults);
 		$Step = 1;
 	}
 	
@@ -576,12 +737,18 @@ function powerpress_admin_migrate()
 		$MigrateStatus = get_option('powerpress_migrate_status');
 		if( empty($MigrateStatus) || $MigrateStatus['updated_timestamp'] < current_time('timestamp')-(60*30) || !empty($_GET['refresh_migrate_status']) ) // Check every 30 minutes
 		{
-			$NewMigrateStatus = powerpress_admin_migrate_get_status();
-			if( is_array($NewMigrateStatus) )
+			$update_option = true;
+			if( $MigrateStatus == false )
+				$update_option = false;
+			
+			$MigrateStatus = powerpress_admin_migrate_get_status();
+			if( is_array($MigrateStatus) )
 			{
-				$NewMigrateStatus['updated_timestamp'] = current_time( 'timestamp' );
-				update_option('powerpress_migrate_status', $NewMigrateStatus);
-				$MigrateStatus = $NewMigrateStatus;
+				$MigrateStatus['updated_timestamp'] = current_time( 'timestamp' );
+				if( $update_option )
+					update_option('powerpress_migrate_status', $MigrateStatus);
+				else
+					add_option('powerpress_migrate_status', $MigrateStatus, '', 'no' );
 			}
 		}
 	}
@@ -605,6 +772,12 @@ function powerpress_admin_migrate()
 	}
 	
 	$CompletedResults = get_option('powerpress_migrate_completed');
+	
+	if( !empty($_REQUEST['migrate_step']) && $_REQUEST['migrate_step'] == 2 && $Step > 0 )
+	{
+		powerpress_admin_migrate_step2($QueuedResults, $MigrateStatus, $CompletedResults);
+		return;
+	}
 	
 	if( !empty($_REQUEST['migrate_step']) && $_REQUEST['migrate_step'] == 3 && $Step == 3 )
 	{
@@ -657,7 +830,7 @@ function powerpress_admin_migrate()
 	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=1"); ?>"><?php echo __('Select Media to Migrate', 'powerpress'); ?></a>
 	</p>
 	<br />
-	<p class="normal"><?php echo sprintf( __('%d files queued', 'powerpress'), $QueuedCount); ?></p>
+	<p class="normal"><?php echo sprintf( __('%d files requested', 'powerpress'), $RequestedCount); ?></p>
 	<p  class="normal"><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=1"); ?>">Add media files</a></p>
 	<?php  ?>
 	</div>
@@ -685,7 +858,7 @@ function powerpress_admin_migrate()
 	<br />
 	<?php if( $CompletedCount ) { ?><p class="normal"><?php echo sprintf( __('%d episodes updated', 'powerpress'), $CompletedCount); ?></p><?php } ?>
 <!--	<p class="normal">0 episodes updated</p> -->
-	<p class="normal"><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=3"); ?>">Update Episodes Now</a></p>
+	<p class="normal"><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=3"); ?>"><?php echo __('Update Episodes Now', 'powerpress'); ?></a></p>
 	<?php  ?>
 	</div>
 	<div class="clear"></div>
@@ -701,6 +874,7 @@ function powerpress_admin_migrate()
 	<strong><?php echo __('Migration status last updated', 'powerpress'); ?></strong><br />
 	<?php echo date_i18n( get_option( 'date_format' ) .' - '.get_option( 'time_format' ), $MigrateStatus['updated_timestamp'], false ); ?>
 	</p>
+	<p><a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_migrate.php&amp;action=powerpress-migrate-media&amp;migrate_step=2"); ?>"><?php echo __('List of requested media', 'powerpress'); ?></a></p>
 <?php
 	} 
 	
@@ -708,29 +882,17 @@ function powerpress_admin_migrate()
 	{
 		// TODO: Print a message letting folks know they can go to blubrry.com to see the migration status of the failed URLs.
 ?>
-<p><a href="http://publish.blubrry.com/content/media_migrate2.php" target="_blank"><?php echo __('Please sign into blubrry.com to review media that failed to migrate.', 'powerpress'); ?></a></p>
+<p><strong><a href="http://publish.blubrry.com/content/media_migrate2.php" target="_blank"><?php echo __('Please sign into blubrry.com to review media that failed to migrate.', 'powerpress'); ?></a></strong></p>
 <?php
 	}
 ?>
 
 <?php if( $Step > 0 ) { ?>
 <p>
- <?php echo __('You may repeat these steps if necessary.', 'powepress'); ?>
-</p>
-<p>
- <?php echo __('Migration can take a while, please be patient. Please contact support if you do not see results within 48 hours.', 'powepress'); ?>
+ <?php echo __('Migration can take a while, please be patient. Please contact support if you do not see results within 48 hours. You may repeat these steps if additional episdoes have been added after to starting migration.', 'powepress'); ?>
 </p>
 <br /><br />
 <?php } ?>
 <?php
-	while( list($index,$row) = each($files) )
-	{
-		//if( $row['on_blubrry'] )
-		//	echo "[X] ". basename($row['src_url']) . '<br />';
-		//else
-		//	echo "[ ] ". basename($row['src_url']) . '<br />';
-		//print_r($row);
-		//echo '<br /><br />';
-	}
 }
 

@@ -53,8 +53,8 @@ body .pp-ssb-widget a.pp-ssb-btn {
 	text-align:left;
 	vertical-align: middle;
 	line-height: 48px;
-	font-size: 90%;
-	font-weight: bold;
+	font-size: 90% !important;
+	font-weight: bold !important;
 	overflow: hidden;
 	border-radius: 1px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); 
@@ -68,7 +68,7 @@ body .pp-ssb-widget a.pp-ssb-btn:link,
 body .pp-ssb-widget a.pp-ssb-btn:visited,
 body .pp-ssb-widget a.pp-ssb-btn:active,
 body .pp-ssb-widget a.pp-ssb-btn:hover {
-	text-decoration: none;
+	text-decoration: none !important;
 	color: #FFFFFF;
 }
 .pp-ssb-widget-dark a,

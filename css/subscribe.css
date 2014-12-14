@@ -27,10 +27,10 @@
 	color: #666666;
 }
 .pp-sub-widget h2.pp-sub-t {
-	margin: 10px 10px 0 10px;
-	padding: 0;
+	margin: 10px 10px 0 10px !important;
+	padding: 0 !important;
 	font-size: 200% !important;
-	color: #222222;
+	color: #222222 !important;
 }
 
 .pp-sub-widget a.pp-sub-btn {
@@ -44,8 +44,8 @@
 	text-align:left;
 	vertical-align: middle;
 	line-height: 48px;
-	font-size: 90%;
-	font-weight: bold;
+	font-size: 90% !important;
+	font-weight: bold !important;
 	overflow: hidden;
 	border-radius: 1px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); 
