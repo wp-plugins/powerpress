@@ -175,7 +175,6 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 6.0 beta 3 =
 * Released on TBA
-
 * Migrate to Blubrry Podcast Hosting in 3 easy steps added.
 * New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
 * Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
