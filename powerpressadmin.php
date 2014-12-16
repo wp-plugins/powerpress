@@ -3897,7 +3897,6 @@ function powerpressadmin_community_news($items=3)
 				if( $embed_tag && !empty($embed_tag[0]['data']) )
 					$embed = $embed_tag[0]['data'];
 				
-				echo '<div class="powerpressNewsPlayer">';
 				
 				if( $first_item && $embed )
 				{
@@ -3907,9 +3906,12 @@ function powerpressadmin_community_news($items=3)
 						$embed = preg_replace('/width="/i', 'style="max-width: '.$max_width.'px;" width="', $embed );
 					}
 					$embed = preg_replace('/width="(\d{1,4})"/i', 'width="100%"', $embed );
+					
+					echo '<div class="powerpressNewsPlayer">';
 					echo $embed;
+					echo '</div>';
 				}
-				else
+				else if( $first_item )
 				{
 					$EpisodeData = array();
 					$EpisodeData['type'] = $enclosure->type;
@@ -3923,22 +3925,26 @@ function powerpressadmin_community_news($items=3)
 						case 'mp4':
 						case 'm4v':
 						case 'webm': {
-						
+							echo '<div class="powerpressNewsPlayer powerpressadmin-mejs-video">';
 							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 								echo powerpressplayer_build_mediaelementvideo($enclosure->link, $EpisodeData);
 							else
 								echo powerpressplayer_build_html5video($enclosure->link, $EpisodeData);
+							echo '</div>';
 						}; break;
 						case 'mp3':
 						case 'm4a': {
+							echo '<div class="powerpressNewsPlayer">';
 							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 								echo powerpressplayer_build_mediaelementaudio($enclosure->link, $EpisodeData);
 							else
 								echo powerpressplayer_build_html5audio($enclosure->link, $EpisodeData);
+							echo '</div>';
 						}; break;
 					}
 				}
-				echo '</div>';
+				
+					//echo '<div style="clear: both;"></div>';
 			}
 			echo '</li>';
 			$first_item = false;

@@ -58,17 +58,17 @@ function powerpressplayer_init($GeneralSettings)
 
 	
 	$enqueue_mejs = false;
-	//if( !isset($GeneralSettings['player']) || !isset($GeneralSettings['video_player']) )
-	//{
+	if( !isset($GeneralSettings['player']) || !isset($GeneralSettings['video_player']) )
+	{
 		if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 			$enqueue_mejs = true;
-	//}
+	}
 	
-	if( !empty($GeneralSettings['player']) && ($GeneralSettings['player'] == 'mediaelement-audio' || $GeneralSettings['player'] == 'default') )
+	if( !empty($GeneralSettings['player']) && ($GeneralSettings['player'] == 'mediaelement-audio'||$GeneralSettings['player'] == 'default') )
 	{
 		$enqueue_mejs = true;
 	}
-	else if( !empty($GeneralSettings['video_player']) && ($GeneralSettings['video_player'] == 'mediaelement-video'|| $GeneralSettings['video_player'] == 'default') )
+	else if( !empty($GeneralSettings['video_player']) && ($GeneralSettings['video_player'] == 'mediaelement-video'|| ) )
 	{
 		$enqueue_mejs = true;
 	}
@@ -412,7 +412,23 @@ function powerpressplayer_build_embed($player, $media_url, $EpisodeData = array(
 function do_powerpressplayer_embed($player, $media_url, $EpisodeData = array())
 {
 	// Includde the stuff we need...
-	wp_enqueue_style('mediaelement');
+	switch( $player )
+	{
+		case 'mejs-a':
+		case 'mejs-v':
+		case 'mediaelement-audio':
+		case 'mediaelement-video': {
+			// Enqueue stuff for mediaelements
+	
+			wp_enqueue_style('mediaelement');
+			wp_enqueue_style('wp-mediaelement');
+			wp_enqueue_script('mediaelement');
+			//wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+		}; break;
+		default: {
+			//wp_enqueue_script('jquery');
+		}; break;
+	}
 	wp_enqueue_script('jquery');
 	
 	$content = '';

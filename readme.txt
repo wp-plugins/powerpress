@@ -177,7 +177,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 == 5.0.10 ==
 * Released on 12/16/2014
-* Update your copy of PowerPress to version 5.0.9 immediately
+* Update your copy of PowerPress to version 5.0.10 immediately
 * Due to concerns of possible security exploits, the FlowPlayer flash based player has been removed from PowerPress as of version 5.0.10. PowerPress users are strongly encouraged to update their copy of PowerPress immediately.
 * FlowPlayer will be replaced with the default WordPress MediaElement.js player.
 
