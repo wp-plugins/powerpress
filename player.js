@@ -151,19 +151,12 @@ function powerpress_embed_html5v(id,media_url,width,height,webm_media_url)
 			document.getElementById('powerpress_player_'+id).innerHTML = '';
 			document.getElementById('powerpress_player_'+id).appendChild(v);
 			v.play();
-		} else {
-			delete(v);
-			pp_flashembed(
-				'powerpress_player_'+id,
-			{src: powerpress_url +'FlowPlayerClassic.swf', width: width, height: height, wmode: 'transparent' },
-				{config: { autoPlay: true, autoBuffering: true, showFullScreenButton: true, showMenu: false, videoFile: media_url, loop: false, autoRewind: true, splashImageFile: poster } }
-			);
+	
+			if( window.powerpress_resize_player )
+				powerpress_resize_player();
+			
+			return false; // stop the default link from proceeding
 		}
-		
-		if( window.powerpress_resize_player )
-			powerpress_resize_player();
-		
-		return false; // stop the default link from proceeding
 	}
 	
 	return true; // let the default link to the media open...
@@ -213,18 +206,8 @@ function powerpress_embed_html5a(id,media_url)
 			document.getElementById('powerpress_player_'+id).innerHTML = '';
 			document.getElementById('powerpress_player_'+id).appendChild(a);
 			a.play();
-		} else {
-			delete(a);
-			if( contentType != 'audio/ogg') {
-				pp_flashembed(
-					'powerpress_player_'+id,
-					{src: powerpress_url +'FlowPlayerClassic.swf', width: 320, height: 24, wmode: 'transparent' },
-						{config: { autoPlay: true, autoBuffering: true, showFullScreenButton: false, showMenu: false, videoFile: media_url, loop: false, autoRewind: true } }
-					);
-			} else { return true; }
+			return false; // stop the default link from proceeding
 		}
-		
-		return false; // stop the default link from proceeding
 	}
 	
 	return true; // let the default link to the media open...
