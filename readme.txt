@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 5.0.9
+Tested up to: 4.1
+Stable tag: 5.0.10
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -173,6 +173,13 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
 * Translation support will change in PowerPress 6.0+. Translations will be packaged in a separate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
+
+
+== 5.0.10 ==
+* Released on 12/16/2014
+* Update your copy of PowerPress to version 5.0.9 immediately
+* Due to concerns of possible security exploits, the FlowPlayer flash based player has been removed from PowerPress as of version 5.0.10. PowerPress users are strongly encouraged to update their copy of PowerPress immediately.
+* FlowPlayer will be replaced with the default WordPress MediaElement.js player.
 
 
 = 5.0.9 =

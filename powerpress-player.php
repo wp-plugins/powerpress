@@ -523,7 +523,7 @@ function do_powerpressplayer_embed($player, $media_url, $EpisodeData = array())
 			if( !is_array($EpisodeData) )
 				$EpisodeData = array();
 
-			$content .= powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData + array('jquery_autowidth'=>true) );
+			$content .= powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData + array('jquery_autowidth'=>true), true );
 			
 			// $content .=  'Video Flow Player Classic coming soon!';
 		}; break;
@@ -1551,88 +1551,11 @@ function powerpressplayer_build_html5mobile($media_url, $EpisodeData)
 /*
 Flow Player Classic
 */
-function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = array())
+function powerpressplayer_build_flowplayerclassic($media_url, $EpisodeData = array(), $embed = false)
 {
-	// Very important setting, we need to know if the media should auto play or not...
-	$autoplay = false; // (default)
-	if( !empty($EpisodeData['autoplay']) )
-		$autoplay = true;
-	$cover_image = '';
-	$player_width = 400;
-	$player_height = 225;
-	$Settings = get_option('powerpress_general');
-	// Global Settings
-	if( !empty($Settings['player_width']) )
-		$player_width = $Settings['player_width'];
-	if( !empty($Settings['player_height']) )
-		$player_height = $Settings['player_height'];
-	if( !empty($Settings['poster_image']) )
-		$cover_image = $Settings['poster_image'];
-	// Episode Settings
-	if( !empty($EpisodeData['width']) )
-		$player_width = $EpisodeData['width'];
-	if( !empty($EpisodeData['height']) )
-		$player_height = $EpisodeData['height'];
-	if( !empty($EpisodeData['image']) )
-		$cover_image = $EpisodeData['image'];
-		
-	$extension = powerpressplayer_get_extension($media_url, $EpisodeData);
-	if( ($extension == 'mp3' || $extension == 'm4a') && empty($Settings['poster_image_audio']) )
-	{
-		// FlowPlayer has differeent sizes for audio than for video
-		$player_width = 320;
-		if( !empty($Settings['player_width_audio']) )
-			$player_width = $Settings['player_width_audio'];
-		
-		if( !empty($EpisodeData['width']) && !empty($Settings['player_width_audio']) )
-			$player_width = $EpisodeData['width'];
-		
-		$cover_image = ''; // Audio should not have a cover image
-		$player_height = 24;
-		if(stristr($_SERVER['HTTP_USER_AGENT'], 'firefox') !== false )
-			$player_height = 22; // Firefox only
-	}
-	
-	// Build player...
-	$player_id = powerpressplayer_get_next_id();
-	$content = '';
-	$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'"></div>'.PHP_EOL;
-	$content .= '<script type="text/javascript"><!--'.PHP_EOL;
-	if( !empty($EpisodeData['jquery_autowidth']) )
-	{
-		$player_width = 'jQuery(window).width()';
-		if( preg_match('/(mp4|m4v|ogg|ogv|webm)/i', $extension) )
-		{
-			$player_height = 'jQuery(window).height()';
-		}
-	}
-	
-	if( empty($EpisodeData['type']) )
-	{
-		$EpisodeData['type']  = powerpress_get_contenttype('test.'.$extension);
-	}
-	
-	$content .= "pp_flashembed(\n";
-	$content .= "	'powerpress_player_{$player_id}',\n";
-	
-	$content .= "	{src: '". powerpress_get_root_url() ."FlowPlayerClassic.swf', ";
-	if( preg_match('/^jQuery\(/', $player_width) ) // Only add single quotes if jQuery( ... is not in the value
-		$content .= "width: {$player_width}, ";
-	else
-		$content .= "width: '{$player_width}', ";
-	if( preg_match('/^jQuery\(/', $player_height) ) // Only add single quotes if jQuery( ... is not in the value
-		$content .= "height: {$player_height}, ";
-	else
-		$content .= "height: '{$player_height}', ";
-	$content .= "wmode: 'transparent' },\n";
-	if( $cover_image )
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: ". (preg_match('/audio\//', $EpisodeData['type'])?'false':'true' ) .", showMenu: false, videoFile: '{$media_url}', splashImageFile: '{$cover_image}', scaleSplash: true, loop: false, autoRewind: true } }\n";
-	else
-		$content .= "	{config: { autoPlay: ". ($autoplay?'true':'false') .", autoBuffering: false, showFullScreenButton: ". (preg_match('/audio\//', $EpisodeData['type'])?'false':'true' ) .", showMenu: false, videoFile: '{$media_url}', loop: false, autoRewind: true } }\n";
-	$content .= ");\n";
-	$content .= "//-->\n";
-	$content .= "</script>\n";
-	return $content;
+	if( preg_match('/\.(mp3|m4a|oga)/i', $media_url ) )
+		return powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData, $embed );
+	return powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData, $embed );
 }
 
 
