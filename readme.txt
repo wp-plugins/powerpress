@@ -175,7 +175,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
-== 5.0.10 ==
+= 5.0.10 =
 * Released on 12/16/2014
 * Update your copy of PowerPress to version 5.0.10 immediately
 * Due to concerns of possible security exploits, the FlowPlayer flash based player has been removed from PowerPress as of version 5.0.10. PowerPress users are strongly encouraged to update their copy of PowerPress immediately.
