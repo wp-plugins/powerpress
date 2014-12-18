@@ -347,7 +347,7 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
-		// Embed option, enter your own embed code provided by sites such as YouTube, Viddler and Blip.tv
+		// Embed option, enter your own embed code provided by sites such as YouTube
 		if( !empty($GeneralSettings['episode_box_embed']) || $Embed )
 		{
 ?>

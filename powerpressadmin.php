@@ -4190,19 +4190,13 @@ function powerpressadmin_community_news($items=3)
 						case 'm4v':
 						case 'webm': {
 							echo '<div class="powerpressNewsPlayer powerpressadmin-mejs-video">';
-							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 								echo powerpressplayer_build_mediaelementvideo($enclosure->link, $EpisodeData);
-							else
-								echo powerpressplayer_build_html5video($enclosure->link, $EpisodeData);
 							echo '</div>';
 						}; break;
 						case 'mp3':
 						case 'm4a': {
 							echo '<div class="powerpressNewsPlayer">';
-							if( version_compare($GLOBALS['wp_version'], '3.6-alpha', '>') )
 								echo powerpressplayer_build_mediaelementaudio($enclosure->link, $EpisodeData);
-							else
-								echo powerpressplayer_build_html5audio($enclosure->link, $EpisodeData);
 							echo '</div>';
 						}; break;
 					}

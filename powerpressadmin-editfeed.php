@@ -346,7 +346,7 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 		$warning = __('WARNING: You must create at least one podcast episode for your podcast feed to be valid.', 'powerpress');
 	}
 ?>
-<h3>Podcast Feeds</h3>
+<h3><?php echo __('Podcast Feeds', 'powerpress'); ?></h3>
 <table class="form-table">
 
 <tr valign="top">

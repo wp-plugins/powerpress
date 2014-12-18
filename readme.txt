@@ -173,8 +173,16 @@ To install Blubrry PowerPress manually, follow these steps:
 * PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x through 3.5.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+
+
+= 6.0 rc 1 =
+* Released on 12/18/2014
+* Removed Flow Player, Simple Flash, AudioPlay and Flash Mp3 Maxi players. These flash players are no longer supported.
+* Last minute CSS tweaks included in the new subscribe sidebar widget and shortcode embed.
+
+
 = 6.0 beta 3 =
-* Released on TBA
+* Released on 12/15/2014
 * Migrate to Blubrry Podcast Hosting in 3 easy steps added.
 * New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
 * Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
@@ -205,7 +213,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 6.0 beta 1 =
 * Released on 9/26/2014
-* You must have WordPress 3.3 or newer and PHP 5.2 or newer for PowerPress 6.0.
+* You must have WordPress 3.6 or newer and PHP 5.2 or newer for PowerPress 6.0.
 * NEW FEATURE: Playlist player, utilizes WordPress built-in playlist specifically for podcasting. [Learn more](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/)
 * NEW FEATURE: Subscribe links, adds subscribe on iTunes and via RSS links below the player and links.
 * NEW FEATURE: Subscribe page template and `[powerpress_subscribe]` page shortcode added. Create a "Subscribe to podcast" page for your podcast.

@@ -388,7 +388,7 @@ function powerpressadmin_edit_entry_options($General)
 						(<?php echo __('Specify episode\'s media file size and duration', 'powerpress'); ?>)</p>
 						
 					<p style="margin-top: 15px; margin-bottom: 0;"><input id="episode_box_embed" class="episode_box_option" name="General[episode_box_embed]" type="checkbox" value="1"<?php if( !empty($General['episode_box_embed']) ) echo ' checked'; ?> onclick="SelectEmbedField(this.checked);"  /> <?php echo __('Embed Field', 'powerpress'); ?>
-						(<?php echo __('Enter embed code from sites such as YouTube, Viddler and Blip.tv', 'powerpress'); ?>)</p>
+						(<?php echo __('Enter embed code from sites such as YouTube', 'powerpress'); ?>)</p>
 							<p style="margin-top: 5px; margin-left: 20px; font-size: 90%;"><input id="embed_replace_player" class="episode_box_option" name="General[embed_replace_player]" type="checkbox" value="1"<?php if( !empty($General['embed_replace_player']) ) echo ' checked'; ?> /> <?php echo __('Replace Player with Embed', 'powerpress'); ?>
 								(<?php echo __('Do not display default player if embed present for episode.', 'powerpress'); ?>)</p>
 					

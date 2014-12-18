@@ -47,36 +47,5 @@ function powerpress_admin_players_init()
 			powerpress_page_message_add_notice( __('Audio Player settings saved successfully.', 'powerpress') );
 		
 		}; break;
-		case 'powerpress-flashmp3-maxi': {
-			
-			$SaveSettings = $_POST['Player'];
-			powerpress_save_settings($SaveSettings, 'powerpress_flashmp3-maxi');
-			powerpress_page_message_add_notice( __('Flash Mp3 Maxi settings saved successfully.', 'powerpress') );
-			
-		} ; break; 
-		case 'powerpress-audioplay':
-		{
-			$SaveSettings = $_POST['Player'];
-			powerpress_save_settings($SaveSettings, 'powerpress_audioplay');
-			powerpress_page_message_add_notice( __('AudioPlay settings saved successfully.', 'powerpress') );
-		}; break;
-		//TODO: PowerPress 5.0
-		//case 'powerpress-mediaelement':
-		//{
-		//	$SaveSettings = $_POST['Player'];
-		//	powerpress_save_settings($SaveSettings, 'powerpress_mediaelement');
-		//	powerpress_page_message_add_notice( __('MediaElement.js settings saved successfully.', 'powerpress') );
-		//}; break;
 	}
 }
-
-// add_action('init', 'powerpress_admin_players_init');
-
-function powerpress_admin_page_videoplayer_error()
-{
-
-}
-
-
-
-?>

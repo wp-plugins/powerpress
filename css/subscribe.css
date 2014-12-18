@@ -63,7 +63,7 @@ body .pp-sub-widget a:visited,
 body .pp-sub-widget a:active,
 body .pp-sub-widget a:hover {
 	text-decoration: none !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .pp-sub-widget img.pp-sub-l {

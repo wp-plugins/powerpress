@@ -2,25 +2,26 @@
 .powerpress-notice,
 div.powerpress-notice,
 .wrap div.powerpress-notice {
-	margin-top: 20px;
-	margin-bottom: 10px;
+	margin: 20px 0 10px;
+	padding: 0 5px;
 	line-height: 29px;
 	font-size: 12px;
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
+/*	background-color: #FFFFE0; /* yellow */
 }
 .powerpress-error,
 div.powerpress-error,
 .wrap div.powerpress-error {
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin: 20px 5px 10px;
+	padding: 0 10px;
 	line-height: 29px;
 	font-size: 12px;
 	border-width: 1px;
 	border-style: solid;
 	font-weight: bold;
-	margin-top: 20px;
+/*	background-color: #ffebe8; /* red */
 }
 #powerpress_settings {
 	background-image:url(http://images.blubrry.com/powerpress/blubrry_logo5.png);

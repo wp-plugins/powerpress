@@ -74,7 +74,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 	}
 		
 	// We need to know if category podcasting is enabled, if it is then we may need to dig deeper for this info....
-	if( !empty($GeneralSettings['cat_casting']) && $feed_slug == 'podcast' )
+	if( !empty($GeneralSettings['cat_casting']) && $feed_slug == 'podcast' && (empty($ExtraData['type']) || $ExtraData['type'] == 'category' ) )
 	{
 		if( !$category_id && is_category() )
 		{
@@ -90,6 +90,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 		if( $category_id ) // We are on a category page, makes it easy...
 		{
 			$Settings = get_option('powerpress_cat_feed_'.$category_id );
+			
 			if( !empty($Settings) )
 			{
 				$Settings['title'] = $Settings['title'];
