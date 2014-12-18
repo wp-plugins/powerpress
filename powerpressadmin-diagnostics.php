@@ -161,17 +161,17 @@
 		}
 		$powerpress_diags['system_info']['memory_used'] = 0;
 		
-		if( version_compare($powerpress_diags['system_info']['php_version'], '5.2') > -1 )
+		if( version_compare($powerpress_diags['system_info']['php_version'], '5.4') > -1 )
 		{
 			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK!', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
-		else if( version_compare($powerpress_diags['system_info']['php_version'], '5') > -1 )
+		else if( version_compare($powerpress_diags['system_info']['php_version'], '5.3') > -1 )
 		{
-			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK, though PHP 5.2 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
+			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) is OK, though PHP 5.4 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
 		else
 		{
-			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) will work, but PHP 5.2 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
+			$powerpress_diags['system_info']['message'] = sprintf( __('Your version of PHP (%s) will work, but PHP 5.4 or newer is recommended.', 'powerpress'), $powerpress_diags['system_info']['php_version'] );
 		}
 		
 		$used = 0;

@@ -243,11 +243,21 @@ padding-bottom: 15px;
 	left: 0;
 	position: absolute;
 }
+#powerpress_single_step h3 {
+	color: #337EC9;
+	font-size: 24px;
+}
 #powerpress_steps p {
 	font-size: 20px;
 	margin: 20px 4px;
 	color: #CCCCCC;
-	line-height:120%
+	line-height:120%;
+}
+#powerpress_steps p.normal {
+	font-size: 14px;
+	margin: 8px 0 8px 8px;
+	color: #CCCCCC;
+	line-height: normal;
 }
 #powerpress_steps a {
 	color: #CCCCCC;
@@ -260,7 +270,6 @@ padding-bottom: 15px;
 
 #powerpress_steps .active-step h3 {
 	color: #337EC9;
-	
 }
 #powerpress_steps .active-step p,
 #powerpress_steps .active-step a {
@@ -376,5 +385,3 @@ padding-bottom: 15px;
 		margin-right: 10px;
 	}
 } 
-
- 

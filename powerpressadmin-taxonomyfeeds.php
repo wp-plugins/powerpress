@@ -214,7 +214,7 @@ while( list($null,$taxonomy) = each($taxonomies) ) {
 	{
 ?>
 <input type="hidden" name="action" value="powerpress-addtaxonomyfeed" />
-<input type="hidden" name="taxonomy" value="<?php echo htmlspecialchars($current_taxonomy); ?>" />
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr($current_taxonomy); ?>" />
 <?php
 	//wp_original_referer_field(true, 'previous'); 
 	wp_nonce_field('powerpress-add-taxonomy-feed');

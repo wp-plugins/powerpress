@@ -38,16 +38,17 @@
 		header('HTTP/1.0 401 Unauthorized');
 		header('WWW-Authenticate: Basic realm="'. str_replace('"', '', $realm_name).'"');
 		
-		echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">';
+		echo '<!DOCTYPE html>'; // HTML5!
 		echo "\n";
 ?>
 <html>
 <head>
-	<title><?php echo $error; ?></title>
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<meta name="robots" content="noindex" />
+	<title><?php echo htmlspecialchars($error); ?></title>
 </head>
 <body>
-	<p><?php echo $error; ?></p>
+	<p><?php echo htmlspecialchars($error); ?></p>
 </body>
 </html>
 <?php

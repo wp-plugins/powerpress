@@ -26,7 +26,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Post Type and Taxonomy podcasting options, create podcasts from custom post types and taxonomies. 
 - Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-* Languages supported: English, Danish, French, Simplified Chinese, Italian ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
+- Languages supported: English, Danish, French, Simplified Chinese, Italian, Romanian, Russian, Brazilian Portuguese ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month.
 
@@ -48,7 +48,7 @@ Blubrry PowerPress includes extensive web player options to display your podcast
 * Place the player exactly where you want by adding the `[powerpress]` shortcode tag directly in your post content.
 * Add video embeds from sites such as YouTube, Blip.tv and Ustream.tv.
 * Provides download, play in new window, and embed links.
-* Player formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, wma, mov, pdf, swf, avi, mpeg, epub and more.
+* Player formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, opus, wma, mov, pdf, swf, avi, mpeg, epub and more.
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid media hosting and statistics services to streamline your podcast productivity.
@@ -170,9 +170,61 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Next Major Release Announcements =
-* PowerPress 6.0+ will no longer be compatible with WordPress 3.0.x, 3.1.x and 3.2.x. Please upgrade to WordPress 3.3 or newer to install future versions of PowerPress.
-* Translation support will change in PowerPress 6.0+. Translations will be packaged in a separate plugin made available on WordPress.org. This will allow us to release translations separately and more often.
+* PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x through 3.5.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
+
+= 6.0 beta 3 =
+* Released on TBA
+* Migrate to Blubrry Podcast Hosting in 3 easy steps added.
+* New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
+* Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
+* We are now warning users not to use Flash based players in the player selection screens.
+* Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
+* FeedBurner feed URL when set will be used in the new subscribe page and subscribe sidebar widget (Thanks Daniel Lewis for bringing to our attention)
+* Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)
+* Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
+* Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
+* Added `powerpress_admin_capabilities` filter for premium capabilities. (Thanks Blair Williams for the suggestion)
+* Made subscribe sidebar and subscribe embed button icons Retina screen compatible
+
+= 6.0 beta 2 =
+* Released on 10/24/2014
+* Re-added the blubrry folder icon for blubrry podcast hosting customers.
+* Tweaked wording and updated documentation for SEO settings (Thanks Daniel Lewis for the feedback!)
+* Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
+* Fixed subscribe links always displaying (thanks Thiago Miro for pointing out the bug)
+* Fixed upload itunes image and poster image episode functions to use selected image size when "Link URL" is blank (Thanks Daniel Lewis for bringing to our attention)
+* Added a learn more link to the SEO page.
+* Added code for the new Subscribe embed so the subscribe embed CSS is only loaded when the shortcode is used in a page.
+* Added the wp-video and wp-video-shortcode classes to the MEJS video player so latest CSS styling in WordPress is again applied 100% of the time to the MEJS player packaged in PowerPress.
+* Playlist player will now use the iTunes episode image if one is set for each episode. Program level image is used if no image is set.
+* Playlist player taxonomy podcasting now accepts the term_taxonomy_id, making it more efficient.
+* Moved the Shortcodes into their own section in Media Appearance settings, they are now included in Podcast Channels, Category Podcasting, Post Type podcasting and Taxonomy podcasting with the appropriate attributes set for convenience.
+* Brazilian Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/).
+
+
+= 6.0 beta 1 =
+* Released on 9/26/2014
+* You must have WordPress 3.3 or newer and PHP 5.2 or newer for PowerPress 6.0.
+* NEW FEATURE: Playlist player, utilizes WordPress built-in playlist specifically for podcasting. [Learn more](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/)
+* NEW FEATURE: Subscribe links, adds subscribe on iTunes and via RSS links below the player and links.
+* NEW FEATURE: Subscribe page template and `[powerpress_subscribe]` page shortcode added. Create a "Subscribe to podcast" page for your podcast.
+* NEW FEATURE: Subscribe to podcast widget, adds subscribe on iTunes and via RSS links to side bar, with optional link to subscribe to podcast page.
+* NEW FEATURE: Podcasting SEO settings. Includes options to customize podcast feed titles, AudioObjects, VideoObjects, and highlight key iTunes fields.
+* iTunes image requirements updated, 1400x1400 minimum size is now "required" and 2048x2048 is now the maximum size for iTunes artwork.
+* iTunes category and subcategory selection updated for latest iTunes category selection rules.
+* Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
+* Fixed bug where Feed Maximizer option only worked when Podcast Channels was enabled (Thanks Daniel Lewis for bringing to our attention!)
+* Fixed bug where player and links would not appear if Yoast's WordPress SEO plugin option "Add Open Graph meta data" was enabled.
+* iTunes keywords feature has been removed, feature was deprecated last year by Apple. The iTunes keywords field will appear for previous episodes that used the feature.
+* Added support for Opus audio with content type audio/ogg. (Thanks thebugcast for the heads up!)
+* Files with 'ogg' file extension are now treated as audio/ogg, unless the following define is added to your wp-config.php: `define('POWERPRESS_OGG_VIDEO', true);` (Thanks thebugcast for pointing out the default!)
+* Updated the Find and Replace episode URLs tool to use native WordPress MySQL query functions.
+* Changed the logic for HEAD requests for HTTP authentication. Default WordPress behavior is to exit all HEAD requests. (Thanks thebugcast!)
+* Changed all content types to either use the site default or use UTF8 (applies to play in new window and 401 Unauthorized HTML pages).
+* Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
+* Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
+* We are no longer detecting if the sample rate is optimal, we're no longer worried about Flash playback.
 
 
 == 5.0.10 ==
@@ -324,6 +376,7 @@ Nicolas Bouliane, [Perosnal Blog](http://nicolasbouliane.com/) - contributed cod
 * Italian translation for v2.0.4+ by [Umberto Sartori](http://veneziadoc.net/)
 * Romanian translation for v2.0.4+ by Alexander Ovsov (Web Geek Sciense: http://webhostinggeeks.com/science/)
 * Russian translation for v4.0.5+ by  [Igor Mercury](http://www.nightdiary.ru/)
+* Brazilian Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/)
 
 
 == Tips and Tutorials ==

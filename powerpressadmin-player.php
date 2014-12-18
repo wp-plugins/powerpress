@@ -13,7 +13,7 @@ function powerpress_admin_players_init()
 	wp_enqueue_style('wp-mediaelement');
 	wp_enqueue_script('mediaelement');
 	// wp_enqueue_script( 'wp-mediaelement' );
-	wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+	//wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
 	
 	$Settings = false; // Important, never remove this
 	$Step = 1;
@@ -34,6 +34,8 @@ function powerpress_admin_players_init()
 				$SaveSettings = $_POST['Player'];
 			if( isset($_POST['VideoPlayer']) )
 				$SaveSettings += $_POST['VideoPlayer'];
+			if( isset($_POST['MobilePlayer']) )
+				$SaveSettings += $_POST['MobilePlayer'];
 			powerpress_save_settings($SaveSettings, 'powerpress_general');
 			powerpress_page_message_add_notice( __('Player activated successfully.', 'powerpress') );
 			

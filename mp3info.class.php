@@ -481,9 +481,6 @@
 		{
 			$this->m_file_size_only = $file_size_only;
 			
-			if( version_compare(phpversion(), '5.0.5') < 0 ) // If version less than 5.0.5...
-				$this->m_file_size_only = true; // we can only get file size info if using older versions of PHP
-			
 			$DeleteFile = false;
 			if( strtolower( substr($File, 0, 7) ) == 'http://' )
 			{
@@ -569,6 +566,13 @@
 			
 			// Hack so this works in Windows, helper apps are not necessary for what we're doing anyway
 			define('GETID3_HELPERAPPSDIR', true);
+			if( function_exists('get_temp_dir') ) // If wordpress function is available, lets use it
+			{
+				$temp_dir = get_temp_dir(); //  WordPress temp folder
+				if( is_dir($temp_dir) )
+					define('GETID3_TEMP_DIR', $temp_dir);
+			}
+			
 			require_once(POWERPRESS_ABSPATH.'/getid3/getid3.php');
 			define('POWERPRESS_GETID3_LOADED', true);
 			
@@ -628,6 +632,7 @@
 				else
 					$FileInfo['playtime_seconds'] = 0;
 				
+				/*
 				if( isset($FileInfo['mpeg']['audio']) && $FileInfo['mpeg']['audio'] )
 				{
 					$Audio = $FileInfo['mpeg']['audio'];
@@ -643,6 +648,7 @@
 					//	$this->AddWarning( sprintf(__('Channel Mode \'%s\' may cause playback issues, we recommend \'joint stereo\' for maximum player compatibility.', 'powerpress'), trim($Audio['channelmode']) ) );
 					//}
 				}
+				*/
 				
 				return $FileInfo;
 			}

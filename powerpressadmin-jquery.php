@@ -304,7 +304,7 @@ function DeleteMedia(File)
 				{
 ?>
 <div id="media-published-title">
-	<?php echo __('Media Published within the past 30 days', 'powerpress'); ?>:
+	<?php echo __('Last 20 Published media files', 'powerpress'); ?>:
 </div>
 <?php
 					$PublishedList = true;
@@ -654,15 +654,15 @@ jQuery(document).ready(function($) {
 <?php if( $Step == 1 ) { ?>
 	<p>
 		<label for="blubrry_username"><?php echo __('Blubrry User Name (Email)', 'powerpress'); ?></label>
-		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo $Settings['blubrry_username']; ?>" />
+		<input type="text" id="blubrry_username" name="Settings[blubrry_username]" value="<?php echo esc_attr($Settings['blubrry_username']); ?>" />
 	</p>
 	<p id="password_row">
 		<label for="password_password"><?php echo __('Blubrry Password', 'powerpress'); ?></label>
 		<input type="password" id="password_password" name="Password" value="" />
 	</p>
 <?php } else { ?>
-	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo htmlspecialchars($Settings['blubrry_username']); ?>" />
-	<input type="hidden" name="Password" value="<?php echo htmlspecialchars($Password); ?>" />
+	<input type="hidden" name="Settings[blubrry_username]" value="<?php echo esc_attr($Settings['blubrry_username']); ?>" />
+	<input type="hidden" name="Password" value="<?php echo esc_attr($Password); ?>" />
 	<!-- <input type="hidden" name="Settings[blubrry_hosting]" value="<?php echo $Settings['blubrry_hosting']; ?>" /> -->
 	<p>
 		<label for="blubrry_program_keyword"><?php echo __('Select Blubrry Program', 'powerpress'); ?></label>
@@ -840,7 +840,7 @@ function powerpress_admin_jquery_header($title, $jquery = false)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
-<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; <?php echo __('WordPress', 'powerpress'); ?></title>
 <?php
 

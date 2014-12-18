@@ -3,6 +3,19 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
+function powerpress_categories_strict($Categories, $Selected)
+{
+	$Return = $Categories;
+	$StrictArray = array('01-00', '02-00', '04-00', '05-00', '06-00', '07-00', '11-00', '12-00', '13-00', '14-00', '15-00');
+	while( list($index,$remove) = each($StrictArray) )
+	{
+		if( $Selected == $remove )
+			continue;
+		unset($Return[ $remove ]);
+	}
+	return $Return;
+}
+
 function powerpress_languages()
 {
 	// List copied from PodPress:
@@ -128,7 +141,8 @@ function powerpress_admin_capabilities()
 		}
 	}
 
-	$capnames = array_unique($capnames);
+	$capnames = apply_filters( 'powerpress_admin_capabilities', array_unique($capnames) );
+	
 	$remove_keys = array('level_0', 'level_1', 'level_2', 'level_3', 'level_4', 'level_5', 'level_6', 'level_7', 'level_8', 'level_9', 'level_10');
 	while( list($null,$key) = each($remove_keys) )
 		unset($capnames[ $key ]);
@@ -246,7 +260,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_artwork"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
-	<?php if( in_array($FeedAttribs['type'], array('post_type', 'channel') ) ) { ?>
+	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
 	<?php } ?>
 	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
@@ -278,22 +292,16 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		?>
 	</div>
 	
-	<?php if( $feed_slug ) { ?>
+	<?php if( $feed_slug || $FeedAttribs['type'] == 'category' || $FeedAttribs['type'] == 'ttid' ) { ?>
 	<div id="feed_tab_appearance" class="powerpress_tab">
 		<?php
 		//powerpressadmin_appearance($General);
-		powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug, $FeedAttribs);
+		if( $feed_slug )
+			powerpressadmin_edit_appearance_feed($General, $FeedSettings, $feed_slug, $FeedAttribs);
+		powerpress_admin_appearance_common( $FeedSettings, $FeedAttribs );
 		?>
 	</div>
 	
-	<div id="feed_tab_other" class="powerpress_tab">
-		<?php
-		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID, $FeedAttribs);
-		?>
-	</div>
-	<?php } ?>
-	
-	<?php if( $FeedAttribs['type'] == 'category' || $FeedAttribs['type'] == 'ttid' ) { ?>
 	<div id="feed_tab_other" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $cat_ID, $FeedAttribs)
@@ -498,10 +506,10 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 
 <tr valign="top">
 <th scope="row">
-<?php echo __('Feed Title', 'powerpress'); ?>
+<?php echo __('Feed Title (Show Title)', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[title]" style="width: 60%;"  value="<?php echo $FeedSettings['title']; ?>" maxlength="250" />
+<input type="text" name="Feed[title]" style="width: 60%;"  value="<?php echo esc_attr($FeedSettings['title']); ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use default category title', 'powerpress'); ?>)
 <?php } else { ?>
@@ -515,6 +523,11 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 <?php } else { ?>
 <p class="description"><?php echo __('Blog title:', 'powerpress') .' '. get_bloginfo_rss('name'); ?></p>
 <?php } ?>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: The show title is very important.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
 </td>
 </tr>
 
@@ -525,7 +538,7 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 <?php echo __('Feed Description', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[description]" style="width: 60%;"  value="<?php echo ( !empty($FeedSettings['description'])? $FeedSettings['description']:''); ?>" maxlength="1000" /> 
+<input type="text" name="Feed[description]" style="width: 60%;"  value="<?php echo esc_attr( !empty($FeedSettings['description'])? $FeedSettings['description']:''); ?>" maxlength="1000" /> 
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category description', 'powerpress'); ?>)
 <?php } else { ?>
@@ -543,7 +556,7 @@ if( $FeedAttribs['type'] != 'general' ) // All types exept general settings
 <?php echo __('Feed Landing Page URL', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[url]" style="width: 60%;"  value="<?php echo ( !empty($FeedSettings['url'])? $FeedSettings['url']:''); ?>" maxlength="250" />
+<input type="text" name="Feed[url]" style="width: 60%;"  value="<?php echo esc_attr( !empty($FeedSettings['url'])? $FeedSettings['url']:''); ?>" maxlength="250" />
 <?php if( $cat_ID ) { ?>
 (<?php echo __('leave blank to use category page', 'powerpress'); ?>)
 <?php } else { ?>
@@ -563,7 +576,7 @@ if( $FeedAttribs['type'] != 'general' ) // All types exept general settings
 <span style="font-size: 85%; margin-left: 5px;"><?php echo __('Recommendation: leave blank', 'powerpress'); ?></span>
 </th>
 <td>
-<input type="text" name="Feed[feed_redirect_url]" style="width: 60%;"  value="<?php echo (!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use built-in feed', 'powerpress'); ?>)
+<input type="text" name="Feed[feed_redirect_url]" style="width: 60%;"  value="<?php echo esc_attr(!empty($FeedSettings['feed_redirect_url'])? $FeedSettings['feed_redirect_url']:''); ?>" maxlength="100" />  (<?php echo __('leave blank to use built-in feed', 'powerpress'); ?>)
 
 <p style="margin-top: 0px; margin-bottomd: 0;" class="description"><?php echo powerpressadmin_notice( __('NOTE: FeedBurner is not required for podcasting.', 'powerpress') ); ?> <br /> 
 <?php echo powerpressadmin_notice( __('No support is available from blubrry if you are using Feedburner or other feed hosted services.', 'powerpress') ); ?><br /> 
@@ -627,7 +640,7 @@ $Languages = powerpress_languages();
 
 echo '<option value="">'. __('Blog Default Language', 'powerpress') .'</option>';
 while( list($value,$desc) = each($Languages) )
-	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+	echo "\t<option value=\"$value\"". ($FeedSettings['rss_language']==$value?' selected':''). ">". esc_attr($desc)."</option>\n";
 ?>
 </select>
 <?php
@@ -648,7 +661,7 @@ if( isset($Languages[ $rss_language ]) )
 <?php echo __('Copyright', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo $FeedSettings['copyright']; ?>" maxlength="250" />
+<input type="text" name="Feed[copyright]" style="width: 60%;" value="<?php echo esc_attr($FeedSettings['copyright']); ?>" maxlength="250" />
 </td>
 </tr>
 <tr valign="top">
@@ -683,14 +696,14 @@ if( isset($Languages[ $rss_language ]) )
 <tr valign="top">
 <th scope="row"><?php echo __('Location', 'powerpress'); ?></th> 
 <td>
-	<input type="text" style="width: 300px;" name="Feed[location]" value="<?php echo $FeedSettings['location']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
+	<input type="text" style="width: 300px;" name="Feed[location]" value="<?php echo esc_attr($FeedSettings['location']); ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Cleveland, Ohio', 'powerpress'); ?></p>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php echo __('Episode Frequency', 'powerpress'); ?></th> 
 <td>
-	<input type="text" style="width: 300px;" name="Feed[frequency]" value="<?php echo $FeedSettings['frequency']; ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
+	<input type="text" style="width: 300px;" name="Feed[frequency]" value="<?php echo esc_attr($FeedSettings['frequency']); ?>" maxlength="50" /> (<?php echo __('optional', 'powerpress'); ?>)
 	<p><?php echo __('e.g. Weekly', 'powerpress'); ?></p>
 </td>
 </tr>
@@ -708,8 +721,8 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 		$FeedSettings['redirect'] = '';
 	if( !isset($FeedSettings['premium_label']) )
 		$FeedSettings['premium_label'] = '';
-
-	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category')  )
+ 	
+	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category' || ($FeedAttribs['type'] == 'channel' && defined('CHANNEL_STATS_REDIRECT') ) || ($FeedAttribs['type'] == 'post_type' && defined('POST_TYPE_STATS_REDIRECT')) )  )
 	{
 ?>
 	<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
@@ -723,18 +736,23 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 	<?php echo __('Redirect URL', 'powerpress'); ?> 
 	</th>
 	<td>
-	<input type="text" style="width: 60%;" name="Feed[redirect]" value="<?php echo $FeedSettings['redirect']; ?>" maxlength="250" />
+	<input type="text" style="width: 60%;" name="Feed[redirect]" value="<?php echo esc_attr($FeedSettings['redirect']); ?>" maxlength="250" />
 <?php if( $FeedAttribs['type'] == 'category' ) { ?>
 	<p class="description"><?php echo __('Note: Category Media Redirect URL is applied to category feeds and pages only. The redirect will also apply to single pages if this is the only category associated with the blog post.', 'powerpress'); ?></p>
 <?php } else if( $FeedAttribs['type'] == 'ttid' ) { ?>
 	<p class="description"><?php echo __('Note: Media Redirect URL is applied to this podcast feed only. The redirect will NOT apply to pages.', 'powerpress'); ?></p>
+<?php } else if( $FeedAttribs['type'] == 'channel' ) { ?>
+	<p class="description"><?php echo __('When specified, this will be the only media statistics redirect applied to this podcast channel.', 'powerpress'); ?></p>
+<?php } else if( $FeedAttribs['type'] == 'post_type' ) { ?>
+	<p class="description"><?php echo __('When specified, this will be the only media statistics redirect applied to this podcast post type.', 'powerpress'); ?></p>
 <?php } ?>
 	</td>
 	</tr>
 	</table>
 <?php
 	}
-	else if( $feed_slug ) // end if category, else channel...
+	
+	if( $feed_slug ) // end if category, else channel...
 	{
 ?>
 
@@ -745,7 +763,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 <?php echo __('Background Color', 'powerpress'); ?>
 </th>
 <td>
-<input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo $General['episode_box_background_color'][ $feed_slug ]; ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
+<input type="text" id="episode_background_color" name="EpisodeBoxBGColor[<?php echo $feed_slug; ?>]" style="width: 100px; float:left; border: 1px solid #333333; <?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) ) echo 'background-color: '.$General['episode_box_background_color'][ $feed_slug ]; ?>;" value="<?php if( !empty($General['episode_box_background_color'][ $feed_slug ]) )  echo esc_attr($General['episode_box_background_color'][ $feed_slug ]); ?>" maxlength="10" onblur="jQuery('#episode_background_color').css({'background-color' : this.value });" />
 <div style="background-color: #FFDFEF;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFDFEF'; jQuery('#episode_background_color').css({'background-color' :'#FFDFEF' });"></div>
 <div style="background-color: #FBECD8;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FBECD8'; jQuery('#episode_background_color').css({'background-color' :'#FBECD8' });"></div>
 <div style="background-color: #FFFFCC;" class="powerpress_color_box" onclick="document.getElementById('episode_background_color').value='#FFFFCC'; jQuery('#episode_background_color').css({'background-color' :'#FFFFCC' });"></div>
@@ -988,7 +1006,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 <?php echo __('iTunes Program Subtitle', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[itunes_subtitle]" style="width: 60%;"  value="<?php echo $FeedSettings['itunes_subtitle']; ?>" maxlength="250" />
+<input type="text" name="Feed[itunes_subtitle]" style="width: 60%;"  value="<?php echo esc_attr($FeedSettings['itunes_subtitle']); ?>" maxlength="250" />
 </td>
 </tr>
 
@@ -1004,48 +1022,40 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 </tr>
 
 <?php
-	if( !empty($General['advanced_mode_2']) ) {
+	if( !empty($General['advanced_mode_2']) ) 
+	{
 ?>
 <tr valign="top">
 <th scope="row">
 
 <?php echo __('iTunes Episode Summary', 'powerpress'); ?></th>
 <td>
-
-<?php if ( version_compare( '5', phpversion(), '<=' ) ) { ?>
-<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?> (<?php echo __('We no longer recommend using this setting, see note below', 'powerpress'); ?>)
+<div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?>
 </div>
 <p>
 	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application.', 'powerpress'); ?>
 </p>
-<p class="description"><strong>
-	<?php echo __('Note: With the recent launch of iTunes web site during the summer of 2010, Optimize iTunes Summary\'s clickable links do not appear online in the same way they do in the iTunes application. For this reason, we no longer recommend using this feature.', 'powerpress'); ?>
-</strong></p>
-<?php } else { ?>
-
-	<strong><?php echo __('Option Not Available', 'powerpress'); ?></strong>
-
-<p>
-	<?php echo __('This feature requires PHP version 5 or newer.', 'powerpress'); ?>
-	<?php echo sprintf( __('Your server\'s version of PHP is %s','powerpress'),phpversion() ); ?>. 
-</p>
-<?php } ?>
 </td>
 </tr>
 </table>
 
 
 <table class="form-table">
+<?php
+		if( !empty($FeedSettings['itunes_keywords']) )
+		{
+?>
 <tr valign="top">
 <th scope="row">
 <?php echo __('iTunes Program Keywords', 'powerpress'); ?> <br />
 </th>
 <td>
-<input type="text" name="Feed[itunes_keywords]" style="width: 60%;"  value="<?php echo $FeedSettings['itunes_keywords']; ?>" maxlength="250" />
-<p><?php echo __('Enter up to 12 keywords separated by commas.', 'powerpress'); ?></p>
+<input type="text" name="Feed[itunes_keywords]" style="width: 60%;"  value="<?php echo esc_attr($FeedSettings['itunes_keywords']); ?>" maxlength="250" />
+<p><?php echo __('Feature Deprecated by Apple. Keywords above are for your reference only.', 'powerpress'); ?></p>
 </td>
 </tr>
 <?php
+		} // End iTunes keywords
 	} // end advanced mode
 ?>
 
@@ -1068,23 +1078,27 @@ $Categories = powerpress_itunes_categories(true);
 
 echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
 
-while( list($value,$desc) = each($Categories) )
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_1']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_1']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 ?>
 </select>
 <?php
-	if( !$MoreCategories ) { ?>
+	if( !$MoreCategories && empty($General['seo_itunes']) ) { ?>
 	<a href="#" onclick="document.getElementById('more_itunes_cats').style.display='block';return false;"><?php echo __('more', 'powerpress'); ?></a>
 <?php } ?>
+	<p>
+		<?php echo __('The category above is where you will appear when browsing iTunes.', 'powerpress'); ?>
+	</p>
 </td>
 </tr>
 </table>
 
 
 <!-- start advanced features -->
-<div id="more_itunes_cats" style="display: <?php echo ($MoreCategories?'block':'none'); ?>;">
+<div id="more_itunes_cats" style="display: <?php echo ( ($MoreCategories||!empty($General['seo_itunes']) )?'block':'none'); ?>;">
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
@@ -1095,15 +1109,21 @@ reset($Categories);
 <?php
 
 
-echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
-
-while( list($value,$desc) = each($Categories) )
+echo '<option value="">'. __('Select Category', 'powerpress')  .'</option>';
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_2']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_2']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 
 ?>
 </select>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Select a second category.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
+
 </td>
 </tr>
 
@@ -1115,14 +1135,19 @@ reset($Categories);
 <select name="Feed[itunes_cat_3]" class="bpp_input_med">
 <?php
 
-echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
-
-while( list($value,$desc) = each($Categories) )
+echo '<option value="">'. __('Select Category', 'powerpress')  .'</option>';
+$UseCategories = powerpress_categories_strict($Categories, $FeedSettings['itunes_cat_3']);
+while( list($value,$desc) = each($UseCategories) )
 	echo "\t<option value=\"$value\"". ($FeedSettings['itunes_cat_3']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
 
 reset($Categories);
 ?>
 </select>
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Select a third category.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
 </td>
 </tr>
 </table>
@@ -1151,12 +1176,17 @@ while( list($value,$desc) = each($explicit) )
 <!-- start advanced features -->
 <tr valign="top">
 <th scope="row">
-<?php echo __('iTunes Talent Name', 'powerpress'); ?> 
+<?php echo __('iTunes Author Name', 'powerpress'); ?> 
 </th>
 <td>
-<input type="text" name="Feed[itunes_talent_name]" class="bpp_input_med" value="<?php echo $FeedSettings['itunes_talent_name']; ?>" maxlength="250" /><br />
+<input type="text" name="Feed[itunes_talent_name]" class="bpp_input_med" value="<?php echo esc_attr($FeedSettings['itunes_talent_name']); ?>" maxlength="250" /><br />
 <div><input type="checkbox" name="Feed[itunes_author_post]" value="1" <?php echo ( !empty($FeedSettings['itunes_author_post'])?'checked ':''); ?>/> <?php echo __('Use blog post author\'s name for individual episodes.', 'powerpress'); ?></div>
 
+<?php if( !empty($General['seo_itunes']) ) { ?>
+			<p>
+				<em><?php echo __('SEO Suggestion: Include talent names and slogans not mentioned in the show title.', 'powerpress'); ?></em>
+			</p>
+<?php } ?>
 </td>
 </tr>
 <!-- end advanced features -->
@@ -1168,7 +1198,7 @@ while( list($value,$desc) = each($explicit) )
 <span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
-<input type="text" name="Feed[email]" class="bpp_input_med" value="<?php echo $FeedSettings['email']; ?>" maxlength="250" />
+<input type="text" name="Feed[email]" class="bpp_input_med" value="<?php echo esc_attr($FeedSettings['email']); ?>" maxlength="250" />
 <div>(<?php echo __('iTunes will email this address when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>)</div>
 </td>
 </tr>
@@ -1230,7 +1260,7 @@ while( list($value,$desc) = each($explicit) )
 			</p>
 			<p style="margin-bottom: 0;">
 				<label style="width: 25%; float:left; display:block; font-weight: bold;"><?php echo __('New Feed URL', 'powerpress'); ?></label>
-				<input type="text" name="Feed[itunes_new_feed_url]" style="width: 55%;"  value="<?php echo $FeedSettings['itunes_new_feed_url']; ?>" maxlength="250" />
+				<input type="text" name="Feed[itunes_new_feed_url]" style="width: 55%;"  value="<?php echo esc_attr($FeedSettings['itunes_new_feed_url']); ?>" maxlength="250" />
 			</p>
 			<p style="margin-left: 25%;margin-top: 0;font-size: 90%;">(<?php echo __('Leave blank for no New Feed URL', 'powerpress'); ?>)</p>
 			
