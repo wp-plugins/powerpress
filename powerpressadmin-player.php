@@ -5,15 +5,8 @@
 // Handle post processing here for the players page.
 function powerpress_admin_players_init()
 {
-	//wp_enqueue_script('jquery');
-	//echo "powerpres player init";
-	
-	
-	wp_enqueue_style('mediaelement');
 	wp_enqueue_style('wp-mediaelement');
-	wp_enqueue_script('mediaelement');
-	// wp_enqueue_script( 'wp-mediaelement' );
-	//wp_enqueue_script( 'powerpress-mejs', powerpress_get_root_url() .'powerpress-mejs.js');
+	wp_enqueue_script( 'wp-mediaelement' );
 	
 	$Settings = false; // Important, never remove this
 	$Step = 1;

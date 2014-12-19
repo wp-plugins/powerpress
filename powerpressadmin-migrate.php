@@ -593,7 +593,7 @@ function powerpress_admin_migrate_step2($QueuedResults, $MigrateStatus, $Complet
 <?php if( !empty($MigrateStatus['skipped']) && false ) { ?><p><?php echo sprintf( __('%d skipped', 'powerpress'), $MigrateStatus['skipped']); ?></p><?php } ?>
 <?php if( !empty($MigrateStatus['failed']) && false ) { ?><p><?php echo sprintf( __('%d failed', 'powerpress'), $MigrateStatus['failed']); ?></p><?php } ?>
 <?php if( !empty($CompletedResults['completed_count']) && false ) { ?><p><?php echo sprintf( __('%d episodes updated', 'powerpress'), $CompletedResults['completed_count']); ?></p><?php } ?>
-<style>
+<style type="text/css">
 table.powerpress-migration-table {
 	min-width: 80%;
 }
