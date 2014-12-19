@@ -65,6 +65,11 @@ function powerpress_admin_init()
 		{
 			wp_enqueue_style( 'wp-color-picker' );
 		}
+		
+		if( preg_match('/powerpressadmin_migrate/', $_GET['page']) )
+		{
+			wp_enqueue_script('media-upload'); // For the readjustment of the thickbox only
+		}
 	}
 	
 	

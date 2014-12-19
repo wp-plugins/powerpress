@@ -819,7 +819,8 @@ function powerpress_admin_migrate()
 <h2><?php echo __('Migrate Media to your Blubrry Podcast Media Hosting Account', 'powerpress'); ?></h2>
 
 <p><?php echo __('Migrate all of your media to Blubrry with only a few clicks.', 'powerpress'); ?></p>
-<p><a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank"><?php echo __('Don\'t have a blubrry podcast hosting account?', 'powerpress'); ?></a></p>
+
+<p><a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-hosting&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true&amp;width=800&amp;height=400" target="_blank" class="thickbox"><?php echo __('Don\'t have a blubrry podcast hosting account?', 'powerpress'); ?></a></p>
 
 
 

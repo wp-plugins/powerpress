@@ -133,6 +133,19 @@ function powerpress_admin_jquery_init()
 			
 		}; // No break here, let this fall thru..
 		
+		case 'powerpress-jquery-hosting': {
+		
+				powerpress_admin_jquery_header( __('Blubrry Podcast Media Hosting', 'powerpress') );
+?>
+<div style="line-height: 32px; height: 32px;">&nbsp;</div>
+<iframe src="//www.blubrry.com/pp/" frameborder="0" style="overflow:hidden; overflow-y: hidden;" width="100%" height="480" scrolling="no" seamless="seamless"></iframe>
+<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
+<?php
+				powerpress_admin_jquery_footer();
+				exit;
+				
+		}; break;
+		
 		case 'powerpress-jquery-media': {
 			
 			if( !current_user_can('edit_posts') )
@@ -152,19 +165,8 @@ function powerpress_admin_jquery_init()
 				powerpress_admin_jquery_header( __('Select Media', 'powerpress') );
 ?>
 <h2><?php echo __('Select Media', 'powerpress'); ?></h2>
-<p><?php echo __('Wait a sec! This feature is only available to Blubrry Media Podcast Hosting customers.', 'powerpress');
-if( !isset($Settings['blubrry_auth']) )
-	echo ' '. sprintf( __('Join our community to get free podcast statistics and access to other valuable %s.', 'powerpress'),
-	'<a href="http://create.blubrry.com/resources/" target="_blank">'. __('services', 'powerpress') .'</a>');
-?>
-</p>
-<p><?php 
-	echo sprintf( __('Our %s integrated with PowerPress making podcast publishing simple. Check out the %s on our exciting three-step publishing system!', 'powerpress'),
-		'<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank">'. __('Podcast Media Hosting', 'powerpress') .'</a>',
-		'<a href="http://create.blubrry.com/resources/podcast-media-hosting/blubrry-on-site-podcast-hosting-demo/" target="_blank">'. __('video', 'powerpress') .'</a>' );
-	?>
-   </p>
-	 <p><a href="<?php echo wp_nonce_url("admin.php?action=powerpress-jquery-media-disable", 'powerpress-jquery-media-disable'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;modal=true" onclick="return confirm('<?php echo __('Remove the Blubrry Media Hosting icon from the Media URL field?', 'powerpress'); ?>');"><?php echo __('Do not show this icon next to the Media URL field', 'powerpress'); ?></a></p>
+<p><?php echo __('Wait a sec! This feature is only available to Blubrry Media Podcast Hosting customers.', 'powerpress'); ?></p>
+<iframe src="//www.blubrry.com/pp/" frameborder="0" style="overflow:hidden; overflow-y: hidden;" width="100%" height="480" scrolling="no" seamless="seamless"></iframe>
 <p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 <?php
 				powerpress_admin_jquery_footer();
