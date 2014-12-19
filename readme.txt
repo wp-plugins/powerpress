@@ -8,47 +8,49 @@ Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, web audio/video media players and more.
+Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, Web audio/video media players and more.
 
 == Description ==
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, web audio/video media players and more.
-
+Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, Web audio/video media players, exclusive subscribe tools, podcasting SEO features and more.
 
 =  PowerPress Key Features  =
-- Full iTunes Support: Adds iTunes compliant podcast feeds to your WordPress blog.
-- Integrated HTML5 and Flash Media Players: Audio/video web players with embed support from sites such as YouTube and Ustream.tv.
-- HTML5 video support: Add both mp4 and webm media to each episode for maximum platform compatibility
-- Advanced and Default Mode: Simplfy settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
-- Media Modifiers: Easily add, modify and remove podcasts form blog posts and pages.
+- Full iTunes support: Adds iTunes compliant podcast feeds to your WordPress blog.
+- Integrated HTML5 Media Players: Audio/video Web players with embed support from sites such as YouTube.
+- Subscribe tools: Create subscribe page with our exclusive subscribe shortcode embed and subscribe sidebar widget optimized for responsive websites, high-resolution screens and Apple Retina displays.
+- Podcasting SEO: Improve discovery of your podcast on search engines such as Google, and with the iTunes podcast directory.
+- Advanced and default mode: Simplify settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
+- Media modifiers: Easily add, modify and remove podcasts from blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (Category Podcasting) or by media format (Podcast Channels).
-- Post Type and Taxonomy podcasting options, create podcasts from custom post types and taxonomies. 
-- Supported Media Formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
+- Post type and taxonomy podcasting: Create podcasts from custom post types and taxonomies.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
 - Languages supported: English, Danish, French, Simplified Chinese, Italian, Romanian, Russian, Brazilian Portuguese ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month.
 
 =  Full iTunes Support!  =
-iTunes can make up between 50 and 95 percent of a podcaster's audience. PowerPress comes with the following iTunes specific features.
+Blubrry PowerPress fully supports iTunes, which set the standard and is required for podcasting. PowerPress comes with the following iTunes specific features:
 
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
-* Optimized iTunes Summary: Converts your blog post content to a format suited for viewing in iTunes ([learn more](http://create.blubrry.com/resources/powerpress/powerpress-settings/itunes/))
-* Upload iTunes Artwork: Upload and change your iTunes artwork directly from within PowerPress settings.
-* iTunes podcasting fully supported including the latest [Apple iTunes podcasting specifications](http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/).
+* Optimized iTunes summary: Converts your blog-post content to a format suited for viewing in iTunes ([learn more](http://create.blubrry.com/resources/powerpress/powerpress-settings/itunes/)).
+* Tunes artwork: Upload and manage your iTunes artwork directly from within PowerPress settings.
+* iTunes podcasting: Fully supported, including the latest [Apple iTunes podcasting specifications](http://www.powerpresspodcast.com/2012/05/10/itunes-podcasting-specifications-changed-may-2012-what-that-means-for-podcasting/).
 * Feed Episode Maximizer: Increase the number of episodes viewed on iTunes while decreasing the byte size of your feeds.
 
 =  Integrated Media Players  =
-Blubrry PowerPress includes extensive web player options to display your podcast audio and video in your web pages.
+Blubrry PowerPress includes extensive Web player options to display your podcast audio and video in your Web pages.
 
-* 7 Audio Players: Pick from 7 audio players including [MediaElement.js](http://mediaelementjs.com/), [1 Pixel Out Player](http://wpaudioplayer.com/whatsnew) and HTML5 audio player.
-* 4 Video Players: Pick between [MediaElement.js](http://mediaelementjs.com/), HTML5 video, Flow Player Classic Flash player or [VideoJS](http://wordpress.org/extend/plugins/videojs-html5-video-player-for-wordpress/).
-* Position player above or below your post content.
-* Place the player exactly where you want by adding the `[powerpress]` shortcode tag directly in your post content.
-* Add video embeds from sites such as YouTube, Blip.tv and Ustream.tv.
-* Provides download, play in new window, and embed links.
-* Player formats supported: mp3, m4v, mp4, m4a, webm, ogg, ogv, oga, opus, wma, mov, pdf, swf, avi, mpeg, epub and more.
+* Audio players: Pick from MediaElement.js, native HTML5 audio or 1 Pixel Out Player.
+* Video players: Pick from MediaElement.js, native HTML5 video or VideoJS.
+* Post positioning: Position player above or below your content.
+* [Player shortcode](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/shortcode/): Place the player exactly where you want by adding the `[powerpress]` shortcode directly into your post content.
+* [Playlist player shortcode](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/): Include a playlist of your latest podcast episodes utilizing the `[powerpress_playlist]` shortcode in any page or post.
+* Embeds: Add embeds from sites such as YouTube.
+* Links: Provide download, play in new window and embed links.
+* Audio formats supported: mp3, m4a, oga (ogg audio), opus.
+* Video formats supported: m4v, mp4, webm, ogv (ogg video).
+
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid media hosting and statistics services to streamline your podcast productivity.
@@ -57,31 +59,46 @@ Make your life easier by adding our FREE or paid media hosting and statistics se
 * Publish Blubrry hosted media directly from your blog.
 * View Blubrry hosting usage quota from your blog.
 * Configure how Blubrry writes media (ID3) tags within PowerPress settings.
+* Migrate all of your media to your Blubrry [Podcast Media Hosting](http://create.blubrry.com/resources/podcast-media-hosting/) account with just a couple clicks.
 
 The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month. Blubrry [Media Hosting](https://secure.blubrry.com/podcast-publishing-premium-with-hosting/) packages start at $12. 
 
-= Advanced Features =
-Want more? Check out the advanced features.
+= Subscribe Tools =
+A Blubrry PowerPress exclusive, podcasting subscribe tools help you convert Web visitors into podcast subscribers.
 
-* Embeds! Provide embeds your audience can take with them (just like YouTube embeds)
+* [Subscribe page](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-page/): Instantly create a subscribe page with simplified instructions on how to subscribe to your podcast using the PowerPress subscribe page shortcode.
+* [Subscribe page shortcode](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/): Add the `[powerpress_subscribe]` shortcode to include a mobile-device optimized subscribe embed in any post or page that includes buttons to subscribe on iTunes, by RSS, BeyondPod for Android, Podcast Republic for Android and an automatically highlighted textbox to easily copy and paste your podcast feed into any subscription application.
+* Subscribe sidebar widget: Mobile device optimized sidebar buttons to subscribe on iTunes, by RSS and a "more subscribe options" button linked to your podcast's subscribe page.
+* Subscribe links: Subscribe on iTunes, by RSS and a link to your custom subscribe page below every player.
+* Retina enabled: Subscribe button images optimized for high resolution displays including Apple Retina displays.
+* Responsive: Subscribe tools are designed for any screen and optimized for touch screens by providing custom buttons that are at minimum 48 pixels in height.
+
+= Advanced Features =
+Want more? We've got more! Check out some of the advanced features:
+
+* [Podcasting SEO settings](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/): Utilize the iTunes features that improve the discovery of your podcasts and include the necessary meta data in your blog pages for search engines to discover.
+* Embeds: Provide embeds your audience can take with them (just like YouTube embeds)
 * Media size and duration detection: Enter your media URL and let the PowerPress do the rest.
 * Category Casting: Add podcast support to your WordPress category feeds.
 * Custom Podcast Channels: Distribute multiple formats (audio/video) and versions (short/full length).
 * *Taxonomy Podcasting: Create podcasts for your custom taxonomy tag names including WordPress Tags. (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
 * *Post Type Podcasting: Create podcasts for your custom post types.
-* FeedBurner Support: Use FeedBurner.com to host your podcast feeds.
+* FeedBurner Support: Use FeedBurner.com to host your podcast feeds ([we do not recommend FeedBurner for podcasting](http://create.blubrry.com/manual/syndicating-your-podcast-rss-feeds/feedburner-for-podcasting/)).
 * **User Role Management: Control which users in your blog can podcast.
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
-* WordPress MultiSite: Blubrry PowerPress is compatible with WordPress MultiSite.
+* WordPress MultiSite: Blubrry PowerPress is compatible with WordPress MultiSite and can be extended using the [Blubrry PowerPress MultiSite add-on plugin](https://wordpress.org/plugins/powerpress-multisite/).
+* ***Supported syndication formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 
-*Custom Post Types and Taxonomies features require a separate plugin to manage custom post types and/or taxonomies.
+*Custom Post Types and Taxonomies features require a separate plugin to manage.
 
 **User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
 
-= Migrating from PodPress? =
-Switching to PowerPress is seamless, just enable PowerPress then disable PodPress and you're done! Switching plugins is that easy! Visit [Migrating from PodPress to PowerPress](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-podpress-to-powerpress/) for details.
+***Apple iTunes only supports mp3, m4a, mp4, m4v, pdf and epub.
 
-PowerPress will continue where plugin your old plugin left off by including your previously created episodes in your feeds and web pages.
+= Migrating from PodPress? =
+Switching to PowerPress is seamless. Simply enable PowerPress then disable PodPress and you're done! Visit [Migrating from PodPress to PowerPress](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-podpress-to-powerpress/) for details.
+
+PowerPress will continue where plugin your old plugin left off by including your previously created episodes in your feeds and Web pages.
 
 Note: Advanced settings such as settings for podcast categories will need to be recreated in PowerPress.
 
@@ -94,7 +111,7 @@ Note: Advanced settings such as settings for podcast categories will need to be 
 * Check out [The Podcasting Manual](http://create.blubrry.com/manual/) - everything you need to know about podcasting
 
 = Need More Help? =
-We now offer one-on-one consulting via Gotomeeting, Skype or phone.
+We now offer one-on-one consulting via GoToMeeting, Skype or phone.
 [Learn more about Blubrry Consulting Services](http://create.blubrry.com/support/podcast-consulting-services/)
 
 *PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
@@ -175,50 +192,15 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 
-= 6.0 rc 1 =
-* Released on 12/18/2014
-* Removed Flow Player, Simple Flash, AudioPlay and Flash Mp3 Maxi players. These flash players are no longer supported.
-* Last minute CSS tweaks included in the new subscribe sidebar widget and shortcode embed.
-
-
-= 6.0 beta 3 =
-* Released on 12/15/2014
-* Migrate to Blubrry Podcast Hosting in 3 easy steps added.
-* New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
-* Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
-* We are now warning users not to use Flash based players in the player selection screens.
-* Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
-* FeedBurner feed URL when set will be used in the new subscribe page and subscribe sidebar widget (Thanks Daniel Lewis for bringing to our attention)
-* Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)
-* Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
-* Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
-* Added `powerpress_admin_capabilities` filter for premium capabilities. (Thanks Blair Williams for the suggestion)
-* Made subscribe sidebar and subscribe embed button icons Retina screen compatible
-
-= 6.0 beta 2 =
-* Released on 10/24/2014
-* Re-added the blubrry folder icon for blubrry podcast hosting customers.
-* Tweaked wording and updated documentation for SEO settings (Thanks Daniel Lewis for the feedback!)
-* Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
-* Fixed subscribe links always displaying (thanks Thiago Miro for pointing out the bug)
-* Fixed upload itunes image and poster image episode functions to use selected image size when "Link URL" is blank (Thanks Daniel Lewis for bringing to our attention)
-* Added a learn more link to the SEO page.
-* Added code for the new Subscribe embed so the subscribe embed CSS is only loaded when the shortcode is used in a page.
-* Added the wp-video and wp-video-shortcode classes to the MEJS video player so latest CSS styling in WordPress is again applied 100% of the time to the MEJS player packaged in PowerPress.
-* Playlist player will now use the iTunes episode image if one is set for each episode. Program level image is used if no image is set.
-* Playlist player taxonomy podcasting now accepts the term_taxonomy_id, making it more efficient.
-* Moved the Shortcodes into their own section in Media Appearance settings, they are now included in Podcast Channels, Category Podcasting, Post Type podcasting and Taxonomy podcasting with the appropriate attributes set for convenience.
-* Brazilian Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/).
-
-
-= 6.0 beta 1 =
-* Released on 9/26/2014
+= 6.0 =
+* Released on 12/19/2014
 * You must have WordPress 3.6 or newer and PHP 5.2 or newer for PowerPress 6.0.
 * NEW FEATURE: Playlist player, utilizes WordPress built-in playlist specifically for podcasting. [Learn more](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-playlist-shortcode/)
 * NEW FEATURE: Subscribe links, adds subscribe on iTunes and via RSS links below the player and links.
 * NEW FEATURE: Subscribe page template and `[powerpress_subscribe]` page shortcode added. Create a "Subscribe to podcast" page for your podcast.
 * NEW FEATURE: Subscribe to podcast widget, adds subscribe on iTunes and via RSS links to side bar, with optional link to subscribe to podcast page.
 * NEW FEATURE: Podcasting SEO settings. Includes options to customize podcast feed titles, AudioObjects, VideoObjects, and highlight key iTunes fields.
+* NEW FEATURE: Migrate to Blubrry Podcast Hosting in 3 easy steps added.
 * iTunes image requirements updated, 1400x1400 minimum size is now "required" and 2048x2048 is now the maximum size for iTunes artwork.
 * iTunes category and subcategory selection updated for latest iTunes category selection rules.
 * Enhnaced iTunes Summary is back! The feature actually never left, but for the past few years links were not formatted in the iOS app. Now that they are, we now recommend the feature.
@@ -233,6 +215,29 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added new `powerpress_premium_content_authorized` filter for premium plugins to override the default behavior which uses roles and capabilities.
 * Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
 * We are no longer detecting if the sample rate is optimal, we're no longer worried about Flash playback.
+* Removed Flow Player, Simple Flash, AudioPlay and Flash Mp3 Maxi players. These flash players are no longer supported.
+* New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
+* Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
+* We are now warning users not to use Flash based players in the player selection screens.
+* Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
+* FeedBurner feed URL when set will be used in the new subscribe page and subscribe sidebar widget (Thanks Daniel Lewis for bringing to our attention)
+* Playlist Player no longer includes the play time when it is zero. (Thanks Daniel Lewis for bringing to our attention)
+* Program Titles with double quotes in the general settings was not escaped correctly, it is now fixed.  (Thanks Robin for bringing to our attention)
+* Edit value fields now use the `esc_attr()` wordpress function rather than the `htmlspecialchars()` native PHP function.
+* Added `powerpress_admin_capabilities` filter for premium capabilities. (Thanks Blair Williams for the suggestion)
+* Made subscribe sidebar and subscribe embed button icons Retina screen compatible
+* Re-added the blubrry folder icon for blubrry podcast hosting customers.
+* Tweaked wording and updated documentation for SEO settings (Thanks Daniel Lewis for the feedback!)
+* Tweaked updated documentation for the PowerPress Playlist (Thanks Daniel Lewis for asking questions, it helped us better document the features)
+* Fixed subscribe links always displaying (thanks Thiago Miro for pointing out the bug)
+* Fixed upload itunes image and poster image episode functions to use selected image size when "Link URL" is blank (Thanks Daniel Lewis for bringing to our attention)
+* Added a learn more link to the SEO page.
+* Added code for the new Subscribe embed so the subscribe embed CSS is only loaded when the shortcode is used in a page.
+* Added the wp-video and wp-video-shortcode classes to the MEJS video player so latest CSS styling in WordPress is again applied 100% of the time to the MEJS player packaged in PowerPress.
+* Playlist player will now use the iTunes episode image if one is set for each episode. Program level image is used if no image is set.
+* Playlist player taxonomy podcasting now accepts the term_taxonomy_id, making it more efficient.
+* Moved the Shortcodes into their own section in Media Appearance settings, they are now included in Podcast Channels, Category Podcasting, Post Type podcasting and Taxonomy podcasting with the appropriate attributes set for convenience.
+* Brazilian Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/).
 
 
 == 5.0.10 ==
