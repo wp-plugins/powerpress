@@ -216,7 +216,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Updated the getid3 library to latest version, PowerPress now includes ogg duration detection support for "Speex" or "vorbis".
 * We are no longer detecting if the sample rate is optimal, we're no longer worried about Flash playback.
 * Removed Flow Player, Simple Flash, AudioPlay and Flash Mp3 Maxi players. These flash players are no longer supported.
-* New MediaElement.js Audio player max width setting added. Player will now display full with otherwise. Player is now responsive, the width will shrink or stretch for the screen.
+* New MediaElement.js Audio player max width setting added. Player will now display full width otherwise. Player is now responsive, the width will shrink or stretch for the screen.
 * Improved MediaElement.js Video player width and height settings. Player will now display full width, or as styled by the theme's CSS if width and height are blank. Player is now responsive, the width will shrink or stretch for the screen, the height can be set with a blank width to allow for the player to fit different screens.
 * We are now warning users not to use Flash based players in the player selection screens.
 * Added option to set stats redirect at the channel/post type level. Requires a define `CHANNEL_STATS_REDIRECT` and/or `POST_TYPE_STATS_REDIRECT` in the wp-config.php file.
@@ -240,7 +240,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Brazilian Portuguese translation for v6.0+ by [Leo Lopes from Radiofobia](http://radiofobia.com.br/).
 
 
-== 5.0.10 ==
+= 5.0.10 =
 * Released on 12/16/2014
 * Update your copy of PowerPress to version 5.0.9 immediately
 * Due to concerns of possible security exploits, the FlowPlayer flash based player has been removed from PowerPress as of version 5.0.10. PowerPress users are strongly encouraged to update their copy of PowerPress immediately.
