@@ -3,7 +3,7 @@ Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 5.0.10
+Stable tag: 6.0
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
