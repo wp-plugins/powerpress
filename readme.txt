@@ -194,6 +194,7 @@ To install Blubrry PowerPress manually, follow these steps:
 = 6.0.1 =
 * Released on TBA
 * Duration detection option now works sites with PHP older than 5.3.
+* Tweaked CSS for subscribe sidebar widget font color to always be white.
 
 
 = 6.0 =

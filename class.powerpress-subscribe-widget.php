@@ -69,7 +69,7 @@ body .pp-ssb-widget a.pp-ssb-btn:visited,
 body .pp-ssb-widget a.pp-ssb-btn:active,
 body .pp-ssb-widget a.pp-ssb-btn:hover {
 	text-decoration: none !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 .pp-ssb-widget-dark a,
 .pp-ssb-widget-modern a {
