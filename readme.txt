@@ -191,6 +191,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
+= 6.0.1 =
+* Released on TBA
+* Duration detection option now works sites with PHP older than 5.3.
+
 
 = 6.0 =
 * Released on 12/19/2014
