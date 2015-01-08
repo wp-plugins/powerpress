@@ -195,6 +195,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Released on TBA
 * Duration detection option now works sites with PHP older than 5.3.
 * Tweaked CSS for subscribe sidebar widget font color to always be white.
+* Changed the new 6.0 logic that prevents players from being added until after the wp_head is called, we now ignore when having theme issues option is selected to fix custom theme logic that may happen before wp_head.
 
 
 = 6.0 =

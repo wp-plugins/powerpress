@@ -99,9 +99,6 @@ $powerpress_feed = NULL; // DO NOT CHANGE
 
 function powerpress_content($content)
 {
-	if( empty($GLOBALS['powerpress_wp_head_completed']) )
-		return $content;
-	
 	global $post, $g_powerpress_excerpt_post_id;
 	
 	if( defined('PODPRESS_VERSION') || isset($GLOBALS['podcasting_player_id']) || isset($GLOBALS['podcast_channel_active']) || defined('PODCASTING_VERSION') )
@@ -129,6 +126,14 @@ function powerpress_content($content)
 	if( !empty($GeneralSettings['disable_appearance']) )
 		return $content;
 		
+	// check for themes/plugins where we know we need to do this...
+	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
+		$GeneralSettings['player_aggressive'] = true;
+	}
+	if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
+		$GeneralSettings['player_aggressive'] = true;
+	}
+	
 	if( !empty($GeneralSettings['player_aggressive']) )
 	{
 		if( strstr($content, '<!--powerpress_player-->') !== false )
@@ -136,6 +141,11 @@ function powerpress_content($content)
 		
 		if( $g_powerpress_excerpt_post_id > 0 )
 			$g_powerpress_excerpt_post_id = 0; // Hack, set this to zero so it always goes past...
+	}
+	else // If we do not have theme issues then lets keep this logic clean. and only display playes after the wp_head only
+	{
+		if( empty($GLOBALS['powerpress_wp_head_completed']) )
+			return $content;
 	}
 	
 	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
