@@ -1312,6 +1312,12 @@ MediaElement.js Video Player
 */
 function powerpressplayer_build_mediaelementvideo($media_url, $EpisodeData=array(), $embed = false )
 {
+	if( !function_exists('wp_video_shortcode') )
+	{
+		// Return the HTML5 video shortcode instead
+		return powerpressplayer_build_html5video($media_url, $EpisodeData, $embed);
+	}
+	
 	$player_id = powerpressplayer_get_next_id();
 	$cover_image = '';
 	$player_width = '';
@@ -1429,6 +1435,12 @@ MediaElement.js Audio Player
 */
 function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array(), $embed = false )
 {
+	if( !function_exists('wp_audio_shortcode') )
+	{
+		// Return the HTML5 audio shortcode instead
+		return powerpressplayer_build_html5audio($media_url, $EpisodeData, $embed);
+	}
+	
 	$player_id = powerpressplayer_get_next_id();
 	$autoplay = false;
 	// Episode Settings

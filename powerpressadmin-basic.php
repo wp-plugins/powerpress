@@ -1081,7 +1081,7 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <td>
 	<select name="General[player_aggressive]" class="bpp_input_med">
 <?php
-$linkoptions = array(0=>__('No, everything is working', 'powerpress'), 1=>__('Yes, please try to fix', 'powerpress') );
+$linkoptions = array(0=>__('No, everything is working', 'powerpress'), 1=>__('Yes, please try to fix', 'powerpress'), 2=>__('Yes, alternative fix', 'powerpress') );
 	
 while( list($value,$desc) = each($linkoptions) )
 	echo "\t<option value=\"$value\"". ($General['player_aggressive']==$value?' selected':''). ">$desc</option>\n";

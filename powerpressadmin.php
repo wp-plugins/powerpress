@@ -88,9 +88,9 @@ function powerpress_admin_init()
 		powerpress_page_message_add_error( __('Another podcasting plugin has been detected, PowerPress is currently disabled.', 'powerpress') );
 	
 	global $wp_version;
-	$VersionDiff = version_compare($wp_version, 3.0);
+	$VersionDiff = version_compare($wp_version, 3.6);
 	if( $VersionDiff < 0 )
-		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 3.0 or greater.', 'powerpress') );
+		powerpress_page_message_add_error( __('Blubrry PowerPress requires Wordpress version 3.6 or greater.', 'powerpress') );
 	
 	// Check for incompatible plugins:
 	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )

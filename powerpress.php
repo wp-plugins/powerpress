@@ -128,24 +128,27 @@ function powerpress_content($content)
 		
 	// check for themes/plugins where we know we need to do this...
 	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
-		$GeneralSettings['player_aggressive'] = true;
+		$GeneralSettings['player_aggressive'] = 1;
 	}
 	if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
-		$GeneralSettings['player_aggressive'] = true;
+		$GeneralSettings['player_aggressive'] = 1;
 	}
 	
 	if( !empty($GeneralSettings['player_aggressive']) )
 	{
-		if( strstr($content, '<!--powerpress_player-->') !== false )
-			return $content; // The players were already added to the content
-		
-		if( $g_powerpress_excerpt_post_id > 0 )
-			$g_powerpress_excerpt_post_id = 0; // Hack, set this to zero so it always goes past...
-	}
-	else // If we do not have theme issues then lets keep this logic clean. and only display playes after the wp_head only
-	{
-		if( empty($GLOBALS['powerpress_wp_head_completed']) )
-			return $content;
+		if( $GeneralSettings['player_aggressive'] == 2 ) // If we do not have theme issues then lets keep this logic clean. and only display playes after the wp_head only
+		{
+			if( empty($GLOBALS['powerpress_wp_head_completed']) )
+				return $content;
+		}
+		else
+		{
+			if( strstr($content, '<!--powerpress_player-->') !== false )
+				return $content; // The players were already added to the content
+			
+			if( $g_powerpress_excerpt_post_id > 0 )
+				$g_powerpress_excerpt_post_id = 0; // Hack, set this to zero so it always goes past...
+		}
 	}
 	
 	// Problem: If the_excerpt is used instead of the_content, both the_exerpt and the_content will be called here.
@@ -319,10 +322,10 @@ function powerpress_content($content)
 	switch( $GeneralSettings['display_player'] )
 	{
 		case 1: { // Below posts
-			return $content.$new_content.( !empty($GeneralSettings['player_aggressive']) ?'<!--powerpress_player-->':'');
+			return $content.$new_content.( !empty($GeneralSettings['player_aggressive']) && $GeneralSettings['player_aggressive'] == 1 ?'<!--powerpress_player-->':'');
 		}; break;
 		case 2: { // Above posts
-			return ( !empty($GeneralSettings['player_aggressive']) ?'<!--powerpress_player-->':'').$new_content.$content;
+			return ( !empty($GeneralSettings['player_aggressive']) && $GeneralSettings['player_aggressive'] == 1 ?'<!--powerpress_player-->':'').$new_content.$content;
 		}; break;
 	}
 	return $content;
