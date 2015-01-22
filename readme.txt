@@ -200,6 +200,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Even though PowerPress 6.0 requires WordPress 3.6+, code has been added to prevent error messages in the event plugin updated on older version of WordPress.
 * Subscribe on iTunes buttons and links are now only displayed if they are official URLs to the iTunes store.
 * Subscribe on iTunes buttons and links will now include the load iTunes store parameter, if the subscriber has iTunes installed it will load automatically.
+* Fixed Godaddy specific bug when using PHP 5.4.19 with the stristr() function crashing PHP scripts.
+
 
 = 6.0 =
 * Released on 12/19/2014

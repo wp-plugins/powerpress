@@ -837,7 +837,7 @@ function powerpressadmin_edit_media_statistics($General)
 	if( !isset($General['redirect3']) )
 		$General['redirect3'] = '';
 		
-	$StatsIntegrationURL = false;
+	$StatsIntegrationURL = '';
 	if( !empty($General['blubrry_program_keyword']) )
 		$StatsIntegrationURL = 'http://media.blubrry.com/'.$General['blubrry_program_keyword'].'/';
 ?>
