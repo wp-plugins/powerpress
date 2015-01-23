@@ -301,7 +301,7 @@
 		$message .= " &nbsp; \t &nbsp; ". __('message 2:', 'powerpress') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('message 3:', 'powerpress') .' '. $powerpress_diags['system_info']['message3'] ."<br />\n";
 
-		if( isset($_GET['ap']) && $_GET['ap'] )
+		if( !empty($_GET['ap']) )
 		{
 			$current_plugins = get_option('active_plugins');
 			$message .= "<br />\n";
@@ -330,7 +330,7 @@
 		$headers = 'From: "'.$from_name.'" <'.$from_email.'>'."\n"
 			.'Reply-To: "'.$from_name.'" <'.$from_email.'>'."\n"
 			.'Return-Path: "'.$from_name.'" <'.$from_email.'>'."\n";
-		if( isset($_GET['CC']) )
+		if( !empty($_GET['CC']) )
 			$headers .= 'CC: "'.$from_name.'" <'.$from_email.'>'."\n";
 		$headers .= "Content-Type: text/html\n";
 		

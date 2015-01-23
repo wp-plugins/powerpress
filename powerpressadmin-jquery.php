@@ -209,7 +209,7 @@ function powerpress_admin_jquery_init()
 			
 			$results =  powerpress_json_decode($json_data);
 				
-			$FeedSlug = $_GET['podcast-feed'];
+			$FeedSlug = sanitize_title($_GET['podcast-feed']);
 			powerpress_admin_jquery_header( __('Select Media', 'powerpress'), true );
 ?>
 <script language="JavaScript" type="text/javascript"><!--
@@ -796,9 +796,9 @@ while( list($value,$desc) = each($Programs) )
 				powerpress_admin_jquery_footer();
 				exit;
 			}
-			
-			$File = (isset($_GET['File'])?$_GET['File']:false);
-			$Message = (isset($_GET['Message'])?$_GET['Message']:false);
+			// sanitize_title esc_attr esc_html powerpress_esc_html
+			$File = (isset($_GET['File'])? htmlspecialchars($_GET['File']):false);
+			$Message = (isset($_GET['Message'])? htmlspecialchars($_GET['Message']):'');
 			
 			powerpress_admin_jquery_header( __('Upload Complete', 'powerpress') );
 			echo '<h2>'. __('Uploader', 'powerpress') .'</h2>';
@@ -815,7 +815,7 @@ while( list($value,$desc) = each($Programs) )
 			<p style="text-align: center;"><a href="#" onclick="self.parent.tb_remove();"><?php echo __('Close', 'powerpress'); ?></a></p>
 			<?php
 			
-			if( $Message == '' )
+			if( empty($Message) )
 			{
 ?>
 <script language="JavaScript" type="text/javascript"><!--

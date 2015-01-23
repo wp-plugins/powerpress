@@ -33,6 +33,7 @@
 		if( isset($_POST['FindReplace']) )
 		{
 			$FindReplace = $_POST['FindReplace'];
+			$FindReplace['step'] = intval( $FindReplace['step'] );
 			if( $FindReplace['step'] == 2 || $FindReplace['step'] == 3 )
 			{
 				$success_count = 0;
@@ -152,6 +153,7 @@
 		if( isset($_POST['FindReplace']) )
 		{
 			$FindReplace = $_POST['FindReplace'];
+			$FindReplace['step'] = intval( $FindReplace['step'] );
 		}
 		else
 		{
@@ -169,6 +171,8 @@
 		{
 			$FindReplaceResults = powerpressadmin_find_replace_get_results();
 		}
+		
+		//$FindReplace = powerpress_esc_html($FindReplace); // Prevent XSS
 ?>
 
 <script type="text/javascript"><!--

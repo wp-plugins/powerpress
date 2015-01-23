@@ -3,6 +3,18 @@
 if( !function_exists('add_action') )
 	die("access denied.");
 	
+function powerpress_esc_html($escape)
+{
+	if( is_array($escape) )
+	{
+		while( list($index,$value)  = each($escape) )
+		{
+			$escape[ $index ] = powerpress_esc_html($value);
+		}
+	}
+	return esc_html($escape);
+}
+	
 function powerpress_page_message_add_error($msg, $classes='inline')
 {
 	global $g_powerpress_page_message;

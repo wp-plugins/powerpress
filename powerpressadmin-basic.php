@@ -135,7 +135,7 @@ jQuery(document).ready(function($) {
 
 
 <input type="hidden" id="powerpress_advanced_mode" name="General[advanced_mode_2]" value="1" />
-<input type="hidden" id="save_tab_pos" name="tab" value="<?php echo (empty($_POST['tab'])?0:$_POST['tab']); ?>" />
+<input type="hidden" id="save_tab_pos" name="tab" value="<?php echo (empty($_POST['tab'])?0: intval($_POST['tab']) ); ?>" />
 
 <div id="powerpress_admin_header">
 <h2><?php echo __('Blubrry PowerPress Settings', 'powerpress'); ?></h2> 
