@@ -13,7 +13,7 @@ function powerpress_add_blubrry_redirect($program_keyword)
 	for( $x = 1; $x <= 3; $x++ )
 	{
 		$field = sprintf('redirect%d', $x);
-		if( !empty($Settings[$field]) && !stristr($Settings[$field], 'podtrac.com') )
+		if( !empty($Settings[$field]) && stripos($Settings[$field], 'podtrac.com') === false )
 			$NewSettings[$field] = '';
 	}
 	$NewSettings['redirect1'] = $RedirectURL.'/';
@@ -249,11 +249,11 @@ function DeleteMedia(File)
 					$message = '';
 					if( !empty($results['quota']['expires']['expired']) )
 					{
-						$message = '<p>'. sprintf( __('Media hosting service expired on %s.', 'powerpress'), $results['quota']['expires']['readable_date']) . '</p>';
+						$message = '<p>'. sprintf( __('Media hosting service expired on %s.', 'powerpress'), esc_attr($results['quota']['expires']['readable_date'])) . '</p>';
 					}
 					else
 					{
-						$message = '<p>'. sprintf( __('Media hosting service will expire on %s.', 'powerpress'), $results['quota']['expires']['readable_date']) . '</p>';
+						$message = '<p>'. sprintf( __('Media hosting service will expire on %s.', 'powerpress'), esc_attr($results['quota']['expires']['readable_date'])) . '</p>';
 					}
 					
 					$message .= '<p style="text-align: center;"><strong><a href="'. $results['quota']['expires']['renew_link'] .'" target="_blank" style="text-decoration: underline;">'. __('Renew Media Hosting Service', 'powerpress') . '</a></strong></p>';

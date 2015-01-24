@@ -227,6 +227,7 @@ function powerpress_metamarks_deleterow(div)
 	
 	function powerpress_metamarks_editrow_html($feed_slug, $next_row, $data = null)
 	{
+		$feed_slug = esc_attr($feed_slug);
 		$MarkTypes = powerpress_metamarks_get_types();
 		$html = '<div class="pp-metamarks-row" id="powerpress_metamarks_row_'. $feed_slug .'_'. $next_row .'">';
 		if( !is_array($data) )
@@ -268,13 +269,13 @@ function powerpress_metamarks_deleterow(div)
 		while( list($index,$MetaMark) = each($MetaRecords) )
 		{
 			echo "\t\t";
-			echo '<rawvoice:metamark type="'. $MetaMark['type'] .'"';
+			echo '<rawvoice:metamark type="'. esc_attr($MetaMark['type']) .'"';
 			if( !empty($MetaMark['duration']) )
-				echo ' duration="'. $MetaMark['duration'] .'"';
+				echo ' duration="'. esc_attr($MetaMark['duration']) .'"';
 			if( !empty($MetaMark['position']) )
-				echo ' position="'. $MetaMark['position'] .'"';
+				echo ' position="'. esc_attr($MetaMark['position']) .'"';
 			if( !empty($MetaMark['link']) )
-				echo ' link="'. $MetaMark['link'] .'"';
+				echo ' link="'. esc_attr($MetaMark['link']) .'"';
 				
 			$value = trim($MetaMark['value']);
 			if( $value == '' ) {

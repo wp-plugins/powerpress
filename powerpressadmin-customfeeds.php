@@ -78,12 +78,12 @@ function powerpress_admin_customfeeds()
 	$count = 0;
 	while( list($feed_slug, $feed_title) = each($Feeds	) )
 	{
+		$feed_slug = esc_attr($feed_slug); // Precaution
 		$episode_total = powerpress_admin_episodes_per_feed($feed_slug);
 		$columns = powerpress_admin_customfeeds_columns();
 		$hidden = array();
 		if( $feed_slug == 'podcast' )
 			$feed_title = __('Podcast', 'powerpress');
-		$feed_title = esc_html($feed_title);
 		if( $count % 2 == 0 )
 			echo '<tr valign="middle" class="alternate">';
 		else
@@ -113,10 +113,10 @@ function powerpress_admin_customfeeds()
 				}; break;
 				case 'name': {
 
-					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'.$feed_title.'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel', 'powerpress') .')':'').'<br />';
+					echo '<td '.$class.'><strong><a class="row-title" href="'.$edit_link.'" title="' . esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $feed_title)) . '">'. esc_html($feed_title) .'</a></strong>'. ( $feed_slug == 'podcast' ?' ('. __('default channel', 'powerpress') .')':'').'<br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit', 'powerpress') . '</a>';
-					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), $feed_title )) . "') ) { return true;}return false;\">" . __('Delete', 'powerpress') . "</a>";
+					$actions['delete'] = "<a class='submitdelete' href='". admin_url() . wp_nonce_url("admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-delete-feed&amp;feed_slug=$feed_slug", 'powerpress-delete-feed-' . $feed_slug) . "' onclick=\"if ( confirm('" . esc_js(sprintf( __("You are about to delete feed '%s'\n  'Cancel' to stop, 'OK' to delete.", 'powerpress'), esc_attr($feed_title) )) . "') ) { return true;}return false;\">" . __('Delete', 'powerpress') . "</a>";
 					if( !isset($General['custom_feeds'][ $feed_slug ]) )
 					{
 						unset($actions['delete']);
@@ -136,7 +136,7 @@ function powerpress_admin_customfeeds()
 					
 				case 'url': {
 				
-					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
+					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">". esc_html($short_url) ."</a>";
 						echo '<div class="row-actions">';
 							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
 						echo '</div>';

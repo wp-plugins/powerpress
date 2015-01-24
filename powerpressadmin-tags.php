@@ -166,7 +166,8 @@ function powerpressadmin_tag_option($tag, $value, $label, $default_desc )
 </p>
 <p>
 <?php if( $FeedSettings['itunes_image'] ) { ?>
-<a href="#" title="" onclick="document.getElementById('coverart_image').value='<?php echo $FeedSettings['itunes_image']; ?>';document.getElementById('tag_coverart_specify').checked=true;return false;"><?php echo __('Click here to use your current iTunes image.', 'powerpress'); ?></a>
+<input type="hidden" name="NULL[current_coverart_image]" id="current_coverart_image" value="<?php echo htmlspecialchars($FeedSettings['itunes_image']); ?>" />
+<a href="#" title="" onclick="document.getElementById('coverart_image').value=document.getElementById('current_coverart_image').value;document.getElementById('tag_coverart_specify').checked=true;return false;"><?php echo __('Click here to use your current iTunes image.', 'powerpress'); ?></a>
 
 <?php } ?>
 </p>

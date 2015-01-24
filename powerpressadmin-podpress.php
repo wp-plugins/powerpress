@@ -47,7 +47,7 @@ if( !function_exists('add_action') )
 			if( !empty($powerpress_settings['default_url']) )
 			{
 				$PodpressSettings['mediaWebPath'] = $powerpress_settings['default_url'];
-				powerpress_page_message_add_notice( sprintf(__('Unable to detect PodPress media URL setting. Using the PowerPress setting "Default Media URL" (%s) instead.', 'powerpress'), $PodpressSettings['mediaWebPath']) );
+				powerpress_page_message_add_notice( sprintf(__('Unable to detect PodPress media URL setting. Using the PowerPress setting "Default Media URL" (%s) instead.', 'powerpress'), esc_attr($PodpressSettings['mediaWebPath']) ) );
 			}
 			else
 			{
@@ -115,7 +115,7 @@ if( !function_exists('add_action') )
 					{
 						// display a warning here...
 						if( $hide_errors == false )
-							powerpress_page_message_add_error( sprintf( __('Error decoding PodPress data for post "%s"', 'powerpress'), $row['post_title']) );
+							powerpress_page_message_add_error( sprintf( __('Error decoding PodPress data for post "%s"', 'powerpress'), est_attr($row['post_title']) ) );
 						continue;
 					}
 					

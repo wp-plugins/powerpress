@@ -193,14 +193,16 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 6.0.1 =
 * Released on TBA
-* Duration detection option now works sites with PHP older than 5.3.
+* Duration detection option now works for sites running PHP 5.2 (If you can, please upgrade your PHP, but we understand that some situations warrant running outdated software)
 * Tweaked CSS for subscribe sidebar widget font color to always be white.
 * Changed the new 6.0 logic that prevents players from being added until after the wp_head is called, we now ignore when having theme issues option is selected to fix custom theme logic that may happen before wp_head.
 * Added additional "Having Theme Issues" option, alternative logic to try to fix the situation where the player and/or links does not appear with some themes and plugins.
 * Even though PowerPress 6.0 requires WordPress 3.6+, code has been added to prevent error messages in the event plugin updated on older version of WordPress.
-* Subscribe on iTunes buttons and links are now only displayed if they are official URLs to the iTunes store.
-* Subscribe on iTunes buttons and links will now include the load iTunes store parameter, if the subscriber has iTunes installed it will load automatically.
-* Fixed Godaddy specific bug when using PHP 5.4.19 with the stristr() function crashing PHP scripts.
+* Fixed bug where malicious code could be injected into the edit existing category podcasting page. Thanks [Netsparker](https://www.netsparker.com) for reporting the issue.
+* Fixed bug with Podcasting SEO settings where Episode Titles could not be disabled.
+* Fixed bug for Godaddy customers using PHP 5.4 getting a blank screen for the PowerPress Settings page due to a bug in the stristr() function. Godaddy is aware of the problem and working on a fix. In the mean time we've replaced calls to stristr() with preg_match().
+* Podcast Republic now uses the podcast feed URL for subscriptions (rather than the iTunes URL).
+* 
 
 
 = 6.0 =

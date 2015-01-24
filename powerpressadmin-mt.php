@@ -259,7 +259,7 @@ if( !function_exists('add_action') )
 			$g_mt_import_log .= sprintf( __('Episode %s for blog post %s imported to feed %s.', 'powerpress'),
 					'"<a href="'. $episode_url .'">'. htmlspecialchars($filename) .'</a>"',
 					'<em>'. htmlspecialchars($post_title) .'</em>',
-					'<em>'. $feed_slug .'</em>'					);
+					'<em>'. htmlspecialchars($feed_slug) .'</em>'					);
 			$g_mt_import_log .= "\n";
 		}
 		
@@ -337,7 +337,7 @@ if( !function_exists('add_action') )
 		{
 			if( $results['feeds_required'] > count($Settings['custom_feeds']) )
 			{
-				powerpress_page_message_add_error( sprintf(__('We found blog posts that have as many as %d media files. You may need to create %d more Custom Feed%s in order to import all of the media.', 'powerpress'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']), (( ( $results['feeds_required'] - count($Settings['custom_feeds']) ) > 1 )?'s':'') ) );
+				powerpress_page_message_add_error( sprintf(__('We found blog posts that have as many as %d media files. You may need to create %d more Custom Feeds in order to import all of the media.', 'powerpress'), $results['feeds_required'], $results['feeds_required'] - count($Settings['custom_feeds']) ) );
 				powerpress_page_message_print();
 			}
 		}
@@ -569,7 +569,7 @@ else
 					echo '<td '.$class.'><strong>';
 					if ( current_user_can( 'edit_post', $post_id ) )
 					{
-					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo $import_data['post_title'] ?></a><?php
+					?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr(sprintf(__('Edit "%s"', 'powerpress'), $import_data['post_title'])); ?>"><?php echo esc_attr($import_data['post_title']); ?></a><?php
 					}
 					else
 					{
@@ -762,7 +762,7 @@ else
 		reset($results);
 ?>
 <p><?php
-	echo sprintf( __('There are %s media files that can be imported with a total of %d blog post podcast episodes.', 'powerpress'),
+	echo sprintf( __('There are %d media files that can be imported with a total of %d blog post podcast episodes.', 'powerpress'),
 		$StrandedEpisodes,
 		(count($results) -1) );
 

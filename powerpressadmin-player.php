@@ -27,8 +27,6 @@ function powerpress_admin_players_init()
 				$SaveSettings = $_POST['Player'];
 			if( isset($_POST['VideoPlayer']) )
 				$SaveSettings += $_POST['VideoPlayer'];
-			if( isset($_POST['MobilePlayer']) )
-				$SaveSettings += $_POST['MobilePlayer'];
 			powerpress_save_settings($SaveSettings, 'powerpress_general');
 			powerpress_page_message_add_notice( __('Player activated successfully.', 'powerpress') );
 			

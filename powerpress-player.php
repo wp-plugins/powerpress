@@ -699,7 +699,7 @@ function powerpressplayer_player_other($content, $media_url, $EpisodeData = arra
 				$cover_image = powerpress_get_root_url() . 'play_video_default.jpg';
 				
 			$content .= '<div class="powerpress_player" id="powerpress_player_'. $player_id .'">';
-			$firefox = (stristr($_SERVER['HTTP_USER_AGENT'], 'firefox') !== false );
+			$firefox = (stripos($_SERVER['HTTP_USER_AGENT'], 'firefox') !== false );
 			
 			if( (!$cover_image && !$firefox ) || $autoplay ) // if we don't have a cover image or we're supposed to auto play the media anyway...
 			{

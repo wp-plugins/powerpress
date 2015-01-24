@@ -6,8 +6,6 @@ function powerpress_admin_search()
 	$General = powerpress_get_settings('powerpress_general');
 	if( empty($General['seo_feed_title']) )
 		$General['seo_feed_title'] = '';
-		
-	$TagSettings = powerpress_default_settings($General, 'search');
 	
 ?>
 <script language="javascript"><!--
@@ -21,6 +19,12 @@ jQuery(document).ready(function() {
 	if( !empty($General['seo_feed_title'])  && $General['seo_feed_title'] == 1 )
 		echo "	jQuery('#powerpress_example_post_title').hide();\n";
 ?>
+	jQuery('#seo_feed_title').change( function() {
+		if( this.checked )
+			jQuery('#powerpress_seo_feed_title_1').prop('checked', true);
+		else
+			jQuery('.powerpress_seo_feed_title').prop('checked', false);
+	});
 	jQuery('#seo_append_show_title').change( function() {
 		if( jQuery(this).prop('checked') )
 			jQuery('#powerpress_example_show_title').show();
@@ -28,7 +32,8 @@ jQuery(document).ready(function() {
 			jQuery('#powerpress_example_show_title').hide();
 	});
 	jQuery('.powerpress_seo_feed_title').change( function() {
-		//alert(this.value);
+		
+		jQuery('#seo_feed_title').prop('checked', true);
 		switch( this.value )
 		{
 			case '1':
@@ -52,7 +57,7 @@ jQuery(document).ready(function() {
 				jQuery('#powerpress_example_post_episode_title').html( p_title_html + e_title_html);
 			}; break;
 			default: {
-				alert(this.value);
+				
 			}
 		}
 	});
@@ -67,9 +72,7 @@ jQuery(document).ready(function() {
 	<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/"><?php echo __('Learn More', 'powerpress'); ?></a>
 </p>
 
-<?php
 
-?>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __('Episode Titles', 'powerpress'); ?></th> 
@@ -81,11 +84,11 @@ jQuery(document).ready(function() {
 		<?php echo __('Specify custom episode titles for podcast feeds.', 'powerpress'); ?></label>
 	</p>
 	<div style="margin-left: 40px;">
-		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" name="General[seo_feed_title]" value="1" <?php if( $General['seo_feed_title'] == 1 ) echo 'checked'; ?> />
+		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" id="powerpress_seo_feed_title_1" name="General[seo_feed_title]" value="1" <?php if( $General['seo_feed_title'] == 1 ) echo 'checked'; ?> />
 			<?php echo __('Feed episode title replaces post title (default)', 'powerpress'); ?></label></p>
-		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" name="General[seo_feed_title]" value="2" <?php if( $General['seo_feed_title'] == 2 ) echo 'checked'; ?> /> 
+		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" id="powerpress_seo_feed_title_2" name="General[seo_feed_title]" value="2" <?php if( $General['seo_feed_title'] == 2 ) echo 'checked'; ?> /> 
 			<?php echo __('Feed episode title prefixes post title', 'powerpress'); ?></label></p>
-		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" name="General[seo_feed_title]" value="3" <?php if( $General['seo_feed_title'] == 3 ) echo 'checked'; ?> /> 
+		<p><label style="display: block;"><input type="radio" class="powerpress_seo_feed_title" id="powerpress_seo_feed_title_3" name="General[seo_feed_title]" value="3" <?php if( $General['seo_feed_title'] == 3 ) echo 'checked'; ?> /> 
 			<?php echo __('Feed episode title appended to post title', 'powerpress'); ?></label></p>
 	</div>
 	<p>

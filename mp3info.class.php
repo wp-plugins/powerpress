@@ -632,6 +632,7 @@
 				else
 					$FileInfo['playtime_seconds'] = 0;
 				
+				// No longer checking for the right sample rates and channel mode for flash, flash is now OBSOLETE
 				/*
 				if( isset($FileInfo['mpeg']['audio']) && $FileInfo['mpeg']['audio'] )
 				{

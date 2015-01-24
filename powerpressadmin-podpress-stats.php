@@ -9,7 +9,7 @@ function powerpress_admin_podpress_stats()
 	//var_dump($EpisodeTotal);
 	$total = $EpisodeTotal[0]['media_count'];
 	$limit = 20;
-	$start = (!empty($_GET['start'])? $_GET['start']:0);
+	$start = (!empty($_GET['start'])? intval($_GET['start']):0);
 	while( $start >= $total && $start > 0 )
 		$start -= $limit;
 	if( $start < 0 )

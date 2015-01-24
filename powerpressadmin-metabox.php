@@ -609,7 +609,7 @@ if( win.powerpress_send_to_poster_image )
  */
 function powerpress_update_media_upload_tabs($tabs) {
 	
-	if( isset($_GET['type'] ) )
+	if( !empty($_GET['type'] ) )
 	{
 		if( $_GET['type'] == 'powerpress_image' ) // We only want to allow uploads
 		{
@@ -678,7 +678,7 @@ jQuery(document).ready( function() {
 }
 
 function powerpress_media_upload_use_flash($flash) {
-	if( isset($_GET['type']) && $_GET['type'] == 'powerpress_image' )
+	if( !empty($_GET['type']) && $_GET['type'] == 'powerpress_image' )
 	{
 		return false;
 	}

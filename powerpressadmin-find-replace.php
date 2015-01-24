@@ -57,9 +57,9 @@
 					$g_FindReplaceResults[ $meta_id ] = $row;
 					$g_FindReplaceResults[ $meta_id ]['old_url'] = $old_url;
 					$g_FindReplaceResults[ $meta_id ]['find_readable'] = str_replace($FindReplace['find_string'],
-							sprintf('<span class="find_string strong">%s</span>', $FindReplace['find_string']), $old_url);
+							sprintf('<span class="find_string strong">%s</span>', esc_attr($FindReplace['find_string'])), esc_attr($old_url) );
 					$g_FindReplaceResults[ $meta_id ]['replace_readable'] = str_replace($FindReplace['find_string'],
-							sprintf('<span class="replace_string strong">%s</span>', $FindReplace['replace_string']), $old_url);
+							sprintf('<span class="replace_string strong">%s</span>', esc_attr($FindReplace['replace_string']) ), esc_attr($old_url) );
 					$new_url = str_replace($FindReplace['find_string'],$FindReplace['replace_string'], $old_url);
 					$g_FindReplaceResults[ $meta_id ]['new_url'] = $new_url;
 					
@@ -215,7 +215,7 @@ dt {
 </style>
 
 <input type="hidden" name="action" value="powerpress-find-replace" />
-<input type="hidden" name="FindReplace[step]" value="<?php echo $FindReplace['step']; ?>" id="replace_step" />
+<input type="hidden" name="FindReplace[step]" value="<?php echo esc_attr($FindReplace['step']); ?>" id="replace_step" />
 
 <h2><?php echo __("Find and Replace Episode URLs", 'powerpress'); ?></h2>
 
@@ -249,7 +249,7 @@ dt {
 ?>
 <h2><?php echo ($FindReplace['step'] == 2 ? __('Preview Changes', 'powerpress') : __('Change Results', 'powerpress') ); ?></h2>
 
-<p><?php echo sprintf( __('Found %d results with "%s"', 'powerpress'), count($FindReplaceResults), "<span class=\"find_string strong\">{$FindReplace['find_string']}</span>" ); ?></p>
+<p><?php echo sprintf( __('Found %d results with "%s"', 'powerpress'), count($FindReplaceResults), "<span class=\"find_string strong\">". esc_attr($FindReplace['find_string']). "</span>" ); ?></p>
 
 <ol>
 <?php
@@ -278,7 +278,7 @@ dt {
 			 </dt>
 			 <dd>
 			  <?php echo __('Replace', 'powerpress') .': '. $row['replace_readable']; ?>
-			 (<a href="<?php echo $row['new_url']; ?>" target="_blank"><?php echo __('test link', 'powerpress'); ?></a>)
+			 (<a href="<?php echo esc_attr($row['new_url']); ?>" target="_blank"><?php echo __('test link', 'powerpress'); ?></a>)
 			 </dd>
 		</dl>
 	</li>

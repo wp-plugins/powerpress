@@ -47,7 +47,7 @@
 <?php
 	while( list($url,$name) = each($BlogSites) )
 	{
-		if( stristr($ping_sites, $url) )
+		if( stripos($ping_sites, $url) !== false )
 		{
 ?>
 	<p><input name="Ignore[]" type="checkbox" checked disabled value="1" /> <?php echo $name; ?></p>
@@ -71,7 +71,7 @@
 <?php
 	while( list($url,$name) = each($PodcastSites) )
 	{
-		if( stristr($ping_sites, $url) )
+		if( stripos($ping_sites, $url) !== false )
 		{
 ?>
 	<p><input name="Ignore[]" type="checkbox" checked disabled value="1" /> <?php echo $name; ?></p>

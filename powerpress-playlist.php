@@ -6,7 +6,7 @@ function powerpress_get_term_by_ttid($ttid, $output = OBJECT, $filter = 'raw')
 {
 	global $wpdb;
 
-	$value = (int) $ttid;
+	$value = intval($ttid);
 	$field = 'tt.term_taxonomy_id';
 	
 	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $field = %s LIMIT 1", $value) );

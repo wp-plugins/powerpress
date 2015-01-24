@@ -180,7 +180,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 			if( !isset($General['custom_feeds'][$feed_slug]) )
 				$General['custom_feeds'][$feed_slug] = __('Podcast (default)', 'powerpress');
 				
-			$FeedTitle = sprintf( 'Podcast Settings for Channel: %s', $General['custom_feeds'][$feed_slug]);
+			$FeedTitle = sprintf( 'Podcast Settings for Channel: %s', htmlspecialchars($General['custom_feeds'][$feed_slug]) );
 			echo sprintf('<input type="hidden" name="feed_slug" value="%s" />', $feed_slug);
 			echo '<input type="hidden" name="action" value="powerpress-save-channel" />';
 			
