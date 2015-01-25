@@ -6,7 +6,7 @@ if( !empty($Powerpress) && !empty($Powerpress['metamarks']) )
 
 function powerpress_meta_box($object, $box)
 {
-	$FeedSlug = str_replace('powerpress-', '', $box['id']);
+	$FeedSlug = esc_attr( str_replace('powerpress-', '', $box['id']) );
 	
 	$DurationHH = '';
 	$DurationMM = '';

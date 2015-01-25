@@ -1508,6 +1508,8 @@ function powerpress_admin_menu()
 					continue;
 				
 				$FeedCustom = get_option('powerpress_feed_'.$feed_slug);
+				$feed_slug = esc_attr($feed_slug);
+				
 						
 				reset($post_types);
 				while( list($null,$post_type) = each($post_types) )
@@ -1517,7 +1519,7 @@ function powerpress_admin_menu()
 						continue;
 					
 					if( empty($FeedSlugPostTypesArray[ $feed_slug ][ $post_type ]) )
-						add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '.$feed_title, 'powerpress_meta_box', $post_type, 'normal');
+						add_meta_box('powerpress-'.$feed_slug, __('Podcast Episode for Custom Channel', 'powerpress') .': '. esc_attr($feed_title), 'powerpress_meta_box', $post_type, 'normal');
 				}
 			}
 			reset($Powerpress['custom_feeds']);
