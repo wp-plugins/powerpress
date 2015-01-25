@@ -1,9 +1,9 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
-Requires at least: 3.0
+Requires at least: 3.6
 Tested up to: 4.1
-Stable tag: 6.0
+Stable tag: 6.0.1
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -192,7 +192,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 6.0.1 =
-* Released on TBA
+* Released on 1/25/2015
 * Duration detection option now works for sites running PHP 5.2 (If you can, please upgrade your PHP, but we understand that some situations warrant running outdated software)
 * Tweaked CSS for subscribe sidebar widget font color to always be white.
 * Changed the new 6.0 logic that prevents players from being added until after the wp_head is called, we now ignore when having theme issues option is selected to fix custom theme logic that may happen before wp_head.
@@ -200,9 +200,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Even though PowerPress 6.0 requires WordPress 3.6+, code has been added to prevent error messages in the event plugin updated on older version of WordPress.
 * Fixed bug where malicious code could be injected into the edit existing category podcasting page. Thanks [Netsparker](https://www.netsparker.com) for reporting the issue.
 * Fixed bug with Podcasting SEO settings where Episode Titles could not be disabled.
-* Fixed bug for Godaddy customers using PHP 5.4 getting a blank screen for the PowerPress Settings page due to a bug in the stristr() function. Godaddy is aware of the problem and working on a fix. In the mean time we've replaced calls to stristr() with preg_match().
+* Fixed bug where Godaddy customers using PHP 5.4 were getting a blank screen for the PowerPress Settings page due to a bug in the stristr() function. Godaddy is aware of the problem and working on a fix. In the mean time we've replaced calls to stristr() with preg_match().
 * Podcast Republic now uses the podcast feed URL for subscriptions (rather than the iTunes URL).
-* 
 
 
 = 6.0 =
