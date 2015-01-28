@@ -490,7 +490,7 @@ function powerpress_rss2_head()
 	else if( powerpress_is_custom_podcast_feed() ) // If we're handling a custom podcast feed...
 	{
 		$CustomFeed = get_option('powerpress_feed_'.$feed_slug); // Get the custom podcast feed settings saved in the database
-		$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed);
+		$Feed = powerpress_merge_empty_feed_settings($CustomFeed, $Feed, ($feed_slug == 'podcast') );
 	}
 	
 	if( !isset($Feed['url']) || trim($Feed['url']) == '' )

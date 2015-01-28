@@ -191,6 +191,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
+= 6.0.2 =
+* Released on TBA
+* Fixed bug where specific global podcast settings are not applied when podcast channel settings iTunes new feed URL or feed maximizer option were configured then deleted afterward. This only effected settings if you deleted the default podcast feed.
+
+
 = 6.0.1 =
 * Released on 1/25/2015
 * Duration detection option now works for sites running PHP 5.2 (If you can, please upgrade your PHP, but we understand that some situations warrant running outdated software)
