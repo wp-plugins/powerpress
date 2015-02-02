@@ -26,29 +26,21 @@ function powerpresssubscribe_get_itunes_url($Settings)
 function powerpresssubscribe_get_settings($ExtraData)
 {
 	$GeneralSettings = get_option('powerpress_general');
-	//if( !empty($GeneralSettings['taxonomy_podcasting']) )
-	//	return false; // Feature not available for taxonomy podcasting
 	
 	$feed_slug = (empty($ExtraData['feed'])?'podcast': $ExtraData['feed']);
-	//$feed_slug = (empty($ExtraData['channel'])?$feed_slug: $ExtraData['channel']);
 	$post_type = (empty($ExtraData['post_type'])?false: $ExtraData['post_type']);
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
 	
-	if( empty($ExtraData['type']) ) // Make sure this value is set
-		$ExtraData['type'] = '';
+	if( empty($ExtraData['subscribe_type']) ) // Make sure this value is set
+		$ExtraData['subscribe_type'] = '';
 	
-	switch( $ExtraData['type'] )
+	switch( $ExtraData['subscribe_type'] )
 	{
 		case 'post_type': {
 			$category_id = 0;
 			$taxonomy_term_id = 0;
 		};
-		case 'channel': {
-			$category_id = 0;
-			$taxonomy_term_id = 0;
-			$post_type = 0;
-		}; break;
 		case 'category': {
 			$feed_slug = 'podcast';
 			$taxonomy_term_id = 0;
@@ -59,22 +51,17 @@ function powerpresssubscribe_get_settings($ExtraData)
 			$category_id = 0;
 			$post_type = 0;
 		}; break;
+		case 'channel': 
 		case 'general': 
 		default: {
-			$feed_slug = $feed_slug;
 			$category_id = 0;
 			$post_type = 0;
 			$taxonomy_term_id = 0;
 		}; break;
-	}	
-	
-	if( !empty($GeneralSettings['taxonomy_podcasting']) )
-	{
-		// TODO! Taxonomy Podcasting subscription options
 	}
-		
+	
 	// We need to know if category podcasting is enabled, if it is then we may need to dig deeper for this info....
-	if( !empty($GeneralSettings['cat_casting']) && $feed_slug == 'podcast' && (empty($ExtraData['type']) || $ExtraData['type'] == 'category' ) )
+	if( !empty($GeneralSettings['cat_casting']) && $feed_slug == 'podcast' && (empty($ExtraData['subscribe_type']) || $ExtraData['subscribe_type'] == 'category' ) )
 	{
 		if( !$category_id && is_category() )
 		{
@@ -106,28 +93,48 @@ function powerpresssubscribe_get_settings($ExtraData)
 				return $Settings;
 			}
 		}
+		
+		if($ExtraData['subscribe_type'] == 'category') // If we specifically wanted a category, then we need to return false so we don't miss-represent
+		{
+			return false;
+		}
 		// let fall through to find better settings
 	}
 	
-	// Post Type Podcasting
-	if( !empty($GeneralSettings['posttype_podcasting']) )
+	// Taxonomy
+	if( $ExtraData['subscribe_type'] == 'ttid' )
 	{
-		if( empty($post_type) && !empty($ExtraData['id']) )
-			$post_type = get_post_type( $ExtraData['id'] );
-		
-		switch( $post_type )
+		if( !empty($GeneralSettings['taxonomy_podcasting']) )
 		{
-			case 'page':
-			case 'post':
-			{
-				// SWEET, CARRY ON!
-			}; break;
-			default: {
-				// TODO
-				// $url = get_post_type_archive_feed_link($post_type, $feed_slug);
-				return false; // Not suported for now
-			}; break;
+			// TODO! Taxonomy Podcasting subscription options
 		}
+		return false;
+	}
+	
+	// Post Type Podcasting
+	if( $ExtraData['subscribe_type'] == 'post_type' )
+	{
+		if( !empty($GeneralSettings['posttype_podcasting']) )
+		{
+			if( empty($post_type) && !empty($ExtraData['id']) )
+				$post_type = get_post_type( $ExtraData['id'] );
+			
+			switch( $post_type )
+			{
+				case 'page':
+				case 'post':
+				{
+					// SWEET, CARRY ON!
+				}; break;
+				default: {
+					// TODO
+					// $url = get_post_type_archive_feed_link($post_type, $feed_slug);
+					return false; // Not suported for now
+				}; break;
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -177,6 +184,7 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 	$SubscribeSettings = powerpresssubscribe_get_settings( $ExtraData );
 	if( empty($SubscribeSettings) )
 		return $content;
+	//var_dump($SubscribeSettings);
 	
 	if( !isset($SubscribeSettings['subscribe_links']) )
 		$SubscribeSettings['subscribe_links'] = 1; // Default make this the first link option
@@ -265,7 +273,41 @@ function powerpress_subscribe_shortcode( $attr ) {
 		$attr['slug'] = $attr['channel'];
 	else if( empty($attr['slug']) )
 		$attr['slug'] = 'podcast';
-
+	
+	// Set empty args to prevent warnings
+	if( !isset($attr['term_taxonomy_id']) )
+		$attr['term_taxonomy_id'] = '';
+	if( !isset($attr['category_id']) )
+		$attr['category_id'] = '';
+	if( !isset($attr['post_type']) )
+		$attr['post_type'] = '';
+		
+	$subscribe_type = '';
+	$category_id = '';
+		
+	if(!empty($attr['category']) )
+	{
+		$CategoryObj = false;
+		if( preg_match('/^[0-9]*$/', $attr['category']) ) // If it is a numeric ID, lets try finding it by ID first...
+			$CategoryObj = get_term_by('id', $attr['category'], 'category');
+		if( empty($CategoryObj) )
+			$CategoryObj = get_term_by('name', $attr['category'], 'category');
+		if( empty($CategoryObj) )
+			$CategoryObj = get_term_by('slug', $attr['category'], 'category');
+		if( !empty($CategoryObj) )
+		{
+			$category_id = $CategoryObj->term_id;
+		}
+	}
+	
+	if( !empty($attr['category']) )
+		$subscribe_type = 'category';
+	if( !empty($attr['term_taxonomy_id']) )
+		$subscribe_type = 'ttid';
+	if( !empty($attr['post_type']) )
+		$subscribe_type = 'post_type';
+	if( !empty($attr['slug']) && $attr['slug'] != 'podcast' )
+		$subscribe_type = 'channel';
 
 	$Settings = array();
 	if( !empty($attr['feed_url']) )
@@ -274,7 +316,7 @@ function powerpress_subscribe_shortcode( $attr ) {
 	}
 	else
 	{
-		$Settings = powerpresssubscribe_get_settings(  array('feed'=>$attr['slug'], 'taxonomy_term_id'=>$attr['term_taxonomy_id'], 'cat_id'=>$attr['category'], 'post_type'=>$attr['post_type']) );
+		$Settings = powerpresssubscribe_get_settings(  array('feed'=>$attr['slug'], 'taxonomy_term_id'=>$attr['term_taxonomy_id'], 'cat_id'=>$category_id, 'post_type'=>$attr['post_type'], 'subscribe_type'=>$subscribe_type) );
 	}
 	
 	if( !empty($attr['title']) )

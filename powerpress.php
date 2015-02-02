@@ -2254,8 +2254,11 @@ function powerpress_get_root_url()
 
 function powerpress_format_itunes_value($value, $tag)
 {
-	if( !defined('DB_CHARSET') || DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
-		$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
+	if( !defined('POWERPRESS_DISABLE_ITUNES_UTF8') ) // If not defined or it is false
+	{
+		if( !defined('DB_CHARSET') || DB_CHARSET != 'utf8' ) // Check if the string is UTF-8
+			$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
+	}
 	
 	// Code added to solve issue with KimiliFlashEmbed plugin and also remove the shortcode for the WP Audio Player
 	// 99.9% of the time this code will not be necessary

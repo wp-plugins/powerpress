@@ -194,6 +194,11 @@ To install Blubrry PowerPress manually, follow these steps:
 = 6.0.2 =
 * Released on TBA
 * Fixed bug where specific global podcast settings are not applied when podcast channel settings iTunes new feed URL or feed maximizer option were configured then deleted afterward. This only effected settings if you deleted the default podcast feed.
+* Added wp-config define option `POWERPRESS_DISABLE_ITUNES_UTF8`, when set to true PowerPress will not convert iTunes values to UTF-8. This is for the very small number of folks who are not using UTF-8 in their website.
+* The subscribe shortcode embed attributes are now strictly enforced. If you enter a category or a podcast channel and it does not exist, the shortcode be empty and will no longer fall-back to the main podcast settings.
+* The subscribe shortcode embed specifying category not displaying category fixed (thanks elembemedia for bringing to our attention)
+* Subscribe links below player for category podcasts now works but only if you select 1 category. 2 or more categories complicates things.
+* Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
 
 
 = 6.0.1 =

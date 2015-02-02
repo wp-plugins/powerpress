@@ -200,9 +200,9 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 
 	function widget( $args, $instance ) {
 
-		$ExtraData = array('type'=>'general', 'feed'=>'', 'taxonomy_term_id'=>'', 'cat_id'=>'', 'post_type'=>'');
+		$ExtraData = array('subscribe_type'=>'general', 'feed'=>'', 'taxonomy_term_id'=>'', 'cat_id'=>'', 'post_type'=>'');
 		if( !empty($instance['subscribe_type']) )
-			$ExtraData['type'] = $instance['subscribe_type'];
+			$ExtraData['subscribe_type'] = $instance['subscribe_type'];
 			
 		switch( $instance['subscribe_type'] )
 		{
