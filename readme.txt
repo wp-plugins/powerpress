@@ -198,6 +198,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * The subscribe shortcode embed attributes are now strictly enforced. If you enter a category or a podcast channel and it does not exist, the shortcode be empty and will no longer fall-back to the main podcast settings.
 * The subscribe shortcode embed specifying category not displaying category fixed (thanks elembemedia for bringing to our attention)
 * Subscribe links below player for category podcasts now works but only if you select 1 category. 2 or more categories complicates things.
+* AudioObject and VideoObject descriptions are now set using the blog post if no itunes subtitle is set.
 * Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
 
 
