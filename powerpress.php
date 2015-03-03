@@ -127,11 +127,14 @@ function powerpress_content($content)
 		return $content;
 		
 	// check for themes/plugins where we know we need to do this...
-	if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
-		$GeneralSettings['player_aggressive'] = 1;
-	}
-	if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
-		$GeneralSettings['player_aggressive'] = 1;
+	if( empty($GeneralSettings['player_aggressive']) )
+	{
+		if( !empty($GLOBALS['fb_ver']) && version_compare($GLOBALS['fb_ver'], '1.0',  '<=')	) {
+			$GeneralSettings['player_aggressive'] = 1;
+		}
+		if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
+			$GeneralSettings['player_aggressive'] = 3;
+		}
 	}
 	
 	if( !empty($GeneralSettings['player_aggressive']) )
@@ -146,8 +149,11 @@ function powerpress_content($content)
 			if( strstr($content, '<!--powerpress_player-->') !== false )
 				return $content; // The players were already added to the content
 			
-			if( $g_powerpress_excerpt_post_id > 0 )
+			if( $GeneralSettings['player_aggressive'] != 3 && $g_powerpress_excerpt_post_id > 0 )
 				$g_powerpress_excerpt_post_id = 0; // Hack, set this to zero so it always goes past...
+				
+			if( $GeneralSettings['player_aggressive'] == 3 )
+				$GeneralSettings['player_aggressive'] = 1; // remainder of the system will function as normal
 		}
 	}
 	

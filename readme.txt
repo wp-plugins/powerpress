@@ -119,6 +119,16 @@ We now offer one-on-one consulting via GoToMeeting, Skype or phone.
 
 == Frequently Asked Questions ==
 
+= Compatible Themes and Plugins =
+Most themes and plugins are compatible with PowerPress. PowerPress is developed and tested using the default themes packaged with WordPress including twentyten, twentytwelve, twentythirteen, twentyfourteen, twentyfifteen, and all future versions. These themes use WordPress best practices and adhere to theme rules set by WordPress.org. Any child theme based on these themes should also work without issue.
+
+If you are having a problem, try [Diagnosing Feed and/or Player Issues](http://create.blubrry.com/resources/powerpress/using-powerpress/diagnosing-feed-andor-player-issues-with-powerpress/).
+
+If you are having a problem specifically with the player and links, try the "Having issues?" option under PowerPress Settings > Appearance tab. Visit [Resolving Plugin or Theme Conflicts](http://create.blubrry.com/resources/powerpress/powerpress-settings/media-appearance/plugin-theme-conflict-issues/) for details.
+
+= Premium themes compatible with PowerPress =
+[Appendipity Podcast Pro theme](https://www.appendipity.com/themes/podcast-pro-theme/?aid=13) is is designed specifically to take advantage of built-in features, settings and podcast episode meta data in PowerPress. The Blubrry team works with the Appendipity team during beta testing and major WordPress releases to make sure the Podcast Pro theme and PowerPress work together seamlessly.
+
 
  = Related Plugins =
  The following plugins may be used in conjunction with PowerPress.
@@ -198,6 +208,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * The subscribe shortcode embed attributes are now strictly enforced. If you enter a category or a podcast channel and it does not exist, the shortcode be empty and will no longer fall-back to the main podcast settings.
 * The subscribe shortcode embed specifying category not displaying category fixed (thanks elembemedia for bringing to our attention)
 * Subscribe links below player for category podcasts now works but only if you select 1 category. 2 or more categories complicates things.
+* Added logic to fix situation with JetPack and automatic excerpts. Manual excerpts or regular content pages are not affected. (Thanks grahamharper for the details!)
+* Added new "Having Issues?" option "Yes, excluding excerpts", will apply player and links fix logic except when the_excerpt filter is called first.
 * AudioObject and VideoObject descriptions are now set using the blog post if no itunes subtitle is set.
 * Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
 
