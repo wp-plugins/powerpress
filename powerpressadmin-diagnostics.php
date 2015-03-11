@@ -142,6 +142,7 @@
 		$powerpress_diags['system_info']['warning'] = false;
 		$powerpress_diags['system_info']['success'] = true;
 		$powerpress_diags['system_info']['php_version'] = phpversion();
+		$powerpress_diags['system_info']['php_cgi'] = (function_exists('php_sapi_name') && preg_match('/cgi/i', php_sapi_name())? true : false );
 		$powerpress_diags['system_info']['memory_limit'] = (int) ini_get('memory_limit');
 		$powerpress_diags['system_info']['temp_directory'] = get_temp_dir(); // Function available since WP2.5+
 		
@@ -226,6 +227,15 @@
 			$powerpress_diags['system_info']['message3'] = __('Error:', 'powerpress') .' '. sprintf(__('Temporary directory %s is not writable.', 'powerpress'), $powerpress_diags['system_info']['temp_directory']);
 		}
 		
+		if( empty($powerpress_diags['system_info']['php_cgi']) )
+		{
+			$powerpress_diags['system_info']['message4'] = '';
+		}
+		else
+		{
+			$powerpress_diags['system_info']['message4'] = __('Warning:', 'powerpress') .' '. __('PHP running in CGI mode.', 'powerpress');
+		}
+		
 		if( isset($_GET['Email']) && strlen($_GET['Email']) > 4 )
 		{
 			check_admin_referer('powerpress-diagnostics');
@@ -300,6 +310,8 @@
 		$message .= " &nbsp; \t &nbsp; ". __('message:', 'powerpress') .' '. $powerpress_diags['system_info']['message'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('message 2:', 'powerpress') .' '. $powerpress_diags['system_info']['message2'] ."<br />\n";
 		$message .= " &nbsp; \t &nbsp; ". __('message 3:', 'powerpress') .' '. $powerpress_diags['system_info']['message3'] ."<br />\n";
+		if( !empty($powerpress_diags['system_info']['message4']) )
+			$message .= " &nbsp; \t &nbsp; ". __('message 4:', 'powerpress') .' '. $powerpress_diags['system_info']['message4'] ."<br />\n";
 
 		if( !empty($_GET['ap']) )
 		{
@@ -456,16 +468,19 @@
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-	<?php powerpressadmin_diagnostics_status($powerpress_diags['system_info']['success'], $powerpress_diags['system_info']['warning']); ?>
+	<?php powerpressadmin_diagnostics_status($powerpress_diags['system_info']['success'], ($powerpress_diags['system_info']['warning'] || $powerpress_diags['system_info']['php_cgi']) ); ?>
 </th> 
 <td>
 	<p><?php echo htmlspecialchars( sprintf(__('WordPress Version %s'), $GLOBALS['wp_version']) ); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message2']); ?></p>
 	<p><?php echo htmlspecialchars($powerpress_diags['system_info']['message3']); ?></p>
-<?php if( $powerpress_diags['system_info']['warning'] ) { ?>
+<?php if( !empty($powerpress_diags['system_info']['php_cgi']) ) { ?>
+	<p><?php echo __('Warning:', 'powerpress') .' '. __('PHP running in CGI mode.', 'powerpress'); ?></p>
+<?php } if( $powerpress_diags['system_info']['warning'] ) { ?>
 	<p><?php echo __('Contact your web hosting provider to inquire how to increase the PHP memory limit on your web server.', 'powerpress'); ?></p>
 <?php } ?>
+
 </td>
 </tr>
 </table>
