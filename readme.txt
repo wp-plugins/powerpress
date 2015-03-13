@@ -19,7 +19,7 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 - Integrated HTML5 Media Players: Audio/video Web players with embed support from sites such as YouTube.
 - Subscribe tools: Create subscribe page with our exclusive subscribe shortcode embed and subscribe sidebar widget optimized for responsive websites, high-resolution screens and Apple Retina displays.
 - Podcasting SEO: Improve discovery of your podcast on search engines such as Google, and with the iTunes podcast directory.
-- Advanced and default mode: Simplify settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
+- Advanced and Simple modes: Simplify settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
 - Media modifiers: Easily add, modify and remove podcasts from blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (Category Podcasting) or by media format (Podcast Channels).
