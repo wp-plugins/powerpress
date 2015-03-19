@@ -491,6 +491,8 @@ unset($cc_array);
 		<div class="powerpress_row">
 			<label for="PowerpressFeature[<?php echo $FeedSlug; ?>]"><?php echo __('Feature Episode', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
+			<?php if( $FeaturedChecked ) { ?>
+				<input type="hidden" name="PowerpressFeature[<?php echo $FeedSlug; ?>]" value="0" /><?php } ?>
 				<input type="checkbox" id="powerpress_feature_<?php echo $FeedSlug; ?>" name="PowerpressFeature[<?php echo $FeedSlug; ?>]" value="1" <?php echo ($FeaturedChecked?'checked':''); ?> />
 				<?php echo __('Episode will appear at the top of your episode list in the iTunes directory.', 'powerpress'); ?>
 			</div>	

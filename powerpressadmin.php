@@ -1244,7 +1244,7 @@ add_action( 'admin_notices', 'powerpress_admin_notices' );
 
 function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_general' )
 {
-	if(  $field == 'powerpress_taxonomy_podcasting' ) { // No merging settings for these fields...
+	if(  $field == 'powerpress_taxonomy_podcasting' || $field == 'powerpress_itunes_featured' ) { // No merging settings for these fields...
 		update_option($field,  $SettingsNew);
 		return;
 	}
@@ -1871,13 +1871,19 @@ function powerpress_edit_post($post_ID, $post)
 		} // Loop through posted episodes...
 		
 		// Check for PowerpressFeature for each channel...
-		if( !empty($_POST['PowerpressFeature']) )
+		if( isset($_POST['PowerpressFeature']) )
 		{
-			$FeatureEpisodes = array();
+			$FeatureEpisodes = powerpress_get_settings('powerpress_itunes_featured');
+			if( empty($FeatureEpisodes) && !is_array($FeatureEpisodes) )
+				$FeatureEpisodes = array();
+			
 			$PowerpressFeature = $_POST['PowerpressFeature'];
-			while( list($feed_slug,$Powerpress) = each($PowerpressFeature) )
+			while( list($feed_slug,$set_featured) = each($PowerpressFeature) )
 			{
-				$FeatureEpisodes[ $feed_slug ] = $post_ID;
+				if( !empty($set_featured) )
+					$FeatureEpisodes[ $feed_slug ] = $post_ID;
+				else
+					unset($FeatureEpisodes[ $feed_slug ]);
 			}
 			
 			powerpress_save_settings( $FeatureEpisodes, 'powerpress_itunes_featured');

@@ -211,6 +211,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added logic to fix situation with JetPack and automatic excerpts. Manual excerpts or regular content pages are not affected. (Thanks grahamharper for the details!)
 * Added new "Having Issues?" option "Yes, excluding excerpts", will apply player and links fix logic except when the_excerpt filter is called first.
 * AudioObject and VideoObject descriptions are now set using the blog post if no itunes subtitle is set.
+* Fixed "Feature Episode" bug, unchecking the option will now properly save.
 * Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
 
 
