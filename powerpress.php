@@ -1068,7 +1068,7 @@ add_filter('wp_title_rss', 'powerpress_wp_title_rss');
 
 function powerpress_the_title_rss($title)
 {
-	$new_title = '';
+	$new_title = $title;
 	$GeneralSettings = get_option('powerpress_general');
 	// If it is a custom podcast channel...
 	if( !empty($GeneralSettings['seo_feed_title']) )
@@ -1080,31 +1080,27 @@ function powerpress_the_title_rss($title)
 		
 		// Get the episode specific title...
 		$EpisodeData = powerpress_get_enclosure_data(get_the_ID(), $feed_slug);
-		if( empty($EpisodeData['feed_title']) )
-			return $title;
-			
-		$feed_title = ent2ncr( $EpisodeData['feed_title'] );
-		$feed_title = strip_tags( $feed_title );
-		$feed_title = esc_html( $feed_title );
-		if( empty($GeneralSettings['custom_feed_title']) )
-			$GeneralSettings['custom_feed_title'] = 0;
-		
-		switch( $GeneralSettings['custom_feed_title'] )
+		if( !empty($EpisodeData['feed_title']) )
 		{
-			case 1: { // Replaces title
-				$new_title = $feed_title;
-			}; break;
-			case 2: { // Prefixes title
-				$new_title = $feed_title . ' ' . $title;
-			}; break;
-			case 3: { // Postfixes title
-				$new_title = $title . ' ' . $feed_title;
-			}; break;
+			$feed_title = ent2ncr( $EpisodeData['feed_title'] );
+			$feed_title = strip_tags( $feed_title );
+			$feed_title = esc_html( $feed_title );
+			
+			//switch( $GeneralSettings['custom_feed_title'] )
+			switch( $GeneralSettings['seo_feed_title'] )
+			{
+				case 1: { // Replaces title
+					$new_title = $feed_title;
+				}; break;
+				case 2: { // Prefixes title
+					$new_title = $feed_title . ' ' . $title;
+				}; break;
+				case 3: { // Postfixes title
+					$new_title = $title . ' ' . $feed_title;
+				}; break;
+			}
 		}
 	}
-	
-	if( empty($new_title) )
-		$new_title = $title;
 	
 	if( !empty($GeneralSettings['seo_append_show_title']) )
 	{

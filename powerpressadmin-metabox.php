@@ -249,7 +249,7 @@ function powerpress_meta_box($object, $box)
 			</div>
 		</div>
 <?php 
-	if( !empty($GeneralSettings['custom_feed_title']) || !empty($GeneralSettings['seo_itunes']) )
+	if( !empty($GeneralSettings['seo_feed_title']) )
 	{
 ?>	
 		<div class="powerpress_row">
