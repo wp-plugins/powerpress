@@ -373,7 +373,6 @@ function powerpress_playlist_shortcode( $attr ) {
 
 	// don't pass strings to JSON, will be truthy in JS
 	// foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists' ) as $key ) {
-	$date = true;
 	foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists', 'date', 'itunes_subtitle' ) as $key ) {
 		$data[$key] = filter_var( $$key, FILTER_VALIDATE_BOOLEAN );
 	}

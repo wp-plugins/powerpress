@@ -213,6 +213,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * AudioObject and VideoObject descriptions are now set using the blog post if no itunes subtitle is set.
 * Fixed Episode Titles bug, if you did not set a custom episode title the program title was not appended.
 * Fixed "Feature Episode" bug, unchecking the option will now properly save.
+* Fixed playlist player date attribute not applying when set to false (thanks trb310 for pointing out the issue!)
 * Danish translation updated, thanks [Team Blogos](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=280)!
 * Added new subscribe embed attribute "heading", you can now customize the "Subscribe to" label, e.g. add "the" to the Subscribe to label `[powerpress_subscribe heading="Subscribe to the"`
 * Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
