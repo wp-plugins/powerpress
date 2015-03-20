@@ -515,6 +515,18 @@ function powerpress_rss2_head()
 		echo 'mode="simple" ';
 	else
 		echo 'mode="advanced" ';
+		
+	if( defined('POWERPRESS_DEBUG') )
+	{
+		if( !empty($powerpress_feed['category']) )
+			echo 'category="'.$powerpress_feed['category'].'" ';
+		if( !empty($powerpress_feed['term_taxonomy_id']) )
+			echo 'ttid="'.$powerpress_feed['term_taxonomy_id'].'" ';
+		if( !empty($powerpress_feed['post_type']) )
+			echo 'posttype="'.$powerpress_feed['post_type'].'" ';
+		if( !empty($powerpress_feed['feed-slug']) )
+			echo 'feedslug="'.$powerpress_feed['feed-slug'].'" ';
+	}
 	echo '-->'.PHP_EOL;
 		
 	// add the itunes:new-feed-url tag to feed
