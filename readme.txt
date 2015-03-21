@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.6
-Tested up to: 4.1
-Stable tag: 6.0.1
+Tested up to: 4.1.1
+Stable tag: 6.0.2
 Donate link: http://create.blubrry.com/
 License: GPLv2 or later
 
@@ -202,11 +202,11 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 = 6.0.2 =
-* Released on TBA
+* Released on 3/21/2015
 * Fixed bug where specific global podcast settings are not applied when podcast channel settings iTunes new feed URL or feed maximizer option were configured then deleted afterward. This only effected settings if you deleted the default podcast feed.
 * Added wp-config define option `POWERPRESS_DISABLE_ITUNES_UTF8`, when set to true PowerPress will not convert iTunes values to UTF-8. This is for the very small number of folks who are not using UTF-8 in their website.
-* The subscribe shortcode embed attributes are now strictly enforced. If you enter a category or a podcast channel and it does not exist, the shortcode be empty and will no longer fall-back to the main podcast settings.
-* The subscribe shortcode embed specifying category not displaying category fixed (thanks elembemedia for bringing to our attention)
+* The subscribe shortcode embed attributes are now strictly enforced. If you enter a category or a podcast channel and it does not exist, the shortcode will be empty and will no longer fall-back to the main podcast settings.
+* The subscribe shortcode embed specifying a category not displaying category fixed (thanks elembemedia for bringing to our attention)
 * Subscribe links below player for category podcasts now works but only if you select 1 category. 2 or more categories complicates things.
 * Added logic to fix situation with JetPack and automatic excerpts. Manual excerpts or regular content pages are not affected. (Thanks grahamharper for the details!)
 * Added new "Having Issues?" option "Yes, excluding excerpts", will apply player and links fix logic except when the_excerpt filter is called first.
@@ -217,7 +217,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Danish translation updated, thanks [Team Blogos](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=280)!
 * Added new subscribe embed attribute "heading", you can now customize the "Subscribe to" label, e.g. add "the" to the Subscribe to label `[powerpress_subscribe heading="Subscribe to the"`
 * Added new define `POWERPRESS_DEBUG` for PowerPress debugging.
-* Coming in 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
+* Coming in PowerPress 6.1 we will allow podcasters who use category podcasting to set one of their category podcasts as the "Default". This podcast category will replace the default podcast feed. This will solve a number of complications Category podcasting has in regards to slug name collisions as well as in-page features like the subscribe links.
+* Coming in PowerPress 6.1 Podcasting SEO field options will be customizable.
 
 
 = 6.0.1 =
