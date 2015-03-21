@@ -184,7 +184,6 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 	$SubscribeSettings = powerpresssubscribe_get_settings( $ExtraData );
 	if( empty($SubscribeSettings) )
 		return $content;
-	//var_dump($SubscribeSettings);
 	
 	if( !isset($SubscribeSettings['subscribe_links']) )
 		$SubscribeSettings['subscribe_links'] = 1; // Default make this the first link option
