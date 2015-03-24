@@ -478,7 +478,7 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 	if( !empty($General['hide_warnings']) )
 		$AdvanecdOptions = true;
 		
-	$DefaultMediaURL = (defined('POWERPRESS_DEFAULT_MEDIA_URL')? POWERPRESS_CUSTOM_MEDIA_URL :false);
+	$DefaultMediaURL = false;
 	
 	if( !empty($General['default_url']) )
 		$DefaultMediaURL = true;
@@ -489,7 +489,7 @@ SelectEmbedField(<?php echo $General['episode_box_embed']; ?>);
 <?php } ?>
 <!-- start advanced features -->
 <div id="advanced_basic_options" <?php echo ($AdvanecdOptions?'':'style="display:none;"'); ?>>
-<?php if( $DefaultMediaURL ) { ?>
+<?php if( $DefaultMediaURL || defined('POWERPRESS_DEFAULT_MEDIA_URL') ) { ?>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php echo __('Default Media URL', 'powerpress'); ?></th> 
