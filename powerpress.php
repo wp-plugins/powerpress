@@ -1498,7 +1498,9 @@ function powerpress_load_general_feed_settings()
 				$powerpress_feed['category'] = $cat_ID;
 				$powerpress_feed['process_podpress'] = !empty($GeneralSettings['process_podpress']); // Category feeds could originate from Podpress
 				$powerpress_feed['rss_language'] = ''; // default, let WordPress set the language
-				$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
+				$powerpress_feed['default_url'] = '';
+				if( !empty($GeneralSettings['default_url']) )
+					$powerpress_feed['default_url'] = rtrim($GeneralSettings['default_url'], '/') .'/';
 				$explicit_array = array("no", "yes", "clean");
 				$powerpress_feed['explicit'] = $explicit_array[$Feed['itunes_explicit']];
 				if( $Feed['itunes_talent_name'] )
@@ -1511,7 +1513,8 @@ function powerpress_load_general_feed_settings()
 				$powerpress_feed['posts_per_rss'] = false;
 				if( !empty($Feed['posts_per_rss']) && is_numeric($Feed['posts_per_rss']) && $Feed['posts_per_rss'] > 0 )
 					$powerpress_feed['posts_per_rss'] = $Feed['posts_per_rss'];
-				if( $Feed['feed_redirect_url'] != '' )
+				$powerpress_feed['feed_redirect_url'] = '';
+				if( !empty($Feed['feed_redirect_url']) )
 					$powerpress_feed['feed_redirect_url'] = $Feed['feed_redirect_url'];
 				if( $Feed['itunes_author_post'] == true )
 					$powerpress_feed['itunes_author_post'] = true;

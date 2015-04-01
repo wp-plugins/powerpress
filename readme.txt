@@ -206,6 +206,10 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added define option `POWERPRESS_DEFAULT_MEDIA_URL` to enable the default media URL field.
 
 
+= 6.0.3 =
+* Released on TBD
+* Fixed notice messages being printed when populating category podcasting settings (thanks slapdashcast for bringing to our attention)
+
 = 6.0.2 =
 * Released on 3/21/2015
 * Fixed bug where specific global podcast settings are not applied when podcast channel settings iTunes new feed URL or feed maximizer option were configured then deleted afterward. This only effected settings if you deleted the default podcast feed.
