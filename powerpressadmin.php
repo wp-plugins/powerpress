@@ -168,7 +168,7 @@ function powerpress_admin_init()
 			
 				if( $ImageData )
 				{
-					if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400  && $ImageData[0] <= 2048 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400  && $ImageData[0] <= 3000 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
 					{
 						if( !move_uploaded_file($temp, $upload_path . $filename) )
 						{
@@ -200,9 +200,9 @@ function powerpress_admin_init()
 					{
 						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too small, 1400 x 1400 is the required minimum size.', 'powerprss') );
 					}
-					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 2048 )
+					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 3000 )
 					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too large, 2048 x 2048 is the maximum size allowed.', 'powerprss') );
+						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too large, 3000 x 3000 is the maximum size allowed.', 'powerprss') );
 					}
 					else
 					{
