@@ -125,6 +125,9 @@ body .pp-sub-widget a:hover {
 .pp-sub-widget-modern a.pp-sub-rss {
 	background-color: #FF8800;
 }
+.pp-sub-widget-modern a.pp-sub-android {
+	background-color: #6AB344;
+}
 
 .pp-sub-widget-modern  div.pp-sub-h,
 .pp-sub-widget-modern  p.pp-sub-m-p {
@@ -158,6 +161,9 @@ body .pp-sub-widget a:hover {
 }
 .pp-sub-bp .pp-sub-ic {
 	background-position: -147px 0;
+}
+.pp-sub-android .pp-sub-ic {
+	background-position: -98px -98px;
 }
 
 /* Retina-specific stuff here */

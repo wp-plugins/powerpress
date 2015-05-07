@@ -197,15 +197,36 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 		$itunes_url = preg_replace('/(^https?:\/\/)/i', 'itpc://', $feed_url);
 	
 	$player_links = '';
+	$separator = false;
 	if( !empty($itunes_url) ) {
-		$player_links .= "<a href=\"{$itunes_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
-		$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+		$player_links .= "<a href=\"".  htmlspecialchars($itunes_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
+		$separator = true;
 	}
-	$player_links .= "<a href=\"{$feed_url}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	
+	if( preg_match('/^(https?:\/\/)(.*)$/i', $feed_url, $matches ) ) {
+		if( $separator )
+			$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+		else
+			$separator = true;
+		
+		$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
+		$player_links .= "<a href=\"".  htmlspecialchars($android_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe on Android', 'powerpress') ."\" rel=\"nofollow\">". __('Android','powerpress') ."</a>".PHP_EOL;
+	}
+	
+	if( $separator )
+		$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+	else
+		$separator = true;
+	$player_links .= "<a href=\"". htmlspecialchars($feed_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	
 	if( !empty($SubscribeSettings['subscribe_page_url']) )
 	{
+		if( $separator )
+			$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+		else
+			$separator = true;
+			
 		$label = (empty($SubscribeSettings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$SubscribeSettings['subscribe_page_link_text']);
-		$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
 		$player_links .= "<a href=\"{$SubscribeSettings['subscribe_page_url']}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_more\" title=\"". htmlspecialchars($label) ."\" rel=\"nofollow\">". htmlspecialchars($label) ."</a>".PHP_EOL;
 	}
 	$content .= $player_links;
@@ -424,10 +445,18 @@ function powerpress_do_subscribe_widget($settings)
 				if( !empty($settings['itunes_url']) ) {
 					$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-sub-btn pp-sub-itunes"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('on iTunes', 'powerpress') ) .'</a>';
 				}
+				
+				if( preg_match('/^(https?:\/\/)(.*)$/i', $settings['feed_url'], $matches ) ) {
+					$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
+					$html .= '<a href="'.  htmlspecialchars( $android_url ) .'" class="pp-sub-btn pp-sub-android"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('on Android', 'powerpress') ) .'</a>';
+				}
+				
 				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-rss"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('via RSS', 'powerpress') ) .'</a>';
-				$htmlX .= '<a href="" class="pp-sub-btn pp-sub-email"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('via Email', 'powerpress') ) .'</a>';
-				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-bp"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('BeyondPod for Android', 'powerpress') ) .'</a>';
-				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-pr"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('Podcast Republic for Android', 'powerpress') ) .'</a>';
+				
+				// May want these back, not sure.
+				//$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-bp"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('BeyondPod for Android', 'powerpress') ) .'</a>';
+				//$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-pr"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('Podcast Republic for Android', 'powerpress') ) .'</a>';
+				
 			$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="pp-sub-m">';
