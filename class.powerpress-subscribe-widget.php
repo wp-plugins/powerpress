@@ -94,7 +94,7 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 2px;
-	background-image: url(<?php echo powerpress_get_root_url(); ?>/images/spriteStandard.png);
+	background-image: url(<?php echo powerpress_get_root_url(); ?>images/spriteStandard.png);
 	background-repeat: no-repeat;
 	background-size: 294px;
 }
@@ -119,7 +119,7 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
        only screen and (-o-min-device-pixel-ratio: 200/100),
        only screen and (min-device-pixel-ratio: 2.0) {
 	.pp-sub-ic {
-		background-image: url(<?php echo powerpress_get_root_url(); ?>/images/spriteRetina.png);
+		background-image: url(<?php echo powerpress_get_root_url(); ?>images/spriteRetina.png);
 	}
 }
 </style>
