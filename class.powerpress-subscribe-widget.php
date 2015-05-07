@@ -81,6 +81,9 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 .pp-ssb-widget-modern a.pp-ssb-email {
 	background-color: #337EC9;
 }
+.pp-ssb-widget-modern a.pp-ssb-android {
+	background-color: #6AB344;
+}
 .pp-ssb-widget-modern a.pp-ssb-rss {
 	background-color: #FF8800;
 }
@@ -103,6 +106,9 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 }
 .pp-ssb-email .pp-ssb-ic {
   background-position: -196px -49px;
+}
+.pp-ssb-android .pp-ssb-ic {
+	background-position: -98px -98px;
 }
 .pp-ssb-more .pp-ssb-ic {
   background-position: -49px -49px;

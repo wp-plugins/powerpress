@@ -367,7 +367,7 @@ function powerpress_subscribe_shortcode( $attr ) {
 		$html .= '<div>';
 		$html .= '';
 		$html .='<a href="';
-		$html .= $Settings['itunes_url'];
+		$html .= esc_url($Settings['itunes_url']);
 		$html .= '" target="itunes_store" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_subscribe-lrg.png) no-repeat;width:135px;height:40px;}"></a>';
 		$html .= '</div>';
 		return $html;
@@ -425,43 +425,43 @@ function powerpress_do_subscribe_widget($settings)
 	
 	$htmlX = '';
 	$html = '';
-	$html .= '<div class="pp-sub-widget pp-sub-widget-'. $settings['style'] .'">';
+	$html .= '<div class="pp-sub-widget pp-sub-widget-'. esc_attr($settings['style']) .'">';
 	if( !empty($settings['title']) )
 	{
 		if( !isset($settings['heading']) )
 				$settings['heading'] = __('Subscribe to', 'powerpress');
 			
 		if( !empty($settings['heading']) ) {
-			$html .= '<div class="pp-sub-h">'.  htmlspecialchars($settings['heading']) .'</div>'; }
-		$html .= '<h2 class="pp-sub-t">'.  htmlspecialchars( $settings['title'] ) .'</h2>';
+			$html .= '<div class="pp-sub-h">'.  esc_html($settings['heading']) .'</div>'; }
+		$html .= '<h2 class="pp-sub-t">'.  esc_html( $settings['title'] ) .'</h2>';
 	}
 	else
 	{
 		$settings['title'] = ''; // Make sure it's an empty string
 	}
 			$html .= '<div class="pp-sub-bx">';
-				$html .= '<img class="pp-sub-l" src="'. htmlspecialchars( $settings['image_url'] ) .'" '. (!empty($settings['title'])?' title="'.  htmlspecialchars($settings['title']).'" ':'') .'/>';
+				$html .= '<img class="pp-sub-l" src="'. esc_url( $settings['image_url'] ) .'" '. (!empty($settings['title'])?' title="'.  esc_attr($settings['title']).'" ':'') .'/>';
 				$html .= '<div class="pp-sub-btns">';
 				if( !empty($settings['itunes_url']) ) {
-					$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-sub-btn pp-sub-itunes"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('on iTunes', 'powerpress') ) .'</a>';
+					$html .= '<a href="'.  esc_url( $settings['itunes_url'] ) .'" class="pp-sub-btn pp-sub-itunes"><span class="pp-sub-ic"></span>'.  esc_html( __('on iTunes', 'powerpress') ) .'</a>';
 				}
 				
 				if( preg_match('/^(https?:\/\/)(.*)$/i', $settings['feed_url'], $matches ) ) {
 					$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
-					$html .= '<a href="'.  htmlspecialchars( $android_url ) .'" class="pp-sub-btn pp-sub-android"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('on Android', 'powerpress') ) .'</a>';
+					$html .= '<a href="'.  esc_url( $android_url ) .'" class="pp-sub-btn pp-sub-android"><span class="pp-sub-ic"></span>'.  esc_html( __('on Android', 'powerpress') ) .'</a>';
 				}
 				
-				$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-rss"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('via RSS', 'powerpress') ) .'</a>';
+				$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-rss"><span class="pp-sub-ic"></span>'.  esc_html( __('via RSS', 'powerpress') ) .'</a>';
 				
 				// May want these back, not sure.
-				//$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-bp"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('BeyondPod for Android', 'powerpress') ) .'</a>';
-				//$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-pr"><span class="pp-sub-ic"></span>'.  htmlspecialchars( __('Podcast Republic for Android', 'powerpress') ) .'</a>';
+				//$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-bp"><span class="pp-sub-ic"></span>'.  esc_html( __('BeyondPod for Android', 'powerpress') ) .'</a>';
+				//$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-pr"><span class="pp-sub-ic"></span>'.  esc_html( __('Podcast Republic for Android', 'powerpress') ) .'</a>';
 				
 			$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="pp-sub-m">';
-			$html .= '<p class="pp-sub-m-p">'.  htmlspecialchars( __('Or subscribe with your favorite app by using the address below', 'powerpress') ) .'</p>';
-			$html .= '<input class="pp-sub-m-i" type="text" name="NULL'. rand(0,9999) .'" value="'.  htmlspecialchars( $settings['feed_url'] ) .'" onclick="this.focus();this.select();" />';
+			$html .= '<p class="pp-sub-m-p">'.  esc_html( __('Or subscribe with your favorite app by using the address below', 'powerpress') ) .'</p>';
+			$html .= '<input class="pp-sub-m-i" type="text" name="NULL'. rand(0,9999) .'" value="'.  esc_attr( $settings['feed_url'] ) .'" onclick="this.focus();this.select();" />';
 		$html .= '</div>';
 	$html .= '</div>';
 
@@ -492,14 +492,20 @@ function powerpress_do_subscribe_sidebar_widget($settings)
 	$htmlX = '';
 	$html = '';
 
-	$html .= '<div class="pp-ssb-widget pp-ssb-widget-'. $settings['style'] .'">';
+	$html .= '<div class="pp-ssb-widget pp-ssb-widget-'. esc_attr($settings['style']) .'">';
 		if( !empty($settings['itunes_url']) ) {
-			$html .= '<a href="'.  htmlspecialchars( $settings['itunes_url'] ) .'" class="pp-ssb-btn pp-ssb-itunes"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('on iTunes', 'powerpress') ) .'</a>';
+			$html .= '<a href="'.  esc_url( $settings['itunes_url'] ) .'" class="pp-ssb-btn pp-ssb-itunes"><span class="pp-ssb-ic"></span>'.  esc_html( __('on iTunes', 'powerpress') ) .'</a>';
 		}
-		$html .= '<a href="'.  htmlspecialchars( $settings['feed_url'] ) .'" class="pp-ssb-btn pp-ssb-rss"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('via RSS', 'powerpress') ) .'</a>';
-		$htmlX .= '<a href="" class="pp-ssb-btn pp-ssb-email"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('via Email', 'powerpress') ) .'</a>';
+		
+		if( preg_match('/^(https?:\/\/)(.*)$/i', $settings['feed_url'], $matches ) ) {
+			$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
+			$html .= '<a href="'.  esc_url( $android_url ) .'" class="pp-ssb-btn pp-ssb-android"><span class="pp-ssb-ic"></span>'.  esc_html( __('on Android', 'powerpress') ) .'</a>';
+		}
+		
+		$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-ssb-btn pp-ssb-rss"><span class="pp-ssb-ic"></span>'.  esc_html( __('via RSS', 'powerpress') ) .'</a>';
+		$htmlX .= '<a href="" class="pp-ssb-btn pp-ssb-email"><span class="pp--ic"></span>'.  esc_html( __('via Email', 'powerpress') ) .'</a>';
 		if( !empty($settings['subscribe_page_url']) )
-			$html .= '<a href="'.  htmlspecialchars( $settings['subscribe_page_url'] ) .'" class="pp-ssb-btn pp-ssb-more"><span class="pp-ssb-ic"></span>'.  htmlspecialchars( __('More Subscribe Options', 'powerpress') ) .'</a>';
+			$html .= '<a href="'.  esc_url( $settings['subscribe_page_url'] ) .'" class="pp-ssb-btn pp-ssb-more"><span class="pp-ssb-ic"></span>'.  esc_html( __('More Subscribe Options', 'powerpress') ) .'</a>';
 	$html .= '</div>';
 
 	return $html;
