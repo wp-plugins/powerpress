@@ -152,19 +152,17 @@ function powerpress_playlist_episodes($args)
 	if( !empty($TaxonomyObj->term_taxonomy_id) )
 		$query .= "INNER JOIN {$wpdb->term_relationships} AS tr ON p.ID = tr.object_id ";
 	
-	if( $args['slug'] == 'podcast' )
-		$query .= "WHERE (pm.meta_key = 'enclosure') ";
-	else
-		$query .= "WHERE (pm.meta_key = '_".$args['slug'].":enclosure') ";
-	$query .= "AND p.post_type = '".  $args['post_type'] ."' ";
+	$query .= "WHERE (pm.meta_key = %s) ";
+	$query .= "AND p.post_type = %s ";
 	$query .= "AND p.post_status = 'publish' ";
 	if( !empty($TaxonomyObj->term_taxonomy_id) )
 		$query .= "AND tr.term_taxonomy_id = '". $TaxonomyObj->term_taxonomy_id ."' ";
 	
 	$query .= "GROUP BY p.ID ";
 	$query .= "ORDER BY p.post_date DESC ";
-	$query .= "LIMIT 0, ".$args['limit'];
+	$query .= "LIMIT 0, %d";
 	
+	$query = $wpdb->prepare($query, ($args['slug'] == 'podcast'?'enclosure': '_'.$args['slug'].':enclosure'), $args['post_type'], $args['limit'] );
 	$results_data = $wpdb->get_results($query, ARRAY_A);
 	if( $results_data )
 	{

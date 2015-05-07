@@ -206,7 +206,8 @@ To install Blubrry PowerPress manually, follow these steps:
 * Added define option `POWERPRESS_DEFAULT_MEDIA_URL` to enable the default media URL field.
 * Fixed notice messages being printed when populating category podcasting settings (thanks slapdashcast for bringing to our attention)
 * iTunes image requirements updated, 3000x3000 is now the maximum (previously 2048x2048) for iTunes artwork. 1400x1400 is still the recommended size.
-
+* Added [Subscribe on Android](http://subscribeonandroid.com/), the one-click subscribe protocol for Android. There are currently 6 Android apps that support Subscribe on Android one-click with more to follow in the coming weeks.
+* PowerPress Playlist Player SQLi injection vulnerability fixed (Thanks Ben Bidner, Security Wrangler @ Automattic.com!)
 
 
 = 6.0.2 =
