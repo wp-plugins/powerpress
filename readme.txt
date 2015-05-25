@@ -201,6 +201,11 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
+= TBD =
+* Released on TBD
+* Enhanced iTunes Summary feature now maintains <a> links.
+
+
 = 6.0.3 =
 * Released on 5/7/2015
 * Added define option `POWERPRESS_DEFAULT_MEDIA_URL` to enable the default media URL field.
