@@ -133,7 +133,7 @@ function powerpress_content($content)
 			$GeneralSettings['player_aggressive'] = 1;
 		}
 		if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
-			$GeneralSettings['player_aggressive'] = 3;
+			$GeneralSettings['player_aggressive'] = 1; // Jet pack still doesn't behave with PowerPress the_content
 		}
 	}
 	
