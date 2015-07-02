@@ -372,7 +372,7 @@ function powerpress_admin_migrate_request()
 						}
 					}
 				}
-				powerpress_page_message_add_notice(  sprintf(__('No episoded updated.', 'powerpress')) );
+				powerpress_page_message_add_notice(  sprintf(__('No episodes updated.', 'powerpress')) );
 			}; break;
 		}
 	}
