@@ -32,6 +32,12 @@ function powerpresssubscribe_get_settings($ExtraData)
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
 	
+	if( $post_type == false && get_post_type() != 'post' && empty($ExtraData['subscribe_type']) )
+	{
+		$post_type = get_post_type();
+		$ExtraData['subscribe_type'] = 'post_type';
+	}
+	
 	if( empty($ExtraData['subscribe_type']) ) // Make sure this value is set
 		$ExtraData['subscribe_type'] = '';
 	
@@ -40,22 +46,23 @@ function powerpresssubscribe_get_settings($ExtraData)
 		case 'post_type': {
 			$category_id = 0;
 			$taxonomy_term_id = 0;
-		};
+		}; break;
 		case 'category': {
 			$feed_slug = 'podcast';
 			$taxonomy_term_id = 0;
-			$post_type = 0;
+			$post_type = '';
 		}; break;
 		case 'ttid': {
 			$feed_slug = 'podcast';
 			$category_id = 0;
-			$post_type = 0;
+			if( empty($post_type) )
+				$post_type = get_post_type();
 		}; break;
 		case 'channel': 
 		case 'general': 
 		default: {
 			$category_id = 0;
-			$post_type = 0;
+			$post_type = '';
 			$taxonomy_term_id = 0;
 		}; break;
 	}
@@ -127,9 +134,25 @@ function powerpresssubscribe_get_settings($ExtraData)
 					// SWEET, CARRY ON!
 				}; break;
 				default: {
-					// TODO
-					// $url = get_post_type_archive_feed_link($post_type, $feed_slug);
-					return false; // Not suported for now
+					$SettingsArray = get_option('powerpress_posttype_'.$post_type);
+					$Settings = false;
+					if( !empty($SettingsArray[ $feed_slug ]) )
+						$Settings = $SettingsArray[ $feed_slug ];
+					
+					if( !empty($Settings) )
+					{
+						$Settings['title'] = $Settings['title'];
+						if( empty($Settings['title']) )
+							$Settings['title'] = get_bloginfo('name') . get_wp_title_rss(); // Get category title
+						if( !empty($Settings['feed_redirect_url']) )
+							$Settings['feed_url'] = $Settings['feed_redirect_url'];
+						else
+							$Settings['feed_url'] = get_post_type_archive_feed_link($post_type, $feed_slug); // Get category feed URL
+						$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
+						$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
+						$Settings['image_url'] = $Settings['itunes_image'];
+						return $Settings;
+					}
 				}; break;
 			}
 		}

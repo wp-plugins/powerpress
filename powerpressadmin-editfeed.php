@@ -280,7 +280,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 	
 	<div id="feed_tab_itunes" class="powerpress_tab">
 		<?php
-		if( $feed_slug != 'podcast' )
+		if( $feed_slug != 'podcast' || $FeedAttribs['type'] == 'post_type' ) // Custom post type
 			powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs);
 		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
 		?>

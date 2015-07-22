@@ -208,6 +208,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * HTTPS URL warnings have been removed. The past year usage of podcast applications that do not support https is now negligible.
 * Added support for https:// media URLs for Blubrry and RawVoice statistics services.
 * Veriy media URL option now verifies SSL certificates and hostnames for https URLs.
+* Added Podcast subscribe link support to post type podcasting.
 
 
 = 6.0.3 =

@@ -1192,9 +1192,9 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	if( !empty($FeedAttribs['feed_slug']) )
 		$feed_slug = $FeedAttribs['feed_slug'];
 		
-	if( $FeedAttribs['type'] == 'post_type' || $FeedAttribs['type'] == 'ttid' )
+	if( $FeedAttribs['type'] == 'ttid' )
 	{
-		echo "<br /><br />";
+		//echo "<br /><br />";
 		return;
 	}
 ?>
