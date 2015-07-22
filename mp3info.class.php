@@ -298,6 +298,13 @@
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'HEAD'); // HTTP request 
 			curl_setopt($curl, CURLOPT_NOBODY, true );
 			curl_setopt($curl, CURLOPT_FAILONERROR, true);
+			if( preg_match('/^https:\/\//', $url) !== false )
+			{
+				curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2 );
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true );
+				curl_setopt($curl, CURLOPT_CAINFO, ABSPATH . WPINC . '/certificates/ca-bundle.crt');
+			}
+			
 			if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 			{
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -401,6 +408,13 @@
 				curl_setopt($curl, CURLOPT_HEADER, false); // header will be at output
 				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET'); // HTTP request 
 				curl_setopt($curl, CURLOPT_NOBODY, false );
+				if( preg_match('/^https:\/\//', $url) !== false )
+				{
+					curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2 );
+					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true );
+					curl_setopt($curl, CURLOPT_CAINFO, ABSPATH . WPINC . '/certificates/ca-bundle.crt');
+				}
+				
 				if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 				{
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -482,7 +496,7 @@
 			$this->m_file_size_only = $file_size_only;
 			
 			$DeleteFile = false;
-			if( strtolower( substr($File, 0, 7) ) == 'http://' )
+			if( preg_match('/^https?:\/\//i', $File) !== false )
 			{
 				$LocalFile = $this->Download($File);
 				if( $LocalFile === false )

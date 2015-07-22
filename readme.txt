@@ -201,9 +201,13 @@ To install Blubrry PowerPress manually, follow these steps:
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 
-= TBD =
+= 6.0.4 =
 * Released on TBD
 * Enhanced iTunes Summary feature now maintains <a> links.
+* Added check for null values returned from `get_role` function.
+* HTTPS URL warnings have been removed. The past year usage of podcast applications that do not support https is now negligible.
+* Added support for https:// media URLs for Blubrry and RawVoice statistics services.
+* Veriy media URL option now verifies SSL certificates and hostnames for https URLs.
 
 
 = 6.0.3 =

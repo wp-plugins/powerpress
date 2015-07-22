@@ -1112,10 +1112,13 @@ function powerpress_admin_init()
 				while( list($null,$user) = each($users) )
 				{
 					$role = get_role($user);
-					if( !$role->has_cap('edit_podcast') )
-						$role->add_cap('edit_podcast');
-					if( $user == 'administrator' && !$role->has_cap('view_podcast_stats') )
-						$role->add_cap('view_podcast_stats');
+					if( !empty($role) )
+					{
+						if( !$role->has_cap('edit_podcast') )
+							$role->add_cap('edit_podcast');
+						if( $user == 'administrator' && !$role->has_cap('view_podcast_stats') )
+							$role->add_cap('view_podcast_stats');
+					}
 				}
 				
 				$General = array('use_caps'=>true);
@@ -1130,10 +1133,13 @@ function powerpress_admin_init()
 				while( list($null,$user) = each($users) )
 				{
 					$role = get_role($user);
-					if( $role->has_cap('edit_podcast') )
-						$role->remove_cap('edit_podcast');
-					if( $role->has_cap('view_podcast_stats') )
-						$role->remove_cap('view_podcast_stats');
+					if( !empty($role) )
+					{
+						if( $role->has_cap('edit_podcast') )
+							$role->remove_cap('edit_podcast');
+						if( $role->has_cap('view_podcast_stats') )
+							$role->remove_cap('view_podcast_stats');
+					}
 				}
 				$General = array('use_caps'=>false);
 				powerpress_save_settings($General);
@@ -1144,7 +1150,7 @@ function powerpress_admin_init()
 				check_admin_referer('powerpress-add-feed-caps');
 				
 				$ps_role = get_role('premium_subscriber');
-				if(!$ps_role)
+				if( empty($ps_role) )
 				{
 					add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'));
 					$ps_role = get_role('premium_subscriber');
@@ -1156,8 +1162,11 @@ function powerpress_admin_init()
 				while( list($null,$user) = each($users) )
 				{
 					$role = get_role($user);
-					if( !$role->has_cap('premium_content') )
-						$role->add_cap('premium_content');
+					if( !empty($role) )
+					{
+						if( !$role->has_cap('premium_content') )
+							$role->add_cap('premium_content');
+					}
 				}
 				
 				$General = array('premium_caps'=>true);
@@ -1658,20 +1667,13 @@ function powerpress_edit_post($post_ID, $post)
 				
 				// Initialize the important variables:
 				$MediaURL = $Powerpress['url'];
-				if( defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
+
+				if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http:// or https://
 				{
-					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && strpos($MediaURL, 'https://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http:// or https://
-					{
-						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
-					}
+					$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
 				}
-				else
-				{
-					if( !empty($GeneralSettings['default_url']) && strpos($MediaURL, 'http://') !== 0 && empty($Powerpress['hosting']) ) // If the url entered does not start with a http://
-					{
-						$MediaURL = rtrim($GeneralSettings['default_url'], '/') .'/'. ltrim($MediaURL, '/');
-					}
-				}
+
+
 				
 				$FileSize = '';
 				$ContentType = '';
@@ -2263,29 +2265,6 @@ function powerpress_check_url(url)
 		if( x == 5 )
 			validChars = validChars.substring(1); // remove the colon, should no longer appear in URLs
 	}
-	
-<?php
-	if( !defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
-	{
-?>
-    if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
-    {
-        jQuery( '#'+DestDiv ).html('<?php echo __('PowerPress will not accept media URLs starting with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />Please enter a different URL beginning with http://.', 'powerpress'); ?>');
-				jQuery( '#'+DestDiv ).css('display', 'block');
-        return false;
-    }
-<?php
-	} else if( POWERPRESS_ENABLE_HTTPS_MEDIA === 'warning' ) {
-?>
-    if( url.charAt(0) == 'h' && url.charAt(1) == 't' && url.charAt(2) == 't' && url.charAt(3) == 'p' && url.charAt(4) == 's' )
-    {
-        jQuery( '#'+DestDiv ).html('<?php echo __('Media URL should not start with https://.<br />Not all podcatching (podcast downloading) applications support secure http.<br />By using https://, you may limit the size of your audience.', 'powerpress'); ?>');
-        jQuery( '#'+DestDiv ).css('display', 'block');
-        return false;
-    }
-<?php
-	}
-?>
 
 	jQuery( '#'+DestDiv ).css('display', 'none');
 	return true;
@@ -2580,19 +2559,9 @@ function powerpress_media_info_ajax()
 	$duration = '';
 	$GeneralSettings = get_option('powerpress_general');
 
-	if( !empty($GeneralSettings['default_url']) && defined('POWERPRESS_ENABLE_HTTPS_MEDIA') )
+	if( strpos($media_url, 'http://') !== 0 && strpos($media_url, 'https://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http:// or https://
 	{
-		if( strpos($media_url, 'http://') !== 0 && strpos($media_url, 'https://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http:// or https://
-		{
-			$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
-		}
-	}
-	else if( !empty($GeneralSettings['default_url']) )
-	{
-		if( strpos($media_url, 'http://') !== 0 && $hosting != 1 ) // If the url entered does not start with a http://
-		{
-			$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
-		}
+		$media_url = rtrim($GeneralSettings['default_url'], '/') .'/'. $media_url;
 	}
 	
 	$ContentType = false;
@@ -3158,10 +3127,11 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout); // The maximum number of seconds to execute.
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Blubrry PowerPress/'.POWERPRESS_VERSION);
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
-		if( strtolower(substr($url, 0, 5)) == 'https' )
+		if( preg_match('/^https:\/\//i', $url) != 0 )
 		{
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2 );
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true );
+			curl_setopt($curl, CURLOPT_CAINFO, ABSPATH . WPINC . '/certificates/ca-bundle.crt');
 		}
 		// HTTP Authentication
 		if( $basic_auth )

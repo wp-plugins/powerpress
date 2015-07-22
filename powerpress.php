@@ -2357,10 +2357,12 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 
 function powerpress_add_redirect_url($MediaURL, $channel = 'podcast')
 {
-	if( preg_match('/^http\:/i', $MediaURL) === false )
-		return $MediaURL; // If the user is hosting media not via http (e.g. https or ftp) then we can't handle the redirect
+	if( preg_match('/^https?:\/\//i', $MediaURL) == 0 )
+		return $MediaURL; // If the user is hosting media not via http (e.g. ftp) then we can't handle the redirect
 		
 	$NewURL = apply_filters('powerpress_redirect_url',  $MediaURL);
+	
+	$URLScheme = ( (preg_match('/^https:\/\//i', $NewURL) != 0 ) ? 'https://':'http://');
 	
 	$GeneralSettings = false;
 	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
@@ -2437,19 +2439,26 @@ function powerpress_add_redirect_url($MediaURL, $channel = 'podcast')
 		$key = sprintf('redirect%d', $x);
 		if( !empty($GeneralSettings[ $key ]) )
 		{
-			$RedirectClean = str_replace('http://', '', trim($GeneralSettings[ $key ]) );
+			if( preg_match('/^https?:\/\/(.*)$/', trim($GeneralSettings[ $key ]) , $matches ) == 0 )
+				continue;
+			
+			$RedirectClean = $matches[1];
 			if( !empty($RedirectClean) )
 			{
 				if( strpos($RedirectClean, '/') == 0 ) // Not a valid redirect URL
 					continue;
 				// Check that redirect is either media..blubrry.com, media.techpodcasts.com, media.rawvoice.com, or www.podtrac.com
 				$ValidRedirectDomains = array('media.blubrry.com', 'media.rawvoice.com', 'media.techpodcasts.com', 'www.podtrac.com', 'podtrac.com');
+				if( $URLScheme == 'https://' )
+					$ValidRedirectDomains = array('media.blubrry.com', 'media.rawvoice.com'); // Only URLs that support https:// to an https:// media file
+				
 				$RedirectDomain = strtolower(substr($RedirectClean, 0, strpos($RedirectClean, '/') ));
+				
 				if( !in_array($RedirectDomain, $ValidRedirectDomains) )
 					continue; // Not a valid domain so lets not add it
 				
 				if( !strstr($NewURL, $RedirectClean) )
-					$NewURL = 'http://'. $RedirectClean . str_replace('http://', '', $NewURL);
+					$NewURL = $URLScheme. $RedirectClean . str_replace($URLScheme, '', $NewURL);
 			}
 		}
 	}
