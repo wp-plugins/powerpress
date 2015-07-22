@@ -46,21 +46,7 @@ if ( !defined('POWERPRESS_ABSPATH') )
 // you upgrade the plugin.
 /////////////////////////////////////////////////////
 
-// Set specific play and download labels for your installation of PowerPress
-if( !defined('POWERPRESS_LINKS_TEXT') )
-	define('POWERPRESS_LINKS_TEXT', __('Podcast', 'powerpress') );
-if( !defined('POWERPRESS_DURATION_TEXT') )
-	define('POWERPRESS_DURATION_TEXT', __('Duration', 'powerpress') );
-if( !defined('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT') )
-	define('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT', __('Play in new window', 'powerpress') );	
-if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
-	define('POWERPRESS_DOWNLOAD_TEXT', __('Download', 'powerpress') );	
-if( !defined('POWERPRESS_PLAY_TEXT') )
-	define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );
-if( !defined('POWERPRESS_EMBED_TEXT') )	
-	define('POWERPRESS_EMBED_TEXT', __('Embed', 'powerpress') );
-if( !defined('POWERPRESS_READ_TEXT') )	
-	define('POWERPRESS_READ_TEXT', __('Read', 'powerpress') );
+
 	
 if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
@@ -1457,6 +1443,27 @@ function powerpress_plugins_loaded()
 	load_plugin_textdomain('powerpress', // domain / keyword name of plugin
 		POWERPRESS_ABSPATH .'/languages', // Absolute path
 		basename(POWERPRESS_ABSPATH).'/languages' ); // relative path in plugins folder
+
+/*
+####
+# Defines that effect translation defined now:
+####
+*/
+	// Set specific play and download labels for your installation of PowerPress
+	if( !defined('POWERPRESS_LINKS_TEXT') )
+		define('POWERPRESS_LINKS_TEXT', __('Podcast', 'powerpress') );
+	if( !defined('POWERPRESS_DURATION_TEXT') )
+		define('POWERPRESS_DURATION_TEXT', __('Duration', 'powerpress') );
+	if( !defined('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT') )
+		define('POWERPRESS_PLAY_IN_NEW_WINDOW_TEXT', __('Play in new window', 'powerpress') );	
+	if( !defined('POWERPRESS_DOWNLOAD_TEXT') )
+		define('POWERPRESS_DOWNLOAD_TEXT', __('Download', 'powerpress') );	
+	if( !defined('POWERPRESS_PLAY_TEXT') )
+		define('POWERPRESS_PLAY_TEXT', __('Play', 'powerpress') );
+	if( !defined('POWERPRESS_EMBED_TEXT') )	
+		define('POWERPRESS_EMBED_TEXT', __('Embed', 'powerpress') );
+	if( !defined('POWERPRESS_READ_TEXT') )	
+		define('POWERPRESS_READ_TEXT', __('Read', 'powerpress') );
 }
 add_action('plugins_loaded', 'powerpress_plugins_loaded');
 
