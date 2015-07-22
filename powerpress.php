@@ -1185,7 +1185,7 @@ function powerpress_do_podcast_feed($for_comments=false)
 	}
 	else
 	{
-		do_feed_rss2($for_comments);
+		do_feed_rss2(false);
 	}
 	
 }
