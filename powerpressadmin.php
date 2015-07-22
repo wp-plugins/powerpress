@@ -527,7 +527,8 @@ function powerpress_admin_init()
 					
 				if( !isset($General['subscribe_links'] ) )
 					$General['subscribe_links'] = false;	
-					
+				if( !isset($General['subscribe_feature_email'] ) )
+					$General['subscribe_feature_email'] = false;		
 			}
 			else if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-defaults' )
 			{
@@ -1321,6 +1322,8 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['playlist_player']);	
 			if( isset($Settings['seo_feed_title']) && empty($Settings['seo_feed_title']) )
 				unset($Settings['seo_feed_title']);
+			if( isset($Settings['subscribe_feature_email']) && empty($Settings['subscribe_feature_email']) )
+				unset($Settings['subscribe_feature_email']);	
 		}
 		else // Feed or player settings...
 		{

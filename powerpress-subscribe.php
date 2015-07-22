@@ -97,6 +97,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 				$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
 				$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
 				$Settings['image_url'] = $Settings['itunes_image'];
+				$Settings['subscribe_feature_email'] = (!empty($GeneralSettings['subscribe_feature_email']) );
 				return $Settings;
 			}
 		}
@@ -151,6 +152,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 						$Settings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($Settings);
 						$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
 						$Settings['image_url'] = $Settings['itunes_image'];
+						$Settings['subscribe_feature_email'] = (!empty($GeneralSettings['subscribe_feature_email']) );
 						return $Settings;
 					}
 				}; break;
@@ -179,6 +181,7 @@ function powerpresssubscribe_get_settings($ExtraData)
 		$FeedSettings['subscribe_page_url'] = powerpresssubscribe_get_subscribe_page($FeedSettings);
 		$FeedSettings['itunes_url'] = powerpresssubscribe_get_itunes_url($FeedSettings);
 		$FeedSettings['image_url'] = $FeedSettings['itunes_image'];
+		$FeedSettings['subscribe_feature_email'] = (!empty($GeneralSettings['subscribe_feature_email']) );
 		return $FeedSettings;
 	}
 	return false;
@@ -233,7 +236,14 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 			$separator = true;
 		
 		$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
-		$player_links .= "<a href=\"".  htmlspecialchars($android_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe on Android', 'powerpress') ."\" rel=\"nofollow\">". __('Android','powerpress') ."</a>".PHP_EOL;
+		$player_links .= "<a href=\"".  htmlspecialchars($android_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_android\" title=\"". __('Subscribe on Android', 'powerpress') ."\" rel=\"nofollow\">". __('Android','powerpress') ."</a>".PHP_EOL;
+		if( !empty($SubscribeSettings['subscribe_feature_email']) )
+		{
+			$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
+			$email_url =  $matches[1] . 'subscribebyemail.com/' . $matches[2];
+			$player_links .= "<a href=\"".  htmlspecialchars($email_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_email\" title=\"". __('Subscribe by Email', 'powerpress') ."\" rel=\"nofollow\">". __('Email','powerpress') ."</a>".PHP_EOL;
+		}
+		
 	}
 	
 	if( $separator )
@@ -446,6 +456,8 @@ function powerpress_do_subscribe_widget($settings)
 		$settings['image_url'] = powerpress_get_root_url() . 'itunes_default.jpg'; // Default PowerPress image used in this case.
 	}
 	
+	$PowerPressSettings = get_option('powerpress_general');
+	
 	$htmlX = '';
 	$html = '';
 	$html .= '<div class="pp-sub-widget pp-sub-widget-'. esc_attr($settings['style']) .'">';
@@ -472,6 +484,10 @@ function powerpress_do_subscribe_widget($settings)
 				if( preg_match('/^(https?:\/\/)(.*)$/i', $settings['feed_url'], $matches ) ) {
 					$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
 					$html .= '<a href="'.  esc_url( $android_url ) .'" class="pp-sub-btn pp-sub-android" title="'.  esc_attr( __('Subscribe on Android', 'powerpress') ) .'"><span class="pp-sub-ic"></span>'.  esc_html( __('on Android', 'powerpress') ) .'</a>';
+					if( !empty($PowerPressSettings['subscribe_feature_email']) ) {
+						$email_url =  $matches[1] . 'subscribebyemail.com/' . $matches[2];
+						$html .= '<a href="'.  esc_url( $email_url ) .'" class="pp-sub-btn pp-sub-email" title="'.  esc_attr( __('Subscribe by Email', 'powerpress') ) .'"><span class="pp-sub-ic"></span>'.  esc_html( __('by Email', 'powerpress') ) .'</a>';
+					}
 				}
 				
 				$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-sub-btn pp-sub-rss" title="'.  esc_attr( __('Subscribe via RSS', 'powerpress') ) .'"><span class="pp-sub-ic"></span>'.  esc_html( __('via RSS', 'powerpress') ) .'</a>';
@@ -523,6 +539,11 @@ function powerpress_do_subscribe_sidebar_widget($settings)
 		if( preg_match('/^(https?:\/\/)(.*)$/i', $settings['feed_url'], $matches ) ) {
 			$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
 			$html .= '<a href="'.  esc_url( $android_url ) .'" class="pp-ssb-btn pp-ssb-android" title="'.  esc_attr( __('Subscribe on Android', 'powerpress') ) .'"><span class="pp-ssb-ic"></span>'.  esc_html( __('on Android', 'powerpress') ) .'</a>';
+			if( !empty($settings['subscribe_feature_email']) ) {
+				$email_url =  $matches[1] . 'subscribebyemail.com/' . $matches[2];
+				$html .= '<a href="'.  esc_url( $email_url ) .'" class="pp-ssb-btn pp-ssb-email" title="'.  esc_attr( __('Subscribe by Email', 'powerpress') ) .'"><span class="pp-ssb-ic"></span>'.  esc_html( __('by Email', 'powerpress') ) .'</a>';
+			}
+			
 		}
 		
 		$html .= '<a href="'.  esc_url( $settings['feed_url'] ) .'" class="pp-ssb-btn pp-ssb-rss" title="'.  esc_attr( __('Subscribe via RSS', 'powerpress') ) .'"><span class="pp-ssb-ic"></span>'.  esc_html( __('via RSS', 'powerpress') ) .'</a>';

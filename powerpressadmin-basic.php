@@ -1037,7 +1037,7 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 
 <?php echo __('Media Links', 'powerpress'); ?></th> 
 <td>
-	<p><label><input type="checkbox" name="PlayerSettings[display_pinw]" value="3" <?php if( $General['player_function'] == 3 || $General['player_function'] == 1 ) echo 'checked '; ?>/> <?php echo __('Display Play in new Window Link', 'powerpress'); ?></label></p>
+	<p style="padding-top: 8px;"><label><input type="checkbox" name="PlayerSettings[display_pinw]" value="3" <?php if( $General['player_function'] == 3 || $General['player_function'] == 1 ) echo 'checked '; ?>/> <?php echo __('Display Play in new Window Link', 'powerpress'); ?></label></p>
 	
 	<p><label><input type="checkbox" name="PlayerSettings[display_download]" value="1" <?php if( $General['podcast_link'] != 0 ) echo 'checked '; ?>/> <?php echo __('Display Download Link', 'powerpress'); ?></label></p>
 	
@@ -1059,13 +1059,42 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <th scope="row">
 <?php echo __('Subscribe Links', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
 <td>
-	<p><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
+	<p style="padding-top: 8px;"><label><input type="checkbox" name="General[subscribe_links]" value="1" <?php if( $General['subscribe_links'] == 1 ) echo 'checked '; ?>/> 
 	<?php echo __('Display subscribe links below player and media links.', 'powerpress'); ?></label></p>
 	<ul>
 	<li><label for="subscribe_label">Subscribe label: <input type="text" id="subscribe_label" value="<?php echo esc_attr($General['subscribe_label']); ?>" name="General[subscribe_label]" placeholder="Subscribe:" /></label>
 	<?php echo __('(leave blank for default)', 'powerpress'); ?>
 	</li>
 	</ul>
+
+<p style="padding-top:10px;"><input type="checkbox" name="NULL[subscribe_feature_itunes]" value="1" checked disabled /> <label><?php echo __('Subscribe on iTunes', 'powerpress'); ?></label></p>
+<div style="margin-left: 24px;">
+	<p><?php echo __('Link to your one click iTunes Subscription URL.', 'powerpress'); ?></p>
+	
+	<p><a href="<?php echo 'https://linkmaker.itunes.apple.com/?q='.urlencode( get_bloginfo('name') ); ?>" target="_blank"><?php echo __('Find your iTunes Subscription URL', 'powerpress'); ?></a></p>
+</div>
+
+<p><input type="checkbox" name="NULL[subscribe_feature_android]" value="1" checked disabled /> <label><?php echo __('Subscribe on Android', 'powerpress'); ?></label> <?php echo powerpressadmin_new(); ?></p>
+<div style="margin-left: 24px;">
+	<p><?php echo __('Link to your one click Subscribe on Android URL.', 'powerpress'); ?></p>
+	<p><a href="http://subscribeonandroid.com/podcasters/" target="_blank"><?php echo __('Learn more about Subscribe on Android', 'powerpress'); ?></a></p>
+</div>
+
+<p><input type="checkbox" name="NULL[subscribe_feature_rss]" value="1" checked disabled /> <label><?php echo __('Subscribe via RSS', 'powerpress'); ?></label></p>
+<div style="margin-left: 24px;">
+	<p><?php echo __('Link to your podcast RSS feed.', 'powerpress'); ?></p>
+</div>
+
+<p><input type="checkbox" id="subscribe_feature_email" name="General[subscribe_feature_email]" value="1" <?php if( !empty($General['subscribe_feature_email']) ) echo 'checked '; ?>/> <label for="subscribe_feature_email"><?php echo __('Subscribe By Email', 'powerpress'); ?></label> <?php echo powerpressadmin_new(); ?></p>
+<div style="margin-left: 24px;">
+	<p><?php echo __('Link to your one click Subscribe by Email URL.', 'powerpress'); ?></p>
+	<p>
+	<?php echo __('Subscribe By Email is a service that allows listeners to subscribe to their favorite podcasts by email.', 'powerpress'); ?>
+	</p>
+	<p><a href="http://subscribebyemail.com/podcasters/" target="_blank"><?php echo __('Learn more about Subscribe by Email', 'powerpress'); ?></a></p>
+	<p><?php echo __('Note: Subscribe by Email does not replace newsletters or mailing lists. It is only for podcast syndication.', 'powerpress'); ?>
+	</p>
+</div>
 </td>
 </tr>
 </table>

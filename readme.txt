@@ -203,6 +203,7 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = 6.0.4 =
 * Released on TBD
+* Added new Subscribe by Email option to Subscribe Links feature. By default this new feature is not enabled. Go to "PowerPress Settings" > "Media Appearance" to enable Subscribe by Email.
 * Enhanced iTunes Summary feature now maintains <a> links.
 * Added check for null values returned from `get_role` function.
 * HTTPS URL warnings have been removed. The past year usage of podcast applications that do not support https is now negligible.
