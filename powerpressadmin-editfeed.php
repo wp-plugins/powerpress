@@ -378,18 +378,6 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 	</ul>
 </td>
 </tr>
-
-<?php /* ?>
-<tr valign="top">
-<th scope="row">
-<?php echo __('Main Site Feed', 'powerpress'); ?></th> 
-<td>
-	<p style="margin-top: 5px; margin-bottom: 0;"><?php echo __('Main RSS2 Feed', 'powerpress'); ?>: <a href="<?php echo get_bloginfo('rss2_url'); ?>" title="<?php echo __('Main RSS 2 Feed', 'powerpress'); ?>" target="_blank"><?php echo get_bloginfo('rss2_url'); ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_bloginfo('rss2_url')); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
-	<p><?php echo __('Note: We do not recommend submitting your main site feed to podcast directories such as iTunes. iTunes and many other podcast directories work best with feeds that do not have regular blog posts mixed in.', 'powerpress');  ?></p>
-</td>
-</tr>
-<?php */ ?>
-
 <tr valign="top">
 <th scope="row">
 
@@ -412,7 +400,9 @@ function powerpressadmin_edit_feed_general($FeedSettings, $General)
 		$edit_link = admin_url( 'admin.php?page=powerpress/powerpressadmin_customfeeds.php&amp;action=powerpress-editfeed&amp;feed_slug=') . $feed_slug;
 ?>
 <p><?php echo $feed_title; ?>: <a href="<?php echo get_feed_link($feed_slug); ?>" title="<?php echo $feed_title; ?>" target="_blank"><?php echo get_feed_link($feed_slug); ?></a>
-| <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a>
+	<?php if( defined('POWERPRESS_FEEDVALIDATOR_URL') ) { ?>
+	| <a href="<?php echo POWERPRESS_FEEDVALIDATOR_URL. urlencode(get_feed_link($feed_slug)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a>
+	<?php } ?>
 	<?php if( false && $feed_slug != 'podcast' ) { ?>
 	| <a href="<?php echo $edit_link; ?>" title="<?php echo __('Edit Podcast Channel', 'powerpress'); ?>"><?php echo __('edit', 'powerpress'); ?></a>
 	<?php } ?>
@@ -475,7 +465,7 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 	
 	$cat_ID = $FeedAttribs['category_id'];
 	
-	if( $FeedAttribs['type'] == 'channel' && !empty($FeedAttribs['type'])	)
+	if( !empty($FeedAttribs['type']) && (  in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) 	)
 	{
 ?>
 <h3><?php echo __('Feed Information', 'powerpress'); ?></h3>
@@ -485,11 +475,12 @@ function powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttrib
 <?php echo __('Feed URL', 'powerpress'); ?>
 </th>
 <td>
-<p style="margin-top: 0;" class="description"><a href="<?php echo $feed_link; ?>" target="_blank"><?php echo $feed_link; ?></a> | <a href="http://www.feedvalidator.org/check.cgi?url=<?php echo urlencode( str_replace('&amp;', '&', $feed_link)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a></p>
+<p style="margin-top: 0;" class="description"><a href="<?php echo $feed_link; ?>" target="_blank"><?php echo $feed_link; ?></a>
+	<?php if( defined('POWERPRESS_FEEDVALIDATOR_URL') ) { ?>| <a href="<?php echo POWERPRESS_FEEDVALIDATOR_URL. urlencode( str_replace('&amp;', '&', $feed_link)); ?>" target="_blank"><?php echo __('validate', 'powerpress'); ?></a><?php } ?></p>
 <?php
 		if( !empty($FeedSettings['premium']) )
 		{
-			echo __('WARNING: This feed is password protected, it cannot be accessed by public services such as feedvalidator.org or the iTunes podcast directory.', 'powerpress');
+			echo __('WARNING: This feed is password protected, it cannot be accessed publicly by the iTunes podcast directory or other podcast services.', 'powerpress');
 		} ?>
 </td>
 </tr>
@@ -722,7 +713,7 @@ function powerpressadmin_edit_basics_feed($General, $FeedSettings, $feed_slug, $
 	if( !isset($FeedSettings['premium_label']) )
 		$FeedSettings['premium_label'] = '';
  	
-	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category' || ($FeedAttribs['type'] == 'channel' && defined('CHANNEL_STATS_REDIRECT') ) || ($FeedAttribs['type'] == 'post_type' && defined('POST_TYPE_STATS_REDIRECT')) )  )
+	if( !empty($FeedAttribs['type']) && ($FeedAttribs['type'] == 'ttid' || $FeedAttribs['type'] == 'category' || ($FeedAttribs['type'] == 'channel') || ($FeedAttribs['type'] == 'post_type') )  )
 	{
 ?>
 	<h3><?php echo __('Media Statistics', 'powerpress'); ?></h3>
@@ -1033,7 +1024,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 <div><input type="checkbox" name="Feed[enhance_itunes_summary]" value="1" <?php echo ( !empty($FeedSettings['enhance_itunes_summary'])?'checked ':''); ?>/> <?php echo __('Optimize iTunes Summary from Blog Posts', 'powerpress'); ?>
 </div>
 <p>
-	<?php echo __('Creates a friendlier view of your post/episode content by converting web links and images to clickable links in the iTunes application.', 'powerpress'); ?>
+	<?php echo __('Creates a friendlier view of your post/episode content.', 'powerpress'); ?>
 </p>
 </td>
 </tr>

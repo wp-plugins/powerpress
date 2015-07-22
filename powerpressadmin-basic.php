@@ -712,7 +712,8 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 			echo get_feed_link($feed_slug);
 		}; break;
 		case 'post_type': {
-			$url = get_post_type_archive_feed_link($post_type, $feed_slug);
+			$url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
+			echo $url;
 		}; break;
 		case 'general':
 		default: {

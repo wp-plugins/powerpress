@@ -138,7 +138,9 @@ function powerpress_admin_customfeeds()
 				
 					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">". esc_html($short_url) ."</a>";
 						echo '<div class="row-actions">';
-							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode($url) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
+						if( defined('POWERPRESS_FEEDVALIDATOR_URL') ) {
+							echo '<span class="'.$action .'"><a href="'. POWERPRESS_FEEDVALIDATOR_URL . urlencode($url) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
+						}
 						echo '</div>';
 					echo "</td>";
 					

@@ -136,7 +136,9 @@ function powerpress_admin_categoryfeeds()
 				
 					echo "<td $class><a href='$url' title='". esc_attr(sprintf(__('Visit %s', 'powerpress'), $feed_title))."' target=\"_blank\">$short_url</a>";
 						echo '<div class="row-actions">';
-							echo '<span class="'.$action .'"><a href="http://www.feedvalidator.org/check.cgi?url='. urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
+							if( defined('POWERPRESS_FEEDVALIDATOR_URL') ) {
+								echo '<span class="'.$action .'"><a href="'. POWERPRESS_FEEDVALIDATOR_URL . urlencode( str_replace('&amp;', '&', $url) ) .'" target="_blank">' . __('Validate Feed', 'powerpress') . '</a></span>';
+							}
 						echo '</div>';
 					echo "</td>";
 					

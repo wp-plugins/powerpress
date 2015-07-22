@@ -65,6 +65,9 @@ if( !defined('POWERPRESS_READ_TEXT') )
 if( !defined('POWERPRESS_BLUBRRY_API_URL') )
 	define('POWERPRESS_BLUBRRY_API_URL', 'http://api.blubrry.com/');
 	
+// Replace validator service with one that is more reliable here:
+// define('POWERPRESS_FEEDVALIDATOR_URL', 'http://www.feedvalidator.org/check.cgi?url=');
+
 // Display custom play image for quicktime media. Applies to on page player only.
 //define('POWERPRESS_PLAY_IMAGE', 'http://www.blubrry.com/themes/blubrry/images/player/PlayerBadge150x50NoBorder.jpg');
 
