@@ -19,11 +19,14 @@ function powerpress_page_message_add_error($msg, $classes='inline')
 	$g_powerpress_page_message .= '<div class="error powerpress-error '.$classes.'">'. esc_html($msg) . '</div>';
 }
 
-function powerpress_page_message_add_notice($msg, $classes='inline')
+function powerpress_page_message_add_notice($msg, $classes='inline', $escape=true)
 {
 	global $g_powerpress_page_message;
 	// Always pre-pend, since jQuery will re-order with first as last.
-	$g_powerpress_page_message = '<div class="updated fade powerpress-notice '.$classes.'">'. esc_html($msg) . '</div>' . $g_powerpress_page_message;
+	if( $escape )
+		$g_powerpress_page_message = '<div class="updated fade powerpress-notice '.$classes.'">'. esc_html($msg) . '</div>' . $g_powerpress_page_message;
+	else
+		$g_powerpress_page_message = '<div class="updated fade powerpress-notice '.$classes.'">'. ($msg) . '</div>' . $g_powerpress_page_message;
 }
 
 

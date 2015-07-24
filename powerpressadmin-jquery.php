@@ -257,7 +257,7 @@ function DeleteMedia(File)
 					}
 					
 					$message .= '<p style="text-align: center;"><strong><a href="'. $results['quota']['expires']['renew_link'] .'" target="_blank" style="text-decoration: underline;">'. __('Renew Media Hosting Service', 'powerpress') . '</a></strong></p>';
-					powerpress_page_message_add_notice( $message );
+					powerpress_page_message_add_notice( $message, 'inline', false );
 					powerpress_page_message_print();
 				}
 				else if( empty($results) )
@@ -273,7 +273,7 @@ function DeleteMedia(File)
 						$message .= '<p>'.__('Unable to connect to service.','powerpress').'</p>';
 			
 					// Print an erro here
-					powerpress_page_message_add_notice( $message );
+					powerpress_page_message_add_notice( $message, 'inline', false );
 					powerpress_page_message_print();
 				}
 				
@@ -579,7 +579,7 @@ function DeleteMedia(File)
 			delete_option('powerpress_stats');
 			
 			if( $Error )
-				powerpress_page_message_add_notice( $Error );
+				powerpress_page_message_add_notice( $Error, 'inline', false );
 				
 			if( $Close )
 			{
