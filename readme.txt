@@ -213,6 +213,7 @@ To install Blubrry PowerPress manually, follow these steps:
 * Links to Feed Validator have been temporarily removed, service does not correctly validate secure podcast feeds. We are working on an alternative.
 * Moved defines for customizing links within the `plugins_loaded` action after translations are loaded.
 * Fixed bug with linking blubrry account displayed HTML syntax for sign-in errors.
+* Added logic to the Subscribe to Podcast sidebar widget to only display category, feed slug and post type settings when appropriate.
 
 
 = 6.0.3 =

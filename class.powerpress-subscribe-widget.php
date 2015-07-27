@@ -16,6 +16,18 @@ class PowerPressSubscribe_Widget extends WP_Widget {
 		if ( is_active_widget( false, false, $this->id_base ) ) {
 			add_action( 'wp_head', array( $this, 'css' ) );
 		}
+		
+		add_action('admin_enqueue_scripts', array( $this, 'load_scripts' ));
+	}
+	
+	function load_scripts($hook) {
+		
+		// taken from: https://pippinsplugins.com/loading-scripts-correctly-in-the-wordpress-admin/
+		if( $hook == 'widgets.php' )
+		{
+			//echo "<!-- $hook -->";
+			wp_enqueue_script( 'powerpress-subscribe-widget', plugins_url( 'js/powerpress-subscribe-widget.js' , __FILE__ ) );
+		}
 	}
 
 	function css() {
@@ -143,17 +155,24 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 			$instance['subscribe_category_id'] = '';
 		}
 
-
+		$GeneralSettings = get_option('powerpress_general');
 ?>
 		<p>
 		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:' , 'powerpress'); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 		</p>
-		<p>
+		<p class="pp-sub-widget-p-subscribe_type">
 		<label for="<?php echo $this->get_field_id('subscribe_type'); ?>"><?php _e( 'Select Podcast Type:', 'powerpress' ); ?></label>
-		<select class="widefat" id="<?php echo $this->get_field_id('subscribe_type'); ?>" name="<?php echo $this->get_field_name('subscribe_type'); ?>">
+		<select class="widefat powerpress-subscribe-type" onchange="javascript: powerpress_subscribe_widget_change(this)" id="<?php echo $this->get_field_id('subscribe_type'); ?>" name="<?php echo $this->get_field_name('subscribe_type'); ?>">
 		<?php
-		$types = array(''=>__('Default Podcast','powerpress'), 'channel'=>__('Podcast Channel','powerpress'), 'category'=>__('Category Podcasting','powerpress') ); //, 'post_type'=>__('Post Type Podcasting','powerpress'), 'ttid'=>__('Taxonomy Podcasting','powerpress'));
+		$types = array(''=>__('Default Podcast','powerpress'), 'channel'=>__('Podcast Channel','powerpress')); //, 'ttid'=>__('Taxonomy Podcasting','powerpress'));
+		
+		if( !empty($GeneralSettings['cat_casting']) || $instance['subscribe_type'] == 'category' ) // If category podcasting enabled
+			$types['category'] = __('Category Podcasting','powerpress');
+		
+		if( !empty($GeneralSettings['posttype_podcasting']) || $instance['subscribe_type'] == 'post_type'  ) // If post type podcasting enabled
+			$types['post_type'] = __('Post Type Podcasting','powerpress');
+		
 		while( list($type, $label) = each($types) ) {
 			echo '<option value="' . $type . '"'
 				. selected( $instance['subscribe_type'], $type, false )
@@ -163,9 +182,11 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 		</select>
 		</p>
 <?php
-		/*
+		// If Post type podcasting enabled...
+		if( !empty($GeneralSettings['posttype_podcasting']) || $instance['subscribe_type'] == 'post_type' )
+		{
 ?>
-		<p id="<?php echo $this->get_field_id('subscribe_post_type_section'); ?>">
+		<p id="<?php echo $this->get_field_id('subscribe_post_type_section'); ?>" class="pp-sub-widget-p-post_type"<?php if( $instance['subscribe_type'] != 'post_type' ) echo " style=\"display: none;\""; ?>>
 		<label for="<?php echo $this->get_field_id('subscribe_post_type'); ?>"><?php _e( 'Select Post Type:', 'powerpress' ); ?></label>
 		<select class="widefat" id="<?php echo $this->get_field_id('subscribe_post_type'); ?>" name="<?php echo $this->get_field_name('subscribe_post_type'); ?>">
 		<option value=""><?php echo __('Select Post Type', 'powerpress'); ?></option>
@@ -179,18 +200,19 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 ?>
 		</select>
 		</p>
-<?php */ ?>
+<?php } ?>
 		
-		<p id="<?php echo $this->get_field_id('subscribe_feed_slug_section'); ?>">
+		<p id="<?php echo $this->get_field_id('subscribe_feed_slug_section'); ?>" class="pp-sub-widget-p-channel"<?php if( $instance['subscribe_type'] != 'post_type' && $instance['subscribe_type'] != 'channel' ) echo " style=\"display: none;\""; ?>>
 		<label for="<?php echo $this->get_field_id( 'subscribe_feed_slug' ); ?>"><?php esc_html_e( 'Feed Slug:' , 'powerpress'); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'subscribe_feed_slug' ); ?>" name="<?php echo $this->get_field_name( 'subscribe_feed_slug' ); ?>" type="text" value="<?php echo esc_attr( $instance['subscribe_feed_slug'] ); ?>" />
 		</p>
-		
-		<p id="<?php echo $this->get_field_id('subscribe_category_id_section'); ?>">
+<?php // If category podcasting...
+		if( !empty($GeneralSettings['cat_casting']) || $instance['subscribe_type'] == 'category' ) { ?>
+		<p id="<?php echo $this->get_field_id('subscribe_category_id_section'); ?>" class="pp-sub-widget-p-category"<?php if( $instance['subscribe_type'] != 'category' ) echo " style=\"display: none;\""; ?>>
 		<label for="<?php echo $this->get_field_id( 'subscribe_category_id' ); ?>"><?php esc_html_e( 'Category ID:' , 'powerpress'); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'subscribe_category_id' ); ?>" name="<?php echo $this->get_field_name( 'subscribe_category_id' ); ?>" type="text" value="<?php echo esc_attr( $instance['subscribe_category_id'] ); ?>" />
 		</p>
-		
+		<?php } ?>
 <?php
 	}
 
@@ -213,9 +235,11 @@ body .pp-ssb-widget a.pp-ssb-btn:hover {
 		switch( $instance['subscribe_type'] )
 		{
 			case 'post_type': {
-				if( empty($instance['subscribe_post_type']) )
+				
+				if( empty($instance['subscribe_post_type']) || empty($instance['subscribe_feed_slug']) )
 					return;
 				$ExtraData['post_type'] = $instance['subscribe_post_type'];
+				$ExtraData['feed'] = $instance['subscribe_feed_slug'];
 			}; 
 			case 'channel': {
 				if( empty($instance['subscribe_feed_slug']) )

@@ -32,12 +32,6 @@ function powerpresssubscribe_get_settings($ExtraData)
 	$category_id = (empty($ExtraData['cat_id'])?false: $ExtraData['cat_id']);
 	$taxonomy_term_id = (empty($ExtraData['taxonomy_term_id'])?false: $ExtraData['taxonomy_term_id']);
 	
-	if( $post_type == false && get_post_type() != 'post' && empty($ExtraData['subscribe_type']) )
-	{
-		$post_type = get_post_type();
-		$ExtraData['subscribe_type'] = 'post_type';
-	}
-	
 	if( empty($ExtraData['subscribe_type']) ) // Make sure this value is set
 		$ExtraData['subscribe_type'] = '';
 	
@@ -207,6 +201,12 @@ case 'ttid':
 // 1: Subscribe widget added to the links...
 function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = array() )
 {
+	if( get_post_type() != 'post' && empty($ExtraData['subscribe_type']) )
+	{
+		$post_type = get_post_type();
+		$ExtraData['subscribe_type'] = 'post_type';
+	}
+	
 	$SubscribeSettings = powerpresssubscribe_get_settings( $ExtraData );
 	if( empty($SubscribeSettings) )
 		return $content;
