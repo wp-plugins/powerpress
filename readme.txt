@@ -4,7 +4,7 @@ Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, 
 Requires at least: 3.6
 Tested up to: 4.2.2
 Stable tag: 6.0.3
-Donate link: http://create.blubrry.com/
+Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
 
@@ -29,7 +29,10 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 
 *The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month.
 
-=  Full iTunes Support!  =
+= Become a PowerPress Patron! =
+Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
+
+= Includes Full iTunes Support!  =
 Blubrry PowerPress fully supports iTunes, which set the standard and is required for podcasting. PowerPress comes with the following iTunes specific features:
 
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
@@ -63,7 +66,7 @@ Make your life easier by adding our FREE or paid media hosting and statistics se
 
 The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month. Blubrry [Media Hosting](https://secure.blubrry.com/podcast-publishing-premium-with-hosting/) packages start at $12. 
 
-= Subscribe Tools =
+= Subscribe Tools Baked In =
 A Blubrry PowerPress exclusive, podcasting subscribe tools help you convert Web visitors into podcast subscribers.
 
 * [Subscribe page](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-page/): Instantly create a subscribe page with simplified instructions on how to subscribe to your podcast using the PowerPress subscribe page shortcode.
@@ -73,7 +76,7 @@ A Blubrry PowerPress exclusive, podcasting subscribe tools help you convert Web 
 * Retina enabled: Subscribe button images optimized for high resolution displays including Apple Retina displays.
 * Responsive: Subscribe tools are designed for any screen and optimized for touch screens by providing custom buttons that are at minimum 48 pixels in height.
 
-= Advanced Features =
+= Advanced Features for those who need more =
 Want more? We've got more! Check out some of the advanced features:
 
 * [Podcasting SEO settings](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/): Utilize the iTunes features that improve the discovery of your podcasts and include the necessary meta data in your blog pages for search engines to discover.
@@ -115,7 +118,6 @@ We now offer one-on-one consulting via GoToMeeting, Skype or phone.
 [Learn more about Blubrry Consulting Services](http://create.blubrry.com/support/podcast-consulting-services/)
 
 *PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
-
 
 == Frequently Asked Questions ==
 
@@ -197,9 +199,11 @@ To install Blubrry PowerPress manually, follow these steps:
 == Changelog ==
 
 = Next Major Release Announcements =
-* PowerPress 6.0+ is no longer be compatible with WordPress 3.0.x through 3.5.x. Please upgrade to the latest version of WordPress to install future versions of PowerPress.
+* PowerPress 7.0 is coming in 2-4 weeks!!!
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
+= Become a PowerPress Patron! =
+Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
 = 6.0.4 =
 * Released on TBD
@@ -473,6 +477,6 @@ Please [contact blubrry](http://www.blubrry.com/contact.php) with the link to yo
 == Support == 
  [http://create.blubrry.com/support/](http://create.blubrry.com/support/)
 
-== Twitter == 
+== Blubrry Social == 
  
- [http://twitter.com/blubrry](http://twitter.com/blubrry)
+ [Twitter](https://twitter.com/blubrry) - [Facebook](https://www.facebook.com/blubrry) - [Google+](https://plus.google.com/u/0/104806426850567631953/posts)

@@ -333,14 +333,24 @@ function powerpressadmin_advanced_options($General)
 		</li>
 		<li><?php echo __('Tell the world about PowerPress by writing about it on your blog', 'powerpress'); ?>, 
 		<a href="http://twitter.com/home/?status=<?php echo urlencode( __('I\'m podcasting with Blubrry PowerPress (http://blubrry.com/powerpress/) #powerpress #wordpress', 'powerpress') ); ?>" target="_blank"><?php echo __('Twitter', 'powerpress'); ?></a>, 
-		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://create.blubrry.com/resources/powerpress/'); ?>&amp;t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
-		<a href="http://digg.com/submit?phase=2&amp;url=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&amp;title=<?php echo urlencode( __('Blubrry PowerPress Podcasting Plugin for WordPress', 'powerpress') ); ?>" target="_blank"><?php echo __('Digg', 'powerpress'); ?></a>,
+		<a href="http://www.facebook.com/share.php?u=<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>&amp;t=<?php echo urlencode( __('I podcast with Blubrry PowerPress', 'powerpress')); ?>" target="_blank"><?php echo __('Facebook', 'powerpress'); ?></a>,
+		<a href="https://plus.google.com/share?url==<?php echo urlencode('http://www.blubrry.com/powerpress'); ?>" target="_blank"><?php echo __('Google+', 'powerpress'); ?></a>,
 		etc...</li>
 		<li><a href="http://www.blubrry.com/contact.php" target="_blank"><?php echo __('Send us feedback', 'powerpress'); ?></a> (<?php echo __('we love getting suggestions for new features!', 'powerpress'); ?>)</li>
 	</ul>
 </div>
 <?php
 	}
+?>
+<div style="margin-left: 10px;">
+	<h3 style="margin-bottom: 5px;"><?php echo __('Become a PowerPress Patron!', 'powerpress'); ?></h3>
+	<p style="margin: 0; padding-left: 50px;">
+		<?php echo __('Help support your favorite podcasting plugin via Patreon.', 'powerpress'); ?>
+	</p>
+	<p style="margin-top: 0; padding-left: 50px;"><?php echo '<a href="https://www.patreon.com/blubrry?ty=h" target="_blank">'. __('Visit Blubrry\'s Patreon page', 'powerpress') .'</a>'; ?>
+	</p>
+</div>
+<?php
 }
 
 function powerpressadmin_edit_entry_options($General)
