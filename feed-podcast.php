@@ -7,7 +7,18 @@
  
 	function powerpress_get_the_excerpt_rss()
 	{
-		$output = get_the_excerpt();
+		global $post;
+		
+		if ( post_password_required() ) {
+			return __( 'There is no excerpt because this is a protected post.' );
+		}
+		$output = strip_tags($post->post_excerpt);
+		if ( $output == '') {
+			$output = strip_shortcodes( $post->post_content );
+			$output = str_replace(']]>', ']]&gt;', $output);
+			$output = strip_tags($output);
+		}
+
 		return apply_filters('the_excerpt_rss', $output);
 	}
  

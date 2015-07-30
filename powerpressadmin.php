@@ -109,1117 +109,1121 @@ function powerpress_admin_init()
 	if( isset($GLOBALS['objWPOSFLV']) && is_object($GLOBALS['objWPOSFLV']) )
 		powerpress_page_message_add_error( __('The WP OS FLV plugin is not compatible with Blubrry PowerPress.', 'powerpress') );
 	
-	// Save settings here
-	if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
+	// Security step, we must be in a powerpress/* page...
+	if( isset($_GET['page']) && strstr($_GET['page'], 'powerpress/' ) !== false )
 	{
-		check_admin_referer('powerpress-edit');
-		
-		$upload_path = false;
-		$upload_url = false;
-		$UploadArray = wp_upload_dir();
-		if( false === $UploadArray['error'] )
+		// Save settings here
+		if( isset($_POST[ 'Feed' ]) || isset($_POST[ 'General' ])  )
 		{
-			$upload_path =  $UploadArray['basedir'].'/powerpress/';
-			$upload_url =  $UploadArray['baseurl'].'/powerpress/';
-		}
-	
-		// Save the posted value in the database
-		$Feed = (isset($_POST['Feed'])?$_POST['Feed']:false);
-		$General = (isset($_POST['General'])?$_POST['General']:false);
-		$FeedSlug = (isset($_POST['feed_slug'])?esc_attr($_POST['feed_slug']):false);
-		$Category = (isset($_POST['cat'])?intval($_POST['cat']):false);
-		$term_taxonomy_id = (isset($_POST['ttid'])?intval($_POST['ttid']):false);
-		$podcast_post_type = (isset($_POST['podcast_post_type'])?esc_attr($_POST['podcast_post_type']):false);
-		
-		// New iTunes image
-		if( !empty($_POST['itunes_image_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['itunes_image_file']['name']) );
-			$temp = $_FILES['itunes_image_file']['tmp_name'];
+			check_admin_referer('powerpress-edit');
 			
-			if( file_exists($upload_path . $filename ) )
+			$upload_path = false;
+			$upload_url = false;
+			$UploadArray = wp_upload_dir();
+			if( false === $UploadArray['error'] )
 			{
-				$filenameParts = pathinfo($filename);
-				if( !empty($filenameParts['extension']) ) {
-					do {
-						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-					} while( file_exists($upload_path . $filename ) );
-				}
+				$upload_path =  $UploadArray['basedir'].'/powerpress/';
+				$upload_url =  $UploadArray['baseurl'].'/powerpress/';
 			}
+		
+			// Save the posted value in the database
+			$Feed = (isset($_POST['Feed'])?$_POST['Feed']:false);
+			$General = (isset($_POST['General'])?$_POST['General']:false);
+			$FeedSlug = (isset($_POST['feed_slug'])?esc_attr($_POST['feed_slug']):false);
+			$Category = (isset($_POST['cat'])?intval($_POST['cat']):false);
+			$term_taxonomy_id = (isset($_POST['ttid'])?intval($_POST['ttid']):false);
+			$podcast_post_type = (isset($_POST['podcast_post_type'])?esc_attr($_POST['podcast_post_type']):false);
 			
-			// Check the image...
-			if( file_exists($temp) )
+			// New iTunes image
+			if( !empty($_POST['itunes_image_checkbox']) )
 			{
-				$ImageData = @getimagesize($temp);
+				$filename = str_replace(" ", "_", basename($_FILES['itunes_image_file']['name']) );
+				$temp = $_FILES['itunes_image_file']['tmp_name'];
 				
-				$rgb = true; // We assume it is RGB
-				if( defined('POWERPRESS_IMAGICK') && POWERPRESS_IMAGICK )
+				if( file_exists($upload_path . $filename ) )
 				{
-					if( $ImageData[2] == IMAGETYPE_PNG && extension_loaded('imagick') )
-					{
-						$image = new Imagick( $temp );
-						if( $image->getImageColorspace() != imagick::COLORSPACE_RGB )
-						{
-							$rgb = false;
-						}
+					$filenameParts = pathinfo($filename);
+					if( !empty($filenameParts['extension']) ) {
+						do {
+							$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+							$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+						} while( file_exists($upload_path . $filename ) );
 					}
 				}
 				
-				if( empty($ImageData['channels']) )
-					$ImageData['channels'] = 3; // Assume it's ok if we cannot detect it.
-			
-				if( $ImageData )
+				// Check the image...
+				if( file_exists($temp) )
 				{
-					if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400  && $ImageData[0] <= 3000 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+					$ImageData = @getimagesize($temp);
+					
+					$rgb = true; // We assume it is RGB
+					if( defined('POWERPRESS_IMAGICK') && POWERPRESS_IMAGICK )
 					{
-						if( !move_uploaded_file($temp, $upload_path . $filename) )
+						if( $ImageData[2] == IMAGETYPE_PNG && extension_loaded('imagick') )
 						{
-							powerpress_page_message_add_error( __('Error saving iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the iTunes image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+							$image = new Imagick( $temp );
+							if( $image->getImageColorspace() != imagick::COLORSPACE_RGB )
+							{
+								$rgb = false;
+							}
+						}
+					}
+					
+					if( empty($ImageData['channels']) )
+						$ImageData['channels'] = 3; // Assume it's ok if we cannot detect it.
+				
+					if( $ImageData )
+					{
+						if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1400  && $ImageData[0] <= 3000 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+						{
+							if( !move_uploaded_file($temp, $upload_path . $filename) )
+							{
+								powerpress_page_message_add_error( __('Error saving iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the iTunes image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+							}
+							else
+							{
+								$Feed['itunes_image'] = $upload_url . $filename;
+								if( !empty($_POST['itunes_image_checkbox_as_rss']) )
+								{
+									$Feed['rss2_image'] = $upload_url . $filename;
+								}
+								
+								//if( $ImageData[0] < 1400 || $ImageData[1] < 1400 )
+								//{
+								//	powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
+								//}
+							}
+						}
+						else if( $ImageData['channels'] != 3 || $rgb == false )
+						{
+							powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] )
+						{
+							powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square, 1400 x 1400 is the required minimum size.', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1400 )
+						{
+							powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too small, 1400 x 1400 is the required minimum size.', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 3000 )
+						{
+							powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too large, 3000 x 3000 is the maximum size allowed.', 'powerprss') );
 						}
 						else
 						{
-							$Feed['itunes_image'] = $upload_url . $filename;
-							if( !empty($_POST['itunes_image_checkbox_as_rss']) )
-							{
-								$Feed['rss2_image'] = $upload_url . $filename;
-							}
-							
-							//if( $ImageData[0] < 1400 || $ImageData[1] < 1400 )
-							//{
-							//	powerpress_page_message_add_error( __('iTunes image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['itunes_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1400 x 1400 pixels or larger.', 'powerprss') );
-							//}
+							powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
 						}
-					}
-					else if( $ImageData['channels'] != 3 || $rgb == false )
-					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
-					}
-					else if( $ImageData[0] != $ImageData[1] )
-					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image must be square, 1400 x 1400 is the required minimum size.', 'powerprss') );
-					}
-					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 1400 )
-					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too small, 1400 x 1400 is the required minimum size.', 'powerprss') );
-					}
-					else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 3000 )
-					{
-						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('Image is too large, 3000 x 3000 is the maximum size allowed.', 'powerprss') );
 					}
 					else
 					{
 						powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
 					}
 				}
+			}
+			
+			// New RSS2 image
+			if( !empty($_POST['rss2_image_checkbox']) )
+			{
+				$filename = str_replace(" ", "_", basename($_FILES['rss2_image_file']['name']) );
+				$temp = $_FILES['rss2_image_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
+				{
+					$filenameParts = pathinfo($filename);
+					if( !empty($filenameParts['basename']) && !empty($filenameParts['extension']) )
+					{
+						do {
+							$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+							$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+						} while( file_exists($upload_path . $filename ) );
+					}
+				}
+				
+				if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+				{
+					if( !move_uploaded_file($temp, $upload_path . $filename) )
+					{
+						powerpress_page_message_add_error( __('Error saving RSS image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the RSS image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+					}
+					else
+					{
+						$Feed['rss2_image'] = $upload_url . $filename;
+					}
+				}
 				else
 				{
-					powerpress_page_message_add_error( __('Invalid iTunes image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) );
+					powerpress_page_message_add_error( __('Invalid RSS image', 'powerpress') .': '. htmlspecialchars($_FILES['rss2_image_file']['name']) );
 				}
 			}
-		}
-		
-		// New RSS2 image
-		if( !empty($_POST['rss2_image_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['rss2_image_file']['name']) );
-			$temp = $_FILES['rss2_image_file']['tmp_name'];
 			
-			if( file_exists($upload_path . $filename ) )
+			// New mp3 coverart image
+			if( !empty($_POST['coverart_image_checkbox']) )
 			{
-				$filenameParts = pathinfo($filename);
-				if( !empty($filenameParts['basename']) && !empty($filenameParts['extension']) )
+				$filename = str_replace(" ", "_", basename($_FILES['coverart_image_file']['name']) );
+				$temp = $_FILES['coverart_image_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
 				{
+					$filenameParts = pathinfo($filename);
 					do {
 						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
 						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
 					} while( file_exists($upload_path . $filename ) );
 				}
-			}
-			
-			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
-			{
-				if( !move_uploaded_file($temp, $upload_path . $filename) )
-				{
-					powerpress_page_message_add_error( __('Error saving RSS image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the RSS image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
-				}
-				else
-				{
-					$Feed['rss2_image'] = $upload_url . $filename;
-				}
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid RSS image', 'powerpress') .': '. htmlspecialchars($_FILES['rss2_image_file']['name']) );
-			}
-		}
-		
-		// New mp3 coverart image
-		if( !empty($_POST['coverart_image_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['coverart_image_file']['name']) );
-			$temp = $_FILES['coverart_image_file']['tmp_name'];
-			
-			if( file_exists($upload_path . $filename ) )
-			{
-				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
-			}
-			
-			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
-			{
-				if( !move_uploaded_file($temp, $upload_path . $filename) )
-				{
-					powerpress_page_message_add_error( __('Error saving Coverart image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the coverart image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
-				}
-				else
-				{
-					$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
-					$General['tag_coverart'] = $upload_url . $filename;
-				}
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid Coverat image', 'powerpress') .': ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
-			}
-		}
-		
-		// New poster image
-		if( !empty($_POST['poster_image_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['poster_image_file']['name']) );
-			$temp = $_FILES['poster_image_file']['tmp_name'];
-			
-			if( file_exists($upload_path . $filename ) )
-			{
-				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
-			}
-			
-			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
-			{
-				if( !move_uploaded_file($temp, $upload_path . $filename) )
-				{
-					powerpress_page_message_add_error( __('Error saving Poster image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the poster image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
-				}
-				else
-				{
-					$General['poster_image'] = $upload_url . $filename;
-				}
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid poster image', 'powerpress') .': ' . htmlspecialchars($_FILES['poster_image_file']['name']) );
-			}
-		}
-		
-		
-		// New audio play icon image
-		if( !empty($_POST['audio_custom_play_button_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['audio_custom_play_button_file']['name']) );
-			$temp = $_FILES['audio_custom_play_button_file']['tmp_name'];
-			
-			if( file_exists($upload_path . $filename ) )
-			{
-				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
-			}
-			
-			if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
-			{
-				if( !move_uploaded_file($temp, $upload_path . $filename) )
-				{
-					powerpress_page_message_add_error( __('Error saving Play image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the play image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
-				}
-				else
-				{
-					$General['audio_custom_play_button'] = $upload_url . $filename;
-				}
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['audio_custom_play_button_file']['name']) );
-			}
-		}
-		
-		// New video play icon image
-		if( !empty($_POST['video_custom_play_button_checkbox']) )
-		{
-			$filename = str_replace(" ", "_", basename($_FILES['video_custom_play_button_file']['name']) );
-			$temp = $_FILES['video_custom_play_button_file']['tmp_name'];
-			
-			if( file_exists($upload_path . $filename ) )
-			{
-				$filenameParts = pathinfo($filename);
-				do {
-					$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
-					$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
-				} while( file_exists($upload_path . $filename ) );
-			}
-			
-			$imageInfo = @getimagesize($temp);
-			if( $imageInfo && $imageInfo[0] == $imageInfo[1] && $imageInfo[0] == 60 )  // Just check that it is an image, we may add more to this later
-			{
-				if( !move_uploaded_file($temp, $upload_path . $filename) )
-				{
-					powerpress_page_message_add_error( __('Error saving Video Play icon image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the Video Play icon image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
-				}
-				else
-				{
-					$General['video_custom_play_button'] = $upload_url . $filename;
-				}
-			}
-			else if( $imageInfo )
-			{
-				powerpress_page_message_add_error( __('Invalid play icon image size', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
-			}
-			else
-			{
-				powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
-			}
-		}
-		
-		if( isset($_POST['UpdateDisablePlayer']) )
-		{
-			$player_feed_slug = $_POST['UpdateDisablePlayer'];
-			$General['disable_player'] = array();
-			$GeneralPrev = get_option('powerpress_general');
-			if( isset($GeneralPrev['disable_player']) )
-				$General['disable_player'] = $GeneralPrev['disable_player'];
-			if( isset($_POST['DisablePlayerFor']) )
-				$General['disable_player'][ $player_feed_slug ] = 1;
-			else
-				unset($General['disable_player'][ $player_feed_slug ]);
-		}
-		
-		// Check to see if we need to update the feed title
-		if( $FeedSlug && !$podcast_post_type )
-		{
-			$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
-			if( !isset($GeneralSettingsTemp['custom_feeds'][$FeedSlug]) || $GeneralSettingsTemp['custom_feeds'][$FeedSlug] != $Feed['title'] )
-			{
-				if( !$General )
-					$General = array();
-				if( !empty($GeneralSettingsTemp['custom_feeds']) )
-					$General['custom_feeds'] = $GeneralSettingsTemp['custom_feeds'];
-				else
-					$General['custom_feeds'] = array();
-				$General['custom_feeds'][$FeedSlug] = $Feed['title'];
-			}
-		}
-		
-		// Update the settings in the database:
-		if( $General )
-		{
-			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-settings' )
-			{
-				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
-					$General['display_player_excerpt'] = 0; // Set it to zero.
 				
-				//if( !isset($General['display_player_disable_mobile']) )
-				//	$General['display_player_disable_mobile'] = 0;
-				
-				$General['disable_dashboard_stats'] = 0;
-				if( !empty($_POST['DisableStatsInDashboard'] ) )
-					$General['disable_dashboard_stats'] = 1;
-				if( !isset($General['disable_dashboard_news'] ) )
-					$General['disable_dashboard_news'] = 0;
-					
-				if( !isset($General['episode_box_mode']) ) // Default not set, 1 = no duration/file size, 2 = yes duration/file size (default if not set)
-					$General['episode_box_mode'] = 1; // 1 = no duration/file size (unchecked)
-				if( !isset($General['episode_box_embed'] ) )
-					$General['episode_box_embed'] = 0;
-				if( !isset($General['embed_replace_player'] ) )
-					$General['embed_replace_player'] = 0;
-				if( !isset($General['episode_box_no_player'] ) )
-					$General['episode_box_no_player'] = 0;
-				if( !isset($General['episode_box_no_links'] ) )
-					$General['episode_box_no_links'] = 0;
-				if( !isset($General['episode_box_no_player_and_links'] ) )
-					$General['episode_box_no_player_and_links'] = 0;
-				if( !isset($General['episode_box_cover_image'] ) )
-					$General['episode_box_cover_image'] = 0;	
-				if( !isset($General['episode_box_player_size'] ) )
-					$General['episode_box_player_size'] = 0;	
-				if( !isset($General['episode_box_subtitle'] ) )
-					$General['episode_box_subtitle'] = 0;
-				if( !isset($General['episode_box_summary'] ) )
-					$General['episode_box_summary'] = 0;
-				if( !isset($General['episode_box_author'] ) )
-					$General['episode_box_author'] = 0;	
-				if( !isset($General['episode_box_explicit'] ) )
-					$General['episode_box_explicit'] = 0;
-				if( !isset($General['episode_box_closed_captioned'] ) )
-					$General['episode_box_closed_captioned'] = 0;	
-				if( !isset($General['episode_box_itunes_image'] ) )
-					$General['episode_box_itunes_image'] = 0;		
-					
-				if( !isset($General['episode_box_order'] ) )
-					$General['episode_box_order'] = 0;
-				
-				if( !isset($General['episode_box_feature_in_itunes'] ) )
-					$General['episode_box_feature_in_itunes'] = 0;	
-				else
-					$General['episode_box_order'] = 0;
-					
-				if( !isset($General['allow_feed_comments'] ) )
-					$General['allow_feed_comments'] = 0;
-					
-				if( !isset($General['feed_links']) )
-					$General['feed_links'] = 0;
-				
-				// Advanced Features
-				if( !isset($General['player_options'] ) )
-					$General['player_options'] = 0;
-				if( !isset($General['cat_casting'] ) )
-					$General['cat_casting'] = 0;
-				if( !isset($General['channels'] ) )
-					$General['channels'] = 0;
-				if( !isset($General['taxonomy_podcasting'] ) )
-					$General['taxonomy_podcasting'] = 0;
-				if( !isset($General['posttype_podcasting'] ) )
-					$General['posttype_podcasting'] = 0;
-				if( !isset($General['playlist_player'] ) )
-					$General['playlist_player'] = 0;	
-				if( !isset($General['metamarks'] ) )
-					$General['metamarks'] = 0;
-					
-					
-				// Media Presentation Settings
-				$PlayerSettings = array();
-				if( !empty($_POST['PlayerSettings']) )
-					$PlayerSettings = $_POST['PlayerSettings'];
-				if( empty($PlayerSettings['display_pinw']) )
-					$PlayerSettings['display_pinw'] = 0;
-				if( empty($PlayerSettings['display_media_player']) )
-					$PlayerSettings['display_media_player'] = 0;
-				if( empty($PlayerSettings['display_pinw']) ) $PlayerSettings['display_pinw'] = 0;
-				if( empty($PlayerSettings['display_media_player']) ) $PlayerSettings['display_media_player'] = 0;
-				
-				$General['player_function'] = abs( $PlayerSettings['display_pinw'] - $PlayerSettings['display_media_player'] );
-				$General['podcast_link'] = 0;
-				if( !empty($PlayerSettings['display_download']) )
+				if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
 				{
-					$General['podcast_link'] = 1;
-					if( !empty($PlayerSettings['display_download_size']) )
+					if( !move_uploaded_file($temp, $upload_path . $filename) )
 					{
-						$General['podcast_link'] = 2;
-						if( !empty($PlayerSettings['display_download_duration']) )
-							$General['podcast_link'] = 3;
+						powerpress_page_message_add_error( __('Error saving Coverart image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the coverart image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+					}
+					else
+					{
+						$_POST['TagValues']['tag_coverart'] = $upload_url . $filename;
+						$General['tag_coverart'] = $upload_url . $filename;
 					}
 				}
-				
-				if( !isset($General['podcast_embed'] ) )
-					$General['podcast_embed'] = 0;
-				if( !isset($General['podcast_embed_in_feed'] ) )
-					$General['podcast_embed_in_feed'] = 0;
-				if( !isset($General['m4a'] ) )
-					$General['m4a'] = '';
-				if( !isset($General['new_window_nofactor'] ) )
-					$General['new_window_nofactor'] = '';
-					
-				if( !isset($General['subscribe_links'] ) )
-					$General['subscribe_links'] = false;	
-				if( !isset($General['subscribe_feature_email'] ) )
-					$General['subscribe_feature_email'] = false;		
-			}
-			else if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-defaults' )
-			{
-				if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
-					$General['display_player_excerpt'] = 0; // Set it to zero.
-				$General['disable_dashboard_stats'] = 0;
-				if( !empty($_POST['DisableStatsInDashboard'] ) )
-					$General['disable_dashboard_stats'] = 1;
-				
-				// Advanced Mode options
-				if( !isset($General['cat_casting'] ) )
-					$General['cat_casting'] = 0;
-				if( !isset($General['channels'] ) )
-					$General['channels'] = 0;
-				if( !isset($General['taxonomy_podcasting'] ) )
-					$General['taxonomy_podcasting'] = 0;
-				if( !isset($General['posttype_podcasting'] ) )
-					$General['posttype_podcasting'] = 0;
-				if( !isset($General['metamarks'] ) )
-					$General['metamarks'] = 0;
-			}
-			
-			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-search' )
-			{
-				//$PowerPressSearch = $_POST['PowerPressSearch'];
-				$PowerPressSearchToggle = $_POST['PowerPressSearchToggle'];
-				if( empty($PowerPressSearchToggle['seo_feed_title']) )
-					$General['seo_feed_title'] = 0;
-			}
-			
-			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
-			{
-				if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
-					$General['write_tags'] = 0; // Set it to zero.
-					
-				$TagValues = $_POST['TagValues'];
-				$GeneralPosted = $_POST['General'];
-				
-				if( !empty($_POST['PowerPressTrackNumber']) ) {
-					update_option('powerpress_track_number',  $_POST['PowerPressTrackNumber']);
-				}
-				// Set all the tag values...
-				while( list($key,$value) = each($GeneralPosted) )
+				else
 				{
-					if( substr($key, 0, 4) == 'tag_' )
+					powerpress_page_message_add_error( __('Invalid Coverat image', 'powerpress') .': ' . htmlspecialchars($_FILES['coverart_image_file']['name']) );
+				}
+			}
+			
+			// New poster image
+			if( !empty($_POST['poster_image_checkbox']) )
+			{
+				$filename = str_replace(" ", "_", basename($_FILES['poster_image_file']['name']) );
+				$temp = $_FILES['poster_image_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
+				{
+					$filenameParts = pathinfo($filename);
+					do {
+						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+					} while( file_exists($upload_path . $filename ) );
+				}
+				
+				if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+				{
+					if( !move_uploaded_file($temp, $upload_path . $filename) )
 					{
-						// Special case, we are uploading new coverart image
-						if( !empty($_POST['coverart_image_checkbox']) && $key == 'tag_coverart' )
-							continue;
-							
-						// Specail case, the track is saved in a separate column in the database.
-						if( $key == 'tag_track' )
-							continue; 
+						powerpress_page_message_add_error( __('Error saving Poster image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the poster image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+					}
+					else
+					{
+						$General['poster_image'] = $upload_url . $filename;
+					}
+				}
+				else
+				{
+					powerpress_page_message_add_error( __('Invalid poster image', 'powerpress') .': ' . htmlspecialchars($_FILES['poster_image_file']['name']) );
+				}
+			}
+			
+			
+			// New audio play icon image
+			if( !empty($_POST['audio_custom_play_button_checkbox']) )
+			{
+				$filename = str_replace(" ", "_", basename($_FILES['audio_custom_play_button_file']['name']) );
+				$temp = $_FILES['audio_custom_play_button_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
+				{
+					$filenameParts = pathinfo($filename);
+					do {
+						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+					} while( file_exists($upload_path . $filename ) );
+				}
+				
+				if( @getimagesize($temp) )  // Just check that it is an image, we may add more to this later
+				{
+					if( !move_uploaded_file($temp, $upload_path . $filename) )
+					{
+						powerpress_page_message_add_error( __('Error saving Play image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the play image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+					}
+					else
+					{
+						$General['audio_custom_play_button'] = $upload_url . $filename;
+					}
+				}
+				else
+				{
+					powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['audio_custom_play_button_file']['name']) );
+				}
+			}
+			
+			// New video play icon image
+			if( !empty($_POST['video_custom_play_button_checkbox']) )
+			{
+				$filename = str_replace(" ", "_", basename($_FILES['video_custom_play_button_file']['name']) );
+				$temp = $_FILES['video_custom_play_button_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
+				{
+					$filenameParts = pathinfo($filename);
+					do {
+						$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+						$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+					} while( file_exists($upload_path . $filename ) );
+				}
+				
+				$imageInfo = @getimagesize($temp);
+				if( $imageInfo && $imageInfo[0] == $imageInfo[1] && $imageInfo[0] == 60 )  // Just check that it is an image, we may add more to this later
+				{
+					if( !move_uploaded_file($temp, $upload_path . $filename) )
+					{
+						powerpress_page_message_add_error( __('Error saving Video Play icon image', 'powerpress')  .':	' . htmlspecialchars($_FILES['itunes_image_file']['name']) .' - '. __('An error occurred saving the Video Play icon image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+					}
+					else
+					{
+						$General['video_custom_play_button'] = $upload_url . $filename;
+					}
+				}
+				else if( $imageInfo )
+				{
+					powerpress_page_message_add_error( __('Invalid play icon image size', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
+				}
+				else
+				{
+					powerpress_page_message_add_error( __('Invalid play icon image', 'powerpress') .': ' . htmlspecialchars($_FILES['video_custom_play_button_file']['name']) );
+				}
+			}
+			
+			if( isset($_POST['UpdateDisablePlayer']) )
+			{
+				$player_feed_slug = $_POST['UpdateDisablePlayer'];
+				$General['disable_player'] = array();
+				$GeneralPrev = get_option('powerpress_general');
+				if( isset($GeneralPrev['disable_player']) )
+					$General['disable_player'] = $GeneralPrev['disable_player'];
+				if( isset($_POST['DisablePlayerFor']) )
+					$General['disable_player'][ $player_feed_slug ] = 1;
+				else
+					unset($General['disable_player'][ $player_feed_slug ]);
+			}
+			
+			// Check to see if we need to update the feed title
+			if( $FeedSlug && !$podcast_post_type )
+			{
+				$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
+				if( !isset($GeneralSettingsTemp['custom_feeds'][$FeedSlug]) || $GeneralSettingsTemp['custom_feeds'][$FeedSlug] != $Feed['title'] )
+				{
+					if( !$General )
+						$General = array();
+					if( !empty($GeneralSettingsTemp['custom_feeds']) )
+						$General['custom_feeds'] = $GeneralSettingsTemp['custom_feeds'];
+					else
+						$General['custom_feeds'] = array();
+					$General['custom_feeds'][$FeedSlug] = $Feed['title'];
+				}
+			}
+			
+			// Update the settings in the database:
+			if( $General )
+			{
+				if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-settings' )
+				{
+					if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
+						$General['display_player_excerpt'] = 0; // Set it to zero.
+					
+					//if( !isset($General['display_player_disable_mobile']) )
+					//	$General['display_player_disable_mobile'] = 0;
+					
+					$General['disable_dashboard_stats'] = 0;
+					if( !empty($_POST['DisableStatsInDashboard'] ) )
+						$General['disable_dashboard_stats'] = 1;
+					if( !isset($General['disable_dashboard_news'] ) )
+						$General['disable_dashboard_news'] = 0;
 						
-						if( !empty($value) )
-							$General[$key] = $TagValues[$key];
-						else
-							$General[$key] = '';
+					if( !isset($General['episode_box_mode']) ) // Default not set, 1 = no duration/file size, 2 = yes duration/file size (default if not set)
+						$General['episode_box_mode'] = 1; // 1 = no duration/file size (unchecked)
+					if( !isset($General['episode_box_embed'] ) )
+						$General['episode_box_embed'] = 0;
+					if( !isset($General['embed_replace_player'] ) )
+						$General['embed_replace_player'] = 0;
+					if( !isset($General['episode_box_no_player'] ) )
+						$General['episode_box_no_player'] = 0;
+					if( !isset($General['episode_box_no_links'] ) )
+						$General['episode_box_no_links'] = 0;
+					if( !isset($General['episode_box_no_player_and_links'] ) )
+						$General['episode_box_no_player_and_links'] = 0;
+					if( !isset($General['episode_box_cover_image'] ) )
+						$General['episode_box_cover_image'] = 0;	
+					if( !isset($General['episode_box_player_size'] ) )
+						$General['episode_box_player_size'] = 0;	
+					if( !isset($General['episode_box_subtitle'] ) )
+						$General['episode_box_subtitle'] = 0;
+					if( !isset($General['episode_box_summary'] ) )
+						$General['episode_box_summary'] = 0;
+					if( !isset($General['episode_box_author'] ) )
+						$General['episode_box_author'] = 0;	
+					if( !isset($General['episode_box_explicit'] ) )
+						$General['episode_box_explicit'] = 0;
+					if( !isset($General['episode_box_closed_captioned'] ) )
+						$General['episode_box_closed_captioned'] = 0;	
+					if( !isset($General['episode_box_itunes_image'] ) )
+						$General['episode_box_itunes_image'] = 0;		
+						
+					if( !isset($General['episode_box_order'] ) )
+						$General['episode_box_order'] = 0;
+					
+					if( !isset($General['episode_box_feature_in_itunes'] ) )
+						$General['episode_box_feature_in_itunes'] = 0;	
+					else
+						$General['episode_box_order'] = 0;
+						
+					if( !isset($General['allow_feed_comments'] ) )
+						$General['allow_feed_comments'] = 0;
+						
+					if( !isset($General['feed_links']) )
+						$General['feed_links'] = 0;
+					
+					// Advanced Features
+					if( !isset($General['player_options'] ) )
+						$General['player_options'] = 0;
+					if( !isset($General['cat_casting'] ) )
+						$General['cat_casting'] = 0;
+					if( !isset($General['channels'] ) )
+						$General['channels'] = 0;
+					if( !isset($General['taxonomy_podcasting'] ) )
+						$General['taxonomy_podcasting'] = 0;
+					if( !isset($General['posttype_podcasting'] ) )
+						$General['posttype_podcasting'] = 0;
+					if( !isset($General['playlist_player'] ) )
+						$General['playlist_player'] = 0;	
+					if( !isset($General['metamarks'] ) )
+						$General['metamarks'] = 0;
+						
+						
+					// Media Presentation Settings
+					$PlayerSettings = array();
+					if( !empty($_POST['PlayerSettings']) )
+						$PlayerSettings = $_POST['PlayerSettings'];
+					if( empty($PlayerSettings['display_pinw']) )
+						$PlayerSettings['display_pinw'] = 0;
+					if( empty($PlayerSettings['display_media_player']) )
+						$PlayerSettings['display_media_player'] = 0;
+					if( empty($PlayerSettings['display_pinw']) ) $PlayerSettings['display_pinw'] = 0;
+					if( empty($PlayerSettings['display_media_player']) ) $PlayerSettings['display_media_player'] = 0;
+					
+					$General['player_function'] = abs( $PlayerSettings['display_pinw'] - $PlayerSettings['display_media_player'] );
+					$General['podcast_link'] = 0;
+					if( !empty($PlayerSettings['display_download']) )
+					{
+						$General['podcast_link'] = 1;
+						if( !empty($PlayerSettings['display_download_size']) )
+						{
+							$General['podcast_link'] = 2;
+							if( !empty($PlayerSettings['display_download_duration']) )
+								$General['podcast_link'] = 3;
+						}
 					}
+					
+					if( !isset($General['podcast_embed'] ) )
+						$General['podcast_embed'] = 0;
+					if( !isset($General['podcast_embed_in_feed'] ) )
+						$General['podcast_embed_in_feed'] = 0;
+					if( !isset($General['m4a'] ) )
+						$General['m4a'] = '';
+					if( !isset($General['new_window_nofactor'] ) )
+						$General['new_window_nofactor'] = '';
+						
+					if( !isset($General['subscribe_links'] ) )
+						$General['subscribe_links'] = false;	
+					if( !isset($General['subscribe_feature_email'] ) )
+						$General['subscribe_feature_email'] = false;		
+				}
+				else if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-defaults' )
+				{
+					if( !isset($General['display_player_excerpt']) ) // If we are modifying appearance settings but this option was not checked...
+						$General['display_player_excerpt'] = 0; // Set it to zero.
+					$General['disable_dashboard_stats'] = 0;
+					if( !empty($_POST['DisableStatsInDashboard'] ) )
+						$General['disable_dashboard_stats'] = 1;
+					
+					// Advanced Mode options
+					if( !isset($General['cat_casting'] ) )
+						$General['cat_casting'] = 0;
+					if( !isset($General['channels'] ) )
+						$General['channels'] = 0;
+					if( !isset($General['taxonomy_podcasting'] ) )
+						$General['taxonomy_podcasting'] = 0;
+					if( !isset($General['posttype_podcasting'] ) )
+						$General['posttype_podcasting'] = 0;
+					if( !isset($General['metamarks'] ) )
+						$General['metamarks'] = 0;
 				}
 				
-				if( !empty($General['tag_coverart']) ) // $TagValues['tag_coverart'] != '' )
+				if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-search' )
 				{
-					$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
-					if( !empty($GeneralSettingsTemp['blubrry_hosting']) && $GeneralSettingsTemp['blubrry_hosting'] !== 'false' )
+					//$PowerPressSearch = $_POST['PowerPressSearch'];
+					$PowerPressSearchToggle = $_POST['PowerPressSearchToggle'];
+					if( empty($PowerPressSearchToggle['seo_feed_title']) )
+						$General['seo_feed_title'] = 0;
+				}
+				
+				if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-tags' )
+				{
+					if( !isset($General['write_tags']) ) // If we are modifying appearance settings but this option was not checked...
+						$General['write_tags'] = 0; // Set it to zero.
+						
+					$TagValues = $_POST['TagValues'];
+					$GeneralPosted = $_POST['General'];
+					
+					if( !empty($_POST['PowerPressTrackNumber']) ) {
+						update_option('powerpress_track_number',  $_POST['PowerPressTrackNumber']);
+					}
+					// Set all the tag values...
+					while( list($key,$value) = each($GeneralPosted) )
 					{
-						$json_data = false;
-						$api_url_array = powerpress_get_api_array();
-						while( list($index,$api_url) = each($api_url_array) )
+						if( substr($key, 0, 4) == 'tag_' )
 						{
-							$req_url = sprintf('%s/media/%s/coverart.json?url=%s', rtrim($api_url, '/'), $GeneralSettingsTemp['blubrry_program_keyword'], urlencode($TagValues['tag_coverart']) );
-							$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
-							$json_data = powerpress_remote_fopen($req_url, $GeneralSettingsTemp['blubrry_auth']);
-							if( $json_data != false )
-								break;
-						}
-						// Lets try to cache the image onto Blubrry's Server...
-						$results =  powerpress_json_decode($json_data);
+							// Special case, we are uploading new coverart image
+							if( !empty($_POST['coverart_image_checkbox']) && $key == 'tag_coverart' )
+								continue;
+								
+							// Specail case, the track is saved in a separate column in the database.
+							if( $key == 'tag_track' )
+								continue; 
 							
-						if( is_array($results) && !isset($results['error']) )
-						{
-							// Good!
-							powerpress_page_message_add_notice( __('Coverart image updated successfully.', 'powerpress') );
+							if( !empty($value) )
+								$General[$key] = $TagValues[$key];
+							else
+								$General[$key] = '';
 						}
-						else if( isset($results['error']) )
+					}
+					
+					if( !empty($General['tag_coverart']) ) // $TagValues['tag_coverart'] != '' )
+					{
+						$GeneralSettingsTemp = powerpress_get_settings('powerpress_general', false);
+						if( !empty($GeneralSettingsTemp['blubrry_hosting']) && $GeneralSettingsTemp['blubrry_hosting'] !== 'false' )
 						{
-							$error = __('Blubrry Hosting Error (updating coverart)', 'powerpress') .': '. $results['error'];
-							powerpress_page_message_add_error($error);
+							$json_data = false;
+							$api_url_array = powerpress_get_api_array();
+							while( list($index,$api_url) = each($api_url_array) )
+							{
+								$req_url = sprintf('%s/media/%s/coverart.json?url=%s', rtrim($api_url, '/'), $GeneralSettingsTemp['blubrry_program_keyword'], urlencode($TagValues['tag_coverart']) );
+								$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
+								$json_data = powerpress_remote_fopen($req_url, $GeneralSettingsTemp['blubrry_auth']);
+								if( $json_data != false )
+									break;
+							}
+							// Lets try to cache the image onto Blubrry's Server...
+							$results =  powerpress_json_decode($json_data);
+								
+							if( is_array($results) && !isset($results['error']) )
+							{
+								// Good!
+								powerpress_page_message_add_notice( __('Coverart image updated successfully.', 'powerpress') );
+							}
+							else if( isset($results['error']) )
+							{
+								$error = __('Blubrry Hosting Error (updating coverart)', 'powerpress') .': '. $results['error'];
+								powerpress_page_message_add_error($error);
+							}
+							else
+							{
+								$error = __('An error occurred updating the coverart with your Blubrry Services Account.', 'powerpress');
+								powerpress_page_message_add_error($error);
+							}
 						}
 						else
 						{
-							$error = __('An error occurred updating the coverart with your Blubrry Services Account.', 'powerpress');
-							powerpress_page_message_add_error($error);
+							powerpress_page_message_add_error( __('Coverart Image was not uploaded to your Blubrry Services Account. It will NOT be added to your mp3s.', 'powerpress') );
 						}
 					}
-					else
-					{
-						powerpress_page_message_add_error( __('Coverart Image was not uploaded to your Blubrry Services Account. It will NOT be added to your mp3s.', 'powerpress') );
-					}
 				}
-			}
-			
-			if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-videocommon' )
-			{
-				if( !isset($General['poster_play_image'] ) )
-					$General['poster_play_image'] = 0;
-				if( !isset($General['poster_image_audio'] ) )
-					$General['poster_image_audio'] = 0;
-			}
-			
-			// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...
-			$General = powerpress_stripslashes($General);
-			powerpress_save_settings($General);
-		}
-		
-		if( $Feed )
-		{
-			if( !isset($_POST['ProtectContent']) && isset($Feed['premium']) )
-				$Feed['premium'] = false;
-			if( !isset($Feed['enhance_itunes_summary']) )
-				$Feed['enhance_itunes_summary'] = false;
-			if( !isset($Feed['itunes_author_post']) )
-				$Feed['itunes_author_post'] = false;
 				
-			if( !isset($Feed['itunes_block']) )
-				$Feed['itunes_block'] = false;
-			if( !isset($Feed['itunes_complete']) )
-				$Feed['itunes_complete'] = false;
-			if( !isset($Feed['maximize_feed']) )
-				$Feed['maximize_feed'] = false;
-			if( !isset($Feed['episode_itunes_image']) )
-				$Feed['episode_itunes_image'] = false;	
-				
-			
-			$Feed = powerpress_stripslashes($Feed);
-			if( $Category )
-			{
-				powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
-			}
-			else if ( $term_taxonomy_id )
-			{
-				powerpress_save_settings($Feed, 'powerpress_taxonomy_'.$term_taxonomy_id);
-			}
-			else if( $podcast_post_type )
-			{
-				$PostTypeSettings = array();
-				$PostTypeSettings[ $FeedSlug ] = $Feed;
-				powerpress_save_settings($PostTypeSettings, 'powerpress_posttype_'.$podcast_post_type);
-				powerpress_rebuild_posttype_podcasting();
-			}
-			else // otherwise treat as a podcast channel
-			{
-				if( $FeedSlug == false && get_option('powerpress_feed_podcast') ) // If the settings were moved to the podcast channels feature...
-					powerpress_save_settings($Feed, 'powerpress_feed_podcast' ); // save a copy here if that is the case.
-				
-				powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
-			}
-		}
-		
-		if( isset($_POST['EpisodeBoxBGColor']) )
-		{
-			$GeneralSettingsTemp = get_option('powerpress_general');
-			$SaveEpisdoeBoxBGColor['episode_box_background_color'] = array();
-			if( isset($GeneralSettingsTemp['episode_box_background_color']) )
-				$SaveEpisdoeBoxBGColor['episode_box_background_color'] = $GeneralSettingsTemp['episode_box_background_color']; //  copy previous settings
-			
-			list($feed_slug_temp, $background_color) = each($_POST['EpisodeBoxBGColor']);
-			$SaveEpisdoeBoxBGColor['episode_box_background_color'][ $feed_slug_temp ] = $background_color;
-			powerpress_save_settings($SaveEpisdoeBoxBGColor);
-		}
-		
-		// Anytime settings are saved lets flush the rewrite rules
-		$wp_rewrite->flush_rules();
-		
-		// Settings saved successfully
-		if( !empty($_POST['action']) )
-		{
-			switch( $_POST['action'] )
-			{
-				case 'powerpress-save-settings':
-				case 'powerpress-save-defaults': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-channel': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Channel settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-category': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Category Podcasting  settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-ttid': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Taxonomy Podcasting settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-post_type': {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress Post Type Podcasting settings saved.', 'powerpress') );
-				}; break;
-				case 'powerpress-save-tags': {
-					$General = get_option('powerpress_general');
-					if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' )
-						powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
-					else
-						powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
-				}; break;
-				default: {
-					powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
-				}; break;
-			}
-		}
-	}
-	
-	// Handle POST actions...
-	if( isset($_POST['action'] ) )
-	{
-		switch($_POST['action'])
-		{
-			case 'powerpress-addfeed': {
-				check_admin_referer('powerpress-add-feed');
-				
-				$Settings = get_option('powerpress_general');
-				$key = sanitize_title($_POST['feed_slug']);
-				$value = $_POST['feed_name'];
-				$value = powerpress_stripslashes($value);
-				
-				/*
-				if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
+				if( !empty($_POST['action']) && $_POST['action'] == 'powerpress-save-videocommon' )
 				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
-				} else */
-				if( $key == '' )
-				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), esc_html($_POST['feed_slug']) ) );
+					if( !isset($General['poster_play_image'] ) )
+						$General['poster_play_image'] = 0;
+					if( !isset($General['poster_image_audio'] ) )
+						$General['poster_image_audio'] = 0;
 				}
-				else if( in_array($key, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
-				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), esc_html($key) ) );
-				}
-				else
-				{
-					$Settings['custom_feeds'][ $key ] = $value;
-					powerpress_save_settings($Settings);
+				
+				// Wordpress adds slashes to everything, but since we're storing everything serialized, lets remove them...
+				$General = powerpress_stripslashes($General);
+				powerpress_save_settings($General);
+			}
+			
+			if( $Feed )
+			{
+				if( !isset($_POST['ProtectContent']) && isset($Feed['premium']) )
+					$Feed['premium'] = false;
+				if( !isset($Feed['enhance_itunes_summary']) )
+					$Feed['enhance_itunes_summary'] = false;
+				if( !isset($Feed['itunes_author_post']) )
+					$Feed['itunes_author_post'] = false;
 					
-					add_feed($key, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
-					$wp_rewrite->flush_rules();
+				if( !isset($Feed['itunes_block']) )
+					$Feed['itunes_block'] = false;
+				if( !isset($Feed['itunes_complete']) )
+					$Feed['itunes_complete'] = false;
+				if( !isset($Feed['maximize_feed']) )
+					$Feed['maximize_feed'] = false;
+				if( !isset($Feed['episode_itunes_image']) )
+					$Feed['episode_itunes_image'] = false;	
 					
-					powerpress_page_message_add_notice( sprintf(__('Podcast Feed "%s" added, please configure your new feed now.', 'powerpress'), esc_html($value) ) );
-					$_GET['action'] = 'powerpress-editfeed';
-					$_GET['feed_slug'] = $key;
-				}
-			}; break;
-			case 'powerpress-addtaxonomyfeed': {
-				if( !empty($_POST['cancel']) )
-					unset($_POST['taxonomy']);
 				
-				if( empty($_POST['add_podcasting']) )
-					break; // We do not handle this situation
+				$Feed = powerpress_stripslashes($Feed);
+				if( $Category )
+				{
+					powerpress_save_settings($Feed, 'powerpress_cat_feed_'.$Category);
+				}
+				else if ( $term_taxonomy_id )
+				{
+					powerpress_save_settings($Feed, 'powerpress_taxonomy_'.$term_taxonomy_id);
+				}
+				else if( $podcast_post_type )
+				{
+					$PostTypeSettings = array();
+					$PostTypeSettings[ $FeedSlug ] = $Feed;
+					powerpress_save_settings($PostTypeSettings, 'powerpress_posttype_'.$podcast_post_type);
+					powerpress_rebuild_posttype_podcasting();
+				}
+				else // otherwise treat as a podcast channel
+				{
+					if( $FeedSlug == false && get_option('powerpress_feed_podcast') ) // If the settings were moved to the podcast channels feature...
+						powerpress_save_settings($Feed, 'powerpress_feed_podcast' ); // save a copy here if that is the case.
+					
+					powerpress_save_settings($Feed, 'powerpress_feed'.($FeedSlug?'_'.$FeedSlug:'') );
+				}
 			}
-			case 'powerpress-addcategoryfeed': {
 			
-				check_admin_referer('powerpress-add-taxonomy-feed');
+			if( isset($_POST['EpisodeBoxBGColor']) )
+			{
+				$GeneralSettingsTemp = get_option('powerpress_general');
+				$SaveEpisdoeBoxBGColor['episode_box_background_color'] = array();
+				if( isset($GeneralSettingsTemp['episode_box_background_color']) )
+					$SaveEpisdoeBoxBGColor['episode_box_background_color'] = $GeneralSettingsTemp['episode_box_background_color']; //  copy previous settings
 				
-				
-				
+				list($feed_slug_temp, $background_color) = each($_POST['EpisodeBoxBGColor']);
+				$SaveEpisdoeBoxBGColor['episode_box_background_color'][ $feed_slug_temp ] = $background_color;
+				powerpress_save_settings($SaveEpisdoeBoxBGColor);
+			}
 			
-				$taxonomy_type = ( isset($_POST['taxonomy'])? $_POST['taxonomy'] : $_GET['taxonomy'] );
-				$term_ID = intval( isset($_POST['term'])? $_POST['term'] : $_GET['term'] );
-				
-				
-				$term_object = get_term( $term_ID, $taxonomy_type, OBJECT, 'edit');
-				
-				if( empty($term_ID) )
+			// Anytime settings are saved lets flush the rewrite rules
+			$wp_rewrite->flush_rules();
+			
+			// Settings saved successfully
+			if( !empty($_POST['action']) )
+			{
+				switch( $_POST['action'] )
 				{
-					if( $taxonomy_type == 'category' )
-						powerpress_page_message_add_error( __('You must select a category to continue.', 'powerpress') );
-					else
-						powerpress_page_message_add_error( __('You must select a term to continue.', 'powerpress') );
+					case 'powerpress-save-settings':
+					case 'powerpress-save-defaults': {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
+					}; break;
+					case 'powerpress-save-channel': {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress Channel settings saved.', 'powerpress') );
+					}; break;
+					case 'powerpress-save-category': {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress Category Podcasting  settings saved.', 'powerpress') );
+					}; break;
+					case 'powerpress-save-ttid': {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress Taxonomy Podcasting settings saved.', 'powerpress') );
+					}; break;
+					case 'powerpress-save-post_type': {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress Post Type Podcasting settings saved.', 'powerpress') );
+					}; break;
+					case 'powerpress-save-tags': {
+						$General = get_option('powerpress_general');
+						if( empty($General['blubrry_hosting']) || $General['blubrry_hosting'] === 'false' )
+							powerpress_page_message_add_notice( __('ATTENTION: You must configure your Blubrry Services in the Blubrry PowerPress &gt; Basic Settings page in order to utilize this feature.', 'powerpress') );
+						else
+							powerpress_page_message_add_notice( __('Blubrry PowerPress MP3 Tag settings saved.', 'powerpress') );
+					}; break;
+					default: {
+						powerpress_page_message_add_notice( __('Blubrry PowerPress settings saved.', 'powerpress') );
+					}; break;
 				}
-				else if( $term_object == false )
-				{
-					powerpress_page_message_add_error( __('Error obtaining term information.', 'powerpress') );
-				}
-				else if( $taxonomy_type == 'category' )
-				{
+			}
+		}
+		
+		// Handle POST actions...
+		if( isset($_POST['action'] ) )
+		{
+			switch($_POST['action'])
+			{
+				case 'powerpress-addfeed': {
+					check_admin_referer('powerpress-add-feed');
+					
 					$Settings = get_option('powerpress_general');
-					if( empty($Settings['custom_cat_feeds']) )
-						$Settings['custom_cat_feeds'] = array();
+					$key = sanitize_title($_POST['feed_slug']);
+					$value = $_POST['feed_name'];
+					$value = powerpress_stripslashes($value);
 					
-					if( !in_array($term_ID, $Settings['custom_cat_feeds']) )
+					/*
+					if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
 					{
-						$Settings['custom_cat_feeds'][] = $term_ID;
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
+					} else */
+					if( $key == '' )
+					{
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), esc_html($_POST['feed_slug']) ) );
+					}
+					else if( in_array($key, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
+					{
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), esc_html($key) ) );
+					}
+					else
+					{
+						$Settings['custom_feeds'][ $key ] = $value;
 						powerpress_save_settings($Settings);
-					}
-				
-					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
-					
-					$_GET['action'] = 'powerpress-editcategoryfeed';
-					$_GET['cat'] = $term_ID;
-				}
-				else
-				{
-					
-		
-					//$term_info = term_exists($term_ID, $taxonomy_type);
-					$tt_id = $term_object->term_taxonomy_id;
-					
-					if( !$tt_id )
-					{
-					
-					}
-					else
-					{
-						$Settings = get_option('powerpress_taxonomy_podcasting');
-		
-						if( !isset($Settings[ $tt_id ])  )
-						{
-							$Settings[ $tt_id ] = true;
-							powerpress_save_settings($Settings, 'powerpress_taxonomy_podcasting'); // add the feed to the taxonomy podcasting list
-						}
-					
-						powerpress_page_message_add_notice( __('Please configure your taxonomy podcast now.', 'powerpress') );
 						
-						$_GET['action'] = 'powerpress-edittaxonomyfeed';
-						$_GET['term'] = $term_ID;
-						$_GET['ttid'] = $tt_id;
-					}
-				}
-			}; break;
-			case 'powerpress-addposttypefeed': {
-				
-				
-				check_admin_referer('powerpress-add-posttype-feed');
-				//die('ok 2');
-				
-				$Settings = get_option('powerpress_general');
-				$feed_slug = sanitize_title($_POST['feed_slug']);
-				$post_type = $_POST['podcast_post_type'];
-				$post_type = powerpress_stripslashes($post_type);
-				$feed_title = $_POST['feed_title'];
-				$feed_title = powerpress_stripslashes($feed_title);
-				
-				
-				
-				/*
-				if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
-				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
-				} else */
-				if( empty($feed_slug) )
-				{
-					powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), esc_html($_POST['feed_slug']) ) );
-				}
-				else if( empty($post_type) )
-				{
-					powerpress_page_message_add_error( __('Post Type is invalid.', 'powerpress') );
-				}
-				// TODO:
-				//else if( in_array($feed_slug, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
-				//{
-				//	powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), $key) );
-				//}
-				else
-				{
-					$ExistingSettings = powerpress_get_settings('powerpress_posttype_'. $post_type);
-					if( !empty($ExistingSettings[ $feed_slug ]) )
-					{
-						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.', 'powerpress'), $_POST['feed_slug']) );
-					}
-					else
-					{
-						$NewSettings = array();
-						$NewSettings[ $feed_slug ]['title'] = $feed_title;
-						powerpress_save_settings($NewSettings, 'powerpress_posttype_'. $post_type);
-						
-						
-						add_feed($feed_slug, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
+						add_feed($key, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
 						$wp_rewrite->flush_rules();
 						
-						powerpress_page_message_add_notice( sprintf(__('Podcast "%s" added, please configure your new podcast.', 'powerpress'), $feed_title) );
-						$_GET['action'] = 'powerpress-editposttypefeed';
-						$_GET['feed_slug'] = $feed_slug;
-						$_GET['podcast_post_type'] = $post_type;
+						powerpress_page_message_add_notice( sprintf(__('Podcast Feed "%s" added, please configure your new feed now.', 'powerpress'), esc_html($value) ) );
+						$_GET['action'] = 'powerpress-editfeed';
+						$_GET['feed_slug'] = $key;
 					}
-				}
-			}; break;
-			case 'powerpress-ping-sites': {
-				check_admin_referer('powerpress-ping-sites');
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-ping-sites.php');
-				powerpressadmin_ping_sites_process();
-				
-				$_GET['action'] = 'powerpress-ping-sites';
-			}; break;
-			case 'powerpress-find-replace': {
-				check_admin_referer('powerpress-find-replace');
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-find-replace.php');
-				powerpressadmin_find_replace_process();
-				
-				$_GET['action'] = 'powerpress-find-replace';
-			}; break;
-			case 'powerpress-importpodpress': {
-				check_admin_referer('powerpress-import-podpress');
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
-				powerpressadmin_podpress_do_import();
-				
-				$_GET['action'] = 'powerpress-podpress-epiosdes';
-			}; break;
-			case 'powerpress-importmt': {
-				check_admin_referer('powerpress-import-mt');
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-mt.php');
-				powerpressadmin_mt_do_import();
-				
-				$_GET['action'] = 'powerpress-mt-epiosdes';
-			}; break;
-			case 'deletepodpressdata': {
-				check_admin_referer('powerpress-delete-podpress-data');
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
-				powerpressadmin_podpress_delete_data();
-				
-			}; break;
-			case 'powerpress-save-mode': {
-				
-				//if( !isset($_POST['General']['advanced_mode']) )
-				//	powerpress_page_message_add_notice( __('You must select a Mode to continue.', 'powerpress') );
-				
-			}; break;
-		}
-	}
-	
-	// Handle GET actions...
-	if( isset($_GET['action'] ) )
-	{
-		switch( $_GET['action'] )
-		{
-			case 'powerpress-enable-categorypodcasting': {
-				check_admin_referer('powerpress-enable-categorypodcasting');
-				
-				$Settings = get_option('powerpress_general');
-				$Settings['cat_casting'] = 1;
-				powerpress_save_settings($Settings);
-				
-				wp_redirect('edit-tags.php?taxonomy=category&message=3');
-				exit;
-				
-			}; break;
-			case 'powerpress-addcategoryfeed': {
-				check_admin_referer('powerpress-add-taxonomy-feed');
-				$cat_ID = intval($_GET['cat']);
-				
-				$Settings = get_option('powerpress_general');
-				$category = get_category($cat_ID);
-				if( $category == false )
-				{
-					powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
-				}
-				else
-				{
-					if( empty($Settings['custom_cat_feeds']) || !is_array($Settings['custom_cat_feeds']) )
-						$Settings['custom_cat_feeds'] = array();
+				}; break;
+				case 'powerpress-addtaxonomyfeed': {
+					if( !empty($_POST['cancel']) )
+						unset($_POST['taxonomy']);
 					
-					if( !in_array($cat_ID, $Settings['custom_cat_feeds']) )
+					if( empty($_POST['add_podcasting']) )
+						break; // We do not handle this situation
+				}
+				case 'powerpress-addcategoryfeed': {
+				
+					check_admin_referer('powerpress-add-taxonomy-feed');
+					
+					
+					
+				
+					$taxonomy_type = ( isset($_POST['taxonomy'])? $_POST['taxonomy'] : $_GET['taxonomy'] );
+					$term_ID = intval( isset($_POST['term'])? $_POST['term'] : $_GET['term'] );
+					
+					
+					$term_object = get_term( $term_ID, $taxonomy_type, OBJECT, 'edit');
+					
+					if( empty($term_ID) )
 					{
-						$Settings['custom_cat_feeds'][] = $cat_ID;
-						powerpress_save_settings($Settings);
+						if( $taxonomy_type == 'category' )
+							powerpress_page_message_add_error( __('You must select a category to continue.', 'powerpress') );
+						else
+							powerpress_page_message_add_error( __('You must select a term to continue.', 'powerpress') );
 					}
-				
-					powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
-					
-					$_GET['action'] = 'powerpress-editcategoryfeed';
-					$_GET['cat'] = $cat_ID;
-				}
-			}; break;
-			case 'powerpress-delete-feed': {
-				$delete_slug = $_GET['feed_slug'];
-				$force_deletion = !empty($_GET['force']);
-				check_admin_referer('powerpress-delete-feed-'.$delete_slug);
-				
-				$Episodes = powerpress_admin_episodes_per_feed($delete_slug);
-				
-				if( false && $delete_slug == 'podcast' && $force_deletion == false ) // Feature disabled, you can now delete podcast specific settings
-				{
-					powerpress_page_message_add_error( __('Cannot delete default podcast feed.', 'powerpress') );
-				}
-				else if( $delete_slug != 'podcast' && $Episodes > 0 && $force_deletion == false )
-				{
-					powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).', 'powerpress'), $Episodes) );
-				}
-				else
-				{
-					$Settings = get_option('powerpress_general');
-					unset($Settings['custom_feeds'][ $delete_slug ]);
-					powerpress_save_settings($Settings); // Delete the feed from the general settings
-					delete_option('powerpress_feed_'.$delete_slug); // Delete the actual feed settings
-					
-					// Now we need to update the rewrite cso the cached rules are up to date
-					if ( in_array($delete_slug, $wp_rewrite->feeds))
+					else if( $term_object == false )
 					{
-						$index = array_search($delete_slug, $wp_rewrite->feeds);
-						if( $index !== false )
-							unset($wp_rewrite->feeds[$index]); // Remove the old feed
+						powerpress_page_message_add_error( __('Error obtaining term information.', 'powerpress') );
 					}
-				
-					// Remove feed function hook
-					$hook = 'do_feed_' . $delete_slug;
-					remove_action($hook, $hook, 10, 1); // This may not be necessary
-					$wp_rewrite->flush_rules(); // This is definitely necessary
-					
-					powerpress_page_message_add_notice( __('Feed deleted successfully.', 'powerpress') );
-				}
-			}; break;
-			case 'powerpress-delete-category-feed': {
-				$cat_ID = intval($_GET['cat']);
-				check_admin_referer('powerpress-delete-category-feed-'.$cat_ID);
-				
-				$Settings = get_option('powerpress_general');
-				$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
-				if( $key !== false )
-				{
-					unset( $Settings['custom_cat_feeds'][$key] );
-					powerpress_save_settings($Settings); // Delete the feed from the general settings
-				}
-				delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
-				
-				powerpress_page_message_add_notice( __('Removed podcast settings for category feed successfully.', 'powerpress') );
-			}; break;
-			case 'powerpress-delete-taxonomy-feed': {
-				$tt_ID = intval($_GET['ttid']);
-				check_admin_referer('powerpress-delete-taxonomy-feed-'.$tt_ID);
-				
-				$Settings = get_option('powerpress_taxonomy_podcasting');
-				if( !empty($Settings[ $tt_ID ]) )
-				{
-					unset( $Settings[ $tt_ID ] );
-					powerpress_save_settings($Settings, 'powerpress_taxonomy_podcasting'); // Delete the feed from the general settings
-				}
-				delete_option('powerpress_taxonomy_'.$tt_ID); // Delete the actual feed settings
-				
-				powerpress_page_message_add_notice( __('Removed podcast settings for term successfully.', 'powerpress') );
-			}; break;
-			case 'powerpress-delete-posttype-feed': {
-			
-				// check admin referer prevents xss
-				$feed_slug = esc_attr($_GET['feed_slug']);
-				$post_type = esc_attr($_GET['podcast_post_type']);
-				check_admin_referer('powerpress-delete-posttype-feed-'.$post_type .'_'.$feed_slug);
-		
-				$Settings = get_option('powerpress_posttype_'.$post_type);
-				if( !empty($Settings[ $feed_slug ]) )
-				{
-					unset( $Settings[ $feed_slug ] );
-					update_option('powerpress_posttype_'.$post_type,  $Settings);
-					//powerpress_save_settings($Settings, 'powerpress_posttype_'.$post_type); // Delete the feed from the general settings
-				}
+					else if( $taxonomy_type == 'category' )
+					{
+						$Settings = get_option('powerpress_general');
+						if( empty($Settings['custom_cat_feeds']) )
+							$Settings['custom_cat_feeds'] = array();
 						
-				powerpress_page_message_add_notice( __('Removed podcast settings for post type successfully.', 'powerpress') );
-			}; break;
-			case 'powerpress-podpress-settings': {
-				check_admin_referer('powerpress-podpress-settings');
-				
-				// Import settings here..
-				if( powerpress_admin_import_podpress_settings() )
-					powerpress_page_message_add_notice( __('Podpress settings imported successfully.', 'powerpress') );
-				else
-					powerpress_page_message_add_error( __('No Podpress settings found.', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-podcasting-settings': {
-				check_admin_referer('powerpress-podcasting-settings');
-				
-				// Import settings here..
-				if( powerpress_admin_import_podcasting_settings() )
-					powerpress_page_message_add_notice( __('Settings imported from the plugin "Podcasting" successfully.', 'powerpress') );
-				else
-					powerpress_page_message_add_error( __('No settings found for the plugin "Podcasting".', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-add-caps': {
-				check_admin_referer('powerpress-add-caps');
-				
-				$users = array('administrator','editor', 'author'); // , 'contributor', 'subscriber');
-				while( list($null,$user) = each($users) )
-				{
-					$role = get_role($user);
-					if( !empty($role) )
-					{
-						if( !$role->has_cap('edit_podcast') )
-							$role->add_cap('edit_podcast');
-						if( $user == 'administrator' && !$role->has_cap('view_podcast_stats') )
-							$role->add_cap('view_podcast_stats');
+						if( !in_array($term_ID, $Settings['custom_cat_feeds']) )
+						{
+							$Settings['custom_cat_feeds'][] = $term_ID;
+							powerpress_save_settings($Settings);
+						}
+					
+						powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
+						
+						$_GET['action'] = 'powerpress-editcategoryfeed';
+						$_GET['cat'] = $term_ID;
 					}
-				}
-				
-				$General = array('use_caps'=>true);
-				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities added to WordPress Blog.', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-remove-caps': {
-				check_admin_referer('powerpress-remove-caps');
-				
-				$users = array('administrator','editor', 'author', 'contributor', 'subscriber');
-				while( list($null,$user) = each($users) )
-				{
-					$role = get_role($user);
-					if( !empty($role) )
+					else
 					{
-						if( $role->has_cap('edit_podcast') )
-							$role->remove_cap('edit_podcast');
-						if( $role->has_cap('view_podcast_stats') )
-							$role->remove_cap('view_podcast_stats');
-					}
-				}
-				$General = array('use_caps'=>false);
-				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-add-feed-caps': {
-				check_admin_referer('powerpress-add-feed-caps');
-				
-				$ps_role = get_role('premium_subscriber');
-				if( empty($ps_role) )
-				{
-					add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'));
-					$ps_role = get_role('premium_subscriber');
-					$ps_role->add_cap('read');
-					$ps_role->add_cap('premium_content');
-				}
-				
-				$users = array('administrator','editor', 'author'); // , 'contributor', 'subscriber');
-				while( list($null,$user) = each($users) )
-				{
-					$role = get_role($user);
-					if( !empty($role) )
-					{
-						if( !$role->has_cap('premium_content') )
-							$role->add_cap('premium_content');
-					}
-				}
-				
-				$General = array('premium_caps'=>true);
-				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds added successfully.', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-remove-feed-caps': {
-				check_admin_referer('powerpress-remove-feed-caps');
-				
-				$users = array('administrator','editor', 'author', 'contributor', 'subscriber', 'premium_subscriber', 'powerpress');
-				while( list($null,$user) = each($users) )
-				{
-					$role = get_role($user);
-					if( !empty($role) )
-					{
-						if( $role->has_cap('premium_content') )
-							$role->remove_cap('premium_content');
-					}
-				}
-				
-				remove_role('premium_subscriber');
-				
-				$General = array('premium_caps'=>false);
-				powerpress_save_settings($General);
-				powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully.', 'powerpress') );
-				
-			}; break;
-			case 'powerpress-clear-update_plugins': {
-				check_admin_referer('powerpress-clear-update_plugins');
-				
-				delete_option('update_plugins'); // OLD method
-				delete_option('_site_transient_update_plugins'); // New method
-				powerpress_page_message_add_notice( sprintf( __('Plugins Update Cache cleared successfully. You may now to go the %s page to see the latest plugin versions.', 'powerpress'), '<a href="'. admin_url() .'plugins.php" title="'.  __('Manage Plugins', 'powerpress') .'">'.  __('Manage Plugins', 'powerpress') .'</a>') );
-				
-			}; break;
-		}
-	}
-	
-	if( isset($_REQUEST['action']) )
-	{
-		switch( $_REQUEST['action'] )
-		{
-			case 'powerpress-migrate-media': {
-				
-				require_once( POWERPRESS_ABSPATH . '/powerpressadmin-migrate.php');
-				powerpress_admin_migrate_request();
+						
 			
-			}; break;
+						//$term_info = term_exists($term_ID, $taxonomy_type);
+						$tt_id = $term_object->term_taxonomy_id;
+						
+						if( !$tt_id )
+						{
+						
+						}
+						else
+						{
+							$Settings = get_option('powerpress_taxonomy_podcasting');
+			
+							if( !isset($Settings[ $tt_id ])  )
+							{
+								$Settings[ $tt_id ] = true;
+								powerpress_save_settings($Settings, 'powerpress_taxonomy_podcasting'); // add the feed to the taxonomy podcasting list
+							}
+						
+							powerpress_page_message_add_notice( __('Please configure your taxonomy podcast now.', 'powerpress') );
+							
+							$_GET['action'] = 'powerpress-edittaxonomyfeed';
+							$_GET['term'] = $term_ID;
+							$_GET['ttid'] = $tt_id;
+						}
+					}
+				}; break;
+				case 'powerpress-addposttypefeed': {
+					
+					
+					check_admin_referer('powerpress-add-posttype-feed');
+					//die('ok 2');
+					
+					$Settings = get_option('powerpress_general');
+					$feed_slug = sanitize_title($_POST['feed_slug']);
+					$post_type = $_POST['podcast_post_type'];
+					$post_type = powerpress_stripslashes($post_type);
+					$feed_title = $_POST['feed_title'];
+					$feed_title = powerpress_stripslashes($feed_title);
+					
+					
+					
+					/*
+					if( isset($Settings['custom_feeds'][ $key ]) && empty($_POST['overwrite']) )
+					{
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.'), $key) );
+					} else */
+					if( empty($feed_slug) )
+					{
+						powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not valid.', 'powerpress'), esc_html($_POST['feed_slug']) ) );
+					}
+					else if( empty($post_type) )
+					{
+						powerpress_page_message_add_error( __('Post Type is invalid.', 'powerpress') );
+					}
+					// TODO:
+					//else if( in_array($feed_slug, $wp_rewrite->feeds)  && !isset($Settings['custom_feeds'][ $key ]) ) // If it is a system feed or feed created by something else
+					//{
+					//	powerpress_page_message_add_error( sprintf(__('Feed slug "%s" is not available.', 'powerpress'), $key) );
+					//}
+					else
+					{
+						$ExistingSettings = powerpress_get_settings('powerpress_posttype_'. $post_type);
+						if( !empty($ExistingSettings[ $feed_slug ]) )
+						{
+							powerpress_page_message_add_error( sprintf(__('Feed slug "%s" already exists.', 'powerpress'), $_POST['feed_slug']) );
+						}
+						else
+						{
+							$NewSettings = array();
+							$NewSettings[ $feed_slug ]['title'] = $feed_title;
+							powerpress_save_settings($NewSettings, 'powerpress_posttype_'. $post_type);
+							
+							
+							add_feed($feed_slug, 'powerpress_do_podcast_feed'); // Before we flush the rewrite rules we need to add the new custom feed...
+							$wp_rewrite->flush_rules();
+							
+							powerpress_page_message_add_notice( sprintf(__('Podcast "%s" added, please configure your new podcast.', 'powerpress'), $feed_title) );
+							$_GET['action'] = 'powerpress-editposttypefeed';
+							$_GET['feed_slug'] = $feed_slug;
+							$_GET['podcast_post_type'] = $post_type;
+						}
+					}
+				}; break;
+				case 'powerpress-ping-sites': {
+					check_admin_referer('powerpress-ping-sites');
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-ping-sites.php');
+					powerpressadmin_ping_sites_process();
+					
+					$_GET['action'] = 'powerpress-ping-sites';
+				}; break;
+				case 'powerpress-find-replace': {
+					check_admin_referer('powerpress-find-replace');
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-find-replace.php');
+					powerpressadmin_find_replace_process();
+					
+					$_GET['action'] = 'powerpress-find-replace';
+				}; break;
+				case 'powerpress-importpodpress': {
+					check_admin_referer('powerpress-import-podpress');
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
+					powerpressadmin_podpress_do_import();
+					
+					$_GET['action'] = 'powerpress-podpress-epiosdes';
+				}; break;
+				case 'powerpress-importmt': {
+					check_admin_referer('powerpress-import-mt');
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-mt.php');
+					powerpressadmin_mt_do_import();
+					
+					$_GET['action'] = 'powerpress-mt-epiosdes';
+				}; break;
+				case 'deletepodpressdata': {
+					check_admin_referer('powerpress-delete-podpress-data');
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-podpress.php');
+					powerpressadmin_podpress_delete_data();
+					
+				}; break;
+				case 'powerpress-save-mode': {
+					
+					//if( !isset($_POST['General']['advanced_mode']) )
+					//	powerpress_page_message_add_notice( __('You must select a Mode to continue.', 'powerpress') );
+					
+				}; break;
+			}
+		}
+		
+		// Handle GET actions...
+		if( isset($_GET['action'] ) )
+		{
+			switch( $_GET['action'] )
+			{
+				case 'powerpress-enable-categorypodcasting': {
+					check_admin_referer('powerpress-enable-categorypodcasting');
+					
+					$Settings = get_option('powerpress_general');
+					$Settings['cat_casting'] = 1;
+					powerpress_save_settings($Settings);
+					
+					wp_redirect('edit-tags.php?taxonomy=category&message=3');
+					exit;
+					
+				}; break;
+				case 'powerpress-addcategoryfeed': {
+					check_admin_referer('powerpress-add-taxonomy-feed');
+					$cat_ID = intval($_GET['cat']);
+					
+					$Settings = get_option('powerpress_general');
+					$category = get_category($cat_ID);
+					if( $category == false )
+					{
+						powerpress_page_message_add_error( __('Error obtaining category information.', 'powerpress') );
+					}
+					else
+					{
+						if( empty($Settings['custom_cat_feeds']) || !is_array($Settings['custom_cat_feeds']) )
+							$Settings['custom_cat_feeds'] = array();
+						
+						if( !in_array($cat_ID, $Settings['custom_cat_feeds']) )
+						{
+							$Settings['custom_cat_feeds'][] = $cat_ID;
+							powerpress_save_settings($Settings);
+						}
+					
+						powerpress_page_message_add_notice( __('Please configure your category podcast feed now.', 'powerpress') );
+						
+						$_GET['action'] = 'powerpress-editcategoryfeed';
+						$_GET['cat'] = $cat_ID;
+					}
+				}; break;
+				case 'powerpress-delete-feed': {
+					$delete_slug = $_GET['feed_slug'];
+					$force_deletion = !empty($_GET['force']);
+					check_admin_referer('powerpress-delete-feed-'.$delete_slug);
+					
+					$Episodes = powerpress_admin_episodes_per_feed($delete_slug);
+					
+					if( false && $delete_slug == 'podcast' && $force_deletion == false ) // Feature disabled, you can now delete podcast specific settings
+					{
+						powerpress_page_message_add_error( __('Cannot delete default podcast feed.', 'powerpress') );
+					}
+					else if( $delete_slug != 'podcast' && $Episodes > 0 && $force_deletion == false )
+					{
+						powerpress_page_message_add_error( sprintf(__('Cannot delete feed. Feed contains %d episode(s).', 'powerpress'), $Episodes) );
+					}
+					else
+					{
+						$Settings = get_option('powerpress_general');
+						unset($Settings['custom_feeds'][ $delete_slug ]);
+						powerpress_save_settings($Settings); // Delete the feed from the general settings
+						delete_option('powerpress_feed_'.$delete_slug); // Delete the actual feed settings
+						
+						// Now we need to update the rewrite cso the cached rules are up to date
+						if ( in_array($delete_slug, $wp_rewrite->feeds))
+						{
+							$index = array_search($delete_slug, $wp_rewrite->feeds);
+							if( $index !== false )
+								unset($wp_rewrite->feeds[$index]); // Remove the old feed
+						}
+					
+						// Remove feed function hook
+						$hook = 'do_feed_' . $delete_slug;
+						remove_action($hook, $hook, 10, 1); // This may not be necessary
+						$wp_rewrite->flush_rules(); // This is definitely necessary
+						
+						powerpress_page_message_add_notice( __('Feed deleted successfully.', 'powerpress') );
+					}
+				}; break;
+				case 'powerpress-delete-category-feed': {
+					$cat_ID = intval($_GET['cat']);
+					check_admin_referer('powerpress-delete-category-feed-'.$cat_ID);
+					
+					$Settings = get_option('powerpress_general');
+					$key = array_search($cat_ID, $Settings['custom_cat_feeds']);
+					if( $key !== false )
+					{
+						unset( $Settings['custom_cat_feeds'][$key] );
+						powerpress_save_settings($Settings); // Delete the feed from the general settings
+					}
+					delete_option('powerpress_cat_feed_'.$cat_ID); // Delete the actual feed settings
+					
+					powerpress_page_message_add_notice( __('Removed podcast settings for category feed successfully.', 'powerpress') );
+				}; break;
+				case 'powerpress-delete-taxonomy-feed': {
+					$tt_ID = intval($_GET['ttid']);
+					check_admin_referer('powerpress-delete-taxonomy-feed-'.$tt_ID);
+					
+					$Settings = get_option('powerpress_taxonomy_podcasting');
+					if( !empty($Settings[ $tt_ID ]) )
+					{
+						unset( $Settings[ $tt_ID ] );
+						powerpress_save_settings($Settings, 'powerpress_taxonomy_podcasting'); // Delete the feed from the general settings
+					}
+					delete_option('powerpress_taxonomy_'.$tt_ID); // Delete the actual feed settings
+					
+					powerpress_page_message_add_notice( __('Removed podcast settings for term successfully.', 'powerpress') );
+				}; break;
+				case 'powerpress-delete-posttype-feed': {
+				
+					// check admin referer prevents xss
+					$feed_slug = esc_attr($_GET['feed_slug']);
+					$post_type = esc_attr($_GET['podcast_post_type']);
+					check_admin_referer('powerpress-delete-posttype-feed-'.$post_type .'_'.$feed_slug);
+			
+					$Settings = get_option('powerpress_posttype_'.$post_type);
+					if( !empty($Settings[ $feed_slug ]) )
+					{
+						unset( $Settings[ $feed_slug ] );
+						update_option('powerpress_posttype_'.$post_type,  $Settings);
+						//powerpress_save_settings($Settings, 'powerpress_posttype_'.$post_type); // Delete the feed from the general settings
+					}
+							
+					powerpress_page_message_add_notice( __('Removed podcast settings for post type successfully.', 'powerpress') );
+				}; break;
+				case 'powerpress-podpress-settings': {
+					check_admin_referer('powerpress-podpress-settings');
+					
+					// Import settings here..
+					if( powerpress_admin_import_podpress_settings() )
+						powerpress_page_message_add_notice( __('Podpress settings imported successfully.', 'powerpress') );
+					else
+						powerpress_page_message_add_error( __('No Podpress settings found.', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-podcasting-settings': {
+					check_admin_referer('powerpress-podcasting-settings');
+					
+					// Import settings here..
+					if( powerpress_admin_import_podcasting_settings() )
+						powerpress_page_message_add_notice( __('Settings imported from the plugin "Podcasting" successfully.', 'powerpress') );
+					else
+						powerpress_page_message_add_error( __('No settings found for the plugin "Podcasting".', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-add-caps': {
+					check_admin_referer('powerpress-add-caps');
+					
+					$users = array('administrator','editor', 'author'); // , 'contributor', 'subscriber');
+					while( list($null,$user) = each($users) )
+					{
+						$role = get_role($user);
+						if( !empty($role) )
+						{
+							if( !$role->has_cap('edit_podcast') )
+								$role->add_cap('edit_podcast');
+							if( $user == 'administrator' && !$role->has_cap('view_podcast_stats') )
+								$role->add_cap('view_podcast_stats');
+						}
+					}
+					
+					$General = array('use_caps'=>true);
+					powerpress_save_settings($General);
+					powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities added to WordPress Blog.', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-remove-caps': {
+					check_admin_referer('powerpress-remove-caps');
+					
+					$users = array('administrator','editor', 'author', 'contributor', 'subscriber');
+					while( list($null,$user) = each($users) )
+					{
+						$role = get_role($user);
+						if( !empty($role) )
+						{
+							if( $role->has_cap('edit_podcast') )
+								$role->remove_cap('edit_podcast');
+							if( $role->has_cap('view_podcast_stats') )
+								$role->remove_cap('view_podcast_stats');
+						}
+					}
+					$General = array('use_caps'=>false);
+					powerpress_save_settings($General);
+					powerpress_page_message_add_notice( __('PowerPress Roles and Capabilities removed from WordPress Blog', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-add-feed-caps': {
+					check_admin_referer('powerpress-add-feed-caps');
+					
+					$ps_role = get_role('premium_subscriber');
+					if( empty($ps_role) )
+					{
+						add_role('premium_subscriber', __('Premium Subscriber', 'powerpress'));
+						$ps_role = get_role('premium_subscriber');
+						$ps_role->add_cap('read');
+						$ps_role->add_cap('premium_content');
+					}
+					
+					$users = array('administrator','editor', 'author'); // , 'contributor', 'subscriber');
+					while( list($null,$user) = each($users) )
+					{
+						$role = get_role($user);
+						if( !empty($role) )
+						{
+							if( !$role->has_cap('premium_content') )
+								$role->add_cap('premium_content');
+						}
+					}
+					
+					$General = array('premium_caps'=>true);
+					powerpress_save_settings($General);
+					powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds added successfully.', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-remove-feed-caps': {
+					check_admin_referer('powerpress-remove-feed-caps');
+					
+					$users = array('administrator','editor', 'author', 'contributor', 'subscriber', 'premium_subscriber', 'powerpress');
+					while( list($null,$user) = each($users) )
+					{
+						$role = get_role($user);
+						if( !empty($role) )
+						{
+							if( $role->has_cap('premium_content') )
+								$role->remove_cap('premium_content');
+						}
+					}
+					
+					remove_role('premium_subscriber');
+					
+					$General = array('premium_caps'=>false);
+					powerpress_save_settings($General);
+					powerpress_page_message_add_notice( __('Podcast Password Protection Capabilities for Custom Channel Feeds removed successfully.', 'powerpress') );
+					
+				}; break;
+				case 'powerpress-clear-update_plugins': {
+					check_admin_referer('powerpress-clear-update_plugins');
+					
+					delete_option('update_plugins'); // OLD method
+					delete_option('_site_transient_update_plugins'); // New method
+					powerpress_page_message_add_notice( sprintf( __('Plugins Update Cache cleared successfully. You may now to go the %s page to see the latest plugin versions.', 'powerpress'), '<a href="'. admin_url() .'plugins.php" title="'.  __('Manage Plugins', 'powerpress') .'">'.  __('Manage Plugins', 'powerpress') .'</a>') );
+					
+				}; break;
+			}
+		}
+		
+		if( isset($_REQUEST['action']) )
+		{
+			switch( $_REQUEST['action'] )
+			{
+				case 'powerpress-migrate-media': {
+					
+					require_once( POWERPRESS_ABSPATH . '/powerpressadmin-migrate.php');
+					powerpress_admin_migrate_request();
+				
+				}; break;
+			}
 		}
 	}
 	

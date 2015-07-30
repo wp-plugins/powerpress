@@ -326,9 +326,11 @@ function powerpress_content($content)
 	return $content;
 }//end function
 
+
 add_filter('get_the_excerpt', 'powerpress_content', (POWERPRESS_CONTENT_ACTION_PRIORITY - 1) );
 add_filter('the_content', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
-add_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
+if( !defined('POWERPRESS_NO_THE_EXCERPT') )
+	add_filter('the_excerpt', 'powerpress_content', POWERPRESS_CONTENT_ACTION_PRIORITY);
 
 
 /* Specail case fix Yoast bug which messes up the HTML */
