@@ -1550,7 +1550,19 @@ function powerpress_load_general_feed_settings()
 				// We need to get the term_id and the tax_id (tt_id)
 				$term_slug = get_query_var('term');
 				$taxonomy = get_query_var('taxonomy');
-				$term = term_exists($term_slug, $taxonomy);
+				
+				if( empty($term_slug) && empty($taxonomy) ) // Handle situation where tag is the taxonomy we're working with
+				{
+					$term_slug = get_query_var('tag');
+					if( !empty($term_slug) )
+						$taxonomy = 'post_tag';
+				}
+				
+				$term = false;
+				if( !empty($term_slug) && !empty($taxonomy) )
+				{
+					$term = term_exists($term_slug, $taxonomy);
+				}
 				
 				if( !empty($term['term_taxonomy_id']) )
 				{
