@@ -316,6 +316,16 @@ function powerpressadmin_advanced_options($General)
 	</p>
 </div>
 
+<div style="margin-left: 10px;">
+	<h3 style="margin-bottom: 5px;"><?php echo __('Want your own iOS and Android podcast apps?', 'powerpress'); ?></h3>
+	<p style="margin: 0  0 0 50px; font-size: 115%;">
+		<?php echo __('Blubrry has partnered with Reactor by AppPresser to provide iOS and Android apps for PowerPress powered podcasts. With Reactor, you are able to build, design and retain control of your app to highlight your podcast content, and provide access to value-add content from your website.', 'powerpress'); ?>
+	</p>
+	<p style="margin: 5px 0 0 50px; font-size: 115%;">
+		<strong><?php echo '<a href="http://create.blubrry.com/resources/partners/reactor-ios-android-podcast-apps-powerpress/" target="_blank">'. __('Learn More about Reactor iOS and Android podcast apps for PowerPress', 'powerpress') .'</a>'; ?></strong>
+	</p>
+</div>
+
 <?php
 	if( isset($General['timestamp']) && $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
 	{
