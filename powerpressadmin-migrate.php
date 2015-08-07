@@ -387,7 +387,7 @@ function powerpress_admin_extension_counts()
 		$extension = '*';
 			
 		$parts = pathinfo($row['src_url']);
-		if( preg_match('/(mp3|m4a|mp4|m4v)/i', $parts['extension']) )
+		if( preg_match('/(mp3|m4a|mp4|m4v|mov)/i', $parts['extension']) )
 			$extension = strtolower($parts['extension']);
 			
 		if( !empty($row['on_blubrry']) )
@@ -504,7 +504,7 @@ function powerpress_admin_migrate_step1()
 	</li>
 	<?php
 	}
-	$types = array('mp3', 'm4a', 'mp4', 'm4v', '*', 'blubrry');
+	$types = array('mp3', 'm4a', 'mp4', 'm4v', 'mov', '*', 'blubrry');
 	while (list($null, $extension) = each($types) )
 	{
 		if( empty($GLOBALS['powerpress_migrate_stats'][$extension]) )
@@ -517,6 +517,7 @@ function powerpress_admin_migrate_step1()
 			case 'm4a': $label = __('m4a audio files', 'powerpress'); break;
 			case 'mp4': $label = __('mp4 video files', 'powerpress'); break;
 			case 'm4v': $label = __('m4v video files', 'powerpress'); break;
+			case 'mov': $label = __('mov video files', 'powerpress'); break;
 			case 'blubrry': $label = __('media hosted by Blubrry', 'powerpress'); break;
 			default: $label = __('Other media formats', 'powerpress'); $checked = '';
 		}

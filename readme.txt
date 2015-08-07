@@ -220,6 +220,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Added logic to the Subscribe to Podcast sidebar widget to only display category, feed slug and post type settings when appropriate.
 * Added new define option `POWERPRESS_NO_THE_EXCERPT`, allows you to remove PowerPress's the_excerpt filter for special situations that warrant it. (Thanks Avi for the code)
 * Changed logic for the `powerpress_get_the_excerpt_rss` function. (Thanks Avi for the code)
+* Added 'mov' file extensions to the list of migrate-able media files.
 
 
 = 6.0.3 =
