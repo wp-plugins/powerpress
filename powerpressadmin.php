@@ -13,10 +13,13 @@ function powerpress_esc_html($escape)
 	return esc_html($escape);
 }
 	
-function powerpress_page_message_add_error($msg, $classes='inline')
+function powerpress_page_message_add_error($msg, $classes='inline', $escape=true)
 {
 	global $g_powerpress_page_message;
-	$g_powerpress_page_message .= '<div class="error powerpress-error '.$classes.'">'. esc_html($msg) . '</div>';
+	if( $escape )
+		$g_powerpress_page_message .= '<div class="error powerpress-error '.$classes.'">'. esc_html($msg) . '</div>';
+	else
+		$g_powerpress_page_message .= '<div class="error powerpress-error '.$classes.'">'. ($msg) . '</div>';
 }
 
 function powerpress_page_message_add_notice($msg, $classes='inline', $escape=true)
