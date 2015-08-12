@@ -142,6 +142,10 @@ if( !function_exists('add_action') )
 	
 	function powerpressadmin_mt_do_import()
 	{
+		$wp_remote_options = array();
+		$wp_remote_options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
+		$wp_remote_options['httpversion'] = '1.1';
+		
 		$Import = ( isset($_POST['Import']) ? $_POST['Import'] : array() );
 		$Media = ( isset($_POST['Media']) ? $_POST['Media'] : array() );
 		$Titles = ( isset($_POST['Titles']) ? $_POST['Titles'] : array() );
@@ -171,25 +175,25 @@ if( !function_exists('add_action') )
 				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 				{
 					$headers = wp_remote_retrieve_headers( $response );
-					$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+					$response = wp_remote_head( $headers['location'], $wp_remote_options );
 				}
 				// Redirect 2
 				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 				{
 					$headers = wp_remote_retrieve_headers( $response );
-					$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+					$response = wp_remote_head( $headers['location'], $wp_remote_options );
 				}
 				// Redirect 3
 				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 				{
 					$headers = wp_remote_retrieve_headers( $response );
-					$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+					$response = wp_remote_head( $headers['location'], $wp_remote_options );
 				}
 				// Redirect 4
 				if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 				{
 					$headers = wp_remote_retrieve_headers( $response );
-					$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+					$response = wp_remote_head( $headers['location'], $wp_remote_options );
 				}
 				$headers = wp_remote_retrieve_headers( $response );
 

@@ -3119,7 +3119,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	unset($GLOBALS['g_powerpress_remote_error']);
 	unset($GLOBALS['g_powerpress_remote_errorno']);
 	
-	if( function_exists( 'curl_init' ) ) // Preferred method of connecting
+	if( false && function_exists( 'curl_init' ) ) // Preferred method of connecting
 	{
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -3182,11 +3182,16 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 		{
 			$GLOBALS['g_powerpress_remote_error'] = $error_msg;
 			$GLOBALS['g_powerpress_remote_errorno'] = $http_code;
+			echo 'error: '.$content;
+			
+			$decoded = json_decode($content);
+			if( !empty($decoded) )
+				return $content; // We can still return the error from the server at least
 			return false;
 		}
 		else if( $http_code > 399 )
 		{
-			
+			echo '40x';
 			$GLOBALS['g_powerpress_remote_error'] = "HTTP $http_code";
 			$GLOBALS['g_powerpress_remote_errorno'] = $http_code;
 			switch( $http_code )
@@ -3198,7 +3203,9 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 				case 404: $GLOBALS['g_powerpress_remote_error'] .= ' '. __("Not Found", 'powerpress'); break;
 			}
 			
-			
+			$decoded = json_decode($content);
+			if( !empty($decoded) )
+				return $content; // We can still return the error from the server at least
 			return false;
 		}
 		return $content;
@@ -4010,6 +4017,10 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		}
 	}
 	
+	$wp_remote_options = array();
+	$wp_remote_options['user-agent'] = 'Blubrry PowerPress/'.POWERPRESS_VERSION;
+	$wp_remote_options['httpversion'] = '1.1';
+	
 	if( $content_type != '' && $file_size == 0 )
 	{
 		$response = wp_remote_head( $media_file, array('httpversion' => 1.1) );
@@ -4017,25 +4028,25 @@ function powerpress_get_media_info_local($media_file, $content_type='', $file_si
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+			$response = wp_remote_head( $headers['location'], $wp_remote_options );
 		}
 		// Redirect 2
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+			$response = wp_remote_head( $headers['location'], $wp_remote_options );
 		}
 		// Redirect 3
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+			$response = wp_remote_head( $headers['location'], $wp_remote_options );
 		}
 		// Redirect 4
 		if( !is_wp_error( $response ) && ($response['response']['code'] == 301 || $response['response']['code'] == 302) )
 		{
 			$headers = wp_remote_retrieve_headers( $response );
-			$response = wp_remote_head( $headers['location'], array('httpversion' => 1.1) );
+			$response = wp_remote_head( $headers['location'], $wp_remote_options );
 		}
 							
 		if ( is_wp_error( $response ) )

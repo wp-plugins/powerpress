@@ -222,6 +222,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Changed logic for the `powerpress_get_the_excerpt_rss` function. (Thanks Avi for the code)
 * Added 'mov' file extensions to the list of migrate-able media files.
 * Updated migrate media logic to allow for resetting of migration.
+* Improved error reporting for blubrry.com API calls.
 
 
 = 6.0.3 =
