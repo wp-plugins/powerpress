@@ -1091,7 +1091,7 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 <div style="margin-left: 24px;">
 	<p><?php echo __('Link to your one click iTunes Subscription URL.', 'powerpress'); ?></p>
 	
-	<p><a href="<?php echo 'https://linkmaker.itunes.apple.com/?q='.urlencode( get_bloginfo('name') ); ?>" target="_blank"><?php echo __('Find your iTunes Subscription URL', 'powerpress'); ?></a></p>
+	<p><a href="<?php echo 'https://linkmaker.itunes.apple.com/?q='.urlencode( get_bloginfo('name') ); ?>&amp;media=podcasts" target="_blank"><?php echo __('Find your iTunes Subscription URL', 'powerpress'); ?></a></p>
 </div>
 
 <p><input type="checkbox" name="NULL[subscribe_feature_android]" value="1" checked disabled /> <label><?php echo __('Subscribe on Android', 'powerpress'); ?></label> <?php echo powerpressadmin_new(); ?></p>
