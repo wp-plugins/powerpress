@@ -280,7 +280,7 @@ function DeleteMedia(File)
 				if( $Msg )
 				echo '<p>'. $Msg . '</p>';
 			?>
-			<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
+			<div class="media-upload-link"><a title="<?php echo esc_attr(__('Blubrry Podcast Hosting', 'powerpress')); ?>"  href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=false" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
 			<p><?php echo __('Select from media files uploaded to blubrry.com', 'powerpress'); ?>:</p>
 		</div>
 	<div id="media-items-container">
@@ -337,7 +337,7 @@ function DeleteMedia(File)
 		</div>
 	</div>
 	<div id="media-footer">
-		<div class="media-upload-link"><a href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=true" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
+		<div class="media-upload-link"><a title="<?php echo esc_attr(__('Blubrry Podcast Hosting', 'powerpress')); ?>" href="<?php echo admin_url() . wp_nonce_url("admin.php?action=powerpress-jquery-upload", 'powerpress-jquery-upload'); ?>&podcast-feed=<?php echo $FeedSlug; ?>&keepThis=true&TB_iframe=true&height=350&width=530&modal=false" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a></div>
 		<?php
 		if( $QuotaData ) {
 					
@@ -426,7 +426,7 @@ function DeleteMedia(File)
 		
 			if( !current_user_can(POWERPRESS_CAPABILITY_MANAGE_OPTIONS) )
 			{
-				powerpress_admin_jquery_header('Blubrry Services Integration', 'powerpress');
+				powerpress_admin_jquery_header('Blubrry Services', 'powerpress');
 				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
@@ -583,11 +583,11 @@ function DeleteMedia(File)
 				
 			if( $Close )
 			{
-				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+				powerpress_admin_jquery_header( __('Blubrry Services', 'powerpress') );
 				powerpress_page_message_print();
 ?>
-<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove(); return false;" title="<?php echo __('Close', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" alt="<?php echo __('Close', 'powerpress'); ?>" /></a></p>
-<h2><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h2>
+<p style="display: none; text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding:0;"><a href="#" onclick="self.parent.tb_remove(); return false;" title="<?php echo __('Close', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" alt="<?php echo __('Close', 'powerpress'); ?>" /></a></p>
+<h2><?php echo __('Blubrry Services', 'powerpress'); ?></h2>
 <p style="text-align: center;"><strong><?php echo __('Settings Saved Successfully!', 'powerpress'); ?></strong></p>
 <p style="text-align: center;">
 	<a href="<?php echo admin_url("admin.php?page=powerpress/powerpressadmin_basic.php"); ?>" onclick="self.parent.tb_remove(); return false;" target="_top"><?php echo __('Close', 'powerpress'); ?></a>
@@ -614,7 +614,7 @@ jQuery(document).ready(function($) {
 		{
 			if( !current_user_can(POWERPRESS_CAPABILITY_MANAGE_OPTIONS) )
 			{
-				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+				powerpress_admin_jquery_header( __('Blubrry Services', 'powerpress') );
 				powerpress_page_message_add_notice( __('You do not have sufficient permission to manage options.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
@@ -623,7 +623,7 @@ jQuery(document).ready(function($) {
 			
 			if( !ini_get( 'allow_url_fopen' ) && !function_exists( 'curl_init' ) )
 			{
-				powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+				powerpress_admin_jquery_header( __('Blubrry Services', 'powerpress') );
 				powerpress_page_message_add_notice( __('Your server must either have the php.ini setting \'allow_url_fopen\' enabled or have the PHP cURL library installed in order to continue.', 'powerpress') );
 				powerpress_page_message_print();
 				powerpress_admin_jquery_footer();
@@ -645,14 +645,14 @@ jQuery(document).ready(function($) {
 			if( $Programs == false )
 				$Programs = array();
 			
-			powerpress_admin_jquery_header( __('Blubrry Services Integration', 'powerpress') );
+			powerpress_admin_jquery_header( __('Blubrry Services', 'powerpress') );
 			powerpress_page_message_print();	
 ?>
 <form action="<?php echo admin_url('admin.php'); ?>" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field('powerpress-jquery-account'); ?>
 <input type="hidden" name="action" value="powerpress-jquery-account-save" />
 <div id="accountinfo">
-	<h2><?php echo __('Blubrry Services Integration', 'powerpress'); ?></h2>
+	<h2><?php echo __('Blubrry Services', 'powerpress'); ?></h2>
 <?php if( $Step == 1 ) { ?>
 	<p>
 		<label for="blubrry_username"><?php echo __('Blubrry User Name (Email)', 'powerpress'); ?></label>
@@ -866,7 +866,7 @@ echo '<!-- done adding extra stuff -->';
 </head>
 <body>
 <div id="container">
-<p style="text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Cancel', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
+<p style="display: none; text-align: right; position: absolute; top: 5px; right: 5px; margin: 0; padding: 0;"><a href="#" onclick="self.parent.tb_remove();" title="<?php echo __('Cancel', 'powerpress'); ?>"><img src="<?php echo admin_url(); ?>/images/no.png" /></a></p>
 <?php
 }
 

@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
 Requires at least: 3.6
-Tested up to: 4.2.2
-Stable tag: 6.0.3
+Tested up to: 4.3
+Stable tag: 6.0.4
 Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
@@ -206,7 +206,7 @@ To install Blubrry PowerPress manually, follow these steps:
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
 = 6.0.4 =
-* Released on TBD
+* Released on 8/27/2015
 * Added new Subscribe by Email option to Subscribe Links feature. By default this new feature is not enabled. Go to "PowerPress Settings" > "Media Appearance" to enable Subscribe by Email.
 * Enhanced iTunes Summary feature now maintains <a> links.
 * Added check for null values returned from `get_role` function.
@@ -223,6 +223,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Added 'mov' file extensions to the list of migrate-able media files.
 * Updated migrate media logic to allow for resetting of migration.
 * Improved error reporting for blubrry.com API calls.
+* Tweaked how Blubrry account linking is presented in plugin to make it easier.
 
 
 = 6.0.3 =

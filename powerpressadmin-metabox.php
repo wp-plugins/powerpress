@@ -189,7 +189,7 @@ function powerpress_meta_box($object, $box)
 			<div class="powerpress_row_content">
 				<input type="text" id="powerpress_url_<?php echo $FeedSlug; ?>" class="powerpress-url" name="Powerpress[<?php echo $FeedSlug; ?>][url]" value="<?php echo esc_attr($EnclosureURL); ?>" <?php echo ( !empty($ExtraData['hosting']) ?'readOnly':''); ?> style="width: 70%;" />
 				<?php if( true ) { // NOW ALWAYS SHOW FOLDER, PREVIOUS: if( !empty($GeneralSettings['blubrry_hosting']) && $GeneralSettings['blubrry_hosting']!=='false'  && !empty($GeneralSettings['timestamp']) && $GeneralSettings['timestamp'] <	1414627200 ) { // display the folder icon for folks before october 30, 2014 ?>
-					<a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
+					<a title="<?php echo esc_attr(__('Blubrry Podcast Hosting', 'powerpress')); ?>" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=false" title="<?php echo __('Browse Media File', 'powerpress'); ?>" class="thickbox"><img src="<?php echo powerpress_get_root_url(); ?>/images/blubrry_folder.png" alt="<?php echo __('Browse Media Files', 'powerpress'); ?>" /></a>
 				<?php } ?>
 				<input type="button" id="powerpress_check_<?php echo $FeedSlug; ?>_button" name="powerpress_check_<?php echo $FeedSlug; ?>_button" value="<?php echo __('Verify URL', 'powerpress'); ?>" onclick="powerpress_get_media_info('<?php echo $FeedSlug; ?>');" alt="<?php echo __('Verify Media', 'powerpress'); ?>" class="button" />
 				<img id="powerpress_check_<?php echo $FeedSlug; ?>" src="<?php echo admin_url(); ?>images/loading.gif" style="vertical-align:text-top; display: none;" alt="<?php echo __('Checking Media', 'powerpress'); ?>" />
@@ -200,10 +200,10 @@ function powerpress_meta_box($object, $box)
 				</em></div>
 				
 				<div class="powerpress-hosting-buttons">
-					<a class="powerpress-hosting-button powerpress-button thickbox" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?>" class="thickbox">
+					<a class="powerpress-hosting-button powerpress-button thickbox" href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=false" title="<?php echo esc_attr(__('Blubrry Podcast Hosting', 'powerpress')); ?>" class="thickbox">
 					<img src="<?php echo powerpress_get_root_url(); ?>/images/button_icon_blubrry.png" class="powerpress-button-icon" alt="" />
 					<?php echo __('Link to Media hosted on Blubrry.com', 'powerpress'); ?></a> 
-					<!--  <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=true" title="<?php echo __('Upload Media File to your Blubrry.com account', 'powerpress'); ?>" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a> -->
+					<!--  <a href="<?php echo admin_url('admin.php'); ?>?action=powerpress-jquery-media&podcast-feed=<?php echo $FeedSlug; ?>&KeepThis=true&TB_iframe=true&modal=false" title="<?php echo __('Upload Media File to your Blubrry.com account', 'powerpress'); ?>" class="thickbox"><?php echo __('Upload Media File', 'powerpress'); ?></a> -->
 					<?php if( empty($GeneralSettings['blubrry_hosting']) || $GeneralSettings['blubrry_hosting']==='false' ) { ?>
 						&nbsp; <?php echo __('Don\'t have Blubrry Podcast Media Hosting?', 'powerpress'); ?>	<a href="http://create.blubrry.com/resources/podcast-media-hosting/" target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
 					<?php } ?>

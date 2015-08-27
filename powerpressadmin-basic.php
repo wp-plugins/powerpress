@@ -306,6 +306,20 @@ function powerpressadmin_advanced_options($General)
 	</div>
 </div>
 
+<?php
+	$link_action_url = admin_url('admin.php?action=powerpress-jquery-account');
+	$link_action = 'powerpress-jquery-account';
+?>
+<div style="margin-left: 10px;">
+	<h3><?php echo __('Link Blubrry Account', 'powerpress'); ?></h3>
+	<p style="font-size: 125%;">
+		<strong><a class="button-primary thickbox" title="<?php echo esc_attr(__('Blubrry Services Integration', 'powerpress')); ?>" href="<?php echo wp_nonce_url($link_action_url, $link_action); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=false" target="_blank"><?php echo __('Click here to link Blubrry account', 'powerpress'); ?></a></strong>
+	</p>
+	<p>
+		<?php echo __('Link your blubrry.com account if you have a Blubrry Podcast Hosting or Blubrry Podcast Statistics services.', 'powerpress'); ?>
+	</p>
+</div>
+
 <div style="margin-left: 10px;">
 	<h3 style="margin-bottom: 5px;"><?php echo __('Looking for Support, Consulting or Custom Development?', 'powerpress'); ?></h3>
 	<p style="margin: 0  0 0 50px; font-size: 115%;">
@@ -768,7 +782,7 @@ function powerpressadmin_edit_blubrry_services($General, $action_url = false, $a
 </ul></li></ul>
 <div style="margin-left: 40px;">
 	<p style="font-size: 125%;">
-		<strong><a class="button-primary thickbox" href="<?php echo wp_nonce_url( $action_url, $action); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank"><?php echo __('Click here to configure Blubrry Statistics and Hosting services', 'powerpress'); ?></a></strong>
+		<strong><a class="button-primary thickbox" title="<?php echo esc_attr(__('Blubrry Services Integration', 'powerpress')); ?>" href="<?php echo wp_nonce_url( $action_url, $action); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=false" target="_blank"><?php echo __('Click here to configure Blubrry Statistics and Hosting services', 'powerpress'); ?></a></strong>
 	</p>
 	<?php
 	if( !empty($General['blubrry_program_keyword']) )
@@ -812,7 +826,7 @@ function powerpressadmin_edit_blubrry_services($General, $action_url = false, $a
 	?>
 	<p>
 	<?php echo __('Recently upgraded to Blubrry Hosting?', 'powerpress'); ?> 
-	<a class="thickbox" href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=true" target="_blank"><?php echo __('Click here to enter your account information.', 'powerpress'); ?></a>
+	<a class="thickbox" title="<?php echo esc_attr(__('Blubrry Services Integration', 'powerpress')); ?>" href="<?php echo admin_url(); echo wp_nonce_url( "admin.php?action=powerpress-jquery-account", 'powerpress-jquery-account'); ?>&amp;KeepThis=true&amp;TB_iframe=true&amp;width=600&amp;height=400&amp;modal=false" target="_blank"><?php echo __('Click here to enter your account information.', 'powerpress'); ?></a>
 	</p>
 	<?php
 		}
