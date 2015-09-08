@@ -127,8 +127,6 @@ function powerpress_admin_players($type='audio')
 <script type="text/javascript" src="<?php echo powerpress_get_root_url(); ?>player.min.js"></script>
 <script type="text/javascript"><!--
 
-powerpress_url = '<?php echo powerpress_get_root_url(); ?>';
-
 function rgb2hex(rgb) {
  
  rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);

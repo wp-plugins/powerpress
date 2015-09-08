@@ -205,6 +205,14 @@ To install Blubrry PowerPress manually, follow these steps:
 = Become a PowerPress Patron! =
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
+= 6.0.5 =
+* Released on 9/8/2015
+* Changed the Play in New Window logic to support WordPress MultiSite `switch_to_blog()` function calls (Thanks Avi for the patch!)
+* Removed the pp_flashembed JavaScript function from the player.js include (we are no longer using flash for fallback).
+* Minified version of player.min.js updated.
+* Fixed possible XSS vulnerability with the settings tab control.
+
+
 = 6.0.4 =
 * Released on 8/27/2015
 * Added new Subscribe by Email option to Subscribe Links feature. By default this new feature is not enabled. Go to "PowerPress Settings" > "Media Appearance" to enable Subscribe by Email.
