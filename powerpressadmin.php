@@ -3114,7 +3114,7 @@ function powerpress_remote_fopen($url, $basic_auth = false, $post_args = array()
 	unset($GLOBALS['g_powerpress_remote_error']);
 	unset($GLOBALS['g_powerpress_remote_errorno']);
 	
-	if( false && function_exists( 'curl_init' ) ) // Preferred method of connecting
+	if( defined('POWERPRESS_CURL') && POWERPRESS_CURL && function_exists( 'curl_init' ) )
 	{
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
