@@ -54,7 +54,7 @@ function powerpressplayer_init($GeneralSettings)
 		add_shortcode('display_podcast', 'powerpress_shortcode_handler');
 	}
 	
-
+	/*
 	// include what's needed for each plaer
 	if( defined('POWERPRESS_JS_DEBUG') )
 		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
@@ -81,6 +81,7 @@ function powerpressplayer_init($GeneralSettings)
 		wp_enqueue_style('wp-mediaelement');
 		wp_enqueue_script('wp-mediaelement');
 	}
+	*/
 }
 
 
@@ -128,6 +129,7 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		$url = powerpress_add_redirect_url($url);
 		$content_type = '';
 		// Handle the URL differently...
+		do_action('wp_powerpress_player_scripts');
 		$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($url, 'p'), array('image'=>$image, 'type'=>$content_type,'width'=>$width, 'height'=>$height) );
 	}
 	else if( $channel )
@@ -151,7 +153,8 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 		}
 		else
 		{
-			// If the shortcode speciies a channel, than we definnitely wnat to include the player even if $EpisodeData['no_player'] is true...
+			do_action('wp_powerpress_player_scripts');
+			// If the shortcode specifies a channel, than we definitely want to include the player even if $EpisodeData['no_player'] is true...
 			if( !isset($EpisodeData['no_player']) )
 				$return = apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), array('id'=>$post->ID,'feed'=>$channel, 'channel'=>$channel, 'image'=>$image, 'type'=>$EpisodeData['type'],'width'=>$width, 'height'=>$height) );
 			if( empty($EpisodeData['no_links']) ) {
@@ -227,10 +230,12 @@ function powerpress_shortcode_handler( $attributes, $content = null )
 				
 			if( !isset($EpisodeData['no_player']) )
 			{
+				do_action('wp_powerpress_player_scripts');
 				$return .= apply_filters('powerpress_player', '', powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
 			if( !isset($EpisodeData['no_links']) )
 			{
+				do_action('wp_powerpress_player_scripts');
 				$return .= apply_filters('powerpress_player_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 				$return .= apply_filters('powerpress_player_subscribe_links', '',  powerpress_add_flag_to_redirect_url($EpisodeData['url'], 'p'), $EpisodeData );
 			}
@@ -245,6 +250,17 @@ if( !defined('PODCASTING_VERSION') )
 {
 	add_shortcode('podcast', 'powerpress_shortcode_handler');
 }
+
+function wp_powerpress_player_scripts()
+{
+	// include what's needed for each plaer
+	if( defined('POWERPRESS_JS_DEBUG') )
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
+	else
+		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.min.js');
+}
+add_action( 'wp_powerpress_player_scripts', 'wp_powerpress_player_scripts' );
+
 
 /*
 // Everything in $ExtraData except post_id
@@ -1154,11 +1170,7 @@ function powerpress_do_pinw($pinw, $process_podpress)
 	<meta name="robots" content="noindex" />
 <?php 
 	
-	if( defined('POWERPRESS_JS_DEBUG') )
-		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.js');
-	else
-		wp_enqueue_script( 'powerpress-player', powerpress_get_root_url() .'player.min.js');
-		
+	do_action('wp_powerpress_player_scripts');
 
 	$include_mejs = false;
 	if( empty($GeneralSettings['player']) || empty($GeneralSettings['video_player']) )

@@ -32,7 +32,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '6.0.5' );
+define('POWERPRESS_VERSION', '6.0.6 beta' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -282,6 +282,11 @@ function powerpress_content($content)
 			}
 			else
 			{
+				if( !isset($EpisodeData['no_links']) || ($GeneralSettings['player_function'] != 3 && $GeneralSettings['player_function'] != 0) )
+				{
+					do_action('wp_powerpress_player_scripts');
+				}
+				
 				if( $GeneralSettings['player_function'] != 3 && $GeneralSettings['player_function'] != 0 ) // Play in new window only or disabled
 				{
 					$AddDefaultPlayer = empty($EpisodeData['no_player']);
@@ -1993,6 +1998,11 @@ function get_the_powerpress_content()
 			}
 			else
 			{
+				if( !isset($EpisodeData['no_links']) || ($GeneralSettings['player_function'] != 3 && $GeneralSettings['player_function'] != 0) )
+				{
+					do_action('wp_powerpress_player_scripts');
+				}
+				
 				if( $GeneralSettings['player_function'] != 3 && $GeneralSettings['player_function'] != 0 ) // Play in new window only or disabled
 				{
 					$AddDefaultPlayer = empty($EpisodeData['no_player']);
@@ -2910,6 +2920,11 @@ function get_the_powerpress_all_players($slug = false, $no_link=false)
 			{
 				$return .= powerpress_premium_content_message(get_the_ID(), $feed_slug, $EpisodeData);
 				continue;
+			}
+			
+			if( !isset($EpisodeData['no_links']) || (!isset($EpisodeData['no_player']) && $AddDefaultPlayer) )
+			{
+				do_action('wp_powerpress_player_scripts');
 			}
 				
 			if( !isset($EpisodeData['no_player']) && $AddDefaultPlayer )
