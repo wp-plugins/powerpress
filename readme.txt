@@ -208,6 +208,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 = 6.0.6 =
 * Released on TBA
 * Removed the enqueuing of mediaelement.js scripts and styles for the player and links in theme pages. PowerPress's player.min.js will only be included on pages with the player or player links. (Thanks wadehammes for bringing to our attention).
+* Updated iTunes subtitle and summary values to treat utf8mb4 data as utf8.
 
 
 = 6.0.5 =
