@@ -24,7 +24,7 @@
 		var $m_data = '';
 
 		// Constructor
-		function Mp3Info()
+		function __construct()
 		{
 			// Empty for now
 			$this->m_UserAgent = 'Blubrry PowerPress/'.POWERPRESS_VERSION;

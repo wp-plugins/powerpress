@@ -11,7 +11,7 @@
 		$query = "SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_key LIKE \"%enclosure\"";
 		$results_data = $wpdb->get_results($query, ARRAY_A);
 		
-		while( list( $index, $row) = each($results_data) ) //  = mysql_fetch_assoc($results) )
+		while( list( $index, $row) = each($results_data) )
 		{
 			list($url) = @explode("\n", $row['meta_value'], 2 );
 			$url = trim($url);

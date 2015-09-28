@@ -209,6 +209,9 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Released on TBA
 * Removed the enqueuing of mediaelement.js scripts and styles for the player and links in theme pages. PowerPress's player.min.js will only be included on pages with the player or player links. (Thanks wadehammes for bringing to our attention).
 * Updated iTunes subtitle and summary values to treat utf8mb4 data as utf8.
+* Added the text domain setting in the powerpress.php file for [translate.wordpress.org](http://translate.wordpress.org) use.
+* Enhanced iTunes summary bug where some iTunes summaries were getting cut to 255 characters fixed.
+* Code updated to support PHP7.
 
 
 = 6.0.5 =

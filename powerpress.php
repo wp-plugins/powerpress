@@ -6,6 +6,9 @@ Description: <a href="http://create.blubrry.com/resources/powerpress/" target="_
 Version: 6.0.5
 Author: Blubrry
 Author URI: http://www.blubrry.com/
+Requires at least: 3.7
+Tested up to: 4.3
+Text Domain: powerpress
 Change Log:
 	Please see readme.txt for detailed change log.
 
@@ -2362,7 +2365,7 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 			$remove_new_lines = true;
 			// 255 character limit
 			if( $length > 255 )
-				$trim_at = 255;
+				$trim_at = 252; // Allow 3 dots to be added after the trim
 		};
 	}
 	
@@ -2387,7 +2390,10 @@ function powerpress_trim_itunes_value($value, $tag = 'summary')
 		}
 		
 		if( $clean_break == false && $tag = 'subtitle' ) // Subtitle we want to add a ... at the end
-			$value = (function_exists('mb_substr')?mb_substr($value, 0, 252):substr($value, 0, 252) ). '...';
+		{
+			if( $trim_at )
+				$value = (function_exists('mb_substr')?mb_substr($value, 0, $trim_at):substr($value, 0, $trim_at) ). '...';
+		}
 	}
 	
 	if( $remove_new_lines )
