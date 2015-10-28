@@ -260,6 +260,89 @@ function powerpress_admin_init()
 				}
 			}
 			
+			// New Google Play image
+			if( !empty($_POST['googleplay_image_checkbox']) )
+			{
+				$filename = str_replace(" ", "_", basename($_FILES['googleplay_image_file']['name']) );
+				$temp = $_FILES['googleplay_image_file']['tmp_name'];
+				
+				if( file_exists($upload_path . $filename ) )
+				{
+					$filenameParts = pathinfo($filename);
+					if( !empty($filenameParts['extension']) ) {
+						do {
+							$filename_no_ext = substr($filenameParts['basename'], 0, (strlen($filenameParts['extension'])+1) * -1 );
+							$filename = sprintf('%s-%03d.%s', $filename_no_ext, rand(0, 999), $filenameParts['extension'] );
+						} while( file_exists($upload_path . $filename ) );
+					}
+				}
+				
+				// Check the image...
+				if( file_exists($temp) )
+				{
+					$ImageData = @getimagesize($temp);
+					
+					$rgb = true; // We assume it is RGB
+					if( defined('POWERPRESS_IMAGICK') && POWERPRESS_IMAGICK )
+					{
+						if( $ImageData[2] == IMAGETYPE_PNG && extension_loaded('imagick') )
+						{
+							$image = new Imagick( $temp );
+							if( $image->getImageColorspace() != imagick::COLORSPACE_RGB )
+							{
+								$rgb = false;
+							}
+						}
+					}
+					
+					if( empty($ImageData['channels']) )
+						$ImageData['channels'] = 3; // Assume it's ok if we cannot detect it.
+				
+					if( $ImageData )
+					{
+						if( $rgb && ( $ImageData[2] == IMAGETYPE_JPEG || $ImageData[2] == IMAGETYPE_PNG ) && $ImageData[0] == $ImageData[1] && $ImageData[0] >= 1200  && $ImageData[0] <= 7000 && $ImageData['channels'] == 3 ) // Just check that it is an image, the correct image type and that the image is square
+						{
+							if( !move_uploaded_file($temp, $upload_path . $filename) )
+							{
+								powerpress_page_message_add_error( __('Error saving Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) .' - '. __('An error occurred saving the Google Play Music image on the server.', 'powerprss'). ' '. sprintf(__('Local folder: %s; File name: %s', 'powerpress'), $upload_path, $filename) );
+							}
+							else
+							{
+								$Feed['googleplay_image'] = $upload_url . $filename;
+								if( $ImageData[0] < 1200 || $ImageData[1] < 1200 )
+								{
+									powerpress_page_message_add_error( __('Google Play Music image warning', 'powerpress')  .':	'. htmlspecialchars($_FILES['googleplay_image_file']['name']) . __(' is', 'powerpress') .' '. $ImageData[0] .' x '.$ImageData[0]   .' - '. __('Image must be square 1200 x 1200 pixels or larger to be eligible for featuring.', 'powerprss') );
+								}
+							}
+						}
+						else if( $ImageData['channels'] != 3 || $rgb == false )
+						{
+							powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) .' - '. __('Image must be in RGB color space (CMYK is not supported).', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] )
+						{
+							powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) .' - '. __('Image must be square, 1200 x 1200 is the required minimum size to be eligible for featuring.', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] || $ImageData[0] < 600 )
+						{
+							powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) .' - '. __('Image is too small, 1200 x 1200 is the required minimum size to be eligible for featuring.', 'powerprss') );
+						}
+						else if( $ImageData[0] != $ImageData[1] || $ImageData[0] > 7000 )
+						{
+							powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) .' - '. __('Image is too large, 7000 x 7000 is the maximum size allowed.', 'powerprss') );
+						}
+						else
+						{
+							powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) );
+						}
+					}
+					else
+					{
+						powerpress_page_message_add_error( __('Invalid Google Play Music image', 'powerpress')  .':	' . htmlspecialchars($_FILES['googleplay_image_file']['name']) );
+					}
+				}
+			}
+			
 			// New mp3 coverart image
 			if( !empty($_POST['coverart_image_checkbox']) )
 			{

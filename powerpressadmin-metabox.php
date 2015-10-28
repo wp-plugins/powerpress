@@ -354,7 +354,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][embed]"><?php echo __('Media Embed', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<textarea class="powerpress-embed" id="powerpress_embed_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][embed]" style="width: 90%; height: 80px; font-size: 90%;" onfocus="this.select();"><?php echo htmlspecialchars($Embed); ?></textarea>
+				<textarea class="powerpress-embed" id="powerpress_embed_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][embed]" style="width: 90%; height: 80px; font-size: 90%;" onfocus="this.select();"><?php echo esc_textarea($Embed); ?></textarea>
 			</div>
 		</div>
 <?php
@@ -401,7 +401,7 @@ function powerpress_meta_box($object, $box)
 		<div class="powerpress_row">
 			<label for="Powerpress[<?php echo $FeedSlug; ?>][summary]"><?php echo __('iTunes Summary', 'powerpress'); ?></label>
 			<div class="powerpress_row_content">
-				<textarea id="powerpress_summary_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][summary]" style="width: 90%; height: 80px; font-size: 90%;"><?php echo htmlspecialchars($iTunesSummary); ?></textarea>
+				<textarea id="powerpress_summary_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][summary]" style="width: 90%; height: 80px; font-size: 90%;"><?php echo esc_textarea($iTunesSummary); ?></textarea>
 			</div>	
 			<div class="powerpress_row_content">
 				<em><?php echo __('Your summary may not contain HTML and cannot exceed 4,000 characters in length. Leave blank to use your blog post.', 'powerpress'); ?></em>

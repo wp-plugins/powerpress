@@ -464,6 +464,10 @@ function powerpress_rss2_ns()
 	{
 		echo 'xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"'.PHP_EOL;
 	}
+	if( !defined('POWERPRESS_GOOGLEPLAY_RSS') || POWERPRESS_GOOGLEPLAY_RSS != false )
+	{
+		echo 'xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"'.PHP_EOL;
+	}
 }
 
 add_action('rss2_ns', 'powerpress_rss2_ns');
@@ -713,6 +717,35 @@ function powerpress_rss2_head()
 		}
 	}
 	// End Handle iTunes categories
+	if( !empty($Feed['googleplay_email']) )
+	{
+		echo "\t".'<googleplay:email>' . esc_html($Feed['googleplay_email']) . '</googleplay:email>'.PHP_EOL;
+	}
+	
+	if( !empty($Feed['googleplay_description']) )
+	{
+		echo "\t".'<googleplay:description>' . esc_html($Feed['googleplay_description']) . '</googleplay:description>'.PHP_EOL;
+	}
+	
+	if( !empty($Feed['googleplay_explicit']) )
+	{
+		echo "\t".'<googleplay:explicit>Yes</googleplay:explicit>'.PHP_EOL;
+	}
+	
+	// google_play_cat // google_play_explicit
+	if( !empty($Feed['googleplay_cat']) )
+	{
+		$play_cats = powerpress_googleplay_categories();
+		if( !empty($play_cats[ $Feed['googleplay_cat'] ]) )
+		{
+			echo "\t".'<googleplay:category text="'. esc_html($play_cats[ $Feed['googleplay_cat'] ]) .'" />'.PHP_EOL;
+		}
+	}
+	
+	if( !empty($Feed['googleplay_image']) )
+	{
+		echo "\t".'<googleplay:image href="' . esc_html( str_replace(' ', '+', $Feed['googleplay_image']), 'double') . '" />'.PHP_EOL;
+	}
 	
 	// RawVoice RSS Tags
 	if( !defined('POWERPRESS_RAWVOICE_RSS') || POWERPRESS_RAWVOICE_RSS != false )
@@ -2297,6 +2330,30 @@ function powerpress_itunes_categories($PrefixSubCategories = false)
 	return $temp;
 }
 
+
+function powerpress_googleplay_categories()
+{
+	$temp = array();
+	$temp['01-00'] = 'Arts';
+	$temp['02-00'] = 'Business';
+	$temp['03-00'] = 'Comedy';
+	$temp['04-00'] = 'Education';
+	$temp['05-00'] = 'Games & Hobbies';
+	$temp['06-00'] = 'Government & Organizations';
+	$temp['07-00'] = 'Health';
+	$temp['08-00'] = 'Kids & Family';
+	$temp['09-00'] = 'Music';
+	$temp['10-00'] = 'News & Politics';
+	$temp['11-00'] = 'Religion & Spirituality';
+	$temp['12-00'] = 'Science & Medicine';
+	$temp['13-00'] = 'Society & Culture';
+	$temp['14-00'] = 'Sports & Recreation';
+	$temp['15-00'] = 'Technology';
+	$temp['16-00'] = 'TV & Film';
+ 
+	return $temp;
+}
+
 function powerpress_get_root_url()
 {
 	/*
@@ -2323,8 +2380,13 @@ function powerpress_format_itunes_value($value, $tag)
 			case 'utf8mb3': break;
 			case 'utf8mb4': break;
 			default: {
-				if( !seems_utf8($value) )
-				{
+				//if( defined('DB_CHARSET') && DB_CHARSET == 'utf8' ) {
+				//	break; }
+				//if( defined('DB_CHARSET') && DB_CHARSET == 'utf8mb4' ) {
+				//	break; }
+
+				// preg_match fails when it encounters invalid UTF8 in $string
+				if ( 1 !== @preg_match( '/^./us', $value ) ) {
 					$value = utf8_encode($value); // If it is not, convert to UTF-8 then decode it...
 				}
 			}

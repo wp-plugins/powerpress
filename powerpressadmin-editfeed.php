@@ -847,7 +847,7 @@ function powerpress_default_premium_label(event)
 	</p>
 	
 	<div id="premium_label_custom" style="margin-left: 20px; display: <?php echo ($FeedSettings['premium_label']!=''?'block':'none'); ?>;">
-	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo htmlspecialchars($FeedSettings['premium_label']); ?></textarea>
+	<textarea name="Feed[premium_label]" id="premium_label" style="width: 80%; height: 65px; margin-bottom: 0; padding-bottom: 0;"><?php echo esc_textarea($FeedSettings['premium_label']); ?></textarea>
 		<div style="width: 80%; font-size: 85%; text-align: right;">
 			<a href="#" onclick="powerpress_premium_label_append_signin_link();return false;"><?php echo __('Add sign in link to message', 'powerpress'); ?></a>
 		</div>
@@ -1008,7 +1008,7 @@ function powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs 
 <td>
 <p style="margin-top: 5px;"><?php echo __('Your summary may not contain HTML and cannot exceed 4,000 characters in length.', 'powerpress'); ?></p>
 
-<textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo $FeedSettings['itunes_summary']; ?></textarea>
+<textarea name="Feed[itunes_summary]" rows="5" style="width:80%;" ><?php echo esc_textarea($FeedSettings['itunes_summary']); ?></textarea>
 </td>
 </tr>
 

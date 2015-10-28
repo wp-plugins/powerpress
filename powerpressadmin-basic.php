@@ -152,7 +152,8 @@ jQuery(document).ready(function($) {
 		<li><a href="#tab3"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
 		<li><a href="#tab4"><span><?php echo htmlspecialchars(__('Feeds', 'powerpress')); ?></span></a></li>
 		<li><a href="#tab5"><span><?php echo htmlspecialchars(__('iTunes', 'powerpress')); ?></span></a></li>
-		<li><a href="#tab6"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
+		<li><a href="#tab6" style="position: relative;"><span style="margin-right: 25px;"><?php echo htmlspecialchars(__('Google Play', 'powerpress')); ?></span> <span style="position: absolute; top: 0; right: 2px;"><?php echo powerpressadmin_new(); ?></a></span></li>
+		<li><a href="#tab7"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
   </ul>
 	
 	<div id="tab0" class="powerpress_tab">
@@ -200,8 +201,12 @@ jQuery(document).ready(function($) {
 		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
 		?>
 	</div>
-	
 	<div id="tab6" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_googleplay($FeedSettings, $General, $FeedAttribs);
+		?>
+	</div>
+	<div id="tab7" class="powerpress_tab">
 		<?php
 		powerpressadmin_edit_artwork($FeedSettings, $General);
 		?>
@@ -697,6 +702,136 @@ while( list($value,$desc) = each($options) )
 	}
 }
 
+
+function powerpressadmin_edit_googleplay($FeedSettings, $General, $FeedAttribs = array() )
+{
+	$feed_slug = $FeedAttribs['feed_slug'];
+	$cat_ID = $FeedAttribs['category_id'];
+
+	// Set default settings (if not set)
+	if( empty($FeedSettings['googleplay_url']) )
+		$FeedSettings['googleplay_url'] = '';
+	if( empty($FeedSettings['googleplay_email']) )
+		$FeedSettings['googleplay_email'] = '';
+	if( empty($FeedSettings['googleplay_author']) )
+		$FeedSettings['googleplay_author'] = '';
+	if( empty($FeedSettings['googleplay_description']) )
+		$FeedSettings['googleplay_description'] = '';
+	if( empty($FeedSettings['googleplay_explicit']) )
+		$FeedSettings['googleplay_explicit'] = '';
+	if( empty($FeedSettings['googleplay_cat']) )
+		$FeedSettings['googleplay_cat'] = '';
+		
+	?>
+	<h3><?php echo __('Google Play Settings', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php echo __('Google Play Listing URL', 'powerpress'); ?></th> 
+<td>
+<input type="text" style="width: 80%;" name="Feed[googleplay_url]" value="<?php echo esc_attr($FeedSettings['googleplay_url']); ?>" maxlength="250" />
+<p><?php echo __('Your Google Play Music URL will be issued to you when your podcast is approved.', 'powerpress'); ?></p>
+<!-- <p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p> -->
+
+<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://play.google.com/music/podcasts/publish" target="_blank">'. __('Publish a Podcast on Google Play Music', 'powerpress') .'</a>'); ?>
+ </p>
+ <p>
+<?php echo __('Recommended feed to submit to Google Play Music: ', 'powerpress'); ?>
+<?php
+
+	switch( $FeedAttribs['type'] )
+	{
+		case 'ttid':
+		case 'category': {
+			echo get_category_feed_link($cat_ID);
+		}; break;
+		case 'channel': {
+			echo get_feed_link($feed_slug);
+		}; break;
+		case 'post_type': {
+			$url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
+			echo $url;
+		}; break;
+		case 'general':
+		default: {
+			echo get_feed_link('podcast');
+		}
+	}
+
+?>
+</p>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Email', 'powerpress'); ?> 
+<span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
+</th>
+<td>
+<input type="text" name="Feed[googleplay_email]" class="bpp_input_med" value="<?php echo esc_attr($FeedSettings['googleplay_email']); ?>" maxlength="250" />
+<div>(<?php echo __('Google will email this address when your podcast is accepted into the Google Play Music Podcast Directory.', 'powerpress'); ?>)</div>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Author', 'powerpress'); ?> 
+</th>
+<td>
+<input type="text" name="Feed[googleplay_author]" class="bpp_input_med" value="<?php echo esc_attr($FeedSettings['googleplay_author']); ?>" maxlength="250" />
+<div>(<?php echo __('iTunes Author will be used if left blank', 'powerpress'); ?>)</div>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Description', 'powerpress'); ?> 
+</th>
+<td>
+<p style="margin-top: 5px;"><?php echo __('Your description cannot exceed 4,000 characters in length.', 'powerpress'); ?></p>
+<textarea name="Feed[googleplay_description]" rows="5" style="width:80%;" ><?php echo esc_textarea($FeedSettings['googleplay_description']); ?></textarea>
+<div>(<?php echo __('iTunes Summary will be used if left blank', 'powerpress'); ?>)</div>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Explicit', 'powerpress'); ?> 
+</th>
+<td>
+<select name="Feed[googleplay_explicit]" class="bpp_input_med">
+<?php
+$explicit = array(0=> __('No - display nothing', 'powerpress'), 1=>__('Yes - explicit content', 'powerpress') );
+
+while( list($value,$desc) = each($explicit) )
+	echo "\t<option value=\"$value\"". ($FeedSettings['googleplay_explicit']==$value?' selected':''). ">$desc</option>\n";
+
+?>
+</select>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Category', 'powerpress'); ?>
+<span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
+</th>
+<td>
+<select name="Feed[googleplay_cat]" class="bpp_input_med">
+<?php
+
+$MoreCategories = false;
+
+
+$Categories = powerpress_googleplay_categories();
+
+echo '<option value="">'. __('Select Category', 'powerpress') .'</option>';
+while( list($value,$desc) = each($Categories) )
+	echo "\t<option value=\"$value\"". ($FeedSettings['googleplay_cat']==$value?' selected':''). ">".htmlspecialchars($desc)."</option>\n";
+
+?>
+</select>
+</td>
+</tr>
+
+</table>
+	<?php
+}
 
 function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs = array() )
 {
@@ -1256,7 +1391,7 @@ function powerpress_admin_appearance_common($Feed, $FeedAttribs = array())
 	if( !empty($FeedAttribs['feed_slug']) )
 		$feed_slug = $FeedAttribs['feed_slug'];
 		
-	if( $FeedAttribs['type'] == 'ttid' )
+	if( !empty($FeedAttribs['feed_slug']) && $FeedAttribs['type'] == 'ttid' )
 	{
 		//echo "<br /><br />";
 		return;
@@ -1470,7 +1605,7 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <span class="powerpress-required"><?php echo __('Required', 'powerpress'); ?></span>
 </th>
 <td>
-<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%;" value="<?php echo esc_attr( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
+<input type="text" id="itunes_image" name="Feed[itunes_image]" style="width: 60%; margin-top: 10px;" value="<?php echo esc_attr( !empty($FeedSettings['itunes_image'])? $FeedSettings['itunes_image']:''); ?>" maxlength="250" />
 <a href="#" onclick="javascript: window.open( document.getElementById('itunes_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
 
 <p><?php echo __('iTunes image must be at least 1400 x 1400 pixels in .jpg or .png format. iTunes image must not exceed 3000 x 3000 pixels and must use RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
@@ -1507,14 +1642,41 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 <table class="form-table">
 <tr valign="top">
 <th scope="row">
-<?php echo __('iTunes Episode Image', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th>
+<?php echo __('iTunes Episode Image', 'powerpress'); ?></th>
 <td>
 
-<p><label><input type="checkbox" name="Feed[episode_itunes_image]" value="1" <?php if( !empty($FeedSettings['episode_itunes_image']) ) echo 'checked '; ?>/> <?php echo __('Use iTunes image above', 'powerpress'); ?></label></p>
+<p style="padding-top: 10px;"><label><input type="checkbox" name="Feed[episode_itunes_image]" value="1" <?php if( !empty($FeedSettings['episode_itunes_image']) ) echo 'checked '; ?>/> <?php echo __('Use iTunes image above', 'powerpress'); ?></label></p>
 <p><?php echo __('Use the program iTunes image above as your iTunes episode image.', 'powerpress'); ?></p>
 <p class="description"><?php echo __('NOTE: You must still save artwork into your media files to guarantee your artwork is displayed during playback.', 'powerpress'); ?></p>
 </td>
 </tr>
+
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __('Google Play Image', 'powerpress'); ?>  <?php echo powerpressadmin_new(); ?>
+</th>
+<td>
+<input type="text" id="googleplay_image" name="Feed[googleplay_image]" style="width: 60%; margin-top: 10px;" value="<?php echo esc_attr( !empty($FeedSettings['googleplay_image'])? $FeedSettings['googleplay_image']:''); ?>" maxlength="250" />
+<a href="#" onclick="javascript: window.open( document.getElementById('googleplay_image').value ); return false;"><?php echo __('preview', 'powerpress'); ?></a>
+
+<p><?php echo __('Google Play image must be at least 1200 x 1200 pixels in .jpg or .png format to be eligible for featuring. Image must not exceed 7000 x 7000 pixels and must use RGB color space.', 'powerpress'); ?> <?php echo __('Example', 'powerpress'); ?>: http://example.com/images/itunes.jpg
+ </p>
+
+<p><strong><?php echo __('Leave this setting blank to use the iTunes image (recommended).', 'powerpress'); ?></strong></p>
+
+<?php if( $SupportUploads ) { ?>
+
+<p><label class="powerpress-normal-font"><input name="googleplay_image_checkbox" type="checkbox" onchange="powerpress_show_field('googleplay_image_upload', this.checked)" value="1" /> <?php echo __('Upload new image', 'powerpress'); ?></label> &nbsp; 
+	<span style="font-size:85%;">(<?php echo __('Using this option should update your image on Google Play Music within 24 hours', 'powerpress'); ?>)</span>
+</p>
+<div style="display:none" id="googleplay_image_upload">
+	<label for="googleplay_image_file"><?php echo __('Choose file', 'powerpress'); ?>:</label><input type="file" id="googleplay_image_file" name="googleplay_image_file"  /><br />
+</div>
+<?php } ?>
+</td>
+</tr>
+</table>
 
 <tr valign="top">
 <th scope="row">

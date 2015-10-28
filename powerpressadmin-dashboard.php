@@ -22,12 +22,15 @@ function powerpress_get_news($feed_url, $limit=10)
 		$md5 = md5( $this->feed );
 		delete_transient( 'feed_' . $md5 );
 		delete_transient( 'feed_mod_' . $md5 );
+		$rss->__destruct();
+		unset($rss);
 		$rss = fetch_feed( $this->feed );
 		$rss_items = $rss->get_items( 0, $rss->get_item_quantity( $num ) );
+		$rss->__destruct();
+		unset($rss);
 	}
 	
 	return $rss_items;
-
 }
 
 	
