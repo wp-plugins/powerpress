@@ -544,12 +544,16 @@ function powerpress_admin_init()
 						$General['episode_box_subtitle'] = 0;
 					if( !isset($General['episode_box_summary'] ) )
 						$General['episode_box_summary'] = 0;
+					if( !isset($General['episode_box_gp_desc'] ) )
+						$General['episode_box_gp_desc'] = 0;
+					if( !isset($General['episode_box_gp_explicit'] ) )
+						$General['episode_box_gp_explicit'] = 0;
 					if( !isset($General['episode_box_author'] ) )
 						$General['episode_box_author'] = 0;	
 					if( !isset($General['episode_box_explicit'] ) )
 						$General['episode_box_explicit'] = 0;
 					if( !isset($General['episode_box_closed_captioned'] ) )
-						$General['episode_box_closed_captioned'] = 0;	
+						$General['episode_box_closed_captioned'] = 0;
 					if( !isset($General['episode_box_itunes_image'] ) )
 						$General['episode_box_itunes_image'] = 0;		
 						
@@ -560,6 +564,13 @@ function powerpress_admin_init()
 						$General['episode_box_feature_in_itunes'] = 0;	
 					else
 						$General['episode_box_order'] = 0;
+						
+					if( !isset($General['episode_box_block'] ) )
+						$General['episode_box_block'] = 0;
+					if( !isset($General['episode_box_gp_block'] ) )
+						$General['episode_box_gp_block'] = 0;
+					if( !isset($General['episode_box_gp_explicit'] ) )
+						$General['episode_box_gp_explicit'] = 0;
 						
 					if( !isset($General['allow_feed_comments'] ) )
 						$General['allow_feed_comments'] = 0;
@@ -1391,16 +1402,26 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['episode_box_subtitle']);
 			if( isset($Settings['episode_box_summary'] ) && $Settings['episode_box_summary'] == 0 )
 				unset($Settings['episode_box_summary']);
+			if( isset($Settings['episode_box_gp_desc'] ) && $Settings['episode_box_gp_desc'] == 0 )
+				unset($Settings['episode_box_gp_desc']);
+			if( isset($Settings['episode_box_gp_block'] ) && $Settings['episode_box_gp_block'] == 0 )
+				unset($Settings['episode_box_gp_block']);
+			if( isset($Settings['episode_box_gp_explicit'] ) && $Settings['episode_box_gp_explicit'] == 0 )
+				unset($Settings['episode_box_gp_explicit']);	
 			if( isset($Settings['episode_box_closed_captioned'] ) && $Settings['episode_box_closed_captioned'] == 0 )
 				unset($Settings['episode_box_closed_captioned']);	
 			if( isset($Settings['episode_box_author'] ) && $Settings['episode_box_author'] == 0 )
 				unset($Settings['episode_box_author']);
 			if( isset($Settings['episode_box_explicit'] ) && $Settings['episode_box_explicit'] == 0 )
 				unset($Settings['episode_box_explicit']);
+			if( isset($Settings['episode_box_block'] ) && $Settings['episode_box_block'] == 0 )
+				unset($Settings['episode_box_block']);
 			if( isset($Settings['episode_box_itunes_image'] ) && $Settings['episode_box_itunes_image'] == 0 )
 				unset($Settings['episode_box_itunes_image']);	
 			if( isset($Settings['episode_box_order'] ) && $Settings['episode_box_order'] == 0 )
 				unset($Settings['episode_box_order']);
+			if( isset($Settings['episode_box_gp_explicit'] ) && $Settings['episode_box_gp_explicit'] == 0 )
+				unset($Settings['episode_box_gp_explicit']);
 			if( isset($Settings['episode_box_feature_in_itunes'] ) && $Settings['episode_box_feature_in_itunes'] == 0 )
 				unset($Settings['episode_box_feature_in_itunes']);
 			if( isset($Settings['videojs_css_class']) && empty($Settings['videojs_css_class']) )
@@ -1874,6 +1895,9 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes Summary
 				if( isset($Powerpress['summary']) && trim($Powerpress['summary']) != '' ) 
 					$ToSerialize['summary'] = stripslashes($Powerpress['summary']);
+				// Google Play Description
+				if( isset($Powerpress['gp_desc']) && trim($Powerpress['gp_desc']) != '' ) 
+					$ToSerialize['gp_desc'] = stripslashes($Powerpress['gp_desc']);
 				// iTunes keywords (Deprecated by Apple)
 				if( isset($Powerpress['keywords']) && trim($Powerpress['keywords']) != '' ) 
 					$ToSerialize['keywords'] = stripslashes($Powerpress['keywords']);
@@ -1883,22 +1907,27 @@ function powerpress_edit_post($post_ID, $post)
 				// iTunes Explicit
 				if( isset($Powerpress['explicit']) && trim($Powerpress['explicit']) != '' ) 
 					$ToSerialize['explicit'] = $Powerpress['explicit'];
+				// Google Play Explicit
+				if( isset($Powerpress['gp_explicit']) && trim($Powerpress['gp_explicit']) == '1' )
+					$ToSerialize['gp_explicit'] = $Powerpress['gp_explicit'];
 				// iTunes CC
 				if( isset($Powerpress['cc']) && trim($Powerpress['cc']) != '' ) 
 					$ToSerialize['cc'] = $Powerpress['cc'];
 				// iTunes Episode image
 				if( isset($Powerpress['itunes_image']) && trim($Powerpress['itunes_image']) != '' ) 
 					$ToSerialize['itunes_image'] = $Powerpress['itunes_image'];
-					
 				// order
 				if( isset($Powerpress['order']) && trim($Powerpress['order']) != '' ) 
 					$ToSerialize['order'] = $Powerpress['order'];
 				// always
 				if( isset($Powerpress['always']) && trim($Powerpress['always']) != '' ) 
 					$ToSerialize['always'] = $Powerpress['always'];
-				// iTunes Block (FUTURE USE)
+				// iTunes Block
 				if( isset($Powerpress['block']) && $Powerpress['block'] == '1' ) 
 					$ToSerialize['block'] = 1;
+				// Google Play Block
+				if( isset($Powerpress['gp_block']) && $Powerpress['gp_block'] == '1' ) 
+					$ToSerialize['gp_block'] = 1;
 				// Player Embed
 				if( isset($Powerpress['embed']) && trim($Powerpress['embed']) != '' )
 					$ToSerialize['embed'] = stripslashes($Powerpress['embed']); // we have to strip slahes if they are present befure we serialize the data
@@ -2213,7 +2242,13 @@ jQuery(document).ready(function($) {
 		}
 		jQuery(this).closest("form").submit();
 	});
+	jQuery('.goto-artwork-tab').click( function(event) {
+		event.preventDefault();
+		// TODO:
+		
+	});
 });
+
 
 //-->
 </script>

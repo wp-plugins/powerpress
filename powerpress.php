@@ -914,6 +914,22 @@ function powerpress_rss2_item()
 			echo "\t\t<itunes:order>". $EpisodeData['order'] ."</itunes:order>".PHP_EOL;	
 	}
 	
+	// Google Play tags:
+	if( !empty( $EpisodeData['gp_desc'] ) )
+	{
+		echo "\t\t<googleplay:description>". powerpress_format_itunes_value($EpisodeData['gp_desc'], 'summary') ."</googleplay:description>".PHP_EOL;
+	}
+	
+	if( !empty( $EpisodeData['gp_explicit'] ) )
+	{
+		echo "\t\t<googleplay:explicit>yes</googleplay:explicit>".PHP_EOL;
+	}
+	
+	if( !empty( $EpisodeData['gp_block'] ) )
+	{
+		echo "\t\t<googleplay:block>yes</googleplay:block>".PHP_EOL;
+	}
+	
 	// RawVoice RSS Tags
 	if( empty($powerpress_feed['feed_maximizer_on']) )
 	{

@@ -19,6 +19,9 @@ function powerpress_meta_box($object, $box)
 	$iTunesKeywords = '';
 	$iTunesSubtitle = '';
 	$iTunesSummary = '';
+	$GooglePlayDesc = '';
+	$GooglePlayExplicit = '';
+	$GooglePlayBlock = '';
 	$iTunesAuthor = '';
 	$iTunesExplicit = '';
 	$iTunesCC = false;
@@ -90,6 +93,12 @@ function powerpress_meta_box($object, $box)
 					$iTunesSubtitle = $ExtraData['subtitle'];
 				if( isset($ExtraData['summary']) )
 					$iTunesSummary = $ExtraData['summary'];
+				if( isset($ExtraData['gp_desc']) )
+					$GooglePlayDesc = $ExtraData['gp_desc'];
+				if( isset($ExtraData['gp_explicit']) )
+					$GooglePlayExplicit = $ExtraData['gp_explicit'];	
+				if( isset($ExtraData['gp_block']) )
+					$GooglePlayBlock = $ExtraData['gp_block'];
 				if( isset($ExtraData['author']) )
 					$iTunesAuthor = $ExtraData['author'];
 				if( isset($ExtraData['no_player']) )
@@ -410,6 +419,24 @@ function powerpress_meta_box($object, $box)
 <?php
 		}
 		
+		if( !empty($GeneralSettings['episode_box_gp_desc']) || !empty($GeneralSettings['seo_itunes']) || $GooglePlayDesc )
+		{
+?>
+		<div class="powerpress_row">
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][gp_desc]"><?php echo __('Google Play Description', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<textarea id="powerpress_gp_desc_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][gp_desc]" style="width: 90%; height: 80px; font-size: 90%;"><?php echo esc_textarea($GooglePlayDesc); ?></textarea>
+			</div>	
+			<div class="powerpress_row_content">
+				<em><?php echo __('Your summary cannot exceed 4,000 characters in length. Leave blank to use your blog post.', 'powerpress'); ?></em>
+				<?php if( !empty($GeneralSettings['seo_itunes']) ) { ?>
+				<em><?php echo __('SEO: This content may be indexed by google in Google Play Music Search. (unconfirmed)', 'powerpress'); ?></em>
+				<?php } ?>
+			</div>
+		</div>
+<?php
+		}
+		
 		if( !empty($GeneralSettings['episode_box_author']) || !empty($GeneralSettings['seo_itunes']) || $iTunesAuthor )
 		{
 ?>
@@ -448,6 +475,27 @@ while( list($value,$desc) = each($explicit_array) )
 		</div>
 <?php
 		}
+		
+		if( !empty($GeneralSettings['episode_box_gp_explicit']) || $GooglePlayExplicit )
+		{
+?>
+		<div class="powerpress_row">
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][gp_explicit]"><?php echo __('Google Play Explicit', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<select id="powerpress_explicit_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][gp_explicit]" style="width: 220px;">
+<?php
+$explicit_array = array(''=>__('Use feed\'s explicit setting', 'powerpress'), 0=>__('no - display nothing', 'powerpress'), 1=>__('yes - explicit content', 'powerpress') );
+
+while( list($value,$desc) = each($explicit_array) )
+	echo "\t<option value=\"$value\"". ($GooglePlayExplicit==$value?' selected':''). ">$desc</option>\n";
+
+?>
+					</select>
+			</div>	
+		</div>
+<?php
+		}
+		
 		
 		if( !empty($GeneralSettings['episode_box_closed_captioned']) || $iTunesCC )
 		{
@@ -512,6 +560,26 @@ $block_array = array(''=>__('No', 'powerpress'), 1=>__('Yes, Block episode from 
 
 while( list($value,$desc) = each($block_array) )
 	echo "\t<option value=\"$value\"". ($iTunesBlock==$value?' selected':''). ">$desc</option>\n";
+unset($block_array);
+?>
+					</select>
+			</div>	
+		</div>
+<?php
+		}
+		
+		if( !empty($GeneralSettings['episode_box_gp_block']) || $GooglePlayBlock )
+		{
+?>
+		<div class="powerpress_row">
+			<label for="Powerpress[<?php echo $FeedSlug; ?>][gp_block]"><?php echo __('Google Play Block', 'powerpress'); ?></label>
+			<div class="powerpress_row_content">
+				<select id="powerpress_block_<?php echo $FeedSlug; ?>" name="Powerpress[<?php echo $FeedSlug; ?>][gp_block]" style="width: 220px;">
+<?php
+$block_array = array(''=>__('No', 'powerpress'), 1=>__('Yes, Block episode from Google Play Music', 'powerpress') );
+
+while( list($value,$desc) = each($block_array) )
+	echo "\t<option value=\"$value\"". ($GooglePlayBlock==$value?' selected':''). ">$desc</option>\n";
 unset($block_array);
 ?>
 					</select>

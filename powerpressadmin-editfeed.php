@@ -259,6 +259,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
   <ul class="powerpress_settings_tabs">
 		<li><a href="#feed_tab_feed"><span><?php echo htmlspecialchars(__('Feed Settings', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_itunes"><span><?php echo htmlspecialchars(__('iTunes Settings', 'powerpress')); ?></span></a></li>
+		<li><a href="#feed_tab_googleplay"><span><?php echo htmlspecialchars(__('Google Play', 'powerpress')); ?></span></a></li>
 		<li><a href="#feed_tab_artwork"><span><?php echo htmlspecialchars(__('Artwork', 'powerpress')); ?></span></a></li>
 	<?php if( in_array($FeedAttribs['type'], array('category', 'ttid', 'post_type', 'channel') ) ) { ?>
 		<li><a href="#feed_tab_appearance"><span><?php echo htmlspecialchars(__('Media Appearance', 'powerpress')); ?></span></a></li>
@@ -283,6 +284,12 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		if( $feed_slug != 'podcast' || $FeedAttribs['type'] == 'post_type' ) // Custom post type
 			powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttribs);
 		powerpressadmin_edit_itunes_feed($FeedSettings, $General, $FeedAttribs);
+		?>
+	</div>
+	
+	<div id="feed_tab_googleplay" class="powerpress_tab">
+		<?php
+		powerpressadmin_edit_googleplay($FeedSettings, $General, $FeedAttribs);
 		?>
 	</div>
 	

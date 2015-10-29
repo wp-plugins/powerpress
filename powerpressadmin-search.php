@@ -129,22 +129,25 @@ jQuery(document).ready(function() {
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php echo __('iTunes SEO Guidance', 'powerpress'); ?></th> 
+<th scope="row"><?php echo __('Podcast Directory SEO Guidance', 'powerpress'); ?></th> 
 <td>
 	<p>
 		<input name="General[seo_itunes]" type="hidden" value="0" />
 		<input name="General[seo_itunes]" type="checkbox" value="1" <?php if( !empty($General['seo_itunes']) ) echo 'checked '; ?> /> 
-		<?php echo __('Enable and highlight features that help with iTunes SEO.', 'powerpress'); ?>
+		<?php echo __('Enable and highlight features that help with Podcast Directory Search Engine Optimization.', 'powerpress'); ?>
 	</p>
 	<p>
 	<ul>
 			<li>
 		<ul>
 			<li>
-				<?php echo __('Highlight fields for iTunes SEO', 'powerpress'); ?>
+				<?php echo __('Highlight fields for Podcasting SEO', 'powerpress'); ?>
 			</li>
 			<li>
 				<?php echo __('Enables iTunes Subtitle field', 'powerpress'); ?>
+			</li>
+			<li>
+				<?php echo __('Enables Google Play Music Description field', 'powerpress'); ?>
 			</li>
 			<li>
 				<?php echo __('Enables iTunes Author field', 'powerpress'); ?>
