@@ -191,6 +191,7 @@ jQuery(document).ready(function($) {
 		<?php
 		powerpressadmin_edit_feed_general($FeedSettings, $General);
 		powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs);
+		powerpressadmin_edit_funding($FeedSettings);
 		powerpressadmin_edit_tv($FeedSettings);
 		?>
 	</div>
@@ -327,24 +328,23 @@ function powerpressadmin_advanced_options($General)
 
 <div style="margin-left: 10px;">
 	<h3 style="margin-bottom: 5px;"><?php echo __('Looking for Support, Consulting or Custom Development?', 'powerpress'); ?></h3>
-	<p style="margin: 0  0 0 50px; font-size: 115%;">
+	<p style="margin: 0  0 0 50px;">
 		<?php echo __('Blubrry offers a variety of options, free and paid, to assist you with your podcasting and Internet media needs. Whether you need your theme customized for podcasting or you want consulting on what video format is best for your audience, we have the staff and knowledge to assist.', 'powerpress'); ?>
 	</p>
-	<p style="margin: 5px 0 0 50px; font-size: 115%;">
+	<p style="margin: 5px 0 0 50px;">
 	<strong><?php echo '<a href="http://create.blubrry.com/support/" target="_blank">'. __('Learn More about Blubrry Support Options', 'powerpress') .'</a>'; ?></strong>
 	</p>
 </div>
 
 <div style="margin-left: 10px;">
 	<h3 style="margin-bottom: 5px;"><?php echo __('Want your own iOS and Android podcast apps?', 'powerpress'); ?></h3>
-	<p style="margin: 0  0 0 50px; font-size: 115%;">
+	<p style="margin: 0  0 0 50px;">
 		<?php echo __('Blubrry has partnered with Reactor by AppPresser to provide iOS and Android apps for PowerPress powered podcasts. With Reactor, you are able to build, design and retain control of your app to highlight your podcast content, and provide access to value-add content from your website.', 'powerpress'); ?>
 	</p>
-	<p style="margin: 5px 0 0 50px; font-size: 115%;">
+	<p style="margin: 5px 0 0 50px;">
 		<strong><?php echo '<a href="http://create.blubrry.com/resources/partners/reactor-ios-android-podcast-apps-powerpress/" target="_blank">'. __('Learn More about Reactor iOS and Android podcast apps for PowerPress', 'powerpress') .'</a>'; ?></strong>
 	</p>
 </div>
-
 <?php
 	if( isset($General['timestamp']) && $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
 	{
@@ -1548,6 +1548,37 @@ function powerpressadmin_welcome($GeneralSettings)
 </div>
 <?php
 } // End powerpressadmin_welcome()
+
+function powerpressadmin_edit_funding($FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
+{
+	if( !isset($FeedSettings['donate_link']) )
+		$FeedSettings['donate_link'] = 0;
+	if( !isset($FeedSettings['donate_url']) )
+		$FeedSettings['donate_url'] = '';
+	if( !isset($FeedSettings['donate_label']) )
+		$FeedSettings['donate_label'] = '';
+?>
+<!--  Donate link and label -->
+<table class="form-table">
+<tr valign="top">
+<th scope="row">
+<?php echo __('Donate Link', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></th> 
+<td>
+	<p style="padding-top: 8px;"><label for="donate_link"><input type="checkbox" id="donate_link" name="Feed[donate_link]" value="1" <?php if( $FeedSettings['donate_link'] == 1 ) echo 'checked '; ?>/> 
+	<?php echo __('Syndicate a donate link with your podcast. Create your own croudfunding page with PayPal donate buttons, or link to a service such as Patreon.', 'powerpress'); ?></label></p>
+	<ul>
+	<li><label for="donate_url" style="width: 100px; display:inline-block; text-align: right;">Donate URL:</label> <input type="text" id="donate_url" value="<?php echo esc_attr($FeedSettings['donate_url']); ?>" name="Feed[donate_url]" style="width:50%; max-width: 300px;" />
+	</li>
+	<li><label for="donate_label" style="width: 100px; display:inline-block; text-align: right;">Donate label:</label> <input type="text" id="donate_label" value="<?php echo esc_attr($FeedSettings['donate_label']); ?>" name="Feed[donate_label]" style="width: 50%; max-width: 300px;" />
+	<?php echo __('(optional)', 'powerpress'); ?>
+	</li>
+	</ul>
+	<p><a href="" target="_blank"><?php echo __('Learn more about syndicating donate links for podcasting', 'powerpress'); ?></a></p>
+</td>
+</tr>
+</table>
+<?php
+}
 
 function powerpressadmin_edit_tv($FeedSettings = false, $feed_slug='podcast', $cat_ID=false)
 {

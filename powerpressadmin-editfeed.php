@@ -274,6 +274,7 @@ function powerpress_admin_editfeed($type='', $type_value = '', $feed_slug = fals
 		<?php
 		powerpressadmin_edit_feed_settings($FeedSettings, $General, $FeedAttribs );
 		if( !empty($General['advanced_mode_2']) ) {
+			powerpressadmin_edit_funding($FeedSettings, $feed_slug);
 			powerpressadmin_edit_tv($FeedSettings, $feed_slug);
 		}
 		?>

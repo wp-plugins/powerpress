@@ -762,6 +762,8 @@ function powerpress_admin_init()
 					$Feed['itunes_complete'] = false;
 				if( !isset($Feed['maximize_feed']) )
 					$Feed['maximize_feed'] = false;
+				if( !isset($Feed['donate_link']) )
+					$Feed['donate_link'] = false;
 				if( !isset($Feed['episode_itunes_image']) )
 					$Feed['episode_itunes_image'] = false;	
 					
@@ -1447,6 +1449,12 @@ function powerpress_save_settings($SettingsNew=false, $field = 'powerpress_gener
 				unset($Settings['itunes_complete']);
 			if( isset($Settings['maximize_feed'] ) && $Settings['maximize_feed'] == 0 )
 				unset($Settings['maximize_feed']);
+			if( isset($Settings['donate_link'] ) && $Settings['donate_link'] == 0 )
+				unset($Settings['donate_link']);
+			if( empty($Settings['donate_url']) )
+				unset($Settings['donate_url']);
+			if( empty($Settings['donate_label']) )
+				unset($Settings['donate_label']);
 			if( isset($Settings['allow_feed_comments'] ) && $Settings['allow_feed_comments'] == 0 )
 				unset($Settings['allow_feed_comments']);	
 			if( empty($Settings['episode_itunes_image']) )
@@ -4396,6 +4404,7 @@ function powerpress_admin_plugin_action_links( $links, $file )
 	return $links;
 }
 add_filter( 'plugin_action_links', 'powerpress_admin_plugin_action_links', 10, 2 );
+
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.

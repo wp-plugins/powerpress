@@ -1499,11 +1499,8 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 		'preload'  => 'none'
 	);
 		
-	
 	$content .= wp_audio_shortcode( $attr );
 	$content .= '</div>'.PHP_EOL;
-	
-	
 	return $content;
 }
 
