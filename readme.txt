@@ -205,9 +205,10 @@ To install Blubrry PowerPress manually, follow these steps:
 = Become a PowerPress Patron! =
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
-= 6.0.6 =
+= 6.1 =
 * Released on TBA
 * Added Google Play Music podcast directory support.
+* Added Donate Link option under Feed settings tab. 
 * Removed the enqueuing of mediaelement.js scripts and styles for the player and links in theme pages. PowerPress's player.min.js will only be included on pages with the player or player links. (Thanks wadehammes for bringing to our attention).
 * Updated iTunes subtitle and summary values to treat utf8mb4 data as utf8.
 * Added better logic for checking for UTF8 values for iTunes attributes.

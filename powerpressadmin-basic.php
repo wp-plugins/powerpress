@@ -1573,7 +1573,7 @@ function powerpressadmin_edit_funding($FeedSettings = false, $feed_slug='podcast
 	<?php echo __('(optional)', 'powerpress'); ?>
 	</li>
 	</ul>
-	<p><a href="" target="_blank"><?php echo __('Learn more about syndicating donate links for podcasting', 'powerpress'); ?></a></p>
+	<p><a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/syndicating-a-donate-link-in-your-podcast/" target="_blank"><?php echo __('Learn more about syndicating donate links for podcasting', 'powerpress'); ?></a></p>
 </td>
 </tr>
 </table>
