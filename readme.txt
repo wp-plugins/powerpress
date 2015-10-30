@@ -1,6 +1,6 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: amandato, blubrry
-Tags: podcasting, podcast, podcaster, itunes, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de
+Tags: podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de, clammr
 Requires at least: 3.6
 Tested up to: 4.3
 Stable tag: 6.0.5
@@ -8,18 +8,20 @@ Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress including full iTunes support, Web audio/video media players and more.
+PowerPress brings the essential features for podcasting to WordPress including full iTunes and Google Play support, Web audio/video players and more.
 
 == Description ==
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes support, Web audio/video media players, exclusive subscribe tools, podcasting SEO features and more.
+Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes and Google Play support, Web audio/video media players, exclusive subscribe tools, podcasting SEO features and more.
+
+= Simple Mode =
+PowerPress's Simple Mode will walk you through setting up your podcast in 3 easy steps. Overwhelmed at any time, simply switch to Simple Mode to configure only the essential features to podcast.
 
 =  PowerPress Key Features  =
 - Full iTunes support: Adds iTunes compliant podcast feeds to your WordPress blog.
 - Integrated HTML5 Media Players: Audio/video Web players with embed support from sites such as YouTube.
 - Subscribe tools: Create subscribe page with our exclusive subscribe shortcode embed and subscribe sidebar widget optimized for responsive websites, high-resolution screens and Apple Retina displays.
 - Podcasting SEO: Improve discovery of your podcast on search engines such as Google, and with the iTunes podcast directory.
-- Advanced and Simple modes: Simplify settings using only the defaults, or harness all the potential of podcasting with Advanced Mode.
 - Media modifiers: Easily add, modify and remove podcasts from blog posts and pages.
 - Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (Category Podcasting) or by media format (Podcast Channels).
@@ -31,6 +33,9 @@ Blubrry PowerPress brings the essential features for podcasting to WordPress. De
 
 = Become a PowerPress Patron! =
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
+
+= Includes Full Google Play Music Support! =
+Blubrry PowerPress 6.1+ fully supports Google Play Music podcast directory. Upgrade to PowerPress 6.1 then submit your podcast to [Google Play Music](http://g.co/podcastportal).
 
 = Includes Full iTunes Support!  =
 Blubrry PowerPress fully supports iTunes, which set the standard and is required for podcasting. PowerPress comes with the following iTunes specific features:
@@ -189,17 +194,18 @@ To install Blubrry PowerPress manually, follow these steps:
 
 
 == Screenshots ==
-1. Add podcast episode, found within the edit post screen
-2. Select from 5 audio mp3 players for your web site
-3. Example of the Flow Player Classic in a blog post
-4. Example of the 1 Pixel Out Audio Player in a blog post
-5. Cross section of Blubrry PowerPress iTunes settings page
+1. PowerPress's Simple Mode will walk you through setting up your podcast in 3 easy steps.
+2. Just like blogging, podcasting utilizes blog posting features with the addition of a podcast episode box. Yes, podcasting is that simple!
+3. PowerPress comes with a built-in subscribe sidebar widget to help your audience subscribe to your podcast.
+4. PowerPress comes with an editable subscribe page builder with a subscribe embed tool to help your web visitors subscribe.
+5. PowerPress's Advanced Mode settings let you dig in as deep as you want to with every possible setting for podcasting at your fingertips.
+6. PowerPress incorporates the built-in WordPress media players into your blog posts and pages.
 
 
 == Changelog ==
 
 = Next Major Release Announcements =
-* PowerPress 7.0 is coming in 2-4 weeks!!!
+* PowerPress 7.0 delayed due to Google Play Music update. We are now scheduling PowerPress 7.0 release by Christmas.
 * We are looking for beta testers! If you would like to beta test future versions of PowerPress, please [contact us](http://www.blubrry.com/contact.php) with your name and email.
 
 = Become a PowerPress Patron! =
@@ -208,7 +214,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 = 6.1 =
 * Released on TBA
 * Added Google Play Music podcast directory support.
-* Added Donate Link option under Feed settings tab. 
+* Added Donate Link option under Feed settings tab.
 * Removed the enqueuing of mediaelement.js scripts and styles for the player and links in theme pages. PowerPress's player.min.js will only be included on pages with the player or player links. (Thanks wadehammes for bringing to our attention).
 * Updated iTunes subtitle and summary values to treat utf8mb4 data as utf8.
 * Added better logic for checking for UTF8 values for iTunes attributes.

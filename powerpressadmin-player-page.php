@@ -435,8 +435,8 @@ function update_audio_player()
 	if( myWidth < 10 || myWidth > 900 )
 		myWidth = 290;
 	
-	var out = '<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url();?>/audio-player.swf" width="'+myWidth+'" height="24">'+"\n";
-	out += '    <param name="movie" value="<?php echo powerpress_get_root_url();?>/audio-player.swf" />'+"\n";
+	var out = '<object type="application/x-shockwave-flash" data="<?php echo powerpress_get_root_url();?>audio-player.swf" width="'+myWidth+'" height="24">'+"\n";
+	out += '    <param name="movie" value="<?php echo powerpress_get_root_url();?>audio-player.swf" />'+"\n";
 	out += '    <param name="FlashVars" value="playerID=1&amp;soundFile=<?php echo $Audio['audio-player']; ?>';
 	
 	var x = 0;
