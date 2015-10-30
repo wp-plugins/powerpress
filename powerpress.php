@@ -3,11 +3,11 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://create.blubrry.com/resources/powerpress/
 Description: <a href="http://create.blubrry.com/resources/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 6.0.5
+Version: 6.1
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Requires at least: 3.7
-Tested up to: 4.3
+Tested up to: 4.3.1
 Text Domain: powerpress
 Change Log:
 	Please see readme.txt for detailed change log.

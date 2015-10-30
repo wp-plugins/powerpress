@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de, clammr
 Requires at least: 3.6
-Tested up to: 4.3
-Stable tag: 6.0.5
+Tested up to: 4.3.1
+Stable tag: 6.1
 Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
@@ -212,7 +212,7 @@ To install Blubrry PowerPress manually, follow these steps:
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
 = 6.1 =
-* Released on TBA
+* Released on 10/30/2015
 * Added Google Play Music podcast directory support.
 * Added Donate Link option under Feed settings tab.
 * Removed the enqueuing of mediaelement.js scripts and styles for the player and links in theme pages. PowerPress's player.min.js will only be included on pages with the player or player links. (Thanks wadehammes for bringing to our attention).
