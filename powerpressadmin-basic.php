@@ -345,6 +345,9 @@ function powerpressadmin_advanced_options($General)
 		<strong><?php echo '<a href="http://create.blubrry.com/resources/partners/reactor-ios-android-podcast-apps-powerpress/" target="_blank">'. __('Learn More about Reactor iOS and Android podcast apps for PowerPress', 'powerpress') .'</a>'; ?></strong>
 	</p>
 </div>
+<div style="margin-left: 10px;">
+<?php powerpresspartner_clammr_info(); ?>
+</div>
 <?php
 	if( isset($General['timestamp']) && $General['timestamp'] > 0 && $General['timestamp'] < ( time()- (60*60*24*14) ) ) // Lets wait 14 days before we annoy them asking for support
 	{

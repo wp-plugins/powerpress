@@ -326,6 +326,9 @@ table.html5formats tr > td:first-child {
 ?>
 			</p>
 			<?php powerpressplayer_mediaelement_info(); ?>
+			<div style="margin: 30px 0;">
+			<?php powerpresspartner_clammr_info(false); ?>
+			</div>
 		</li>
 	
 		<li><label><input type="radio" name="Player[player]" id="player_html5audio" value="html5audio" <?php if( $General['player'] == 'html5audio' ) echo 'checked'; ?> /> <?php echo __('HTML5 Audio Player', 'powerpress'); ?>  </label>
@@ -975,6 +978,7 @@ function audio_player_defaults()
 		<td valign="top">
 				<input type="text" style="width: 50px;" id="audio_player_max_width" name="General[audio_player_max_width]" class="player-width" value="<?php echo esc_attr($General['audio_player_max_width']); ?>" maxlength="4" />
 			<?php echo __('Width of Audio mp3 player (leave blank for max width)', 'powerpress'); ?>
+			<?php powerpresspartner_clammr_info(); ?>
 		</td>
 	</tr>
 	

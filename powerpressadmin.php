@@ -793,6 +793,14 @@ function powerpress_admin_init()
 				}
 			}
 			
+			if( isset($_POST['PowerPressClammr']) )
+			{
+				if( empty($_POST['PowerPressClammr']) )
+					update_option('powerpress_clammr', 0);
+				else
+					update_option('powerpress_clammr', 1);
+			}
+			
 			if( isset($_POST['EpisodeBoxBGColor']) )
 			{
 				$GeneralSettingsTemp = get_option('powerpress_general');
@@ -4405,6 +4413,39 @@ function powerpress_admin_plugin_action_links( $links, $file )
 }
 add_filter( 'plugin_action_links', 'powerpress_admin_plugin_action_links', 10, 2 );
 
+			
+// At bottom of powerpressadmin.php
+function powerpresspartner_clammr_info($Settings=true)
+{
+	if( defined('POWERPRESS_DISABLE_PARTNERS') && POWERPRESS_DISABLE_PARTNERS == true )
+		return;
+	
+	$ClammrPluginEnabled = is_object($GLOBALS['ClammrPlayer']);
+?>
+<h3 style="position: relative;margin-left: 30px; margin-bottom: 5px;">
+<img src="<?php echo powerpress_get_root_url(); ?>images/clammr.png" style="width: 30px; height: 30px; position: absolute; top: 0; left: -34px;" />
+<?php echo __('Clammr Player PowerPress Add-on', 'powerpress'); ?>  <?php echo powerpressadmin_new(); ?></h3> 
+<p style="margin-left: 50px;">
+	<?php echo __('Blubrry has partnered with Clammr to enable a social-themed audio player for your site. As visitors listen to your podcast, they can tap the integrated Clammr Button to tag their favorite highlights and share them to Facebook and Twitter. The shared highligths contain links back to you full audio and site, driving additional audience and traffic to you.', 'powerpress'); ?>
+</p>
+<?php if( $Settings ) { if( $ClammrPluginEnabled == false ) {
+
+	$plugin_link = '<a href="'. esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . 'audio-player-by-clammr' .
+		'&TB_iframe=true&width=640&height=662' ) ) .'" class="thickbox" title="' .
+		esc_attr__('Install Plugin') . '">'. __('Install Clammr Audio Player add-on plugin', 'powerpress') . '</a>';
+?>
+<p style="margin-left: 50px;"><strong><?php echo $plugin_link; ?></strong></p><?php } else { 
+$PowerPressClammr = get_option('powerpress_clammr');
+?>
+<p style="margin-bottom: 20px; margin-left: 50px;">
+	<input type="hidden" name="PowerPressClammr" value="0" />
+	<input type="checkbox" name="PowerPressClammr" value="1" <?php if( !empty($PowerPressClammr) ) echo 'checked'; ?> /> 
+	<strong><?php echo __('Enable Clammr Audio Player with PowerPress', 'powerpress'); ?></strong>
+</p>
+<?php
+		}
+	}
+}
 
 require_once( POWERPRESS_ABSPATH .'/powerpressadmin-jquery.php');
 // Only include the dashboard when appropriate.

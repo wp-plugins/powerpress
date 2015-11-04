@@ -1498,8 +1498,12 @@ function powerpressplayer_build_mediaelementaudio($media_url, $EpisodeData=array
 		'autoplay' => ( $autoplay ?'on':''),
 		'preload'  => 'none'
 	);
-		
-	$content .= wp_audio_shortcode( $attr );
+	
+	if( is_object($GLOBALS['ClammrPlayer']) && get_option('powerpress_clammr') == 1 ) {
+		$content .= do_shortcode( '[audio-clammr src="'.  esc_attr($media_url) .'" autoplay="'. ( $autoplay ?'on':'') .'" loop="" preload="none"]');
+	} else {
+		$content .= wp_audio_shortcode( $attr );
+	}
 	$content .= '</div>'.PHP_EOL;
 	return $content;
 }
