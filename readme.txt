@@ -3,7 +3,7 @@ Contributors: amandato, blubrry
 Tags: podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de, clammr
 Requires at least: 3.6
 Tested up to: 4.3.1
-Stable tag: 6.1
+Stable tag: 6.2
 Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
@@ -133,7 +133,7 @@ If you are having a problem, try [Diagnosing Feed and/or Player Issues](http://c
 
 If you are having a problem specifically with the player and links, try the "Having issues?" option under PowerPress Settings > Appearance tab. Visit [Resolving Plugin or Theme Conflicts](http://create.blubrry.com/resources/powerpress/powerpress-settings/media-appearance/plugin-theme-conflict-issues/) for details.
 
-= Premium themes compatible with PowerPress =
+= Premium podcasting themes compatible with PowerPress =
 [Appendipity Podcast Pro theme](https://www.appendipity.com/themes/podcast-pro-theme/?aid=13) is is designed specifically to take advantage of built-in features, settings and podcast episode meta data in PowerPress. The Blubrry team works with the Appendipity team during beta testing and major WordPress releases to make sure the Podcast Pro theme and PowerPress work together seamlessly.
 
 
@@ -210,6 +210,23 @@ To install Blubrry PowerPress manually, follow these steps:
 
 = Become a PowerPress Patron! =
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
+
+= 6.2.1 =
+* Released on 11/??/2015
+* Removed logic added in last updated to call the do_shortcode function when themes override the audio shortcode. 
+** If your theme overrides the audio player shortcode (only allowing the audio shortcode to work in the content), then you must include the following define in your wp-config.php: `POWERPRESS_DO_SHORTCODE`
+
+
+
+= 6.2 =
+* Released on 11/16/2015
+* Clammr Audio Player option added to PowerPress.
+* Added logic to call the do_shortcode function when themes override the audio shortcode.
+* Fixed bug in the media redirect url function when switching between sites for a MultiSite. (Thanks Avi for the patch!)
+* HTML output will only append a "\n" when in debug mode. This will prevent situation where some plugins convert new lines into `<br>` tags. (Thanks Avi for bringing to our attention)
+* Added new define option `POWERPRESS_DO_SHORTCODE`, when set in your wp-config.php the `do_shortcode` is used rather than calling the `wp_audio_shortcode` function.
+* Moved the wp_enqueue_style for subscribe widget within the shortcode. Shortcode can now be used outside of `the_content`.
+
 
 = 6.1 =
 * Released on 10/30/2015

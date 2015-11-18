@@ -225,7 +225,7 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 	$player_links = '';
 	$separator = false;
 	if( !empty($itunes_url) ) {
-		$player_links .= "<a href=\"".  htmlspecialchars($itunes_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL;
+		$player_links .= "<a href=\"".  htmlspecialchars($itunes_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_itunes\" title=\"". __('Subscribe on iTunes', 'powerpress') ."\" rel=\"nofollow\">". __('iTunes','powerpress') ."</a>".PHP_EOL_WEB;
 		$separator = true;
 	}
 	
@@ -236,12 +236,12 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 			$separator = true;
 		
 		$android_url =  $matches[1] . 'subscribeonandroid.com/' . $matches[2];
-		$player_links .= "<a href=\"".  htmlspecialchars($android_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_android\" title=\"". __('Subscribe on Android', 'powerpress') ."\" rel=\"nofollow\">". __('Android','powerpress') ."</a>".PHP_EOL;
+		$player_links .= "<a href=\"".  htmlspecialchars($android_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_android\" title=\"". __('Subscribe on Android', 'powerpress') ."\" rel=\"nofollow\">". __('Android','powerpress') ."</a>".PHP_EOL_WEB;
 		if( !empty($SubscribeSettings['subscribe_feature_email']) )
 		{
 			$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
 			$email_url =  $matches[1] . 'subscribebyemail.com/' . $matches[2];
-			$player_links .= "<a href=\"".  htmlspecialchars($email_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_email\" title=\"". __('Subscribe by Email', 'powerpress') ."\" rel=\"nofollow\">". __('Email','powerpress') ."</a>".PHP_EOL;
+			$player_links .= "<a href=\"".  htmlspecialchars($email_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_email\" title=\"". __('Subscribe by Email', 'powerpress') ."\" rel=\"nofollow\">". __('Email','powerpress') ."</a>".PHP_EOL_WEB;
 		}
 		
 	}
@@ -250,7 +250,7 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 		$player_links .= ' '.POWERPRESS_LINK_SEPARATOR .' ';
 	else
 		$separator = true;
-	$player_links .= "<a href=\"". htmlspecialchars($feed_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL;
+	$player_links .= "<a href=\"". htmlspecialchars($feed_url) ."\" class=\"powerpress_link_subscribe powerpress_link_subscribe_rss\" title=\"". __('Subscribe via RSS', 'powerpress') ."\" rel=\"nofollow\">". __('RSS','powerpress') ."</a>".PHP_EOL_WEB;
 	
 	if( !empty($SubscribeSettings['subscribe_page_url']) )
 	{
@@ -260,7 +260,7 @@ function powerpressplayer_link_subscribe_pre($content, $media_url, $ExtraData = 
 			$separator = true;
 			
 		$label = (empty($SubscribeSettings['subscribe_page_link_text'])?__('More Subscribe Options', 'powerpress'):$SubscribeSettings['subscribe_page_link_text']);
-		$player_links .= "<a href=\"{$SubscribeSettings['subscribe_page_url']}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_more\" title=\"". htmlspecialchars($label) ."\" rel=\"nofollow\">". htmlspecialchars($label) ."</a>".PHP_EOL;
+		$player_links .= "<a href=\"{$SubscribeSettings['subscribe_page_url']}\" class=\"powerpress_link_subscribe powerpress_link_subscribe_more\" title=\"". htmlspecialchars($label) ."\" rel=\"nofollow\">". htmlspecialchars($label) ."</a>".PHP_EOL_WEB;
 	}
 	$content .= $player_links;
 	return $content;
@@ -394,6 +394,7 @@ function powerpress_subscribe_shortcode( $attr ) {
 		return '';	
 		
 	$Settings['itunes_url'] = powerpresssubscribe_get_itunes_url($Settings);
+	wp_enqueue_style( 'powerpress-subscribe-style' );
 	
 	if( !empty($attr['itunes_button']) && !empty($Settings['itunes_url']) )
 	{

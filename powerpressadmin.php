@@ -4419,8 +4419,9 @@ function powerpresspartner_clammr_info($Settings=true)
 {
 	if( defined('POWERPRESS_DISABLE_PARTNERS') && POWERPRESS_DISABLE_PARTNERS == true )
 		return;
-	
-	$ClammrPluginEnabled = is_object($GLOBALS['ClammrPlayer']);
+	$ClammrPluginEnabled = false;
+	if( !empty($GLOBALS['ClammrPlayer']) )
+		$ClammrPluginEnabled = is_object($GLOBALS['ClammrPlayer']);
 ?>
 <h3 style="position: relative;margin-left: 30px; margin-bottom: 5px;">
 <img src="<?php echo powerpress_get_root_url(); ?>images/clammr.png" style="width: 30px; height: 30px; position: absolute; top: 0; left: -34px;" />

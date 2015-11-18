@@ -3,7 +3,7 @@
 Plugin Name: Blubrry PowerPress
 Plugin URI: http://create.blubrry.com/resources/powerpress/
 Description: <a href="http://create.blubrry.com/resources/powerpress/" target="_blank">Blubrry PowerPress</a> adds podcasting support to your blog. Features include: media player, 3rd party statistics, iTunes integration, Blubrry Services (Media Statistics and Hosting) integration and a lot more.
-Version: 6.1
+Version: 6.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Requires at least: 3.7
@@ -35,7 +35,7 @@ if( !function_exists('add_action') )
 	die("access denied.");
 	
 // WP_PLUGIN_DIR (REMEMBER TO USE THIS DEFINE IF NEEDED)
-define('POWERPRESS_VERSION', '6.1' );
+define('POWERPRESS_VERSION', '6.2' );
 
 // Translation support:
 if ( !defined('POWERPRESS_ABSPATH') )
@@ -80,6 +80,16 @@ if( !defined('POWERPRESS_PLAY_IMAGE') )
 	define('POWERPRESS_PLAY_IMAGE', 'play_video_default.jpg');
 if( !defined('PHP_EOL') )
 	define('PHP_EOL', "\n"); // We need this variable defined for new lines.
+if( defined('POWERPRESS_DEBUG') ) {
+	if( !defined('PHP_EOL_WEB') ) {
+		define('PHP_EOL_WEB', "\n"); // Helps with readability
+	}
+} else {
+	if( !defined('PHP_EOL_WEB') ) {
+		define('PHP_EOL_WEB', ''); // We don't necessarily need new lines for web output
+	}
+}
+
 if( !defined('POWERPRESS_SUBSCRIBE') )
 	define('POWERPRESS_SUBSCRIBE', true); // Temporary until we finish tweaking the features
 
@@ -351,19 +361,6 @@ function powerpress_yoast_gawp_fix($content)
 	
 	return $content;
 }
-
-function powerpress_wp_enqueue_scripts()
-{
-	if( is_singular() )
-	{
-		global $post;
-		if( preg_match('/\[(powerpress_subscribe|powerpresssubscribe)/i', $post->post_content) )
-		{
-			wp_enqueue_style( 'powerpress-subscribe-style' );
-		}
-	}
-}
-add_action( 'wp_enqueue_scripts', 'powerpress_wp_enqueue_scripts' );
 
 function powerpress_header()
 {
@@ -2494,36 +2491,22 @@ function powerpress_add_redirect_url($MediaURL, $channel = 'podcast')
 	
 	$URLScheme = ( (preg_match('/^https:\/\//i', $NewURL) != 0 ) ? 'https://':'http://');
 	
-	$GeneralSettings = false;
-	if( !$GeneralSettings ) // Get the general settings if not passed to this function, maintain the settings globally for further use
-	{
-		global $powerpress_general_settings;
-		if( !$powerpress_general_settings )
-		{
-			$powerpress_general_settings = get_option('powerpress_general');
-			if( !empty($powerpress_general_settings['cat_casting']) ) // If category podcasting...
-			{
-				if( is_category() ) // Special case where we want to track the category separately
-				{
-					$FeedCatSettings = get_option('powerpress_cat_feed_'.get_query_var('cat') );
-					if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
-						$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
-				}
-				else if( is_single() )
-				{
-					$categories = wp_get_post_categories( get_the_ID() );
-					if( count($categories) == 1 )
-					{
-						list($null,$cat_id) = each($categories);
-						$FeedCatSettings = get_option('powerpress_cat_feed_'.$cat_id );
-						if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
-							$powerpress_general_settings['redirect0'] = $FeedCatSettings['redirect'];
-						// See if only one category is associated with this post
-					}
-				}
+	$GeneralSettings = get_option('powerpress_general');
+	
+	if( !empty($GeneralSettings['cat_casting']) ) { // If category podcasting...
+		if( is_category() ) { // Special case where we want to track the category separately
+			$FeedCatSettings = get_option('powerpress_cat_feed_'.get_query_var('cat') );
+			if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+				$GeneralSettings['redirect0'] = $FeedCatSettings['redirect'];
+		} else if( is_single() ) {
+			$categories = wp_get_post_categories( get_the_ID() );
+			if( count($categories) == 1 ) { // See if only one category is associated with this post
+				list($null,$cat_id) = each($categories);
+				$FeedCatSettings = get_option('powerpress_cat_feed_'.$cat_id );
+				if( $FeedCatSettings && !empty($FeedCatSettings['redirect']) )
+					$GeneralSettings['redirect0'] = $FeedCatSettings['redirect'];
 			}
 		}
-		$GeneralSettings = $powerpress_general_settings;
 	}
 	
 	if( defined('CHANNEL_STATS_REDIRECT') )
@@ -3100,9 +3083,9 @@ function powerpress_premium_content_message($post_id, $feed_slug, $EpisodeData =
 		$extension  = strtolower($parts['extension']);
 		
 	if( isset($FeedSettings['premium_label']) && $FeedSettings['premium_label'] != '' ) // User has a custom label
-		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL;
+		return '<p class="powerpress_links powerpress_links_'. $extension .'">'. $FeedSettings['premium_label'] . '</p>'.PHP_EOL_WEB;
 	
-	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('url') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL;
+	return '<p class="powerpress_links powerpress_links_'. $extension .'">'. htmlspecialchars($FeedSettings['title']) .': <a href="'. get_bloginfo('url') .'/wp-login.php" title="Protected Content">(Protected Content)</a></p>'.PHP_EOL_WEB;
 }
 
 function powerpress_is_mobile_client()
