@@ -32,6 +32,12 @@
 	font-size: 200% !important;
 	color: #222222 !important;
 }
+.pp-sub-widget p.pp-sub-st {
+	margin: 5px 10px 0 10px !important;
+	padding: 0 !important;
+	font-size: 100% !important;
+	color: #222222 !important;
+}
 
 .pp-sub-widget a.pp-sub-btn {
 	width: 100%;

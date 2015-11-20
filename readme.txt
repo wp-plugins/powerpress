@@ -213,9 +213,10 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 
 = 6.2.1 =
 * Released on 11/??/2015
-* Removed logic added in last updated to call the do_shortcode function when themes override the audio shortcode. 
-** If your theme overrides the audio player shortcode (only allowing the audio shortcode to work in the content), then you must include the following define in your wp-config.php: `POWERPRESS_DO_SHORTCODE`
-
+* Removed logic added in last updated to call the do_shortcode function. We originally added this code to solve a theme conflict, it appears to have cause problems for others so we're reverting back.
+ If your theme overrides the audio player shortcode (player will only appear correctly when calling `do_shortcode('[audio]')`), then you must include the following define in your wp-config.php: `POWERPRESS_DO_SHORTCODE`.
+* Added new `itunes_subtitle="true"` attribute for `powerpress_subscribe` shortcode, will put your itunes subtitle below your podcast title in the subscribe widget. (Thanks Robert for the feature suggestion!)
+* Added new `subtitle="your custom subtitle"` attribute for `powerpress_subscribe` shortcode, you can now customize a subtitle that goes below your title. (Again thanks Robert!)
 
 
 = 6.2 =
@@ -225,7 +226,7 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Fixed bug in the media redirect url function when switching between sites for a MultiSite. (Thanks Avi for the patch!)
 * HTML output will only append a "\n" when in debug mode. This will prevent situation where some plugins convert new lines into `<br>` tags. (Thanks Avi for bringing to our attention)
 * Added new define option `POWERPRESS_DO_SHORTCODE`, when set in your wp-config.php the `do_shortcode` is used rather than calling the `wp_audio_shortcode` function.
-* Moved the wp_enqueue_style for subscribe widget within the shortcode. Shortcode can now be used outside of `the_content`.
+* Moved the `wp_enqueue_style` for subscribe widget within the shortcode. Shortcode can now be used outside of `the_content`. (Thanks Robert for letting us know about the bug!)
 
 
 = 6.1 =
