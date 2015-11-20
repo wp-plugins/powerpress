@@ -217,6 +217,9 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
  If your theme overrides the audio player shortcode (player will only appear correctly when calling `do_shortcode('[audio]')`), then you must include the following define in your wp-config.php: `POWERPRESS_DO_SHORTCODE`.
 * Added new `itunes_subtitle="true"` attribute for `powerpress_subscribe` shortcode, will put your itunes subtitle below your podcast title in the subscribe widget. (Thanks Robert for the feature suggestion!)
 * Added new `subtitle="your custom subtitle"` attribute for `powerpress_subscribe` shortcode, you can now customize a subtitle that goes below your title. (Again thanks Robert!)
+* Added logic to use cURL library when native HTTP library in WordPress fails. (Thanks Zuke for helping us debug the problem!)
+* Added new logic to check for `the_content`/`the_excerpt` used in the http head. Should fix issue for folks using Yoast's SEO plugin with Facebook social enabled.
+* Added code for the Clammr audio player to work in the "play in new window".
 
 
 = 6.2 =

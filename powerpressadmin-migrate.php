@@ -90,6 +90,9 @@ function powepress_admin_migrate_add_urls($urls)
 		$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 		
 		$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], $PostArgs );
+		if( !$json_data && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+			$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], $PostArgs, 15, false, true);
+		}
 		if( $json_data != false )
 			break;
 	}

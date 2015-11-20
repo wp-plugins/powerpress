@@ -183,6 +183,9 @@ function powerpress_admin_jquery_init()
 					$req_url = sprintf('%s/media/%s/%s?format=json', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'], $DeleteFile );
 					$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 					$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], array(), 10, 'DELETE');
+					if( !$json_data && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+						$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], array(), 10, 'DELETE', true); // Only give this 2 seconds to return results
+					}
 					if( $json_data != false )
 						break;
 				}
@@ -203,6 +206,9 @@ function powerpress_admin_jquery_init()
 				$req_url = sprintf('%s/media/%s/index.json?quota=true&published=true', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'] );
 				$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 				$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth']);
+				if( !$json_data && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+					$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], array(), 15, false, true);
+				}
 				if( $json_data != false )
 					break;
 			}
@@ -467,6 +473,9 @@ function DeleteMedia(File)
 					$req_url = sprintf('%s/service/index.json', rtrim($api_url, '/') );
 					$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
 					$json_data = powerpress_remote_fopen($req_url, $auth);
+					if( !$json_data && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+						$json_data = powerpress_remote_fopen($req_url, $auth, array(), 15, false, true);
+					}
 					if( $json_data != false )
 						break;
 				}
@@ -728,6 +737,9 @@ while( list($value,$desc) = each($Programs) )
 					$req_url = sprintf('%s/media/%s/upload_session.json', rtrim($api_url, '/'), $Settings['blubrry_program_keyword'] );
 					$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'?'. POWERPRESS_BLUBRRY_API_QSA:'');
 					$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth']);
+					if( !$json_data && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+						$json_data = powerpress_remote_fopen($req_url, $Settings['blubrry_auth'], array(), 15, false, true);
+					}
 					if( $json_data != false )
 						break;
 				}

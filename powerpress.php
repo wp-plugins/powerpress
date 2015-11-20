@@ -91,7 +91,7 @@ if( defined('POWERPRESS_DEBUG') ) {
 }
 
 if( !defined('POWERPRESS_SUBSCRIBE') )
-	define('POWERPRESS_SUBSCRIBE', true); // Temporary until we finish tweaking the features
+	define('POWERPRESS_SUBSCRIBE', true);
 
 // Set regular expression values for determining mobile devices
 if( !defined('POWERPRESS_MOBILE_REGEX') )
@@ -118,6 +118,13 @@ function powerpress_content($content)
 	if( function_exists('post_password_required') )
 	{
 		if( post_password_required($post) )
+			return $content;
+	}
+	
+	if( defined('WPSEO_VERSION') || defined('JETPACK__VERSION') )
+	{
+		$in_http_head = powerpress_in_http_head();
+		if( $in_http_head === true )
 			return $content;
 	}
 	
@@ -3115,6 +3122,25 @@ function powerpress_get_api_array()
 	
 	return $return;
 }
+
+
+function powerpress_in_http_head()
+{
+	$e = new Exception();
+	$trace = $e->getTrace();
+	//position 0 would be the line that called this function so we ignore it
+	if( !empty($trace) ) {
+		while( list($index,$call) = each($trace) ) {
+			if( isset($call['function']) ) {
+				// Which calls could we be in that the player should appear...
+				switch( $call['function'] ) {
+					case 'wp_head': return true; break;
+				}
+			}
+		}
+	}
+	return false; // Not sure
+}
 /*
 End Helper Functions
 */
@@ -3137,5 +3163,3 @@ if( defined('POWERPRESS_NEW_CODE') && POWERPRESS_NEW_CODE && file_exists(POWERPR
 	require_once(POWERPRESS_ABSPATH.'/powerpress-new-code.php');
 }
 */
-
-?>

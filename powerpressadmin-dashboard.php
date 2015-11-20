@@ -11,9 +11,35 @@ function powerpress_get_news($feed_url, $limit=10)
 	include_once(ABSPATH . WPINC . '/feed.php');
 	$rss = fetch_feed( $feed_url );
 	
-	// Bail if feed doesn't work
+	// If feed doesn't work...
 	if ( is_wp_error($rss) )
-		return false;
+	{
+		require_once( ABSPATH . WPINC . '/class-feed.php' );
+		// Try fetching the feed using CURL directly...
+		$content = powerpress_remote_fopen($feed_url, false, array(), 3, false, true);
+		if( !$content ) {
+			return false;
+		}
+		// Load the content in a fetch_feed object...
+		$rss = new SimplePie();
+
+		$rss->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );
+		// We must manually overwrite $feed->sanitize because SimplePie's
+		// constructor sets it before we have a chance to set the sanitization class
+		$rss->sanitize = new WP_SimplePie_Sanitize_KSES();
+
+		$rss->set_cache_class( 'WP_Feed_Cache' );
+		$rss->set_file_class( 'WP_SimplePie_File' );
+		$rss->set_raw_data($content);
+		$rss->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
+		do_action_ref_array( 'wp_feed_options', array( &$rss, $url ) );
+		$rss->init();
+		$rss->set_output_encoding( get_option( 'blog_charset' ) );
+		$rss->handle_content_type();
+
+		if ( $rss->error() )
+			return false;
+	}
 	
 	$rss_items = $rss->get_items( 0, $rss->get_item_quantity( $limit ) );
 	
@@ -140,6 +166,10 @@ function powerpress_dashboard_stats_content()
 			$req_url .= (defined('POWERPRESS_BLUBRRY_API_QSA')?'&'. POWERPRESS_BLUBRRY_API_QSA:'');
 			
 			$new_content = powerpress_remote_fopen($req_url, $UserPass, array(), 2); // Only give this 2 seconds to return results
+			if( !$new_content && $api_url == 'https://api.blubrry.com/' ) { // Lets force cURL and see if that helps...
+				$new_content = powerpress_remote_fopen($req_url, $UserPass, array(), 2, false, true); // Only give this 2 seconds to return results
+			}
+				
 			if( $new_content )
 			{
 				update_option('powerpress_stats', array('updated'=>time(), 'content'=>$new_content) );
