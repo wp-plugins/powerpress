@@ -31,8 +31,8 @@ function powerpress_get_news($feed_url, $limit=10)
 		$rss->set_cache_class( 'WP_Feed_Cache' );
 		$rss->set_file_class( 'WP_SimplePie_File' );
 		$rss->set_raw_data($content);
-		$rss->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
-		do_action_ref_array( 'wp_feed_options', array( &$rss, $url ) );
+		$rss->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $feed_url ) );
+		do_action_ref_array( 'wp_feed_options', array( &$rss, $feed_url ) );
 		$rss->init();
 		$rss->set_output_encoding( get_option( 'blog_charset' ) );
 		$rss->handle_content_type();
