@@ -1,44 +1,44 @@
 === Blubrry PowerPress Podcasting plugin ===
 Contributors: amandato, blubrry
-Tags: podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, zune, iphone, youtube, viddler, blip.tv, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, webm, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, simple podcasting, seriously simple podcasting, seriously-simple-podcasting, podlove, podcast.de, clammr
+Tags: powerpress, podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, professional, apple, apple tv, ipad, iphone, youtube, viddler, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, tgs podcasting,  simple podcasting, seriously simple podcasting, seriously-simple-podcasting, serious, seriously, ssp, podlove, podcast.de, clammr, clammr radio, audio player, stitcher, show, shows, series, docs, documentation, support, free, add-ons, extensions, addons, libsyn, libsyn-podcasting, podbean, podomatic, spreaker
 Requires at least: 3.6
 Tested up to: 4.3.1
 Stable tag: 6.2
 Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
-
-PowerPress brings the essential features for podcasting to WordPress including full iTunes and Google Play support, Web audio/video players and more.
+No. 1 Podcasting plugin for WordPress, with simple & advanced modes, players, subscribe tools, and more! Supports iTunes, Google Play, Stitcher...
 
 == Description ==
 
-Blubrry PowerPress brings the essential features for podcasting to WordPress. Developed by podcasters for podcasters, PowerPress offers full iTunes and Google Play support, Web audio/video media players, exclusive subscribe tools, podcasting SEO features and more.
+PowerPress is the No. 1 Podcasting plugin for WordPress. Developed by podcasters for podcasters; features include Simple and Advanced modes, multiple audio/video player options, subscribe to podcast tools, podcast SEO features, and more! Fully supports iTunes, Google Play, Stitcher, and Blubrry Podcasting directories, as well as all podcast applications and clients.
+
 
 = Simple Mode =
-PowerPress's Simple Mode will walk you through setting up your podcast in 3 easy steps. Overwhelmed at any time, simply switch to Simple Mode to configure only the essential features to podcast.
+If you are just getting started or feel overwelmed with all the settings and options, switch to Simple mode! PowerPress's Simple Mode will walk you through getting started in 3 easy steps. 
+
+1. Setup your Podcast quickly with only the essential settings
+1. Create your first Episode
+1. Submit your podcast to iTunes
+
+When you're ready you can switch to Advanced mode to tap into all the options professionals would want.
 
 =  PowerPress Key Features  =
-- Full iTunes support: Adds iTunes compliant podcast feeds to your WordPress blog.
+- Full iTunes & Google Play support: Adds iTunes compliant podcast feeds to your WordPress site.
 - Integrated HTML5 Media Players: Audio/video Web players with embed support from sites such as YouTube.
 - Subscribe tools: Create subscribe page with our exclusive subscribe shortcode embed and subscribe sidebar widget optimized for responsive websites, high-resolution screens and Apple Retina displays.
 - Podcasting SEO: Improve discovery of your podcast on search engines such as Google, and with the iTunes podcast directory.
-- Media modifiers: Easily add, modify and remove podcasts from blog posts and pages.
-- Migration tools: Quickly migrate from PodPress, Blogger or Movable Type without losing episodes.
+- Migration tools: Quickly migrate from PodPress, TGS Podcasting, Seriously Simple Podcasting, Blogger or Movable Type without losing episodes.
 - Multi-podcast support: Create separate podcasts by category (Category Podcasting) or by media format (Podcast Channels).
 - Post type and taxonomy podcasting: Create podcasts from custom post types and taxonomies.
 - *Media Statistics: Get FREE Blubrry Media Statistics from your WordPress dashboard.
-- Languages supported: English, Danish, French, Simplified Chinese, Italian, Romanian, Russian, Brazilian Portuguese ([Want to translate PowerPress?](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/translating-powerpress/))
-
-*The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month.
-
-= Become a PowerPress Patron! =
-Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
+- Multi-languages and locales: See [PowerPress in your language](http://create.blubrry.com/resources/powerpress/powerpress-language/) for details.
 
 = Includes Full Google Play Music Support! =
 Blubrry PowerPress 6.1+ fully supports Google Play Music podcast directory. Upgrade to PowerPress 6.1 then submit your podcast to [Google Play Music](http://g.co/podcastportal).
 
 = Includes Full iTunes Support!  =
-Blubrry PowerPress fully supports iTunes, which set the standard and is required for podcasting. PowerPress comes with the following iTunes specific features:
+Blubrry PowerPress fully supports iTunes, which is required for podcasting. PowerPress comes with the following iTunes specific features:
 
 * iTunes compliant podcast feeds: The appropriate tags are added to your feeds so your iTunes listing looks great.
 * Optimized iTunes summary: Converts your blog-post content to a format suited for viewing in iTunes ([learn more](http://create.blubrry.com/resources/powerpress/powerpress-settings/itunes/)).
@@ -59,6 +59,16 @@ Blubrry PowerPress includes extensive Web player options to display your podcast
 * Audio formats supported: mp3, m4a, oga (ogg audio), opus.
 * Video formats supported: m4v, mp4, webm, ogv (ogg video).
 
+= Integrated Subscribe Tools =
+A Blubrry PowerPress exclusive, podcast subscribe tools help you convert Web visitors into podcast subscribers. Subscribe options include:
+
+* [Subscribe page](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-page/): Instantly create a subscribe page with simplified instructions on how to subscribe to your podcast using the PowerPress subscribe page shortcode.
+* [Subscribe page shortcode](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/): Add the `[powerpress_subscribe]` shortcode to include a mobile-device optimized subscribe embed in any post or page that includes buttons to subscribe on iTunes, [Subscribe on Android](http://www.subscribeonandroid.com), [Subscribe by Email](http://www.subscribebyemail.com), via RSS, and an special textbox to easily copy and paste your podcast feed into any podcast application.
+* Subscribe sidebar widget: Mobile device optimized sidebar buttons to subscribe on iTunes, [Subscribe on Android](http://www.subscribeonandroid.com), subscribe by RSS, and a "more subscribe options" button linked to your podcast's subscribe page.
+* Subscribe links: Subscribe on iTunes, [Subscribe on Android](http://www.subscribeonandroid.com), subscribe by RSS and a link to your custom subscribe page below every player.
+* Retina enabled: Subscribe button images optimized for high resolution displays including Apple Retina displays.
+* Responsive: Subscribe tools are designed for any screen and optimized for touch screens by providing custom buttons that are at minimum 48 pixels in height.
+
 
 = Integrates with Blubrry's Services =
 Make your life easier by adding our FREE or paid media hosting and statistics services to streamline your podcast productivity.
@@ -71,44 +81,46 @@ Make your life easier by adding our FREE or paid media hosting and statistics se
 
 The Blubrry basic statistics service is FREE. Our [Premium Statistics Service](https://secure.blubrry.com/podcast-statistics-premium/), which includes [RawVoice Certified Statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/rawvoice-certified/), U.S. downloads, trending and exporting, is available for $5 month. Blubrry [Media Hosting](https://secure.blubrry.com/podcast-publishing-premium-with-hosting/) packages start at $12. 
 
-= Subscribe Tools Baked In =
-A Blubrry PowerPress exclusive, podcasting subscribe tools help you convert Web visitors into podcast subscribers.
-
-* [Subscribe page](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/subscribe-page/): Instantly create a subscribe page with simplified instructions on how to subscribe to your podcast using the PowerPress subscribe page shortcode.
-* [Subscribe page shortcode](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/powerpress-subscribe-shortcode/): Add the `[powerpress_subscribe]` shortcode to include a mobile-device optimized subscribe embed in any post or page that includes buttons to subscribe on iTunes, by RSS, BeyondPod for Android, Podcast Republic for Android and an automatically highlighted textbox to easily copy and paste your podcast feed into any subscription application.
-* Subscribe sidebar widget: Mobile device optimized sidebar buttons to subscribe on iTunes, by RSS and a "more subscribe options" button linked to your podcast's subscribe page.
-* Subscribe links: Subscribe on iTunes, by RSS and a link to your custom subscribe page below every player.
-* Retina enabled: Subscribe button images optimized for high resolution displays including Apple Retina displays.
-* Responsive: Subscribe tools are designed for any screen and optimized for touch screens by providing custom buttons that are at minimum 48 pixels in height.
 
 = Advanced Features for those who need more =
-Want more? We've got more! Check out some of the advanced features:
+Want more? We've got more! With a simple click you can enable advanced features and options. Check out some of the advanced features:
 
 * [Podcasting SEO settings](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/): Utilize the iTunes features that improve the discovery of your podcasts and include the necessary meta data in your blog pages for search engines to discover.
 * Embeds: Provide embeds your audience can take with them (just like YouTube embeds)
 * Media size and duration detection: Enter your media URL and let the PowerPress do the rest.
 * Category Casting: Add podcast support to your WordPress category feeds.
 * Custom Podcast Channels: Distribute multiple formats (audio/video) and versions (short/full length).
-* *Taxonomy Podcasting: Create podcasts for your custom taxonomy tag names including WordPress Tags. (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
-* *Post Type Podcasting: Create podcasts for your custom post types.
-* FeedBurner Support: Use FeedBurner.com to host your podcast feeds ([we do not recommend FeedBurner for podcasting](http://create.blubrry.com/manual/syndicating-your-podcast-rss-feeds/feedburner-for-podcasting/)).
-* **User Role Management: Control which users in your blog can podcast.
+* Taxonomy Podcasting: Create podcasts for your custom taxonomy tag names including WordPress Tags. (feature sponsored by [AfterBuzzTV.com](http://afterbuzztv.com/))
+* Post Type Podcasting: Create podcasts for your custom post types.
+* Premium Podcasting (Requires a membership plugin and/or roles and capabilities plugin to manage)
+* User Role Management: Control which users in your blog can podcast. (Requires a roles and capabilities plugin to manage)
 * Diagnostics: Check to see if your server is configured to support all of the available features in PowerPress.
 * WordPress MultiSite: Blubrry PowerPress is compatible with WordPress MultiSite and can be extended using the [Blubrry PowerPress MultiSite add-on plugin](https://wordpress.org/plugins/powerpress-multisite/).
-* ***Supported syndication formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
+* *Supported syndication formats: mp3, m4a, mp4, m4v, webm, ogg, oga, ogv, wma, ra, mp4a, m4v, mp4v, mpg, asf, avi, wmv, flv, swf, mov, divx, 3gp, midi, wav, aa, pdf, torrent, m4b, m4r, epub.
 
-*Custom Post Types and Taxonomies features require a separate plugin to manage.
+*Apple iTunes only supports mp3, m4a, mp4, m4v, pdf and epub.
 
-**User Role Management requires a separate plugin to manage WordPress Roles and Capabilities.
+= Migrating from PodPress or other podcasting plugin? =
+Switching to from PodPress to PowerPress is seamless. Simply enable PowerPress then disable PodPress and you're done! PowerPress will continue where plugin your old plugin left off by including your previously created episodes in your feeds and Web pages.
 
-***Apple iTunes only supports mp3, m4a, mp4, m4v, pdf and epub.
-
-= Migrating from PodPress? =
-Switching to PowerPress is seamless. Simply enable PowerPress then disable PodPress and you're done! Visit [Migrating from PodPress to PowerPress](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-podpress-to-powerpress/) for details.
-
-PowerPress will continue where plugin your old plugin left off by including your previously created episodes in your feeds and Web pages.
+Please see detailed instructions for migrating from [PodPress](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-podpress-to-powerpress/), [TGS Podcasting Plugin](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-tgs-podcasting-plugin/) and [Seriously Simple Podcasting](http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/migrating-from-seriously-simple-podcasting-plugin/).
 
 Note: Advanced settings such as settings for podcast categories will need to be recreated in PowerPress.
+
+= PowerPress in your Language =
+
+[PowerPress is available in a number of languages](http://create.blubrry.com/resources/powerpress/powerpress-language/). Starting with PowerPress 7.0, translations will be managed through [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/powerpress/) making translations easier to setup and update.
+
+= PowerPress is looking for translators! =
+
+[Anyone can help translate PowerPress!](http://create.blubrry.com/resources/powerpress/powerpress-language/translate-powerpress/) If you are intersted in translating PowerPress, please [contact us](https://www.blubrry.com/contact/#translate). 
+
+**Translators will receive the following from us as a thank you for contributing:**
+* Free [Blubrry Professional podcast statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/) account for your podcast.
+* Name or nickname in the PowerPress readme.txt and in the [PowerPress WordPress.org Translators list](https://wordpress.org/plugins/powerpress/other_notes/) (will give you credit for your contribution)
+* Website URL (optional, we will link to your website)
+
+Interested translators please [contact us](https://www.blubrry.com/contact/#translate), include your WordPress.org account name, blubrry account login (if you have one), your name, desired URL, and the language locale(s) you would like to translate.
 
 = Need Help? =
 . . . or have some ideas that could improve the plugin?
@@ -122,7 +134,8 @@ Note: Advanced settings such as settings for podcast categories will need to be 
 We now offer one-on-one consulting via GoToMeeting, Skype or phone.
 [Learn more about Blubrry Consulting Services](http://create.blubrry.com/support/podcast-consulting-services/)
 
-*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
+*PowerPress is developed and maintained by [Blubrry](http://www.blubrry.com), a podcasting company and community owned and operated by podcasters providing tools and resources for podcasters to measure, monetize, publish and host podcasts. Although we'd like you to become a member of [Blubrry](http://www.blubrry.com/createaccount.php), **no membership is required** to use this free open source podcasting plugin.*
+
 
 == Frequently Asked Questions ==
 
