@@ -121,13 +121,6 @@ function powerpress_content($content)
 			return $content;
 	}
 	
-	if( defined('WPSEO_VERSION') || defined('JETPACK__VERSION') )
-	{
-		$in_http_head = powerpress_in_http_head();
-		if( $in_http_head === true )
-			return $content;
-	}
-	
 	// PowerPress settings:
 	$GeneralSettings = get_option('powerpress_general');
 	
@@ -144,16 +137,25 @@ function powerpress_content($content)
 		if( defined('JETPACK__VERSION') && version_compare(JETPACK__VERSION, '2.0',  '>=')	) {
 			$GeneralSettings['player_aggressive'] = 1; // Jet pack still doesn't behave with PowerPress the_content
 		}
+		if( defined('WPSEO_VERSION') ) {
+			$GeneralSettings['player_aggressive'] = 4;
+		}
 	}
 	
 	if( !empty($GeneralSettings['player_aggressive']) )
 	{
-		if( $GeneralSettings['player_aggressive'] == 2 ) // If we do not have theme issues then lets keep this logic clean. and only display playes after the wp_head only
+		if( $GeneralSettings['player_aggressive'] == 4 )
+		{
+			$in_http_head = powerpress_in_wp_head();
+			if( $in_http_head === true )
+				return $content;
+		}
+		else if( $GeneralSettings['player_aggressive'] == 2 ) // If we do not have theme issues then lets keep this logic clean. and only display playes after the wp_head only
 		{
 			if( empty($GLOBALS['powerpress_wp_head_completed']) )
 				return $content;
 		}
-		else
+		else // method 1 or 3...
 		{
 			if( strstr($content, '<!--powerpress_player-->') !== false )
 				return $content; // The players were already added to the content
@@ -3124,22 +3126,22 @@ function powerpress_get_api_array()
 }
 
 
-function powerpress_in_http_head()
+function powerpress_in_wp_head()
 {
 	$e = new Exception();
 	$trace = $e->getTrace();
-	//position 0 would be the line that called this function so we ignore it
+	
 	if( !empty($trace) ) {
 		while( list($index,$call) = each($trace) ) {
 			if( isset($call['function']) ) {
-				// Which calls could we be in that the player should appear...
+				// Which calls should we not add the player and links...
 				switch( $call['function'] ) {
 					case 'wp_head': return true; break;
 				}
 			}
 		}
 	}
-	return false; // Not sure
+	return false;
 }
 /*
 End Helper Functions

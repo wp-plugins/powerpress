@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
 
 <p><?php echo __('Enable features to help with podcasting search engine optimization (SEO). The following options can assist your web and podcasting SEO strategies.', 'powerpress'); ?></p>
 <p>
-	<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/"><?php echo __('Learn More', 'powerpress'); ?></a>
+	<a href="http://create.blubrry.com/resources/powerpress/advanced-tools-and-options/podcasting-seo-settings/"  target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
 </p>
 
 
@@ -170,5 +170,3 @@ jQuery(document).ready(function() {
 <?php
 } // End powerpress_admin_search()
 
-
-?>

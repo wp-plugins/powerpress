@@ -734,7 +734,26 @@ function powerpressadmin_edit_googleplay($FeedSettings, $General, $FeedAttribs =
 		$FeedSettings['googleplay_explicit'] = '';
 	if( empty($FeedSettings['googleplay_cat']) )
 		$FeedSettings['googleplay_cat'] = '';
-		
+
+	$gp_feed_url = '';
+	switch( $FeedAttribs['type'] )
+	{
+		case 'ttid':
+		case 'category': {
+			$gp_feed_url = get_category_feed_link($cat_ID);
+		}; break;
+		case 'channel': {
+			$gp_feed_url = get_feed_link($feed_slug);
+		}; break;
+		case 'post_type': {
+			$gp_feed_url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
+		}; break;
+		case 'general':
+		default: {
+			$gp_feed_url = get_feed_link('podcast');
+		}
+	}
+
 	?>
 	<h3><?php echo __('Google Play Settings', 'powerpress'); ?> <?php echo powerpressadmin_new(); ?></h3>
 <table class="form-table">
@@ -745,32 +764,11 @@ function powerpressadmin_edit_googleplay($FeedSettings, $General, $FeedAttribs =
 <p><?php echo __('Your listing URL will be issued to you from Google Play Music.', 'powerpress'); ?></p>
 <!-- <p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p> -->
 
-<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://play.google.com/music/podcasts/publish" target="_blank">'. __('Publish a Podcast on Google Play Music', 'powerpress') .'</a>'); ?>
+<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="http://create.blubrry.com/manual/podcast-promotion/publish-podcast-google-play-music-podcast-portal/?podcast-feed='. urlencode($gp_feed_url) .'" target="_blank">'. __('Publish a Podcast on Google Play Music', 'powerpress') .'</a>'); ?>
  </p>
  <p>
 <?php echo __('Recommended feed to submit to Google Play Music: ', 'powerpress'); ?>
-<?php
-
-	switch( $FeedAttribs['type'] )
-	{
-		case 'ttid':
-		case 'category': {
-			echo get_category_feed_link($cat_ID);
-		}; break;
-		case 'channel': {
-			echo get_feed_link($feed_slug);
-		}; break;
-		case 'post_type': {
-			$url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
-			echo $url;
-		}; break;
-		case 'general':
-		default: {
-			echo get_feed_link('podcast');
-		}
-	}
-
-?>
+<?php echo esc_html($gp_feed_url); ?>
 </p>
 </td>
 </tr>
@@ -868,6 +866,25 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 			$FeedSettings['itunes_url'] = $General['itunes_url'];
 	}
 	
+	$itunes_feed_url = '';
+	switch( $FeedAttribs['type'] )
+	{
+		case 'ttid':
+		case 'category': {
+			$itunes_feed_url = get_category_feed_link($cat_ID);
+		}; break;
+		case 'channel': {
+			$itunes_feed_url = get_feed_link($feed_slug);
+		}; break;
+		case 'post_type': {
+			$itunes_feed_url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
+		}; break;
+		case 'general':
+		default: {
+			$itunes_feed_url = get_feed_link('podcast');
+		}
+	}
+	
 ?>
 <h3><?php echo __('iTunes Listing Information', 'powerpress'); ?></h3>
 <table class="form-table">
@@ -877,33 +894,12 @@ function powerpressadmin_edit_itunes_general($FeedSettings, $General, $FeedAttri
 <input type="text" style="width: 80%;" name="Feed[itunes_url]" value="<?php echo esc_attr($FeedSettings['itunes_url']); ?>" maxlength="250" />
 <p><?php echo sprintf(__('e.g. %s', 'powerpress'), 'http://itunes.apple.com/podcast/title-of-podcast/id<strong>000000000</strong>'); ?></p>
 
-<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
+<p><?php echo sprintf( __('Click the following link to %s.', 'powerpress'), '<a href="http://create.blubrry.com/manual/podcast-promotion/submit-podcast-to-itunes/?podcast-feed='. urlencode($itunes_feed_url) .'" target="_blank">'. __('Publish a Podcast on iTunes', 'powerpress') .'</a>'); ?>
  <?php echo __('iTunes will email your Subscription URL to the <em>iTunes Email</em> entered below when your podcast is accepted into the iTunes Directory.', 'powerpress'); ?>
 </p>
 <p>
 <?php echo __('Recommended feed to submit to iTunes: ', 'powerpress'); ?>
-<?php
-
-	switch( $FeedAttribs['type'] )
-	{
-		case 'ttid':
-		case 'category': {
-			echo get_category_feed_link($cat_ID);
-		}; break;
-		case 'channel': {
-			echo get_feed_link($feed_slug);
-		}; break;
-		case 'post_type': {
-			$url = get_post_type_archive_feed_link($FeedAttribs['post_type'], $feed_slug);
-			echo $url;
-		}; break;
-		case 'general':
-		default: {
-			echo get_feed_link('podcast');
-		}
-	}
-
-?>
+<?php echo esc_html($itunes_feed_url); ?>
 </p>
 </td>
 </tr>
@@ -1297,13 +1293,14 @@ function powerpressadmin_appearance($General=false, $Feed = false)
 $linkoptions = array(0=>__('No, everything is working', 'powerpress'),
 		1=>__('Yes, please try to fix', 'powerpress'),
 		2=>__('Yes, alternative fix', 'powerpress'),
-		3=>__('Yes, excluding excerpts', 'powerpress') );
+		3=>__('Yes, excluding excerpts', 'powerpress'),
+		4=>__('Yes, wp_head check', 'powerpress') );
 	
 while( list($value,$desc) = each($linkoptions) )
 	echo "\t<option value=\"$value\"". ($General['player_aggressive']==$value?' selected':''). ">$desc</option>\n";
 	
 ?>
-</select>
+</select> <a href="http://create.blubrry.com/resources/powerpress/powerpress-settings/media-appearance/resolving-plugin-theme-conflict-issues/" target="_blank"><?php echo __('Learn More', 'powerpress'); ?></a>
 <p style="margin-top: 5px;">
 	<?php echo __('Use this option if you are having problems with the players not appearing on some or all of your pages.', 'powerpress'); ?>
 </p>
@@ -1752,4 +1749,3 @@ function powerpressadmin_edit_artwork($FeedSettings, $General)
 	}
 }
 
-?>

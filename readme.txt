@@ -233,6 +233,8 @@ Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patre
 * Added logic to use cURL library when native HTTP library in WordPress fails. (Thanks Zuke for helping us debug the problem!)
 * Added new logic to check for `the_content`/`the_excerpt` used in the http head. Should fix issue for folks using Yoast's SEO plugin with Facebook social enabled.
 * Added code for the Clammr audio player to work in the "play in new window".
+* Added new "Having Issues?" option, "wp_head check", will not add player and links if within the wp_head function call.
+* Updated links for submitting to iTunes and Google Play Music Podcast Portal.
 
 
 = 6.2 =
