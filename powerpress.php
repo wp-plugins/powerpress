@@ -7,7 +7,7 @@ Version: 6.2
 Author: Blubrry
 Author URI: http://www.blubrry.com/
 Requires at least: 3.7
-Tested up to: 4.3.1
+Tested up to: 4.4
 Text Domain: powerpress
 Change Log:
 	Please see readme.txt for detailed change log.

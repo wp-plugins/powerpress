@@ -2,8 +2,8 @@
 Contributors: amandato, blubrry
 Tags: powerpress, podcasting, podcast, podcaster, itunes, google play music, google play, enclosure, professional, apple, apple tv, ipad, iphone, youtube, viddler, ustream, podcasting, audio, video, rss2, feed, player, media, rss, mp3, music, embed, feedburner, statistics, stats, flv, flash, id3, episodes, blubrry, mp4, m4v, wordpressmu, mu, wordpress mu, multisite, multi site, mediacaster, post, plugin, posts, simple, social, dashboard, TSG, Buzzsprout, MTR, WP-boxCast, CastMyBlog, tgs podcasting,  simple podcasting, seriously simple podcasting, seriously-simple-podcasting, serious, seriously, ssp, podlove, podcast.de, clammr, clammr radio, audio player, stitcher, show, shows, series, docs, documentation, support, free, add-ons, extensions, addons, libsyn, libsyn-podcasting, podbean, podomatic, spreaker
 Requires at least: 3.6
-Tested up to: 4.3.1
-Stable tag: 6.2
+Tested up to: 4.4
+Stable tag: 6.2.1
 Donate link: https://www.patreon.com/blubrry?ty=h
 License: GPLv2 or later
 
@@ -225,7 +225,7 @@ To install Blubrry PowerPress manually, follow these steps:
 Help support your favorite podcasting plugin via Patreon. [Visit Blubrry's Patreon page](https://www.patreon.com/blubrry?ty=h)
 
 = 6.2.1 =
-* Released on 11/??/2015
+* Released on 11/22/2015
 * Removed logic added in last updated to call the do_shortcode function. We originally added this code to solve a theme conflict, it appears to have cause problems for others so we're reverting back.
  If your theme overrides the audio player shortcode (player will only appear correctly when calling `do_shortcode('[audio]')`), then you must include the following define in your wp-config.php: `POWERPRESS_DO_SHORTCODE`.
 * Added new `itunes_subtitle="true"` attribute for `powerpress_subscribe` shortcode, will put your itunes subtitle below your podcast title in the subscribe widget. (Thanks Robert for the feature suggestion!)
