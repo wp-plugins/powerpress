@@ -116,6 +116,7 @@ Note: Advanced settings such as settings for podcast categories will need to be 
 [Anyone can help translate PowerPress!](http://create.blubrry.com/resources/powerpress/powerpress-language/translate-powerpress/) If you are intersted in translating PowerPress, please [contact us](https://www.blubrry.com/contact/#translate). 
 
 **Translators will receive the following from us as a thank you for contributing:**
+
 * Free [Blubrry Professional podcast statistics](http://create.blubrry.com/resources/podcast-media-download-statistics/) account for your podcast.
 * Name or nickname in the PowerPress readme.txt and in the [PowerPress WordPress.org Translators list](https://wordpress.org/plugins/powerpress/other_notes/) (will give you credit for your contribution)
 * Website URL (optional, we will link to your website)
